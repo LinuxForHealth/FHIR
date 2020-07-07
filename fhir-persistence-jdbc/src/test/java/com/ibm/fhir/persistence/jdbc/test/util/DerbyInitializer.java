@@ -11,7 +11,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -128,5 +131,23 @@ public class DerbyInitializer {
         Connection connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(dbProps));
         connection.setAutoCommit(false);
         return connection;
+    }
+
+    /**
+     * Bootstrap the database if necessary, and get a connection provider for it
+     * @return an {@link IConnectionProvider} configured for the FHIR Derby database
+     * @param reset resets the database if true
+     * @throws SQLException 
+     * @throws FHIRPersistenceDBConnectException 
+     */
+    public IConnectionProvider getConnectionProvider(boolean reset) throws FHIRPersistenceDBConnectException, SQLException {
+        bootstrapDb(reset);
+        JdbcPropertyAdapter propAdapter = new JdbcPropertyAdapter(this.dbProps);
+        
+        // make sure the schema name is correctly set in the properties
+        String fhirDataSchema = getDataSchemaName();
+        propAdapter.setDefaultSchema(fhirDataSchema);
+        
+        return new JdbcConnectionProvider(new DerbyTranslator(), propAdapter);
     }
 }

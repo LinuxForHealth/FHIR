@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -95,8 +96,13 @@ public class WellKnown extends FHIRResource {
         String authURL = authURLTemplate.replaceAll("<host>", actualHost);
         String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
 
-        return Json.createObjectBuilder()
-                .add("registration_endpoint", regURL) // optional
+        JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
+
+        if (regURL != null && !regURL.isEmpty()) {
+            responseBuilder.add("registration_endpoint", regURL);
+        }
+
+        return responseBuilder
                 .add("authorization_endpoint", authURL) // required
                 .add("token_endpoint", tokenURL) // required
                 .add("scopes_supported", Json.createArrayBuilder() // recommended

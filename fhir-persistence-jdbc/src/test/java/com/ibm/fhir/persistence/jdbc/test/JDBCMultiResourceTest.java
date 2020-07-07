@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,8 @@ package com.ibm.fhir.persistence.jdbc.test;
 
 import java.util.Properties;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -19,6 +21,9 @@ public class JDBCMultiResourceTest extends AbstractMultiResourceTest {
     
     private Properties testProps;
     
+    // The connection pool wrapping the Derby test database
+    private PoolConnectionProvider connectionPool;
+    
     public JDBCMultiResourceTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -29,12 +34,25 @@ public class JDBCMultiResourceTest extends AbstractMultiResourceTest {
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb(false);
+            IConnectionProvider cp = derbyInit.getConnectionProvider(false);
+            this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
     
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCImpl(this.testProps);
+        if (this.connectionPool == null) {
+            throw new IllegalStateException("Database not bootstrapped");
+        }
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
+    }
+    
+    @Override
+    protected void shutdownPools() throws Exception {
+        // Mark the pool as no longer in use. This allows the pool to check for
+        // lingering open connections/transactions.
+        if (this.connectionPool != null) {
+            this.connectionPool.close();
+        }
     }
 }

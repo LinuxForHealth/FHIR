@@ -126,11 +126,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
 
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
+
+        // Get the transaction started before there's any chance of a rollback
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
 
         try {
 
@@ -201,8 +204,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // If there were no validation errors, then create the resource and return the location header.
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
 
             // First, invoke the 'beforeCreate' interceptor methods.
             FHIRPersistenceEvent event =
@@ -268,7 +269,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-
+        txn.begin();
+        
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
@@ -393,9 +395,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
-
             // First, create the persistence event.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource,
                     buildPersistenceEventProperties(type, newResource.getId(), null, requestProperties));
@@ -491,6 +490,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
+        
+        // Make sure we get a transaction started before there's any chance
+        // it could be marked for rollback
+        txn.begin();
 
         // A list of supplemental warnings to include in the response
         List<Issue> warnings = new ArrayList<>();
@@ -579,8 +582,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             if (responseBundle != null) {
-                // Start a new txn in the persistence layer if one is not already active.
-                txn.begin();
 
                 for (Entry entry: responseBundle.getEntry()) {
                     id = entry.getResource().getId();
@@ -670,7 +671,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             throws Exception {
         log.entering(this.getClass().getName(), "doRead");
 
+        // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
+        
         Resource resource = null;
 
         // Save the current request context.
@@ -690,8 +694,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
 
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event =
@@ -748,6 +750,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doVRead");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        // Start a new txn in the persistence layer if one is not already active.
+        txn.begin();
+        
         Resource resource = null;
 
         // Save the current request context.
@@ -762,8 +767,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType =
                     getResourceType(resourceTypeName);
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
 
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event =
@@ -821,7 +824,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String requestUri, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
 
+        // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
+        
         Bundle bundle = null;
 
         // Save the current request context.
@@ -838,8 +844,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRHistoryContext historyContext =
                     FHIRPersistenceUtil.parseHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
 
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event =
@@ -895,6 +899,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doSearch");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        // Start a new txn in the persistence layer if one is not already active.
+        txn.begin();
+        
         Bundle bundle = null;
 
         // Save the current request context.
@@ -912,8 +919,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType =
                     getResourceType(resourceTypeName);
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
 
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event =

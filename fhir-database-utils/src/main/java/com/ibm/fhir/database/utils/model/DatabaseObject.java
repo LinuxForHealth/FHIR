@@ -87,8 +87,8 @@ public abstract class DatabaseObject implements IDatabaseObject {
     }
 
     @Override
-    public String getTypeAndName() {
-        return getObjectType().name() + ":" + getObjectName();
+    public String getTypeNameVersion() {
+        return getObjectType().name() + ":" + getObjectName() + ":" + this.version;
     }
 
     /**
@@ -156,21 +156,19 @@ public abstract class DatabaseObject implements IDatabaseObject {
                     // Either a deadlock, or lock timeout, we allow the transaction to be
                     // tried again.
                     if (x.isDeadlock()) {
-                        logger.warning("Deadlock detected processing: " + this.getTypeAndName() + " [remaining=" + remainingAttempts + "]");
-                    }
-                    else {
-                        logger.warning("Lock timeout detected processing: " + this.getTypeAndName() + " [remaining=" + remainingAttempts + "]");
+                        logger.warning("Deadlock detected processing: " + this.getTypeNameVersion() + " [remaining=" + remainingAttempts + "]");
+                    } else {
+                        logger.warning("Lock timeout detected processing: " + this.getTypeNameVersion() + " [remaining=" + remainingAttempts + "]");
                     }
                     tx.setRollbackOnly();
 
                     if (remainingAttempts == 0) {
                         // end of the road on this one
-                        logger.log(Level.SEVERE, "[FAILED] retries exhausted for: " + this.getTypeAndName());
+                        logger.log(Level.SEVERE, "[FAILED] retries exhausted for: " + this.getTypeNameVersion());
                         throw x;
                     }
-                }
-                catch (Exception x) {
-                    logger.log(Level.SEVERE, "[FAILED] " + this.getTypeAndName());
+                } catch (Exception x) {
+                    logger.log(Level.SEVERE, "[FAILED] " + this.getTypeNameVersion());
                     tx.setRollbackOnly();
                     throw x;
                 }
@@ -195,7 +193,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         // TODO find a better way to track database-level type stuff (not schema-specific)
         if (vhs.applies("__DATABASE__", getObjectType().name(), getObjectName(), version)) {
-            logger.info("Applying change [v" + version + "]: "+ this.getTypeAndName());
+            logger.info("Applying change [v" + version + "]: "+ this.getTypeNameVersion());
 
             // Apply this change to the target database
             apply(vhs.getVersion("__DATABASE__", getObjectType().name(), getObjectName()), target);

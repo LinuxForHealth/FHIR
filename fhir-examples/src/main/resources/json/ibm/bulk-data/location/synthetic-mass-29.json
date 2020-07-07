@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "a4a26d84-248c-4be1-9ef4-aa60c7874549",
+            "value": "Synthethic Mass - 29"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 29",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "RNEU",
+                    "display": "Neuroradiology unit"
+                }
+            ],
+            "text": "Neuroradiology unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "66B CONCORD STREET"
+        ],
+        "city": "WILMINGTON",
+        "state": "MA",
+        "postalCode": "01887",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.13681,
+        "latitude": 42.55851
+    }
+}

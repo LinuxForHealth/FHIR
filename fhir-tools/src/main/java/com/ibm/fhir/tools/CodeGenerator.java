@@ -1177,7 +1177,11 @@ public class CodeGenerator {
             List<JsonObject> requiredElementDefinitions = elementDefinitions.stream().filter(o -> isRequired(o)).collect(Collectors.toList());
 
             if (isAbstract(structureDefinition)) {
-                if (!"Resource".equals(className) && !"Element".equals(className)) {
+                if ("Resource".equals(className) || "Element".equals(className)) {
+                    cb.javadocStart()
+                        .javadoc("Create a new Builder from the contents of this " + className)
+                        .javadocEnd();
+                } else {
                     cb.override();
                 }
                 cb.abstractMethod(mods("public", "abstract"), "Builder", "toBuilder").newLine();
@@ -1343,6 +1347,9 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : elementDefinitions) {
             String elementName = getElementName(elementDefinition, path);
             String fieldName = getFieldName(elementName);
+            if ("result".equals(fieldName)) {
+                fieldName = "this." + fieldName;
+            }
             joiner.add(fieldName);
         }
 

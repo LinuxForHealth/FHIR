@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
@@ -26,13 +27,10 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Tests the ParametersUtil through the SearchUtil.
- * 
- * @author padams
- * @author pbastide
- *
  */
 public class ParametersSearchUtilTest extends BaseSearchTest {
 
+    @Override
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("src/test/resources");
@@ -43,7 +41,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         // Simple test looking only for built-in search parameters for Observation.class.
         // Use default tenant id ("default") which has no Observation tenant-specific
         // search parameters.
-        List<SearchParameter> result = SearchUtil.getSearchParameters(Observation.class);
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters(Observation.class.getSimpleName());
         assertNotNull(result);
         assertFalse(result.isEmpty());
         printSearchParameters("testGetSearchParameters1", result);
@@ -62,12 +60,12 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         // parameters defined.
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Patient", result);
         assertEquals(35, result.size());
 
-        result = SearchUtil.getSearchParameters("Observation");
+        result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Observation", result);
         assertEquals(44, result.size());
@@ -81,7 +79,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
 
         // tenant1's filtering includes only 1 search parameter for Observation.
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Observation");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters3/Observation", result);
 
@@ -90,16 +88,14 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
             System.out.println("As Follows: ");
             System.out.println(result.stream().map(in -> in.getCode().getValue()).collect(Collectors.toList()));
         }
-        assertEquals(2, result.size());
-        SearchParameter sp = result.get(0);
-        assertNotNull(sp);
-        assertEquals("code", sp.getCode().getValue());
+        assertEquals(8, result.size());
+        Set<String> codes = result.stream().map(sp -> sp.getCode().getValue()).collect(Collectors.toSet());
+        assertTrue(codes.contains("code"));
+        assertTrue(codes.contains("value-range"));
+        assertTrue(codes.contains("_lastUpdated"));
+        assertTrue(codes.contains("_id"));
 
-        sp = result.get(1);
-        assertNotNull(sp);
-        assertEquals("value-range", sp.getCode().getValue());
-
-        result = SearchUtil.getSearchParameters("Immunization");
+        result = SearchUtil.getApplicableSearchParameters("Immunization");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters3/Immunization", result);
         assertEquals(22, result.size());
@@ -110,10 +106,10 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         // Test filtering of search parameters for Device (tenant1).
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Device");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters4/Device", result);
-        assertEquals(2, result.size());
+        assertEquals(8, result.size());
         List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("patient"));
         assertTrue(codes.contains("organization"));
@@ -124,10 +120,10 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         // Test filtering of search parameters for Patient (tenant1).
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/Patient", result);
-        assertEquals(4, result.size());
+        assertEquals(10, result.size());
         List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("active"));
         assertTrue(codes.contains("address"));
@@ -136,7 +132,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
 
         // Make sure we get all of the MedicationAdministration search parameters.
         // (No filtering configured for these)
-        result = SearchUtil.getSearchParameters("MedicationAdministration");
+        result = SearchUtil.getApplicableSearchParameters("MedicationAdministration");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/MedicationAdministration", result);
         assertEquals(19, result.size());
@@ -147,12 +143,12 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         // Test filtering of search parameters for Patient (default tenant).
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Patient", result);
         assertEquals(35, result.size());
 
-        result = SearchUtil.getSearchParameters("Device");
+        result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Device", result);
         assertEquals(18, result.size());

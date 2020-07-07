@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,12 +79,12 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
     public void removeSavedResourcesAndResetTenant() throws Exception {
         Resource[] resources = {resource1, resource2, resource3};
         if (persistence.isDeleteSupported()) {
+            // as this is AfterClass, we need to manually start/end the transaction
+            startTrx();
             for (Resource resource : resources) {
                 persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
             }
-            if (persistence.isTransactional()) {
-                persistence.getTransaction().commit();
-            }
+            commitTrx();
         }
         FHIRRequestContext.get().setTenantId("default");
     }

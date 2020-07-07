@@ -8,6 +8,8 @@ package com.ibm.fhir.server.test.examples;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.logging.Logger;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -32,6 +34,7 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  * computed.
  */
 public class ExampleRequestProcessor implements IExampleProcessor {
+    private static final Logger logger = Logger.getLogger(ExampleRequestProcessor.class.getName());
     private final FHIRServerTestBase base;
 
     // The id of the tenant to use in each FHIR server request
@@ -78,7 +81,21 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         long postStart = System.nanoTime();
         Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path(resourceTypeName).request().header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId).post(entity, Response.class);
-        base.assertResponse(response, Response.Status.CREATED.getStatusCode());
+        
+        try {
+            base.assertResponse(response, Response.Status.CREATED.getStatusCode());
+            
+            // FHIR server now sends back OperationOutcome info in some places. We need to consume this
+            // to avoid the FHIR server complaining about broken pipe if we close the connection while
+            // it is trying to still write the JSON.
+            response.readEntity(String.class);
+        } catch (AssertionError x) {
+            // definitely not what we were expecting, so log what the FHIR server gave us
+            String msg = response.readEntity(String.class);
+            logger.warning("Unexpected response for JSON file: " + jsonFile);
+            logger.warning("Response body: " + msg);
+            throw x;
+        }
         long postEnd = System.nanoTime();
         metrics.addPostTime((postEnd - postStart) / DriverMetrics.NANOS_MS);
 

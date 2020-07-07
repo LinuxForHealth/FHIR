@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,12 +38,16 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
 
     // The JDBC connection used by this DAO instance
     private final Connection connection;
+    
+    // name of the FHIR data schema
+    private final String schemaName;
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public CodeSystemDAOImpl(Connection c) {
+    public CodeSystemDAOImpl(Connection c, String schemaName) {
         this.connection = c;
+        this.schemaName = schemaName;
     }
 
     /**
@@ -52,6 +56,14 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
      */
     protected Connection getConnection() {
         return this.connection;
+    }
+
+    /**
+     * Getter for the FHIR data schema
+     * @return
+     */
+    protected String getSchemaName() {
+        return this.schemaName;
     }
 
     @Override
@@ -104,15 +116,13 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
         log.entering(CLASSNAME, METHODNAME);
 
         int systemId;
-        String currentSchema;
         String stmtString;
         String errMsg = "Failure storing code system id: name=" + systemName;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, currentSchema);
+            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, this.schemaName);
             try (CallableStatement stmt = connection.prepareCall(stmtString)) {
                 stmt.setString(1, systemName);
                 stmt.registerOutParameter(2, Types.INTEGER);

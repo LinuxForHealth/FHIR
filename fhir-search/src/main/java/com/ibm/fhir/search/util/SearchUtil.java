@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -147,65 +148,6 @@ public class SearchUtil {
     }
 
     /**
-     * Returns the list of search parameters for the specified resource type and the
-     * current tenant.
-     *
-     * @param resourceType
-     *                     a Class representing the resource type associated with
-     *                     the search parameters to be returned.
-     * @throws Exception
-     */
-    public static List<SearchParameter> getSearchParameters(Class<?> resourceType) throws Exception {
-        return getSearchParameters(resourceType.getSimpleName());
-    }
-
-    /**
-     * This function will return a list of all SearchParameters associated with the
-     * specified resource type and the current tenant-id.
-     * The result will include both built-in and tenant-specific
-     * SearchParameters for the specified resource type.
-     *
-     * @param resourceType
-     *                     the resource type associated with the search parameters
-     *                     to be returned
-     * @return the list of built-in and tenant-specific search parameters associated
-     *         with the specified resource type
-     * @throws Exception
-     */
-    public static List<SearchParameter> getSearchParameters(String resourceType) throws Exception {
-
-        List<SearchParameter> result = new ArrayList<>();
-
-        try {
-            String tenantId = FHIRRequestContext.get().getTenantId();
-            if (log.isLoggable(Level.FINEST)) {
-                log.finest("Retrieving SearchParameters for tenant-id '" + tenantId + "' and resource type '"
-                        + resourceType + "'.");
-            }
-
-            // First retrieve built-in search parameters for this resource type and add them to the result.
-            // We'll filter these built-in search parameters to include only the ones
-            // specified by the tenant's filtering (inclusion) rules.
-            ParametersMap spMapResourceType = ParametersUtil.getBuiltInSearchParametersMap().get(resourceType);
-            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
-                // Retrieve the current tenant's search parameter filtering rules.
-                Map<String, List<String>> filterRules = getFilterRules();
-
-                // Add only the "included" search parameters for this resource type to our result list.
-                result.addAll(filterSearchParameters(filterRules, resourceType, spMapResourceType.values()));
-            }
-
-            // Next, retrieve the specified tenant's search parameters for this resource type and add those
-            // to the result as well.
-            result.addAll(getUserDefinedSearchParameters(resourceType));
-        } finally {
-            // No Operation
-        }
-
-        return result;
-    }
-
-    /**
      * Retrieves user-defined SearchParameters associated with the specified
      * resource type and current tenant id.
      *
@@ -254,10 +196,25 @@ public class SearchUtil {
             result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
 
-        // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-        if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
+        if (!SearchConstants.RESOURCE_RESOURCE.equals(resourceType)) {
+            // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
+            spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
+            if (spMap != null && !spMap.isEmpty()) {
+                Collection<SearchParameter> superParams =
+                        filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values());
+                Set<String> resultCodes = result.stream()
+                        .map(sp -> sp.getCode().getValue())
+                        .collect(Collectors.toSet());
+
+                for (SearchParameter sp : superParams) {
+                    if (resultCodes.contains(sp.getCode().getValue())) {
+                        log.warning("Detected conflict for code '" + sp.getCode().getValue() + "'; code is defined for both " +
+                                SearchConstants.RESOURCE_RESOURCE + " and " + resourceType + "; using " + resourceType);
+                    } else {
+                        result.add(sp);
+                    }
+                }
+            }
         }
 
         return result;
@@ -282,8 +239,7 @@ public class SearchUtil {
      * @return a filtered Collection of SearchParameters
      */
     private static Collection<SearchParameter> filterSearchParameters(Map<String, List<String>> filterRules,
-            String resourceType,
-            Collection<SearchParameter> unfilteredSearchParameters) {
+            String resourceType, Collection<SearchParameter> unfilteredSearchParameters) {
         List<SearchParameter> results = new ArrayList<>();
 
         // First, retrieve the filter rule (list of SP names to be included) for the specified resource type.
@@ -404,6 +360,12 @@ public class SearchUtil {
         }
     }
 
+    /**
+     * @param resourceType
+     * @param code
+     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
+     * @throws Exception
+     */
     public static SearchParameter getSearchParameter(Class<?> resourceType, String name) throws Exception {
         return getSearchParameter(resourceType.getSimpleName(), name);
     }
@@ -411,7 +373,7 @@ public class SearchUtil {
     /**
      * @param resourceType
      * @param code
-     * @return
+     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, String code) throws Exception {
@@ -441,7 +403,7 @@ public class SearchUtil {
     /**
      * @param spMaps
      * @param resourceType
-     * @param uri
+     * @param code
      * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
      */
     private static SearchParameter getSearchParameterByCodeIfPresent(Map<String, ParametersMap> spMaps, String resourceType, String code) {
@@ -452,19 +414,32 @@ public class SearchUtil {
             if (parametersMap != null && !parametersMap.isEmpty()) {
                 result = parametersMap.lookupByCode(code);
             }
+
+            if (result == null) {
+                parametersMap = spMaps.get(SearchConstants.RESOURCE_RESOURCE);
+                if (parametersMap != null && !parametersMap.isEmpty()) {
+                    result = parametersMap.lookupByCode(code);
+                }
+            }
         }
 
         return result;
     }
 
+    /**
+     * @param resourceType
+     * @param uri
+     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist
+     * @throws Exception
+     */
     public static SearchParameter getSearchParameter(Class<?> resourceType, Canonical uri) throws Exception {
         return getSearchParameter(resourceType.getSimpleName(), uri);
     }
 
     /**
      * @param resourceType
-     * @param name
-     * @return
+     * @param uri
+     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
@@ -503,6 +478,13 @@ public class SearchUtil {
             ParametersMap parametersMap = spMaps.get(resourceType);
             if (parametersMap != null && !parametersMap.isEmpty()) {
                 result = parametersMap.lookupByUrl(uri.getValue());
+            }
+
+            if (result == null) {
+                parametersMap = spMaps.get(SearchConstants.RESOURCE_RESOURCE);
+                if (parametersMap != null && !parametersMap.isEmpty()) {
+                    result = parametersMap.lookupByUrl(uri.getValue());
+                }
             }
         }
 
@@ -602,9 +584,6 @@ public class SearchUtil {
         context.setLenient(lenient);
         List<QueryParameter> parameters = new ArrayList<>();
 
-        // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
-        Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());
-
         // Make sure _sort is not present with _include and/or _revinclude.
         // TODO: do we really need to forbid this?
         if (queryParameters.containsKey(SearchConstants.SORT) &&
@@ -692,10 +671,8 @@ public class SearchUtil {
                     if (isMultiResTypeSearch) {
                       // Find the SearchParameter that will apply to all the resource types.
                       for (String resType: resourceTypes) {
-                          Map<String, SearchParameter> resTypeSPs = getApplicableSearchParametersMap(resType);
-
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
-                          searchParameter = resTypeSPs.get(parameterCode);
+                          searchParameter = getSearchParameter(resType, parameterCode);
                           if (searchParameter == null) {
                               String msg =
                                       "Search parameter '" + parameterCode + "' for resource type '"
@@ -705,7 +682,7 @@ public class SearchUtil {
                       }
                     } else {
                         // Get the search parameter from our filtered set of applicable SPs for this resource type.
-                        searchParameter = applicableSPs.get(parameterCode);
+                        searchParameter = getSearchParameter(resourceType.getSimpleName(), parameterCode);
                         if (searchParameter == null) {
                             String msg =
                                     "Search parameter '" + parameterCode + "' for resource type '"
@@ -972,20 +949,6 @@ public class SearchUtil {
      */
     protected static boolean isAllowed(Type type, Modifier modifier) {
         return SearchConstants.RESOURCE_TYPE_MODIFIER_MAP.get(type).contains(modifier);
-    }
-
-    /**
-     * Retrieves the applicable search parameters for the specified resource type,
-     * then builds a map from it, keyed by
-     * search parameter name for quick access.
-     */
-    public static Map<String, SearchParameter> getApplicableSearchParametersMap(String resourceType) throws Exception {
-        Map<String, SearchParameter> result = new HashMap<>();
-        List<SearchParameter> list = getApplicableSearchParameters(resourceType);
-        for (SearchParameter sp : list) {
-            result.put(sp.getCode().getValue(), sp);
-        }
-        return result;
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -106,11 +106,14 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     public void removeSavedResourcesAndResetTenant() throws Exception {
         Resource[] resources = {resource1a, resource1b, resource2a, resource2b, resource3a, resource3b};
         if (persistence.isDeleteSupported()) {
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
             for (Resource resource : resources) {
                 persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
             }
             if (persistence.isTransactional()) {
-                persistence.getTransaction().commit();
+                persistence.getTransaction().end();
             }
         }
         FHIRRequestContext.get().setTenantId("default");

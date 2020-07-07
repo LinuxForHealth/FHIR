@@ -33,10 +33,13 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
+import com.ibm.fhir.model.type.ElementDefinition.Slicing;
+import com.ibm.fhir.model.type.ElementDefinition.Slicing.Discriminator;
 import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.DiscriminatorType;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
@@ -194,12 +197,36 @@ public class ConstraintGenerator {
 
         if (isOptional(elementDefinition)) {
             sb.append(identifier);
+
             if ("extension".equals(identifier)) {
                 String url = getExtensionUrl(node);
                 if (url != null) {
                     sb.append("('").append(url).append("')");
                 }
+            } else if (isSlice(elementDefinition)) {
+                ElementDefinition sliceDefinition = getSliceDefinition(elementDefinition);
+                if (sliceDefinition != null) {
+                    Slicing slicing = sliceDefinition.getSlicing();
+                    StringJoiner joiner = new StringJoiner(" and ");
+                    for (Discriminator discriminator : slicing.getDiscriminator()) {
+                        if (DiscriminatorType.VALUE.equals(discriminator.getType()) || DiscriminatorType.PATTERN.equals(discriminator.getType())) {
+                            String id = elementDefinition.getId() + "." + discriminator.getPath().getValue();
+                            if (tree.nodeMap.containsKey(id)) {
+                                Node dNode = tree.nodeMap.get(id);
+                                if (hasValueConstraint(dNode.elementDefinition)) {
+                                    joiner.add(generateValueConstraint(dNode));
+                                } else if (hasVocabularyConstraint(dNode.elementDefinition)) {
+                                    joiner.add(generateVocabularyConstraint(dNode.elementDefinition));
+                                }
+                            }
+                        }
+                    }
+                    if (joiner.length() > 0) {
+                        sb.append(".where(").append(joiner.toString()).append(")");
+                    }
+                }
             }
+
             sb.append(".exists()").append(" implies (");
         }
 
@@ -253,6 +280,11 @@ public class ConstraintGenerator {
         }
 
         return sb.toString();
+    }
+
+    private ElementDefinition getSliceDefinition(ElementDefinition slice) {
+        String id = slice.getId();
+        return tree.sliceDefinitionMap.get(id.substring(0, id.lastIndexOf(":")));
     }
 
     private String generate(List<Node> nodes) {
@@ -309,6 +341,19 @@ public class ConstraintGenerator {
         } else if (fixed.is(Code.class)) {
             // fixed code
             sb.append(" = '").append(fixed.as(Code.class).getValue()).append("'");
+        } else if (fixed.is(CodeableConcept.class)) {
+            // fixed codeable concept
+            CodeableConcept codeableConcept = fixed.as(CodeableConcept.class);
+            Coding coding = codeableConcept.getCoding().get(0);
+            String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+
+            sb.append(".where(coding.where(");
+
+            if (system != null) {
+                sb.append("system = '").append(system).append("' and ");
+            }
+
+            sb.append("code = '").append(coding.getCode().getValue()).append("').exists()).exists()");
         }
 
         return sb.toString();
@@ -565,7 +610,7 @@ public class ConstraintGenerator {
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
-        return (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code);
+        return (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code || elementDefinition.getFixed() instanceof CodeableConcept);
     }
 
     private boolean hasPatternValueConstraint(ElementDefinition elementDefinition) {
@@ -591,7 +636,7 @@ public class ConstraintGenerator {
     private boolean hasVocabularyConstraint(ElementDefinition elementDefinition) {
         Binding binding = elementDefinition.getBinding();
         if (binding != null && !BindingStrength.EXAMPLE.equals(binding.getStrength()) && binding.getValueSet() != null &&
-                (isCodedElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
+                (isCodedElement(elementDefinition) || isQuantityElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
             BindingStrength.ValueSet strength = binding.getStrength().getValueAsEnumConstant();
             String valueSet = binding.getValueSet().getValue();
 
@@ -661,6 +706,19 @@ public class ConstraintGenerator {
         if (type.getCode() != null) {
             String code = type.getCode().getValue();
             return "uri".equals(code);
+        }
+        return false;
+    }
+
+    private boolean isQuantityElement(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() != 1) {
+            return false;
+        }
+        Type type = types.get(0);
+        if (type.getCode() != null) {
+            String code = type.getCode().getValue();
+            return "Quantity".equals(code);
         }
         return false;
     }

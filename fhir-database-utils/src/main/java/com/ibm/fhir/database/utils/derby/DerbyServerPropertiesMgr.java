@@ -50,7 +50,7 @@ public class DerbyServerPropertiesMgr {
      */
     public static void setServerProperties(boolean isDebug, Connection conn) throws SQLException {
         // Link https://db.apache.org/derby/docs/10.9/ref/crefproper22250.html
-        try (Statement s = conn.createStatement();) {
+        try (Statement s = conn.createStatement()) {
             // Preallocation - https://db.apache.org/derby/docs/10.9/ref/rrefproperpreallocator.html
             // Since we're driving contention with 1000, we're jumping to 10000.
             setProperty(s, "derby.language.sequence.preallocator", "10000");
@@ -69,12 +69,12 @@ public class DerbyServerPropertiesMgr {
         ResultSet r = s.getResultSet();
         r.next();
         logger.info(
-                "Database Property [" + name + "] is desired [" + value + "] and is current [" + r.getString(1) + "]");
+                "Database Property [" + name + "] desired value [" + value + "] and is currently [" + r.getString(1) + "]");
         s.executeUpdate("CALL SYSCS_UTIL.SYSCS_SET_DATABASE_PROPERTY('" + name + "', '" + value + "')");
         s.execute("VALUES SYSCS_UTIL.SYSCS_GET_DATABASE_PROPERTY('" + name + "')");
         r = s.getResultSet();
         r.next();
         logger.info(
-                "Database Property [" + name + "] is desired [" + value + "] and is current [" + r.getString(1) + "]");
+                "Database Property [" + name + "] desired value [" + value + "] and is now [" + r.getString(1) + "]");
     }
 }

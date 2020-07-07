@@ -21,6 +21,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.model.DbType;
 
 
 /**
@@ -232,5 +234,21 @@ public class Db2Translator implements IDatabaseTranslator {
     @Override
     public boolean clobSupportsInline() {
         return true;
+    }
+
+    @Override
+    public DbType getType() {
+        return DbType.DB2;
+    }
+
+    @Override
+    public String dualTableName() {
+        return "SYSIBM.SYSDUMMY1";
+    }
+
+    @Override
+    public String selectSequenceNextValue(String schemaName, String sequenceName) {
+        String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
     }
 }

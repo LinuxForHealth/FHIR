@@ -13,8 +13,16 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.persistence.jdbc.connection.Action;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConstants;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
+import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
+import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * This class tests the functions of the FHIR DB Data Access Object class.
@@ -26,35 +34,23 @@ public class FHIRDbDAOTest {
      * @throws Exception
      */
     @Test(groups = {"jdbc"})
-    public void testGetDerbyConnection() throws Exception {
+    public void testDerbyConnectionStrategy() throws Exception {
         
-        Properties props = new Properties();
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/derby/fhirDB;create=true");
-        // Set the schemaName to the derby default so that it won't try using a non-existent FHIRDATA schema
-        props.setProperty("schemaName", "APP");
-        FHIRDbDAO dao = new FHIRDbDAOImpl(props);
-        Connection connection = dao.getConnection();
-        assertNotNull(connection);
-    }
-    
-    /**
-     * Tests acquiring a connection to an existing DB2 FHIR database. 
-     * NOTE: This test will remain commented out. Since it has a specific dependency on an existing DB2 database, it will fail when run as part of the
-     * maven build for the project. It can uncommented and run as a standalone testNg test, provided a DB2 FHIR database is pre-defined.
-     * @throws Exception
-     */
-    //@Test(groups = {"jdbc"})
-    public void testGetDB2Connection() throws Exception {
-        
-        Properties props = new Properties();
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "com.ibm.db2.jcc.DB2Driver");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:db2://localhost:50000/fhirdb");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB2_USER, "user");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB2_PSWD, "password");
-        
-        FHIRDbDAO dao = new FHIRDbDAOImpl(props);
-        Connection connection = dao.getConnection();
-        assertNotNull(connection);
+        // DerbyFhirDatabase will initialize the full FHIR schema if necessary.
+        // Don't close, because we want to avoid shutting the database down because
+        // it will be used by other tests in the suite
+        DerbyFhirDatabase database = new DerbyFhirDatabase(DerbyInitializer.DB_NAME);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(database, 1);
+        // ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+
+        // Test creation of a DAO instance with a connection strategy.
+
+        Action action = new SetSchemaAction(new SchemaNameFromProps("FHIRDATA"), null);
+        FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
+
+        // We only ask the DAO for a connection
+        try (Connection c = strat.getConnection()) {
+            assertNotNull(c);
+        }
     }
 }

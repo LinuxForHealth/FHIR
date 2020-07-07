@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
-import java.sql.Connection;
 import java.util.Map;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -107,10 +106,4 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceException
      */
     void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException;
-
-    /**
-     * Sets an externally managed DB connection, used by the DAO for all DB activity.
-     * @param connection
-     */
-    void setExternalConnection(Connection connection);
 }

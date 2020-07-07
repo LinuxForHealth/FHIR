@@ -19,9 +19,11 @@ import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
@@ -181,19 +183,52 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, int cache) {
-        /* CREATE SEQUENCE fhir_sequence
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
+        /* Example syntax
+         * CREATE SEQUENCE <sequence-name>
          *     AS BIGINT
-         *     START WITH 1
-         *     CACHE 1000
+         *     START WITH <start-with>
          *     NO CYCLE;
-        */
+         */
         // Derby doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " NO CYCLE";
         runStatement(ddl);
-
     }
+    
+    @Override
+    public void dropSequence(String schemaName, String sequenceName) {
+        // the "RESTRICT" keyword is mandatory in Derby
+        final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        final String ddl = "DROP SEQUENCE " + sname + " RESTRICT";
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; Sequence not found");
+        }
+    }
+
+    
+    @Override
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
+        // Derby doesn't support ALTER SEQUENCE, so we have to drop and create again with the start value.
+        // But we should only allow the sequence to be increased, never decreased (to avoid any chance
+        // of corrupting the database).
+        GetSequenceNextValueDAO dao = new GetSequenceNextValueDAO(schemaName, sequenceName);
+        Long maxValue = runStatement(dao);
+        if (maxValue != null && maxValue > restartWith) {
+            restartWith = maxValue;
+        }
+        
+        // Derby doesn't use the CACHE attribute, so cache will be ignored. This change is important,
+        // so we log it as info.
+        final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        logger.info("Recreating sequence '" + sname + "' START WITH " + restartWith);
+        dropSequence(schemaName, sequenceName);
+        createSequence(schemaName, sequenceName, restartWith, cache);
+    }
+
 
     @Override
     public String varbinaryClause(int size) {
@@ -278,36 +313,24 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         logger.fine("Drop tablespace not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void disableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void enableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityOff(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter

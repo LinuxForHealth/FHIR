@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 set -eu -o pipefail
 
@@ -23,6 +24,9 @@ source "$(dirname '$0')/release.properties"
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 debugging "Script Name is ${SCRIPT_NAME}"
 
+# Creates a temporary output file
+OUTPUT_FILE=`mktemp`
+
 # Reset to Original Directory
 popd > /dev/null
 
@@ -40,78 +44,100 @@ function deploy_bintray {
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 
+# upload_to_bintray - uploads to bintray
+function upload_to_bintray {
+    TYPE="releases"
+    MODULE="${1}"
+    FILE="${2}"
+    FILE_TARGET_PATH="${3}"
+
+    # output with a new line
+    echo " "
+    echo "Uploading: [${MODULE}][${FILE}]"
+    
+    STATUS=$(curl -T "${FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${MODULE}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o ${OUTPUT_FILE} -w '%{http_code}')
+    if [ "${STATUS}" -ne "201" ]
+    then 
+        echo "Debug Information for Upload Failure" 
+        cat ${OUTPUT_FILE}
+    fi
+    
+    if [ "${STATUS}" == "413" ]
+    then
+        # File is too big (over 300M)
+        exit -413
+    fi
+    echo "[${STATUS}] - Done uploading jar file to ${FILE_TARGET_PATH}"
+}
+
 # deploy_via_curl - uploads each artifact via curl
 function deploy_via_curl {
     TYPE="${1}"
-    # Upload to BinTray
-    for PROJ in `find . -type d -maxdepth 2 | grep -v '.git' | grep -v 'build' | grep -v '/docs' | sed 's|\.\/||g' | grep -v '\.' `
+    for PROJ in `find . -type d -maxdepth 3 -name 'target' | sed 's|\.\/||g' | grep -v '\.' `
     do
-        echo "PROJECT: ${PROJ}"
-        if [ -d "${PROJ}/target" ]
+        MODULE_DIRECTORY=`dirname ${PROJ}`
+        MODULE=`basename ${MODULE_DIRECTORY}`
+        echo "Processing [${PROJ}] files"
+        # Upload Project File
+        POM_FILE="${MODULE_DIRECTORY}/pom.xml"
+        if [ -f ${POM_FILE} ]
         then
-            # Upload SOURCES Jar
-            SOURCES_JAR=`find ${PROJ}/target -iname "*${BUILD_VERSION}-sources.jar" -maxdepth 1 -exec basename {} \;`
-            if [ ! -z "${SOURCES_JAR}" ]
-            then
-                echo " - Uploading jar: ${SOURCES_JAR}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-sources.jar"
-                STATUS=$(curl -T "${PROJ}/target/${SOURCES_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-                echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
-            fi
-
-            # Upload JAVADOC Jar
-            JAVADOC_JAR=`find ${PROJ}/target -iname "*${BUILD_VERSION}-javadoc.jar" -maxdepth 1 -exec basename {} \;`
-            if [ ! -z "${JAVADOC_JAR}" ]
-            then
-                echo " - Uploading jar: ${JAVADOC_JAR}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-javadoc.jar"
-                STATUS=$(curl -T "${PROJ}/target/${JAVADOC_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-                echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
-            fi
-
-            # Upload tests Jar
-            TESTS_JAR=`find ${PROJ}/target -iname "*${BUILD_VERSION}-tests.jar" -maxdepth 1 -exec basename {} \;`
-            if [ ! -z "${TESTS_JAR}" ]
-            then
-                echo " - Uploading jar: ${TESTS_JAR}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-tests.jar"
-                STATUS=$(curl -T "${PROJ}/target/${TESTS_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-                echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
-            fi
-
-            for JAR_FILE in `find ${PROJ}/target -maxdepth 1 -not -name '*-tests.jar' -and -not -name '*-javadoc.jar' -and -not -name '*-sources.jar' -and -not -name '*orginal*.jar' -and -name '*.jar' -exec basename {} \;`
-            do
-                echo " - Uploading jar: ${JAR_FILE}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${JAR_FILE}"
-                STATUS=$(curl -T "${PROJ}/target/${JAR_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-                echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
-            done
-
-            # The general zip FILE logic is changed to do fhir-validation-distribution.zip and fhir-cli.zip only
-            for ZIP_FILE in `find ${PROJ}/target -name fhir-validation-distribution.zip -or -name fhir-cli.zip -maxdepth 1`
-            do
-               ZIP_FILE=`basename ${ZIP_FILE}`
-               echo " - Uploading zip: ${ZIP_FILE}"
-               FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
-               STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-               echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
-               if [ "${STATUS}" == "413" ]
-               then
-                   # File is too big (over 300M)
-                   exit -413
-               fi
-            done
-
-            # Upload the POM file
-            for POM_FILE in `find ${PROJ}/ -name 'pom.xml' -maxdepth 1 -exec basename {} \;`
-            do
-                echo " - Uploading pom: ${POM_FILE}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}.pom"
-                STATUS=$(curl -T "${PROJ}/${POM_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-                echo "${STATUS} - Done uploading pom file to ${FILE_TARGET_PATH}"
-            done
+            FILE="${POM_FILE}"
+            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}.pom"
+            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         fi
+
+        # Sources
+        for SOURCES_JAR in `find ${PROJ} -iname "*-sources.jar" -maxdepth 1 -exec basename {} \;`
+        do
+            FILE="${PROJ}/${SOURCES_JAR}"
+            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-sources.jar"
+            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+        done 
+
+        # JavaDoc
+        for JAVADOC_JAR in `find ${PROJ} -iname "*${BUILD_VERSION}-javadoc.jar" -maxdepth 1 -exec basename {} \;`
+        do
+            FILE="${PROJ}/${JAVADOC_JAR}"
+            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-javadoc.jar"
+            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+        done
+
+        # Tests Jar
+        for TESTS_JAR in `find ${PROJ} -iname "*${BUILD_VERSION}-tests.jar" -maxdepth 1 -exec basename {} \;`
+        do
+            FILE="${PROJ}/${TESTS_JAR}"
+            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-tests.jar"
+            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+        done
+
+        # The following files have potentials for MULTIPLE matching files. 
+        # Jar
+        for JAR in `find ${PROJ} -maxdepth 1 -not -name '*-tests.jar' -and -not -name '*-javadoc.jar' -and -not -name '*-sources.jar' -and -not -name '*orginal*.jar' -and -name '*.jar' -exec basename {} \;`
+        do
+            FILE="${PROJ}/${JAR}"
+            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${JAR}"
+            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+        done
+
+        echo "Finished Upload for [${MODULE}]"
     done
+
+    deploy_zip_files 
+}
+
+# deploy_zip_files - uploads the release specific zip files. 
+# --- don't add files that could be greater than 300M
+deploy_zip_files { 
+    FILE=fhir-cli/target/fhir-cli.zip
+    MODULE=fhir-cli
+    FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-cli.zip"
+    upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+    
+    FILE=fhir-validation/target/fhir-validation-distribution.zip
+    MODULE=fhir-validation
+    FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-validation-distribution.zip"
+    upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
 }
 
 ###############################################################################
@@ -147,7 +173,5 @@ case $BUILD_TYPE in
         warn "invalid function called, dropping through "
     ;;
 esac
-
-# Synch to Maven Central
 
 # EOF

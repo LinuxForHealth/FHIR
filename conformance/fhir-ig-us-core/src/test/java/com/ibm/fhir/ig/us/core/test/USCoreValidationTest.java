@@ -78,7 +78,7 @@ public class USCoreValidationTest {
         try (InputStream in = USCoreValidationTest.class.getClassLoader().getResourceAsStream("JSON/1.json")) {
             Observation observation = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator().validate(observation);
-            Assert.assertEquals(countErrors(issues), 1);
+            Assert.assertEquals(countErrors(issues), 0);
         }
     }
 }

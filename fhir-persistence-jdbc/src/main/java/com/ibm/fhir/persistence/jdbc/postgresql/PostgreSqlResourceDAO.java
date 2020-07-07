@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
@@ -49,19 +49,18 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(PostgreSqlResourceDAO.class.getName());
     private static final String CLASSNAME = PostgreSqlResourceDAO.class.getSimpleName();
 
-    private static final PostgreSqlTranslator translator = new PostgreSqlTranslator();
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgreSqlResourceDAO(Connection managedConnection) {
-        super(managedConnection);
+    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor) {
+        super(connection, schemaName, flavor);
     }
 
-    public PostgreSqlResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(trxSynchRegistry);
+    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(connection, schemaName, flavor, trxSynchRegistry);
     }
 
     /**
@@ -78,9 +77,8 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue, ParameterDAO>";
         logger.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
-        String currentSchema;
         String stmtString = null;
         Integer resourceTypeId;
         Timestamp lastUpdated;
@@ -89,7 +87,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
@@ -103,9 +100,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                          "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
 
-            // TODO avoid the round-trip and use the configured data schema name
-            currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, currentSchema);
+            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
@@ -158,7 +153,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
             throw severe(logger, fx, e);
         } finally {
-            this.cleanup(stmt, connection);
             logger.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -239,18 +233,15 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "readResourceTypeId";
         logger.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         Integer resourceTypeId = null;
-        String currentSchema;
         String stmtString;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
-            currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_READ_RESOURCE_TYPE, currentSchema);
+            stmtString = String.format(SQL_READ_RESOURCE_TYPE, getSchemaName());
             stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resourceType);
             stmt.registerOutParameter(2, Types.INTEGER);
@@ -261,14 +252,12 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 logger.finer("DB read resource type id complete. executionTime=" + dbCallDuration + "ms");
             }
             resourceTypeId = stmt.getInt(2);
-        } catch(FHIRPersistenceDBConnectException e) {
-            throw e;
         } catch (Throwable e) {
             final String errMsg = "Failure storing Resource type name id: name=" + resourceType;
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
             throw severe(logger, fx, e);
         } finally {
-            this.cleanup(stmt, connection);
+            cleanup(stmt);
             logger.exiting(CLASSNAME, METHODNAME);
         }
         return resourceTypeId;

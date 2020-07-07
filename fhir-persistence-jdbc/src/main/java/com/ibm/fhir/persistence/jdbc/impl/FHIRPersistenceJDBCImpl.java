@@ -40,11 +40,12 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.naming.InitialContext;
-import javax.transaction.Status;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
@@ -84,10 +85,18 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
+import com.ibm.fhir.persistence.jdbc.connection.Action;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionAdapter;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
+import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -120,25 +129,27 @@ import com.ibm.fhir.search.util.SearchUtil;
  * @implNote This class is request-scoped;
  *           it must be initialized for each request to reset the supplementalIssues list
  */
-public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistenceTransaction {
+public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSupplier {
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
 
-    private FHIRDbDAO baseDao;
-    private ResourceDAO resourceDao;
-    private ParameterDAO parameterDao;
-    private TransactionSynchronizationRegistry trxSynchRegistry;
+    private final TransactionSynchronizationRegistry trxSynchRegistry;
     private List<OperationOutcome.Issue> supplementalIssues = new ArrayList<>();
 
-    protected Connection sharedConnection = null;
     protected UserTransaction userTransaction = null;
     protected Boolean updateCreateEnabled = null;
+    
+    // The strategy used to obtain database connections
+    private final FHIRDbConnectionStrategy connectionStrategy;
+    
+    // A strategy for finding the schema name
+    private final SchemaNameSupplier schemaNameSupplier;
 
-    // only used outside a web container
-    private Connection managedConnection;
+    // Handles transaction lifecycle for this persistence object
+    private final FHIRPersistenceTransaction transactionAdapter;
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -154,6 +165,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
         this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
+        
+        if (userTransaction != null) {
+            this.trxSynchRegistry = getTrxSynchRegistry();
+        } else {
+            this.trxSynchRegistry = null;
+        }
 
         ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE,
                                        Boolean.TRUE));
@@ -161,36 +178,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                     Boolean.TRUE));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
-
-        sharedConnection = this.createConnection();
-        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(sharedConnection, this.getTrxSynchRegistry());
-        this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
-
-        log.exiting(CLASSNAME, METHODNAME);
-    }
-
-    /**
-     * Constructor for use when running standalone, outside of any web container.
-     * @throws Exception
-     */
-    public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
-        log.entering(CLASSNAME, METHODNAME);
-
-        this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-
-        FHIRDbDAO dao = new FHIRDbDAOImpl(configProps);
-
-        this.setBaseDao(dao);
-        this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.getManagedConnection());
-        this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
+        
+        // Set up the connection strategy for use within a JEE container. The actions
+        // are processed the first time a connection is established to a particular tenant/datasource.
+        this.schemaNameSupplier = new SchemaNameImpl(this);
+        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
-
+    
     /**
-     * Constructor for use when running standalone, outside of any web container.
+     * Constructor for use when running standalone, outside of any web container. The
+     * IConnectionProvider should be a pooling implementation which supports an
+     * ITransactionProvider.
+     * 
+     * @implNote This constructor is defined to simplify unit-tests
      * @throws Exception
      */
     public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
@@ -199,15 +202,31 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
-        FHIRDbDAO dao = new FHIRDbDAOImpl(cp.getConnection());
+        // not running inside a JEE container
+        this.trxSynchRegistry = null;
 
-        this.setBaseDao(dao);
-        this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.getManagedConnection());
-        this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
+        // use the schema name from the configProps, or the connection.getSchema if we have to
+        this.schemaNameSupplier = new SchemaNameImpl(new SchemaNameFromProps(configProps));
+        
+        // Obtain connections from the IConnectionProvider (typically used in Derby-based test-cases)
+        this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
+        
+        // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
+        this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
+
+    /**
+     * Build a chain of actions we want to apply to new connections. Current the
+     * only action we need is setting the tenant if we're in multi-tenant mode.
+     * @return the chain of actions to be applied
+     */
+    protected Action buildActionChain() {
+        // Note: do not call setSchema on a connection. It exposes a bug in Liberty.
+        return new SetTenantAction();
+    }
+
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
@@ -220,7 +239,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         // We need to update the meta in the resource, so we need a modifiable version
         Resource.Builder resultResourceBuilder = resource.toBuilder();
 
-        try {
+        try (Connection connection = openConnection()) {
+            
             // This create() operation is only called by a REST create. If the given resource
             // contains an id, then for R4 we need to ignore it and replace it with our
             // system-generated value. For the update-or-create scenario, see update().
@@ -258,10 +278,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
+            
+            // The DAO objects are now created on-the-fly (not expensive to construct) and
+            // given the connection to use while processing this request
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
 
             // Persist the Resource DTO.
-            this.getResourceDao().setPersistenceContext(context);
-            this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), this.parameterDao);
+            resourceDao.setPersistenceContext(context);
+            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -298,6 +323,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
 
+    /**
+     * Convenience method to construct a new instance of the {@link ResourceDAO}
+     * @param connection the connection to the database for the DAO to use
+     * @return a properly constructed implementation of a ResourceDAO
+     * @throws IllegalArgumentException 
+     * @throws FHIRPersistenceException 
+     * @throws FHIRPersistenceDataAccessException 
+     */
+    private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+        if (this.trxSynchRegistry != null) {
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry);
+        } else {
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
+        }
+    }
+
+    /**
+     * Convenience method to construct a new instance of the {@link ParameterDAO}
+     * @param connection
+     * @return
+     * @throws FHIRPersistenceException 
+     * @throws FHIRPersistenceDataAccessException 
+     */
+    private ParameterDAO makeParameterDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException {
+        if (this.trxSynchRegistry != null) {
+            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), trxSynchRegistry);
+        } else {
+            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
+        }
+    }
+    
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource)
             throws FHIRPersistenceException {
@@ -311,7 +367,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         // Resources are immutable, so we need a new builder to update it (since R4)
         Resource.Builder resultResourceBuilder = resource.toBuilder();
 
-        try {
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
+            
             // Assume we have no existing resource.
             int existingVersion = 0;
 
@@ -332,7 +391,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             // existing version # from it.
             else {
                 log.fine("Fetching 'previous' resource for update.");
-                existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+                existingResourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
                 if (existingResourceDTO != null) {
                     existingVersion = existingResourceDTO.getVersionId();
                 }
@@ -385,8 +444,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             zipStream.close();
 
             // Persist the Resource DTO.
-            this.getResourceDao().setPersistenceContext(context);
-            this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), this.parameterDao);
+            resourceDao.setPersistenceContext(context);
+            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -439,14 +498,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         SqlQueryData countQuery;
         SqlQueryData query;
 
-        try {
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
+
             checkModifiers(searchContext);
-            queryBuilder = new JDBCQueryBuilder(this.getParameterDao(),
-                                                this.getResourceDao());
+            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao);
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {
-                searchResultCount = this.getResourceDao().searchCount(countQuery);
+                searchResultCount = resourceDao.searchCount(countQuery);
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("searchResultCount = " + searchResultCount);
                 }
@@ -499,15 +560,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         // Sorting results of a system-level search is limited, and has a different logic path
                         // than other sorted searches.
                         if (resourceType.equals(Resource.class)) {
-                           resources = this.convertResourceDTOList(this.resourceDao.search(query), resourceType, elements);
+                           resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
+                        } else {
+                            sortedIdList = resourceDao.searchForIds(query);
+                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, sortedIdList, elements);
                         }
-                        else {
-                            sortedIdList = this.resourceDao.searchForIds(query);
-                            resources = this.buildSortedFhirResources(context, resourceType, sortedIdList, elements);
-                        }
-                    }
-                    else {
-                        unsortedResultsList = this.getResourceDao().search(query);
+                    } else {
+                        unsortedResultsList = resourceDao.search(query);
                         resources = this.convertResourceDTOList(unsortedResultsList, resourceType, elements);
                     }
                 }
@@ -517,16 +576,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     .success(true)
                     .resource(resources)
                     .build();
-        }
-        catch(FHIRPersistenceException e) {
+        } catch (FHIRPersistenceException e) {
             throw e;
-        }
-        catch(Throwable e) {
+        } catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a search operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -547,14 +603,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
 
-    private ParameterDAO getParameterDao() {
-        return parameterDao;
-    }
-
-    private ResourceDAO getResourceDao() {
-        return resourceDao;
-    }
-
     @Override
     public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
         final String METHODNAME = "delete";
@@ -567,8 +615,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         Resource.Builder resourceBuilder;
 
-        try {
-            existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+
+            existingResourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
 
             if (existingResourceDTO == null) {
                 throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + 
@@ -627,8 +677,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
-            this.getResourceDao().setPersistenceContext(context);
-            this.getResourceDao().insert(resourceDTO, null, null);
+            resourceDao.setPersistenceContext(context);
+            resourceDao.insert(resourceDTO, null, null);
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
@@ -699,8 +749,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             }
         }
 
-        try {
-            resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            
+            resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
@@ -743,7 +795,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         Timestamp fromDateTime = null;
         int offset;
 
-        try {
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+
             historyContext = context.getHistoryContext();
             historyContext.setDeletedResources(deletedResourceVersions);
             since = historyContext.getSince();
@@ -751,7 +805,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 fromDateTime = FHIRUtilities.convertToTimestamp(since.getValue());
             }
 
-            resourceCount = this.getResourceDao().historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
+            resourceCount = resourceDao.historyCount(resourceType.getSimpleName(), logicalId, fromDateTime);
             historyContext.setTotalCount(resourceCount);
 
             List<OperationOutcome.Issue> issues = validatePagingContext(historyContext);
@@ -767,7 +821,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
             if (resourceCount > 0) {
                 offset = (historyContext.getPageNumber() - 1) * historyContext.getPageSize();
-                resourceDTOList = this.getResourceDao().history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, historyContext.getPageSize());
+                resourceDTOList = resourceDao.history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, historyContext.getPageSize());
                 for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
                     if (resourceDTO.isDeleted()) {
                         deletedResourceVersions.putIfAbsent(logicalId, new ArrayList<Integer>());
@@ -861,9 +915,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
         int version;
 
-        try {
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            
             version = Integer.parseInt(versionId);
-            resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
+            resourceDTO = resourceDao.versionRead(logicalId, resourceType.getSimpleName(), version);
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
@@ -904,7 +960,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws FHIRPersistenceException
      * @throws IOException
      */
-    protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList,
+    protected List<Resource> buildSortedFhirResources(ResourceDAO resourceDao, FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList,
             List<String> elements) throws FHIRException, FHIRPersistenceException, IOException {
         final String METHOD_NAME = "buildSortedFhirResources";
         log.entering(this.getClass().getName(), METHOD_NAME);
@@ -923,7 +979,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             idPositionMap.put(new Long(resourceId), new Integer(i));
         }
 
-        resourceDTOList = this.getResourceDTOs(resourceType, sortedIdList);
+        resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList);
 
 
         // Convert the returned JPA Resources to FHIR Resources, and store each FHIRResource in its proper position
@@ -953,10 +1009,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
-    private List<com.ibm.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(
+    private List<com.ibm.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(ResourceDAO resourceDao,
             Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 
-        return this.getResourceDao().searchByIds(resourceType.getSimpleName(), sortedIdList);
+        return resourceDao.searchByIds(resourceType.getSimpleName(), sortedIdList);
     }
 
     /**
@@ -997,9 +1053,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     private String performCacheDiagnostics() {
 
         StringBuffer diags = new StringBuffer();
-        diags.append(ParameterNamesCache.dumpCacheContents()).append(ParameterNamesCache.reportCacheDiscrepancies(this.parameterDao));
-        diags.append(CodeSystemsCache.dumpCacheContents()).append(CodeSystemsCache.reportCacheDiscrepancies(this.parameterDao));
-        diags.append(ResourceTypesCache.dumpCacheContents()).append(ResourceTypesCache.reportCacheDiscrepancies(this.resourceDao));
+        
+        // Must do this with its own connection (which will actually be the same
+        // underlying physical connection in use when the problem occurred).
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
+            diags.append(ParameterNamesCache.dumpCacheContents()).append(ParameterNamesCache.reportCacheDiscrepancies(parameterDao));
+            diags.append(CodeSystemsCache.dumpCacheContents()).append(CodeSystemsCache.reportCacheDiscrepancies(parameterDao));
+            diags.append(ResourceTypesCache.dumpCacheContents()).append(ResourceTypesCache.reportCacheDiscrepancies(resourceDao));
+        } catch (Exception x) {
+            log.log(Level.SEVERE, "failed to produce cache diagnostics", x);
+            diags.append("No cache diagnostic info available");
+        }
 
         return diags.toString();
     }
@@ -1011,22 +1077,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws FHIRPersistenceException
      */
     private TransactionSynchronizationRegistry getTrxSynchRegistry() throws FHIRPersistenceException {
-
         InitialContext ctxt;
 
-        if (this.trxSynchRegistry == null) {
-            try {
-                ctxt = new InitialContext();
-                this.trxSynchRegistry = (TransactionSynchronizationRegistry) ctxt.lookup(TRX_SYNCH_REG_JNDI_NAME);
-            }
-            catch(Throwable e) {
-                FHIRPersistenceException fx = new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service");
-                log.log(Level.SEVERE, fx.getMessage(), e);
-                throw fx;
-            }
+        try {
+            ctxt = new InitialContext();
+            return (TransactionSynchronizationRegistry) ctxt.lookup(TRX_SYNCH_REG_JNDI_NAME);
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
         }
-
-        return this.trxSynchRegistry;
     }
 
     /**
@@ -1238,8 +1298,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     }
                 }
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
@@ -1284,134 +1343,27 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return parameter;
     }
 
-    @Override
-    public void begin() throws FHIRPersistenceException {
-        final String METHODNAME = "begin";
+    /**
+     * Open a connection to the database and pass to the data access objects.
+     * Caller must close the returned connection after use (before the
+     * transaction completes
+     * @return
+     * @throws FHIRPersistenceDBConnectException 
+     */
+    private Connection openConnection() throws FHIRPersistenceDBConnectException {
+        final String METHODNAME = "openConnection";
         log.entering(CLASSNAME, METHODNAME);
-
         try {
-            if (userTransaction != null) {
-                if (sharedConnection == null) {
-                    sharedConnection = createConnection();
-                }
-                resourceDao.setExternalConnection(sharedConnection);
-                parameterDao.setExternalConnection(sharedConnection);
-                userTransaction.begin();
-            }
-            else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().setAutoCommit(false);
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
+            return connectionStrategy.getConnection();
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
-        }
-    }
-
-    @Override
-    public void commit() throws FHIRPersistenceException {
-        final String METHODNAME = "commit";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            if (userTransaction != null) {
-                userTransaction.commit();
-            } else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().commit();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                } catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-
-    }
-
-    @Override
-    public void rollback() throws FHIRPersistenceException {
-        final String METHODNAME = "rollback";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            if (userTransaction != null) {
-                userTransaction.rollback();
-            }
-            else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().rollback();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                }
-                catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
-        }
-    }
-
-    @Override
-    public void setRollbackOnly() throws FHIRPersistenceException {
-        final String METHODNAME = "setRollbackOnly";
-        log.entering(CLASSNAME, METHODNAME);
-        String errorMessage = "Unexpected error while rolling a transaction.";
-
-        try {
-            if (userTransaction != null) {
-                errorMessage = "Unexpected error while marking a transaction for rollback.";
-                userTransaction.setRollbackOnly();
-            }
-            else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().rollback();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                }
-                catch (SQLException e) {
-                    FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
-                    log.log(Level.SEVERE, fx.getMessage(), e);
-                    throw fx;
-                }
-                sharedConnection = null;
-            }
         }
     }
 
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
-        try (Connection connection = createConnection()){
+        
+        try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
                 return buildOKOperationOutcome();
             } else {
@@ -1438,23 +1390,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
 
         return txn;
-    }
-
-    @Override
-    public boolean isActive() throws FHIRPersistenceException {
-        boolean isActive = false;
-        try {
-            if (userTransaction != null) {
-                isActive = (userTransaction.getStatus() == Status.STATUS_ACTIVE);
-            }
-        }
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while examining transactional status.";
-            FHIRPersistenceException fx = new FHIRPersistenceException(msg);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        return isActive;
     }
 
     /**
@@ -1554,28 +1489,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
     @Override
     public FHIRPersistenceTransaction getTransaction() {
-        return this;
+        // after 4.3 we no longer return `this` and FHIRPersistenceJDBCImpl no longer implements
+        // FHIRPersistenceTransaction. Instead, transaction handling is managed inside
+        // the new FHIRTransactionImpl, which also now includes the logic to determine
+        // which instance started the transaction, and therefore which instance should
+        // issue the commit (to handle cases where FHIRPersistenceJDBCImpl might be nested.
+        return this.transactionAdapter;
     }
 
     @Override
     public boolean isDeleteSupported() {
         return true;
-    }
-
-    private FHIRDbDAO getBaseDao() {
-        return baseDao;
-    }
-
-    private void setBaseDao(FHIRDbDAO baseDao) {
-        this.baseDao = baseDao;
-    }
-
-    private Connection getManagedConnection() {
-        return managedConnection;
-    }
-
-    private void setManagedConnection(Connection managedConnection) {
-        this.managedConnection = managedConnection;
     }
 
     private OperationOutcome buildOKOperationOutcome() {
@@ -1584,80 +1508,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
     private OperationOutcome buildErrorOperationOutcome() {
         return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
-    }
-
-    private Connection createConnection() throws FHIRPersistenceDBConnectException {
-        FHIRDbDAOImpl dao = new FHIRDbDAOImpl();
-        return dao.getConnection();
-    }
-
-    /**
-     * Enroll in an existing transaction.
-     *
-     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
-     * gives implementations a chance to create necessary resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
-     * @throws FHIRPersistenceException
-     */
-    @Override
-    public void unenroll() throws FHIRPersistenceException {
-        final String METHODNAME = "unenroll";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            if (userTransaction != null) {
-                if (sharedConnection != null) {
-                        sharedConnection.close();
-                }
-            } else {
-                throw new FHIRPersistenceException("unenroll should be called only if userTransaction is not null!");
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while unenroll.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            sharedConnection = null;
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-    }
-
-    /**
-     * Unenroll from the existing transaction.
-     *
-     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
-     * this method gives implementations a chance to release resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
-     * @throws FHIRPersistenceException
-     */
-    @Override
-    public void enroll() throws FHIRPersistenceException {
-        final String METHODNAME = "enroll";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            if (userTransaction != null) {
-                if (sharedConnection == null) {
-                    sharedConnection = createConnection();
-                }
-                resourceDao.setExternalConnection(sharedConnection);
-                parameterDao.setExternalConnection(sharedConnection);
-            } else {
-                throw new FHIRPersistenceException("enroll should be called only if userTransaction is not null!");
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while enroll.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
     }
 
     /**
@@ -1672,5 +1522,38 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     .build())
                 .expression(Arrays.stream(expression).map(com.ibm.fhir.model.type.String::string).collect(Collectors.toList()))
                 .build());
+    }
+    
+    
+    @Override
+    public String getSchemaForRequestContext(Connection connection) throws FHIRPersistenceDBConnectException {
+        String datastoreId = FHIRRequestContext.get().getDataStoreId();
+
+        // Retrieve the property group pertaining to the specified datastore.
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/connectionProperties";
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        if (dsPG != null) {
+            try {
+                // If the currentSchema parameter isn't given, we have to
+                // get it from the database when we have a connection.
+                String currentSchema = dsPG.getStringProperty("currentSchema", null);
+                
+                if (currentSchema == null) {
+                    // Backup plan. Try getting it from the parent (datasource) property group
+                    dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+                    dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+                    currentSchema = dsPG.getStringProperty("currentSchema", null);
+                }
+
+                // can be null
+                return currentSchema;
+            } catch (Exception x) {
+                log.log(Level.SEVERE, "Datastore configuration issue for '" + datastoreId + "'", x);
+                throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
+            }
+        } else {
+            log.fine("there are no datasource properties found for : [" + dsPropertyName + "]");
+            throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
+        }
     }
 }

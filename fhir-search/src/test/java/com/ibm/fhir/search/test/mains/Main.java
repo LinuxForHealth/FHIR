@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,21 +22,17 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- * From release prior to R4
- * 
- * @author markd
- * @author pbastide
- *
+ * A driver for SearchUtil functions
  */
 public class Main extends BaseSearchTest {
 
     /**
-     * 
+     *
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        for (SearchParameter parameter : SearchUtil.getSearchParameters(Resource.class)) {
+        for (SearchParameter parameter : SearchUtil.getApplicableSearchParameters(Resource.class.getSimpleName())) {
             String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();
@@ -47,7 +43,7 @@ public class Main extends BaseSearchTest {
             System.out.println("name: " + code + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
         }
 
-        for (SearchParameter parameter : SearchUtil.getSearchParameters(Patient.class)) {
+        for (SearchParameter parameter : SearchUtil.getApplicableSearchParameters(Patient.class.getSimpleName())) {
             String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();

@@ -98,6 +98,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     private void getLatestVersionHistoryForSchema() {
         // Note how we don't care about connections here...that is all
         // hidden inside the target adapter implementation
+        versionHistoryMap.clear();
         for (String schemaName : schemaNames) {
             GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
             this.versionHistoryMap.putAll(target.runStatement(dao));

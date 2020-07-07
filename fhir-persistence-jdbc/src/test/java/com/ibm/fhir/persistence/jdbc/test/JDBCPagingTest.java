@@ -1,13 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.test;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.derby.DerbyMaster;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -19,6 +25,8 @@ public class JDBCPagingTest extends AbstractPagingTest {
     
     private Properties testProps;
     
+    private PoolConnectionProvider connectionPool;
+    
     public JDBCPagingTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -29,12 +37,36 @@ public class JDBCPagingTest extends AbstractPagingTest {
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb(false);
+            IConnectionProvider cp = derbyInit.getConnectionProvider(false);
+            this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
     
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
-        return new FHIRPersistenceJDBCImpl(this.testProps);
+        if (this.connectionPool == null) {
+            throw new IllegalStateException("Database not bootstrapped");
+        }
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
+    }
+
+    @Override
+    protected void shutdownPools() throws Exception {
+        // Mark the pool as no longer in use. This allows the pool to check for
+        // lingering open connections/transactions.
+        if (this.connectionPool != null) {
+            this.connectionPool.close();
+        }
+    }
+    
+    @Override
+    protected void debugLocks() {
+        // Exception running a query. Let's dump the lock table
+        try (Connection c = connectionPool.getConnection()) {
+            DerbyMaster.dumpLockInfo(c);
+        } catch (SQLException x) {
+            // just log the error...things are already bad if this method has been called
+            logger.severe("dumpLockInfo - connection failure: " + x.getMessage());
+        }
     }
 }

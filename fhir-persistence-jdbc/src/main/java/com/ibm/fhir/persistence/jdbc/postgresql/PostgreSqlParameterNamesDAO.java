@@ -20,8 +20,8 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
     private static final String CLASSNAME = PostgreSqlParameterNamesDAO.class.getName();
     private static final String SQL_CALL_ADD_PARAMETER_NAME = "{CALL %s.add_parameter_name(?, ?)}";
 
-    public PostgreSqlParameterNamesDAO(Connection c) {
-        super(c);
+    public PostgreSqlParameterNamesDAO(Connection c, String schemaName) {
+        super(c, schemaName);
     }
 
     /**
@@ -37,16 +37,13 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
         log.entering(CLASSNAME, METHODNAME);
 
         int parameterNameId;
-        String currentSchema;
         String stmtString;
         String errMsg = "Failure storing search parameter name id: name=" + parameterName;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            // TODO: schema should be known by application. Fix to avoid an extra round-trip.
-            currentSchema = getConnection().getSchema().trim();
-            stmtString = String.format(SQL_CALL_ADD_PARAMETER_NAME, currentSchema);
+            stmtString = String.format(SQL_CALL_ADD_PARAMETER_NAME, getSchemaName());
             try (CallableStatement stmt = getConnection().prepareCall(stmtString)) {
                 stmt.setString(1, parameterName);
                 stmt.registerOutParameter(2, Types.INTEGER);

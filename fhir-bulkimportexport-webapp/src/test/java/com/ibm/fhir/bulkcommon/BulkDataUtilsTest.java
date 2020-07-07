@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 

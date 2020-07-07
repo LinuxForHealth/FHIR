@@ -14,6 +14,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
  * Sequence related to the SQL sequence
  */
 public class Sequence extends BaseObject {
+    // the value we want the sequence to start with
+    private final long startWith;
+    
+    // caching sequence values for tuning
     private final int cache;
 
     /**
@@ -21,16 +25,19 @@ public class Sequence extends BaseObject {
      * 
      * @param schemaName
      * @param sequenceName
+     * @param version
+     * @param startWith
      * @param cache
      */
-    public Sequence(String schemaName, String sequenceName, int version, int cache) {
+    public Sequence(String schemaName, String sequenceName, int version, long startWith, int cache) {
         super(schemaName, sequenceName, DatabaseObjectType.SEQUENCE, version);
+        this.startWith = startWith;
         this.cache = cache;
     }
 
     @Override
     public void apply(IDatabaseAdapter target) {
-        target.createSequence(getSchemaName(), getObjectName(), this.cache);
+        target.createSequence(getSchemaName(), getObjectName(), this.startWith, this.cache);
     }
 
     @Override

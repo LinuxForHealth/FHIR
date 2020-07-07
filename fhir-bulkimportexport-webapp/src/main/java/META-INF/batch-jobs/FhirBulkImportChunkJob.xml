@@ -4,7 +4,7 @@
         <property name="fhir.cosreadsperdbbatch" value="#{jobParameters['fhir.cosreadsperdbbatch']}?:1;" />
     </properties>
     <listeners>
-        <listener ref="com.ibm.fhir.bulkimport.ImportJobListener">
+        <listener ref="com.ibm.fhir.jbatch.bulkdata.load.ImportJobListener">
             <properties>
                 <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
             </properties>
@@ -12,8 +12,10 @@
     </listeners>
     <step id="step1">
         <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
-            <reader ref="com.ibm.fhir.bulkimport.ChunkReader">
+            <reader ref="com.ibm.fhir.jbatch.bulkdata.load.ChunkReader">
                 <properties>
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
                     <property name="import.partition.workitem" value="#{partitionPlan['import.partition.workitem']}"/>
                     <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
@@ -25,7 +27,7 @@
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.fhir.bulkimport.ChunkWriter">
+            <writer ref="com.ibm.fhir.jbatch.bulkdata.load.ChunkWriter">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -41,8 +43,10 @@
             </writer>
         </chunk>
         <partition>
-            <mapper ref="com.ibm.fhir.bulkimport.ImportPartitionMapper">
+            <mapper ref="com.ibm.fhir.jbatch.bulkdata.load.ImportPartitionMapper">
                 <properties>
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
                     <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
@@ -53,7 +57,7 @@
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                 </properties>
             </mapper>
-            <collector ref="com.ibm.fhir.bulkimport.ImportPartitionCollector">
+            <collector ref="com.ibm.fhir.jbatch.bulkdata.load.ImportPartitionCollector">
                 <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
@@ -63,7 +67,7 @@
                     <property name="cos.operationoutcomes.bucket.name" value="#{jobParameters['cos.operationoutcomes.bucket.name']}"/>
                 </properties>
             </collector>
-            <analyzer ref="com.ibm.fhir.bulkimport.ImportPartitionAnalyzer"/>
+            <analyzer ref="com.ibm.fhir.jbatch.bulkdata.load.ImportPartitionAnalyzer"/>
         </partition>
     </step>
 </job>

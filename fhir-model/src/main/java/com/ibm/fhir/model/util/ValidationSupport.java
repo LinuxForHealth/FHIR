@@ -262,7 +262,14 @@ public final class ValidationSupport {
     public static <T extends Element> T choiceElement(T element, String elementName, Class<?>... types) {
         if (element != null) {
             Class<?> elementType = element.getClass();
-            if (Arrays.stream(types).noneMatch(t -> t.isAssignableFrom(elementType))) {
+            boolean noneMatch = true;
+            for (Class<?> type : types) {
+                if (type.isAssignableFrom(elementType)) {
+                    noneMatch = false;
+                    break;
+                }
+            }
+            if (noneMatch) {
                 List<String> typeNameList = Arrays.stream(types).map(Class::getSimpleName).collect(Collectors.toList());
                 throw new IllegalStateException(String.format("Invalid type: %s for choice element: '%s' must be one of: %s", elementType.getSimpleName(), elementName, typeNameList.toString()));
             }
@@ -338,7 +345,14 @@ public final class ValidationSupport {
      * @throws IllegalStateException if the passed list contains any null objects
      */
     public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
-        if (elements.stream().anyMatch(Objects::isNull)) {
+        boolean anyMatch = false;
+        for (T element : elements) {
+            if (Objects.isNull(element)) {
+                anyMatch = true;
+                break;
+            }
+        }
+        if (anyMatch) {
             throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
         }
         return elements;
@@ -467,14 +481,14 @@ public final class ValidationSupport {
     }
 
     private static String getReferenceReference(Reference reference) {
-        if (reference.getReference() != null && reference.getReference().getValue() != null) {
+        if (reference.getReference() != null) {
             return reference.getReference().getValue();
         }
         return null;
     }
 
     private static String getReferenceType(Reference reference) {
-        if (reference.getType() != null && reference.getType().getValue() != null) {
+        if (reference.getType() != null) {
             return reference.getType().getValue();
         }
         return null;

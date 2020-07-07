@@ -22,8 +22,8 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
     private final FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public DerbyParameterNamesDAO(Connection c) {
-        super(c);
+    public DerbyParameterNamesDAO(Connection c, String schemaName) {
+        super(c, schemaName);
         this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(c);
 
     }

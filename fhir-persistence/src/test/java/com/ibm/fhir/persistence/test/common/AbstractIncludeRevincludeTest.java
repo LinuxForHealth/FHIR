@@ -125,11 +125,23 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 savedEncounter1, savedDevice1, savedOrg1};
 
         if (persistence.isDeleteSupported()) {
-            for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
-            }
             if (persistence.isTransactional()) {
-                persistence.getTransaction().commit();
+                persistence.getTransaction().begin();
+            }
+            
+            try {
+                for (Resource resource : resources) {
+                    persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
+                }
+            } catch (Throwable t) {
+                if (persistence.isTransactional()) {
+                    persistence.getTransaction().setRollbackOnly();
+                }
+                throw t;
+            } finally {
+                if (persistence.isTransactional()) {
+                    persistence.getTransaction().end();
+                }
             }
         }
     }

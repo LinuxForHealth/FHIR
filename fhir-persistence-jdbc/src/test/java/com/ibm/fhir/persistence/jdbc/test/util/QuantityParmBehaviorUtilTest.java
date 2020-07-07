@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -177,12 +177,7 @@ public class QuantityParmBehaviorUtilTest {
             }
 
             @Override
-            public Connection getExternalConnection() {
-                return null;
-            }
-
-            @Override
-            public boolean isDb2Database() throws Exception {
+            public boolean isDb2Database() {
                 return false;
             }
 
@@ -244,11 +239,6 @@ public class QuantityParmBehaviorUtilTest {
             @Override
             public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId)
                     throws FHIRPersistenceException {
-                // do nothing
-            }
-
-            @Override
-            public void setExternalConnection(Connection connection) {
                 // do nothing
             }
         };

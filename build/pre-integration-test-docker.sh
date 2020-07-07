@@ -18,6 +18,12 @@ cd ${DIR}/docker
 # Set up the server config files
 ./copy-server-config.sh
 
+# Enable bulkdata export/import tests
+sed -i -e 's/test.bulkdata.export.enabled = false/test.bulkdata.export.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+sed -i -e 's/test.bulkdata.import.enabled = false/test.bulkdata.import.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+sed -i -e 's/test.bulkdata.useminio = false/test.bulkdata.useminio = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+sed -i -e 's/test.bulkdata.useminio.inbuildpipeline = false/test.bulkdata.useminio.inbuildpipeline = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any containers that might already be running as a precaution"
 docker-compose kill
@@ -35,6 +41,14 @@ echo "Deploying the Db2 schema..."
 ./copy-schema-jar.sh
 # Note: this adds the tenant key to the server config file so make sure thats set up first
 ./deploySchemaAndTenant.sh
+
+mkdir -p minio/miniodata/fhirbulkdata
+cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ./minio/miniodata/fhirbulkdata
+
+echo "Bringing up minio ..."
+docker-compose build --pull minio
+docker-compose up -d minio
+echo ">>> Current time: " $(date)
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
 ./copy-test-operations.sh
@@ -77,16 +91,18 @@ echo "Waiting for fhir-server to complete initialization..."
 healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
 tries=0
 status=0
-while [ $status -ne 200 -a $tries -lt 3 ]; do
+while [ $status -ne 200 -a $tries -lt 30 ]; do
     tries=$((tries + 1))
-    cmd="curl -k -o ${WORKSPACE}/health.json -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
+    set +o errexit
+    cmd="curl --max-time 30 -k -o ${WORKSPACE}/health.json -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
     echo "Executing[$tries]: $cmd"
     status=$($cmd)
+    set -o errexit
     echo "Status code: $status"
     if [ $status -ne 200 ]
     then
-       echo "Sleeping 10 secs..."
-       sleep 10
+       echo "Sleeping 30 secs..."
+       sleep 30
     fi
 done
 

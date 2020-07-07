@@ -160,6 +160,7 @@ public class DataDefinitionUtil {
      * as part of a larger CREATE/ALTER statement. Note: none of the input
      * being dealt with here is external input...so it should be safe already.
      * @param value
+     * @throws IllegalArgumentException if the value contains risky characters
      */
     public static void assertSecure(String value) {
         if (value.contains("'") || value.contains(";") || value.contains("\\") || value.contains("--")) {

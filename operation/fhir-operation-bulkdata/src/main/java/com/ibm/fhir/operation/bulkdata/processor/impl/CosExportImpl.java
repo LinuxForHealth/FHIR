@@ -178,7 +178,7 @@ public class CosExportImpl implements ExportImportBulkData {
             if (log.isLoggable(Level.FINE)) {
                 log.log(Level.FINE, "Exception is " + e.getMessage(), e);
             }
-            throw new FHIROperationException("Error while processing the $export request", e);
+            throw new FHIROperationException("Error while processing the $import request", e);
         }
     }
 }

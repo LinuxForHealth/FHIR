@@ -185,16 +185,15 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
         /* CREATE SEQUENCE fhir_sequence
          *     AS BIGINT
          *     START WITH 1000
          *     CACHE 1000
          *     NO CYCLE;
         */
-        // PostgreSql doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1000 CACHE 1000 NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
     }
 
@@ -368,5 +367,4 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
     }
-    
 }

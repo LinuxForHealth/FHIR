@@ -27,35 +27,25 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
 
     /**
      * Public constructor
-     * @param c
-     * @param fsd
+     * @param c connection to the database
+     * @param schemaName the schema containing the FHIR data tables
      */
-    public PostgreSqlCodeSystemDAO(Connection c) {
-        super(c);
+    public PostgreSqlCodeSystemDAO(Connection c, String schemaName) {
+        super(c, schemaName);
     }
 
-    /**
-     * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
-     * If it's not in the DB, it will be stored and a unique id will be returned.
-     * @param systemName
-     *
-     * @return The generated id of the stored system.
-     * @throws FHIRPersistenceDataAccessException
-     */
     @Override
     public int readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {
         final String METHODNAME = "readOrAddCodeSystem";
         log.entering(CLASSNAME, METHODNAME);
 
         int systemId;
-        String currentSchema;
         String stmtString;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            currentSchema = getConnection().getSchema().trim();
-            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, currentSchema);
+            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, getSchemaName());
             try (CallableStatement stmt = getConnection().prepareCall(stmtString)) {
                 stmt.setString(1, systemName);
                 stmt.registerOutParameter(2, Types.INTEGER);

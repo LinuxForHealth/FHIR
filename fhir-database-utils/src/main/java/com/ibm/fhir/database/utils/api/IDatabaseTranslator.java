@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,8 @@ package com.ibm.fhir.database.utils.api;
 
 import java.sql.SQLException;
 import java.util.Properties;
+
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Lets us adjust DDL/DML/SQL statements to match the target database. This
@@ -42,6 +44,15 @@ public interface IDatabaseTranslator {
      * @return
      */
     String createGlobalTempTable(String ddl);
+    
+    /**
+     * Compose a select statement to obtain the next value from the
+     * named sequence
+     * @param schemaName
+     * @param sequenceName
+     * @return
+     */
+    String selectSequenceNextValue(String schemaName, String sequenceName);
 
     /**
      * Check the exception to see if it is reporting a duplicate value constraint violation
@@ -145,4 +156,16 @@ public interface IDatabaseTranslator {
      * @return
      */
     boolean clobSupportsInline();
+    
+    /**
+     * The main type of the database
+     * @return
+     */
+    DbType getType();
+    
+    /**
+     * The name of the "DUAL" table...that special table giving us one row/column.
+     * @return the name of the "DUAL" table for the database, or null if not supported
+     */
+    String dualTableName();
 }

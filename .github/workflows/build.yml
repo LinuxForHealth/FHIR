@@ -9,6 +9,7 @@ on:
 jobs:
   build-tools:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8', 'openjdk11' ]
@@ -31,6 +32,7 @@ jobs:
       run: mvn -B package --file fhir-benchmark -Dmaven.wagon.http.retryHandler.count=3
   build:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8', 'openjdk11' ]
@@ -58,6 +60,8 @@ jobs:
         )
         validation_paths=(
           fhir-validation
+          fhir-profile/src/main
+          fhir-term/src/main
           fhir-path/src/main
           fhir-model/src/main
           fhir-examples
@@ -103,9 +107,12 @@ jobs:
         # Convert the PROFILES_ARR array to a comma-delimited string
         PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
         echo "Using profiles ${PROFILES}"
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
   e2e-tests:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8', 'openjdk11' ]
@@ -128,6 +135,8 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
     - name: Server Integration Tests
       env:
@@ -158,6 +167,7 @@ jobs:
         path: SIT/integration-test-results
   e2e-windows:
     runs-on: windows-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk11' ]
@@ -212,8 +222,9 @@ jobs:
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
-  e2e-db2:
+  e2e-db2-with-bulkdata:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk11' ]
@@ -233,6 +244,8 @@ jobs:
       run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
       run: |
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Server Integration Tests
@@ -271,6 +284,7 @@ jobs:
         path: integration-test-results
   db2-migration:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8' ]
@@ -290,6 +304,8 @@ jobs:
       run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
       run: |
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Server Integration Tests

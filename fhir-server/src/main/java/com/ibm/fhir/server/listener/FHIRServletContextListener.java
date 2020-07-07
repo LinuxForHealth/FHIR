@@ -35,6 +35,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 import javax.websocket.server.ServerContainer;
 
 import org.owasp.encoder.Encode;
@@ -69,6 +70,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
+    private static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -170,6 +172,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
             FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
 
+            // Transaction handling done inside the following method, so each database
+            // we need to bootstrap can get its own transaction.
             bootstrapDerbyDatabases(fhirConfig);
 
             log.fine("Initializing FHIRRegistry...");
@@ -207,18 +211,28 @@ public class FHIRServletContextListener implements ServletContextListener {
             String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
+            UserTransaction utx = (UserTransaction)ctxt.lookup(TXN_JNDI_NAME);
 
-            bootstrapFhirDb("default", "default", ds);
-            bootstrapFhirDb("tenant1", "profile", ds);
-            bootstrapFhirDb("tenant1", "reference", ds);
-            bootstrapFhirDb("tenant1", "study1", ds);
+            bootstrapFhirDb(utx, "default", "default", ds);
+            bootstrapFhirDb(utx, "tenant1", "profile", ds);
+            bootstrapFhirDb(utx, "tenant1", "reference", ds);
+            bootstrapFhirDb(utx, "tenant1", "study1", ds);
 
             datasourceJndiName = "jdbc/OAuth2DB";
             try {
                 ds = (DataSource) ctxt.lookup(datasourceJndiName);
                 if (ds != null) {
                     log.info("Found '" + datasourceJndiName + "'; bootstrapping the OAuth client tables");
-                    DerbyBootstrapper.bootstrapOauthDb(ds);
+                    utx.begin();
+                    try {
+                        DerbyBootstrapper.bootstrapOauthDb(ds);
+                        utx.commit();
+                        utx = null;
+                    } finally {
+                        if (utx != null) {
+                            safeRollback(utx);
+                        }
+                    }
                 }
             } catch (NameNotFoundException e) {
                 log.info("No '" + datasourceJndiName + "' dataSource found; skipping OAuth client table bootstrapping");
@@ -231,7 +245,16 @@ public class FHIRServletContextListener implements ServletContextListener {
                 ds = (DataSource) ctxt.lookup(datasourceJndiName);
                 if (ds != null) {
                     log.info("Found '" + datasourceJndiName + "'; bootstrapping the Java Batch tables");
-                    DerbyBootstrapper.bootstrapBatchDb(ds);
+                    utx.begin();
+                    try {
+                        DerbyBootstrapper.bootstrapBatchDb(ds);
+                        utx.commit();
+                        utx = null;
+                    } finally {
+                        if (utx != null) {
+                            safeRollback(utx);
+                        }
+                    }
                 }
             } catch (NameNotFoundException e) {
                 log.info("No '" + datasourceJndiName + "' dataSource found; skipping Java Batch table bootstrapping");
@@ -247,19 +270,44 @@ public class FHIRServletContextListener implements ServletContextListener {
      * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
      * retrieved from the configuration.
      */
-    private void bootstrapFhirDb(String tenantId, String dsId, DataSource ds) throws Exception {
+    private void bootstrapFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
         PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
         if (pg != null) {
             String type = pg.getStringProperty("type");
             if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
-                log.info("Bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
-                DerbyBootstrapper.bootstrapDb(ds);
-                log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
+                utx.begin();
+                try {
+                    log.info("Bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
+                    DerbyBootstrapper.bootstrapDb(ds);
+                    log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
+                    
+                    log.fine("Committing transaction");
+                    utx.commit();
+                    utx = null;
+                } finally {
+                    if (utx != null) {
+                        safeRollback(utx);
+                    }
+                }
             }
         }
 
         FHIRRequestContext.remove();
+    }
+
+    /**
+     * Safely rollback the transaction, logging any exception but not throwing it
+     * @param tx
+     */
+    private void safeRollback(UserTransaction tx) {
+        try {
+            log.fine("Rolling back transaction");
+            tx.rollback();
+        } catch (Exception x) {
+            // log but don't throw this exception, as it often hides the original cause
+            log.log(Level.SEVERE, "transaction rollback failed", x);
+        }
     }
 
     @Override

@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.2.2-SNAPSHOT</version>
+    <version>4.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -29,8 +29,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.2.2-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.2.2-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>4.3.1-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.3.1-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
@@ -298,7 +298,7 @@
             <dependency>
                 <groupId>com.ibm.cos</groupId>
                 <artifactId>ibm-cos-java-sdk</artifactId>
-                <version>2.6.1</version>
+                <version>2.6.2</version>
             </dependency>
             <dependency>
                 <groupId>net.jcip</groupId>
@@ -403,7 +403,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>

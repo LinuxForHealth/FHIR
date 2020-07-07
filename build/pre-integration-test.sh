@@ -23,10 +23,10 @@ export WORKSPACE="$( dirname "${DIR}" )"
 SERVER_WAITTIME="60"
 
 # Sleep interval after each "$healthcheck" invocation
-SLEEP_INTERVAL="10"
+SLEEP_INTERVAL="30"
 
 # Max number of "metadata" tries to detect server is running
-MAX_TRIES=10
+MAX_TRIES=30
 
 # Remove the entire SIT file tree if it exists
 export SIT=${WORKSPACE}/SIT
@@ -73,9 +73,11 @@ tries=0
 status=0
 while [ $status -ne 200 -a $tries -lt ${MAX_TRIES} ]; do
     tries=$((tries + 1))
-    cmd="curl -sS -k -o ${WORKSPACE}/health.json -I -w %{http_code} -u fhiruser:change-password $healthcheck_url"
+    set +o errexit
+    cmd="curl --max-time 60 -sS -k -o ${WORKSPACE}/health.json -I -w %{http_code} -u fhiruser:change-password $healthcheck_url"
     echo "Executing[$tries]: $cmd"
     status=$($cmd)
+    set -o errexit
     echo "Status code: $status"
     if [ $status -ne 200 ]
     then

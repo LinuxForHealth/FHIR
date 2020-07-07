@@ -108,6 +108,9 @@ public abstract class Resource extends AbstractVisitable {
             (language != null);
     }
 
+    /**
+     * Create a new Builder from the contents of this Resource
+     */
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends AbstractBuilder<Resource> {
