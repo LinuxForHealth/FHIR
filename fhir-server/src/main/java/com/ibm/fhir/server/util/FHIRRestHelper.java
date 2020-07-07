@@ -1324,13 +1324,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         "Bundle.Entry.resource is required for BundleEntry with PUT method.";
                 throw buildRestException(msg, IssueType.INVALID);
             }
-            /*
-            if (resource.getId() == null) {
-                String msg =
-                        "Bundle.Entry.resource must contain an id field for a PUT operation.";
-                throw buildRestException(msg, IssueType.REQUIRED);
-            }
-            */
             break;
         default:
             String msg = "Bundle.Entry.request contains unsupported HTTP method: " + method.getValue();
