@@ -91,6 +91,7 @@
             "datasources": {
                 "default": {
                     "type": "derby",
+                    "currentSchema": "APP",
                     "connectionProperties": {
                         "databaseName": "derby/fhirDB",
                         "createDatabase": "create"

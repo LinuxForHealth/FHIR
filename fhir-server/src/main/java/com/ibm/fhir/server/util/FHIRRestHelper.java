@@ -270,7 +270,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
-        
+
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
@@ -338,11 +338,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // If the id of the input resource is different from the id of the search result,
                     // then throw exception.
-                    if (newResource.getId() != null && newResource.getId() != null
-                            && !newResource.getId().equalsIgnoreCase(id)) {
+                    if (newResource.getId() != null && id != null && !newResource.getId().equals(id)) {
                         String msg = "Input resource 'id' attribute must match the id of the search result resource.";
                         throw buildRestException(msg, IssueType.VALUE);
                     }
+
                     // Make sure the id of the newResource is not null and is the same as the id of the found resource.
                     newResource = newResource.toBuilder().id(id).build();
                 } else {
@@ -490,7 +490,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
-        
+
         // Make sure we get a transaction started before there's any chance
         // it could be marked for rollback
         txn.begin();
@@ -674,7 +674,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
-        
+
         Resource resource = null;
 
         // Save the current request context.
@@ -752,7 +752,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         // Start a new txn in the persistence layer if one is not already active.
         txn.begin();
-        
+
         Resource resource = null;
 
         // Save the current request context.
@@ -827,7 +827,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
-        
+
         Bundle bundle = null;
 
         // Save the current request context.
@@ -901,7 +901,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         // Start a new txn in the persistence layer if one is not already active.
         txn.begin();
-        
+
         Bundle bundle = null;
 
         // Save the current request context.
@@ -1323,11 +1323,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 String msg =
                         "Bundle.Entry.resource is required for BundleEntry with PUT method.";
                 throw buildRestException(msg, IssueType.INVALID);
-            }
-            if (resource.getId() == null) {
-                String msg =
-                        "Bundle.Entry.resource must contain an id field for a PUT operation.";
-                throw buildRestException(msg, IssueType.REQUIRED);
             }
             break;
         default:

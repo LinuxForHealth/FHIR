@@ -2128,7 +2128,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient.toBuilder().id(null).build());
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, multipleMatches, null, patient);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, badSearch, null, patient);
 
