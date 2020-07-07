@@ -13,6 +13,7 @@
 			"datasources": {
 				"profile": {
 					"type": "derby",
+					"currentSchema": "APP",
 					"connectionProperties": {
 						"databaseName": "derby/profile",
 						"createDatabase": "create"
@@ -20,6 +21,7 @@
 				},
 				"reference": {
 					"type": "derby",
+					"currentSchema": "APP",
 					"connectionProperties": {
 						"databaseName": "derby/reference",
 						"createDatabase": "create"
@@ -27,6 +29,7 @@
 				},
 				"study1": {
 					"type": "derby",
+					"currentSchema": "APP",
 					"connectionProperties": {
 						"databaseName": "derby/study1",
 						"createDatabase": "create"
