@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.config;
 
-
 /**
  * Allows access to the FHIR server configuration to be hidden behind an adapter,
  * decoupling the consumer from file-based FHIRConfiguration stuff.
@@ -19,6 +18,4 @@ public interface FHIRConfigProvider {
      * @return
      */
     PropertyGroup getPropertyGroup(String pgName);
-    
-    
 }

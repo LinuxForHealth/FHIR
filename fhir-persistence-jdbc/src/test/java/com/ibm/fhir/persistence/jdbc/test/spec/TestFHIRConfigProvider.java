@@ -12,7 +12,6 @@ import java.util.Map;
 import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.PropertyGroup;
 
-
 /**
  * Allow unit-tests to provide configuration information to lower layers
  * without needed to have fhir-server-config.json files

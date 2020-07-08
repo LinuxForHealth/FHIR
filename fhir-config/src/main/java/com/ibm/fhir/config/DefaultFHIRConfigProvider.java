@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.config;
 
-
 /**
  * Obtain configuration properties from the standard (file-based) 
  * FHIRConfiguration implementation.
@@ -17,6 +16,4 @@ public class DefaultFHIRConfigProvider implements FHIRConfigProvider {
     public PropertyGroup getPropertyGroup(String pgName) {
         return FHIRConfigHelper.getPropertyGroup(pgName);
     }
-
-    
 }
