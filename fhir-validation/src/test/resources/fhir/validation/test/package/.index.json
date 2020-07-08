@@ -45,6 +45,15 @@
             "version": "0.1.0",
             "kind": "resource",
             "type": "Observation"
+        },
+        {
+            "filename": "test-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
         }
     ]
 }

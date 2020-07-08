@@ -459,10 +459,19 @@ public class ConstraintGenerator {
 
         String identifier = getIdentifier(elementDefinition);
 
+        sb.append(identifier);
+        if (hasChoiceTypeConstraint(elementDefinition)) {
+            Type type = getTypes(elementDefinition).get(0);
+            if (type.getCode() != null) {
+                String code = type.getCode().getValue();
+                sb.append(".as(").append(code).append(")");
+            }
+        }
+
         if (isOptional(elementDefinition)) {
-            sb.append(identifier).append(".exists() implies (");
+            sb.append(".exists() implies (");
         } else {
-            sb.append(identifier).append(".exists() and ");
+            sb.append(".exists() and ");
         }
 
         sb.append(identifier);
