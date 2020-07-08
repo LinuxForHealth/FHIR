@@ -17,6 +17,8 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -382,6 +384,8 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
+            // note that Derby doesn't support multi-tenancy, so we don't need to supply
+            // a FHIRConfigProvider
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
 
             // create a custom list of operations to apply in order to each resource

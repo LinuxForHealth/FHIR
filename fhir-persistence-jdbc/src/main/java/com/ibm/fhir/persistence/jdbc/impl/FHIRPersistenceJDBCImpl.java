@@ -43,7 +43,9 @@ import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -151,6 +153,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // Handles transaction lifecycle for this persistence object
     private final FHIRPersistenceTransaction transactionAdapter;
 
+    // Strategy for accessing FHIR configuration data
+    private final FHIRConfigProvider configProvider;
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
@@ -181,11 +186,26 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
+        this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
         this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
         this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction);
 
         log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Constructor for use when running standalone, outside of any web container. The
+     * IConnectionProvider should be a pooling implementation which supports an
+     * ITransactionProvider. Uses the default adapter for reading FHIR configurations,
+     * which works OK for unit-tests.
+     * 
+     * @param configProps
+     * @param cp
+     * @throws Exception
+     */
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
+        this(configProps, cp, new DefaultFHIRConfigProvider());
     }
     
     /**
@@ -193,11 +213,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * IConnectionProvider should be a pooling implementation which supports an
      * ITransactionProvider.
      * 
-     * @implNote This constructor is defined to simplify unit-tests
+     * @implNote A custom implementation of the FHIRConfigProvider interface can be 
+     * specified to provide configuration properties without relying on 
+     * fhir-server-config.json files (FHIRConfiguration). This is useful for
+     * some utility/test programs which may specify certain properties (like
+     * TENANT_KEY) using their command-line.
+     * 
+     * @param configProps
+     * @param cp
+     * @param configProvider adapter to provide access to FHIR configuration
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider)";
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider) throws Exception {
+        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider, FHIRConfigProvider)";
         log.entering(CLASSNAME, METHODNAME);
 
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
@@ -205,6 +233,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // not running inside a JEE container
         this.trxSynchRegistry = null;
 
+        // caller provides an adapter we use to obtain configuration information
+        this.configProvider = configProvider;
+        
         // use the schema name from the configProps, or the connection.getSchema if we have to
         this.schemaNameSupplier = new SchemaNameImpl(new SchemaNameFromProps(configProps));
         
@@ -213,6 +244,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         
         // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
         this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
+        
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -224,7 +256,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     protected Action buildActionChain() {
         // Note: do not call setSchema on a connection. It exposes a bug in Liberty.
-        return new SetTenantAction();
+        return new SetTenantAction(this.configProvider);
     }
 
 

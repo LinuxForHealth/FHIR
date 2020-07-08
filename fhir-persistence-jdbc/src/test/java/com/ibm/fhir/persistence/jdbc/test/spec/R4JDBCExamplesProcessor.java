@@ -6,13 +6,23 @@
 
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Supplier;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -31,6 +41,7 @@ import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
  *
  */
 public class R4JDBCExamplesProcessor implements IExampleProcessor {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     // the list of operations we apply to reach resource
     private final List<ITestResourceOperation> operations = new ArrayList<>();
@@ -113,8 +124,37 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         this.operations.addAll(operations);
     }
 
+    /**
+     * Configure the property group to inject the tenantKey, which is the only attribute
+     * required for this scenario
+     * @param configProvider
+     * @throws Exception
+     */
+    protected void configure(TestFHIRConfigProvider configProvider) throws Exception {
+
+        final String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/default";
+
+        // The bare necessities we need to provide to the persistence layer in this case
+        final String jsonString = " {" + 
+                "    \"tenantKey\": \"" + this.tenantKey + "\"," + 
+                "    \"type\": \"db2\"," + 
+                "    \"multitenant\": true" + 
+                "}";
+        
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)))) {
+            JsonObject jsonObj = reader.readObject();
+            PropertyGroup pg = new PropertyGroup(jsonObj);
+            configProvider.addPropertyGroup(dsPropertyName, pg);
+        }
+    }
+
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
+
+        // Use a custom configuration provider so that we can support passing the tenant key
+        // without having to create a fhir-server-configuration.json file
+        TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
+        configure(configProvider);
 
         // Initialize the test context. As we run through the sequence of operations, each
         // one will update the context which will then be used by the next operation
@@ -125,11 +165,13 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
             // can configure itself for this tenant
             if (this.tenantName != null && this.tenantKey != null) {
                 FHIRRequestContext rc = FHIRRequestContext.get();
+                
+                // tenantKey is accessed by the persistence layer using the
+                // TenantKeyStrategy implementation
                 rc.setTenantId(this.tenantName);
-                rc.setTenantKey(this.tenantKey);
             }
 
-            tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp);
+            tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp, configProvider);
 
             context = new TestContext(tmpPersistence,
                     () -> createPersistenceContext(),
@@ -164,7 +206,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
             }
         }
     }
-
+    
     /**
      * Create a new {@link FHIRPersistenceContext} for the test
      * @return

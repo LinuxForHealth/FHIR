@@ -30,8 +30,10 @@ import com.ibm.fhir.exception.FHIRException;
 public class FHIRRequestContext {
     private static final Logger log = Logger.getLogger(FHIRRequestContext.class.getName());
 
+    // The tenantId. Corresponding tenantKey is retrieved from the configuration on demand
     private String tenantId;
-    private String tenantKey;
+    
+    // The datastore to be used for this request. Usually "default"
     private String dataStoreId;
     private String requestUniqueId;
     private String originalRequestUri;
@@ -75,40 +77,12 @@ public class FHIRRequestContext {
         return tenantId;
     }
 
-    /** 
-     * @deprecated tenantKey should be looked up on-the-fly from the fhir server configuration (e.g. from 
-     *            FHIRDbDAOImpl.getConnection() in fhir-persistence-jdbc)
-     */
-    @Deprecated
-    public String getTenantKey() {
-        return this.tenantKey;
-    }
-
     public void setTenantId(String tenantId) throws FHIRException {
         Matcher matcher = validChars.matcher(tenantId);
         if (matcher.matches()) {
             this.tenantId = tenantId;
         } else {
             throw new FHIRException("Invalid tenantId. " + errorMsg);
-        }
-    }
-
-    /**
-     * Setter for the tenant key
-     * 
-     * @param base64
-     * @throws FHIRException if the given value is not a valid Base64 string
-     * @deprecated tenantKey should be looked up on-the-fly from the fhir server configuration (e.g. from 
-     *             FHIRDbDAOImpl.getConnection() in fhir-persistence-jdbc)
-     */
-    @Deprecated
-    public void setTenantKey(String base64) throws FHIRException {
-        try {
-            Base64.getDecoder().decode(base64);
-            this.tenantKey = base64;
-        } catch (IllegalArgumentException x) {
-            // Tenant key is a secret, so don't include it in any error message
-            throw new FHIRException("Invalid tenantKey.");
         }
     }
 

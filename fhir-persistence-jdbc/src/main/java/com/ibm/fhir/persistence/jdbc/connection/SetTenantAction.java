@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -38,20 +39,25 @@ public class SetTenantAction extends ChainedAction {
     
     // Used to indicate the default behavior of a datastore as multitenant.
     public static final List<String> DATASTORE_REQUIRES_ROW_PERMISSIONS = Arrays.asList("db2");
+    
+    // From where we get our configuration information
+    private final FHIRConfigProvider configProvider;
 
     /**
      * Default public constructor. No next action, so this will be the last action applied
      */
-    public SetTenantAction() {
+    public SetTenantAction(FHIRConfigProvider configProvider) {
         super();
+        this.configProvider = configProvider;
     }
     
     /**
      * Public constructor
      * @param next the next action in the chain
      */
-    public SetTenantAction(Action next) {
+    public SetTenantAction(FHIRConfigProvider configProvider, Action next) {
         super(next);
+        this.configProvider = configProvider;
     }
 
     @Override
@@ -86,7 +92,7 @@ public class SetTenantAction extends ChainedAction {
         // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool
         // miss the tenantKey.
         String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
-        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        PropertyGroup dsPG = configProvider.getPropertyGroup(dsPropertyName);
         if (dsPG != null) {
             
             try {
