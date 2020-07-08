@@ -57,6 +57,9 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
     /**
      * Public constructor. Uses a defaultlist of operations
      * @param persistence
+     * @param persistenceContextSupplier
+     * @param historyContextSupplier
+     * @param configProvider
      */
     public R4JDBCExamplesProcessor(FHIRPersistence persistence,
             Supplier<FHIRPersistenceContext> persistenceContextSupplier,
@@ -89,6 +92,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
      * @param persistenceContextSupplier
      * @param historyContextSupplier
      * @param operations
+     * @param configProvider
      */
     public R4JDBCExamplesProcessor(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier,
             Supplier<FHIRPersistenceContext> historyContextSupplier, Collection<ITestResourceOperation> operations, FHIRConfigProvider configProvider) {
@@ -103,10 +107,13 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
 
     /**
      * Create a processor with a specific set of operations
-     * @param persistence
-     * @param persistenceContextSupplier
-     * @param historyContextSupplier
      * @param operations
+     * @param configProps
+     * @param cp
+     * @param tenantName
+     * @param tenantKey
+     * @param transactionProvider
+     * @param configProvider
      */
     public R4JDBCExamplesProcessor(Collection<ITestResourceOperation> operations,
             Properties configProps, IConnectionProvider cp, String tenantName, String tenantKey, ITransactionProvider transactionProvider, FHIRConfigProvider configProvider) {
