@@ -424,8 +424,6 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            // note that Derby doesn't support multi-tenancy, so we don't need to supply
-            // a FHIRConfigProvider
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
 
             // create a custom list of operations to apply in order to each resource
@@ -528,7 +526,6 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();

@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -44,7 +43,8 @@ public class SetTenantAction extends ChainedAction {
     private final FHIRConfigProvider configProvider;
 
     /**
-     * Default public constructor. No next action, so this will be the last action applied
+     * Public constructor. No next action, so this will be the last action applied
+     * @param configProvider adapter for access to fhir-server-config properties
      */
     public SetTenantAction(FHIRConfigProvider configProvider) {
         super();
@@ -53,6 +53,7 @@ public class SetTenantAction extends ChainedAction {
     
     /**
      * Public constructor
+     * @param configProvider adapter for access to fhir-server-config properties
      * @param next the next action in the chain
      */
     public SetTenantAction(FHIRConfigProvider configProvider, Action next) {
