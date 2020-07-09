@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -26,7 +27,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
-import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
@@ -52,6 +52,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         // testng test process the samples one by one, so set the connection pool size to 1.
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(derbyConnectionProvider, 1);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+        FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
         List<ITestResourceOperation> operations = new ArrayList<>();
         operations.add(new CreateOperation());
         operations.add(new ReadOperation());
@@ -69,7 +70,8 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
                 connectionPool,
                 null,
                 null,
-                transactionProvider);
+                transactionProvider,
+                configProvider);
 
         // The driver will iterate over all the examples in the index, parse
         // the resource and call the processor.

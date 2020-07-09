@@ -6,9 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -17,6 +19,15 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -74,6 +85,7 @@ public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     private static final int EXIT_RUNTIME_ERROR = 1;
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     // The persistence API
     protected FHIRPersistence persistence = null;
@@ -292,6 +304,31 @@ public class Main {
             break;
         }
     }
+    
+    /**
+     * Configure the property group to inject the tenantKey, which is the only attribute
+     * required for this scenario
+     * @param configProvider
+     * @throws Exception
+     */
+    protected void configure(TestFHIRConfigProvider configProvider) throws Exception {
+
+        final String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/default";
+
+        // The bare necessities we need to provide to the persistence layer in this case
+        final String jsonString = " {" + 
+                "    \"tenantKey\": \"" + this.tenantKey + "\"," + 
+                "    \"type\": \"db2\"," + 
+                "    \"multitenant\": true" + 
+                "}";
+        
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)))) {
+            JsonObject jsonObj = reader.readObject();
+            PropertyGroup pg = new PropertyGroup(jsonObj);
+            configProvider.addPropertyGroup(dsPropertyName, pg);
+        }
+    }
+
 
     /**
      * Process the examples
@@ -306,7 +343,9 @@ public class Main {
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
-
+        TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
+        configure(configProvider);
+        
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
         if (this.tenantName == null || tenantKey == null) {
@@ -325,7 +364,8 @@ public class Main {
                 connectionPool,
                 this.tenantName,
                 this.tenantKey,
-                transactionProvider);
+                transactionProvider,
+                configProvider);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
@@ -377,6 +417,8 @@ public class Main {
      * @throws Exception
      */
     protected void processDerby() throws Exception {
+        // For Derby, the standard config provider is sufficient
+        FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
 
         // The DerbyFhirDatabase encapsulates Derby and provides an
         // IConnectionProvider implementation used by the persistence
@@ -392,7 +434,7 @@ public class Main {
             R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
                     () -> createPersistenceContext(),
                     () -> createHistoryPersistenceContext(),
-                    operations);
+                    operations, configProvider);
 
             // The driver will iterate over all the JSON examples in the R4 specification, parse
             // the resource and call the processor.
@@ -431,6 +473,7 @@ public class Main {
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+        FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -443,7 +486,8 @@ public class Main {
                 connectionPool,
                 null,
                 null,
-                transactionProvider);
+                transactionProvider,
+                configProvider);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
@@ -481,6 +525,7 @@ public class Main {
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+        FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -493,7 +538,8 @@ public class Main {
                 connectionPool,
                 null,
                 null,
-                transactionProvider);
+                transactionProvider,
+                configProvider);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
