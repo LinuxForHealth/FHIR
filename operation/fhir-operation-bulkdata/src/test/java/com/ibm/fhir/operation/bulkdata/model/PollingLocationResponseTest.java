@@ -36,7 +36,7 @@ public class PollingLocationResponseTest {
 
     @Test
     public void testOuptutSerialization() throws IOException {
-        // Tests the output serialization. 
+        // Tests the output serialization.
         PollingLocationResponse.Output output = new PollingLocationResponse.Output("test1", "test2", "3", "test4");
         String actual = null;
         String expected =
@@ -151,7 +151,7 @@ public class PollingLocationResponseTest {
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
         Instant now = Instant.now();
-        metadata.setTransactionTime(now.toString());
+        metadata.setTransactionTime(now.getValue().format(Instant.PARSER_FORMATTER));
         assertNotNull(metadata.getTransactionTime());
 
         metadata.setOutput(outputs);
@@ -159,7 +159,7 @@ public class PollingLocationResponseTest {
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
                         .replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""),
-                "\n" + "{\n" + "    \"transactionTime\": \"{\\n    \\\"instant\\\": \\\"\\\"\\n}\",\n"
+                "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
                         + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
                         + "            \"url\": \"url\",\n" + "            \"count\": 1000\n" + "        },\n"
@@ -190,7 +190,7 @@ public class PollingLocationResponseTest {
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
         Instant now = Instant.now();
-        metadata.setTransactionTime(now.toString());
+        metadata.setTransactionTime(now.getValue().format(Instant.PARSER_FORMATTER));
         assertNotNull(metadata.getTransactionTime());
         metadata.setError(errors);
 
@@ -200,7 +200,7 @@ public class PollingLocationResponseTest {
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
                         .replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""),
-                "\n" + "{\n" + "    \"transactionTime\": \"{\\n    \\\"instant\\\": \\\"\\\"\\n}\",\n"
+                "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
                         + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
                         + "            \"url\": \"url\",\n" + "            \"count\": 1000\n" + "        },\n"

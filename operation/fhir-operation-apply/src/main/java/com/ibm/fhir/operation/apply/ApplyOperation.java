@@ -129,7 +129,6 @@ public class ApplyOperation extends AbstractOperation {
         } catch (FHIROperationException e) {
             throw e;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new FHIROperationException("An error occurred during the '$apply' operation", e);
         }
     }
