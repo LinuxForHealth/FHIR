@@ -11,6 +11,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -123,12 +124,13 @@ public class PollingLocationResponseTest {
         PollingLocationResponse metadata = new PollingLocationResponse();
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
-        Instant now = Instant.now();
-        metadata.setTransactionTime(now.toString());
+        Instant now = Instant.now(ZoneOffset.UTC);
+        String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
+        metadata.setTransactionTime(s);
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
-                        .replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""),
-                "\n" + "{\n" + "    \"transactionTime\": \"{\\n    \\\"instant\\\": \\\"\\\"\\n}\",\n"
+                        .replaceFirst(s, ""),
+                "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false\n" + "}");
     }
 
@@ -150,15 +152,16 @@ public class PollingLocationResponseTest {
 
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
-        Instant now = Instant.now();
-        metadata.setTransactionTime(now.getValue().format(Instant.PARSER_FORMATTER));
+        Instant now = Instant.now(ZoneOffset.UTC);
+        String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
+        metadata.setTransactionTime(s);
         assertNotNull(metadata.getTransactionTime());
 
         metadata.setOutput(outputs);
         assertFalse(metadata.getOutput().isEmpty());
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
-                        .replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""),
+                        .replaceFirst(s, ""),
                 "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
                         + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
@@ -189,8 +192,9 @@ public class PollingLocationResponseTest {
 
         metadata.setRequest("request");
         metadata.setRequiresAccessToken(Boolean.FALSE);
-        Instant now = Instant.now();
-        metadata.setTransactionTime(now.getValue().format(Instant.PARSER_FORMATTER));
+        Instant now = Instant.now(ZoneOffset.UTC);
+        String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
+        metadata.setTransactionTime(s);
         assertNotNull(metadata.getTransactionTime());
         metadata.setError(errors);
 
@@ -199,7 +203,7 @@ public class PollingLocationResponseTest {
         assertFalse(metadata.getError().isEmpty());
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
-                        .replaceFirst(now.getValue().format(Instant.PARSER_FORMATTER), ""),
+                        .replaceFirst(s, ""),
                 "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
                         + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
