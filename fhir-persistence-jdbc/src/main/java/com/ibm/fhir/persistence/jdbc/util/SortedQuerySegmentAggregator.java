@@ -131,11 +131,12 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
 
+            // Build the WHERE clause...this needs to appear before the outer join part
+            buildWhereClause(sqlSortQuery, null);
+            
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
 
-            // Build the WHERE clause
-            buildWhereClause(sqlSortQuery, null);
 
             // Build GROUP BY clause
             sqlSortQuery.append(GROUP_BY);
