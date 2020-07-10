@@ -33,6 +33,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -1254,27 +1256,19 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         String valuesTable = QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
 
-        // Build this piece of the segment
-        // missing: LEFT JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES...)
-        //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
-        //            WHERE TEMP.LOGICAL_RESOURCE_ID is NULL
-        // not missing: JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES...)
-        //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID            
+        // Build this piece of the segment. Use EXISTS instead of SELECT DISTINCT for much better performance
+        // missing:     NOT EXISTS (SELECT 1 FROM Observation_STR_VALUES V WHERE V.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)
+        // not missing:     EXISTS (SELECT 1 FROM Observation_STR_VALUES V WHERE V.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)
+        whereClauseSegment.append(WHERE);
         if (missing == null || missing) {
-            whereClauseSegment.append(LEFT_JOIN);
-        } else {
-            whereClauseSegment.append(JOIN);
+            whereClauseSegment.append(NOT);
         }
-        // Using DISTINCT here is important, this can avoid duplication in the search results, even though
-        // DISTINCT can impact performance, but because LOGICAL_RESOURCE_ID is always indexed, so the impact 
-        // should be very limited.
-        whereClauseSegment.append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM " + valuesTable + WHERE);
+        whereClauseSegment.append(EXISTS);
+
+        whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + WHERE);
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
+        whereClauseSegment.append(" AND " + valuesTable + ".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-        whereClauseSegment.append(" TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
-        if (missing == null || missing) {
-            whereClauseSegment.append(" WHERE TEMP.LOGICAL_RESOURCE_ID is NULL ");
-        }
 
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);

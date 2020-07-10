@@ -14,6 +14,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
 import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
 
 import java.util.ArrayList;
@@ -425,8 +426,14 @@ public class QuerySegmentAggregator {
                         whereClauseSegment =
                                 querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
 
-                        whereClause.append(JOIN).append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ");
+                        if (whereClause.length() > 0) {
+                            whereClause.append(" AND ");
+                        }
+                        whereClause.append(EXISTS).append("(SELECT 1 FROM ");
                         whereClause.append(tableName(overrideType, param));
+                        whereClause.append(" AS V ");
+                        whereClause.append(" WHERE ").append(whereClauseSegment)
+                        .append(" AND V.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID) "); // correlate this EXISTS subquery with parent
                     } else {
                         // add an alias for the composite table
                         String compositeAlias = "comp" + (i + 1);
@@ -435,7 +442,7 @@ public class QuerySegmentAggregator {
                                         compositeAlias + ".");
 
                         whereClause.append(JOIN)
-                                .append("(SELECT DISTINCT " + compositeAlias + ".LOGICAL_RESOURCE_ID FROM ");
+                                .append("(SELECT 1 FROM ");
                         whereClause.append(tableName(overrideType, param))
                                 .append(compositeAlias);
 
@@ -456,11 +463,9 @@ public class QuerySegmentAggregator {
                                                 PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
                             }
                         }
+                        whereClause.append(" WHERE ").append(whereClauseSegment)
+                        .append(" AND " + compositeAlias + ".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID) "); // correlate this EXISTS subquery
                     }
-                    whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
-                    String tmpTableName = overrideType + i;
-                    whereClause.append(tmpTableName).append(ON).append(tmpTableName)
-                            .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                 }
             } // end if SKIP_WHERE
         } // end for
