@@ -128,7 +128,7 @@ function deploy_via_curl {
 
 # deploy_zip_files - uploads the release specific zip files. 
 # --- don't add files that could be greater than 300M
-deploy_zip_files { 
+function deploy_zip_files { 
     FILE=fhir-cli/target/fhir-cli.zip
     MODULE=fhir-cli
     FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-cli.zip"
