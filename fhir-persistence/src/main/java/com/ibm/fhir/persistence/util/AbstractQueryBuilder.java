@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -233,7 +233,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
      * @return T1 - A query segment related to a LocationPosition
      * @throws FHIRPersistenceException
      */
-    protected T1 processLocationPosition(List<QueryParameter> queryParameters) throws FHIRPersistenceException {
+    protected T1 processLocationPosition(List<QueryParameter> queryParameters, String paramTableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processLocationPosition";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -247,7 +247,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
         T1 parmRoot = null;
         if (!boundingAreas.isEmpty()) {
-            parmRoot = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingAreas);
+            parmRoot = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingAreas, paramTableAlias);
         }
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -261,10 +261,11 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
      * @param parmName    - The name of the search parameter
      * @param boundingAreas - Container for the geospatial data needed to construct
      *                    the query segment.
+     * @param paramTableAlias the alias name of the parameter table
      * @return T1 - The query segment necessary for searching locations that are
      *         inside the bounding box.
      */
-    protected abstract T1 buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas)
+    protected abstract T1 buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas, String paramTableAlias)
             throws FHIRPersistenceException;
 
 }

@@ -35,7 +35,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = InclusionQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
-    private static final String SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) FROM ";
+    private static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT RESOURCE_ID) FROM ";
     private static final String SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
     private static final String UNION_ALL = " UNION ALL ";

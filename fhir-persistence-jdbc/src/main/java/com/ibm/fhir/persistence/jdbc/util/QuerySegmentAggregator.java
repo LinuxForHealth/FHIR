@@ -11,10 +11,10 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
 import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
 
 import java.util.ArrayList;
@@ -44,14 +44,21 @@ public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
+    // Handles deduplication by using a single DISTINCT at the top level
+    protected static final String NEW_SELECT_ROOT =
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
+    protected static final String SELECT_DISTINCT_ROOT = "SELECT DISTINCT LR.LOGICAL_RESOURCE_ID, LR.LOGICAL_ID, LR.CURRENT_RESOURCE_ID";
+    
+    // Used for chained searches
     protected static final String SELECT_ROOT =
             "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
+
     protected static final String SYSTEM_LEVEL_SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
-    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
+    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.RESOURCE_ID) ";
     protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
-    protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(LR.LOGICAL_RESOURCE_ID) AS CNT ";
+    protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
 
     // Enables the SKIP_WHERE of WHERE clauses. 
@@ -135,7 +142,25 @@ public class QuerySegmentAggregator {
 
     /**
      * Builds a complete SQL Query based upon the encapsulated query segments and
-     * bind variables.
+     * bind variables. The general form of query we are building looks like this:
+     *
+     *   SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID  
+     *     FROM Observation_RESOURCES R 
+     *     JOIN (
+     *   SELECT DISTINCT LR.LOGICAL_RESOURCE_ID, LR.LOGICAL_ID, LR.CURRENT_RESOURCE_ID
+     *     FROM Observation_LOGICAL_RESOURCES LR
+     *     JOIN Observation_TOKEN_VALUES pv1
+     *       ON pv1.PARAMETER_NAME_ID=1191 AND pv1.TOKEN_VALUE = :p1
+     *      AND pv1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+     *     JOIN Observation_STR_VALUES pv2
+     *       ON pv2.PARAMETER_NAME_ID=1396 AND pv2.STR_VALUE = :p2
+     *      AND pv2.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID) LR
+     *       ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
+     *      AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID     
+     *      AND R.IS_DELETED <> 'Y'
+     * 
+     * The SELECT DISTINCT is required to remove duplicates caused by repeated parameter
+     * values.
      * 
      * @return SqlQueryData - contains the complete SQL query string and any
      *         associated bind variables.
@@ -149,11 +174,23 @@ public class QuerySegmentAggregator {
         if (this.isSystemLevelSearch()) {
             queryData = this.buildSystemLevelQuery(SYSTEM_LEVEL_SELECT_ROOT, SYSTEM_LEVEL_SUBSELECT_ROOT, true);
         } else {
-            // Build Query
+            // Join the RESOURCE table after we calculate the distinct set of logical resources.
+            // This way, the sort doesn't have to deal with lugging around a large data payload.
             StringBuilder queryString = new StringBuilder();
-            queryString.append(SELECT_ROOT);
-            buildFromClause(queryString, resourceType.getSimpleName());
-            buildWhereClause(queryString, null);
+            
+            queryString.append(NEW_SELECT_ROOT);
+            queryString.append(FROM);
+            queryString.append(resourceType.getSimpleName().toUpperCase() + "_RESOURCES R");
+            queryString.append(JOIN).append(LEFT_PAREN);
+            queryString.append(SELECT_DISTINCT_ROOT);
+            buildFromClause(queryString, resourceType.getSimpleName()); // FROM <resourceType>_LOGICAL_RESOURCES
+            buildWhereClause(queryString, null); // technically the JOIN clause
+            queryString.append(RIGHT_PAREN).append(" AS LR ");
+            queryString.append(ON);
+            queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
+            queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+            queryString.append(" AND R.IS_DELETED <> 'Y'");
+            
 
             // Bind Variables
             List<Object> allBindVariables = new ArrayList<>();
@@ -191,9 +228,10 @@ public class QuerySegmentAggregator {
                     this.buildSystemLevelQuery(SYSTEM_LEVEL_SELECT_COUNT_ROOT, SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT,
                             false);
         } else {
+            final String simpleName = resourceType.getSimpleName();
             StringBuilder queryString = new StringBuilder();
             queryString.append(SELECT_COUNT_ROOT);
-            buildFromClause(queryString, resourceType.getSimpleName());
+            buildFromClause(queryString, simpleName);
             buildWhereClause(queryString, null);
 
             // An important step here is to add _id then all other values. 
@@ -261,16 +299,42 @@ public class QuerySegmentAggregator {
                     resourceTypeProcessed = true;
                 }
 
+                // Join the distinct set of logical resources to the resources so we can
+                // filter out deletion. Would be nicer to carry this attribute on the
+                // logical resource table.
                 queryString.append(subSelectRoot);
-                buildFromClause(queryString, resourceTypeName);
+                queryString.append(FROM);
 
+                // need to clear before we call processFromClauseForLastUpdated
+                idsObjects.clear();
+                lastUpdatedObjects.clear();
+                
+                // queryString.append(resourceTypeName + "_RESOURCES R");
+                // might need a more sophisticated select for the RESOURCES table
+                // Get the distinct set of logical resources matching the search criteria
+
+                // Distinct set of Logical Resources - LR
+                queryString.append(LEFT_PAREN);
+                queryString.append(SELECT_DISTINCT_ROOT);
+                buildFromClauseSimple(queryString, resourceTypeName);
+                buildWhereClause(queryString, resourceTypeName); // technically the JOIN clause
+                queryString.append(RIGHT_PAREN).append(" AS LR ");
+
+                // JOIN to RESOURCES R
+                queryString.append(JOIN);
+                processFromClauseForLastUpdated(queryString, resourceTypeName);
+                queryString.append(" AS R ");
+                                
                 // An important step here is to add _id and _lastUpdated
                 allBindVariables.addAll(idsObjects);
                 allBindVariables.addAll(lastUpdatedObjects);
 
-                buildWhereClause(queryString, resourceTypeName);
-
-                //Adding all other values.
+                queryString.append(ON);
+                queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
+                queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+                queryString.append(" AND R.IS_DELETED <> 'Y'");
+                
+                //Adding all other values to the bind variable list for this resource type.
                 for (SqlQueryData querySegment : this.querySegments) {
                     allBindVariables.addAll(querySegment.getBindVariables());
                 }
@@ -303,16 +367,40 @@ public class QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
         idsObjects.clear();
         lastUpdatedObjects.clear();
-
+        
         fromClause.append(FROM);
-        processFromClauseForId(fromClause, simpleName);
-        fromClause.append(" LR JOIN ");
+        processFromClauseForId(fromClause, simpleName); // logical resources
+        fromClause.append(" LR ");
+
+        // This is requires for the count queries here
+        fromClause.append(JOIN);
         processFromClauseForLastUpdated(fromClause, simpleName);
-        fromClause.append(
-                " R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' ");
+        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
+        fromClause.append("  AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+        fromClause.append("  AND R.IS_DELETED <> 'Y' ");
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
+    /**
+     * Adds the logical resources table, but does not include the resources clause,
+     * which in the new (DISTINCT) form is added later.
+     * @param fromClause
+     * @param simpleName
+     */
+    protected void buildFromClauseSimple(StringBuilder fromClause, String simpleName) {
+        final String METHODNAME = "buildFromClauseSimple(StringBuilder fromClause, String simpleName)";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        fromClause.append(FROM);
+        processFromClauseForId(fromClause, simpleName); // logical resources
+        fromClause.append(" LR ");
+
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+    
+    
+    
     /*
      * Processes the From Clause for _id, as _id is contained in the
      * LOGICAL_RESOURCES
@@ -392,6 +480,14 @@ public class QuerySegmentAggregator {
      * the contained query segments, and ties those segments back
      * to the appropriate parameter table alias.
      * 
+     *  ...
+     *  SELECT DISTINCT LR.LOGICAL_RESOURCE_ID, LR.LOGICAL_ID, LR.CURRENT_RESOURCE_ID
+     *    FROM Observation_LOGICAL_RESOURCES LR
+     *    JOIN Observation_TOKEN_VALUES AS param0
+     *      ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+     *     AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+     *  ... 
+     *  
      * @param whereClause
      * @param overrideType if not null, then it's the default type used in the
      *                     building of the where clause.
@@ -423,17 +519,20 @@ public class QuerySegmentAggregator {
                     whereClause.append(whereClauseSegment);
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
-                        whereClauseSegment =
-                                querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
+                        // Join a standard parameter table
+                        //   JOIN Observation_TOKEN_VALUES AS param0
+                        //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                        //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
 
-                        if (whereClause.length() > 0) {
-                            whereClause.append(" AND ");
-                        }
-                        whereClause.append(EXISTS).append("(SELECT 1 FROM ");
+                        final String paramTableAlias = "param" + i;
+                        final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
+                        
+                        whereClause.append(JOIN);
                         whereClause.append(tableName(overrideType, param));
-                        whereClause.append(" AS V ");
-                        whereClause.append(" WHERE ").append(whereClauseSegment)
-                        .append(" AND V.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID) "); // correlate this EXISTS subquery with parent
+                        whereClause.append(" AS " + paramTableAlias);
+                        whereClause.append(ON);
+                        whereClause.append(onFilter);
+                        whereClause.append(" AND LR.LOGICAL_RESOURCE_ID = " + paramTableAlias + ".LOGICAL_RESOURCE_ID");
                     } else {
                         // add an alias for the composite table
                         String compositeAlias = "comp" + (i + 1);
@@ -442,7 +541,7 @@ public class QuerySegmentAggregator {
                                         compositeAlias + ".");
 
                         whereClause.append(JOIN)
-                                .append("(SELECT 1 FROM ");
+                                .append("(SELECT " + compositeAlias + ".LOGICAL_RESOURCE_ID FROM ");
                         whereClause.append(tableName(overrideType, param))
                                 .append(compositeAlias);
 
@@ -463,8 +562,10 @@ public class QuerySegmentAggregator {
                                                 PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
                             }
                         }
-                        whereClause.append(" WHERE ").append(whereClauseSegment)
-                        .append(" AND " + compositeAlias + ".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID) "); // correlate this EXISTS subquery
+                        whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
+                        String tmpTableName = overrideType + i;
+                        whereClause.append(tmpTableName).append(ON).append(tmpTableName)
+                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                     }
                 }
             } // end if SKIP_WHERE
