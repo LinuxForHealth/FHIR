@@ -20,6 +20,8 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
@@ -37,7 +39,7 @@ public class LocationParmBehaviorUtilTest {
         List<Object> actualBindVariables = new ArrayList<>();
 
         LocationParmBehaviorUtil util = new LocationParmBehaviorUtil();
-        util.buildQueryForBoundingBox(actualWhereClauseSegment, actualBindVariables, boundingBox);
+        util.buildQueryForBoundingBox(actualWhereClauseSegment, actualBindVariables, boundingBox, JDBCConstants.PARAMETER_TABLE_ALIAS);
 
         if (log.isLoggable(LOG_LEVEL)) {
             log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
@@ -108,7 +110,7 @@ public class LocationParmBehaviorUtilTest {
 
         LocationParmBehaviorUtil util = new LocationParmBehaviorUtil();
         util.buildLocationSearchQuery(actualParameterClauseSegment.toString(), actualWhereClauseSegment,
-                actualBindVariables, boundingAreas);
+                actualBindVariables, boundingAreas, JDBCConstants.PARAMETER_TABLE_ALIAS);
 
         if (log.isLoggable(LOG_LEVEL)) {
             log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());

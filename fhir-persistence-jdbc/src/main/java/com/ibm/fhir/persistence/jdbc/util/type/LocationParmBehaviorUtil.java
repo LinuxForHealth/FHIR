@@ -46,7 +46,7 @@ public class LocationParmBehaviorUtil {
      * @param boundingAreas
      */
     public void buildLocationSearchQuery(String populateNameIdSubSegment, StringBuilder whereClauseSegment,
-            List<Object> bindVariables, List<Bounding> boundingAreas) {
+            List<Object> bindVariables, List<Bounding> boundingAreas, String paramTableAlias) {
         int instance = 0;
 
         boolean first = true;
@@ -89,7 +89,7 @@ public class LocationParmBehaviorUtil {
                 break;
             case BOX:
             default:
-                buildQueryForBoundingBox(whereClauseSegment, bindVariables, (BoundingBox) area);
+                buildQueryForBoundingBox(whereClauseSegment, bindVariables, (BoundingBox) area, paramTableAlias);
                 break;
             }
         }
@@ -114,25 +114,25 @@ public class LocationParmBehaviorUtil {
      * @param boundingBox
      */
     public void buildQueryForBoundingBox(StringBuilder whereClauseSegment, List<Object> bindVariables,
-            BoundingBox boundingBox) {
+            BoundingBox boundingBox, String paramTableAlias) {
         // Now build the piece that compares the BoundingBox longitude and latitude values
         // to the persisted longitude and latitude parameters.
         whereClauseSegment
                 .append(LEFT_PAREN)
                 // LAT <= ? --- LAT >= MIN_LAT
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(GTE)
+                .append(paramTableAlias).append(DOT).append(LATITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // LAT <= ? --- LAT <= MAX_LAT
                 .append(AND)
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(LTE)
+                .append(paramTableAlias).append(DOT).append(LATITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
                 // LON <= ? --- LON >= MIN_LON
                 .append(AND)
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(GTE)
+                .append(paramTableAlias).append(DOT).append(LONGITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // LON <= ? --- LON <= MAX_LON
                 .append(AND)
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(LTE)
+                .append(paramTableAlias).append(DOT).append(LONGITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
                 .append(RIGHT_PAREN);
 

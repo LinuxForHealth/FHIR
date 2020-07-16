@@ -209,7 +209,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
         if (Location.class.equals(resourceType)) {
-            querySegment = this.processLocationPosition(searchParameters);
+            querySegment = this.processLocationPosition(searchParameters, PARAMETER_TABLE_ALIAS);
             if (querySegment != null) {
                 nearParameterIndex = LocationUtil.findNearParameterIndex(searchParameters);
                 helper.addQueryData(querySegment, searchParameters.get(nearParameterIndex));
@@ -375,7 +375,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 } catch (FHIRSearchException e) {
                     throw new FHIRPersistenceException("input parameter is invalid bounding area, bad prefix, or bad units", e);
                 }
-                databaseQueryParm = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingAreas);
+                databaseQueryParm = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingAreas, tableAlias);
             }
         } finally {
             log.exiting(CLASSNAME, METHODNAME, new Object[] { databaseQueryParm });
@@ -648,8 +648,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             } else {
                 // This logic processes the LAST parameter in the chain.
                 // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
+                if (chainedParmVar == null) {
+                    chainedParmVar            = CP + 1;
+                }
                 Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
                 SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
+
+                // log.info("chained sqlQueryData[" + chainedParmVar + "] = " + sqlQueryData.getQueryString());
                 whereClauseSegment.append(sqlQueryData.getQueryString());
                 bindVariables.addAll(sqlQueryData.getBindVariables());
             }
@@ -1137,7 +1142,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     }
 
     @Override
-    protected SqlQueryData buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas)
+    protected SqlQueryData buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas, String paramTableAlias)
             throws FHIRPersistenceException {
         final String METHODNAME = "buildLocationQuerySegment";
         log.entering(CLASSNAME, METHODNAME, parmName);
@@ -1146,10 +1151,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         List<Object> bindVariables = new ArrayList<>();
 
         StringBuilder populateNameIdSubSegment = new StringBuilder();
-        this.populateNameIdSubSegment(populateNameIdSubSegment, parmName, PARAMETER_TABLE_ALIAS);
+        this.populateNameIdSubSegment(populateNameIdSubSegment, parmName, paramTableAlias);
 
         LocationParmBehaviorUtil behaviorUtil = new LocationParmBehaviorUtil();
-        behaviorUtil.buildLocationSearchQuery(populateNameIdSubSegment.toString(), whereClauseSegment, bindVariables, boundingAreas);
+        behaviorUtil.buildLocationSearchQuery(populateNameIdSubSegment.toString(), whereClauseSegment, bindVariables, boundingAreas, paramTableAlias);
 
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
