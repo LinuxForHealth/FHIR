@@ -43,6 +43,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -654,7 +655,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
                 SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
 
-                // log.info("chained sqlQueryData[" + chainedParmVar + "] = " + sqlQueryData.getQueryString());
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("chained sqlQueryData[" + chainedParmVar + "] = " + sqlQueryData.getQueryString());
+                }
                 whereClauseSegment.append(sqlQueryData.getQueryString());
                 bindVariables.addAll(sqlQueryData.getBindVariables());
             }
