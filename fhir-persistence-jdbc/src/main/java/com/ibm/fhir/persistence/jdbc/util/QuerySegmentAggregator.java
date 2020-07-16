@@ -311,20 +311,24 @@ public class QuerySegmentAggregator {
                 
                 // queryString.append(resourceTypeName + "_RESOURCES R");
                 // might need a more sophisticated select for the RESOURCES table
-                processFromClauseForLastUpdated(queryString, resourceTypeName);
-                queryString.append(" AS R ");
-                
                 // Get the distinct set of logical resources matching the search criteria
-                queryString.append(JOIN).append(LEFT_PAREN);
+
+                // Distinct set of Logical Resources - LR
+                queryString.append(LEFT_PAREN);
                 queryString.append(SELECT_DISTINCT_ROOT);
                 buildFromClauseSimple(queryString, resourceTypeName);
-                
+                buildWhereClause(queryString, resourceTypeName); // technically the JOIN clause
+                queryString.append(RIGHT_PAREN).append(" AS LR ");
+
+                // JOIN to RESOURCES R
+                queryString.append(JOIN);
+                processFromClauseForLastUpdated(queryString, resourceTypeName);
+                queryString.append(" AS R ");
+                                
                 // An important step here is to add _id and _lastUpdated
                 allBindVariables.addAll(idsObjects);
                 allBindVariables.addAll(lastUpdatedObjects);
 
-                buildWhereClause(queryString, resourceTypeName); // technically the JOIN clause
-                queryString.append(RIGHT_PAREN).append(" AS LR ");
                 queryString.append(ON);
                 queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
                 queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
