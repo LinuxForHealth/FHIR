@@ -6,7 +6,7 @@
 ###############################################################################
 set -e
 
-SCHEMA_VERSION="4.3.2"
+SCHEMA_VERSION="4.2.3"
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"
