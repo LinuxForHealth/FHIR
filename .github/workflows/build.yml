@@ -334,7 +334,7 @@ jobs:
             docker cp -L $containerId:/logs ${it_results}/server-logs
         fi
         echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2
