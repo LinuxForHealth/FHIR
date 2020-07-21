@@ -262,7 +262,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --target DATA FHIRDATA_2ND
 ```
 
-## Alternative: Print the Schema
+## Alternative: Manually apply the schema
 
 To manually apply the DDL to a Db2 instance:
 
