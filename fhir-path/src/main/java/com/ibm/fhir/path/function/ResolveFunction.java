@@ -122,7 +122,6 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     DomainResource domainResource = (DomainResource) resource;
                     for (Resource contained : domainResource.getContained()) {
                         if (contained.getId() != null &&
-                                contained.getId() != null &&
                                 id.equals(contained.getId())) {
                             return contained.getClass().getSimpleName();
                         }
