@@ -11,7 +11,8 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
- * Modify an existing sequence to start with a higher value
+ * Modify the CACHE property of an AS IDENTITY column (changes
+ * the CACHE property of the underlying SEQUENCE).
  */
 public class AlterTableIdentityCache extends BaseObject {
     private final String columnName;
@@ -38,7 +39,7 @@ public class AlterTableIdentityCache extends BaseObject {
     public String getTypeNameVersion() {
         // There's typically only one identity column on a table, but we still
         // want to qualify the name with the column just to make sure it's unique
-        return getObjectType().name() + ":" + getQualifiedName() + "." + this.columnName + ":" + this.version;
+        return getObjectType().name() + ":" + getQualifiedName() + ":" + this.columnName + ":" + this.version;
         
     }
 
@@ -54,12 +55,12 @@ public class AlterTableIdentityCache extends BaseObject {
 
     @Override
     public void drop(IDatabaseAdapter target) {
-        target.dropSequence(getSchemaName(), getObjectName());
+        // NOP
     }
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-        target.grantSequencePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        // NOP
     }
 
     @Override

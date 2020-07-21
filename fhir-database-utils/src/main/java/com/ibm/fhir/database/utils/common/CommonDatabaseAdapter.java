@@ -564,7 +564,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         runStatement(ddl);
     }
 
-
     @Override
     public int findTenantId(String adminSchemaName, String tenantName) {
         FindTenantIdDAO dao = new FindTenantIdDAO(adminSchemaName, tenantName);
@@ -641,5 +640,4 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         DeleteTenantDAO dao = new DeleteTenantDAO(adminSchemaName, tenantId);
         runStatement(dao);
     }
-
 }
