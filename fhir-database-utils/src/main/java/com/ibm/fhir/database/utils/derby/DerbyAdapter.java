@@ -39,7 +39,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
         MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING,
-        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE
+        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE, ALTER_TABLE_SEQ_CACHE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
@@ -228,6 +228,20 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         dropSequence(schemaName, sequenceName);
         createSequence(schemaName, sequenceName, restartWith, cache);
     }
+    
+    @Override
+    public void alterTableColumnIdentityCache(String schemaName, String tableName, String columnName, int cache) {
+        // Not supported by Derby
+        
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        DataDefinitionUtil.assertValidName(columnName);
+        
+        // modify the CACHE property of the identity column
+        final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
+
+        warnOnce(MessageKey.ALTER_TABLE_SEQ_CACHE, "Not supported in Derby: " + ddl);
+    }
+
 
 
     @Override
@@ -336,4 +350,4 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
     }
- }
+}

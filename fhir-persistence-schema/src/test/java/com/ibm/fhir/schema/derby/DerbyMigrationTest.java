@@ -144,7 +144,7 @@ public class DerbyMigrationTest {
         // 4. Assert they match
         List<String> migrated_ddl = inferDDL(dbPath);
         System.out.println(FhirSchemaVersion.V0001.name() + " migrated: " + migrated_ddl);
-        System.out.println(FhirSchemaVersion.V0002.name() + "   latest: " + latest_ddl);
+        System.out.println(FhirSchemaVersion.V0004.name() + "   latest: " + latest_ddl);
         assertEquals(latest_ddl, migrated_ddl);
     }
 

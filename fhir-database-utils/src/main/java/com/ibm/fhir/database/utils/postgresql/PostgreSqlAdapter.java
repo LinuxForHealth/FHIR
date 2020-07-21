@@ -51,7 +51,8 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         DROP_TYPE,
         CREATE_PROC,
         DROP_PROC,
-        TABLESPACE
+        TABLESPACE,
+        ALTER_TABLE_SEQ_CACHE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
@@ -366,5 +367,18 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
+    }
+    
+    @Override
+    public void alterTableColumnIdentityCache(String schemaName, String tableName, String columnName, int cache) {
+        // Not supported by PostgreSQL
+        
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        DataDefinitionUtil.assertValidName(columnName);
+        
+        // modify the CACHE property of the identity column
+        final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
+
+        warnOnce(MessageKey.ALTER_TABLE_SEQ_CACHE, "Not supported in PostgreSQL: " + ddl);
     }
 }

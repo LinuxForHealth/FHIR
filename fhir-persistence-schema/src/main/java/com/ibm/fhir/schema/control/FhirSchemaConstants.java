@@ -33,6 +33,7 @@ public class FhirSchemaConstants {
     public static final String TENANT_SEQUENCE = "TENANT_SEQUENCE";
     public static final long FHIR_REF_SEQUENCE_START = 20000;
     public static final int FHIR_REF_SEQUENCE_CACHE = 1000;
+    public static final int FHIR_IDENTITY_SEQUENCE_CACHE = 1000;
     
     // Tenant constants
     public static final String MT_ID = "MT_ID";

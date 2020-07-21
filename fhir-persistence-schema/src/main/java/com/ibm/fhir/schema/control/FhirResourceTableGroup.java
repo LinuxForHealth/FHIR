@@ -64,6 +64,7 @@ import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropIndex;
+import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -309,6 +310,11 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // issue-1341. Default sequence cache for generated identity columns is too small
+        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
+        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
+        group.add(alterTable);
     }
 
     /**
@@ -357,6 +363,11 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // issue-1341. Default sequence cache for generated identity columns is too small
+        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
+        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
+        group.add(alterTable);
     }
 
     /**
@@ -416,6 +427,11 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // issue-1341. Default sequence cache for generated identity columns is too small
+        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
+        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
+        group.add(alterTable);
     }
 
     /**
@@ -479,6 +495,11 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // issue-1341. Default sequence cache for generated identity columns is too small
+        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
+        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
+        group.add(alterTable);
     }
 
     /**
@@ -528,6 +549,11 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // issue-1341. Default sequence cache for generated identity columns is too small
+        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
+        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
+        group.add(alterTable);
     }
 
     /**
@@ -591,6 +617,11 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // issue-1341. Default sequence cache for generated identity columns is too small
+        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
+        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
+        group.add(alterTable);
     }
 
     /**
