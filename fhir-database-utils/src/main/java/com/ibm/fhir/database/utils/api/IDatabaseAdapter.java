@@ -507,4 +507,13 @@ public interface IDatabaseAdapter {
      * @param tableName
      */
     public void setIntegrityUnchecked(String schemaName, String tableName);
+
+    /**
+     * Change the CACHE value of the named identity generated always column
+     * @param schemaName
+     * @param objectName
+     * @param columnName
+     * @param cache
+     */
+    public void alterTableColumnIdentityCache(String schemaName, String objectName, String columnName, int cache);
 }

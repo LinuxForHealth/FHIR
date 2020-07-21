@@ -549,6 +549,21 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         runStatement(ddl);
     }
 
+    @Override
+    public void alterTableColumnIdentityCache(String schemaName, String tableName, String columnName, int cache) {
+        // Check input strings are clean
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        DataDefinitionUtil.assertValidName(columnName);
+        
+        // modify the CACHE property of the identity column
+        final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
+        
+        // so important, we log it
+        logger.info(ddl);
+        
+        runStatement(ddl);
+    }
+
 
     @Override
     public int findTenantId(String adminSchemaName, String tenantName) {

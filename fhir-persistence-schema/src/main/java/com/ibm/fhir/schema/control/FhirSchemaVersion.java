@@ -18,6 +18,7 @@ public enum FhirSchemaVersion {
      V0001(1, "Initial version")
     ,V0002(2, "Composite search value support")
     ,V0003(3, "issue-1263 fhir_ref_sequence start with 20000")
+    ,V0004(4, "row_id sequence cache 20 to 1000")
     ;
     
     // The version number recorded in the VERSION_HISTORY

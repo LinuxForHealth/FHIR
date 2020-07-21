@@ -68,4 +68,9 @@ public class DataModelVisitorBase implements DataModelVisitor {
     public void visited(AlterSequenceStartWith alterSequence) {
         // NOP
     }
+    
+    @Override
+    public void visited(AlterTableIdentityCache alterTable) {
+        // NOP
+    }
 }

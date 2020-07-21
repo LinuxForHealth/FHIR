@@ -489,8 +489,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         Integer resourceTypeId;
         Timestamp lastUpdated;
         boolean acquiredFromCache;
-        long dbCallStartTime;
-        double dbCallDuration;
+        long dbCallStartTime = System.nanoTime();
 
         try {
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
@@ -519,14 +518,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setInt(7, resource.getVersionId());
             stmt.registerOutParameter(8, Types.BIGINT);
 
-            dbCallStartTime = System.nanoTime();
             stmt.execute();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-
+            long latestTime = System.nanoTime();
+            double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
+            
             resource.setId(stmt.getLong(8));
 
             // Parameter time
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
+            long paramInsertStartTime = latestTime;
             if (parameters != null) {
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
                         resource.getId(), 100, new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
@@ -535,9 +535,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     }
                 }
             }
+            
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                latestTime = System.nanoTime();
+                double totalDuration = (latestTime - dbCallStartTime) / 1e6;
+                double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
+                log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;

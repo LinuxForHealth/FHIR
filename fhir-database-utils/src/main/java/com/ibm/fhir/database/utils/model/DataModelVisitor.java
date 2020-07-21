@@ -68,4 +68,9 @@ public interface DataModelVisitor {
      * @param alterSequence
      */
     public void visited(AlterSequenceStartWith alterSequence);
+    
+    /**
+     * @param alterTable
+     */
+    public void visited(AlterTableIdentityCache alterTable);
 }
