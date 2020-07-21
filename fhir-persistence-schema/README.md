@@ -214,7 +214,55 @@ For postgresql:
 --db-type postgresql
 ```
 
-## Alternative: manually apply the schema
+## Alternative: Setting up a shared Db2 with separate schemas for each tenant
+
+For those using multiple schemas for each customer, for instance, customer 2 needs to be separately configured with the database and schema. 
+
+### Create the additional schema
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
+--prop-file db2.properties
+--create-schemas
+--create-schema-batch FHIR_JBATCH_2ND
+--create-schema-oauth FHIR_OUATH_2ND
+--create-schema-fhir FHIRDATA_2ND
+```
+
+### Deploy the additional schema
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
+--prop-file db2.properties
+--schema-name FHIRDATA
+--update-schema-batch FHIR_JBATCH_2ND
+--update-schema-oauth FHIR_OUATH_2ND
+--update-schema-fhir FHIRDATA_2ND
+```
+
+### Grant privileges to data access user
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
+--prop-file db2.properties
+--grant-to FHIRSERVER
+--target BATCH FHIR_JBATCH_2ND
+```
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
+--prop-file db2.properties
+--grant-to FHIRSERVER
+--target OAUTH FHIR_OAUTH_2ND
+```
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
+--prop-file db2.properties
+--grant-to FHIRSERVER
+--target DATA FHIRDATA_2ND
+```
+
+## Alternative: Manually apply the schema
 
 To manually apply the DDL to a Db2 instance:
 
