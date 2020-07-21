@@ -214,7 +214,7 @@ For postgresql:
 --db-type postgresql
 ```
 
-## Alternative: Setting upIBM FHIR Servers against a shared DB2 with separate schemas for each customer
+## Alternative: Setting up a shared Db2 with separate schemas for each tenant
 
 For those using multiple schemas for each customer, for instance, customer 2 needs to be separately configured with the database and schema. 
 
