@@ -1,0 +1,32 @@
+{
+    "resourceType": "FamilyMemberHistory",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">FVT</div>"
+    },
+    "meta": {
+        "profile": [
+            "http://ibm.com/fhir/StructureDefinition/my-family-member-history|0.1.0"
+        ]
+    },
+    "status": "health-unknown",
+    "patient": {
+        "reference": "Patient/123"
+    },
+    "relationship": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CHILD"
+            }
+        ]
+    },
+    "sex": {
+        "coding": [
+            {
+                "system": "http://hl7.org/fhir/administrative-gender",
+                "code": "male"
+            }
+        ]
+    }
+}

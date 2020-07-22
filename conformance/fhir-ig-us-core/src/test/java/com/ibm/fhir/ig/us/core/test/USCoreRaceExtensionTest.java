@@ -24,6 +24,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -144,6 +145,10 @@ public class USCoreRaceExtensionTest {
                         .build())
                     .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-race")
                     .build())
+                .identifier(Identifier.builder()
+                    .system(Uri.of("http://someuri.org"))
+                    .value(string("someValue"))
+                    .build())
                 .name(HumanName.builder()
                     .given(string("John"))
                     .family(string("Doe"))
@@ -188,6 +193,10 @@ public class USCoreRaceExtensionTest {
                         .value(string("American Indian or Alaska Native - Alaska Native"))
                         .build())
                     .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-race")
+                    .build())
+                .identifier(Identifier.builder()
+                    .system(Uri.of("http://someuri.org"))
+                    .value(string("someValue"))
                     .build())
                 .name(HumanName.builder()
                     .given(string("John"))

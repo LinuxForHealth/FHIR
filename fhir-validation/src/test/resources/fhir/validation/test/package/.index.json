@@ -54,6 +54,15 @@
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
+        },
+        {
+            "filename": "my-family-member-history.json",
+            "resourceType": "StructureDefinition",
+            "id": "my-family-member-history",
+            "url": "http://ibm.com/fhir/StructureDefinition/my-family-member-history",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "FamilyMemberHistory"
         }
     ]
 }

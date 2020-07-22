@@ -163,7 +163,7 @@ public class ConstraintGenerator {
     }
 
     private String generate(Node node) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         ElementDefinition elementDefinition = node.elementDefinition;
         String identifier = getIdentifier(elementDefinition);
@@ -227,7 +227,7 @@ public class ConstraintGenerator {
                 }
             }
 
-            sb.append(".exists()").append(" implies (");
+            sb.append(".exists() implies (");
         }
 
         sb.append(identifier);
@@ -248,6 +248,9 @@ public class ConstraintGenerator {
 
         if (!node.children.isEmpty()) {
             if (isRepeating(elementDefinition) && !isSlice(elementDefinition)) {
+                if (isRequired(elementDefinition)) {
+                    sb.append(".exists() and ").append(identifier);
+                }
                 sb.append(".all(");
             } else {
                 // !isRepeating || isSlice
