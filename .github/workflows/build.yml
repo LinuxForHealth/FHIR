@@ -161,7 +161,7 @@ jobs:
         cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@main
       with:
         name: integration-test-results-${{ matrix.java }}
         path: SIT/integration-test-results
@@ -218,7 +218,7 @@ jobs:
         Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@main
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
@@ -278,7 +278,7 @@ jobs:
         cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@main
       with:
         name: integration-test-results-db2-${{ matrix.java }}
         path: integration-test-results
