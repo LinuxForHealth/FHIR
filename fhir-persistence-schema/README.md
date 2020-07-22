@@ -287,9 +287,9 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --db-type postgresql
 ```
 
-Note, this was run with AdoptOpenJDK.
+If you want to log the connection, you can add `loggerLevel=TRACE` to the properties file.
 
-#loggerLevel=TRACE
+Note, this was run with AdoptOpenJDK. 
 
 ## Alternative: Manually apply the schema
 
