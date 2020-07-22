@@ -7,8 +7,11 @@
 package com.ibm.fhir.database.utils.postgresql;
 
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
@@ -157,15 +160,46 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     @Override
     public String getUrl(Properties connectionProperties) {
         PostgreSqlPropertyAdapter adapter = new PostgreSqlPropertyAdapter(connectionProperties);
+        StringBuilder jdbcUrl = new StringBuilder();
+        jdbcUrl.append("jdbc:postgresql://");
+        jdbcUrl.append(adapter.getHost());
+        jdbcUrl.append(':');
+        jdbcUrl.append(adapter.getPort());
+        jdbcUrl.append('/');
+        jdbcUrl.append(adapter.getDatabase());
 
-        return "jdbc:postgresql://" + adapter.getHost() + ":" + adapter.getPort() + "/" + adapter.getDatabase();
+        // Filter out comments and db specific values
+        // @see https://jdbc.postgresql.org/documentation/head/connect.html#ssl for more details on configuration options
+        Map<Object, Object> entries = connectionProperties.entrySet()
+                .stream().filter(p -> !p.getKey().toString().startsWith("db.")
+                    && !p.getKey().toString().startsWith("#")
+                    && !p.getKey().toString().equals("user")
+                    && !p.getKey().toString().equals("password"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        boolean first = true;
+        if(entries != null && !entries.isEmpty()) {
+            jdbcUrl.append('?');
+            // The following is really all strings and casted to such an object
+            for(Entry<Object, Object> entry : entries.entrySet()){
+                if (!first) {
+                    jdbcUrl.append('&');
+                } else {
+                    first = false;
+                }
+                jdbcUrl.append(entry.getKey());
+                jdbcUrl.append('=');
+                jdbcUrl.append(entry.getValue());
+            }
+        }
+        return jdbcUrl.toString();
     }
 
     @Override
     public boolean clobSupportsInline() {
         return false;
     }
-    
+
     @Override
     public DbType getType() {
         return DbType.POSTGRESQL;
@@ -183,5 +217,4 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "SELECT nextval('" + qname + "')";
     }
-
 }

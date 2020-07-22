@@ -262,6 +262,35 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --target DATA FHIRDATA_2ND
 ```
 
+## Advanced SSL Configuration with Postgres
+
+Create a properties file like the following:
+
+```
+db.host=<url>
+db.port=30048
+db.database=fhirdb
+user=fhirserver
+password=<password>
+ssl=true
+sslmode=verify-full
+sslrootcert=./fhir-postgresql.cert
+```
+You can specify any connection property in the property file, such as `logger=TRACE` to help with debugging.
+
+Run the Update Schema with 
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--prop-file /Users/paulbastide/git/wffh/FHIR/fhir-persistence-schema/postgresql.properties  \
+--schema-name fhirdata \
+--update-schema \
+--db-type postgresql
+```
+
+Note, this was run with AdoptOpenJDK.
+
+#loggerLevel=TRACE
+
 ## Alternative: Manually apply the schema
 
 To manually apply the DDL to a Db2 instance:
