@@ -291,6 +291,13 @@ If you want to log the connection, you can add `loggerLevel=TRACE` to the proper
 
 Note, this was run with AdoptOpenJDK. 
 
+## Advanced Client Execution Argument
+The following are advanced execution arguments
+
+|Property|Description|Example|
+|--------|-----------|-----------|
+|`--pool-size NUM` | The number of connections used to connect to the database|`--pool-size 20`|
+
 ## Alternative: Manually apply the schema
 
 To manually apply the DDL to a Db2 instance:
