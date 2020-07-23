@@ -100,7 +100,7 @@
                 "_db2_default": {
                     "type": "db2",
                     "hints" : {
-                      "search.reopt": "ALWAYS"
+                      "search.reopt": "ONCE"
                     },
                     "connectionProperties": {
                         "serverName": "localhost",
