@@ -209,6 +209,9 @@ The IBM FHIR Server uses a proxy datasource mechanism, allowing new datasources 
             "datasources": {
                 "default": {
                     "tenantKey": "",
+                    "hints" : {
+                        "search.reopt": "ONCE"
+                    },
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "dashdb-txn-flex-************.services.dal.bluemix.net",
@@ -229,6 +232,8 @@ The IBM FHIR Server uses a proxy datasource mechanism, allowing new datasources 
 ```
 
 The persistence configuration is stored in the `fhir-server-config.json` in the tenant and default configuration folders.
+
+Since release 4.3.2 you can use the `search.reopt` query optimizer hint (shown above) to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for Db2. Valid values are "ALWAYS" and "ONCE". See Db2 documentation for `REOPT` for more details.
 
 #### Mapping from IBM Db2 on Cloud endpoint credentials
 
