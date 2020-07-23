@@ -80,6 +80,9 @@
             "datasources": {
                 "default": {
                     "type": "db2",
+                    "hints" : {
+                      "search.reopt": "ONCE"
+                    },
                     "connectionProperties": {
                         "serverName": "db2",
                         "portNumber": 50000,

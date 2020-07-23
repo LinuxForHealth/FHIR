@@ -90,4 +90,10 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         return this.flavor;
     }
+
+    @Override
+    public QueryHints getQueryHints() {
+        // Hints not supported for Derby test connections
+        return null;
+    }
 }

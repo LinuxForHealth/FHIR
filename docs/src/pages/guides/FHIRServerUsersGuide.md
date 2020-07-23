@@ -265,6 +265,9 @@ The next example defines the `default` datastore as a Db2 database accessible on
                     "default": {
                         "tenantKey": "<the-base64-tenant-key>",
                         "type": "db2",
+                        "hints" : {
+                            "search.reopt": "ONCE"
+                        },
                         "connectionProperties": {
                             "serverName": "db2server1",
                             "portNumber": 50000,
@@ -283,6 +286,8 @@ The next example defines the `default` datastore as a Db2 database accessible on
     ```
 
 For more information on how to configure datastore properties, see [Section 3.4.2.2 Datastore configuration examples](#3422-datastore-configuration-examples).
+
+Since release 4.3.2 you can use the `search.reopt` query optimizer hint (shown above) to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for Db2. Valid values are "ALWAYS" and "ONCE". See Db2 documentation for `REOPT` for more details.
 
 ### 3.4.2 Properties-based datastore configuration
 

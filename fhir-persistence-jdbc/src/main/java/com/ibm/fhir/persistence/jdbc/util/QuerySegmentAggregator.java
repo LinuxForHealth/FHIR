@@ -25,8 +25,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
@@ -71,6 +73,9 @@ public class QuerySegmentAggregator {
 
     // Used for whole system search on multiple resource types.
     private List<String> resourceTypes = null;
+    
+    // Access to hints to use for certain queries. Can be null.
+    private final QueryHints queryHints;
 
     /**
      * querySegments and searchQueryParameters are used as parallel arrays
@@ -100,13 +105,14 @@ public class QuerySegmentAggregator {
      * @param pageSize     - The max number of requested search results.
      */
     protected QuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize,
-            ParameterDAO parameterDao, ResourceDAO resourceDao) {
+            ParameterDAO parameterDao, ResourceDAO resourceDao, QueryHints queryHints) {
         super();
         this.resourceType          = resourceType;
         this.offset                = offset;
         this.pageSize              = pageSize;
         this.parameterDao          = parameterDao;
         this.resourceDao           = resourceDao;
+        this.queryHints            = queryHints;
         this.querySegments         = new ArrayList<>();
         this.searchQueryParameters = new ArrayList<>();
     }
@@ -203,11 +209,38 @@ public class QuerySegmentAggregator {
             // Add default ordering
             queryString.append(DEFAULT_ORDERING);
             this.addPaginationClauses(queryString);
+            addOptimizerHint(queryString);
             queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         }
 
         log.exiting(CLASSNAME, METHODNAME, queryData);
         return queryData;
+    }
+
+    /**
+     * If enabled, add the configured optimizer hint to the end of the query
+     * @see https://github.com/IBM/FHIR/issues/1354
+     * @param queryString
+     */
+    protected void addOptimizerHint(StringBuilder queryString) {
+
+        switch (resourceDao.getFlavor().getType()) {
+        case DB2:
+            if (this.queryHints != null) {
+                String reopt = queryHints.getHintValue(JDBCConstants.SEARCH_REOPT);
+                if (reopt != null && reopt.length() > 0) {
+                    DataDefinitionUtil.assertValidName(reopt);
+                    queryString.append(" /* <OPTGUIDELINES> <REOPT VALUE='" + reopt + "'/> </OPTGUIDELINES> */");
+                }
+            }
+            break;
+        case DERBY:
+            // NOP
+            break;
+        case POSTGRESQL:
+            // NOP
+            break;
+        }
     }
 
     /**
@@ -242,6 +275,7 @@ public class QuerySegmentAggregator {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
 
+            addOptimizerHint(queryString);
             queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         }
 
@@ -349,6 +383,8 @@ public class QuerySegmentAggregator {
             queryString.append(DEFAULT_ORDERING);
             this.addPaginationClauses(queryString);
         }
+
+        addOptimizerHint(queryString);
 
         SqlQueryData queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         log.exiting(CLASSNAME, METHODNAME, queryData);

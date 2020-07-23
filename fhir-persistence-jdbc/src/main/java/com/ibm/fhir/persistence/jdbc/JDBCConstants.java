@@ -92,6 +92,9 @@ public class JDBCConstants {
     // MIN / MAX
     public static final String MAX = "MAX";
     public static final String MIN = "MIN";
+    
+    // Db2 optimization hints
+    public static final String SEARCH_REOPT = "search.reopt";
 
     /**
      * Calendar object to use while inserting Timestamp objects into the database.

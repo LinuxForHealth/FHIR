@@ -99,6 +99,9 @@
                 },
                 "_db2_default": {
                     "type": "db2",
+                    "hints" : {
+                      "search.reopt": "ONCE"
+                    },
                     "connectionProperties": {
                         "serverName": "localhost",
                         "portNumber": 50001,

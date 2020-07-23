@@ -25,7 +25,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * Common base for multi-tenant connection strategy implementations
  */
-public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionStrategy {
+public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionStrategy, QueryHints {
     private static final Logger log = Logger.getLogger(FHIRDbConnectionStrategyBase.class.getName());
     // We use the sync registry to remember connections we've configured in the current transaction.
     private final TransactionSynchronizationRegistry trxSyncRegistry;
@@ -157,4 +157,35 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         return this.flavor;
     }
+    
+    @Override
+    public String getHintValue(String hintProperty) {
+        String result;
+        String datastoreId = FHIRRequestContext.get().getDataStoreId();
+
+        // Retrieve the property group pertaining to the specified datastore.
+        // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool
+        // miss the tenantKey.
+        String hintPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/hints";
+        PropertyGroup hintPG = FHIRConfigHelper.getPropertyGroup(hintPropertyName);
+        if (hintPG != null) {
+            try {
+                result = hintPG.getStringProperty(hintProperty, null);
+            } catch (Exception x) {
+                log.log(Level.WARNING, "getting property '" + hintProperty + "' for datastoreId: '" + datastoreId + "'");
+                result = null;
+            }
+            
+        } else {
+            result = null;
+        }
+        
+        return result;
+    }
+    
+    @Override
+    public QueryHints getQueryHints() {
+        return this;
+    }
+
 }

@@ -53,6 +53,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -105,12 +106,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
     private static final String CLASSNAME = JDBCQueryBuilder.class.getName();
 
-    private ParameterDAO parameterDao;
-    private ResourceDAO resourceDao;
+    private final ParameterDAO parameterDao;
+    private final ResourceDAO resourceDao;
+    
+    // Hints to use for certain queries
+    private final QueryHints queryHints;
 
-    public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao) {
+    public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao, QueryHints queryHints) {
         this.parameterDao = parameterDao;
         this.resourceDao  = resourceDao;
+        this.queryHints = queryHints;
     }
 
     /**
@@ -205,7 +210,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         helper =
                 QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
-                        this.parameterDao, this.resourceDao, searchContext);
+                        this.parameterDao, this.resourceDao, searchContext, this.queryHints);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters

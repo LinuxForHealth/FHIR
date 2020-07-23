@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.sql.Connection;
 
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 
 /**
@@ -28,4 +29,11 @@ public interface FHIRDbDAO {
      * @return true if this DAO is connected to a DB2 database.
      */
     boolean isDb2Database();
+
+    /**
+     * Get the database flavor, which describes the database type and
+     * its capabilities (e.g. is it multi-tenant?)
+     * @return
+     */
+    public FHIRDbFlavor getFlavor();
 }

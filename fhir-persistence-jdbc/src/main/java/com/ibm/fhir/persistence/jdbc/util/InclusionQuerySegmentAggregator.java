@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.parameters.InclusionParameter;
@@ -50,8 +51,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
 
     protected InclusionQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize,
             ParameterDAO parameterDao, ResourceDAO resourceDao,
-            List<InclusionParameter> includeParameters, List<InclusionParameter> revIncludeParameters) {
-        super(resourceType, offset, pageSize, parameterDao, resourceDao);
+            List<InclusionParameter> includeParameters, List<InclusionParameter> revIncludeParameters, QueryHints queryHints) {
+        super(resourceType, offset, pageSize, parameterDao, resourceDao, queryHints);
         this.includeParameters    = includeParameters;
         this.revIncludeParameters = revIncludeParameters;
     }
@@ -149,6 +150,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         // Add the Where Clause
         buildWhereClause(queryString, null);
         queryString.append(COMBINED_RESULTS);
+        addOptimizerHint(queryString);
 
         SqlQueryData queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         log.exiting(CLASSNAME, METHODNAME);
@@ -198,6 +200,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
 
         queryString.append(COMBINED_RESULTS);
 
+        addOptimizerHint(queryString);
+        
         SqlQueryData queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;

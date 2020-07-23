@@ -81,10 +81,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return this.schemaName;
     }
 
-    /**
-     * Get the flavor we need
-     * @return
-     */
+    @Override
     public FHIRDbFlavor getFlavor() {
         return this.flavor;
     }
