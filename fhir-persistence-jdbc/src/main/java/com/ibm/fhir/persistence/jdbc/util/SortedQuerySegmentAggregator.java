@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
@@ -62,8 +63,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * @param sortParms    - A list of SortParameters
      */
     protected SortedQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, ParameterDAO parameterDao,
-            ResourceDAO resourceDao, List<SortParameter> sortParms) {
-        super(resourceType, offset, pageSize, parameterDao, resourceDao);
+            ResourceDAO resourceDao, List<SortParameter> sortParms, QueryHints queryHints) {
+        super(resourceType, offset, pageSize, parameterDao, resourceDao, queryHints);
         this.sortParameters = sortParms;
     }
 
@@ -146,6 +147,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
             // Add in clauses to support pagination
             this.addPaginationClauses(sqlSortQuery);
+
+            addOptimizerHint(sqlSortQuery);
 
             queryData = new SqlQueryData(sqlSortQuery.toString(), allBindVariables);
         }

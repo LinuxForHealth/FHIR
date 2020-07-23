@@ -24,6 +24,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -240,6 +241,12 @@ public class QuantityParmBehaviorUtilTest {
             public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId)
                     throws FHIRPersistenceException {
                 // do nothing
+            }
+
+            @Override
+            public FHIRDbFlavor getFlavor() {
+                // do nothing
+                return null;
             }
         };
     }

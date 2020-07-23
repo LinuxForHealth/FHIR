@@ -535,7 +535,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
             checkModifiers(searchContext);
-            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao);
+            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints());
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {

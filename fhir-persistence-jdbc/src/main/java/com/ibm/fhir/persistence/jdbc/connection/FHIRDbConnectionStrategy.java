@@ -36,4 +36,10 @@ public interface FHIRDbConnectionStrategy {
      * @throws FHIRPersistenceDataAccessException if there is an issue with the configuration
      */
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException;
+    
+    /**
+     * Append the given hint to FHIR search queries
+     * @return
+     */
+    public QueryHints getQueryHints();
 }
