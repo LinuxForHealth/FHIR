@@ -42,6 +42,7 @@ To use the artifacts from a Maven project:
     ```
 
 ### IBM FHIR Server Module Catalog
+The IBM FHIR Server is modular and extensible. The following tables provide an overview of all the IBM FHIR modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the IBM FHIR Server as a whole.
 
 #### Core
 |Module|Description|API-stable|
