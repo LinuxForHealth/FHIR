@@ -158,7 +158,7 @@ jobs:
         echo "Gathering post-test server logs..."
         cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
         echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@main
@@ -275,7 +275,7 @@ jobs:
             docker cp -L $containerId:/logs ${it_results}/server-logs
         fi
         echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@main
