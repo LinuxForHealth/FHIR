@@ -371,8 +371,8 @@ public class BulkDataUtils {
     public static long getHttpsFileSize(String dataUrl) throws Exception {
         HttpsURLConnection httpsConnection = null;
         try {
-            // Check before trying to use 'http' with an 'https' url connection.
-            if (dataUrl.startsWith("http")) {
+            // Check before trying to use 'http://' with an 'https://' url connection.
+            if (dataUrl.startsWith("http://")) {
                 throw new FHIROperationException("No support for 'http'");
             }
 
