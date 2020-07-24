@@ -43,7 +43,7 @@ echo "Deploying the Db2 schema..."
 ./deploySchemaAndTenant.sh
 
 # Now that the schema is setup. Log out the db2pd information for the catalog cache.
-docker-compose exec db2 bash "-c su - \"db2inst1 -c 'db2pd -alldbs -catalogcache'\""
+docker-compose exec -T db2 bash "-c su - \"db2inst1 -c 'db2pd -alldbs -catalogcache'\""
 
 mkdir -p minio/miniodata/fhirbulkdata
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ./minio/miniodata/fhirbulkdata
