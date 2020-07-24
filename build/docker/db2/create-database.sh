@@ -22,6 +22,8 @@ if [[ $(su - db2inst1 -c "db2 list db directory" | grep alias | grep FHIRDB | aw
   echo "FHIRDB exists - skipping create"
 else
   su - db2inst1 -c "db2 CREATE DB FHIRDB using codeset UTF-8 territory us PAGESIZE 32768"
+  su - db2inst1 -c "db2 update db cfg using CATALOGCACHE_SZ"
+  groupadd fhirserver
 fi
 
 # To be properly idempotent, we always want to execute this, just in case it failed the first time
