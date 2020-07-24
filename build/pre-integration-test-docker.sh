@@ -42,6 +42,9 @@ echo "Deploying the Db2 schema..."
 # Note: this adds the tenant key to the server config file so make sure thats set up first
 ./deploySchemaAndTenant.sh
 
+# Now that the schema is setup. Log out the db2pd information for the catalog cache.
+docker exec -ti fhirdb bash -c "su - db2inst1 -c 'db2pd -alldbs -catalogcache'"
+
 mkdir -p minio/miniodata/fhirbulkdata
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ./minio/miniodata/fhirbulkdata
 
