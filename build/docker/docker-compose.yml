@@ -34,6 +34,7 @@ services:
       context: db2
     hostname: db2
     privileged: true
+    tty: true
     environment:
       - LICENSE=accept
       - DB2INST1_PASSWORD=change-password
