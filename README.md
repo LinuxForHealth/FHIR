@@ -45,13 +45,13 @@ To use the artifacts from a Maven project:
 The IBM FHIR Server is modular and extensible. The following tables provide an overview of all the IBM FHIR modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the IBM FHIR Server as a whole.
 
 #### Core
-|Module|Description|API-stable|
+|Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-parent|The parent project for all projects which make up the IBM FHIR Server|false|
 |fhir-core|Core helpers and utilities|false|
 
 #### Model and Profile Support
-|Module|Description|API-stable|
+|Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
 |fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
@@ -65,7 +65,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-ig-davinci-pdex-plan-net|A packaging of the DaVinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net Profile validation|false|
 
 #### Server
-|Module|Description|API-stable|
+|Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-config|Configuration property definitions and helpers for working with the fhir-server-config.json config files and multi-tenancy|false|
 |fhir-audit|Audit-related interfaces and implementations including 1) a No-op AuditLogService and 2) an AuditLogService that writes audit events to Apache Kafka in the Cloud Auditing Data Federation (CADF) JSON format|false|
@@ -84,7 +84,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-server-test|End-to-end integration tests for testing a running server|false|
 
 #### Extended Operations
-|Module|Description|API-stable|
+|Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-operation-test|Sample operations for testing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
 |fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
@@ -97,13 +97,13 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
 
 #### Client
-|Module|Description|API-stable|
+|Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
 |fhir-cli|Experimental command line interface utility for working with the IBM FHIR Server client from the command line|false|
 
 #### Tools and Utilities
-|Module|Description|API-stable|
+|Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-tools|Code generation tools and logic for generating the FHIR object model, XML and JSON parsers, and the DefaultVisitor base class|false|
 |fhir-database-utils|Generic database utilities for working with Apache Derby and IBM Db2 relational database management systems|false|
