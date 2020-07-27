@@ -25,7 +25,7 @@ else
   # See https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.admin.config.doc/doc/r0000338.html
   # Was: CATALOGCACHE_SZ 300 1.2M
   # Now: CATALOGCACHE_SZ 30000  120M
-  su - db2inst1 -c "db2 update db cfg for fhirdb using CATALOGCACHE_SZ 30000"
+  su - db2inst1 -c "db2 update db cfg for fhirdb using CATALOGCACHE_SZ 3000"
 fi
 
 # To be properly idempotent, we always want to execute this, just in case it failed the first time
