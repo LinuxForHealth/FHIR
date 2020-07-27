@@ -9,15 +9,15 @@
     </featureManager>
 
     <authorization-roles id="com.ibm.ws.batch">
-        <security-role name="batchAdmin">
-            <user name="fhiradmin"/>
+        <security-role id="batchAdmin" name="batchAdmin">
+            <user id="batchAdminUser" name="fhiradmin"/>
         </security-role>
-        <security-role name="batchSubmitter">
-            <user name="fhiruser"/>
+        <security-role id="batchSubmitter" name="batchSubmitter">
+            <user id="batchSubmitterUser" name="fhiruser"/>
         </security-role>
-        <security-role name="batchMonitor">
-            <user name="fhiradmin"/>
-            <user name="fhiruser"/>
+        <security-role id="batchMonitor" name="batchMonitor">
+            <user id="batchMonitorUser1" name="fhiradmin"/>
+            <user id="batchMonitorUser2" name="fhiruser"/>
         </security-role>
     </authorization-roles>
 
@@ -25,7 +25,7 @@
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
-                <group name="FHIRUsers"/>
+                <group id="bulkUsersGroup" name="FHIRUsers"/>
             </security-role>
         </application-bnd>
     </webApplication>

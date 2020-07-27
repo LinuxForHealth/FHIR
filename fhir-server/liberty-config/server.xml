@@ -59,7 +59,7 @@
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
-                <group name="FHIRUsers"/>
+                <group id="usersGroup" name="FHIRUsers"/>
             </security-role>
         </application-bnd>
     </webApplication>
