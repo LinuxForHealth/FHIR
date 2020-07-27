@@ -113,9 +113,11 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
+import com.ibm.fhir.persistence.jdbc.util.LogicalIdentityProvider;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
@@ -155,6 +157,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     // Strategy for accessing FHIR configuration data
     private final FHIRConfigProvider configProvider;
+    
+    // Logical identity string provider
+    private final LogicalIdentityProvider logicalIdentityProvider = new TimestampPrefixedUUID();
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -278,7 +283,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // system-generated value. For the update-or-create scenario, see update().
             // Default version is 1 for a brand new FHIR Resource.
             int newVersionNumber = 1;
-            logicalId = UUID.randomUUID().toString();
+            logicalId = logicalIdentityProvider.createNewIdentityValue();
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
             }
