@@ -127,8 +127,8 @@ public class BulkDataUtils {
         if (useFhirServerTrustStore) {
             ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
             // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
-            // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3 
-            // compatible object store, e.g, minio object store with self signed cert. 
+            // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3
+            // compatible object store, e.g, minio object store with self signed cert.
             apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
         }
 
@@ -371,6 +371,11 @@ public class BulkDataUtils {
     public static long getHttpsFileSize(String dataUrl) throws Exception {
         HttpsURLConnection httpsConnection = null;
         try {
+            // Check before trying to use 'http://' with an 'https://' url connection.
+            if (dataUrl.startsWith("http://")) {
+                throw new FHIROperationException("No support for 'http'");
+            }
+
             httpsConnection = (HttpsURLConnection) new URL(dataUrl).openConnection();
             httpsConnection.setRequestMethod("HEAD");
             return httpsConnection.getContentLengthLong();
