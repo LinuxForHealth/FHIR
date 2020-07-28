@@ -16,11 +16,11 @@ import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
 
 /**
  * The BulkDataFactory enables the tenant specific lookup of the 'dummy' or 'cos' implementations.
- * By default the 'dummy' is available, unless otherwise specified in the bulkdata.json.
+ * By default the 'dummy' is available, unless otherwise specified in the fhir-server-config
  * <br>
  * Dummy is only really handy in debugging or testing the operation feature.
  * <br>
- * 
+ *
  * <pre>
  * "implementation_type" : "cos"
  * </pre>
@@ -38,11 +38,11 @@ public class BulkDataFactory {
             Map<String, String> properties = BulkDataConfigUtil.getBatchJobConfig();
             String impl = properties.get(BulkDataConfigUtil.IMPLEMENTATION_TYPE);
 
-            if ("cos".compareTo(impl) == 0) {
+            if ("cos".equals(impl)) {
                 return new CosExportImpl(properties);
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "found no tenant specific bulkdata.json", e);
+            log.log(Level.WARNING, "problem reading bulkdata property from tenant config", e);
         }
         return new DummyImportExportImpl();
     }
