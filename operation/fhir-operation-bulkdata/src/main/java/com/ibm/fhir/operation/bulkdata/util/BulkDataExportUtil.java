@@ -275,8 +275,11 @@ public class BulkDataExportUtil {
                 // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
                 cp.init(Cipher.ENCRYPT_MODE, key);
+
+                // Encrypt the job id, base64-encode it, and replace all `/` chars with the less problematic `_` char
+                String encodedJobId = Base64.getEncoder().withoutPadding().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))).replaceAll("/", "_");
                 // The encrypted job id is used in the polling content location url directly, so urlencode here.
-                return java.net.URLEncoder.encode(Base64.getEncoder().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))), StandardCharsets.UTF_8.name());
+                return java.net.URLEncoder.encode(encodedJobId, StandardCharsets.UTF_8.name());
             } catch (Exception e) {
                 return strToEncrypt;
             }
@@ -294,7 +297,7 @@ public class BulkDataExportUtil {
                 cp.init(Cipher.DECRYPT_MODE, key);
                 // The encrypted job id has already been urldecoded by liberty runtime before reaching this function,
                 // so, we don't do urldecode here.
-                return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+                return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt.replaceAll("_", "/"))), "UTF-8");
             } catch (Exception e) {
                 return strToDecrypt;
             }
