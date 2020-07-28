@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-tools:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
@@ -31,7 +31,7 @@ jobs:
     - name: Build benchmark
       run: mvn -B package --file fhir-benchmark -Dmaven.wagon.http.retryHandler.count=3
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
@@ -111,7 +111,7 @@ jobs:
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
   e2e-tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-16.04
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
@@ -223,7 +223,7 @@ jobs:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
   e2e-db2-with-bulkdata:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
@@ -283,7 +283,7 @@ jobs:
         name: integration-test-results-db2-${{ matrix.java }}
         path: integration-test-results
   db2-migration:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
