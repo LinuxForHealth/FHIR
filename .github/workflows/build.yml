@@ -144,7 +144,7 @@ jobs:
         dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
         rm -f balloon.dat
         sudo apt clean
-        docker rmi $(docker image ls -aq)
+        docker system prune
         df -h
     - name: Server Integration Tests
       env:
@@ -257,7 +257,7 @@ jobs:
         dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
         rm -f balloon.dat
         sudo apt clean
-        docker rmi $(docker image ls -aq)
+        docker system prune
         df -h
     - name: Server Integration Tests
       run: |
@@ -320,7 +320,7 @@ jobs:
         dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
         rm -f balloon.dat
         sudo apt clean
-        docker rmi $(docker image ls -aq)
+        docker system prune
         df -h
     - name: Server Integration Tests
       run: |
