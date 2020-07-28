@@ -180,8 +180,9 @@ public class BulkDataClient {
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
 
-        // Fetch a string generated from random 32 bytes
-        builder.cosBucketPathPrefix(FHIRUtil.getRandomKey("AES"));
+        // Use AES to get a long RandomKey to use for the paths so that they cannot be guessed,
+        // replacing '/' with '_' to avoid potential issues with the S3 API
+        builder.cosBucketPathPrefix(FHIRUtil.getRandomKey("AES").replaceAll("/", "_"));
 
         // Export Type - FHIR
         switch (exportType) {
