@@ -123,6 +123,14 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: free disk space
+      run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
+        sudo apt clean
+        docker rmi $(docker image ls -aq)
+        df -h
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent without tests
@@ -237,6 +245,9 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: free disk space
       run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
         sudo apt clean
         docker rmi $(docker image ls -aq)
         df -h
@@ -297,6 +308,9 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: free disk space
       run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
         sudo apt clean
         docker rmi $(docker image ls -aq)
         df -h
