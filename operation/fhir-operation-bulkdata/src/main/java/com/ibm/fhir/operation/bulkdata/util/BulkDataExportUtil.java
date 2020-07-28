@@ -297,7 +297,7 @@ public class BulkDataExportUtil {
                 cp.init(Cipher.DECRYPT_MODE, key);
                 // The encrypted job id has already been urldecoded by liberty runtime before reaching this function,
                 // so, we don't do urldecode here.
-                return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt)), "UTF-8").replaceAll("_", "/");
+                return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt.replaceAll("_", "/"))), "UTF-8");
             } catch (Exception e) {
                 return strToDecrypt;
             }
