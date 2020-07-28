@@ -277,7 +277,7 @@ public class BulkDataExportUtil {
                 cp.init(Cipher.ENCRYPT_MODE, key);
 
                 // Encrypt the job id, base64-encode it, and replace all `/` chars with the less problematic `_` char
-                String encodedJobId = Base64.getEncoder().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))).replaceAll("/", "_");
+                String encodedJobId = Base64.getEncoder().withoutPadding().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))).replaceAll("/", "_");
                 // The encrypted job id is used in the polling content location url directly, so urlencode here.
                 return java.net.URLEncoder.encode(encodedJobId, StandardCharsets.UTF_8.name());
             } catch (Exception e) {
