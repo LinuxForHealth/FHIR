@@ -19,6 +19,8 @@ module.exports = {
           subDirectory: '/docs',
           branch: 'master',
         },
+        withWebp: true,
+        iconPath: 'src/images/fhir-transparent.png',
         display: 'browser',
       }
     }, 
