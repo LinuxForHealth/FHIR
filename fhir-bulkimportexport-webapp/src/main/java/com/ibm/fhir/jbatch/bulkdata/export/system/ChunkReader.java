@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
@@ -143,7 +144,7 @@ public class ChunkReader extends AbstractItemReader {
             }
 
             try {
-                if (Constants.MEDIA_TYPE_PARQUET.equals(fhirExportFormat)) {
+                if (FHIRMediaType.APPLICATION_PARQUET.equals(fhirExportFormat)) {
                     // No need to write here because we're letting spark write to COS...we don't need to
                     // control the Multi-part upload like in the NDJSON case
                 } else {

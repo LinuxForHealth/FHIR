@@ -17,6 +17,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -74,7 +75,7 @@ public class BulkDataExportUtil {
                 .filter(p -> BulkDataConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue()))
                 .findFirst();
 
-        String mediaType = BulkDataConstants.MEDIA_TYPE_ND_JSON;
+        String mediaType = FHIRMediaType.APPLICATION_NDJSON;
         if (parameter.isPresent() && parameter.get().getValue().is(com.ibm.fhir.model.type.String.class)) {
             mediaType = retrieveOutputFormat(parameter.get().getValue().as(com.ibm.fhir.model.type.String.class).getValue());
         }
@@ -84,12 +85,12 @@ public class BulkDataExportUtil {
 
     private static String retrieveOutputFormat(String requestedFormat) throws FHIROperationException {
         // If the parameter isn't passed, use application/fhir+ndjson
-        String finalValue = BulkDataConstants.MEDIA_TYPE_ND_JSON;
+        String finalValue = FHIRMediaType.APPLICATION_NDJSON;
 
         if (requestedFormat != null) {
             // Normalize the NDJSON variants to MEDIA_TYPE_ND_JSON
             if (BulkDataConstants.NDJSON_VARIANTS.contains(requestedFormat)) {
-                requestedFormat = BulkDataConstants.MEDIA_TYPE_ND_JSON;
+                requestedFormat = FHIRMediaType.APPLICATION_NDJSON;
             }
 
             // We're checking that it's acceptable.

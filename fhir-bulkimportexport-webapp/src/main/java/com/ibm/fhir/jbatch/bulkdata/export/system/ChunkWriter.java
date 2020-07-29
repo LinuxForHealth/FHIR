@@ -9,7 +9,6 @@ package com.ibm.fhir.jbatch.bulkdata.export.system;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,8 +26,10 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
+import com.ibm.fhir.jbatch.bulkdata.export.common.SparkParquetWriter;
 import com.ibm.fhir.jbatch.bulkdata.export.common.TransientUserData;
 import com.ibm.fhir.model.resource.Resource;
 
@@ -181,8 +182,8 @@ public class ChunkWriter extends AbstractItemWriter {
     private void pushFhirParquetToCos(List<Resource> resources) throws Exception {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
-            logger.warning("pushFhirJsons2Cos: chunkData is null, this should never happen!");
-            throw new Exception("pushFhirJsons2Cos: chunkData is null, this should never happen!");
+            logger.warning("pushFhirParquet2Cos: chunkData is null, this should never happen!");
+            throw new Exception("pushFhirParquet2Cos: chunkData is null, this should never happen!");
         }
 
         String itemName;
@@ -239,10 +240,10 @@ public class ChunkWriter extends AbstractItemWriter {
 
         try {
             switch(fhirExportFormat) {
-            case Constants.MEDIA_TYPE_PARQUET:
+            case FHIRMediaType.APPLICATION_PARQUET:
                 boolean isTimeToWriteParquet = chunkData.getPageNum() > chunkData.getLastPageNum()
                         || chunkData.isFinishCurrentUpload();
-                if (isTimeToWriteParquet && Files.size(chunkData.getTempFile()) > 0) {
+                if (isTimeToWriteParquet) {
                     List<Resource> resources = new ArrayList<>();
                     // Is there a cleaner way to add these in a type-safe way?
                     if (resourceLists instanceof List) {
@@ -260,7 +261,7 @@ public class ChunkWriter extends AbstractItemWriter {
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
                 break;
-            case Constants.MEDIA_TYPE_ND_JSON:
+            case FHIRMediaType.APPLICATION_NDJSON:
             default:
                 boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
                         || chunkData.getBufferStream().size() > Constants.COS_PART_MINIMALSIZE

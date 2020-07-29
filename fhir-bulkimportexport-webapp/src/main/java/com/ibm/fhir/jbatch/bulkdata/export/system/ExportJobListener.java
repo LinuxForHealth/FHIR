@@ -21,6 +21,8 @@ import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.apache.spark.sql.SparkSession;
+
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
 
@@ -38,7 +40,13 @@ public class ExportJobListener implements JobListener {
     String dataSourcesInfo;
 
     public ExportJobListener() {
-        // do nothing
+        // Create the global spark session
+        SparkSession.builder()
+            .appName("parquetWriter")
+            // local : Run Spark locally with one worker thread (i.e. no parallelism at all).
+            // local[*] : Run Spark locally with as many worker threads as logical cores on your machine.
+            .master("local[*]") //
+            .getOrCreate();
     }
 
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.jbatch.bulkdata.export.system;
+package com.ibm.fhir.jbatch.bulkdata.export.common;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -34,9 +34,7 @@ public class SparkParquetWriter implements AutoCloseable {
     public SparkParquetWriter() {
         spark = SparkSession.builder()
             .appName("parquetWriter")
-            // local : Run Spark locally with one worker thread (i.e. no parallelism at all).
-            // local[*] : Run Spark locally with as many worker threads as logical cores on your machine.
-            .master("local[*]") //
+            .master("local[*]")
             .getOrCreate();
     }
 
@@ -109,7 +107,9 @@ public class SparkParquetWriter implements AutoCloseable {
         String flatJson = JsonFlattener.flatten(jInput);
         String flattenJson1 = flatJson.replaceAll("\\[", "").replaceAll("\\]", "");
         String flattenJson = flattenJson1.replace('.', '_');
-        System.out.println("flattenAndClean: Flattened string = " + flattenJson);
+        if (logger.isLoggable(Level.FINER)) {
+            logger.finer("flattenAndClean: Flattened string = " + flattenJson);
+        }
         return (flattenJson);
     }
 

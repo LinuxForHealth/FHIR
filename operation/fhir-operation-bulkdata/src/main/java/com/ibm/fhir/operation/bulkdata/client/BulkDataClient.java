@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -221,7 +222,7 @@ public class BulkDataClient {
             builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
         }
 
-        builder.fhirExportFormat(properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, BulkDataConstants.MEDIA_TYPE_ND_JSON));
+        builder.fhirExportFormat(properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, FHIRMediaType.APPLICATION_NDJSON));
 
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
         Entity<String> entity = Entity.json(entityStr);

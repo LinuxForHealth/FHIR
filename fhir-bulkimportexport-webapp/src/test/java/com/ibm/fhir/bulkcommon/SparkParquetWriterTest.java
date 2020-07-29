@@ -16,7 +16,7 @@ import java.util.Collections;
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.jbatch.bulkdata.export.system.SparkParquetWriter;
+import com.ibm.fhir.jbatch.bulkdata.export.common.SparkParquetWriter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.HumanName;
