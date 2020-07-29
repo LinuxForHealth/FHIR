@@ -13,17 +13,15 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 
 /**
  * Constants for BulkData operations
  */
 public class BulkDataConstants {
-    public static final String MEDIA_TYPE_ND_JSON = "application/fhir+ndjson";
-    public static final String MEDIA_TYPE_PARQUET = "application/fhir+parquet";
-
     // Import
-    public static final String INPUT_FORMAT = MEDIA_TYPE_ND_JSON;
+    public static final String INPUT_FORMAT = FHIRMediaType.APPLICATION_NDJSON;
     public static final List<String> INPUT_FORMATS = Collections.unmodifiableList(Arrays.asList(INPUT_FORMAT));
     public static final List<String> STORAGE_TYPES =
             Collections
@@ -36,8 +34,8 @@ public class BulkDataConstants {
     // Export
     public static final List<String> EXPORT_FORMATS =
             Collections.unmodifiableList(Arrays.asList(
-                MEDIA_TYPE_ND_JSON,
-                MEDIA_TYPE_PARQUET
+                FHIRMediaType.APPLICATION_NDJSON,
+                FHIRMediaType.APPLICATION_PARQUET
             ));
     public static final List<String> NDJSON_VARIANTS =
             Collections.unmodifiableList(Arrays.asList(

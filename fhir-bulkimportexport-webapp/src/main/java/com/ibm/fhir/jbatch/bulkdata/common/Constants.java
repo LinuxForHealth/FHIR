@@ -11,9 +11,6 @@ package com.ibm.fhir.jbatch.bulkdata.common;
  *
  */
 public class Constants {
-    public static final String MEDIA_TYPE_ND_JSON = "application/fhir+ndjson";
-    public static final String MEDIA_TYPE_PARQUET = "application/fhir+parquet";
-
     public static final String DEFAULT_FHIR_TENANT = "default";
     public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
 
