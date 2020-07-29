@@ -92,6 +92,7 @@ jobs:
 
             rm -f *.js webpack.stats.json styles-*.js styles-*.js.map webpack-runtime-*.js.map webpack-runtime-*.js manifest.webmanifest component---*.js* app-*.js*
             rm -rf docs/node_modules docs/public docs/.cache
+            rm -rf favicon.svg
 
             echo "Moving the files around for gh-pages"
             cp -Rf ../public/* ./

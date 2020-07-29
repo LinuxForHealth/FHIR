@@ -4,6 +4,10 @@
   display: block;
 }
 
+[class*='bx--side-nav__submenu'] {
+  color: #c6c6c6;
+}
+
 // Remove the Hero Banner Image 
 [class*='Banner-module--grid--1aCPQ'] {
   height: 0;
