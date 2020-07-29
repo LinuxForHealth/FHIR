@@ -261,6 +261,9 @@ public class CheckPointUserData implements java.io.Serializable {
         return lastWritePageNum;
     }
 
+    /**
+     * @param lastWritePageNum the last page of search results that was exported
+     */
     public void setLastWritePageNum(int lastWritePageNum) {
         this.lastWritePageNum = lastWritePageNum;
     }

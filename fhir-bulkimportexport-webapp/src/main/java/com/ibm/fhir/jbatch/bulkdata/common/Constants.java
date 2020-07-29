@@ -11,14 +11,22 @@ package com.ibm.fhir.jbatch.bulkdata.common;
  *
  */
 public class Constants {
+    public static final String MEDIA_TYPE_ND_JSON = "application/fhir+ndjson";
+    public static final String MEDIA_TYPE_PARQUET = "application/fhir+parquet";
 
     public static final String DEFAULT_FHIR_TENANT = "default";
     public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
 
-    // The minimal size (10M bytes) for COS multiple-parts upload.
+    /**
+     * The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only)
+     */
     public static final int COS_PART_MINIMALSIZE = 10485760;
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
     public static final int DEFAULT_PATIENT_EXPORT_SEARCH_PAGE_SIZE = 200;
+
+    /**
+     * The threshold size (200MiB) for when to start writing to a new file (NDJSON-only)
+     */
     public static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
     public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 500000;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
@@ -55,6 +63,7 @@ public class Constants {
     public static final String EXPORT_FHIR_SEARCH_TODATE = "fhir.search.todate";
     public static final String EXPORT_FHIR_SEARCH_PAGESIZE = "fhir.search.pagesize";
     public static final String EXPORT_FHIR_SEARCH_TYPEFILTERS = "fhir.typeFilters";
+    public static final String EXPORT_FHIR_FORMAT = "fhir.exportFormat";
     public static final String EXPORT_FHIR_SEARCH_PATIENTGROUPID = "fhir.search.patientgroupid";
     public static final String EXPORT_COS_OBJECT_PATHPREFIX = "cos.bucket.pathprefix";
 

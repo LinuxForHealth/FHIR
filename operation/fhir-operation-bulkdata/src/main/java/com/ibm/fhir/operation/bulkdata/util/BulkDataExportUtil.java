@@ -11,12 +11,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriInfo;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -62,7 +61,7 @@ public class BulkDataExportUtil {
         return exportType;
     }
 
-    public static MediaType checkAndConvertToMediaType(FHIROperationContext operationContext)
+    public static MediaType checkAndConvertToMediaType(Parameters parameters)
             throws FHIROperationException {
         /*
          * The format for the requested bulk data files to be generated as per [FHIR Asynchronous Request
@@ -71,38 +70,41 @@ public class BulkDataExportUtil {
          * the full content type of application/fhir+ndjson as well as the abbreviated representations
          * application/ndjson and ndjson.
          */
-        UriInfo uriInfo = (UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
-        return MediaType.valueOf(retrieveOutputFormat(uriInfo));
+        Optional<Parameter> parameter = parameters.getParameter().stream()
+                .filter(p -> BulkDataConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue()))
+                .findFirst();
+
+        String mediaType = BulkDataConstants.MEDIA_TYPE_ND_JSON;
+        if (parameter.isPresent() && parameter.get().getValue().is(com.ibm.fhir.model.type.String.class)) {
+            mediaType = retrieveOutputFormat(parameter.get().getValue().as(com.ibm.fhir.model.type.String.class).getValue());
+        }
+
+        return MediaType.valueOf(mediaType);
     }
 
-    private static String retrieveOutputFormat(javax.ws.rs.core.UriInfo uriInfo) throws FHIROperationException {
+    private static String retrieveOutputFormat(String requestedFormat) throws FHIROperationException {
         // If the parameter isn't passed, use application/fhir+ndjson
-        String value = "application/fhir+ndjson";
+        String finalValue = BulkDataConstants.MEDIA_TYPE_ND_JSON;
 
-        MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
-        List<String> qps = queryParameters.get("_outputFormat");
-
-        if (qps != null) {
-            if (qps.isEmpty() || qps.size() != 1) {
-                throw buildOperationException(
-                        "_outputFormat cardinality expectation for $apply operation parameter is 0..1 ", IssueType.INVALID);
+        if (requestedFormat != null) {
+            // Normalize the NDJSON variants to MEDIA_TYPE_ND_JSON
+            if (BulkDataConstants.NDJSON_VARIANTS.contains(requestedFormat)) {
+                requestedFormat = BulkDataConstants.MEDIA_TYPE_ND_JSON;
             }
 
-            String format = qps.get(0);
             // We're checking that it's acceptable.
-            if (!BulkDataConstants.EXPORT_FORMATS.contains(format)) {
-
+            if (!BulkDataConstants.EXPORT_FORMATS.contains(requestedFormat)) {
                 // Workaround for Liberty/CXF replacing "+" with " "
-                MultivaluedMap<String, String> notDecodedQueryParameters = uriInfo.getQueryParameters(false);
-                List<String> notDecodedQps = notDecodedQueryParameters.get("_outputFormat");
+                requestedFormat = requestedFormat.replaceAll(" ", "+");
+            }
 
-                format = notDecodedQps.get(0);
-                if (!BulkDataConstants.EXPORT_FORMATS.contains(format)) {
-                    throw buildOperationException("Invalid requested format.", IssueType.INVALID);
-                }
+            if (BulkDataConstants.EXPORT_FORMATS.contains(requestedFormat)) {
+                finalValue = requestedFormat;
+            } else {
+                throw buildOperationException("Invalid requested format: '" + requestedFormat + "'" , IssueType.INVALID);
             }
         }
-        return value;
+        return finalValue;
     }
 
     public static FHIROperationException buildOperationException(String errMsg, IssueType issueType) {

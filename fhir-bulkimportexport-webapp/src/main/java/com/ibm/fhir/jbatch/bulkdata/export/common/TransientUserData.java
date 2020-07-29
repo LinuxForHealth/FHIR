@@ -7,17 +7,31 @@
 package com.ibm.fhir.jbatch.bulkdata.export.common;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Bulk export Chunk implementation - job cache data.
  *
  */
 public class TransientUserData extends CheckPointUserData {
+    private final static Logger logger = Logger.getLogger(TransientUserData.class.getName());
     private static final long serialVersionUID = -5892726731783560418L;
-    private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
+
+    private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream(2 ^ 16); // 2 ^ 20 = 1 MiB
+    private Path tmpFile;
 
     protected TransientUserData() {
         super();
+        try {
+            tmpFile = Files.createTempDirectory("fhir");
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Unable to create temporary file", e);
+            throw new RuntimeException(e);
+        }
     }
 
     public static TransientUserData fromCheckPointUserData(CheckPointUserData checkPointData) {
@@ -40,6 +54,11 @@ public class TransientUserData extends CheckPointUserData {
     public ByteArrayOutputStream getBufferStream() {
         return bufferStream;
     }
+
+    public Path getTempFile() {
+        return tmpFile;
+    }
+
     public static class Builder extends CheckPointUserData.Builder {
 
         public static Builder builder() {

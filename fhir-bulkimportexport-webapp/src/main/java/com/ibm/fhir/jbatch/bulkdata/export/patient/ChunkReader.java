@@ -92,6 +92,13 @@ public class ChunkReader extends AbstractItemReader {
     protected String fhirResourceType;
 
     /**
+     * Fhir export format.
+     */
+    @Inject
+    @BatchProperty(name = Constants.EXPORT_FHIR_FORMAT)
+    protected String fhirExportFormat;
+
+    /**
      * Fhir Search from date.
      */
     @Inject
@@ -303,7 +310,7 @@ public class ChunkReader extends AbstractItemReader {
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
-        
+
         try {
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
@@ -336,7 +343,7 @@ public class ChunkReader extends AbstractItemReader {
 
         if (resources != null) {
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("readItem(" + fhirResourceType + "): loaded patients number - " + resources.size());
+                logger.fine("readItem(" + fhirResourceType + "): loaded " + resources.size() + " patients");
             }
 
             List<String> patientIds = resources.stream().filter(item -> item.getId() != null).map(item -> item.getId()).collect(Collectors.toList());

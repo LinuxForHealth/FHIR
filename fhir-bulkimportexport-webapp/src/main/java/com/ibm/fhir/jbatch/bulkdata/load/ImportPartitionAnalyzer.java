@@ -55,6 +55,7 @@ public class ImportPartitionAnalyzer implements PartitionAnalyzer {
         // Aggregate the processed resource numbers from different partitions for the same resource types.
         ImportCheckPointData importedResourceTypeInFlySummary = importedResourceTypeInFlySummaries.get(partitionSummaryForMetrics.getImportPartitionResourceType());
         if (importedResourceTypeInFlySummary == null) {
+            // Instantiate a partition summary for this resourceType and add it to the list
             importedResourceTypeInFlySummary = ImportCheckPointData.Builder.builder()
                     .importPartitionResourceType(partitionSummaryForMetrics.getImportPartitionResourceType())
                     .numOfProcessedResources(Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD)
@@ -63,6 +64,7 @@ public class ImportPartitionAnalyzer implements PartitionAnalyzer {
             importedResourceTypeInFlySummaries.put(partitionSummaryForMetrics.getImportPartitionResourceType(),
                     importedResourceTypeInFlySummary);
         } else {
+            // Add info to the object thats already in the list
             importedResourceTypeInFlySummary.setNumOfProcessedResources(importedResourceTypeInFlySummary.getNumOfProcessedResources() + Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD);
 
             if (importedResourceTypeInFlySummary.getNumOfProcessedResources() % Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES == 0) {

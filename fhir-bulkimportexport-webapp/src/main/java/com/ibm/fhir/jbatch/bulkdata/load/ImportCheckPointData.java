@@ -362,4 +362,20 @@ public class ImportCheckPointData implements Serializable {
     public void setInFlyRateBeginMilliSeconds(long inFlyRateBeginMilliSeconds) {
         this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
+
+    @Override
+    public String toString() {
+        return "ImportCheckPointData [importPartitionWorkitem=" + importPartitionWorkitem + ", numOfProcessedResources=" + numOfProcessedResources
+                + ", numOfImportedResources=" + numOfImportedResources + ", numOfImportFailures=" + numOfImportFailures + ", totalReadMilliSeconds="
+                + totalReadMilliSeconds + ", totalWriteMilliSeconds=" + totalWriteMilliSeconds + ", totalValidationMilliSeconds=" + totalValidationMilliSeconds
+                + ", importFileSize=" + importFileSize + ", inFlyRateBeginMilliSeconds=" + inFlyRateBeginMilliSeconds + ", numOfToBeImported="
+                + numOfToBeImported + ", numOfParseFailures=" + numOfParseFailures + ", importPartitionResourceType=" + importPartitionResourceType
+                + ", uniqueIDForImportOperationOutcomes=" + uniqueIDForImportOperationOutcomes + ", partNumForOperationOutcomes=" + partNumForOperationOutcomes
+                + ", uploadIdForOperationOutcomes=" + uploadIdForOperationOutcomes + ", dataPacksForOperationOutcomes=" + dataPacksForOperationOutcomes
+                + ", uniqueIDForImportFailureOperationOutcomes=" + uniqueIDForImportFailureOperationOutcomes + ", partNumForFailureOperationOutcomes="
+                + partNumForFailureOperationOutcomes + ", uploadIdForFailureOperationOutcomes=" + uploadIdForFailureOperationOutcomes
+                + ", dataPacksForFailureOperationOutcomes=" + dataPacksForFailureOperationOutcomes + "]";
+    }
+
+
 }

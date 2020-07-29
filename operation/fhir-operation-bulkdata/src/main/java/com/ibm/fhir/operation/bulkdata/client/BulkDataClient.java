@@ -217,15 +217,19 @@ public class BulkDataClient {
             builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
         }
 
+        builder.fhirExportFormat(properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, BulkDataConstants.MEDIA_TYPE_ND_JSON));
+
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 
+        // TODO check the HTTP response status code
+        // e.g. if it comes back with a 4xx or a 500 it may fail on the JobInstanceResponse.Parser.parse!
         String responseStr = r.readEntity(String.class);
 
         // Debug / Dev only
         if (log.isLoggable(Level.FINE)) {
-            log.warning("JSON -> \n" + responseStr);
+            log.warning("$import response (HTTP " + r.getStatus() + ") -> \n" + responseStr);
         }
 
         JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseStr);
@@ -250,6 +254,9 @@ public class BulkDataClient {
 
         WebTarget target = getWebTarget(baseUrl);
         Response r = target.request().get();
+
+        // TODO check the HTTP response status code
+        // e.g. if it comes back with 404 it may fail on the JobInstanceResponse.Parser.parse!
 
         String responseStr = r.readEntity(String.class);
 
@@ -628,11 +635,13 @@ public class BulkDataClient {
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 
+        // TODO check the HTTP response status code
+        // e.g. if it comes back with a 4xx or a 500 it may fail on the JobInstanceResponse.Parser.parse!
         String responseStr = r.readEntity(String.class);
 
         // Debug / Dev only
         if (log.isLoggable(Level.FINE)) {
-            log.warning("$import json -> \n" + responseStr);
+            log.warning("$import response (HTTP " + r.getStatus() + ") -> \n" + responseStr);
         }
 
         JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseStr);
