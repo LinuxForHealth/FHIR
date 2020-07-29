@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.bulkdata.processor.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +31,9 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
+/**
+ * Import from or export to IBM Cloud Object Storage (COS) or similar S3-compatible object stores
+ */
 public class CosExportImpl implements ExportImportBulkData {
     private static final String CLASSNAME = CosExportImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -46,8 +50,11 @@ public class CosExportImpl implements ExportImportBulkData {
             Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
+            Objects.requireNonNull(outputFormat, "outputFormat");
+
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
+
             if (ExportType.GROUP.equals(exportType)) {
                 if (logicalId == null || logicalId.isEmpty()) {
                     throw new FHIROperationException("Group export requires group id!");
@@ -59,6 +66,7 @@ public class CosExportImpl implements ExportImportBulkData {
                 tmpProperties.put(BulkDataConstants.PARAM_TYPE_FILTER, String.join(",", typeFilters));
             }
 
+            tmpProperties.put(BulkDataConstants.PARAM_OUTPUT_FORMAT, outputFormat.toString());
             addBaseUri(operationContext, tmpProperties);
 
             // Submit Job

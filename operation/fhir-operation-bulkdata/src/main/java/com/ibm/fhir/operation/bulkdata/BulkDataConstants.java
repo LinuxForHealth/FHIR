@@ -20,6 +20,7 @@ import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
  */
 public class BulkDataConstants {
     public static final String MEDIA_TYPE_ND_JSON = "application/fhir+ndjson";
+    public static final String MEDIA_TYPE_PARQUET = "application/fhir+parquet";
 
     // Import
     public static final String INPUT_FORMAT = MEDIA_TYPE_ND_JSON;
@@ -33,9 +34,16 @@ public class BulkDataConstants {
     public static final int IMPORT_MAX_DEFAULT_INPUTS = 5;
 
     // Export
-    public static final String EXPORT_FORMAT = MEDIA_TYPE_ND_JSON;
     public static final List<String> EXPORT_FORMATS =
-            Collections.unmodifiableList(Arrays.asList(MEDIA_TYPE_ND_JSON, "application/ndjson", "ndjson"));
+            Collections.unmodifiableList(Arrays.asList(
+                MEDIA_TYPE_ND_JSON,
+                MEDIA_TYPE_PARQUET
+            ));
+    public static final List<String> NDJSON_VARIANTS =
+            Collections.unmodifiableList(Arrays.asList(
+                "application/ndjson",
+                "ndjson"
+            ));
 
     // Export
     public static final String PARAM_OUTPUT_FORMAT = "_outputFormat";

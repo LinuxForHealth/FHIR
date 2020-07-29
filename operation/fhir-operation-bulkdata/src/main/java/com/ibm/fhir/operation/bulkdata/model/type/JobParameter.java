@@ -40,6 +40,7 @@ public class JobParameter {
     private String fhirDataStoreId;
     private String fhirPatientGroupId;
     private String fhirTypeFilters;
+    private String fhirExportFormat;
     private List<Input> inputs;
     private StorageDetail storageDetail;
 
@@ -164,6 +165,14 @@ public class JobParameter {
         this.fhirTypeFilters = fhirTypeFilters;
     }
 
+    public String getFhirExportFormat() {
+        return fhirExportFormat;
+    }
+
+    public void setFhirExportFormat(String fhirExportFormat) {
+        this.fhirExportFormat = fhirExportFormat;
+    }
+
     public List<Input> getInputs() {
         return inputs;
     }
@@ -266,6 +275,10 @@ public class JobParameter {
                 generator.write("fhir.typeFilters", parameter.getFhirTypeFilters());
             }
 
+            if (parameter.getFhirExportFormat() != null) {
+                generator.write("fhir.exportFormat", parameter.getFhirExportFormat());
+            }
+
             if (parameter.getInputs() != null) {
                 generator.write("fhir.dataSourcesInfo", writeToBase64(parameter.getInputs()));
             }
@@ -336,6 +349,8 @@ public class JobParameter {
         public Builder fhirDataSourcesInfo(List<Input> inputs);
 
         public Builder fhirStorageType(StorageDetail storageDetail);
+
+        public Builder fhirExportFormat(String mediaType);
     }
 
     public static class Parser {
@@ -430,7 +445,7 @@ public class JobParameter {
 
         /**
          * converts back from input string to objects
-         * 
+         *
          * @param input
          * @return
          * @throws IOException

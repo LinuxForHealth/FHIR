@@ -90,6 +90,10 @@ public class ImportJobListener implements JobListener {
 
         String resultInExitStatus[] = new String[sequnceNum];
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
+            if (partitionSummary == null) {
+                logger.warning("One or more partitionSummaries are null; results may be incomplete");
+                continue;
+            }
             int index = inputUrlSequenceMap.get(partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem());
             resultInExitStatus[index] = partitionSummary.getNumOfImportedResources() + ":" + partitionSummary.getNumOfImportFailures();
         }

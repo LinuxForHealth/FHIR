@@ -36,6 +36,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
     "jobXMLName": "FhirBulkExportChunkJob",
     "jobParameters": {
         "fhir.resourcetype": "Patient",
+        "fhir.exportFormat": "application/fhir+ndjson",
         "cos.bucket.name": "fhir-r4-connectathon",
         "cos.location": "us",
         "cos.endpointurl": "https://fake.cloud",
@@ -111,76 +112,97 @@ public class JobInstanceRequest {
             return this;
         }
 
+        @Override
         public Builder fhirResourceType(String fhirResourceType) {
             jobParameter.setFhirResourceType(fhirResourceType);
             return this;
         }
 
+        @Override
         public Builder fhirSearchFromDate(String fhirSearchFromDate) {
             jobParameter.setFhirSearchFromDate(fhirSearchFromDate);
             return this;
         }
 
+        @Override
         public Builder cosBucketName(String cosBucketName) {
             jobParameter.setCosBucketName(cosBucketName);
             return this;
         }
 
+        @Override
         public Builder cosLocation(String cosLocation) {
             jobParameter.setCosLocation(cosLocation);
             return this;
         }
 
+        @Override
         public Builder cosEndpointUrl(String cosEndpointUrl) {
             jobParameter.setCosEndpointUrl(cosEndpointUrl);
             return this;
         }
 
+        @Override
         public Builder cosCredentialIbm(String cosCredentialIbm) {
             jobParameter.setCosCredentialIbm(cosCredentialIbm);
             return this;
         }
 
+        @Override
         public Builder cosApiKey(String cosApiKey) {
             jobParameter.setCosApiKey(cosApiKey);
             return this;
         }
 
+        @Override
         public Builder cosSrvInstId(String cosSrvInstId) {
             jobParameter.setCosSrvInstId(cosSrvInstId);
             return this;
         }
 
+        @Override
         public Builder fhirTenant(String fhirTenant) {
             jobParameter.setFhirTenant(fhirTenant);
             return this;
         }
 
+        @Override
         public Builder fhirDataStoreId(String fhirDataStoreId) {
             jobParameter.setFhirDataStoreId(fhirDataStoreId);
             return this;
         }
 
+        @Override
         public Builder fhirPatientGroupId(String fhirPatientGroupId) {
             jobParameter.setFhirPatientGroupId(fhirPatientGroupId);
             return this;
         }
 
+        @Override
         public Builder cosBucketPathPrefix(String cosBucketPathPrefix) {
             jobParameter.setCosBucketPathPrefix(cosBucketPathPrefix);
             return this;
         }
 
+        @Override
         public Builder fhirTypeFilters(String fhirTypeFilters) {
             jobParameter.setFhirTypeFilters(fhirTypeFilters);
             return this;
         }
 
+        @Override
+        public Builder fhirExportFormat(String mediaType) {
+            jobParameter.setFhirExportFormat(mediaType);
+            return this;
+        }
+
+        @Override
         public Builder fhirDataSourcesInfo(List<Input> inputs) {
             jobParameter.setInputs(inputs);
             return this;
         }
 
+        @Override
         public Builder fhirStorageType(StorageDetail storageDetails) {
             jobParameter.setStorageDetails(storageDetails);
             return this;
@@ -191,6 +213,7 @@ public class JobInstanceRequest {
             return request;
         }
 
+        @Override
         public Builder cosBucketNameOperationOutcome(String cosBucketNameOperationOutcome) {
             jobParameter.setCosOperationBucketNameOo(cosBucketNameOperationOutcome);
             return this;
@@ -248,7 +271,7 @@ public class JobInstanceRequest {
      * Generates JSON from this object.
      */
     public static class Writer {
-        // This is an internal model and does not need to honor _pretty printing as it is only communicating with the java batch framework. 
+        // This is an internal model and does not need to honor _pretty printing as it is only communicating with the java batch framework.
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =

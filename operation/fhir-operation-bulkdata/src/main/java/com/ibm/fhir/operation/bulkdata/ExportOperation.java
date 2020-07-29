@@ -52,7 +52,7 @@ public class ExportOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         // Pick off parameters
-        MediaType outputFormat = BulkDataExportUtil.checkAndConvertToMediaType(operationContext);
+        MediaType outputFormat = BulkDataExportUtil.checkAndConvertToMediaType(parameters);
         Instant since = BulkDataExportUtil.checkAndExtractSince(parameters);
         List<String> types = BulkDataExportUtil.checkAndValidateTypes(parameters);
         List<String> typeFilters = BulkDataExportUtil.checkAndValidateTypeFilters(parameters);
@@ -67,7 +67,7 @@ public class ExportOperation extends AbstractOperation {
                 throw BulkDataExportUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
             }
 
-            response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types, 
+            response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types,
                     typeFilters, operationContext, resourceHelper);
         } else {
             // Unsupported on instance, specific types other than group/patient/system

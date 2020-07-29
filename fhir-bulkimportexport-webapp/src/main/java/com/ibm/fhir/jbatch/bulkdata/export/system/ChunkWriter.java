@@ -9,7 +9,11 @@ package com.ibm.fhir.jbatch.bulkdata.export.system;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
@@ -26,15 +30,17 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.common.TransientUserData;
+import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Bulk export Chunk implementation - the Writer.
- *
+ * TODO: move to common?
  */
 @Dependent
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
+    private SparkParquetWriter parquetWriter = null;
     private boolean isExportPublic = true;
 
     /**
@@ -93,6 +99,13 @@ public class ChunkWriter extends AbstractItemWriter {
     @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String fhirResourceType;
 
+    /**
+     * Fhir export format.
+     */
+    @Inject
+    @BatchProperty(name = Constants.EXPORT_FHIR_FORMAT)
+    String fhirExportFormat;
+
     @Inject
     StepContext stepCtx;
 
@@ -121,7 +134,6 @@ public class ChunkWriter extends AbstractItemWriter {
         String itemName;
         if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
           itemName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
-
         } else {
           itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
         }
@@ -166,11 +178,50 @@ public class ChunkWriter extends AbstractItemWriter {
         }
     }
 
+    private void pushFhirParquetToCos(List<Resource> resources) throws Exception {
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        if (chunkData == null) {
+            logger.warning("pushFhirJsons2Cos: chunkData is null, this should never happen!");
+            throw new Exception("pushFhirJsons2Cos: chunkData is null, this should never happen!");
+        }
+
+        String itemName;
+        if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
+          itemName = "cos://" + cosBucketName + ".fhir/" + cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".parquet";
+        } else {
+          itemName = "cos://" + cosBucketName + ".fhir/job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".parquet";
+        }
+
+        parquetWriter.writeParquet(resources, itemName);
+
+        // Partition status for the exported resources, e.g, Patient[1000,1000,200]
+        if (chunkData.getResourceTypeSummary() == null) {
+            chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
+            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+            }
+        } else {
+            chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
+            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                stepCtx.setTransientUserData(chunkData);
+            }
+        }
+        if (chunkData.getPageNum() <= chunkData.getLastPageNum()) {
+            chunkData.setPartNum(1);
+            chunkData.setUploadId(null);
+            chunkData.setCurrentUploadResourceNum(0);
+            chunkData.setCurrentUploadSize(0);
+            chunkData.setFinishCurrentUpload(false);
+            chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+        }
+    }
+
     /**
      * @see {@link javax.batch.api.chunk.AbstractItemWriter#writeItems(List)}
      */
     @Override
-    public void writeItems(List<java.lang.Object> arg0) throws Exception {
+    public void writeItems(List<java.lang.Object> resourceLists) throws Exception {
         if (cosBucketName == null) {
             cosBucketName = Constants.DEFAULT_COS_BUCKETNAME;
         }
@@ -184,15 +235,46 @@ public class ChunkWriter extends AbstractItemWriter {
         if (chunkData == null) {
             logger.warning("writeItems: chunkData is null, this should never happen!");
             throw new Exception("writeItems: chunkData is null, this should never happen!");
-        } else {
-            boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
-            || chunkData.getBufferStream().size() > Constants.COS_PART_MINIMALSIZE
-            || chunkData.isFinishCurrentUpload();
-            if (chunkData.getBufferStream().size() > 0 && isTimeToWrite) {
-                pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
-                        chunkData.getBufferStream().size());
-                chunkData.setLastWritePageNum(chunkData.getPageNum());
+        }
+
+        try {
+            switch(fhirExportFormat) {
+            case Constants.MEDIA_TYPE_PARQUET:
+                boolean isTimeToWriteParquet = chunkData.getPageNum() > chunkData.getLastPageNum()
+                        || chunkData.isFinishCurrentUpload();
+                if (isTimeToWriteParquet && Files.size(chunkData.getTempFile()) > 0) {
+                    List<Resource> resources = new ArrayList<>();
+                    // Is there a cleaner way to add these in a type-safe way?
+                    if (resourceLists instanceof List) {
+                        for (Object resourceList : resourceLists) {
+                            if (resourceList instanceof Collection<?>) {
+                                for (Object resource : (Collection<?>) resourceList) {
+                                    if (resource instanceof Resource) {
+                                        resources.add((Resource) resource);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    pushFhirParquetToCos(resources);
+                    chunkData.setLastWritePageNum(chunkData.getPageNum());
+                }
+                break;
+            case Constants.MEDIA_TYPE_ND_JSON:
+            default:
+                boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
+                        || chunkData.getBufferStream().size() > Constants.COS_PART_MINIMALSIZE
+                        || chunkData.isFinishCurrentUpload();
+                if (isTimeToWrite && chunkData.getBufferStream().size() > 0) {
+                    // TODO try PipedOutputStream -> PipedInputStream instead?
+                    pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
+                            chunkData.getBufferStream().size());
+                    chunkData.setLastWritePageNum(chunkData.getPageNum());
+                }
             }
+        } catch (Exception e) {
+            // log and forward so that it appears in the server log and not just the job log
+            logger.log(Level.WARNING, "Unexpected error while writing chunk", e);
         }
     }
 
@@ -200,16 +282,23 @@ public class ChunkWriter extends AbstractItemWriter {
     public void open(Serializable checkpoint) throws Exception  {
         isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
         boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
-        cosClient =
-            BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
+        cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                 cosLocation, isCosClientUseFhirServerTrustStore);
-        
+
+        parquetWriter = new SparkParquetWriter("Y".equalsIgnoreCase(cosCredentialIbm), cosEndpointUrl, cosApiKeyProperty, cosSrvinstId);
+
         if (cosClient == null) {
             logger.warning("open: Failed to get CosClient!");
             throw new Exception("Failed to get CosClient!!");
         } else {
             logger.finer("open: Got CosClient successfully!");
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        logger.fine("closing the ChunkWriter");
+        parquetWriter.close();
     }
 }

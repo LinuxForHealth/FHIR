@@ -177,7 +177,7 @@ public class ChunkWriter extends AbstractItemWriter {
             for (Object objResJsonList : arg0) {
                 @SuppressWarnings("unchecked")
                 List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
-    
+
                 for (Resource fhirResource : fhirResourceList) {
                     try {
                         String id = fhirResource.getId();
@@ -186,8 +186,15 @@ public class ChunkWriter extends AbstractItemWriter {
                         if (failValidationIds.contains(id)) {
                             continue;
                         }
-                        OperationOutcome operationOutcome =
-                                fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
+                        OperationOutcome operationOutcome;
+                        if (id == null) {
+                            operationOutcome =
+                                    fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
+                        } else {
+                            operationOutcome =
+                                    fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
+                        }
+
                         succeededNum++;
                         if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
                             FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
@@ -266,7 +273,7 @@ public class ChunkWriter extends AbstractItemWriter {
             chunkData.getBufferStreamForImportError().reset();
         }
     }
-    
+
     @Override
     public void open(Serializable checkpoint) throws Exception {
         if (fhirValidation != null) {

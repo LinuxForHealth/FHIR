@@ -14,25 +14,18 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.UriBuilder;
 
 import org.testng.annotations.Test;
 
@@ -59,20 +52,28 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testBatchJobIdEnDecryption() throws Exception {
-        String jobId = "100";
         SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey("test-key");
         assertNotNull(secretKey);
 
-        String encryptedJobId = BulkDataExportUtil.encryptBatchJobId(jobId, secretKey);
-        assertNotNull(encryptedJobId);
-        assertFalse(encryptedJobId.equals(jobId));
+        // This results in at least one case where the naive base64 encoding of the encrypted jobId would
+        // 1. have a leading '/' which is prohibited by the S3 client; and
+        // 2. have consecutive '/' which can makes it harder to get
+        for (int i = 0; i < 2000; i++) {
+            String jobId = String.valueOf(i);
 
-        encryptedJobId = URLDecoder.decode(encryptedJobId, StandardCharsets.UTF_8.toString());
-        assertNotNull(encryptedJobId);
+            String encryptedJobId = BulkDataExportUtil.encryptBatchJobId(jobId, secretKey);
+            assertNotNull(encryptedJobId);
+            assertFalse(encryptedJobId.equals(jobId));
+            assertFalse(encryptedJobId.startsWith("/"));
+            assertFalse(encryptedJobId.contains("//"));
 
-        String decryptedJobId = BulkDataExportUtil.decryptBatchJobId(encryptedJobId, secretKey);
-        assertNotNull(decryptedJobId);
-        assertEquals(decryptedJobId, jobId);
+            encryptedJobId = URLDecoder.decode(encryptedJobId, StandardCharsets.UTF_8.toString());
+            assertNotNull(encryptedJobId);
+
+            String decryptedJobId = BulkDataExportUtil.decryptBatchJobId(encryptedJobId, secretKey);
+            assertNotNull(decryptedJobId);
+            assertEquals(decryptedJobId, jobId);
+        }
     }
 
     @Test
@@ -148,43 +149,47 @@ public class BulkDataExportUtilTest {
         _mvm.put("_outputFormat", Arrays.asList("application/fhir+ndjson"));
 
         // Default Format
-        MediaType type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        MediaType type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         // No Format
         _mvm.clear();
-        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         // Empty
-        try {
-            _mvm.clear();
-            _mvm.put("_outputFormat", Collections.emptyList());
-            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
-            fail();
-        } catch (FHIROperationException e) {
-            assertNotNull(e);
-        }
+        _mvm.clear();
+        _mvm.put("_outputFormat", Collections.emptyList());
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
+        assertNotNull(type);
+        assertEquals(type.getType(), "application");
+        assertEquals(type.getSubtype(), "fhir+ndjson");
 
-        // multiple values
-        try {
-            _mvm.clear();
-            _mvm.put("_outputFormat", Arrays.asList("application/ndjson", "ndjson"));
-            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
-            fail();
-        } catch (FHIROperationException e) {
-            assertNotNull(e);
-        }
+        // Multiple values
+        _mvm.clear();
+        _mvm.put("_outputFormat", Arrays.asList("application/fhir+parquet", "ndjson"));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
+        assertNotNull(type);
+        assertEquals(type.getType(), "application");
+        assertEquals(type.getSubtype(), "fhir+parquet");
+
+        // Parquet Format
+        _mvm.clear();
+        _mvm.put("_outputFormat", Arrays.asList("application/fhir+parquet"));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
+        assertNotNull(type);
+        assertEquals(type.getType(), "application");
+        assertEquals(type.getSubtype(), "fhir+parquet");
 
         // Not a valid format
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Arrays.asList("application/json"));
-            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+            type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
             fail();
         } catch (FHIROperationException e) {
             assertNotNull(e);
@@ -194,7 +199,7 @@ public class BulkDataExportUtilTest {
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Arrays.asList("application/nd fred"));
-            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+            type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
             fail();
         } catch (FHIROperationException e) {
             assertNotNull(e);
@@ -203,21 +208,21 @@ public class BulkDataExportUtilTest {
         //  Liberty Encoded + to ' '
         _mvm.clear();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir ndjson"));
-        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         //Test the format application/ndjson
         _mvm.put("_outputFormat", Arrays.asList("application/ndjson"));
-        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         //Test the format ndjson
         _mvm.put("_outputFormat", Arrays.asList("ndjson"));
-        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
@@ -627,208 +632,16 @@ public class BulkDataExportUtilTest {
                 result.getParameter().get(0).getValue().as(com.ibm.fhir.model.type.String.class).getValue().isEmpty());
     }
 
-    private FHIROperationContext generateFHIROperationContextWithUriInfo(Map<String, List<String>> _mvm) {
-        FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext();
-        javax.ws.rs.core.UriInfo uriInfo = new javax.ws.rs.core.UriInfo() {
-            @Override
-            public MultivaluedMap<String, String> getQueryParameters() {
-                MultivaluedMap<String, String> mvm = new MultivaluedMap<String, String>() {
-                    @Override
-                    public List<String> get(Object key) {
-                        return _mvm.get(key);
-                    }
-
-                    @Override
-                    public List<String> put(String key, List<String> value) {
-                        return _mvm.put(key, value);
-                    }
-
-                    @Override
-                    public void add(String key, String value) {
-                        if (_mvm.containsKey(key)) {
-                            _mvm.get(key).add(value);
-                        } else {
-                            _mvm.put(key, Arrays.asList(value));
-                        }
-                    }
-
-                    @Override
-                    public int size() {
-                        return _mvm.size();
-                    }
-
-                    @Override
-                    public boolean isEmpty() {
-                        return _mvm.isEmpty();
-                    }
-
-                    @Override
-                    public void clear() {
-                        _mvm.clear();
-                    }
-
-                    @Override
-                    public boolean containsKey(Object key) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean containsValue(Object value) {
-                        return false;
-                    }
-
-                    @Override
-                    public List<String> remove(Object key) {
-                        return null;
-                    }
-
-                    @Override
-                    public void putAll(Map<? extends String, ? extends List<String>> m) {
-                    }
-
-                    @Override
-                    public Set<String> keySet() {
-                        return null;
-                    }
-
-                    @Override
-                    public Collection<List<String>> values() {
-                        return null;
-                    }
-
-                    @Override
-                    public Set<Entry<String, List<String>>> entrySet() {
-                        return null;
-                    }
-
-                    @Override
-                    public void putSingle(String key, String value) {
-                    }
-
-                    @Override
-                    public String getFirst(String key) {
-                        return null;
-                    }
-
-                    @Override
-                    public void addAll(String key, String... newValues) {
-                    }
-
-                    @Override
-                    public void addAll(String key, List<String> valueList) {
-                        _mvm.put(key, valueList);
-                    }
-
-                    @Override
-                    public void addFirst(String key, String value) {
-                    }
-
-                    @Override
-                    public boolean equalsIgnoreValueOrder(MultivaluedMap<String, String> otherMap) {
-                        return false;
-                    }
-
-                };
-                return mvm;
+    private Parameters generateParametersFromMap(Map<String, List<String>> _mvm) {
+        Parameters.Builder builder = Parameters.builder().id("BulkDataExportUtilTest");
+        for (Map.Entry<String, List<String>> entry : _mvm.entrySet()) {
+            for (String value : entry.getValue()) {
+                builder.parameter(Parameter.builder()
+                        .name(string(entry.getKey()))
+                        .value(string(value))
+                        .build());
             }
-
-            @Override
-            public MultivaluedMap<String, String> getQueryParameters(boolean decode) {
-                MultivaluedMap<String, String> mvm = getQueryParameters();
-                List<String> mvms =
-                        mvm.get("_outputFormat").stream().map(s -> s.replace(" ", "+")).collect(Collectors.toList());
-                mvm.clear();
-                mvm.addAll("_outputFormat", mvms);
-                return mvm;
-            }
-
-            @Override
-            public String getPath() {
-                return null;
-            }
-
-            @Override
-            public String getPath(boolean decode) {
-                return null;
-            }
-
-            @Override
-            public List<PathSegment> getPathSegments() {
-                return null;
-            }
-
-            @Override
-            public List<PathSegment> getPathSegments(boolean decode) {
-                return null;
-            }
-
-            @Override
-            public URI getRequestUri() {
-                return null;
-            }
-
-            @Override
-            public UriBuilder getRequestUriBuilder() {
-                return null;
-            }
-
-            @Override
-            public URI getAbsolutePath() {
-                return null;
-            }
-
-            @Override
-            public UriBuilder getAbsolutePathBuilder() {
-                return null;
-            }
-
-            @Override
-            public URI getBaseUri() {
-                return null;
-            }
-
-            @Override
-            public UriBuilder getBaseUriBuilder() {
-                return null;
-            }
-
-            @Override
-            public MultivaluedMap<String, String> getPathParameters() {
-                return null;
-            }
-
-            @Override
-            public MultivaluedMap<String, String> getPathParameters(boolean decode) {
-                return null;
-            }
-
-            @Override
-            public List<String> getMatchedURIs() {
-                return null;
-            }
-
-            @Override
-            public List<String> getMatchedURIs(boolean decode) {
-                return null;
-            }
-
-            @Override
-            public List<Object> getMatchedResources() {
-                return null;
-            }
-
-            @Override
-            public URI resolve(URI uri) {
-                return null;
-            }
-
-            @Override
-            public URI relativize(URI uri) {
-                return null;
-            }
-        };
-
-        ctx.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
-        return ctx;
+        }
+        return builder.build();
     }
 }
