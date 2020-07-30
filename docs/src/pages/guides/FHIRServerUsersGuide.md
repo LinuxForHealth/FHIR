@@ -1143,16 +1143,16 @@ database hostname or database schema name.
 ## 4.10 Bulk data operations
 Bulk data export is implemented according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and Bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
 
-There are 2 modules involved are:
+There are 2 modules involved:
 
 - fhir-operation-bulkdata
 - fhir-bulkimportexport-webapp   
 
-The *fhir-operation-bulkdata* module implements the REST APIs for bulk data export, import and status as FHIR Operations.  There are four operations:
+The *fhir-operation-bulkdata* module implements the REST APIs for bulk data export, import and status as FHIR Operations.  There are five operations:
 
 * ExportOperation - system export
 * PatientExportOperation - Patient export
-* GroupExportOperation - group export
+* GroupExportOperation - Group export
 * ImportOperation - import resources using the system endpoint
 * StatusOperation - polling status for import and export ($bulkdata-status)
 
@@ -1177,7 +1177,7 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
 </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket (e.g, Amazon S3, minio etc) as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata, please refer to section 5 for the detailed description of these properties:
+BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket (e.g, Amazon S3, minIO etc) as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata; please refer to section 5 for the detailed description of these properties:
 
 ```
 "bulkdata": {
@@ -1185,10 +1185,10 @@ BulkData web application writes the exported FHIR resources to an IBM Cloud Obje
     "applicationName": "fhir-bulkimportexport-webapp",
     "moduleName": "fhir-bulkimportexport.war",
     "jobParameters": {
-        "cos.bucket.name": "fhir-r4-connectathon",
+        "cos.bucket.name": "exports",
         "cos.location": "us",
         "cos.endpointurl": "fake",
-        "cos.credential.ibm": "Y",
+        "cos.credential.ibm": "N",
         "cos.api.key": "fake",
         "cos.srvinst.id": "fake"
     },
@@ -1206,9 +1206,9 @@ BulkData web application writes the exported FHIR resources to an IBM Cloud Obje
 }
 ```
 
-To use Amazon S3 bucket for exporting, please set cos.credential.ibm to `N`, set `cos.api.key` to S3 access key, and set `cos.srvinst.id` to the S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
+To use Amazon S3 bucket for exporting, please set `cos.credential.ibm` to `N`, set `cos.api.key` to S3 access key, and set `cos.srvinst.id` to the S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
 
-`.../fhir-bulkimexport-connectathon/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson`
+`.../exports/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson`
 
 To import using the `$import` proposal, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on `https://test-url.cos.ibm.com/bucket1` and `https://test-url.cos.ibm.com/bucket2` you must specify both baseUrls in the configuration:
 
@@ -1223,7 +1223,7 @@ These base urls are not checked when using cloud object store and bulk-import. I
 
 The `fhirServer/bulkdata/maxInputPerRequest` is used to configure a maximum number of inputs supported by the instance.  The default number is 5.
 
-Note: When `$import` is executed, the data must include a specified `Resource.id`, if not specified, the data is logged as being in Error.
+Note: When `$import` is executed, if a resource to import includes a `Resource.id` then this id is honored (via create-on-update). If `Resource.id` is not valued, the server will perform a create and assign a new `Resource.id` for this resource.
 
 Following is the beautified response of sample polling location request after the export is finished:
 
@@ -1286,54 +1286,9 @@ The JavaBatch user is configured in `server.xml` and the `fhir-server-config.jso
 
 Note: The user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in batchDs.xml. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database is created automatically, if the in-memory Apache Derby approach is used.
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/bulkdata.xml`. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created by default via the `fhir-persistence-schema` command line interface jar.
 
-You can also choose to use postgresql or other RDBMS as your Job repository, if taking this approach, you will need to generate the DDL for the job tables first following [IBM Websphere Liberty Batch - Job Repository Configuration](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/WebIndex/WP102716) , then make necessary changes to the generated DDL to make it valid for your RDBMS, and then create the job database, create javabatch user, create jbatch schema and then run the DDL to generate the job tables and enable it in batchDs.xml. let's use postgresql as an example:
-
-(1) Generate DDL and modify it according to your RDBMS.
-
-``` shell
- ./ddlGen generate fhir-server
-```
-then modify the generated DLL file to make it valid for postgresql.
-or you can simply use this sample DDL file: [fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl](https://github.com/IBM/FHIR/tree/master/fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl)
-
-(2) Create the Job database and user.  
-
-``` shell
-psql postgres
->postgres=# create database jobdb;
->postgres=# create user javabatch with password 'change-password';
->postgres=# grant all privileges on database jobdb to javabatch;
-```
-(3) Create jbatch schema.
-
-``` shell
-psql -d jobdb -U javabatch
-jobdb=> CREATE SCHEMA jbatch;
-```
-(4) Run the modified DDL with javabatch user against the job database.
-
-``` shell
-psql -v ON_ERROR_STOP=1 -1 -U javabatch -f batchPersistence-postgresql.ddl -d jobdb
-```
-(5) Enable postgresql job repository in batchDs.xml as following.
-
-``` xml
-<server description="fhir-server">
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" schema="JBATCH">
-    <jdbcDriver libraryRef="fhirSharedLib" />
-    <properties.postgresql
-        databaseName="jobdb"
-        portNumber="5432"
-        serverName="postgresql-server-hostname"
-        user="javabatch"
-        password="change-password" />
-    </dataSource>
-    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
-</server>
-```
+You can also choose to use postgresql or other RDBMS as your Job repository. To enable a postgresql job repository, uncomment the corresponding section of the `bulkdata.xml` server config.
 
 Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
 
@@ -1341,6 +1296,15 @@ For more information about Liberty JavaBatch configuration, please refer to [IBM
 
 ### 4.10.1 Integration Testing
 To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module.
+
+### 4.10.2 Export to Parquet
+Version 4.4 of the IBM FHIR Server introduces experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
+
+To enable export to parquet, an administrator must:
+1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkimportexport-webapp; and
+2. set the `/fhirServer/bulkdata/enableParquet` config property to `true`
+
+One way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkimportexport-webapp pom.xml and rebuild the webapp to include them.
 
 ## 4.11 CADF audit logging service
 The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following:
@@ -1496,7 +1460,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
-
+|`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g
+through the shared lib at `wlp/user/shared/resources/lib`) |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -1546,7 +1511,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 |`fhirServer/bulkdata/patientExportPageSize`|200|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|
-
+|`fhirServer/bulkdata/enableParquet`|false|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -1614,6 +1579,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/cosFileMaxSize`|Y|Y|
 |`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|Y|Y|
+|`fhirServer/bulkdata/enableParquet`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

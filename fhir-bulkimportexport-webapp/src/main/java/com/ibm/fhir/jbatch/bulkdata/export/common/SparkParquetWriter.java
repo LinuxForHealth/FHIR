@@ -58,13 +58,15 @@ public class SparkParquetWriter implements AutoCloseable {
                 .config("fs.stocator.cos.scheme", "cos");
 
         if (useIAM) {
-            sessionBuilder.config("fs.cos.fhir.endpoint", cosEndpoint)
-            .config("fs.cos.fhir.iam.api.key", apiKeyOrAccessKey)
-            .config("fs.cos.fhir.iam.service.id", serviceInstanceIdOrSecretKey);
+            sessionBuilder
+                .config("fs.cos.fhir.endpoint", cosEndpoint)
+                .config("fs.cos.fhir.iam.api.key", apiKeyOrAccessKey)
+                .config("fs.cos.fhir.iam.service.id", serviceInstanceIdOrSecretKey);
         } else {
-            sessionBuilder.config("fs.cos.fhir.endpoint", cosEndpoint)
-            .config("fs.cos.fhir.access.key", apiKeyOrAccessKey)
-            .config("fs.cos.fhir.secret.key", serviceInstanceIdOrSecretKey);
+            sessionBuilder
+                .config("fs.cos.fhir.endpoint", cosEndpoint)
+                .config("fs.cos.fhir.access.key", apiKeyOrAccessKey)
+                .config("fs.cos.fhir.secret.key", serviceInstanceIdOrSecretKey);
         }
 
         spark = sessionBuilder.getOrCreate();

@@ -131,6 +131,7 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.12</artifactId>
             <version>3.0.0</version>
+            <scope>provided</scope>
             <exclusions>
                 <!-- <exclusion>
                     <groupId>xerces</groupId>
@@ -190,6 +191,7 @@
             <groupId>com.ibm.stocator</groupId>
             <artifactId>stocator</artifactId>
             <version>1.1.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.wnameless</groupId>
