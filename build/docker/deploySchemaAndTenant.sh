@@ -48,7 +48,7 @@ do
   fi
 done
 
-if -f ${TMP_FILE}
+if [ -f ${TMP_FILE} ]
 then 
   rm ${TMP_FILE}
 fi
