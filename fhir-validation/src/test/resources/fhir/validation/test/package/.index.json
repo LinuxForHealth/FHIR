@@ -63,6 +63,24 @@
             "version": "0.1.0",
             "kind": "resource",
             "type": "FamilyMemberHistory"
+        },
+        {
+            "filename": "test-reference-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-reference-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "test-reference-extension-with-target-profile.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-reference-extension-with-target-profile",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-target-profile",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
         }
     ]
 }
