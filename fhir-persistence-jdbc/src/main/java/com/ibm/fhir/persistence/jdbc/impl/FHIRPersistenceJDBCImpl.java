@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -140,15 +139,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
 
+    // The following are filtered as they are handled specifically by the persistence layer:
+    private static final List<String> SPECIAL_HANDLING = Arrays.asList("_id", "_lastUpdated");
+
     private final TransactionSynchronizationRegistry trxSynchRegistry;
     private List<OperationOutcome.Issue> supplementalIssues = new ArrayList<>();
 
     protected UserTransaction userTransaction = null;
     protected Boolean updateCreateEnabled = null;
-    
+
     // The strategy used to obtain database connections
     private final FHIRDbConnectionStrategy connectionStrategy;
-    
+
     // A strategy for finding the schema name
     private final SchemaNameSupplier schemaNameSupplier;
 
@@ -157,7 +159,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     // Strategy for accessing FHIR configuration data
     private final FHIRConfigProvider configProvider;
-    
+
     // Logical identity string provider
     private final LogicalIdentityProvider logicalIdentityProvider = new TimestampPrefixedUUID();
 
@@ -175,7 +177,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
         this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
-        
+
         if (userTransaction != null) {
             this.trxSynchRegistry = getTrxSynchRegistry();
         } else {
@@ -188,7 +190,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     Boolean.TRUE));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
-        
+
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
@@ -204,7 +206,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * IConnectionProvider should be a pooling implementation which supports an
      * ITransactionProvider. Uses the default adapter for reading FHIR configurations,
      * which works OK for unit-tests.
-     * 
+     *
      * @param configProps
      * @param cp
      * @throws Exception
@@ -212,18 +214,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
         this(configProps, cp, new DefaultFHIRConfigProvider());
     }
-    
+
     /**
      * Constructor for use when running standalone, outside of any web container. The
      * IConnectionProvider should be a pooling implementation which supports an
      * ITransactionProvider.
-     * 
-     * @implNote A custom implementation of the FHIRConfigProvider interface can be 
-     * specified to provide configuration properties without relying on 
+     *
+     * @implNote A custom implementation of the FHIRConfigProvider interface can be
+     * specified to provide configuration properties without relying on
      * fhir-server-config.json files (FHIRConfiguration). This is useful for
      * some utility/test programs which may specify certain properties (like
      * TENANT_KEY) using their command-line.
-     * 
+     *
      * @param configProps
      * @param cp
      * @param configProvider adapter to provide access to FHIR configuration
@@ -240,16 +242,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // caller provides an adapter we use to obtain configuration information
         this.configProvider = configProvider;
-        
+
         // use the schema name from the configProps, or the connection.getSchema if we have to
         this.schemaNameSupplier = new SchemaNameImpl(new SchemaNameFromProps(configProps));
-        
+
         // Obtain connections from the IConnectionProvider (typically used in Derby-based test-cases)
         this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
-        
+
         // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
         this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
-        
+
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -277,7 +279,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         Resource.Builder resultResourceBuilder = resource.toBuilder();
 
         try (Connection connection = openConnection()) {
-            
+
             // This create() operation is only called by a REST create. If the given resource
             // contains an id, then for R4 we need to ignore it and replace it with our
             // system-generated value. For the update-or-create scenario, see update().
@@ -315,7 +317,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
-            
+
             // The DAO objects are now created on-the-fly (not expensive to construct) and
             // given the connection to use while processing this request
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -364,9 +366,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Convenience method to construct a new instance of the {@link ResourceDAO}
      * @param connection the connection to the database for the DAO to use
      * @return a properly constructed implementation of a ResourceDAO
-     * @throws IllegalArgumentException 
-     * @throws FHIRPersistenceException 
-     * @throws FHIRPersistenceDataAccessException 
+     * @throws IllegalArgumentException
+     * @throws FHIRPersistenceException
+     * @throws FHIRPersistenceDataAccessException
      */
     private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         if (this.trxSynchRegistry != null) {
@@ -380,8 +382,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Convenience method to construct a new instance of the {@link ParameterDAO}
      * @param connection
      * @return
-     * @throws FHIRPersistenceException 
-     * @throws FHIRPersistenceDataAccessException 
+     * @throws FHIRPersistenceException
+     * @throws FHIRPersistenceDataAccessException
      */
     private ParameterDAO makeParameterDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException {
         if (this.trxSynchRegistry != null) {
@@ -390,7 +392,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
         }
     }
-    
+
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource)
             throws FHIRPersistenceException {
@@ -407,7 +409,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
-            
+
             // Assume we have no existing resource.
             int existingVersion = 0;
 
@@ -658,7 +660,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             existingResourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
 
             if (existingResourceDTO == null) {
-                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + 
+                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " +
                         resourceType.getSimpleName() + "/" + logicalId);
             }
 
@@ -666,9 +668,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
                 resourceBuilder = existingResource.toBuilder();
 
-                addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() + 
+                addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() +
                         "' with id '" + logicalId + "' is already deleted.");
-                        
+
                 SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                         .success(true)
                         .resource(existingResource)
@@ -676,7 +678,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 return result;
             }
-            
+
             existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
 
             // Resources are immutable, so we need a new builder to update it (since R4)
@@ -788,7 +790,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
-            
+
             resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
@@ -954,7 +956,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
-            
+
             version = Integer.parseInt(versionId);
             resourceDTO = resourceDao.versionRead(logicalId, resourceType.getSimpleName(), version);
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
@@ -1090,7 +1092,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     private String performCacheDiagnostics() {
 
         StringBuffer diags = new StringBuffer();
-        
+
         // Must do this with its own connection (which will actually be the same
         // underlying physical connection in use when the problem occurred).
         try (Connection connection = openConnection()) {
@@ -1150,6 +1152,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
                 SearchParameter sp = entry.getKey();
                 code = sp.getCode().getValue();
+
+                // As not to inject any other special handling logic, this is a simple inline check to see if
+                // _id or _lastUpdated are used, and ignore those extracted values.
+                if(SPECIAL_HANDLING.contains(code)) {
+                    continue;
+                }
                 type = sp.getType().getValue();
                 expression = sp.getExpression().getValue();
 
@@ -1385,7 +1393,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Caller must close the returned connection after use (before the
      * transaction completes
      * @return
-     * @throws FHIRPersistenceDBConnectException 
+     * @throws FHIRPersistenceDBConnectException
      */
     private Connection openConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "openConnection";
@@ -1399,7 +1407,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
-        
+
         try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
                 return buildOKOperationOutcome();
@@ -1560,8 +1568,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .expression(Arrays.stream(expression).map(com.ibm.fhir.model.type.String::string).collect(Collectors.toList()))
                 .build());
     }
-    
-    
+
+
     @Override
     public String getSchemaForRequestContext(Connection connection) throws FHIRPersistenceDBConnectException {
         String datastoreId = FHIRRequestContext.get().getDataStoreId();
@@ -1574,7 +1582,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // If the currentSchema parameter isn't given, we have to
                 // get it from the database when we have a connection.
                 String currentSchema = dsPG.getStringProperty("currentSchema", null);
-                
+
                 if (currentSchema == null) {
                     // Backup plan. Try getting it from the parent (datasource) property group
                     dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
