@@ -19,21 +19,18 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.persistence.jdbc.connection.Action;
-import com.ibm.fhir.persistence.jdbc.connection.DisableAutocommitAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
 
 /**
- * 
+ * Tests the static derby tables.
  */
 public class PopulateStaticTablesDerbyTest {
     private Properties testProps;
 
     // wraps up everything we need for a FHIR/Derby test database
     private DerbyTestHelper testHelper;
- 
+
     public PopulateStaticTablesDerbyTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
         assertNotNull(testProps);
@@ -45,12 +42,12 @@ public class PopulateStaticTablesDerbyTest {
         // we have to
         this.testHelper = new DerbyTestHelper(1);
     }
-    
+
     @Test(groups = { "derby" })
     public void testGetDerbyConnectionAndCheckStaticTables() throws Exception {
-                
+
         FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(testHelper.getConnectionProvider(), null);
-        
+
         boolean result1 = false;
         boolean result2 = false;
 
