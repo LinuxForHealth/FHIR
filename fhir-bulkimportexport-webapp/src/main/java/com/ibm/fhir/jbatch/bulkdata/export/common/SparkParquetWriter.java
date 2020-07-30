@@ -35,6 +35,7 @@ public class SparkParquetWriter implements AutoCloseable {
         spark = SparkSession.builder()
             .appName("parquetWriter")
             .master("local[*]")
+            .config("spark.ui.enabled", false)
             .getOrCreate();
     }
 
@@ -50,6 +51,7 @@ public class SparkParquetWriter implements AutoCloseable {
         Builder sessionBuilder = SparkSession.builder()
                 .appName("parquetWriter")
                 .master("local[*]")
+                .config("spark.ui.enabled", false)
                 .config("fs.cos.impl", "com.ibm.stocator.fs.ObjectStoreFileSystem")
                 .config("fs.stocator.scheme.list", "cos")
                 .config("fs.stocator.cos.impl", "com.ibm.stocator.fs.cos.COSAPIClient")
