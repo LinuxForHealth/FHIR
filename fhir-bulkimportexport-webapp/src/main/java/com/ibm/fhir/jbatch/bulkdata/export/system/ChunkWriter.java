@@ -287,7 +287,12 @@ public class ChunkWriter extends AbstractItemWriter {
         cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                 cosLocation, isCosClientUseFhirServerTrustStore);
 
-        parquetWriter = new SparkParquetWriter("Y".equalsIgnoreCase(cosCredentialIbm), cosEndpointUrl, cosApiKeyProperty, cosSrvinstId);
+        try {
+            Class.forName("org.apache.spark.sql.SparkSession");
+            parquetWriter = new SparkParquetWriter("Y".equalsIgnoreCase(cosCredentialIbm), cosEndpointUrl, cosApiKeyProperty, cosSrvinstId);
+        } catch (ClassNotFoundException e) {
+            logger.info("No SparkSession in classpath; skipping SparkParquetWriter initialization");
+        }
 
         if (cosClient == null) {
             logger.warning("open: Failed to get CosClient!");
@@ -300,6 +305,8 @@ public class ChunkWriter extends AbstractItemWriter {
     @Override
     public void close() throws Exception {
         logger.fine("closing the ChunkWriter");
-        parquetWriter.close();
+        if (parquetWriter != null) {
+            parquetWriter.close();
+        }
     }
 }

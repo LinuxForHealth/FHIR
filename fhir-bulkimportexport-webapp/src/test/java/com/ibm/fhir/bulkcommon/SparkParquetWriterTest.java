@@ -60,7 +60,7 @@ public class SparkParquetWriterTest {
      */
     private static final String API_KEY = "REPLACEME";
 
-    @Test
+    @Test(enabled = true)
     public void testWriteFile() throws Exception {
         try (SparkParquetWriter sparkParquetWriter = new SparkParquetWriter()) {
             Patient patient = buildPatient();

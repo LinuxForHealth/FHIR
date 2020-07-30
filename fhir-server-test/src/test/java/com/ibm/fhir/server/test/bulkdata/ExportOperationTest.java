@@ -459,6 +459,20 @@ public class ExportOperationTest extends FHIRServerTestBase {
     }
 
     /**
+     * Ensure that export to parquet returns a reasonable error when its disabled on the server
+     */
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
+    public void testExportToParquetResponse() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+            assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode(), "Response status");
+        } else {
+            System.out.println("Base Export Test Disabled, Skipping");
+        }
+    }
+
+    /**
      * Disabled due to limitations with writing parquet to minio
      * https://stackoverflow.com/questions/63174444/how-to-write-parquet-to-minio-from-spark
      */
