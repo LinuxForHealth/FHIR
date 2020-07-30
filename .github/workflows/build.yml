@@ -138,6 +138,14 @@ jobs:
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+    - name: free disk space
+      run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
+        sudo apt clean
+        docker system prune -f
+        df -h
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
@@ -235,11 +243,6 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: free disk space
-      run: |
-        sudo apt clean
-        docker rmi $(docker image ls -aq)
-        df -h
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
@@ -248,6 +251,14 @@ jobs:
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+    - name: free disk space
+      run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
+        sudo apt clean
+        docker system prune -f
+        df -h
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
@@ -295,11 +306,6 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: free disk space
-      run: |
-        sudo apt clean
-        docker rmi $(docker image ls -aq)
-        df -h
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
@@ -308,6 +314,14 @@ jobs:
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
         mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+    - name: free disk space
+      run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
+        sudo apt clean
+        docker system prune -f
+        df -h
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
