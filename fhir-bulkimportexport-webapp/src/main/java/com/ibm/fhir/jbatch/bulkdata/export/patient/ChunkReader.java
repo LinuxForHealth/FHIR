@@ -29,6 +29,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
@@ -198,8 +199,12 @@ public class ChunkReader extends AbstractItemReader {
                                 continue;
                             }
                             try {
-                                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                                chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                                // No need to fill buffer for parquet because we're letting spark write to COS;
+                                // we don't need to control the Multi-part upload like in the NDJSON case
+                                if (!FHIRMediaType.APPLICATION_PARQUET.equals(fhirExportFormat)) {
+                                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                                }
                                 resSubTotal++;
                                 if (isDoDuplicationCheck) {
                                     loadedResourceIds.add(res.getId());
@@ -245,8 +250,12 @@ public class ChunkReader extends AbstractItemReader {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         for (Resource res : patients) {
             try {
-                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                // No need to fill buffer for parquet because we're letting spark write to COS;
+                // we don't need to control the Multi-part upload like in the NDJSON case
+                if (!FHIRMediaType.APPLICATION_PARQUET.equals(fhirExportFormat)) {
+                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                }
                 resSubTotal++;
             } catch (FHIRGeneratorException e) {
                 if (res.getId() != null) {

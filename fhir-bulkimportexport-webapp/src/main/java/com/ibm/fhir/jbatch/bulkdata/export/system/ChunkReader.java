@@ -144,10 +144,9 @@ public class ChunkReader extends AbstractItemReader {
             }
 
             try {
-                if (FHIRMediaType.APPLICATION_PARQUET.equals(fhirExportFormat)) {
-                    // No need to write here because we're letting spark write to COS...we don't need to
-                    // control the Multi-part upload like in the NDJSON case
-                } else {
+                // No need to fill buffer for parquet because we're letting spark write to COS;
+                // we don't need to control the Multi-part upload like in the NDJSON case
+                if (!FHIRMediaType.APPLICATION_PARQUET.equals(fhirExportFormat)) {
                     FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
                     chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                 }
