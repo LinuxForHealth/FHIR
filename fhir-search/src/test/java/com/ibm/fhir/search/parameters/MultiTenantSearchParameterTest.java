@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.search.parameters;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -13,6 +14,7 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -382,5 +384,31 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
         assertEquals(35, result.size());
+    }
+
+    @Test
+    public void testGetSearchParametersWithAllResource() throws Exception {
+        // Looking only for built-in search parameters for "Patient" versus "Resource"
+        FHIRRequestContext.set(new FHIRRequestContext("tenant6"));
+
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
+        assertNotNull(result);
+        printSearchParameters("testGetSearchParametersWithAllResource", result);
+        assertEquals(31, result.size());
+
+        // confirm that favorite-number exists as well as the RESOURCE level favorite-color
+        List<String> codes = result.stream().map(r -> r.getCode().getValue()).collect(Collectors.toList());
+        assertTrue(codes.contains("favorite-number"));
+        assertTrue(codes.contains("favorite-color"));
+
+        result = SearchUtil.getApplicableSearchParameters("CarePlan");
+        assertNotNull(result);
+        printSearchParameters("testGetSearchParametersWithAllResource", result);
+        assertEquals(27, result.size());
+        codes = result.stream().map(r -> r.getCode().getValue()).collect(Collectors.toList());
+
+        // confirm that favorite-number exists as well and the RESOURCE level favorite-color does not
+        assertTrue(codes.contains("favorite-number"));
+        assertFalse(codes.contains("favorite-color"));
     }
 }

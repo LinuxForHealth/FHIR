@@ -168,6 +168,12 @@ public class SearchUtil {
             if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
                 result.addAll(spMapResourceType.values());
             }
+
+            // Add the Mapping to All Resource Types
+            spMapResourceType = spMapTenant.get(SearchConstants.RESOURCE_RESOURCE);
+            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
+                result.addAll(spMapResourceType.values());
+            }
         }
         return result;
     }
