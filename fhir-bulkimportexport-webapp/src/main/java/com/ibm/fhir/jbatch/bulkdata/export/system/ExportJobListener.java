@@ -45,7 +45,10 @@ public class ExportJobListener implements JobListener {
             .appName("parquetWriter")
             // local : Run Spark locally with one worker thread (i.e. no parallelism at all).
             // local[*] : Run Spark locally with as many worker threads as logical cores on your machine.
-            .master("local[*]") //
+            .master("local[*]")
+            // this undocumented feature allows us to avoid a bunch of unneccessary dependencies and avoid
+            // launching the unnecessary SparkUI stuff, but there is some risk in using it as its undocumented.
+            .config("spark.ui.enabled", false)
             .getOrCreate();
     }
 
