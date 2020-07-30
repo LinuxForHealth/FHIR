@@ -1,0 +1,80 @@
+{
+    "resourceType": "Bundle",
+    "id": "searchParams",
+    "meta": {
+        "lastUpdated": "2020-07-30T22:37:54.724+11:00"
+    },
+    "type": "collection",
+    "entry": [{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Patient-favorite-color",
+            "url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+            "version": "4.0.0",
+            "name": "favorite-color",
+            "status": "draft",
+            "experimental": false,
+            "date": "2018-12-27T22:37:54+11:00",
+            "publisher": "IBM FHIR Server Test",
+            "contact": [{
+                "telecom": [{
+                    "system": "url",
+                    "value": "http://ibm.com/fhir"
+                }]
+            },
+            {
+                "telecom": [{
+                    "system": "url",
+                    "value": "http://ibm.com/fhir"
+                }]
+            }],
+            "description": "the patient's favorite color",
+            "code": "favorite-color",
+            "base": ["Patient"],
+            "type": "string",
+            "xpathUsage": "normal",
+            "xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-color']/f:valueString",
+            "expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-color').value",
+            "multipleOr": true,
+            "multipleAnd": true,
+            "modifier": []
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-number",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "dummy-favorite-number-for-all",
+            "url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-number",
+            "version": "4.0.0",
+            "name": "dummy-favorite-number-for-all",
+            "status": "draft",
+            "experimental": false,
+            "date": "2018-12-27T22:37:54+11:00",
+            "publisher": "IBM FHIR Server Test",
+            "contact": [{
+                "telecom": [{
+                    "system": "url",
+                    "value": "http://ibm.com/fhir"
+                }]
+            },
+            {
+                "telecom": [{
+                    "system": "url",
+                    "value": "http://ibm.com/fhir"
+                }]
+            }],
+            "description": "the patient's favorite number",
+            "code": "favorite-number",
+            "base": ["Resource"],
+            "type": "number",
+            "xpathUsage": "normal",
+            "xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-number']/f:valueInteger",
+            "expression": "dummy.id",
+            "multipleOr": true,
+            "multipleAnd": true,
+            "modifier": []
+        }
+    }]
+}
