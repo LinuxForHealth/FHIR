@@ -198,14 +198,13 @@ public class QuerySegmentAggregator {
             queryString.append(" AND R.IS_DELETED <> 'Y'");
 
 
-            // An important step here is to add _id, values table bind variables, and then and _lastUpdated
+            // An important step here is to add _id, _lastUpdated, and then values table bind variables
             List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
-
+            allBindVariables.addAll(lastUpdatedObjects);
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
-            allBindVariables.addAll(lastUpdatedObjects);
 
             // Add default ordering
             queryString.append(DEFAULT_ORDERING);
@@ -268,14 +267,13 @@ public class QuerySegmentAggregator {
             buildFromClause(queryString, simpleName);
             buildWhereClause(queryString, null);
 
-            // An important step here is to add _id, values table bind variables, and then and _lastUpdated
+            // An important step here is to add _id, _lastUpdated, and then values table bind variables
             List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
-
+            allBindVariables.addAll(lastUpdatedObjects);
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
-            allBindVariables.addAll(lastUpdatedObjects);
 
             addOptimizerHint(queryString);
             queryData = new SqlQueryData(queryString.toString(), allBindVariables);
@@ -606,10 +604,7 @@ public class QuerySegmentAggregator {
                         .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                     }
                 }
-            } else {
-                // end if SKIP_WHERE
-                System.out.println(whereClause);
-            }
+            } // end if SKIP_WHERE
         } // end for
 
         log.exiting(CLASSNAME, METHODNAME);
