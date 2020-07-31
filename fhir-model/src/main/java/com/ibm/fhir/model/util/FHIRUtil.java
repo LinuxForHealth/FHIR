@@ -79,6 +79,7 @@ public class FHIRUtil {
     public static final com.ibm.fhir.model.type.String STRING_DATA_ABSENT_REASON_UNKNOWN = com.ibm.fhir.model.type.String.builder()
             .extension(DATA_ABSENT_REASON_UNKNOWN)
             .build();
+    @Deprecated
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
@@ -574,7 +575,9 @@ public class FHIRUtil {
      * In either case, the resulting value is encoded as a Base64 string before returning.
      *
      * @return a base64-encoded random key string
+     * @deprecated we plan to remove this from FHIRUtil in a future release
      */
+    @Deprecated
     public static String getRandomKey(String algorithm) {
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
