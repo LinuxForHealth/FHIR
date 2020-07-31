@@ -13,6 +13,10 @@ services:
         source: ./fhir-server/volumes/userlib
         target: /opt/ol/wlp/usr/servers/fhir-server/userlib
         read_only: true
+    command: bash -c "
+        dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
+        && rm -f balloon.dat && /opt/ol/wlp/bin/server run fhir-server
+      "
     healthcheck:
       start_period: 60s
       interval: 10s

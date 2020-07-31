@@ -417,17 +417,34 @@ public class ConstraintGenerator {
 
         String identifier = getIdentifier(elementDefinition);
 
-        if (isOptional(elementDefinition)) {
-            sb.append(identifier).append(".exists() implies (");
-        } else {
-            sb.append(identifier).append(".exists() and ");
+        sb.append(identifier);
+        if (hasChoiceTypeConstraint(elementDefinition)) {
+            Type type = getTypes(elementDefinition).get(0);
+            if (type.getCode() != null) {
+                String code = type.getCode().getValue();
+                sb.append(".as(").append(code).append(")");
+            }
         }
 
-        String prefix = "";
-        if (isRepeating(elementDefinition)) {
-            sb.append(identifier).append(".all(");
+        if (isOptional(elementDefinition)) {
+            sb.append(".exists() implies (");
         } else {
-            prefix = identifier + ".";
+            sb.append(".exists() and ");
+        }
+
+        sb.append(identifier);
+        if (hasChoiceTypeConstraint(elementDefinition)) {
+            Type type = getTypes(elementDefinition).get(0);
+            if (type.getCode() != null) {
+                String code = type.getCode().getValue();
+                sb.append(".as(").append(code).append(")");
+            }
+        }
+
+        if (isRepeating(elementDefinition)) {
+            sb.append(".all(");
+        } else {
+            sb.append(".");
         }
 
         List<String> targetProfiles = getTargetProfiles(getTypes(elementDefinition).get(0));
@@ -435,9 +452,9 @@ public class ConstraintGenerator {
         for (String targetProfile : targetProfiles) {
             if (isResourceDefinition(targetProfile)) {
                 String resourceType = targetProfile.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
-                joiner.add(prefix + "resolve().is(" + resourceType + ")");
+                joiner.add("resolve().is(" + resourceType + ")");
             } else {
-                joiner.add(prefix + "resolve().conformsTo('" + targetProfile + "')");
+                joiner.add("resolve().conformsTo('" + targetProfile + "')");
             }
         }
         sb.append(joiner.toString());
@@ -478,11 +495,6 @@ public class ConstraintGenerator {
         }
 
         sb.append(identifier);
-
-        Binding binding = elementDefinition.getBinding();
-        String valueSet = binding.getValueSet().getValue();
-        String strength = binding.getStrength().getValue();
-
         if (hasChoiceTypeConstraint(elementDefinition)) {
             Type type = getTypes(elementDefinition).get(0);
             if (type.getCode() != null) {
@@ -496,6 +508,10 @@ public class ConstraintGenerator {
         } else {
             sb.append(".");
         }
+
+        Binding binding = elementDefinition.getBinding();
+        String valueSet = binding.getValueSet().getValue();
+        String strength = binding.getStrength().getValue();
 
         sb.append("memberOf('").append(valueSet).append("', '").append(strength).append("')");
 
@@ -545,6 +561,14 @@ public class ConstraintGenerator {
             if (canonical.getValue() != null) {
                 targetProfiles.add(canonical.getValue());
             }
+        }
+        return targetProfiles;
+    }
+
+    private List<String> getTargetProfiles(List<Type> types) {
+        List<String> targetProfiles = new ArrayList<>();
+        for (Type type : types) {
+            targetProfiles.addAll(getTargetProfiles(type));
         }
         return targetProfiles;
     }
@@ -638,7 +662,9 @@ public class ConstraintGenerator {
     private boolean hasReferenceTypeConstraint(ElementDefinition elementDefinition) {
         List<Type> types = getTypes(elementDefinition);
         List<Type> baseTypes = getTypes(getElementDefinition(elementDefinition.getBase().getPath().getValue()));
-        return isReferenceType(types) && !types.equals(baseTypes);
+        List<String> targetProfiles = getTargetProfiles(types);
+        List<String> baseTargetProfiles = getTargetProfiles(baseTypes);
+        return isReferenceType(types) && !targetProfiles.equals(baseTargetProfiles);
     }
 
     private boolean hasValueConstraint(ElementDefinition elementDefinition) {

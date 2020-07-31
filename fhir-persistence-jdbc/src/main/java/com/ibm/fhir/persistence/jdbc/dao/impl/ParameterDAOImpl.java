@@ -72,7 +72,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      */
     public ParameterDAOImpl(Connection connection, String schemaName, FHIRDbFlavor flavor) {
         super(connection, schemaName, flavor);
-        
+
         // For unit-tests, we don't use managed transactions, so don't have any sync registry.
         this.trxSynchRegistry = null;
         this.runningInTrx = false;
@@ -136,7 +136,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             default:
                 pnd = new ParameterNameDAOImpl(connection, getSchemaName());
                 break;
-            
+
             }
 
             return pnd.readOrAddParameterNameId(parameterName);
@@ -162,7 +162,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final Connection connection = getConnection(); // do not close
         try {
             CodeSystemDAO csd;
-            
+
             switch (getFlavor().getType()) {
             case DERBY:
                 csd = new DerbyCodeSystemDAO(connection, getSchemaName());
@@ -174,7 +174,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 csd = new CodeSystemDAOImpl(connection, getSchemaName());
                 break;
             }
-            
+
             return csd.readOrAddCodeSystem(codeSystemName);
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -280,7 +280,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 acquiredFromCache = true;
             }
             if (log.isLoggable(Level.FINE)) {
-                log.fine("paramenterName=" + parameterName + "  parameterNameId=" + parameterNameId +
+                log.fine("parameterName=" + parameterName + "  parameterNameId=" + parameterNameId +
                           "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ParameterNamesCache.getCacheNameForTenantDatastore());
             }
         } finally {
