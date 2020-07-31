@@ -198,13 +198,14 @@ public class QuerySegmentAggregator {
             queryString.append(" AND R.IS_DELETED <> 'Y'");
 
 
-            // Bind Variables
+            // An important step here is to add _id, values table bind variables, and then and _lastUpdated
             List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
-            allBindVariables.addAll(lastUpdatedObjects);
+
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
+            allBindVariables.addAll(lastUpdatedObjects);
 
             // Add default ordering
             queryString.append(DEFAULT_ORDERING);
@@ -267,13 +268,14 @@ public class QuerySegmentAggregator {
             buildFromClause(queryString, simpleName);
             buildWhereClause(queryString, null);
 
-            // An important step here is to add _id then all other values.
+            // An important step here is to add _id, values table bind variables, and then and _lastUpdated
             List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
-            allBindVariables.addAll(lastUpdatedObjects);
+
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
+            allBindVariables.addAll(lastUpdatedObjects);
 
             addOptimizerHint(queryString);
             queryData = new SqlQueryData(queryString.toString(), allBindVariables);
@@ -343,7 +345,6 @@ public class QuerySegmentAggregator {
                 idsObjects.clear();
                 lastUpdatedObjects.clear();
 
-                // queryString.append(resourceTypeName + "_RESOURCES R");
                 // might need a more sophisticated select for the RESOURCES table
                 // Get the distinct set of logical resources matching the search criteria
 
@@ -359,19 +360,18 @@ public class QuerySegmentAggregator {
                 processFromClauseForLastUpdated(queryString, resourceTypeName);
                 queryString.append(" AS R ");
 
-                // An important step here is to add _id and _lastUpdated
-                allBindVariables.addAll(idsObjects);
-                allBindVariables.addAll(lastUpdatedObjects);
-
                 queryString.append(ON);
                 queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
                 queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
                 queryString.append(" AND R.IS_DELETED <> 'Y'");
 
+                // An important step here is to add _id, values table bind variables, and then and _lastUpdated
+                allBindVariables.addAll(idsObjects);
                 //Adding all other values to the bind variable list for this resource type.
                 for (SqlQueryData querySegment : this.querySegments) {
                     allBindVariables.addAll(querySegment.getBindVariables());
                 }
+                allBindVariables.addAll(lastUpdatedObjects);
             }
         }
 
