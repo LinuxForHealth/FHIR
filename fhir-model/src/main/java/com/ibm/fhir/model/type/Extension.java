@@ -48,7 +48,7 @@ public class Extension extends Element {
      * Source of the definition for the extension code - a logical name or a URL.
      * 
      * @return
-     *     An immutable object of type {@link java.lang.String}.
+     *     An immutable object of type {@link java.lang.String} that is non-null.
      */
     public java.lang.String getUrl() {
         return url;
@@ -59,7 +59,7 @@ public class Extension extends Element {
      * list).
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getValue() {
         return value;

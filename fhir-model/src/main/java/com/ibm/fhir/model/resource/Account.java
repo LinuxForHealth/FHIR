@@ -103,7 +103,7 @@ public class Account extends DomainResource {
      * number).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -113,7 +113,7 @@ public class Account extends DomainResource {
      * Indicates whether the account is presently used/usable or not.
      * 
      * @return
-     *     An immutable object of type {@link AccountStatus}.
+     *     An immutable object of type {@link AccountStatus} that is non-null.
      */
     public AccountStatus getStatus() {
         return status;
@@ -123,7 +123,7 @@ public class Account extends DomainResource {
      * Categorizes the account for reporting and searching purposes.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -133,7 +133,7 @@ public class Account extends DomainResource {
      * Name used for the account when displaying it to humans in reports, etc.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -144,7 +144,7 @@ public class Account extends DomainResource {
      * related to the subject, the expenses were ultimately incurred by the subject of the Account.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -154,7 +154,7 @@ public class Account extends DomainResource {
      * The date range of services associated with this account.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getServicePeriod() {
         return servicePeriod;
@@ -165,7 +165,7 @@ public class Account extends DomainResource {
      * the account.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coverage}.
+     *     An unmodifiable list containing immutable objects of type {@link Coverage} that may be empty.
      */
     public List<Coverage> getCoverage() {
         return coverage;
@@ -175,7 +175,7 @@ public class Account extends DomainResource {
      * Indicates the service area, hospital, department, etc. with responsibility for managing the Account.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOwner() {
         return owner;
@@ -185,7 +185,7 @@ public class Account extends DomainResource {
      * Provides additional information about what the account tracks and how it is used.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -195,7 +195,7 @@ public class Account extends DomainResource {
      * The parties responsible for balancing the account if other payment options fall short.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Guarantor}.
+     *     An unmodifiable list containing immutable objects of type {@link Guarantor} that may be empty.
      */
     public List<Guarantor> getGuarantor() {
         return guarantor;
@@ -205,7 +205,7 @@ public class Account extends DomainResource {
      * Reference to a parent Account.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPartOf() {
         return partOf;
@@ -859,7 +859,7 @@ public class Account extends DomainResource {
          * could be important when processing billing.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getCoverage() {
             return coverage;
@@ -869,7 +869,7 @@ public class Account extends DomainResource {
          * The priority of the coverage in the context of this account.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getPriority() {
             return priority;
@@ -1140,7 +1140,7 @@ public class Account extends DomainResource {
          * The entity who is responsible.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getParty() {
             return party;
@@ -1150,7 +1150,7 @@ public class Account extends DomainResource {
          * A guarantor may be placed on credit hold or otherwise have their role temporarily suspended.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getOnHold() {
             return onHold;
@@ -1160,7 +1160,7 @@ public class Account extends DomainResource {
          * The timeframe during which the guarantor accepts responsibility for the account.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;

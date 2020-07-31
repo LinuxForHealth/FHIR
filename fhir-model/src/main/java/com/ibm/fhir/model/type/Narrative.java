@@ -63,7 +63,7 @@ public class Narrative extends Element {
      * whether a human authored it and it may contain additional data.
      * 
      * @return
-     *     An immutable object of type {@link NarrativeStatus}.
+     *     An immutable object of type {@link NarrativeStatus} that is non-null.
      */
     public NarrativeStatus getStatus() {
         return status;
@@ -73,7 +73,7 @@ public class Narrative extends Element {
      * The actual narrative content, a stripped down version of XHTML.
      * 
      * @return
-     *     An immutable object of type {@link Xhtml}.
+     *     An immutable object of type {@link Xhtml} that is non-null.
      */
     public Xhtml getDiv() {
         return div;

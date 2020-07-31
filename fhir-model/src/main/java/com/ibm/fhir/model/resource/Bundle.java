@@ -158,7 +158,7 @@ public class Bundle extends Resource {
      * A persistent identifier for the bundle that won't change as a bundle is copied from server to server.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -168,7 +168,7 @@ public class Bundle extends Resource {
      * Indicates the purpose of this bundle - how it is intended to be used.
      * 
      * @return
-     *     An immutable object of type {@link BundleType}.
+     *     An immutable object of type {@link BundleType} that is non-null.
      */
     public BundleType getType() {
         return type;
@@ -178,7 +178,7 @@ public class Bundle extends Resource {
      * The date/time that the bundle was assembled - i.e. when the resources were placed in the bundle.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getTimestamp() {
         return timestamp;
@@ -190,7 +190,7 @@ public class Bundle extends Resource {
      * in the Bundle.
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getTotal() {
         return total;
@@ -200,7 +200,7 @@ public class Bundle extends Resource {
      * A series of links that provide context to this bundle.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Link}.
+     *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
      */
     public List<Link> getLink() {
         return link;
@@ -211,7 +211,7 @@ public class Bundle extends Resource {
      * history only).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Entry}.
+     *     An unmodifiable list containing immutable objects of type {@link Entry} that may be empty.
      */
     public List<Entry> getEntry() {
         return entry;
@@ -221,7 +221,7 @@ public class Bundle extends Resource {
      * Digital Signature - base64 encoded. XML-DSig or a JWT.
      * 
      * @return
-     *     An immutable object of type {@link Signature}.
+     *     An immutable object of type {@link Signature} that may be null.
      */
     public Signature getSignature() {
         return signature;
@@ -589,7 +589,7 @@ public class Bundle extends Resource {
          * 1).
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getRelation() {
             return relation;
@@ -599,7 +599,7 @@ public class Bundle extends Resource {
          * The reference details for the link.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that is non-null.
          */
         public Uri getUrl() {
             return url;
@@ -877,7 +877,7 @@ public class Bundle extends Resource {
          * A series of links that provide context to this entry.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Link}.
+         *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
          */
         public List<Bundle.Link> getLink() {
             return link;
@@ -892,7 +892,7 @@ public class Bundle extends Resource {
          * * Results from operations might involve resources that are not identified.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getFullUrl() {
             return fullUrl;
@@ -902,7 +902,7 @@ public class Bundle extends Resource {
          * The Resource for the entry. The purpose/meaning of the resource is determined by the Bundle.type.
          * 
          * @return
-         *     An immutable object of type {@link Resource}.
+         *     An immutable object of type {@link Resource} that may be null.
          */
         public Resource getResource() {
             return resource;
@@ -912,7 +912,7 @@ public class Bundle extends Resource {
          * Information about the search process that lead to the creation of this entry.
          * 
          * @return
-         *     An immutable object of type {@link Search}.
+         *     An immutable object of type {@link Search} that may be null.
          */
         public Search getSearch() {
             return search;
@@ -923,7 +923,7 @@ public class Bundle extends Resource {
          * shows how the entry was processed to create the version contained in the entry.
          * 
          * @return
-         *     An immutable object of type {@link Request}.
+         *     An immutable object of type {@link Request} that may be null.
          */
         public Request getRequest() {
             return request;
@@ -934,7 +934,7 @@ public class Bundle extends Resource {
          * or what the results of an operation where when returning history.
          * 
          * @return
-         *     An immutable object of type {@link Response}.
+         *     An immutable object of type {@link Response} that may be null.
          */
         public Response getResponse() {
             return response;
@@ -1300,7 +1300,7 @@ public class Bundle extends Resource {
              * convey information or warning information about the search process.
              * 
              * @return
-             *     An immutable object of type {@link SearchEntryMode}.
+             *     An immutable object of type {@link SearchEntryMode} that may be null.
              */
             public SearchEntryMode getMode() {
                 return mode;
@@ -1310,7 +1310,7 @@ public class Bundle extends Resource {
              * When searching, the server's search ranking score for the entry.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getScore() {
                 return score;
@@ -1586,7 +1586,7 @@ public class Bundle extends Resource {
              * the HTTP action that occurred.
              * 
              * @return
-             *     An immutable object of type {@link HTTPVerb}.
+             *     An immutable object of type {@link HTTPVerb} that is non-null.
              */
             public HTTPVerb getMethod() {
                 return method;
@@ -1596,7 +1596,7 @@ public class Bundle extends Resource {
              * The URL for this entry, relative to the root (the address to which the request is posted).
              * 
              * @return
-             *     An immutable object of type {@link Uri}.
+             *     An immutable object of type {@link Uri} that is non-null.
              */
             public Uri getUrl() {
                 return url;
@@ -1607,7 +1607,7 @@ public class Bundle extends Resource {
              * html#cread).
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getIfNoneMatch() {
                 return ifNoneMatch;
@@ -1618,7 +1618,7 @@ public class Bundle extends Resource {
              * html#cread).
              * 
              * @return
-             *     An immutable object of type {@link Instant}.
+             *     An immutable object of type {@link Instant} that may be null.
              */
             public Instant getIfModifiedSince() {
                 return ifModifiedSince;
@@ -1629,7 +1629,7 @@ public class Bundle extends Resource {
              * Contention"](http.html#concurrency).
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getIfMatch() {
                 return ifMatch;
@@ -1641,7 +1641,7 @@ public class Bundle extends Resource {
              * follows the "?" (not including the "?").
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getIfNoneExist() {
                 return ifNoneExist;
@@ -2002,7 +2002,7 @@ public class Bundle extends Resource {
              * contain the standard HTTP description associated with the status code.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getStatus() {
                 return status;
@@ -2012,7 +2012,7 @@ public class Bundle extends Resource {
              * The location header created by processing this operation, populated if the operation returns a location.
              * 
              * @return
-             *     An immutable object of type {@link Uri}.
+             *     An immutable object of type {@link Uri} that may be null.
              */
             public Uri getLocation() {
                 return location;
@@ -2023,7 +2023,7 @@ public class Bundle extends Resource {
              * Versioning](http.html#versioning) and [Managing Resource Contention](http.html#concurrency)).
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getEtag() {
                 return etag;
@@ -2033,7 +2033,7 @@ public class Bundle extends Resource {
              * The date/time that the resource was modified on the server.
              * 
              * @return
-             *     An immutable object of type {@link Instant}.
+             *     An immutable object of type {@link Instant} that may be null.
              */
             public Instant getLastModified() {
                 return lastModified;
@@ -2043,7 +2043,7 @@ public class Bundle extends Resource {
              * An OperationOutcome containing hints and warnings produced as part of processing this entry in a batch or transaction.
              * 
              * @return
-             *     An immutable object of type {@link Resource}.
+             *     An immutable object of type {@link Resource} that may be null.
              */
             public Resource getOutcome() {
                 return outcome;

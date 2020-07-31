@@ -1448,14 +1448,17 @@ public class CodeGenerator {
         cb.javadocStart();
         cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
         cb.javadoc("");
+        boolean isRequired = isRequired(elementDefinition);
         if (isRepeating(elementDefinition)) {
             String reference = getFieldType(structureDefinition, elementDefinition, false);
             reference = reference.substring(reference.lastIndexOf(".") + 1);
-            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + ".");
+            String emptyHint = isRequired ? " that is non-empty." : " that may be empty.";
+            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + emptyHint);
         } else {
             // Processes the JavaDoc Link into an absolute path where available.
             String reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
-            cb.javadocReturn("An immutable object of type " + javadocLink(reference) + ".");
+            String nullHint = isRequired ? " that is non-null." : " that may be null.";
+            cb.javadocReturn("An immutable object of type " + javadocLink(reference) + nullHint);
         }
         cb.javadocEnd();
     }

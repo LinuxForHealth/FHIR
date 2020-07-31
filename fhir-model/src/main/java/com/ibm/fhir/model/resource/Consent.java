@@ -163,7 +163,7 @@ public class Consent extends DomainResource {
      * Unique identifier for this copy of the Consent Statement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -173,7 +173,7 @@ public class Consent extends DomainResource {
      * Indicates the current state of this consent.
      * 
      * @return
-     *     An immutable object of type {@link ConsentState}.
+     *     An immutable object of type {@link ConsentState} that is non-null.
      */
     public ConsentState getStatus() {
         return status;
@@ -183,7 +183,7 @@ public class Consent extends DomainResource {
      * A selector of the type of consent being presented: ADR, Privacy, Treatment, Research. This list is now extensible.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getScope() {
         return scope;
@@ -194,7 +194,7 @@ public class Consent extends DomainResource {
      * consent statements.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that is non-empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -204,7 +204,7 @@ public class Consent extends DomainResource {
      * The patient/healthcare consumer to whom this consent applies.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPatient() {
         return patient;
@@ -214,7 +214,7 @@ public class Consent extends DomainResource {
      * When this Consent was issued / created / indexed.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDateTime() {
         return dateTime;
@@ -226,7 +226,7 @@ public class Consent extends DomainResource {
      * limitations on authorizations and enforcement of prohibitions.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -236,7 +236,7 @@ public class Consent extends DomainResource {
      * The organization that manages the consent, and the framework within which it is executed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getOrganization() {
         return organization;
@@ -248,7 +248,7 @@ public class Consent extends DomainResource {
      * original consent document.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSource() {
         return source;
@@ -259,7 +259,7 @@ public class Consent extends DomainResource {
      * defined jurisdictionally, or in law.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Policy}.
+     *     An unmodifiable list containing immutable objects of type {@link Policy} that may be empty.
      */
     public List<Policy> getPolicy() {
         return policy;
@@ -269,7 +269,7 @@ public class Consent extends DomainResource {
      * A reference to the specific base computable regulation or policy.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPolicyRule() {
         return policyRule;
@@ -280,7 +280,7 @@ public class Consent extends DomainResource {
      * or another authorized person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Verification}.
+     *     An unmodifiable list containing immutable objects of type {@link Verification} that may be empty.
      */
     public List<Verification> getVerification() {
         return verification;
@@ -290,7 +290,7 @@ public class Consent extends DomainResource {
      * An exception to the base policy of this consent. An exception can be an addition or removal of access permissions.
      * 
      * @return
-     *     An immutable object of type {@link Provision}.
+     *     An immutable object of type {@link Provision} that may be null.
      */
     public Provision getProvision() {
         return provision;
@@ -1030,7 +1030,7 @@ public class Consent extends DomainResource {
          * Directives.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getAuthority() {
             return authority;
@@ -1041,7 +1041,7 @@ public class Consent extends DomainResource {
          * defined jurisdictionally, or in law.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getUri() {
             return uri;
@@ -1301,7 +1301,7 @@ public class Consent extends DomainResource {
          * Has the instruction been verified.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getVerified() {
             return verified;
@@ -1311,7 +1311,7 @@ public class Consent extends DomainResource {
          * Who verified the instruction (Patient, Relative or other Authorized Person).
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getVerifiedWith() {
             return verifiedWith;
@@ -1321,7 +1321,7 @@ public class Consent extends DomainResource {
          * Date verification was collected.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getVerificationDate() {
             return verificationDate;
@@ -1669,7 +1669,7 @@ public class Consent extends DomainResource {
          * rules.
          * 
          * @return
-         *     An immutable object of type {@link ConsentProvisionType}.
+         *     An immutable object of type {@link ConsentProvisionType} that may be null.
          */
         public ConsentProvisionType getType() {
             return type;
@@ -1679,7 +1679,7 @@ public class Consent extends DomainResource {
          * The timeframe in this rule is valid.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1690,7 +1690,7 @@ public class Consent extends DomainResource {
          * 'admitting officers').
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Actor}.
+         *     An unmodifiable list containing immutable objects of type {@link Actor} that may be empty.
          */
         public List<Actor> getActor() {
             return actor;
@@ -1700,7 +1700,7 @@ public class Consent extends DomainResource {
          * Actions controlled by this Rule.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getAction() {
             return action;
@@ -1711,7 +1711,7 @@ public class Consent extends DomainResource {
          * by this exception.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getSecurityLabel() {
             return securityLabel;
@@ -1721,7 +1721,7 @@ public class Consent extends DomainResource {
          * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getPurpose() {
             return purpose;
@@ -1732,7 +1732,7 @@ public class Consent extends DomainResource {
          * document, or some other type that indicates what sort of information the consent relates to.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getClazz() {
             return clazz;
@@ -1742,7 +1742,7 @@ public class Consent extends DomainResource {
          * If this code is found in an instance, then the rule applies.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1752,7 +1752,7 @@ public class Consent extends DomainResource {
          * Clinical or Operational Relevant period of time that bounds the data controlled by this rule.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getDataPeriod() {
             return dataPeriod;
@@ -1762,7 +1762,7 @@ public class Consent extends DomainResource {
          * The resources controlled by this rule if specific resources are referenced.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Data}.
+         *     An unmodifiable list containing immutable objects of type {@link Data} that may be empty.
          */
         public List<Data> getData() {
             return data;
@@ -1772,7 +1772,7 @@ public class Consent extends DomainResource {
          * Rules which provide exceptions to the base rule or subrules.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Provision}.
+         *     An unmodifiable list containing immutable objects of type {@link Provision} that may be empty.
          */
         public List<Consent.Provision> getProvision() {
             return provision;
@@ -2380,7 +2380,7 @@ public class Consent extends DomainResource {
              * How the individual is involved in the resources content that is described in the exception.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getRole() {
                 return role;
@@ -2391,7 +2391,7 @@ public class Consent extends DomainResource {
              * property they share (e.g. 'admitting officers').
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that is non-null.
              */
             public Reference getReference() {
                 return reference;
@@ -2675,7 +2675,7 @@ public class Consent extends DomainResource {
              * How the resource reference is interpreted when testing consent restrictions.
              * 
              * @return
-             *     An immutable object of type {@link ConsentDataMeaning}.
+             *     An immutable object of type {@link ConsentDataMeaning} that is non-null.
              */
             public ConsentDataMeaning getMeaning() {
                 return meaning;
@@ -2685,7 +2685,7 @@ public class Consent extends DomainResource {
              * A reference to a specific resource that defines which resources are covered by this consent.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that is non-null.
              */
             public Reference getReference() {
                 return reference;

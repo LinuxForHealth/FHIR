@@ -91,7 +91,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * General high level classification of the source material specific to the origin of the material.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSourceMaterialClass() {
         return sourceMaterialClass;
@@ -102,7 +102,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * refers to the class of infectious agent.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSourceMaterialType() {
         return sourceMaterialType;
@@ -112,7 +112,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * The state of the source material when extracted.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSourceMaterialState() {
         return sourceMaterialState;
@@ -122,7 +122,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * The unique identifier associated with the source material parent organism shall be specified.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getOrganismId() {
         return organismId;
@@ -132,7 +132,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * The organism accepted Scientific name shall be provided based on the organism taxonomy.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getOrganismName() {
         return organismName;
@@ -143,7 +143,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * Ginkgo biloba L. (Whole plant).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getParentSubstanceId() {
         return parentSubstanceId;
@@ -153,7 +153,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * The parent substance of the Herbal Drug, or Herbal preparation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getParentSubstanceName() {
         return parentSubstanceName;
@@ -165,7 +165,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCountryOfOrigin() {
         return countryOfOrigin;
@@ -175,7 +175,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getGeographicalLocation() {
         return geographicalLocation;
@@ -186,7 +186,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * substance is significantly different in these stages (e.g. foetal bovine serum).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDevelopmentStage() {
         return developmentStage;
@@ -201,7 +201,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * Group 1 levels.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link FractionDescription}.
+     *     An unmodifiable list containing immutable objects of type {@link FractionDescription} that may be empty.
      */
     public List<FractionDescription> getFractionDescription() {
         return fractionDescription;
@@ -213,7 +213,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * Leaf.
      * 
      * @return
-     *     An immutable object of type {@link Organism}.
+     *     An immutable object of type {@link Organism} that may be null.
      */
     public Organism getOrganism() {
         return organism;
@@ -223,7 +223,7 @@ public class SubstanceSourceMaterial extends DomainResource {
      * To do.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link PartDescription}.
+     *     An unmodifiable list containing immutable objects of type {@link PartDescription} that may be empty.
      */
     public List<PartDescription> getPartDescription() {
         return partDescription;
@@ -970,7 +970,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * This element is capturing information about the fraction of a plant part, or human plasma for fractionation.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getFraction() {
             return fraction;
@@ -981,7 +981,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * (liquid/dry) is described in Specified Substance Group 1.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getMaterialType() {
             return materialType;
@@ -1256,7 +1256,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * The family of an organism shall be specified.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFamily() {
             return family;
@@ -1267,7 +1267,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * scientific name; it is present in names for genera, species and infraspecies.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getGenus() {
             return genus;
@@ -1278,7 +1278,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * present in names for species and infraspecies.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getSpecies() {
             return species;
@@ -1288,7 +1288,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * The Intraspecific type of an organism shall be specified.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getIntraspecificType() {
             return intraspecificType;
@@ -1299,7 +1299,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getIntraspecificDescription() {
             return intraspecificDescription;
@@ -1309,7 +1309,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 4.9.13.6.1 Author type (Conditional).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Author}.
+         *     An unmodifiable list containing immutable objects of type {@link Author} that may be empty.
          */
         public List<Author> getAuthor() {
             return author;
@@ -1319,7 +1319,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
          * 
          * @return
-         *     An immutable object of type {@link Hybrid}.
+         *     An immutable object of type {@link Hybrid} that may be null.
          */
         public Hybrid getHybrid() {
             return hybrid;
@@ -1329,7 +1329,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 4.9.13.7.1 Kingdom (Conditional).
          * 
          * @return
-         *     An immutable object of type {@link OrganismGeneral}.
+         *     An immutable object of type {@link OrganismGeneral} that may be null.
          */
         public OrganismGeneral getOrganismGeneral() {
             return organismGeneral;
@@ -1729,7 +1729,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * refers to the first author(s), who validly published the plant/animal name.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getAuthorType() {
                 return authorType;
@@ -1741,7 +1741,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * rank).
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getAuthorDescription() {
                 return authorDescription;
@@ -2012,7 +2012,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * and which is paternal.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getMaternalOrganismId() {
                 return maternalOrganismId;
@@ -2023,7 +2023,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * always known, and it is unlikely that it will be known which is maternal and which is paternal.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getMaternalOrganismName() {
                 return maternalOrganismName;
@@ -2034,7 +2034,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * vocabulary.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getPaternalOrganismId() {
                 return paternalOrganismId;
@@ -2044,7 +2044,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * The name of the paternal species constituting the hybrid organism shall be specified.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getPaternalOrganismName() {
                 return paternalOrganismName;
@@ -2054,7 +2054,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * The hybrid type of an organism shall be specified.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getHybridType() {
                 return hybridType;
@@ -2381,7 +2381,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * The kingdom of an organism shall be specified.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getKingdom() {
                 return kingdom;
@@ -2391,7 +2391,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * The phylum of an organism shall be specified.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getPhylum() {
                 return phylum;
@@ -2401,7 +2401,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * The class of an organism shall be specified.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getClazz() {
                 return clazz;
@@ -2411,7 +2411,7 @@ public class SubstanceSourceMaterial extends DomainResource {
              * The order of an organism shall be specified,.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getOrder() {
                 return order;
@@ -2705,7 +2705,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Entity of anatomical origin of source material within an organism.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPart() {
             return part;
@@ -2716,7 +2716,7 @@ public class SubstanceSourceMaterial extends DomainResource {
          * Multiple alternative locations may apply.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPartLocation() {
             return partLocation;

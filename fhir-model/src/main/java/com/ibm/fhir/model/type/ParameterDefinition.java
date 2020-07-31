@@ -73,7 +73,7 @@ public class ParameterDefinition extends Element {
      * The name of the parameter used to allow access to the value of the parameter in evaluation contexts.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getName() {
         return name;
@@ -83,7 +83,7 @@ public class ParameterDefinition extends Element {
      * Whether the parameter is input or output for the module.
      * 
      * @return
-     *     An immutable object of type {@link ParameterUse}.
+     *     An immutable object of type {@link ParameterUse} that is non-null.
      */
     public ParameterUse getUse() {
         return use;
@@ -93,7 +93,7 @@ public class ParameterDefinition extends Element {
      * The minimum number of times this parameter SHALL appear in the request or response.
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that may be null.
      */
     public Integer getMin() {
         return min;
@@ -103,7 +103,7 @@ public class ParameterDefinition extends Element {
      * The maximum number of times this element is permitted to appear in the request or response.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getMax() {
         return max;
@@ -113,7 +113,7 @@ public class ParameterDefinition extends Element {
      * A brief discussion of what the parameter is for and how it is used by the module.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDocumentation() {
         return documentation;
@@ -123,7 +123,7 @@ public class ParameterDefinition extends Element {
      * The type of the parameter.
      * 
      * @return
-     *     An immutable object of type {@link FHIRAllTypes}.
+     *     An immutable object of type {@link FHIRAllTypes} that is non-null.
      */
     public FHIRAllTypes getType() {
         return type;
@@ -133,7 +133,7 @@ public class ParameterDefinition extends Element {
      * If specified, this indicates a profile that the input data must conform to, or that the output data will conform to.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getProfile() {
         return profile;

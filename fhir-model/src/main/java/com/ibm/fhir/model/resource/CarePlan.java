@@ -162,7 +162,7 @@ public class CarePlan extends DomainResource {
      * resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -173,7 +173,7 @@ public class CarePlan extends DomainResource {
      * or in part by this CarePlan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -184,7 +184,7 @@ public class CarePlan extends DomainResource {
      * in whole or in part by this CarePlan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -194,7 +194,7 @@ public class CarePlan extends DomainResource {
      * A care plan that is fulfilled in whole or in part by this care plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -204,7 +204,7 @@ public class CarePlan extends DomainResource {
      * Completed or terminated care plan whose function is taken by this new care plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -214,7 +214,7 @@ public class CarePlan extends DomainResource {
      * A larger care plan of which this particular care plan is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -224,7 +224,7 @@ public class CarePlan extends DomainResource {
      * Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.
      * 
      * @return
-     *     An immutable object of type {@link CarePlanStatus}.
+     *     An immutable object of type {@link CarePlanStatus} that is non-null.
      */
     public CarePlanStatus getStatus() {
         return status;
@@ -235,7 +235,7 @@ public class CarePlan extends DomainResource {
      * workflow chain.
      * 
      * @return
-     *     An immutable object of type {@link CarePlanIntent}.
+     *     An immutable object of type {@link CarePlanIntent} that is non-null.
      */
     public CarePlanIntent getIntent() {
         return intent;
@@ -246,7 +246,7 @@ public class CarePlan extends DomainResource {
      * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -256,7 +256,7 @@ public class CarePlan extends DomainResource {
      * Human-friendly name for the care plan.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -266,7 +266,7 @@ public class CarePlan extends DomainResource {
      * A description of the scope and nature of the plan.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -276,7 +276,7 @@ public class CarePlan extends DomainResource {
      * Identifies the patient or group whose intended care is described by the plan.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -286,7 +286,7 @@ public class CarePlan extends DomainResource {
      * The Encounter during which this CarePlan was created or to which the creation of this record is tightly associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -296,7 +296,7 @@ public class CarePlan extends DomainResource {
      * Indicates when the plan did (or is intended to) come into effect and end.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -306,7 +306,7 @@ public class CarePlan extends DomainResource {
      * Represents when this particular CarePlan record was created in the system, which is often a system-generated date.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getCreated() {
         return created;
@@ -316,7 +316,7 @@ public class CarePlan extends DomainResource {
      * When populated, the author is responsible for the care plan. The care plan is attributed to the author.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -326,7 +326,7 @@ public class CarePlan extends DomainResource {
      * Identifies the individual(s) or organization who provided the contents of the care plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getContributor() {
         return contributor;
@@ -336,7 +336,7 @@ public class CarePlan extends DomainResource {
      * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getCareTeam() {
         return careTeam;
@@ -346,7 +346,7 @@ public class CarePlan extends DomainResource {
      * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAddresses() {
         return addresses;
@@ -357,7 +357,7 @@ public class CarePlan extends DomainResource {
      * include comorbidities, recent procedures, limitations, recent assessments, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -367,7 +367,7 @@ public class CarePlan extends DomainResource {
      * Describes the intended objective(s) of carrying out the care plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getGoal() {
         return goal;
@@ -378,7 +378,7 @@ public class CarePlan extends DomainResource {
      * self-monitoring, education, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Activity}.
+     *     An unmodifiable list containing immutable objects of type {@link Activity} that may be empty.
      */
     public List<Activity> getActivity() {
         return activity;
@@ -388,7 +388,7 @@ public class CarePlan extends DomainResource {
      * General notes about the care plan not covered elsewhere.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1512,7 +1512,7 @@ public class CarePlan extends DomainResource {
          * education activity could be patient understands (or not).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getOutcomeCodeableConcept() {
             return outcomeCodeableConcept;
@@ -1524,7 +1524,7 @@ public class CarePlan extends DomainResource {
          * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getOutcomeReference() {
             return outcomeReference;
@@ -1534,7 +1534,7 @@ public class CarePlan extends DomainResource {
          * Notes about the adherence/status/progress of the activity.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
          */
         public List<Annotation> getProgress() {
             return progress;
@@ -1544,7 +1544,7 @@ public class CarePlan extends DomainResource {
          * The details of the proposed activity represented in a specific resource.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getReference() {
             return reference;
@@ -1555,7 +1555,7 @@ public class CarePlan extends DomainResource {
          * about specific resources such as procedure etc.
          * 
          * @return
-         *     An immutable object of type {@link Detail}.
+         *     An immutable object of type {@link Detail} that may be null.
          */
         public Detail getDetail() {
             return detail;
@@ -2013,7 +2013,7 @@ public class CarePlan extends DomainResource {
              * example, a MedicationRequest, a ServiceRequest, or a CommunicationRequest.
              * 
              * @return
-             *     An immutable object of type {@link CarePlanActivityKind}.
+             *     An immutable object of type {@link CarePlanActivityKind} that may be null.
              */
             public CarePlanActivityKind getKind() {
                 return kind;
@@ -2024,7 +2024,7 @@ public class CarePlan extends DomainResource {
              * or in part by this CarePlan activity.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+             *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
              */
             public List<Canonical> getInstantiatesCanonical() {
                 return instantiatesCanonical;
@@ -2035,7 +2035,7 @@ public class CarePlan extends DomainResource {
              * in whole or in part by this CarePlan activity.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Uri}.
+             *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
              */
             public List<Uri> getInstantiatesUri() {
                 return instantiatesUri;
@@ -2045,7 +2045,7 @@ public class CarePlan extends DomainResource {
              * Detailed description of the type of planned activity; e.g. what lab test, what procedure, what kind of encounter.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -2056,7 +2056,7 @@ public class CarePlan extends DomainResource {
              * activity was prohibited.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getReasonCode() {
                 return reasonCode;
@@ -2067,7 +2067,7 @@ public class CarePlan extends DomainResource {
              * inclusion of this particular activity as part of the plan.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getReasonReference() {
                 return reasonReference;
@@ -2077,7 +2077,7 @@ public class CarePlan extends DomainResource {
              * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getGoal() {
                 return goal;
@@ -2087,7 +2087,7 @@ public class CarePlan extends DomainResource {
              * Identifies what progress is being made for the specific activity.
              * 
              * @return
-             *     An immutable object of type {@link CarePlanActivityStatus}.
+             *     An immutable object of type {@link CarePlanActivityStatus} that is non-null.
              */
             public CarePlanActivityStatus getStatus() {
                 return status;
@@ -2097,7 +2097,7 @@ public class CarePlan extends DomainResource {
              * Provides reason why the activity isn't yet started, is on hold, was cancelled, etc.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getStatusReason() {
                 return statusReason;
@@ -2108,7 +2108,7 @@ public class CarePlan extends DomainResource {
              * or missing, indicates that the described activity is one that should be engaged in when following the plan.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getDoNotPerform() {
                 return doNotPerform;
@@ -2118,7 +2118,7 @@ public class CarePlan extends DomainResource {
              * The period, timing or frequency upon which the described activity is to occur.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getScheduled() {
                 return scheduled;
@@ -2128,7 +2128,7 @@ public class CarePlan extends DomainResource {
              * Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getLocation() {
                 return location;
@@ -2138,7 +2138,7 @@ public class CarePlan extends DomainResource {
              * Identifies who's expected to be involved in the activity.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getPerformer() {
                 return performer;
@@ -2148,7 +2148,7 @@ public class CarePlan extends DomainResource {
              * Identifies the food, drug or other product to be consumed or supplied in the activity.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getProduct() {
                 return product;
@@ -2158,7 +2158,7 @@ public class CarePlan extends DomainResource {
              * Identifies the quantity expected to be consumed in a given day.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getDailyAmount() {
                 return dailyAmount;
@@ -2168,7 +2168,7 @@ public class CarePlan extends DomainResource {
              * Identifies the quantity expected to be supplied, administered or consumed by the subject.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getQuantity() {
                 return quantity;
@@ -2180,7 +2180,7 @@ public class CarePlan extends DomainResource {
              * the activity such as body site, method, route, etc.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;

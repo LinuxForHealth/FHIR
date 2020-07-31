@@ -131,7 +131,7 @@ public class AuditEvent extends DomainResource {
      * or URL. It identifies the performed function.
      * 
      * @return
-     *     An immutable object of type {@link Coding}.
+     *     An immutable object of type {@link Coding} that is non-null.
      */
     public Coding getType() {
         return type;
@@ -141,7 +141,7 @@ public class AuditEvent extends DomainResource {
      * Identifier for the category of event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getSubtype() {
         return subtype;
@@ -151,7 +151,7 @@ public class AuditEvent extends DomainResource {
      * Indicator for type of action performed during the event that generated the audit.
      * 
      * @return
-     *     An immutable object of type {@link AuditEventAction}.
+     *     An immutable object of type {@link AuditEventAction} that may be null.
      */
     public AuditEventAction getAction() {
         return action;
@@ -161,7 +161,7 @@ public class AuditEvent extends DomainResource {
      * The period during which the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -171,7 +171,7 @@ public class AuditEvent extends DomainResource {
      * The time when the event was recorded.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that is non-null.
      */
     public Instant getRecorded() {
         return recorded;
@@ -181,7 +181,7 @@ public class AuditEvent extends DomainResource {
      * Indicates whether the event succeeded or failed.
      * 
      * @return
-     *     An immutable object of type {@link AuditEventOutcome}.
+     *     An immutable object of type {@link AuditEventOutcome} that may be null.
      */
     public AuditEventOutcome getOutcome() {
         return outcome;
@@ -191,7 +191,7 @@ public class AuditEvent extends DomainResource {
      * A free text description of the outcome of the event.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getOutcomeDesc() {
         return outcomeDesc;
@@ -201,7 +201,7 @@ public class AuditEvent extends DomainResource {
      * The purposeOfUse (reason) that was used during the event being recorded.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getPurposeOfEvent() {
         return purposeOfEvent;
@@ -211,7 +211,7 @@ public class AuditEvent extends DomainResource {
      * An actor taking an active role in the event or activity that is logged.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Agent}.
+     *     An unmodifiable list containing immutable objects of type {@link Agent} that is non-empty.
      */
     public List<Agent> getAgent() {
         return agent;
@@ -221,7 +221,7 @@ public class AuditEvent extends DomainResource {
      * The system that is reporting the event.
      * 
      * @return
-     *     An immutable object of type {@link Source}.
+     *     An immutable object of type {@link Source} that is non-null.
      */
     public Source getSource() {
         return source;
@@ -231,7 +231,7 @@ public class AuditEvent extends DomainResource {
      * Specific instances of data or objects that have been accessed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Entity}.
+     *     An unmodifiable list containing immutable objects of type {@link Entity} that may be empty.
      */
     public List<Entity> getEntity() {
         return entity;
@@ -919,7 +919,7 @@ public class AuditEvent extends DomainResource {
          * Specification of the participation type the user plays when performing the event.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -930,7 +930,7 @@ public class AuditEvent extends DomainResource {
          * system (e.g. RBAC, ABAC) used in the local context.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRole() {
             return role;
@@ -940,7 +940,7 @@ public class AuditEvent extends DomainResource {
          * Reference to who this agent is that was involved in the event.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getWho() {
             return who;
@@ -951,7 +951,7 @@ public class AuditEvent extends DomainResource {
          * This identifier would be one known to a common authentication system (e.g. single sign-on), if available.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getAltId() {
             return altId;
@@ -961,7 +961,7 @@ public class AuditEvent extends DomainResource {
          * Human-meaningful name for the agent.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -971,7 +971,7 @@ public class AuditEvent extends DomainResource {
          * Indicator that the user is or is not the requestor, or initiator, for the event being audited.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getRequestor() {
             return requestor;
@@ -981,7 +981,7 @@ public class AuditEvent extends DomainResource {
          * Where the event occurred.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getLocation() {
             return location;
@@ -993,7 +993,7 @@ public class AuditEvent extends DomainResource {
          * token used.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Uri}.
+         *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
          */
         public List<Uri> getPolicy() {
             return policy;
@@ -1003,7 +1003,7 @@ public class AuditEvent extends DomainResource {
          * Type of media involved. Used when the event is about exporting/importing onto media.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getMedia() {
             return media;
@@ -1013,7 +1013,7 @@ public class AuditEvent extends DomainResource {
          * Logical network location for application activity, if the activity has a network location.
          * 
          * @return
-         *     An immutable object of type {@link Network}.
+         *     An immutable object of type {@link Network} that may be null.
          */
         public Network getNetwork() {
             return network;
@@ -1023,7 +1023,7 @@ public class AuditEvent extends DomainResource {
          * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getPurposeOfUse() {
             return purposeOfUse;
@@ -1548,7 +1548,7 @@ public class AuditEvent extends DomainResource {
              * An identifier for the network access point of the user device for the audit event.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getAddress() {
                 return address;
@@ -1558,7 +1558,7 @@ public class AuditEvent extends DomainResource {
              * An identifier for the type of network access point that originated the audit event.
              * 
              * @return
-             *     An immutable object of type {@link AuditEventAgentNetworkType}.
+             *     An immutable object of type {@link AuditEventAgentNetworkType} that may be null.
              */
             public AuditEventAgentNetworkType getType() {
                 return type;
@@ -1823,7 +1823,7 @@ public class AuditEvent extends DomainResource {
          * within a multi-entity provider group.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSite() {
             return site;
@@ -1833,7 +1833,7 @@ public class AuditEvent extends DomainResource {
          * Identifier of the source where the event was detected.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getObserver() {
             return observer;
@@ -1843,7 +1843,7 @@ public class AuditEvent extends DomainResource {
          * Code specifying the type of source where event originated.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getType() {
             return type;
@@ -2193,7 +2193,7 @@ public class AuditEvent extends DomainResource {
          * Identifies a specific instance of the entity. The reference should be version specific.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getWhat() {
             return what;
@@ -2203,7 +2203,7 @@ public class AuditEvent extends DomainResource {
          * The type of the object that was involved in this audit event.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getType() {
             return type;
@@ -2213,7 +2213,7 @@ public class AuditEvent extends DomainResource {
          * Code representing the role the entity played in the event being audited.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getRole() {
             return role;
@@ -2223,7 +2223,7 @@ public class AuditEvent extends DomainResource {
          * Identifier for the data life-cycle stage for the entity.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getLifecycle() {
             return lifecycle;
@@ -2233,7 +2233,7 @@ public class AuditEvent extends DomainResource {
          * Security labels for the identified entity.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getSecurityLabel() {
             return securityLabel;
@@ -2243,7 +2243,7 @@ public class AuditEvent extends DomainResource {
          * A name of the entity in the audit event.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -2253,7 +2253,7 @@ public class AuditEvent extends DomainResource {
          * Text that describes the entity in more detail.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2263,7 +2263,7 @@ public class AuditEvent extends DomainResource {
          * The query parameters for a query-type entities.
          * 
          * @return
-         *     An immutable object of type {@link Base64Binary}.
+         *     An immutable object of type {@link Base64Binary} that may be null.
          */
         public Base64Binary getQuery() {
             return query;
@@ -2273,7 +2273,7 @@ public class AuditEvent extends DomainResource {
          * Tagged value pairs for conveying additional information about the entity.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail} that may be empty.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -2706,7 +2706,7 @@ public class AuditEvent extends DomainResource {
              * The type of extra detail provided in the value.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getType() {
                 return type;
@@ -2716,7 +2716,7 @@ public class AuditEvent extends DomainResource {
              * The value of the extra detail.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getValue() {
                 return value;

@@ -162,7 +162,7 @@ public class AdverseEvent extends DomainResource {
      * resource is updated and propagates from server to server.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -173,7 +173,7 @@ public class AdverseEvent extends DomainResource {
      * affected or harmed or how severely.
      * 
      * @return
-     *     An immutable object of type {@link AdverseEventActuality}.
+     *     An immutable object of type {@link AdverseEventActuality} that is non-null.
      */
     public AdverseEventActuality getActuality() {
         return actuality;
@@ -183,7 +183,7 @@ public class AdverseEvent extends DomainResource {
      * The overall type of event, intended for search and filtering purposes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -193,7 +193,7 @@ public class AdverseEvent extends DomainResource {
      * This element defines the specific type of event that occurred or that was prevented from occurring.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getEvent() {
         return event;
@@ -203,7 +203,7 @@ public class AdverseEvent extends DomainResource {
      * This subject or group impacted by the event.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -213,7 +213,7 @@ public class AdverseEvent extends DomainResource {
      * The Encounter during which AdverseEvent was created or to which the creation of this record is tightly associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -223,7 +223,7 @@ public class AdverseEvent extends DomainResource {
      * The date (and perhaps time) when the adverse event occurred.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -233,7 +233,7 @@ public class AdverseEvent extends DomainResource {
      * Estimated or actual date the AdverseEvent began, in the opinion of the reporter.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDetected() {
         return detected;
@@ -243,7 +243,7 @@ public class AdverseEvent extends DomainResource {
      * The date on which the existence of the AdverseEvent was first recorded.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRecordedDate() {
         return recordedDate;
@@ -254,7 +254,7 @@ public class AdverseEvent extends DomainResource {
      * chemical).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getResultingCondition() {
         return resultingCondition;
@@ -264,7 +264,7 @@ public class AdverseEvent extends DomainResource {
      * The information about where the adverse event occurred.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -274,7 +274,7 @@ public class AdverseEvent extends DomainResource {
      * Assessment whether this event was of real importance.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSeriousness() {
         return seriousness;
@@ -285,7 +285,7 @@ public class AdverseEvent extends DomainResource {
      * severe rash might not be serious, but a mild heart problem is.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSeverity() {
         return severity;
@@ -295,7 +295,7 @@ public class AdverseEvent extends DomainResource {
      * Describes the type of outcome from the adverse event.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getOutcome() {
         return outcome;
@@ -305,7 +305,7 @@ public class AdverseEvent extends DomainResource {
      * Information on who recorded the adverse event. May be the patient or a practitioner.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRecorder() {
         return recorder;
@@ -318,7 +318,7 @@ public class AdverseEvent extends DomainResource {
      * clinical history), or information about what activity was performed (e.g. informant witness).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getContributor() {
         return contributor;
@@ -328,7 +328,7 @@ public class AdverseEvent extends DomainResource {
      * Describes the entity that is suspected to have caused the adverse event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SuspectEntity}.
+     *     An unmodifiable list containing immutable objects of type {@link SuspectEntity} that may be empty.
      */
     public List<SuspectEntity> getSuspectEntity() {
         return suspectEntity;
@@ -338,7 +338,7 @@ public class AdverseEvent extends DomainResource {
      * AdverseEvent.subjectMedicalHistory.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubjectMedicalHistory() {
         return subjectMedicalHistory;
@@ -348,7 +348,7 @@ public class AdverseEvent extends DomainResource {
      * AdverseEvent.referenceDocument.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReferenceDocument() {
         return referenceDocument;
@@ -358,7 +358,7 @@ public class AdverseEvent extends DomainResource {
      * AdverseEvent.study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getStudy() {
         return study;
@@ -1275,7 +1275,7 @@ public class AdverseEvent extends DomainResource {
          * administration, medication statement or a device.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getInstance() {
             return instance;
@@ -1285,7 +1285,7 @@ public class AdverseEvent extends DomainResource {
          * Information on the possible cause of the event.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Causality}.
+         *     An unmodifiable list containing immutable objects of type {@link Causality} that may be empty.
          */
         public List<Causality> getCausality() {
             return causality;
@@ -1596,7 +1596,7 @@ public class AdverseEvent extends DomainResource {
              * Assessment of if the entity caused the event.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getAssessment() {
                 return assessment;
@@ -1606,7 +1606,7 @@ public class AdverseEvent extends DomainResource {
              * AdverseEvent.suspectEntity.causalityProductRelatedness.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getProductRelatedness() {
                 return productRelatedness;
@@ -1616,7 +1616,7 @@ public class AdverseEvent extends DomainResource {
              * AdverseEvent.suspectEntity.causalityAuthor.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getAuthor() {
                 return author;
@@ -1626,7 +1626,7 @@ public class AdverseEvent extends DomainResource {
              * ProbabilityScale | Bayesian | Checklist.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getMethod() {
                 return method;

@@ -46,7 +46,7 @@ public class Period extends Element {
      * The start of the period. The boundary is inclusive.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getStart() {
         return start;
@@ -58,7 +58,7 @@ public class Period extends Element {
      * expected/planned to end at that time.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getEnd() {
         return end;

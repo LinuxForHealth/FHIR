@@ -188,7 +188,7 @@ public class Condition extends DomainResource {
      * resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -198,7 +198,7 @@ public class Condition extends DomainResource {
      * The clinical status of the condition.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getClinicalStatus() {
         return clinicalStatus;
@@ -208,7 +208,7 @@ public class Condition extends DomainResource {
      * The verification status to support the clinical status of the condition.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getVerificationStatus() {
         return verificationStatus;
@@ -218,7 +218,7 @@ public class Condition extends DomainResource {
      * A category assigned to the condition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -228,7 +228,7 @@ public class Condition extends DomainResource {
      * A subjective assessment of the severity of the condition as evaluated by the clinician.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSeverity() {
         return severity;
@@ -238,7 +238,7 @@ public class Condition extends DomainResource {
      * Identification of the condition, problem or diagnosis.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -248,7 +248,7 @@ public class Condition extends DomainResource {
      * The anatomical location where this condition manifests itself.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -258,7 +258,7 @@ public class Condition extends DomainResource {
      * Indicates the patient or group who the condition record is associated with.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -268,7 +268,7 @@ public class Condition extends DomainResource {
      * The Encounter during which this Condition was created or to which the creation of this record is tightly associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -278,7 +278,7 @@ public class Condition extends DomainResource {
      * Estimated or actual date or date-time the condition began, in the opinion of the clinician.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOnset() {
         return onset;
@@ -290,7 +290,7 @@ public class Condition extends DomainResource {
      * but they can abate.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAbatement() {
         return abatement;
@@ -301,7 +301,7 @@ public class Condition extends DomainResource {
      * generated date.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRecordedDate() {
         return recordedDate;
@@ -311,7 +311,7 @@ public class Condition extends DomainResource {
      * Individual who recorded the record and takes responsibility for its content.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRecorder() {
         return recorder;
@@ -321,7 +321,7 @@ public class Condition extends DomainResource {
      * Individual who is making the condition statement.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAsserter() {
         return asserter;
@@ -331,7 +331,7 @@ public class Condition extends DomainResource {
      * Clinical stage or grade of a condition. May include formal severity assessments.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Stage}.
+     *     An unmodifiable list containing immutable objects of type {@link Stage} that may be empty.
      */
     public List<Stage> getStage() {
         return stage;
@@ -342,7 +342,7 @@ public class Condition extends DomainResource {
      * confirmed or refuted the condition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Evidence}.
+     *     An unmodifiable list containing immutable objects of type {@link Evidence} that may be empty.
      */
     public List<Evidence> getEvidence() {
         return evidence;
@@ -353,7 +353,7 @@ public class Condition extends DomainResource {
      * its diagnosis and prognosis.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1208,7 +1208,7 @@ public class Condition extends DomainResource {
          * A simple summary of the stage such as "Stage 3". The determination of the stage is disease-specific.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getSummary() {
             return summary;
@@ -1218,7 +1218,7 @@ public class Condition extends DomainResource {
          * Reference to a formal record of the evidence on which the staging assessment is based.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getAssessment() {
             return assessment;
@@ -1228,7 +1228,7 @@ public class Condition extends DomainResource {
          * The kind of staging, such as pathological or clinical staging.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1528,7 +1528,7 @@ public class Condition extends DomainResource {
          * A manifestation or symptom that led to the recording of this condition.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1538,7 +1538,7 @@ public class Condition extends DomainResource {
          * Links to other relevant information, including pathology reports.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getDetail() {
             return detail;

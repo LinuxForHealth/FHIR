@@ -46,7 +46,7 @@ public class Money extends Element {
      * Numerical value (with implicit precision).
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getValue() {
         return value;
@@ -56,7 +56,7 @@ public class Money extends Element {
      * ISO 4217 Currency Code.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getCurrency() {
         return currency;

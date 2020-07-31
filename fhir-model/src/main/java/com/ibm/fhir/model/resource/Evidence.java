@@ -163,7 +163,7 @@ public class Evidence extends DomainResource {
      * canonical reference. It SHALL remain the same when the evidence is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -174,7 +174,7 @@ public class Evidence extends DomainResource {
      * specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -190,7 +190,7 @@ public class Evidence extends DomainResource {
      * non-experimental active artifacts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -201,7 +201,7 @@ public class Evidence extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -211,7 +211,7 @@ public class Evidence extends DomainResource {
      * A short, descriptive, user-friendly title for the evidence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -222,7 +222,7 @@ public class Evidence extends DomainResource {
      * not necessary.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getShortTitle() {
         return shortTitle;
@@ -232,7 +232,7 @@ public class Evidence extends DomainResource {
      * An explanatory or alternate title for the Evidence giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -242,7 +242,7 @@ public class Evidence extends DomainResource {
      * The status of this evidence. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -254,7 +254,7 @@ public class Evidence extends DomainResource {
      * evidence changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -264,7 +264,7 @@ public class Evidence extends DomainResource {
      * The name of the organization or individual that published the evidence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -274,7 +274,7 @@ public class Evidence extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -284,7 +284,7 @@ public class Evidence extends DomainResource {
      * A free text natural language description of the evidence from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -294,7 +294,7 @@ public class Evidence extends DomainResource {
      * A human-readable string to clarify or explain concepts about the resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -306,7 +306,7 @@ public class Evidence extends DomainResource {
      * may be used to assist with indexing and searching for appropriate evidence instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -316,7 +316,7 @@ public class Evidence extends DomainResource {
      * A legal or geographic region in which the evidence is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -327,7 +327,7 @@ public class Evidence extends DomainResource {
      * restrictions on the use and publishing of the evidence.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -338,7 +338,7 @@ public class Evidence extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -349,7 +349,7 @@ public class Evidence extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -359,7 +359,7 @@ public class Evidence extends DomainResource {
      * The period during which the evidence content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -370,7 +370,7 @@ public class Evidence extends DomainResource {
      * of Evidences that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -380,7 +380,7 @@ public class Evidence extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -390,7 +390,7 @@ public class Evidence extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -400,7 +400,7 @@ public class Evidence extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -410,7 +410,7 @@ public class Evidence extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -420,7 +420,7 @@ public class Evidence extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -430,7 +430,7 @@ public class Evidence extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the population for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getExposureBackground() {
         return exposureBackground;
@@ -440,7 +440,7 @@ public class Evidence extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the exposure for the research.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getExposureVariant() {
         return exposureVariant;
@@ -450,7 +450,7 @@ public class Evidence extends DomainResource {
      * A reference to a EvidenceVariable resomece that defines the outcome for the research.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getOutcome() {
         return outcome;

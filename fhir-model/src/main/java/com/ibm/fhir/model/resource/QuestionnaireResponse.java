@@ -115,7 +115,7 @@ public class QuestionnaireResponse extends DomainResource {
      * A business identifier assigned to a particular completed (or partially completed) questionnaire.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -126,7 +126,7 @@ public class QuestionnaireResponse extends DomainResource {
      * ServiceRequest seeking an intake assessment or a decision support recommendation to assess for post-partum depression.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -137,7 +137,7 @@ public class QuestionnaireResponse extends DomainResource {
      * a checklist was executed as part of.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -147,7 +147,7 @@ public class QuestionnaireResponse extends DomainResource {
      * The Questionnaire that defines and organizes the questions for which answers are being provided.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getQuestionnaire() {
         return questionnaire;
@@ -157,7 +157,7 @@ public class QuestionnaireResponse extends DomainResource {
      * The position of the questionnaire response within its overall lifecycle.
      * 
      * @return
-     *     An immutable object of type {@link QuestionnaireResponseStatus}.
+     *     An immutable object of type {@link QuestionnaireResponseStatus} that is non-null.
      */
     public QuestionnaireResponseStatus getStatus() {
         return status;
@@ -168,7 +168,7 @@ public class QuestionnaireResponse extends DomainResource {
      * who/what the answers apply to, but is not necessarily the source of information.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -179,7 +179,7 @@ public class QuestionnaireResponse extends DomainResource {
      * associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -189,7 +189,7 @@ public class QuestionnaireResponse extends DomainResource {
      * The date and/or time that this set of answers were last changed.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthored() {
         return authored;
@@ -199,7 +199,7 @@ public class QuestionnaireResponse extends DomainResource {
      * Person who received the answers to the questions in the QuestionnaireResponse and recorded them in the system.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -209,7 +209,7 @@ public class QuestionnaireResponse extends DomainResource {
      * The person who answered the questions about the subject.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSource() {
         return source;
@@ -219,7 +219,7 @@ public class QuestionnaireResponse extends DomainResource {
      * A group or question item from the original questionnaire for which answers are provided.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
      */
     public List<Item> getItem() {
         return item;
@@ -862,7 +862,7 @@ public class QuestionnaireResponse extends DomainResource {
          * The item from the Questionnaire that corresponds to this item in the QuestionnaireResponse resource.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getLinkId() {
             return linkId;
@@ -872,7 +872,7 @@ public class QuestionnaireResponse extends DomainResource {
          * A reference to an [ElementDefinition](elementdefinition.html) that provides the details for the item.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getDefinition() {
             return definition;
@@ -882,7 +882,7 @@ public class QuestionnaireResponse extends DomainResource {
          * Text that is displayed above the contents of the group or as the text of the question being answered.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getText() {
             return text;
@@ -892,7 +892,7 @@ public class QuestionnaireResponse extends DomainResource {
          * The respondent's answer(s) to the question.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Answer}.
+         *     An unmodifiable list containing immutable objects of type {@link Answer} that may be empty.
          */
         public List<Answer> getAnswer() {
             return answer;
@@ -902,7 +902,7 @@ public class QuestionnaireResponse extends DomainResource {
          * Questions or sub-groups nested beneath a question or group.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Item}.
+         *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
          */
         public List<QuestionnaireResponse.Item> getItem() {
             return item;
@@ -1266,7 +1266,7 @@ public class QuestionnaireResponse extends DomainResource {
              * The answer (or one of the answers) provided by the respondent to the question.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getValue() {
                 return value;
@@ -1276,7 +1276,7 @@ public class QuestionnaireResponse extends DomainResource {
              * Nested groups and/or questions found within this particular answer.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Item}.
+             *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
              */
             public List<QuestionnaireResponse.Item> getItem() {
                 return item;

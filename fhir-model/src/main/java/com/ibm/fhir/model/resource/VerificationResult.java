@@ -120,7 +120,7 @@ public class VerificationResult extends DomainResource {
      * A resource that was validated.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getTarget() {
         return target;
@@ -130,7 +130,7 @@ public class VerificationResult extends DomainResource {
      * The fhirpath location(s) within the resource that was validated.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getTargetLocation() {
         return targetLocation;
@@ -140,7 +140,7 @@ public class VerificationResult extends DomainResource {
      * The frequency with which the target must be validated (none; initial; periodic).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getNeed() {
         return need;
@@ -151,7 +151,7 @@ public class VerificationResult extends DomainResource {
      * revalidation failed).
      * 
      * @return
-     *     An immutable object of type {@link Status}.
+     *     An immutable object of type {@link Status} that is non-null.
      */
     public Status getStatus() {
         return status;
@@ -161,7 +161,7 @@ public class VerificationResult extends DomainResource {
      * When the validation status was updated.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getStatusDate() {
         return statusDate;
@@ -171,7 +171,7 @@ public class VerificationResult extends DomainResource {
      * What the target is validated against (nothing; primary source; multiple sources).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getValidationType() {
         return validationType;
@@ -182,7 +182,7 @@ public class VerificationResult extends DomainResource {
      * standalone; in context).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getValidationProcess() {
         return validationProcess;
@@ -192,7 +192,7 @@ public class VerificationResult extends DomainResource {
      * Frequency of revalidation.
      * 
      * @return
-     *     An immutable object of type {@link Timing}.
+     *     An immutable object of type {@link Timing} that may be null.
      */
     public Timing getFrequency() {
         return frequency;
@@ -202,7 +202,7 @@ public class VerificationResult extends DomainResource {
      * The date/time validation was last completed (including failed validations).
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getLastPerformed() {
         return lastPerformed;
@@ -212,7 +212,7 @@ public class VerificationResult extends DomainResource {
      * The date when target is next validated, if appropriate.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getNextScheduled() {
         return nextScheduled;
@@ -222,7 +222,7 @@ public class VerificationResult extends DomainResource {
      * The result if validation fails (fatal; warning; record only; none).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getFailureAction() {
         return failureAction;
@@ -232,7 +232,7 @@ public class VerificationResult extends DomainResource {
      * Information about the primary source(s) involved in validation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link PrimarySource}.
+     *     An unmodifiable list containing immutable objects of type {@link PrimarySource} that may be empty.
      */
     public List<PrimarySource> getPrimarySource() {
         return primarySource;
@@ -242,7 +242,7 @@ public class VerificationResult extends DomainResource {
      * Information about the entity attesting to information.
      * 
      * @return
-     *     An immutable object of type {@link Attestation}.
+     *     An immutable object of type {@link Attestation} that may be null.
      */
     public Attestation getAttestation() {
         return attestation;
@@ -252,7 +252,7 @@ public class VerificationResult extends DomainResource {
      * Information about the entity validating information.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Validator}.
+     *     An unmodifiable list containing immutable objects of type {@link Validator} that may be empty.
      */
     public List<Validator> getValidator() {
         return validator;
@@ -1009,7 +1009,7 @@ public class VerificationResult extends DomainResource {
          * Reference to the primary source.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getWho() {
             return who;
@@ -1020,7 +1020,7 @@ public class VerificationResult extends DomainResource {
          * Registration Authority; legal source; issuing source; authoritative source).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -1030,7 +1030,7 @@ public class VerificationResult extends DomainResource {
          * Method for communicating with the primary source (manual; API; Push).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCommunicationMethod() {
             return communicationMethod;
@@ -1040,7 +1040,7 @@ public class VerificationResult extends DomainResource {
          * Status of the validation of the target against the primary source (successful; failed; unknown).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getValidationStatus() {
             return validationStatus;
@@ -1050,7 +1050,7 @@ public class VerificationResult extends DomainResource {
          * When the target was validated against the primary source.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getValidationDate() {
             return validationDate;
@@ -1060,7 +1060,7 @@ public class VerificationResult extends DomainResource {
          * Ability of the primary source to push updates/alerts (yes; no; undetermined).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCanPushUpdates() {
             return canPushUpdates;
@@ -1070,7 +1070,7 @@ public class VerificationResult extends DomainResource {
          * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getPushTypeAvailable() {
             return pushTypeAvailable;
@@ -1518,7 +1518,7 @@ public class VerificationResult extends DomainResource {
          * The individual or organization attesting to information.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getWho() {
             return who;
@@ -1528,7 +1528,7 @@ public class VerificationResult extends DomainResource {
          * When the who is asserting on behalf of another (organization or individual).
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getOnBehalfOf() {
             return onBehalfOf;
@@ -1538,7 +1538,7 @@ public class VerificationResult extends DomainResource {
          * The method by which attested information was submitted/retrieved (manual; API; Push).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCommunicationMethod() {
             return communicationMethod;
@@ -1548,7 +1548,7 @@ public class VerificationResult extends DomainResource {
          * The date the information was attested to.
          * 
          * @return
-         *     An immutable object of type {@link Date}.
+         *     An immutable object of type {@link Date} that may be null.
          */
         public Date getDate() {
             return date;
@@ -1558,7 +1558,7 @@ public class VerificationResult extends DomainResource {
          * A digital identity certificate associated with the attestation source.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSourceIdentityCertificate() {
             return sourceIdentityCertificate;
@@ -1569,7 +1569,7 @@ public class VerificationResult extends DomainResource {
          * attestation source.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getProxyIdentityCertificate() {
             return proxyIdentityCertificate;
@@ -1580,7 +1580,7 @@ public class VerificationResult extends DomainResource {
          * the attestation source.
          * 
          * @return
-         *     An immutable object of type {@link Signature}.
+         *     An immutable object of type {@link Signature} that may be null.
          */
         public Signature getProxySignature() {
             return proxySignature;
@@ -1590,7 +1590,7 @@ public class VerificationResult extends DomainResource {
          * Signed assertion by the attestation source that they have attested to the information.
          * 
          * @return
-         *     An immutable object of type {@link Signature}.
+         *     An immutable object of type {@link Signature} that may be null.
          */
         public Signature getSourceSignature() {
             return sourceSignature;
@@ -1983,7 +1983,7 @@ public class VerificationResult extends DomainResource {
          * Reference to the organization validating information.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getOrganization() {
             return organization;
@@ -1993,7 +1993,7 @@ public class VerificationResult extends DomainResource {
          * A digital identity certificate associated with the validator.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getIdentityCertificate() {
             return identityCertificate;
@@ -2003,7 +2003,7 @@ public class VerificationResult extends DomainResource {
          * Signed assertion by the validator that they have validated the information.
          * 
          * @return
-         *     An immutable object of type {@link Signature}.
+         *     An immutable object of type {@link Signature} that may be null.
          */
         public Signature getAttestationSignature() {
             return attestationSignature;

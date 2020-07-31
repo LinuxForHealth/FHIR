@@ -101,7 +101,7 @@ public class Provenance extends DomainResource {
      * more than one target if multiple resources were created/updated by the same activity.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
      */
     public List<Reference> getTarget() {
         return target;
@@ -111,7 +111,7 @@ public class Provenance extends DomainResource {
      * The period during which the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurred() {
         return occurred;
@@ -121,7 +121,7 @@ public class Provenance extends DomainResource {
      * The instant of time at which the activity was recorded.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that is non-null.
      */
     public Instant getRecorded() {
         return recorded;
@@ -132,7 +132,7 @@ public class Provenance extends DomainResource {
      * documents, such as patient consent, guarantor funding, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getPolicy() {
         return policy;
@@ -142,7 +142,7 @@ public class Provenance extends DomainResource {
      * Where the activity occurred, if relevant.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -152,7 +152,7 @@ public class Provenance extends DomainResource {
      * The reason that the activity was taking place.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReason() {
         return reason;
@@ -163,7 +163,7 @@ public class Provenance extends DomainResource {
      * processing, transforming, modifying, relocating, using, or generating entities.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getActivity() {
         return activity;
@@ -174,7 +174,7 @@ public class Provenance extends DomainResource {
      * taking place.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Agent}.
+     *     An unmodifiable list containing immutable objects of type {@link Agent} that is non-empty.
      */
     public List<Agent> getAgent() {
         return agent;
@@ -184,7 +184,7 @@ public class Provenance extends DomainResource {
      * An entity used in this activity.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Entity}.
+     *     An unmodifiable list containing immutable objects of type {@link Entity} that may be empty.
      */
     public List<Entity> getEntity() {
         return entity;
@@ -195,7 +195,7 @@ public class Provenance extends DomainResource {
      * signature is indicated.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Signature}.
+     *     An unmodifiable list containing immutable objects of type {@link Signature} that may be empty.
      */
     public List<Signature> getSignature() {
         return signature;
@@ -896,7 +896,7 @@ public class Provenance extends DomainResource {
          * The participation the agent had with respect to the activity.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -907,7 +907,7 @@ public class Provenance extends DomainResource {
          * activity.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRole() {
             return role;
@@ -917,7 +917,7 @@ public class Provenance extends DomainResource {
          * The individual, device or organization that participated in the event.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getWho() {
             return who;
@@ -927,7 +927,7 @@ public class Provenance extends DomainResource {
          * The individual, device, or organization for whom the change was made.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getOnBehalfOf() {
             return onBehalfOf;
@@ -1279,7 +1279,7 @@ public class Provenance extends DomainResource {
          * How the entity was used during the activity.
          * 
          * @return
-         *     An immutable object of type {@link ProvenanceEntityRole}.
+         *     An immutable object of type {@link ProvenanceEntityRole} that is non-null.
          */
         public ProvenanceEntityRole getRole() {
             return role;
@@ -1289,7 +1289,7 @@ public class Provenance extends DomainResource {
          * Identity of the Entity used. May be a logical or physical uri and maybe absolute or relative.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getWhat() {
             return what;
@@ -1301,7 +1301,7 @@ public class Provenance extends DomainResource {
          * which generated the entity.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Agent}.
+         *     An unmodifiable list containing immutable objects of type {@link Agent} that may be empty.
          */
         public List<Provenance.Agent> getAgent() {
             return agent;

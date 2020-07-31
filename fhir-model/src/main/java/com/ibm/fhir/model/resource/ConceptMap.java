@@ -156,7 +156,7 @@ public class ConceptMap extends DomainResource {
      * a canonical reference. It SHALL remain the same when the concept map is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -167,7 +167,7 @@ public class ConceptMap extends DomainResource {
      * in a specification, model, design or an instance.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -180,7 +180,7 @@ public class ConceptMap extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -191,7 +191,7 @@ public class ConceptMap extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -201,7 +201,7 @@ public class ConceptMap extends DomainResource {
      * A short, descriptive, user-friendly title for the concept map.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -211,7 +211,7 @@ public class ConceptMap extends DomainResource {
      * The status of this concept map. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -222,7 +222,7 @@ public class ConceptMap extends DomainResource {
      * and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -234,7 +234,7 @@ public class ConceptMap extends DomainResource {
      * the concept map changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -244,7 +244,7 @@ public class ConceptMap extends DomainResource {
      * The name of the organization or individual that published the concept map.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -254,7 +254,7 @@ public class ConceptMap extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -264,7 +264,7 @@ public class ConceptMap extends DomainResource {
      * A free text natural language description of the concept map from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -276,7 +276,7 @@ public class ConceptMap extends DomainResource {
      * may be used to assist with indexing and searching for appropriate concept map instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -286,7 +286,7 @@ public class ConceptMap extends DomainResource {
      * A legal or geographic region in which the concept map is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -296,7 +296,7 @@ public class ConceptMap extends DomainResource {
      * Explanation of why this concept map is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -307,7 +307,7 @@ public class ConceptMap extends DomainResource {
      * restrictions on the use and publishing of the concept map.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -318,7 +318,7 @@ public class ConceptMap extends DomainResource {
      * mappings.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSource() {
         return source;
@@ -329,7 +329,7 @@ public class ConceptMap extends DomainResource {
      * value sets, but the value set provides important context about how the concept mapping choices are made.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getTarget() {
         return target;
@@ -339,7 +339,7 @@ public class ConceptMap extends DomainResource {
      * A group of mappings that all have the same source and target system.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group} that may be empty.
      */
     public List<Group> getGroup() {
         return group;
@@ -1145,7 +1145,7 @@ public class ConceptMap extends DomainResource {
          * An absolute URI that identifies the source system where the concepts to be mapped are defined.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getSource() {
             return source;
@@ -1155,7 +1155,7 @@ public class ConceptMap extends DomainResource {
          * The specific version of the code system, as determined by the code system authority.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSourceVersion() {
             return sourceVersion;
@@ -1165,7 +1165,7 @@ public class ConceptMap extends DomainResource {
          * An absolute URI that identifies the target system that the concepts will be mapped to.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getTarget() {
             return target;
@@ -1175,7 +1175,7 @@ public class ConceptMap extends DomainResource {
          * The specific version of the code system, as determined by the code system authority.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getTargetVersion() {
             return targetVersion;
@@ -1185,7 +1185,7 @@ public class ConceptMap extends DomainResource {
          * Mappings for an individual concept in the source to one or more concepts in the target.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Element}.
+         *     An unmodifiable list containing immutable objects of type {@link Element} that is non-empty.
          */
         public List<Element> getElement() {
             return element;
@@ -1196,7 +1196,7 @@ public class ConceptMap extends DomainResource {
          * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
          * 
          * @return
-         *     An immutable object of type {@link Unmapped}.
+         *     An immutable object of type {@link Unmapped} that may be null.
          */
         public Unmapped getUnmapped() {
             return unmapped;
@@ -1558,7 +1558,7 @@ public class ConceptMap extends DomainResource {
              * Identity (code or path) or the element/item being mapped.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that may be null.
              */
             public Code getCode() {
                 return code;
@@ -1568,7 +1568,7 @@ public class ConceptMap extends DomainResource {
              * The display for the code. The display is only provided to help editors when editing the concept map.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDisplay() {
                 return display;
@@ -1578,7 +1578,7 @@ public class ConceptMap extends DomainResource {
              * A concept from the target value set that this concept maps to.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Target}.
+             *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
              */
             public List<Target> getTarget() {
                 return target;
@@ -1883,7 +1883,7 @@ public class ConceptMap extends DomainResource {
                  * Identity (code or path) or the element/item that the map refers to.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that may be null.
                  */
                 public Code getCode() {
                     return code;
@@ -1893,7 +1893,7 @@ public class ConceptMap extends DomainResource {
                  * The display for the code. The display is only provided to help editors when editing the concept map.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDisplay() {
                     return display;
@@ -1904,7 +1904,7 @@ public class ConceptMap extends DomainResource {
                  * is read from target to source (e.g. the target is 'wider' than the source).
                  * 
                  * @return
-                 *     An immutable object of type {@link ConceptMapEquivalence}.
+                 *     An immutable object of type {@link ConceptMapEquivalence} that is non-null.
                  */
                 public ConceptMapEquivalence getEquivalence() {
                     return equivalence;
@@ -1914,7 +1914,7 @@ public class ConceptMap extends DomainResource {
                  * A description of status/issues in mapping that conveys additional information not represented in the structured data.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getComment() {
                     return comment;
@@ -1925,7 +1925,7 @@ public class ConceptMap extends DomainResource {
                  * can be resolved, and it has the specified value.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
+                 *     An unmodifiable list containing immutable objects of type {@link DependsOn} that may be empty.
                  */
                 public List<DependsOn> getDependsOn() {
                     return dependsOn;
@@ -1937,7 +1937,7 @@ public class ConceptMap extends DomainResource {
                  * place for the additional data elements, but the equivalence cannot be relied on.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
+                 *     An unmodifiable list containing immutable objects of type {@link DependsOn} that may be empty.
                  */
                 public List<ConceptMap.Group.Element.Target.DependsOn> getProduct() {
                     return product;
@@ -2329,7 +2329,7 @@ public class ConceptMap extends DomainResource {
                      * information model carries an element somewhere that is labeled to correspond with a code system property.
                      * 
                      * @return
-                     *     An immutable object of type {@link Uri}.
+                     *     An immutable object of type {@link Uri} that is non-null.
                      */
                     public Uri getProperty() {
                         return property;
@@ -2340,7 +2340,7 @@ public class ConceptMap extends DomainResource {
                      * crosses code systems).
                      * 
                      * @return
-                     *     An immutable object of type {@link Canonical}.
+                     *     An immutable object of type {@link Canonical} that may be null.
                      */
                     public Canonical getSystem() {
                         return system;
@@ -2350,7 +2350,7 @@ public class ConceptMap extends DomainResource {
                      * Identity (code or path) or the element/item/ValueSet/text that the map depends on / refers to.
                      * 
                      * @return
-                     *     An immutable object of type {@link String}.
+                     *     An immutable object of type {@link String} that is non-null.
                      */
                     public String getValue() {
                         return value;
@@ -2360,7 +2360,7 @@ public class ConceptMap extends DomainResource {
                      * The display for the code. The display is only provided to help editors when editing the concept map.
                      * 
                      * @return
-                     *     An immutable object of type {@link String}.
+                     *     An immutable object of type {@link String} that may be null.
                      */
                     public String getDisplay() {
                         return display;
@@ -2680,7 +2680,7 @@ public class ConceptMap extends DomainResource {
              * concept map can be provided (by canonical URL).
              * 
              * @return
-             *     An immutable object of type {@link ConceptMapGroupUnmappedMode}.
+             *     An immutable object of type {@link ConceptMapGroupUnmappedMode} that is non-null.
              */
             public ConceptMapGroupUnmappedMode getMode() {
                 return mode;
@@ -2690,7 +2690,7 @@ public class ConceptMap extends DomainResource {
              * The fixed code to use when the mode = 'fixed' - all unmapped codes are mapped to a single fixed code.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that may be null.
              */
             public Code getCode() {
                 return code;
@@ -2700,7 +2700,7 @@ public class ConceptMap extends DomainResource {
              * The display for the code. The display is only provided to help editors when editing the concept map.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDisplay() {
                 return display;
@@ -2711,7 +2711,7 @@ public class ConceptMap extends DomainResource {
              * contains no matching mapping for the source concept.
              * 
              * @return
-             *     An immutable object of type {@link Canonical}.
+             *     An immutable object of type {@link Canonical} that may be null.
              */
             public Canonical getUrl() {
                 return url;

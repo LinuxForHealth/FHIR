@@ -120,7 +120,7 @@ public class PaymentReconciliation extends DomainResource {
      * A unique identifier assigned to this payment reconciliation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -130,7 +130,7 @@ public class PaymentReconciliation extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link PaymentReconciliationStatus}.
+     *     An immutable object of type {@link PaymentReconciliationStatus} that is non-null.
      */
     public PaymentReconciliationStatus getStatus() {
         return status;
@@ -140,7 +140,7 @@ public class PaymentReconciliation extends DomainResource {
      * The period of time for which payments have been gathered into this bulk payment for settlement.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -150,7 +150,7 @@ public class PaymentReconciliation extends DomainResource {
      * The date when the resource was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getCreated() {
         return created;
@@ -160,7 +160,7 @@ public class PaymentReconciliation extends DomainResource {
      * The party who generated the payment.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPaymentIssuer() {
         return paymentIssuer;
@@ -170,7 +170,7 @@ public class PaymentReconciliation extends DomainResource {
      * Original request resource reference.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequest() {
         return request;
@@ -180,7 +180,7 @@ public class PaymentReconciliation extends DomainResource {
      * The practitioner who is responsible for the services rendered to the patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequestor() {
         return requestor;
@@ -190,7 +190,7 @@ public class PaymentReconciliation extends DomainResource {
      * The outcome of a request for a reconciliation.
      * 
      * @return
-     *     An immutable object of type {@link RemittanceOutcome}.
+     *     An immutable object of type {@link RemittanceOutcome} that may be null.
      */
     public RemittanceOutcome getOutcome() {
         return outcome;
@@ -200,7 +200,7 @@ public class PaymentReconciliation extends DomainResource {
      * A human readable description of the status of the request for the reconciliation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDisposition() {
         return disposition;
@@ -210,7 +210,7 @@ public class PaymentReconciliation extends DomainResource {
      * The date of payment as indicated on the financial instrument.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that is non-null.
      */
     public Date getPaymentDate() {
         return paymentDate;
@@ -220,7 +220,7 @@ public class PaymentReconciliation extends DomainResource {
      * Total payment amount as indicated on the financial instrument.
      * 
      * @return
-     *     An immutable object of type {@link Money}.
+     *     An immutable object of type {@link Money} that is non-null.
      */
     public Money getPaymentAmount() {
         return paymentAmount;
@@ -230,7 +230,7 @@ public class PaymentReconciliation extends DomainResource {
      * Issuer's unique identifier for the payment instrument.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getPaymentIdentifier() {
         return paymentIdentifier;
@@ -240,7 +240,7 @@ public class PaymentReconciliation extends DomainResource {
      * Distribution of the payment amount for a previously acknowledged payable.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Detail}.
+     *     An unmodifiable list containing immutable objects of type {@link Detail} that may be empty.
      */
     public List<Detail> getDetail() {
         return detail;
@@ -250,7 +250,7 @@ public class PaymentReconciliation extends DomainResource {
      * A code for the form to be used for printing the content.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getFormCode() {
         return formCode;
@@ -260,7 +260,7 @@ public class PaymentReconciliation extends DomainResource {
      * A note that describes or explains the processing in a human readable form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ProcessNote}.
+     *     An unmodifiable list containing immutable objects of type {@link ProcessNote} that may be empty.
      */
     public List<ProcessNote> getProcessNote() {
         return processNote;
@@ -1002,7 +1002,7 @@ public class PaymentReconciliation extends DomainResource {
          * Unique identifier for the current payment item for the referenced payable.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -1012,7 +1012,7 @@ public class PaymentReconciliation extends DomainResource {
          * Unique identifier for the prior payment item for the referenced payable.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getPredecessor() {
             return predecessor;
@@ -1022,7 +1022,7 @@ public class PaymentReconciliation extends DomainResource {
          * Code to indicate the nature of the payment.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1032,7 +1032,7 @@ public class PaymentReconciliation extends DomainResource {
          * A resource, such as a Claim, the evaluation of which could lead to payment.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getRequest() {
             return request;
@@ -1042,7 +1042,7 @@ public class PaymentReconciliation extends DomainResource {
          * The party which submitted the claim or financial transaction.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getSubmitter() {
             return submitter;
@@ -1052,7 +1052,7 @@ public class PaymentReconciliation extends DomainResource {
          * A resource, such as a ClaimResponse, which contains a commitment to payment.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getResponse() {
             return response;
@@ -1062,7 +1062,7 @@ public class PaymentReconciliation extends DomainResource {
          * The date from the response resource containing a commitment to pay.
          * 
          * @return
-         *     An immutable object of type {@link Date}.
+         *     An immutable object of type {@link Date} that may be null.
          */
         public Date getDate() {
             return date;
@@ -1072,7 +1072,7 @@ public class PaymentReconciliation extends DomainResource {
          * A reference to the individual who is responsible for inquiries regarding the response and its payment.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getResponsible() {
             return responsible;
@@ -1082,7 +1082,7 @@ public class PaymentReconciliation extends DomainResource {
          * The party which is receiving the payment.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getPayee() {
             return payee;
@@ -1092,7 +1092,7 @@ public class PaymentReconciliation extends DomainResource {
          * The monetary amount allocated from the total payment to the payable.
          * 
          * @return
-         *     An immutable object of type {@link Money}.
+         *     An immutable object of type {@link Money} that may be null.
          */
         public Money getAmount() {
             return amount;
@@ -1535,7 +1535,7 @@ public class PaymentReconciliation extends DomainResource {
          * The business purpose of the note text.
          * 
          * @return
-         *     An immutable object of type {@link NoteType}.
+         *     An immutable object of type {@link NoteType} that may be null.
          */
         public NoteType getType() {
             return type;
@@ -1545,7 +1545,7 @@ public class PaymentReconciliation extends DomainResource {
          * The explanation or description associated with the processing.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getText() {
             return text;

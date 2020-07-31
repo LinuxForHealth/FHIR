@@ -128,7 +128,7 @@ public class Patient extends DomainResource {
      * An identifier for this patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -144,7 +144,7 @@ public class Patient extends DomainResource {
      * <p>Deceased patients may also be marked as inactive for the same reasons, but may be active for some time after death.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -154,7 +154,7 @@ public class Patient extends DomainResource {
      * A name associated with the individual.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName} that may be empty.
      */
     public List<HumanName> getName() {
         return name;
@@ -164,7 +164,7 @@ public class Patient extends DomainResource {
      * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -175,7 +175,7 @@ public class Patient extends DomainResource {
      * purposes.
      * 
      * @return
-     *     An immutable object of type {@link AdministrativeGender}.
+     *     An immutable object of type {@link AdministrativeGender} that may be null.
      */
     public AdministrativeGender getGender() {
         return gender;
@@ -185,7 +185,7 @@ public class Patient extends DomainResource {
      * The date of birth for the individual.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getBirthDate() {
         return birthDate;
@@ -195,7 +195,7 @@ public class Patient extends DomainResource {
      * Indicates if the individual is deceased or not.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getDeceased() {
         return deceased;
@@ -205,7 +205,7 @@ public class Patient extends DomainResource {
      * An address for the individual.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address} that may be empty.
      */
     public List<Address> getAddress() {
         return address;
@@ -215,7 +215,7 @@ public class Patient extends DomainResource {
      * This field contains a patient's most recent marital (civil) status.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getMaritalStatus() {
         return maritalStatus;
@@ -225,7 +225,7 @@ public class Patient extends DomainResource {
      * Indicates whether the patient is part of a multiple (boolean) or indicates the actual birth order (integer).
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getMultipleBirth() {
         return multipleBirth;
@@ -235,7 +235,7 @@ public class Patient extends DomainResource {
      * Image of the patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getPhoto() {
         return photo;
@@ -245,7 +245,7 @@ public class Patient extends DomainResource {
      * A contact party (e.g. guardian, partner, friend) for the patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Contact}.
+     *     An unmodifiable list containing immutable objects of type {@link Contact} that may be empty.
      */
     public List<Contact> getContact() {
         return contact;
@@ -255,7 +255,7 @@ public class Patient extends DomainResource {
      * A language which may be used to communicate with the patient about his or her health.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Communication}.
+     *     An unmodifiable list containing immutable objects of type {@link Communication} that may be empty.
      */
     public List<Communication> getCommunication() {
         return communication;
@@ -265,7 +265,7 @@ public class Patient extends DomainResource {
      * Patient's nominated care provider.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getGeneralPractitioner() {
         return generalPractitioner;
@@ -275,7 +275,7 @@ public class Patient extends DomainResource {
      * Organization that is the custodian of the patient record.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManagingOrganization() {
         return managingOrganization;
@@ -285,7 +285,7 @@ public class Patient extends DomainResource {
      * Link to another patient resource that concerns the same actual patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Link}.
+     *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
      */
     public List<Link> getLink() {
         return link;
@@ -1153,7 +1153,7 @@ public class Patient extends DomainResource {
          * The nature of the relationship between the patient and the contact person.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRelationship() {
             return relationship;
@@ -1163,7 +1163,7 @@ public class Patient extends DomainResource {
          * A name associated with the contact person.
          * 
          * @return
-         *     An immutable object of type {@link HumanName}.
+         *     An immutable object of type {@link HumanName} that may be null.
          */
         public HumanName getName() {
             return name;
@@ -1173,7 +1173,7 @@ public class Patient extends DomainResource {
          * A contact detail for the person, e.g. a telephone number or an email address.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+         *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
          */
         public List<ContactPoint> getTelecom() {
             return telecom;
@@ -1183,7 +1183,7 @@ public class Patient extends DomainResource {
          * Address for the contact person.
          * 
          * @return
-         *     An immutable object of type {@link Address}.
+         *     An immutable object of type {@link Address} that may be null.
          */
         public Address getAddress() {
             return address;
@@ -1194,7 +1194,7 @@ public class Patient extends DomainResource {
          * purposes.
          * 
          * @return
-         *     An immutable object of type {@link AdministrativeGender}.
+         *     An immutable object of type {@link AdministrativeGender} that may be null.
          */
         public AdministrativeGender getGender() {
             return gender;
@@ -1204,7 +1204,7 @@ public class Patient extends DomainResource {
          * Organization on behalf of which the contact is acting or for which the contact is working.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getOrganization() {
             return organization;
@@ -1214,7 +1214,7 @@ public class Patient extends DomainResource {
          * The period during which this contact person or organization is valid to be contacted relating to this patient.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1621,7 +1621,7 @@ public class Patient extends DomainResource {
          * English.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getLanguage() {
             return language;
@@ -1631,7 +1631,7 @@ public class Patient extends DomainResource {
          * Indicates whether or not the patient prefers this language (over other languages he masters up a certain level).
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getPreferred() {
             return preferred;
@@ -1903,7 +1903,7 @@ public class Patient extends DomainResource {
          * The other patient resource that the link refers to.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getOther() {
             return other;
@@ -1913,7 +1913,7 @@ public class Patient extends DomainResource {
          * The type of link between this patient resource and another patient resource.
          * 
          * @return
-         *     An immutable object of type {@link LinkType}.
+         *     An immutable object of type {@link LinkType} that is non-null.
          */
         public LinkType getType() {
             return type;

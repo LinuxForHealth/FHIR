@@ -115,7 +115,7 @@ public class DeviceUseStatement extends DomainResource {
      * An external identifier for this statement such as an IRI.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -125,7 +125,7 @@ public class DeviceUseStatement extends DomainResource {
      * A plan, proposal or order that is fulfilled in whole or in part by this DeviceUseStatement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -136,7 +136,7 @@ public class DeviceUseStatement extends DomainResource {
      * about. Generally this will be active or completed.
      * 
      * @return
-     *     An immutable object of type {@link DeviceUseStatementStatus}.
+     *     An immutable object of type {@link DeviceUseStatementStatus} that is non-null.
      */
     public DeviceUseStatementStatus getStatus() {
         return status;
@@ -146,7 +146,7 @@ public class DeviceUseStatement extends DomainResource {
      * The patient who used the device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -157,7 +157,7 @@ public class DeviceUseStatement extends DomainResource {
      * derive the DeviceUseStatement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDerivedFrom() {
         return derivedFrom;
@@ -167,7 +167,7 @@ public class DeviceUseStatement extends DomainResource {
      * How often the device was used.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getTiming() {
         return timing;
@@ -177,7 +177,7 @@ public class DeviceUseStatement extends DomainResource {
      * The time at which the statement was made/recorded.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRecordedOn() {
         return recordedOn;
@@ -187,7 +187,7 @@ public class DeviceUseStatement extends DomainResource {
      * Who reported the device was being used by the patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSource() {
         return source;
@@ -197,7 +197,7 @@ public class DeviceUseStatement extends DomainResource {
      * The details of the device used.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getDevice() {
         return device;
@@ -207,7 +207,7 @@ public class DeviceUseStatement extends DomainResource {
      * Reason or justification for the use of the device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -217,7 +217,7 @@ public class DeviceUseStatement extends DomainResource {
      * Indicates another resource whose existence justifies this DeviceUseStatement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -227,7 +227,7 @@ public class DeviceUseStatement extends DomainResource {
      * Indicates the anotomic location on the subject's body where the device was used ( i.e. the target).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getBodySite() {
         return bodySite;
@@ -238,7 +238,7 @@ public class DeviceUseStatement extends DomainResource {
      * in a class. These may include for example a comment, an instruction, or a note associated with the statement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;

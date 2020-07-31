@@ -143,7 +143,7 @@ public class ClinicalImpression extends DomainResource {
      * the resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -153,7 +153,7 @@ public class ClinicalImpression extends DomainResource {
      * Identifies the workflow status of the assessment.
      * 
      * @return
-     *     An immutable object of type {@link ClinicalImpressionStatus}.
+     *     An immutable object of type {@link ClinicalImpressionStatus} that is non-null.
      */
     public ClinicalImpressionStatus getStatus() {
         return status;
@@ -163,7 +163,7 @@ public class ClinicalImpression extends DomainResource {
      * Captures the reason for the current state of the ClinicalImpression.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -173,7 +173,7 @@ public class ClinicalImpression extends DomainResource {
      * Categorizes the type of clinical assessment performed.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -184,7 +184,7 @@ public class ClinicalImpression extends DomainResource {
      * prompted it.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -194,7 +194,7 @@ public class ClinicalImpression extends DomainResource {
      * The patient or group of individuals assessed as part of this record.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -205,7 +205,7 @@ public class ClinicalImpression extends DomainResource {
      * associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -215,7 +215,7 @@ public class ClinicalImpression extends DomainResource {
      * The point in time or period over which the subject was assessed.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -225,7 +225,7 @@ public class ClinicalImpression extends DomainResource {
      * Indicates when the documentation of the assessment was complete.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -235,7 +235,7 @@ public class ClinicalImpression extends DomainResource {
      * The clinician performing the assessment.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAssessor() {
         return assessor;
@@ -247,7 +247,7 @@ public class ClinicalImpression extends DomainResource {
      * patient's conditions changes.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPrevious() {
         return previous;
@@ -257,7 +257,7 @@ public class ClinicalImpression extends DomainResource {
      * A list of the relevant problems/conditions for a patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getProblem() {
         return problem;
@@ -269,7 +269,7 @@ public class ClinicalImpression extends DomainResource {
      * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Investigation}.
+     *     An unmodifiable list containing immutable objects of type {@link Investigation} that may be empty.
      */
     public List<Investigation> getInvestigation() {
         return investigation;
@@ -280,7 +280,7 @@ public class ClinicalImpression extends DomainResource {
      * evidence in support of the diagnosis.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getProtocol() {
         return protocol;
@@ -290,7 +290,7 @@ public class ClinicalImpression extends DomainResource {
      * A text summary of the investigations and the diagnosis.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSummary() {
         return summary;
@@ -300,7 +300,7 @@ public class ClinicalImpression extends DomainResource {
      * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Finding}.
+     *     An unmodifiable list containing immutable objects of type {@link Finding} that may be empty.
      */
     public List<Finding> getFinding() {
         return finding;
@@ -310,7 +310,7 @@ public class ClinicalImpression extends DomainResource {
      * Estimate of likely outcome.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getPrognosisCodeableConcept() {
         return prognosisCodeableConcept;
@@ -320,7 +320,7 @@ public class ClinicalImpression extends DomainResource {
      * RiskAssessment expressing likely outcome.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPrognosisReference() {
         return prognosisReference;
@@ -330,7 +330,7 @@ public class ClinicalImpression extends DomainResource {
      * Information supporting the clinical impression.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -341,7 +341,7 @@ public class ClinicalImpression extends DomainResource {
      * the original author could also appear.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1304,7 +1304,7 @@ public class ClinicalImpression extends DomainResource {
          * (exposure|family|travel|nutritional) history may be used.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1314,7 +1314,7 @@ public class ClinicalImpression extends DomainResource {
          * A record of a specific investigation that was undertaken.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getItem() {
             return item;
@@ -1604,7 +1604,7 @@ public class ClinicalImpression extends DomainResource {
          * Specific text or code for finding or diagnosis, which may include ruled-out or resolved conditions.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getItemCodeableConcept() {
             return itemCodeableConcept;
@@ -1614,7 +1614,7 @@ public class ClinicalImpression extends DomainResource {
          * Specific reference for finding or diagnosis, which may include ruled-out or resolved conditions.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getItemReference() {
             return itemReference;
@@ -1624,7 +1624,7 @@ public class ClinicalImpression extends DomainResource {
          * Which investigations support finding or diagnosis.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getBasis() {
             return basis;

@@ -112,7 +112,7 @@ public class DetectedIssue extends DomainResource {
      * Business identifier associated with the detected issue record.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -122,7 +122,7 @@ public class DetectedIssue extends DomainResource {
      * Indicates the status of the detected issue.
      * 
      * @return
-     *     An immutable object of type {@link DetectedIssueStatus}.
+     *     An immutable object of type {@link DetectedIssueStatus} that is non-null.
      */
     public DetectedIssueStatus getStatus() {
         return status;
@@ -132,7 +132,7 @@ public class DetectedIssue extends DomainResource {
      * Identifies the general type of issue identified.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -142,7 +142,7 @@ public class DetectedIssue extends DomainResource {
      * Indicates the degree of importance associated with the identified issue based on the potential impact on the patient.
      * 
      * @return
-     *     An immutable object of type {@link DetectedIssueSeverity}.
+     *     An immutable object of type {@link DetectedIssueSeverity} that may be null.
      */
     public DetectedIssueSeverity getSeverity() {
         return severity;
@@ -152,7 +152,7 @@ public class DetectedIssue extends DomainResource {
      * Indicates the patient whose record the detected issue is associated with.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPatient() {
         return patient;
@@ -162,7 +162,7 @@ public class DetectedIssue extends DomainResource {
      * The date or period when the detected issue was initially identified.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getIdentified() {
         return identified;
@@ -173,7 +173,7 @@ public class DetectedIssue extends DomainResource {
      * pharmacist conducting a medication review.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -183,7 +183,7 @@ public class DetectedIssue extends DomainResource {
      * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getImplicated() {
         return implicated;
@@ -194,7 +194,7 @@ public class DetectedIssue extends DomainResource {
      * GuidanceResponse or MeasureReport.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Evidence}.
+     *     An unmodifiable list containing immutable objects of type {@link Evidence} that may be empty.
      */
     public List<Evidence> getEvidence() {
         return evidence;
@@ -204,7 +204,7 @@ public class DetectedIssue extends DomainResource {
      * A textual explanation of the detected issue.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDetail() {
         return detail;
@@ -214,7 +214,7 @@ public class DetectedIssue extends DomainResource {
      * The literature, knowledge-base or similar reference that describes the propensity for the detected issue identified.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getReference() {
         return reference;
@@ -226,7 +226,7 @@ public class DetectedIssue extends DomainResource {
      * reduce/eliminate the need for any action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Mitigation}.
+     *     An unmodifiable list containing immutable objects of type {@link Mitigation} that may be empty.
      */
     public List<Mitigation> getMitigation() {
         return mitigation;
@@ -905,7 +905,7 @@ public class DetectedIssue extends DomainResource {
          * A manifestation that led to the recording of this detected issue.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -915,7 +915,7 @@ public class DetectedIssue extends DomainResource {
          * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getDetail() {
             return detail;
@@ -1220,7 +1220,7 @@ public class DetectedIssue extends DomainResource {
          * the identified issue.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getAction() {
             return action;
@@ -1230,7 +1230,7 @@ public class DetectedIssue extends DomainResource {
          * Indicates when the mitigating action was documented.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getDate() {
             return date;
@@ -1240,7 +1240,7 @@ public class DetectedIssue extends DomainResource {
          * Identifies the practitioner who determined the mitigation and takes responsibility for the mitigation step occurring.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getAuthor() {
             return author;

@@ -41,7 +41,7 @@ public abstract class BackboneElement extends Element {
      * change the meaning of modifierExtension itself).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension} that may be empty.
      */
     public List<Extension> getModifierExtension() {
         return modifierExtension;

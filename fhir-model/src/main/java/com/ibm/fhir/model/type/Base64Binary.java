@@ -35,7 +35,7 @@ public class Base64Binary extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link java.lang.byte[]}.
+     *     An immutable object of type {@link java.lang.byte[]} that may be null.
      */
     public byte[] getValue() {
         return value;

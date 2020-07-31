@@ -241,7 +241,7 @@ public class Task extends DomainResource {
      * The business identifier for this task.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -252,7 +252,7 @@ public class Task extends DomainResource {
      * in part by this Task.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -263,7 +263,7 @@ public class Task extends DomainResource {
      * whole or in part by this Task.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getInstantiatesUri() {
         return instantiatesUri;
@@ -277,7 +277,7 @@ public class Task extends DomainResource {
      * from a patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -287,7 +287,7 @@ public class Task extends DomainResource {
      * An identifier that links together multiple tasks and other requests that were created in the same context.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getGroupIdentifier() {
         return groupIdentifier;
@@ -297,7 +297,7 @@ public class Task extends DomainResource {
      * Task that this particular task is part of.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -307,7 +307,7 @@ public class Task extends DomainResource {
      * The current status of the task.
      * 
      * @return
-     *     An immutable object of type {@link TaskStatus}.
+     *     An immutable object of type {@link TaskStatus} that is non-null.
      */
     public TaskStatus getStatus() {
         return status;
@@ -317,7 +317,7 @@ public class Task extends DomainResource {
      * An explanation as to why this task is held, failed, was refused, etc.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -327,7 +327,7 @@ public class Task extends DomainResource {
      * Contains business-specific nuances of the business state.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getBusinessStatus() {
         return businessStatus;
@@ -338,7 +338,7 @@ public class Task extends DomainResource {
      * an actionable task, etc.
      * 
      * @return
-     *     An immutable object of type {@link TaskIntent}.
+     *     An immutable object of type {@link TaskIntent} that is non-null.
      */
     public TaskIntent getIntent() {
         return intent;
@@ -348,7 +348,7 @@ public class Task extends DomainResource {
      * Indicates how quickly the Task should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link TaskPriority}.
+     *     An immutable object of type {@link TaskPriority} that may be null.
      */
     public TaskPriority getPriority() {
         return priority;
@@ -358,7 +358,7 @@ public class Task extends DomainResource {
      * A name or code (or both) briefly describing what the task involves.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -368,7 +368,7 @@ public class Task extends DomainResource {
      * A free-text description of what is to be performed.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -378,7 +378,7 @@ public class Task extends DomainResource {
      * The request being actioned or the resource being manipulated by this task.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getFocus() {
         return focus;
@@ -388,7 +388,7 @@ public class Task extends DomainResource {
      * The entity who benefits from the performance of the service specified in the task (e.g., the patient).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getFor() {
         return _for;
@@ -398,7 +398,7 @@ public class Task extends DomainResource {
      * The healthcare event (e.g. a patient and healthcare provider interaction) during which this task was created.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -409,7 +409,7 @@ public class Task extends DomainResource {
      * task prior to marking it as completed (end).
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getExecutionPeriod() {
         return executionPeriod;
@@ -419,7 +419,7 @@ public class Task extends DomainResource {
      * The date and time this task was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -429,7 +429,7 @@ public class Task extends DomainResource {
      * The date and time of last modification to this task.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getLastModified() {
         return lastModified;
@@ -439,7 +439,7 @@ public class Task extends DomainResource {
      * The creator of the task.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequester() {
         return requester;
@@ -449,7 +449,7 @@ public class Task extends DomainResource {
      * The kind of participant that should perform the task.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getPerformerType() {
         return performerType;
@@ -459,7 +459,7 @@ public class Task extends DomainResource {
      * Individual organization or Device currently responsible for task execution.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOwner() {
         return owner;
@@ -469,7 +469,7 @@ public class Task extends DomainResource {
      * Principal physical location where the this task is performed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -479,7 +479,7 @@ public class Task extends DomainResource {
      * A description or code indicating why this task needs to be performed.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getReasonCode() {
         return reasonCode;
@@ -489,7 +489,7 @@ public class Task extends DomainResource {
      * A resource reference indicating why this task needs to be performed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getReasonReference() {
         return reasonReference;
@@ -499,7 +499,7 @@ public class Task extends DomainResource {
      * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInsurance() {
         return insurance;
@@ -509,7 +509,7 @@ public class Task extends DomainResource {
      * Free-text information captured about the task as it progresses.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -520,7 +520,7 @@ public class Task extends DomainResource {
      * likely to be relevant to a user looking at the current version of the task.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
@@ -531,7 +531,7 @@ public class Task extends DomainResource {
      * actioned), this element identifies any limitations on what parts of the referenced request should be actioned.
      * 
      * @return
-     *     An immutable object of type {@link Restriction}.
+     *     An immutable object of type {@link Restriction} that may be null.
      */
     public Restriction getRestriction() {
         return restriction;
@@ -541,7 +541,7 @@ public class Task extends DomainResource {
      * Additional information that may be needed in the execution of the task.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Input}.
+     *     An unmodifiable list containing immutable objects of type {@link Input} that may be empty.
      */
     public List<Input> getInput() {
         return input;
@@ -551,7 +551,7 @@ public class Task extends DomainResource {
      * Outputs produced by the Task.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Output}.
+     *     An unmodifiable list containing immutable objects of type {@link Output} that may be empty.
      */
     public List<Output> getOutput() {
         return output;
@@ -1731,7 +1731,7 @@ public class Task extends DomainResource {
          * Indicates the number of times the requested action should occur.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getRepetitions() {
             return repetitions;
@@ -1741,7 +1741,7 @@ public class Task extends DomainResource {
          * Over what time-period is fulfillment sought.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1751,7 +1751,7 @@ public class Task extends DomainResource {
          * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getRecipient() {
             return recipient;
@@ -2050,7 +2050,7 @@ public class Task extends DomainResource {
          * A code or description indicating how the input is intended to be used as part of the task execution.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2060,7 +2060,7 @@ public class Task extends DomainResource {
          * The value of the input parameter as a basic type.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -2383,7 +2383,7 @@ public class Task extends DomainResource {
          * The name of the Output parameter.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2393,7 +2393,7 @@ public class Task extends DomainResource {
          * The value of the Output parameter as a basic type.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getValue() {
             return value;

@@ -209,7 +209,7 @@ public class Procedure extends DomainResource {
      * resource is updated and is propagated from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -220,7 +220,7 @@ public class Procedure extends DomainResource {
      * in part by this Procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -231,7 +231,7 @@ public class Procedure extends DomainResource {
      * whole or in part by this Procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -241,7 +241,7 @@ public class Procedure extends DomainResource {
      * A reference to a resource that contains details of the request for this procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -251,7 +251,7 @@ public class Procedure extends DomainResource {
      * A larger event of which this particular procedure is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -261,7 +261,7 @@ public class Procedure extends DomainResource {
      * A code specifying the state of the procedure. Generally, this will be the in-progress or completed state.
      * 
      * @return
-     *     An immutable object of type {@link ProcedureStatus}.
+     *     An immutable object of type {@link ProcedureStatus} that is non-null.
      */
     public ProcedureStatus getStatus() {
         return status;
@@ -271,7 +271,7 @@ public class Procedure extends DomainResource {
      * Captures the reason for the current state of the procedure.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -281,7 +281,7 @@ public class Procedure extends DomainResource {
      * A code that classifies the procedure for searching, sorting and display purposes (e.g. "Surgical Procedure").
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCategory() {
         return category;
@@ -292,7 +292,7 @@ public class Procedure extends DomainResource {
      * "Laparoscopic Appendectomy").
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -302,7 +302,7 @@ public class Procedure extends DomainResource {
      * The person, animal or group on which the procedure was performed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -313,7 +313,7 @@ public class Procedure extends DomainResource {
      * associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -324,7 +324,7 @@ public class Procedure extends DomainResource {
      * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getPerformed() {
         return performed;
@@ -334,7 +334,7 @@ public class Procedure extends DomainResource {
      * Individual who recorded the record and takes responsibility for its content.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRecorder() {
         return recorder;
@@ -344,7 +344,7 @@ public class Procedure extends DomainResource {
      * Individual who is making the procedure statement.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAsserter() {
         return asserter;
@@ -354,7 +354,7 @@ public class Procedure extends DomainResource {
      * Limited to "real" people rather than equipment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Performer}.
+     *     An unmodifiable list containing immutable objects of type {@link Performer} that may be empty.
      */
     public List<Performer> getPerformer() {
         return performer;
@@ -364,7 +364,7 @@ public class Procedure extends DomainResource {
      * The location where the procedure actually happened. E.g. a newborn at home, a tracheostomy at a restaurant.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -375,7 +375,7 @@ public class Procedure extends DomainResource {
      * text.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -385,7 +385,7 @@ public class Procedure extends DomainResource {
      * The justification of why the procedure was performed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -396,7 +396,7 @@ public class Procedure extends DomainResource {
      * of a lesion.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -406,7 +406,7 @@ public class Procedure extends DomainResource {
      * The outcome of the procedure - did it resolve the reasons for the procedure being performed?
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getOutcome() {
         return outcome;
@@ -416,7 +416,7 @@ public class Procedure extends DomainResource {
      * This could be a histology result, pathology report, surgical report, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReport() {
         return report;
@@ -428,7 +428,7 @@ public class Procedure extends DomainResource {
      * issues.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getComplication() {
         return complication;
@@ -438,7 +438,7 @@ public class Procedure extends DomainResource {
      * Any complications that occurred during the procedure, or in the immediate post-performance period.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getComplicationDetail() {
         return complicationDetail;
@@ -449,7 +449,7 @@ public class Procedure extends DomainResource {
      * note or could potentially be more complex, in which case the CarePlan resource can be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getFollowUp() {
         return followUp;
@@ -459,7 +459,7 @@ public class Procedure extends DomainResource {
      * Any other notes and comments about the procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -470,7 +470,7 @@ public class Procedure extends DomainResource {
      * attaching a wound-vac, etc.) as a focal portion of the Procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link FocalDevice}.
+     *     An unmodifiable list containing immutable objects of type {@link FocalDevice} that may be empty.
      */
     public List<FocalDevice> getFocalDevice() {
         return focalDevice;
@@ -480,7 +480,7 @@ public class Procedure extends DomainResource {
      * Identifies medications, devices and any other substance used as part of the procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getUsedReference() {
         return usedReference;
@@ -490,7 +490,7 @@ public class Procedure extends DomainResource {
      * Identifies coded items that were used as part of the procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getUsedCode() {
         return usedCode;
@@ -1798,7 +1798,7 @@ public class Procedure extends DomainResource {
          * endoscopist.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFunction() {
             return function;
@@ -1808,7 +1808,7 @@ public class Procedure extends DomainResource {
          * The practitioner who was involved in the procedure.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getActor() {
             return actor;
@@ -1818,7 +1818,7 @@ public class Procedure extends DomainResource {
          * The organization the device or practitioner was acting on behalf of.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getOnBehalfOf() {
             return onBehalfOf;
@@ -2122,7 +2122,7 @@ public class Procedure extends DomainResource {
          * The kind of change that happened to the device during the procedure.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getAction() {
             return action;
@@ -2132,7 +2132,7 @@ public class Procedure extends DomainResource {
          * The device that was manipulated (changed) during the procedure.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getManipulated() {
             return manipulated;

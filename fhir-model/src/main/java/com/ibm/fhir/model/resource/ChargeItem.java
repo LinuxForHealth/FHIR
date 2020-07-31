@@ -173,7 +173,7 @@ public class ChargeItem extends DomainResource {
      * Identifiers assigned to this event performer or other systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -183,7 +183,7 @@ public class ChargeItem extends DomainResource {
      * References the (external) source of pricing information, rules of application for the code this ChargeItem uses.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getDefinitionUri() {
         return definitionUri;
@@ -193,7 +193,7 @@ public class ChargeItem extends DomainResource {
      * References the source of pricing information, rules of application for the code this ChargeItem uses.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getDefinitionCanonical() {
         return definitionCanonical;
@@ -203,7 +203,7 @@ public class ChargeItem extends DomainResource {
      * The current state of the ChargeItem.
      * 
      * @return
-     *     An immutable object of type {@link ChargeItemStatus}.
+     *     An immutable object of type {@link ChargeItemStatus} that is non-null.
      */
     public ChargeItemStatus getStatus() {
         return status;
@@ -213,7 +213,7 @@ public class ChargeItem extends DomainResource {
      * ChargeItems can be grouped to larger ChargeItems covering the whole set.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -223,7 +223,7 @@ public class ChargeItem extends DomainResource {
      * A code that identifies the charge, like a billing code.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -233,7 +233,7 @@ public class ChargeItem extends DomainResource {
      * The individual or set of individuals the action is being or was performed on.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -243,7 +243,7 @@ public class ChargeItem extends DomainResource {
      * The encounter or episode of care that establishes the context for this event.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getContext() {
         return context;
@@ -253,7 +253,7 @@ public class ChargeItem extends DomainResource {
      * Date/time(s) or duration when the charged service was applied.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -263,7 +263,7 @@ public class ChargeItem extends DomainResource {
      * Indicates who or what performed or participated in the charged service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Performer}.
+     *     An unmodifiable list containing immutable objects of type {@link Performer} that may be empty.
      */
     public List<Performer> getPerformer() {
         return performer;
@@ -273,7 +273,7 @@ public class ChargeItem extends DomainResource {
      * The organization requesting the service.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPerformingOrganization() {
         return performingOrganization;
@@ -283,7 +283,7 @@ public class ChargeItem extends DomainResource {
      * The organization performing the service.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequestingOrganization() {
         return requestingOrganization;
@@ -293,7 +293,7 @@ public class ChargeItem extends DomainResource {
      * The financial cost center permits the tracking of charge attribution.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCostCenter() {
         return costCenter;
@@ -303,7 +303,7 @@ public class ChargeItem extends DomainResource {
      * Quantity of which the charge item has been serviced.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getQuantity() {
         return quantity;
@@ -313,7 +313,7 @@ public class ChargeItem extends DomainResource {
      * The anatomical location where the related service has been applied.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getBodysite() {
         return bodysite;
@@ -323,7 +323,7 @@ public class ChargeItem extends DomainResource {
      * Factor overriding the factor determined by the rules associated with the code.
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getFactorOverride() {
         return factorOverride;
@@ -333,7 +333,7 @@ public class ChargeItem extends DomainResource {
      * Total price of the charge overriding the list price associated with the code.
      * 
      * @return
-     *     An immutable object of type {@link Money}.
+     *     An immutable object of type {@link Money} that may be null.
      */
     public Money getPriceOverride() {
         return priceOverride;
@@ -344,7 +344,7 @@ public class ChargeItem extends DomainResource {
      * to indicate the reason for this action.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getOverrideReason() {
         return overrideReason;
@@ -354,7 +354,7 @@ public class ChargeItem extends DomainResource {
      * The device, practitioner, etc. who entered the charge item.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEnterer() {
         return enterer;
@@ -364,7 +364,7 @@ public class ChargeItem extends DomainResource {
      * Date the charge item was entered.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getEnteredDate() {
         return enteredDate;
@@ -374,7 +374,7 @@ public class ChargeItem extends DomainResource {
      * Describes why the event occurred in coded or textual form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReason() {
         return reason;
@@ -384,7 +384,7 @@ public class ChargeItem extends DomainResource {
      * Indicated the rendered service that caused this charge.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getService() {
         return service;
@@ -394,7 +394,7 @@ public class ChargeItem extends DomainResource {
      * Identifies the device, food, drug or other product being charged either by type code or reference to an instance.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getProduct() {
         return product;
@@ -404,7 +404,7 @@ public class ChargeItem extends DomainResource {
      * Account into which this ChargeItems belongs.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAccount() {
         return account;
@@ -414,7 +414,7 @@ public class ChargeItem extends DomainResource {
      * Comments made about the event by the performer, subject or other participants.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -424,7 +424,7 @@ public class ChargeItem extends DomainResource {
      * Further information supporting this charge.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInformation() {
         return supportingInformation;
@@ -1557,7 +1557,7 @@ public class ChargeItem extends DomainResource {
          * Describes the type of performance or participation(e.g. primary surgeon, anesthesiologiest, etc.).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFunction() {
             return function;
@@ -1567,7 +1567,7 @@ public class ChargeItem extends DomainResource {
          * The device, practitioner, etc. who performed or participated in the service.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getActor() {
             return actor;

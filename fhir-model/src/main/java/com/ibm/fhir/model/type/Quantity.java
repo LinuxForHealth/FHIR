@@ -65,7 +65,7 @@ public class Quantity extends Element {
      * The value of the measured amount. The value includes an implicit precision in the presentation of the value.
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getValue() {
         return value;
@@ -76,7 +76,7 @@ public class Quantity extends Element {
      * due to measurement issues; e.g. if the comparator is "&lt;" , then the real value is &lt; stated value.
      * 
      * @return
-     *     An immutable object of type {@link QuantityComparator}.
+     *     An immutable object of type {@link QuantityComparator} that may be null.
      */
     public QuantityComparator getComparator() {
         return comparator;
@@ -86,7 +86,7 @@ public class Quantity extends Element {
      * A human-readable form of the unit.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUnit() {
         return unit;
@@ -96,7 +96,7 @@ public class Quantity extends Element {
      * The identification of the system that provides the coded form of the unit.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getSystem() {
         return system;
@@ -106,7 +106,7 @@ public class Quantity extends Element {
      * A computer processable form of the unit in some unit representation system.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getCode() {
         return code;

@@ -92,7 +92,7 @@ public class CatalogEntry extends DomainResource {
      * Used in supporting different identifiers for the same product, e.g. manufacturer code and retailer code.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -102,7 +102,7 @@ public class CatalogEntry extends DomainResource {
      * The type of item - medication, device, service, protocol or other.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -112,7 +112,7 @@ public class CatalogEntry extends DomainResource {
      * Whether the entry represents an orderable item.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getOrderable() {
         return orderable;
@@ -122,7 +122,7 @@ public class CatalogEntry extends DomainResource {
      * The item in a catalog or definition.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getReferencedItem() {
         return referencedItem;
@@ -132,7 +132,7 @@ public class CatalogEntry extends DomainResource {
      * Used in supporting related concepts, e.g. NDC to RxNorm.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getAdditionalIdentifier() {
         return additionalIdentifier;
@@ -142,7 +142,7 @@ public class CatalogEntry extends DomainResource {
      * Classes of devices, or ATC for medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getClassification() {
         return classification;
@@ -153,7 +153,7 @@ public class CatalogEntry extends DomainResource {
      * prescribable.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that may be null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -163,7 +163,7 @@ public class CatalogEntry extends DomainResource {
      * The time period in which this catalog entry is expected to be active.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getValidityPeriod() {
         return validityPeriod;
@@ -173,7 +173,7 @@ public class CatalogEntry extends DomainResource {
      * The date until which this catalog entry is expected to be active.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getValidTo() {
         return validTo;
@@ -184,7 +184,7 @@ public class CatalogEntry extends DomainResource {
      * updated.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getLastUpdated() {
         return lastUpdated;
@@ -194,7 +194,7 @@ public class CatalogEntry extends DomainResource {
      * Used for examplefor Out of Formulary, or any specifics.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getAdditionalCharacteristic() {
         return additionalCharacteristic;
@@ -204,7 +204,7 @@ public class CatalogEntry extends DomainResource {
      * User for example for ATC classification, or.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getAdditionalClassification() {
         return additionalClassification;
@@ -214,7 +214,7 @@ public class CatalogEntry extends DomainResource {
      * Used for example, to point to a substance, or to a device used to administer a medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedEntry}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedEntry} that may be empty.
      */
     public List<RelatedEntry> getRelatedEntry() {
         return relatedEntry;
@@ -951,7 +951,7 @@ public class CatalogEntry extends DomainResource {
          * The type of relation to the related item: child, parent, packageContent, containerPackage, usedIn, uses, requires, etc.
          * 
          * @return
-         *     An immutable object of type {@link CatalogEntryRelationType}.
+         *     An immutable object of type {@link CatalogEntryRelationType} that is non-null.
          */
         public CatalogEntryRelationType getRelationtype() {
             return relationtype;
@@ -961,7 +961,7 @@ public class CatalogEntry extends DomainResource {
          * The reference to the related item.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getItem() {
             return item;

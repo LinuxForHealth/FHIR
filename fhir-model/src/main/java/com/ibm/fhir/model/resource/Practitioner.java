@@ -96,7 +96,7 @@ public class Practitioner extends DomainResource {
      * An identifier that applies to this person in this role.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -106,7 +106,7 @@ public class Practitioner extends DomainResource {
      * Whether this practitioner's record is in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -116,7 +116,7 @@ public class Practitioner extends DomainResource {
      * The name(s) associated with the practitioner.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName} that may be empty.
      */
     public List<HumanName> getName() {
         return name;
@@ -126,7 +126,7 @@ public class Practitioner extends DomainResource {
      * A contact detail for the practitioner, e.g. a telephone number or an email address.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -137,7 +137,7 @@ public class Practitioner extends DomainResource {
      * entered in this property as they are usually role dependent.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address} that may be empty.
      */
     public List<Address> getAddress() {
         return address;
@@ -148,7 +148,7 @@ public class Practitioner extends DomainResource {
      * purposes.
      * 
      * @return
-     *     An immutable object of type {@link AdministrativeGender}.
+     *     An immutable object of type {@link AdministrativeGender} that may be null.
      */
     public AdministrativeGender getGender() {
         return gender;
@@ -158,7 +158,7 @@ public class Practitioner extends DomainResource {
      * The date of birth for the practitioner.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getBirthDate() {
         return birthDate;
@@ -168,7 +168,7 @@ public class Practitioner extends DomainResource {
      * Image of the person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getPhoto() {
         return photo;
@@ -180,7 +180,7 @@ public class Practitioner extends DomainResource {
      * medicine within a certian locality.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Qualification}.
+     *     An unmodifiable list containing immutable objects of type {@link Qualification} that may be empty.
      */
     public List<Qualification> getQualification() {
         return qualification;
@@ -190,7 +190,7 @@ public class Practitioner extends DomainResource {
      * A language the practitioner can use in patient communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCommunication() {
         return communication;
@@ -872,7 +872,7 @@ public class Practitioner extends DomainResource {
          * An identifier that applies to this person's qualification in this role.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -882,7 +882,7 @@ public class Practitioner extends DomainResource {
          * Coded representation of the qualification.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -892,7 +892,7 @@ public class Practitioner extends DomainResource {
          * Period during which the qualification is valid.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -902,7 +902,7 @@ public class Practitioner extends DomainResource {
          * Organization that regulates and issues the qualification.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getIssuer() {
             return issuer;

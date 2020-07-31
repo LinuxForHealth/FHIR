@@ -102,7 +102,7 @@ public class Parameters extends Resource {
      * A parameter passed to or received from the operation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+     *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
      */
     public List<Parameter> getParameter() {
         return parameter;
@@ -323,7 +323,7 @@ public class Parameters extends Resource {
          * The name of the parameter (reference to the operation definition).
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -333,7 +333,7 @@ public class Parameters extends Resource {
          * If the parameter is a data type.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;
@@ -343,7 +343,7 @@ public class Parameters extends Resource {
          * If the parameter is a whole resource.
          * 
          * @return
-         *     An immutable object of type {@link Resource}.
+         *     An immutable object of type {@link Resource} that may be null.
          */
         public Resource getResource() {
             return resource;
@@ -353,7 +353,7 @@ public class Parameters extends Resource {
          * A named part of a multi-part parameter.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
          */
         public List<Parameters.Parameter> getPart() {
             return part;

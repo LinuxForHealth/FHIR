@@ -113,7 +113,7 @@ public class Endpoint extends DomainResource {
      * Identifier for the organization that is used to identify the endpoint across multiple disparate systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -123,7 +123,7 @@ public class Endpoint extends DomainResource {
      * active | suspended | error | off | test.
      * 
      * @return
-     *     An immutable object of type {@link EndpointStatus}.
+     *     An immutable object of type {@link EndpointStatus} that is non-null.
      */
     public EndpointStatus getStatus() {
         return status;
@@ -134,7 +134,7 @@ public class Endpoint extends DomainResource {
      * in what way. (e.g. XDS.b/DICOM/cds-hook).
      * 
      * @return
-     *     An immutable object of type {@link Coding}.
+     *     An immutable object of type {@link Coding} that is non-null.
      */
     public Coding getConnectionType() {
         return connectionType;
@@ -144,7 +144,7 @@ public class Endpoint extends DomainResource {
      * A friendly name that this endpoint can be referred to with.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -155,7 +155,7 @@ public class Endpoint extends DomainResource {
      * is the organization associated with the data).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManagingOrganization() {
         return managingOrganization;
@@ -166,7 +166,7 @@ public class Endpoint extends DomainResource {
      * troubleshooting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getContact() {
         return contact;
@@ -176,7 +176,7 @@ public class Endpoint extends DomainResource {
      * The interval during which the endpoint is expected to be operational.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -186,7 +186,7 @@ public class Endpoint extends DomainResource {
      * The payload type describes the acceptable content that can be communicated on the endpoint.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that is non-empty.
      */
     public List<CodeableConcept> getPayloadType() {
         return payloadType;
@@ -197,7 +197,7 @@ public class Endpoint extends DomainResource {
      * specified, then the sender could send any content (including no content depending on the connectionType).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code} that may be empty.
      */
     public List<Code> getPayloadMimeType() {
         return payloadMimeType;
@@ -207,7 +207,7 @@ public class Endpoint extends DomainResource {
      * The uri that describes the actual end-point to connect to.
      * 
      * @return
-     *     An immutable object of type {@link Url}.
+     *     An immutable object of type {@link Url} that is non-null.
      */
     public Url getAddress() {
         return address;
@@ -217,7 +217,7 @@ public class Endpoint extends DomainResource {
      * Additional headers / information to send as part of the notification.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getHeader() {
         return header;

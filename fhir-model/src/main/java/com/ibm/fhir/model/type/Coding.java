@@ -47,7 +47,7 @@ public class Coding extends Element {
      * The identification of the code system that defines the meaning of the symbol in the code.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getSystem() {
         return system;
@@ -59,7 +59,7 @@ public class Coding extends Element {
      * consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -70,7 +70,7 @@ public class Coding extends Element {
      * the coding system (e.g. post-coordination).
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getCode() {
         return code;
@@ -80,7 +80,7 @@ public class Coding extends Element {
      * A representation of the meaning of the code in the system, following the rules of the system.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDisplay() {
         return display;
@@ -90,7 +90,7 @@ public class Coding extends Element {
      * Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getUserSelected() {
         return userSelected;

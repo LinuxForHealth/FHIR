@@ -132,7 +132,7 @@ public class GraphDefinition extends DomainResource {
      * target of a canonical reference. It SHALL remain the same when the graph definition is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -145,7 +145,7 @@ public class GraphDefinition extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -156,7 +156,7 @@ public class GraphDefinition extends DomainResource {
      * by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -166,7 +166,7 @@ public class GraphDefinition extends DomainResource {
      * The status of this graph definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -177,7 +177,7 @@ public class GraphDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -189,7 +189,7 @@ public class GraphDefinition extends DomainResource {
      * the graph definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -199,7 +199,7 @@ public class GraphDefinition extends DomainResource {
      * The name of the organization or individual that published the graph definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -209,7 +209,7 @@ public class GraphDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -219,7 +219,7 @@ public class GraphDefinition extends DomainResource {
      * A free text natural language description of the graph definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -231,7 +231,7 @@ public class GraphDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate graph definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -241,7 +241,7 @@ public class GraphDefinition extends DomainResource {
      * A legal or geographic region in which the graph definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -251,7 +251,7 @@ public class GraphDefinition extends DomainResource {
      * Explanation of why this graph definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -261,7 +261,7 @@ public class GraphDefinition extends DomainResource {
      * The type of FHIR resource at which instances of this graph start.
      * 
      * @return
-     *     An immutable object of type {@link ResourceType}.
+     *     An immutable object of type {@link ResourceType} that is non-null.
      */
     public ResourceType getStart() {
         return start;
@@ -271,7 +271,7 @@ public class GraphDefinition extends DomainResource {
      * The profile that describes the use of the base resource.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getProfile() {
         return profile;
@@ -281,7 +281,7 @@ public class GraphDefinition extends DomainResource {
      * Links this graph makes rules about.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Link}.
+     *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
      */
     public List<Link> getLink() {
         return link;
@@ -1016,7 +1016,7 @@ public class GraphDefinition extends DomainResource {
          * A FHIR expression that identifies one of FHIR References to other resources.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPath() {
             return path;
@@ -1026,7 +1026,7 @@ public class GraphDefinition extends DomainResource {
          * Which slice (if profiled).
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSliceName() {
             return sliceName;
@@ -1036,7 +1036,7 @@ public class GraphDefinition extends DomainResource {
          * Minimum occurrences for this link.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getMin() {
             return min;
@@ -1046,7 +1046,7 @@ public class GraphDefinition extends DomainResource {
          * Maximum occurrences for this link.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getMax() {
             return max;
@@ -1056,7 +1056,7 @@ public class GraphDefinition extends DomainResource {
          * Information about why this link is of interest in this graph definition.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1066,7 +1066,7 @@ public class GraphDefinition extends DomainResource {
          * Potential target for the link.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Target}.
+         *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
          */
         public List<Target> getTarget() {
             return target;
@@ -1429,7 +1429,7 @@ public class GraphDefinition extends DomainResource {
              * Type of resource this link refers to.
              * 
              * @return
-             *     An immutable object of type {@link ResourceType}.
+             *     An immutable object of type {@link ResourceType} that is non-null.
              */
             public ResourceType getType() {
                 return type;
@@ -1439,7 +1439,7 @@ public class GraphDefinition extends DomainResource {
              * A set of parameters to look up.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getParams() {
                 return params;
@@ -1449,7 +1449,7 @@ public class GraphDefinition extends DomainResource {
              * Profile for the target resource.
              * 
              * @return
-             *     An immutable object of type {@link Canonical}.
+             *     An immutable object of type {@link Canonical} that may be null.
              */
             public Canonical getProfile() {
                 return profile;
@@ -1459,7 +1459,7 @@ public class GraphDefinition extends DomainResource {
              * Compartment Consistency Rules.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Compartment}.
+             *     An unmodifiable list containing immutable objects of type {@link Compartment} that may be empty.
              */
             public List<Compartment> getCompartment() {
                 return compartment;
@@ -1469,7 +1469,7 @@ public class GraphDefinition extends DomainResource {
              * Additional links from target resource.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Link}.
+             *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
              */
             public List<GraphDefinition.Link> getLink() {
                 return link;
@@ -1854,7 +1854,7 @@ public class GraphDefinition extends DomainResource {
                  * whether it is a rule that must be followed.
                  * 
                  * @return
-                 *     An immutable object of type {@link GraphCompartmentUse}.
+                 *     An immutable object of type {@link GraphCompartmentUse} that is non-null.
                  */
                 public GraphCompartmentUse getUse() {
                     return use;
@@ -1864,7 +1864,7 @@ public class GraphDefinition extends DomainResource {
                  * Identifies the compartment.
                  * 
                  * @return
-                 *     An immutable object of type {@link CompartmentCode}.
+                 *     An immutable object of type {@link CompartmentCode} that is non-null.
                  */
                 public CompartmentCode getCode() {
                     return code;
@@ -1874,7 +1874,7 @@ public class GraphDefinition extends DomainResource {
                  * identical | matching | different | no-rule | custom.
                  * 
                  * @return
-                 *     An immutable object of type {@link GraphCompartmentRule}.
+                 *     An immutable object of type {@link GraphCompartmentRule} that is non-null.
                  */
                 public GraphCompartmentRule getRule() {
                     return rule;
@@ -1884,7 +1884,7 @@ public class GraphDefinition extends DomainResource {
                  * Custom rule, as a FHIRPath expression.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getExpression() {
                     return expression;
@@ -1894,7 +1894,7 @@ public class GraphDefinition extends DomainResource {
                  * Documentation for FHIRPath expression.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDescription() {
                     return description;

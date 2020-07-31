@@ -73,7 +73,7 @@ public class Basic extends DomainResource {
      * Identifier assigned to the resource for business purposes, outside the context of FHIR.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -83,7 +83,7 @@ public class Basic extends DomainResource {
      * Identifies the 'type' of resource - equivalent to the resource name for other resources.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -93,7 +93,7 @@ public class Basic extends DomainResource {
      * Identifies the patient, practitioner, device or any other resource that is the "focus" of this resource.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -103,7 +103,7 @@ public class Basic extends DomainResource {
      * Identifies when the resource was first created.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getCreated() {
         return created;
@@ -113,7 +113,7 @@ public class Basic extends DomainResource {
      * Indicates who was responsible for creating the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;

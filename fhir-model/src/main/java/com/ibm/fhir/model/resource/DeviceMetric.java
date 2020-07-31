@@ -122,7 +122,7 @@ public class DeviceMetric extends DomainResource {
      * or owners. For example: handle ID.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -132,7 +132,7 @@ public class DeviceMetric extends DomainResource {
      * Describes the type of the metric. For example: Heart Rate, PEEP Setting, etc.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getType() {
         return type;
@@ -142,7 +142,7 @@ public class DeviceMetric extends DomainResource {
      * Describes the unit that an observed value determined for this metric will have. For example: Percent, Seconds, etc.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getUnit() {
         return unit;
@@ -153,7 +153,7 @@ public class DeviceMetric extends DomainResource {
      * such as manufacturer, serial number, etc.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSource() {
         return source;
@@ -166,7 +166,7 @@ public class DeviceMetric extends DomainResource {
      * should be interpreted based on their containment location.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getParent() {
         return parent;
@@ -176,7 +176,7 @@ public class DeviceMetric extends DomainResource {
      * Indicates current operational state of the device. For example: On, Off, Standby, etc.
      * 
      * @return
-     *     An immutable object of type {@link DeviceMetricOperationalStatus}.
+     *     An immutable object of type {@link DeviceMetricOperationalStatus} that may be null.
      */
     public DeviceMetricOperationalStatus getOperationalStatus() {
         return operationalStatus;
@@ -188,7 +188,7 @@ public class DeviceMetric extends DomainResource {
      * parameters are displayed in different characteristic colors, such as HR-blue, BP-green, and PR and SpO2- magenta.
      * 
      * @return
-     *     An immutable object of type {@link DeviceMetricColor}.
+     *     An immutable object of type {@link DeviceMetricColor} that may be null.
      */
     public DeviceMetricColor getColor() {
         return color;
@@ -199,7 +199,7 @@ public class DeviceMetric extends DomainResource {
      * measurement, or calculation.
      * 
      * @return
-     *     An immutable object of type {@link DeviceMetricCategory}.
+     *     An immutable object of type {@link DeviceMetricCategory} that is non-null.
      */
     public DeviceMetricCategory getCategory() {
         return category;
@@ -213,7 +213,7 @@ public class DeviceMetric extends DomainResource {
      * time, if the device does not update the published observed value with the same frequency as it was measured.
      * 
      * @return
-     *     An immutable object of type {@link Timing}.
+     *     An immutable object of type {@link Timing} that may be null.
      */
     public Timing getMeasurementPeriod() {
         return measurementPeriod;
@@ -223,7 +223,7 @@ public class DeviceMetric extends DomainResource {
      * Describes the calibrations that have been performed or that are required to be performed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Calibration}.
+     *     An unmodifiable list containing immutable objects of type {@link Calibration} that may be empty.
      */
     public List<Calibration> getCalibration() {
         return calibration;
@@ -833,7 +833,7 @@ public class DeviceMetric extends DomainResource {
          * Describes the type of the calibration method.
          * 
          * @return
-         *     An immutable object of type {@link DeviceMetricCalibrationType}.
+         *     An immutable object of type {@link DeviceMetricCalibrationType} that may be null.
          */
         public DeviceMetricCalibrationType getType() {
             return type;
@@ -843,7 +843,7 @@ public class DeviceMetric extends DomainResource {
          * Describes the state of the calibration.
          * 
          * @return
-         *     An immutable object of type {@link DeviceMetricCalibrationState}.
+         *     An immutable object of type {@link DeviceMetricCalibrationState} that may be null.
          */
         public DeviceMetricCalibrationState getState() {
             return state;
@@ -853,7 +853,7 @@ public class DeviceMetric extends DomainResource {
          * Describes the time last calibration has been performed.
          * 
          * @return
-         *     An immutable object of type {@link Instant}.
+         *     An immutable object of type {@link Instant} that may be null.
          */
         public Instant getTime() {
             return time;

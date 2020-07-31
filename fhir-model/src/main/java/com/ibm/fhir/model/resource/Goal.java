@@ -161,7 +161,7 @@ public class Goal extends DomainResource {
      * updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -171,7 +171,7 @@ public class Goal extends DomainResource {
      * The state of the goal throughout its lifecycle.
      * 
      * @return
-     *     An immutable object of type {@link GoalLifecycleStatus}.
+     *     An immutable object of type {@link GoalLifecycleStatus} that is non-null.
      */
     public GoalLifecycleStatus getLifecycleStatus() {
         return lifecycleStatus;
@@ -181,7 +181,7 @@ public class Goal extends DomainResource {
      * Describes the progression, or lack thereof, towards the goal against the target.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getAchievementStatus() {
         return achievementStatus;
@@ -191,7 +191,7 @@ public class Goal extends DomainResource {
      * Indicates a category the goal falls within.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -201,7 +201,7 @@ public class Goal extends DomainResource {
      * Identifies the mutually agreed level of importance associated with reaching/sustaining the goal.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPriority() {
         return priority;
@@ -212,7 +212,7 @@ public class Goal extends DomainResource {
      * "negotiate an obstacle course" or "dance with child at wedding".
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getDescription() {
         return description;
@@ -222,7 +222,7 @@ public class Goal extends DomainResource {
      * Identifies the patient, group or organization for whom the goal is being established.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -232,7 +232,7 @@ public class Goal extends DomainResource {
      * The date or event after which the goal should begin being pursued.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getStart() {
         return start;
@@ -242,7 +242,7 @@ public class Goal extends DomainResource {
      * Indicates what should be done by when.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Target}.
+     *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
      */
     public List<Target> getTarget() {
         return target;
@@ -252,7 +252,7 @@ public class Goal extends DomainResource {
      * Identifies when the current status. I.e. When initially created, when achieved, when cancelled, etc.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getStatusDate() {
         return statusDate;
@@ -262,7 +262,7 @@ public class Goal extends DomainResource {
      * Captures the reason for the current status.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getStatusReason() {
         return statusReason;
@@ -272,7 +272,7 @@ public class Goal extends DomainResource {
      * Indicates whose goal this is - patient goal, practitioner goal, etc.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getExpressedBy() {
         return expressedBy;
@@ -282,7 +282,7 @@ public class Goal extends DomainResource {
      * The identified conditions and other health record elements that are intended to be addressed by the goal.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAddresses() {
         return addresses;
@@ -292,7 +292,7 @@ public class Goal extends DomainResource {
      * Any comments related to the goal.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -302,7 +302,7 @@ public class Goal extends DomainResource {
      * Identifies the change (or lack of change) at the point when the status of the goal is assessed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getOutcomeCode() {
         return outcomeCode;
@@ -312,7 +312,7 @@ public class Goal extends DomainResource {
      * Details of what's changed (or not changed).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getOutcomeReference() {
         return outcomeReference;
@@ -1147,7 +1147,7 @@ public class Goal extends DomainResource {
          * The parameter whose value is being tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getMeasure() {
             return measure;
@@ -1160,7 +1160,7 @@ public class Goal extends DomainResource {
          * goal is achieved at any focus value at or above the low value.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getDetail() {
             return detail;
@@ -1170,7 +1170,7 @@ public class Goal extends DomainResource {
          * Indicates either the date or the duration after start by which the goal should be met.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getDue() {
             return due;

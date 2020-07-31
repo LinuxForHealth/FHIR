@@ -108,7 +108,7 @@ public class Specimen extends DomainResource {
      * Id for specimen.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -119,7 +119,7 @@ public class Specimen extends DomainResource {
      * identifier, depending on local lab procedures.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getAccessionIdentifier() {
         return accessionIdentifier;
@@ -129,7 +129,7 @@ public class Specimen extends DomainResource {
      * The availability of the specimen.
      * 
      * @return
-     *     An immutable object of type {@link SpecimenStatus}.
+     *     An immutable object of type {@link SpecimenStatus} that may be null.
      */
     public SpecimenStatus getStatus() {
         return status;
@@ -139,7 +139,7 @@ public class Specimen extends DomainResource {
      * The kind of material that forms the specimen.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -150,7 +150,7 @@ public class Specimen extends DomainResource {
      * sample), or a sampling of a substance or a device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -160,7 +160,7 @@ public class Specimen extends DomainResource {
      * Time when specimen was received for processing or testing.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getReceivedTime() {
         return receivedTime;
@@ -171,7 +171,7 @@ public class Specimen extends DomainResource {
      * another specimen.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getParent() {
         return parent;
@@ -181,7 +181,7 @@ public class Specimen extends DomainResource {
      * Details concerning a service request that required a specimen to be collected.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRequest() {
         return request;
@@ -191,7 +191,7 @@ public class Specimen extends DomainResource {
      * Details concerning the specimen collection.
      * 
      * @return
-     *     An immutable object of type {@link Collection}.
+     *     An immutable object of type {@link Collection} that may be null.
      */
     public Collection getCollection() {
         return collection;
@@ -201,7 +201,7 @@ public class Specimen extends DomainResource {
      * Details concerning processing and processing steps for the specimen.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Processing}.
+     *     An unmodifiable list containing immutable objects of type {@link Processing} that may be empty.
      */
     public List<Processing> getProcessing() {
         return processing;
@@ -212,7 +212,7 @@ public class Specimen extends DomainResource {
      * addressed here.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Container}.
+     *     An unmodifiable list containing immutable objects of type {@link Container} that may be empty.
      */
     public List<Container> getContainer() {
         return container;
@@ -222,7 +222,7 @@ public class Specimen extends DomainResource {
      * A mode or state of being that describes the nature of the specimen.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCondition() {
         return condition;
@@ -233,7 +233,7 @@ public class Specimen extends DomainResource {
      * sent with patient, frozen).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1007,7 +1007,7 @@ public class Specimen extends DomainResource {
          * Person who collected the specimen.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getCollector() {
             return collector;
@@ -1017,7 +1017,7 @@ public class Specimen extends DomainResource {
          * Time when specimen was collected from subject - the physiologically relevant time.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getCollected() {
             return collected;
@@ -1027,7 +1027,7 @@ public class Specimen extends DomainResource {
          * The span of time over which the collection of a specimen occurred.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getDuration() {
             return duration;
@@ -1038,7 +1038,7 @@ public class Specimen extends DomainResource {
          * anatomic pathology sample.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -1048,7 +1048,7 @@ public class Specimen extends DomainResource {
          * A coded value specifying the technique that is used to perform the procedure.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getMethod() {
             return method;
@@ -1059,7 +1059,7 @@ public class Specimen extends DomainResource {
          * element is not used for environmental specimens.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getBodySite() {
             return bodySite;
@@ -1069,7 +1069,7 @@ public class Specimen extends DomainResource {
          * Abstinence or reduction from some or all food, drink, or both, for a period of time prior to sample collection.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getFastingStatus() {
             return fastingStatus;
@@ -1451,7 +1451,7 @@ public class Specimen extends DomainResource {
          * Textual description of procedure.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1461,7 +1461,7 @@ public class Specimen extends DomainResource {
          * A coded value specifying the procedure used to process the specimen.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getProcedure() {
             return procedure;
@@ -1471,7 +1471,7 @@ public class Specimen extends DomainResource {
          * Material used in the processing step.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getAdditive() {
             return additive;
@@ -1482,7 +1482,7 @@ public class Specimen extends DomainResource {
          * period of time the sample was in formalin.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTime() {
             return time;
@@ -1824,7 +1824,7 @@ public class Specimen extends DomainResource {
          * differ from the specimen id in some circumstances.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -1834,7 +1834,7 @@ public class Specimen extends DomainResource {
          * Textual description of the container.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1844,7 +1844,7 @@ public class Specimen extends DomainResource {
          * The type of container associated with the specimen (e.g. slide, aliquot, etc.).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1854,7 +1854,7 @@ public class Specimen extends DomainResource {
          * The capacity (volume or other measure) the container may contain.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getCapacity() {
             return capacity;
@@ -1865,7 +1865,7 @@ public class Specimen extends DomainResource {
          * the specimen type.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getSpecimenQuantity() {
             return specimenQuantity;
@@ -1875,7 +1875,7 @@ public class Specimen extends DomainResource {
          * Introduced substance to preserve, maintain or enhance the specimen. Examples: Formalin, Citrate, EDTA.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getAdditive() {
             return additive;

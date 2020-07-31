@@ -164,7 +164,7 @@ public class HealthcareService extends DomainResource {
      * External identifiers for this item.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -175,7 +175,7 @@ public class HealthcareService extends DomainResource {
      * holidays, the notAvailable period is to be used for this.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -185,7 +185,7 @@ public class HealthcareService extends DomainResource {
      * The organization that provides this healthcare service.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getProvidedBy() {
         return providedBy;
@@ -195,7 +195,7 @@ public class HealthcareService extends DomainResource {
      * Identifies the broad category of service being performed or delivered.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -205,7 +205,7 @@ public class HealthcareService extends DomainResource {
      * The specific type of service that may be delivered or performed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -215,7 +215,7 @@ public class HealthcareService extends DomainResource {
      * Collection of specialties handled by the service site. This is more of a medical term.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -225,7 +225,7 @@ public class HealthcareService extends DomainResource {
      * The location(s) where this healthcare service may be provided.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getLocation() {
         return location;
@@ -235,7 +235,7 @@ public class HealthcareService extends DomainResource {
      * Further description of the service as it would be presented to a consumer while searching.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -246,7 +246,7 @@ public class HealthcareService extends DomainResource {
      * displayed as further detail under the serviceName.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;
@@ -256,7 +256,7 @@ public class HealthcareService extends DomainResource {
      * Extra details about the service that can't be placed in the other fields.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getExtraDetails() {
         return extraDetails;
@@ -267,7 +267,7 @@ public class HealthcareService extends DomainResource {
      * identification of the service in a list.
      * 
      * @return
-     *     An immutable object of type {@link Attachment}.
+     *     An immutable object of type {@link Attachment} that may be null.
      */
     public Attachment getPhoto() {
         return photo;
@@ -277,7 +277,7 @@ public class HealthcareService extends DomainResource {
      * List of contacts related to this specific healthcare service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -287,7 +287,7 @@ public class HealthcareService extends DomainResource {
      * The location(s) that this service is available to (not where the service is provided).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getCoverageArea() {
         return coverageArea;
@@ -297,7 +297,7 @@ public class HealthcareService extends DomainResource {
      * The code(s) that detail the conditions under which the healthcare service is available/offered.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceProvisionCode() {
         return serviceProvisionCode;
@@ -307,7 +307,7 @@ public class HealthcareService extends DomainResource {
      * Does this service have specific eligibility requirements that need to be met in order to use the service?
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Eligibility}.
+     *     An unmodifiable list containing immutable objects of type {@link Eligibility} that may be empty.
      */
     public List<Eligibility> getEligibility() {
         return eligibility;
@@ -317,7 +317,7 @@ public class HealthcareService extends DomainResource {
      * Programs that this service is applicable to.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getProgram() {
         return program;
@@ -327,7 +327,7 @@ public class HealthcareService extends DomainResource {
      * Collection of characteristics (attributes).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCharacteristic() {
         return characteristic;
@@ -339,7 +339,7 @@ public class HealthcareService extends DomainResource {
      * languages used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCommunication() {
         return communication;
@@ -349,7 +349,7 @@ public class HealthcareService extends DomainResource {
      * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReferralMethod() {
         return referralMethod;
@@ -360,7 +360,7 @@ public class HealthcareService extends DomainResource {
      * provided by the Organization. Indicates if an appointment is required for access to this service.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getAppointmentRequired() {
         return appointmentRequired;
@@ -370,7 +370,7 @@ public class HealthcareService extends DomainResource {
      * A collection of times that the Service Site is available.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link AvailableTime}.
+     *     An unmodifiable list containing immutable objects of type {@link AvailableTime} that may be empty.
      */
     public List<AvailableTime> getAvailableTime() {
         return availableTime;
@@ -380,7 +380,7 @@ public class HealthcareService extends DomainResource {
      * The HealthcareService is not available during this period of time due to the provided reason.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link NotAvailable}.
+     *     An unmodifiable list containing immutable objects of type {@link NotAvailable} that may be empty.
      */
     public List<NotAvailable> getNotAvailable() {
         return notAvailable;
@@ -391,7 +391,7 @@ public class HealthcareService extends DomainResource {
      * exceptions to normal site availability as details in the available Times and not available Times.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getAvailabilityExceptions() {
         return availabilityExceptions;
@@ -402,7 +402,7 @@ public class HealthcareService extends DomainResource {
      * resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -1543,7 +1543,7 @@ public class HealthcareService extends DomainResource {
          * Coded value for the eligibility.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1553,7 +1553,7 @@ public class HealthcareService extends DomainResource {
          * Describes the eligibility conditions for the service.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getComment() {
             return comment;
@@ -1814,7 +1814,7 @@ public class HealthcareService extends DomainResource {
          * Indicates which days of the week are available between the start and end Times.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek} that may be empty.
          */
         public List<DaysOfWeek> getDaysOfWeek() {
             return daysOfWeek;
@@ -1824,7 +1824,7 @@ public class HealthcareService extends DomainResource {
          * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getAllDay() {
             return allDay;
@@ -1834,7 +1834,7 @@ public class HealthcareService extends DomainResource {
          * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
          * 
          * @return
-         *     An immutable object of type {@link Time}.
+         *     An immutable object of type {@link Time} that may be null.
          */
         public Time getAvailableStartTime() {
             return availableStartTime;
@@ -1844,7 +1844,7 @@ public class HealthcareService extends DomainResource {
          * The closing time of day. Note: If the AllDay flag is set, then this time is ignored.
          * 
          * @return
-         *     An immutable object of type {@link Time}.
+         *     An immutable object of type {@link Time} that may be null.
          */
         public Time getAvailableEndTime() {
             return availableEndTime;
@@ -2156,7 +2156,7 @@ public class HealthcareService extends DomainResource {
          * The reason that can be presented to the user as to why this time is not available.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getDescription() {
             return description;
@@ -2166,7 +2166,7 @@ public class HealthcareService extends DomainResource {
          * Service is not available (seasonally or for a public holiday) from this date.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getDuring() {
             return during;

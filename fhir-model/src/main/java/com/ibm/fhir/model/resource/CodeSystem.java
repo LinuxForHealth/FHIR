@@ -184,7 +184,7 @@ public class CodeSystem extends DomainResource {
      * [Coding](datatypes.html#Coding).system.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -195,7 +195,7 @@ public class CodeSystem extends DomainResource {
      * in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -209,7 +209,7 @@ public class CodeSystem extends DomainResource {
      * html#Coding).version.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -220,7 +220,7 @@ public class CodeSystem extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -230,7 +230,7 @@ public class CodeSystem extends DomainResource {
      * A short, descriptive, user-friendly title for the code system.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -240,7 +240,7 @@ public class CodeSystem extends DomainResource {
      * The date (and optionally time) when the code system resource was created or revised.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -251,7 +251,7 @@ public class CodeSystem extends DomainResource {
      * and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -263,7 +263,7 @@ public class CodeSystem extends DomainResource {
      * the code system changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -273,7 +273,7 @@ public class CodeSystem extends DomainResource {
      * The name of the organization or individual that published the code system.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -283,7 +283,7 @@ public class CodeSystem extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -293,7 +293,7 @@ public class CodeSystem extends DomainResource {
      * A free text natural language description of the code system from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -305,7 +305,7 @@ public class CodeSystem extends DomainResource {
      * may be used to assist with indexing and searching for appropriate code system instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -315,7 +315,7 @@ public class CodeSystem extends DomainResource {
      * A legal or geographic region in which the code system is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -325,7 +325,7 @@ public class CodeSystem extends DomainResource {
      * Explanation of why this code system is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -336,7 +336,7 @@ public class CodeSystem extends DomainResource {
      * restrictions on the use and publishing of the code system.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -346,7 +346,7 @@ public class CodeSystem extends DomainResource {
      * If code comparison is case sensitive when codes within this system are compared to each other.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getCaseSensitive() {
         return caseSensitive;
@@ -356,7 +356,7 @@ public class CodeSystem extends DomainResource {
      * Canonical reference to the value set that contains the entire code system.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getValueSet() {
         return valueSet;
@@ -366,7 +366,7 @@ public class CodeSystem extends DomainResource {
      * The meaning of the hierarchy of concepts as represented in this resource.
      * 
      * @return
-     *     An immutable object of type {@link CodeSystemHierarchyMeaning}.
+     *     An immutable object of type {@link CodeSystemHierarchyMeaning} that may be null.
      */
     public CodeSystemHierarchyMeaning getHierarchyMeaning() {
         return hierarchyMeaning;
@@ -376,7 +376,7 @@ public class CodeSystem extends DomainResource {
      * The code system defines a compositional (post-coordination) grammar.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getCompositional() {
         return compositional;
@@ -387,7 +387,7 @@ public class CodeSystem extends DomainResource {
      * version must be specified when referencing this code system.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getVersionNeeded() {
         return versionNeeded;
@@ -398,7 +398,7 @@ public class CodeSystem extends DomainResource {
      * instance.
      * 
      * @return
-     *     An immutable object of type {@link CodeSystemContentMode}.
+     *     An immutable object of type {@link CodeSystemContentMode} that is non-null.
      */
     public CodeSystemContentMode getContent() {
         return content;
@@ -408,7 +408,7 @@ public class CodeSystem extends DomainResource {
      * The canonical URL of the code system that this code system supplement is adding designations and properties to.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getSupplements() {
         return supplements;
@@ -419,7 +419,7 @@ public class CodeSystem extends DomainResource {
      * of this count is defined by the system steward.
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getCount() {
         return count;
@@ -429,7 +429,7 @@ public class CodeSystem extends DomainResource {
      * A filter that can be used in a value set compose statement when selecting concepts using a filter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Filter}.
+     *     An unmodifiable list containing immutable objects of type {@link Filter} that may be empty.
      */
     public List<Filter> getFilter() {
         return filter;
@@ -439,7 +439,7 @@ public class CodeSystem extends DomainResource {
      * A property defines an additional slot through which additional information can be provided about a concept.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Property}.
+     *     An unmodifiable list containing immutable objects of type {@link Property} that may be empty.
      */
     public List<Property> getProperty() {
         return property;
@@ -450,7 +450,7 @@ public class CodeSystem extends DomainResource {
      * consulted to determine what the meanings of the hierarchical relationships are.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Concept}.
+     *     An unmodifiable list containing immutable objects of type {@link Concept} that may be empty.
      */
     public List<Concept> getConcept() {
         return concept;
@@ -1481,7 +1481,7 @@ public class CodeSystem extends DomainResource {
          * The code that identifies this filter when it is used as a filter in [ValueSet](valueset.html#).compose.include.filter.
          * 
          * @return
-         *     An immutable object of type {@link Code}.
+         *     An immutable object of type {@link Code} that is non-null.
          */
         public Code getCode() {
             return code;
@@ -1491,7 +1491,7 @@ public class CodeSystem extends DomainResource {
          * A description of how or why the filter is used.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1501,7 +1501,7 @@ public class CodeSystem extends DomainResource {
          * A list of operators that can be used with the filter.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link FilterOperator}.
+         *     An unmodifiable list containing immutable objects of type {@link FilterOperator} that is non-empty.
          */
         public List<FilterOperator> getOperator() {
             return operator;
@@ -1511,7 +1511,7 @@ public class CodeSystem extends DomainResource {
          * A description of what the value for the filter should be.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getValue() {
             return value;
@@ -1854,7 +1854,7 @@ public class CodeSystem extends DomainResource {
          * also externally, such as in property filters.
          * 
          * @return
-         *     An immutable object of type {@link Code}.
+         *     An immutable object of type {@link Code} that is non-null.
          */
         public Code getCode() {
             return code;
@@ -1865,7 +1865,7 @@ public class CodeSystem extends DomainResource {
          * concept-properties.html) code system.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getUri() {
             return uri;
@@ -1875,7 +1875,7 @@ public class CodeSystem extends DomainResource {
          * A description of the property- why it is defined, and how its value might be used.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1886,7 +1886,7 @@ public class CodeSystem extends DomainResource {
          * to another defined concept).
          * 
          * @return
-         *     An immutable object of type {@link PropertyType}.
+         *     An immutable object of type {@link PropertyType} that is non-null.
          */
         public PropertyType getType() {
             return type;
@@ -2200,7 +2200,7 @@ public class CodeSystem extends DomainResource {
          * A code - a text symbol - that uniquely identifies the concept within the code system.
          * 
          * @return
-         *     An immutable object of type {@link Code}.
+         *     An immutable object of type {@link Code} that is non-null.
          */
         public Code getCode() {
             return code;
@@ -2210,7 +2210,7 @@ public class CodeSystem extends DomainResource {
          * A human readable string that is the recommended default way to present this concept to a user.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDisplay() {
             return display;
@@ -2222,7 +2222,7 @@ public class CodeSystem extends DomainResource {
          * associated with the concept.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDefinition() {
             return definition;
@@ -2233,7 +2233,7 @@ public class CodeSystem extends DomainResource {
          * purposes, etc.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Designation}.
+         *     An unmodifiable list containing immutable objects of type {@link Designation} that may be empty.
          */
         public List<Designation> getDesignation() {
             return designation;
@@ -2243,7 +2243,7 @@ public class CodeSystem extends DomainResource {
          * A property value for this concept.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Property}.
+         *     An unmodifiable list containing immutable objects of type {@link Property} that may be empty.
          */
         public List<Property> getProperty() {
             return property;
@@ -2254,7 +2254,7 @@ public class CodeSystem extends DomainResource {
          * a/contains/categorizes) - see hierarchyMeaning.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Concept}.
+         *     An unmodifiable list containing immutable objects of type {@link Concept} that may be empty.
          */
         public List<CodeSystem.Concept> getConcept() {
             return concept;
@@ -2674,7 +2674,7 @@ public class CodeSystem extends DomainResource {
              * The language this designation is defined for.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that may be null.
              */
             public Code getLanguage() {
                 return language;
@@ -2684,7 +2684,7 @@ public class CodeSystem extends DomainResource {
              * A code that details how this designation would be used.
              * 
              * @return
-             *     An immutable object of type {@link Coding}.
+             *     An immutable object of type {@link Coding} that may be null.
              */
             public Coding getUse() {
                 return use;
@@ -2694,7 +2694,7 @@ public class CodeSystem extends DomainResource {
              * The text value for this designation.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getValue() {
                 return value;
@@ -2975,7 +2975,7 @@ public class CodeSystem extends DomainResource {
              * A code that is a reference to CodeSystem.property.code.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that is non-null.
              */
             public Code getCode() {
                 return code;
@@ -2985,7 +2985,7 @@ public class CodeSystem extends DomainResource {
              * The value of this property.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getValue() {
                 return value;

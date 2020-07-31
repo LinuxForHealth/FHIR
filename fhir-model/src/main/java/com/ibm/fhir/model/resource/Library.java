@@ -185,7 +185,7 @@ public class Library extends DomainResource {
      * canonical reference. It SHALL remain the same when the library is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -197,7 +197,7 @@ public class Library extends DomainResource {
      * one identifier is required for non-experimental active artifacts.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -213,7 +213,7 @@ public class Library extends DomainResource {
      * non-experimental active artifacts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -224,7 +224,7 @@ public class Library extends DomainResource {
      * processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -234,7 +234,7 @@ public class Library extends DomainResource {
      * A short, descriptive, user-friendly title for the library.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -244,7 +244,7 @@ public class Library extends DomainResource {
      * An explanatory or alternate title for the library giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -254,7 +254,7 @@ public class Library extends DomainResource {
      * The status of this library. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -265,7 +265,7 @@ public class Library extends DomainResource {
      * is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -275,7 +275,7 @@ public class Library extends DomainResource {
      * Identifies the type of library such as a Logic Library, Model Definition, Asset Collection, or Module Definition.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getType() {
         return type;
@@ -285,7 +285,7 @@ public class Library extends DomainResource {
      * A code or group definition that describes the intended subject of the contents of the library.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -297,7 +297,7 @@ public class Library extends DomainResource {
      * library changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -307,7 +307,7 @@ public class Library extends DomainResource {
      * The name of the organization or individual that published the library.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -317,7 +317,7 @@ public class Library extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -327,7 +327,7 @@ public class Library extends DomainResource {
      * A free text natural language description of the library from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -339,7 +339,7 @@ public class Library extends DomainResource {
      * may be used to assist with indexing and searching for appropriate library instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -349,7 +349,7 @@ public class Library extends DomainResource {
      * A legal or geographic region in which the library is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -359,7 +359,7 @@ public class Library extends DomainResource {
      * Explanation of why this library is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -369,7 +369,7 @@ public class Library extends DomainResource {
      * A detailed description of how the library is used from a clinical perspective.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUsage() {
         return usage;
@@ -380,7 +380,7 @@ public class Library extends DomainResource {
      * restrictions on the use and publishing of the library.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -391,7 +391,7 @@ public class Library extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -402,7 +402,7 @@ public class Library extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -412,7 +412,7 @@ public class Library extends DomainResource {
      * The period during which the library content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -423,7 +423,7 @@ public class Library extends DomainResource {
      * that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -433,7 +433,7 @@ public class Library extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -443,7 +443,7 @@ public class Library extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -453,7 +453,7 @@ public class Library extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -463,7 +463,7 @@ public class Library extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -473,7 +473,7 @@ public class Library extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -483,7 +483,7 @@ public class Library extends DomainResource {
      * The parameter element defines parameters used by the library.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ParameterDefinition}.
+     *     An unmodifiable list containing immutable objects of type {@link ParameterDefinition} that may be empty.
      */
     public List<ParameterDefinition> getParameter() {
         return parameter;
@@ -494,7 +494,7 @@ public class Library extends DomainResource {
      * the library.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
+     *     An unmodifiable list containing immutable objects of type {@link DataRequirement} that may be empty.
      */
     public List<DataRequirement> getDataRequirement() {
         return dataRequirement;
@@ -505,7 +505,7 @@ public class Library extends DomainResource {
      * base-64 string. Either way, the contentType of the attachment determines how to interpret the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getContent() {
         return content;

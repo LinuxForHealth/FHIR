@@ -189,7 +189,7 @@ public class Claim extends DomainResource {
      * A unique identifier assigned to this claim.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -199,7 +199,7 @@ public class Claim extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link ClaimStatus}.
+     *     An immutable object of type {@link ClaimStatus} that is non-null.
      */
     public ClaimStatus getStatus() {
         return status;
@@ -209,7 +209,7 @@ public class Claim extends DomainResource {
      * The category of claim, e.g. oral, pharmacy, vision, institutional, professional.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getType() {
         return type;
@@ -220,7 +220,7 @@ public class Claim extends DomainResource {
      * and/or a specialty service.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSubType() {
         return subType;
@@ -232,7 +232,7 @@ public class Claim extends DomainResource {
      * adjudication of the listed products and services which could be provided in the future.
      * 
      * @return
-     *     An immutable object of type {@link Use}.
+     *     An immutable object of type {@link Use} that is non-null.
      */
     public Use getUse() {
         return use;
@@ -243,7 +243,7 @@ public class Claim extends DomainResource {
      * actual or forecast reimbursement is sought.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -253,7 +253,7 @@ public class Claim extends DomainResource {
      * The period for which charges are being submitted.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getBillablePeriod() {
         return billablePeriod;
@@ -263,7 +263,7 @@ public class Claim extends DomainResource {
      * The date this resource was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getCreated() {
         return created;
@@ -273,7 +273,7 @@ public class Claim extends DomainResource {
      * Individual who created the claim, predetermination or preauthorization.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEnterer() {
         return enterer;
@@ -283,7 +283,7 @@ public class Claim extends DomainResource {
      * The Insurer who is target of the request.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getInsurer() {
         return insurer;
@@ -293,7 +293,7 @@ public class Claim extends DomainResource {
      * The provider which is responsible for the claim, predetermination or preauthorization.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getProvider() {
         return provider;
@@ -303,7 +303,7 @@ public class Claim extends DomainResource {
      * The provider-required urgency of processing the request. Typical values include: stat, routine deferred.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getPriority() {
         return priority;
@@ -313,7 +313,7 @@ public class Claim extends DomainResource {
      * A code to indicate whether and for whom funds are to be reserved for future claims.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getFundsReserve() {
         return fundsReserve;
@@ -324,7 +324,7 @@ public class Claim extends DomainResource {
      * event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Related}.
+     *     An unmodifiable list containing immutable objects of type {@link Related} that may be empty.
      */
     public List<Related> getRelated() {
         return related;
@@ -334,7 +334,7 @@ public class Claim extends DomainResource {
      * Prescription to support the dispensing of pharmacy, device or vision products.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPrescription() {
         return prescription;
@@ -345,7 +345,7 @@ public class Claim extends DomainResource {
      * medications or products.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOriginalPrescription() {
         return originalPrescription;
@@ -355,7 +355,7 @@ public class Claim extends DomainResource {
      * The party to be reimbursed for cost of the products and services according to the terms of the policy.
      * 
      * @return
-     *     An immutable object of type {@link Payee}.
+     *     An immutable object of type {@link Payee} that may be null.
      */
     public Payee getPayee() {
         return payee;
@@ -365,7 +365,7 @@ public class Claim extends DomainResource {
      * A reference to a referral resource.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getReferral() {
         return referral;
@@ -375,7 +375,7 @@ public class Claim extends DomainResource {
      * Facility where the services were provided.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getFacility() {
         return facility;
@@ -385,7 +385,7 @@ public class Claim extends DomainResource {
      * The members of the team who provided the products and services.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CareTeam}.
+     *     An unmodifiable list containing immutable objects of type {@link CareTeam} that may be empty.
      */
     public List<CareTeam> getCareTeam() {
         return careTeam;
@@ -396,7 +396,7 @@ public class Claim extends DomainResource {
      * concurrent issues.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SupportingInfo}.
+     *     An unmodifiable list containing immutable objects of type {@link SupportingInfo} that may be empty.
      */
     public List<SupportingInfo> getSupportingInfo() {
         return supportingInfo;
@@ -406,7 +406,7 @@ public class Claim extends DomainResource {
      * Information about diagnoses relevant to the claim items.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
+     *     An unmodifiable list containing immutable objects of type {@link Diagnosis} that may be empty.
      */
     public List<Diagnosis> getDiagnosis() {
         return diagnosis;
@@ -416,7 +416,7 @@ public class Claim extends DomainResource {
      * Procedures performed on the patient relevant to the billing items with the claim.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Procedure}.
+     *     An unmodifiable list containing immutable objects of type {@link Procedure} that may be empty.
      */
     public List<Procedure> getProcedure() {
         return procedure;
@@ -426,7 +426,7 @@ public class Claim extends DomainResource {
      * Financial instruments for reimbursement for the health care products and services specified on the claim.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Insurance}.
+     *     An unmodifiable list containing immutable objects of type {@link Insurance} that is non-empty.
      */
     public List<Insurance> getInsurance() {
         return insurance;
@@ -436,7 +436,7 @@ public class Claim extends DomainResource {
      * Details of an accident which resulted in injuries which required the products and services listed in the claim.
      * 
      * @return
-     *     An immutable object of type {@link Accident}.
+     *     An immutable object of type {@link Accident} that may be null.
      */
     public Accident getAccident() {
         return accident;
@@ -447,7 +447,7 @@ public class Claim extends DomainResource {
      * sub-details.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
      */
     public List<Item> getItem() {
         return item;
@@ -457,7 +457,7 @@ public class Claim extends DomainResource {
      * The total value of the all the items in the claim.
      * 
      * @return
-     *     An immutable object of type {@link Money}.
+     *     An immutable object of type {@link Money} that may be null.
      */
     public Money getTotal() {
         return total;
@@ -1576,7 +1576,7 @@ public class Claim extends DomainResource {
          * Reference to a related claim.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getClaim() {
             return claim;
@@ -1586,7 +1586,7 @@ public class Claim extends DomainResource {
          * A code to convey how the claims are related.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRelationship() {
             return relationship;
@@ -1596,7 +1596,7 @@ public class Claim extends DomainResource {
          * An alternate organizational reference to the case or file to which this particular claim pertains.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getReference() {
             return reference;
@@ -1881,7 +1881,7 @@ public class Claim extends DomainResource {
          * Type of Party to be reimbursed: subscriber, provider, other.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1891,7 +1891,7 @@ public class Claim extends DomainResource {
          * Reference to the individual or organization to whom any payment will be made.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getParty() {
             return party;
@@ -2180,7 +2180,7 @@ public class Claim extends DomainResource {
          * A number to uniquely identify care team entries.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that is non-null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -2190,7 +2190,7 @@ public class Claim extends DomainResource {
          * Member of the team who provided the product or service.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getProvider() {
             return provider;
@@ -2200,7 +2200,7 @@ public class Claim extends DomainResource {
          * The party who is billing and/or responsible for the claimed products or services.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getResponsible() {
             return responsible;
@@ -2210,7 +2210,7 @@ public class Claim extends DomainResource {
          * The lead, assisting or supervising practitioner and their discipline if a multidisciplinary team.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRole() {
             return role;
@@ -2220,7 +2220,7 @@ public class Claim extends DomainResource {
          * The qualification of the practitioner which is applicable for this service.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getQualification() {
             return qualification;
@@ -2579,7 +2579,7 @@ public class Claim extends DomainResource {
          * A number to uniquely identify supporting information entries.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that is non-null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -2589,7 +2589,7 @@ public class Claim extends DomainResource {
          * The general class of the information supplied: information; exception; accident, employment; onset, etc.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCategory() {
             return category;
@@ -2600,7 +2600,7 @@ public class Claim extends DomainResource {
          * or patient for which care is sought.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -2610,7 +2610,7 @@ public class Claim extends DomainResource {
          * The date when or period to which this information refers.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -2621,7 +2621,7 @@ public class Claim extends DomainResource {
          * actual inclusion of the data.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;
@@ -2631,7 +2631,7 @@ public class Claim extends DomainResource {
          * Provides the reason in the situation where a reason code is required in addition to the content.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getReason() {
             return reason;
@@ -3022,7 +3022,7 @@ public class Claim extends DomainResource {
          * A number to uniquely identify diagnosis entries.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that is non-null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -3032,7 +3032,7 @@ public class Claim extends DomainResource {
          * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getDiagnosis() {
             return diagnosis;
@@ -3042,7 +3042,7 @@ public class Claim extends DomainResource {
          * When the condition was observed or the relative ranking.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -3052,7 +3052,7 @@ public class Claim extends DomainResource {
          * Indication of whether the diagnosis was present on admission to a facility.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOnAdmission() {
             return onAdmission;
@@ -3063,7 +3063,7 @@ public class Claim extends DomainResource {
          * heart attack) which is based on a predetermined grouping code system.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPackageCode() {
             return packageCode;
@@ -3432,7 +3432,7 @@ public class Claim extends DomainResource {
          * A number to uniquely identify procedure entries.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that is non-null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -3442,7 +3442,7 @@ public class Claim extends DomainResource {
          * When the condition was observed or the relative ranking.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -3452,7 +3452,7 @@ public class Claim extends DomainResource {
          * Date and optionally time the procedure was performed.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getDate() {
             return date;
@@ -3462,7 +3462,7 @@ public class Claim extends DomainResource {
          * The code or reference to a Procedure resource which identifies the clinical intervention performed.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getProcedure() {
             return procedure;
@@ -3472,7 +3472,7 @@ public class Claim extends DomainResource {
          * Unique Device Identifiers associated with this line item.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getUdi() {
             return udi;
@@ -3860,7 +3860,7 @@ public class Claim extends DomainResource {
          * order.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that is non-null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -3870,7 +3870,7 @@ public class Claim extends DomainResource {
          * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getFocal() {
             return focal;
@@ -3880,7 +3880,7 @@ public class Claim extends DomainResource {
          * The business identifier to be used when the claim is sent for adjudication against this insurance policy.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -3891,7 +3891,7 @@ public class Claim extends DomainResource {
          * will use these details to locate the patient's actual coverage within the insurer's information system.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getCoverage() {
             return coverage;
@@ -3901,7 +3901,7 @@ public class Claim extends DomainResource {
          * A business agreement number established between the provider and the insurer for special business processing purposes.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getBusinessArrangement() {
             return businessArrangement;
@@ -3912,7 +3912,7 @@ public class Claim extends DomainResource {
          * services or products related to the prior authorization.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getPreAuthRef() {
             return preAuthRef;
@@ -3922,7 +3922,7 @@ public class Claim extends DomainResource {
          * The result of the adjudication of the line items for the Coverage specified in this insurance.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getClaimResponse() {
             return claimResponse;
@@ -4330,7 +4330,7 @@ public class Claim extends DomainResource {
          * Date of an accident event related to the products and services contained in the claim.
          * 
          * @return
-         *     An immutable object of type {@link Date}.
+         *     An immutable object of type {@link Date} that is non-null.
          */
         public Date getDate() {
             return date;
@@ -4341,7 +4341,7 @@ public class Claim extends DomainResource {
          * determination of coordination between insurers.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -4351,7 +4351,7 @@ public class Claim extends DomainResource {
          * The physical location of the accident event.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getLocation() {
             return location;
@@ -4727,7 +4727,7 @@ public class Claim extends DomainResource {
          * A number to uniquely identify item entries.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that is non-null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -4737,7 +4737,7 @@ public class Claim extends DomainResource {
          * CareTeam members related to this service or product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt} that may be empty.
          */
         public List<PositiveInt> getCareTeamSequence() {
             return careTeamSequence;
@@ -4747,7 +4747,7 @@ public class Claim extends DomainResource {
          * Diagnosis applicable for this service or product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt} that may be empty.
          */
         public List<PositiveInt> getDiagnosisSequence() {
             return diagnosisSequence;
@@ -4757,7 +4757,7 @@ public class Claim extends DomainResource {
          * Procedures applicable for this service or product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt} that may be empty.
          */
         public List<PositiveInt> getProcedureSequence() {
             return procedureSequence;
@@ -4767,7 +4767,7 @@ public class Claim extends DomainResource {
          * Exceptions, special conditions and supporting information applicable for this service or product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
+         *     An unmodifiable list containing immutable objects of type {@link PositiveInt} that may be empty.
          */
         public List<PositiveInt> getInformationSequence() {
             return informationSequence;
@@ -4777,7 +4777,7 @@ public class Claim extends DomainResource {
          * The type of revenue or cost center providing the product and/or service.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRevenue() {
             return revenue;
@@ -4787,7 +4787,7 @@ public class Claim extends DomainResource {
          * Code to identify the general type of benefits under which products and services are provided.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCategory() {
             return category;
@@ -4798,7 +4798,7 @@ public class Claim extends DomainResource {
          * product, service, drug or other billing code for the item.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getProductOrService() {
             return productOrService;
@@ -4808,7 +4808,7 @@ public class Claim extends DomainResource {
          * Item typification or modifiers codes to convey additional context for the product or service.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getModifier() {
             return modifier;
@@ -4818,7 +4818,7 @@ public class Claim extends DomainResource {
          * Identifies the program under which this may be recovered.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getProgramCode() {
             return programCode;
@@ -4828,7 +4828,7 @@ public class Claim extends DomainResource {
          * The date or dates when the service or product was supplied, performed or completed.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getServiced() {
             return serviced;
@@ -4838,7 +4838,7 @@ public class Claim extends DomainResource {
          * Where the product or service was provided.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getLocation() {
             return location;
@@ -4848,7 +4848,7 @@ public class Claim extends DomainResource {
          * The number of repetitions of a service or product.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -4859,7 +4859,7 @@ public class Claim extends DomainResource {
          * for the details of the group.
          * 
          * @return
-         *     An immutable object of type {@link Money}.
+         *     An immutable object of type {@link Money} that may be null.
          */
         public Money getUnitPrice() {
             return unitPrice;
@@ -4870,7 +4870,7 @@ public class Claim extends DomainResource {
          * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getFactor() {
             return factor;
@@ -4880,7 +4880,7 @@ public class Claim extends DomainResource {
          * The quantity times the unit price for an additional service or product or charge.
          * 
          * @return
-         *     An immutable object of type {@link Money}.
+         *     An immutable object of type {@link Money} that may be null.
          */
         public Money getNet() {
             return net;
@@ -4890,7 +4890,7 @@ public class Claim extends DomainResource {
          * Unique Device Identifiers associated with this line item.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getUdi() {
             return udi;
@@ -4900,7 +4900,7 @@ public class Claim extends DomainResource {
          * Physical service site on the patient (limb, tooth, etc.).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getBodySite() {
             return bodySite;
@@ -4910,7 +4910,7 @@ public class Claim extends DomainResource {
          * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getSubSite() {
             return subSite;
@@ -4920,7 +4920,7 @@ public class Claim extends DomainResource {
          * The Encounters during which this Claim was created or to which the creation of this record is tightly associated.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getEncounter() {
             return encounter;
@@ -4930,7 +4930,7 @@ public class Claim extends DomainResource {
          * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Detail}.
+         *     An unmodifiable list containing immutable objects of type {@link Detail} that may be empty.
          */
         public List<Detail> getDetail() {
             return detail;
@@ -5838,7 +5838,7 @@ public class Claim extends DomainResource {
              * A number to uniquely identify item entries.
              * 
              * @return
-             *     An immutable object of type {@link PositiveInt}.
+             *     An immutable object of type {@link PositiveInt} that is non-null.
              */
             public PositiveInt getSequence() {
                 return sequence;
@@ -5848,7 +5848,7 @@ public class Claim extends DomainResource {
              * The type of revenue or cost center providing the product and/or service.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getRevenue() {
                 return revenue;
@@ -5858,7 +5858,7 @@ public class Claim extends DomainResource {
              * Code to identify the general type of benefits under which products and services are provided.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCategory() {
                 return category;
@@ -5869,7 +5869,7 @@ public class Claim extends DomainResource {
              * product, service, drug or other billing code for the item.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getProductOrService() {
                 return productOrService;
@@ -5879,7 +5879,7 @@ public class Claim extends DomainResource {
              * Item typification or modifiers codes to convey additional context for the product or service.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getModifier() {
                 return modifier;
@@ -5889,7 +5889,7 @@ public class Claim extends DomainResource {
              * Identifies the program under which this may be recovered.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getProgramCode() {
                 return programCode;
@@ -5899,7 +5899,7 @@ public class Claim extends DomainResource {
              * The number of repetitions of a service or product.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getQuantity() {
                 return quantity;
@@ -5910,7 +5910,7 @@ public class Claim extends DomainResource {
              * for the details of the group.
              * 
              * @return
-             *     An immutable object of type {@link Money}.
+             *     An immutable object of type {@link Money} that may be null.
              */
             public Money getUnitPrice() {
                 return unitPrice;
@@ -5921,7 +5921,7 @@ public class Claim extends DomainResource {
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getFactor() {
                 return factor;
@@ -5931,7 +5931,7 @@ public class Claim extends DomainResource {
              * The quantity times the unit price for an additional service or product or charge.
              * 
              * @return
-             *     An immutable object of type {@link Money}.
+             *     An immutable object of type {@link Money} that may be null.
              */
             public Money getNet() {
                 return net;
@@ -5941,7 +5941,7 @@ public class Claim extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getUdi() {
                 return udi;
@@ -5951,7 +5951,7 @@ public class Claim extends DomainResource {
              * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
+             *     An unmodifiable list containing immutable objects of type {@link SubDetail} that may be empty.
              */
             public List<SubDetail> getSubDetail() {
                 return subDetail;
@@ -6544,7 +6544,7 @@ public class Claim extends DomainResource {
                  * A number to uniquely identify item entries.
                  * 
                  * @return
-                 *     An immutable object of type {@link PositiveInt}.
+                 *     An immutable object of type {@link PositiveInt} that is non-null.
                  */
                 public PositiveInt getSequence() {
                     return sequence;
@@ -6554,7 +6554,7 @@ public class Claim extends DomainResource {
                  * The type of revenue or cost center providing the product and/or service.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getRevenue() {
                     return revenue;
@@ -6564,7 +6564,7 @@ public class Claim extends DomainResource {
                  * Code to identify the general type of benefits under which products and services are provided.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getCategory() {
                     return category;
@@ -6575,7 +6575,7 @@ public class Claim extends DomainResource {
                  * product, service, drug or other billing code for the item.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that is non-null.
                  */
                 public CodeableConcept getProductOrService() {
                     return productOrService;
@@ -6585,7 +6585,7 @@ public class Claim extends DomainResource {
                  * Item typification or modifiers codes to convey additional context for the product or service.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
                  */
                 public List<CodeableConcept> getModifier() {
                     return modifier;
@@ -6595,7 +6595,7 @@ public class Claim extends DomainResource {
                  * Identifies the program under which this may be recovered.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
                  */
                 public List<CodeableConcept> getProgramCode() {
                     return programCode;
@@ -6605,7 +6605,7 @@ public class Claim extends DomainResource {
                  * The number of repetitions of a service or product.
                  * 
                  * @return
-                 *     An immutable object of type {@link SimpleQuantity}.
+                 *     An immutable object of type {@link SimpleQuantity} that may be null.
                  */
                 public SimpleQuantity getQuantity() {
                     return quantity;
@@ -6616,7 +6616,7 @@ public class Claim extends DomainResource {
                  * for the details of the group.
                  * 
                  * @return
-                 *     An immutable object of type {@link Money}.
+                 *     An immutable object of type {@link Money} that may be null.
                  */
                 public Money getUnitPrice() {
                     return unitPrice;
@@ -6627,7 +6627,7 @@ public class Claim extends DomainResource {
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
                  * 
                  * @return
-                 *     An immutable object of type {@link Decimal}.
+                 *     An immutable object of type {@link Decimal} that may be null.
                  */
                 public Decimal getFactor() {
                     return factor;
@@ -6637,7 +6637,7 @@ public class Claim extends DomainResource {
                  * The quantity times the unit price for an additional service or product or charge.
                  * 
                  * @return
-                 *     An immutable object of type {@link Money}.
+                 *     An immutable object of type {@link Money} that may be null.
                  */
                 public Money getNet() {
                     return net;
@@ -6647,7 +6647,7 @@ public class Claim extends DomainResource {
                  * Unique Device Identifiers associated with this line item.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Reference}.
+                 *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
                  */
                 public List<Reference> getUdi() {
                     return udi;

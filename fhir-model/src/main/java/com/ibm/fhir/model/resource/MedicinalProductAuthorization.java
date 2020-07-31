@@ -104,7 +104,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Business identifier for the marketing authorization, as assigned by a regulator.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -114,7 +114,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The medicinal product that is being authorized.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -124,7 +124,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The country in which the marketing authorization has been granted.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCountry() {
         return country;
@@ -134,7 +134,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Jurisdiction within a country.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -144,7 +144,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The status of the marketing authorization.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatus() {
         return status;
@@ -154,7 +154,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The date at which the given status has become applicable.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getStatusDate() {
         return statusDate;
@@ -164,7 +164,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The date when a suspended the marketing or the marketing authorization of the product is anticipated to be restored.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRestoreDate() {
         return restoreDate;
@@ -175,7 +175,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * complete date consisting of day, month and year shall be specified using the ISO 8601 date format.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getValidityPeriod() {
         return validityPeriod;
@@ -185,7 +185,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * A period of time after authorization before generic product applicatiosn can be submitted.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getDataExclusivityPeriod() {
         return dataExclusivityPeriod;
@@ -195,7 +195,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The date when the first authorization was granted by a Medicines Regulatory Agency.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDateOfFirstAuthorization() {
         return dateOfFirstAuthorization;
@@ -205,7 +205,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Date of first marketing authorization for a company's new medicinal product in any country in the World.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getInternationalBirthDate() {
         return internationalBirthDate;
@@ -215,7 +215,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The legal framework against which this authorization is granted.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getLegalBasis() {
         return legalBasis;
@@ -225,7 +225,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Authorization in areas within a country.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link JurisdictionalAuthorization}.
+     *     An unmodifiable list containing immutable objects of type {@link JurisdictionalAuthorization} that may be empty.
      */
     public List<JurisdictionalAuthorization> getJurisdictionalAuthorization() {
         return jurisdictionalAuthorization;
@@ -235,7 +235,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Marketing Authorization Holder.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getHolder() {
         return holder;
@@ -245,7 +245,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * Medicines Regulatory Agency.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRegulator() {
         return regulator;
@@ -255,7 +255,7 @@ public class MedicinalProductAuthorization extends DomainResource {
      * The regulatory procedure for granting or amending a marketing authorization.
      * 
      * @return
-     *     An immutable object of type {@link Procedure}.
+     *     An immutable object of type {@link Procedure} that may be null.
      */
     public Procedure getProcedure() {
         return procedure;
@@ -1004,7 +1004,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * The assigned number for the marketing authorization.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -1014,7 +1014,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Country of authorization.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCountry() {
             return country;
@@ -1024,7 +1024,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Jurisdiction within a country.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getJurisdiction() {
             return jurisdiction;
@@ -1034,7 +1034,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * The legal status of supply in a jurisdiction or region.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getLegalStatusOfSupply() {
             return legalStatusOfSupply;
@@ -1044,7 +1044,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * The start and expected end date of the authorization.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getValidityPeriod() {
             return validityPeriod;
@@ -1405,7 +1405,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Identifier for this procedure.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -1415,7 +1415,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Type of procedure.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1425,7 +1425,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Date of procedure.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getDate() {
             return date;
@@ -1435,7 +1435,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Applcations submitted to obtain a marketing authorization.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Procedure}.
+         *     An unmodifiable list containing immutable objects of type {@link Procedure} that may be empty.
          */
         public List<MedicinalProductAuthorization.Procedure> getApplication() {
             return application;

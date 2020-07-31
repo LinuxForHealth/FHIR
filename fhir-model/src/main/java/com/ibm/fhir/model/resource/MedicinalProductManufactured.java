@@ -68,7 +68,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * Dose form as manufactured and before any transformation into the pharmaceutical product.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getManufacturedDoseForm() {
         return manufacturedDoseForm;
@@ -78,7 +78,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * The “real world” units in which the quantity of the manufactured item is described.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getUnitOfPresentation() {
         return unitOfPresentation;
@@ -88,7 +88,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * The quantity or "count number" of the manufactured item.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that is non-null.
      */
     public Quantity getQuantity() {
         return quantity;
@@ -98,7 +98,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * Manufacturer of the item (Note that this should be named "manufacturer" but it currently causes technical issues).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getManufacturer() {
         return manufacturer;
@@ -108,7 +108,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * Ingredient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getIngredient() {
         return ingredient;
@@ -118,7 +118,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * Dimensions, color etc.
      * 
      * @return
-     *     An immutable object of type {@link ProdCharacteristic}.
+     *     An immutable object of type {@link ProdCharacteristic} that may be null.
      */
     public ProdCharacteristic getPhysicalCharacteristics() {
         return physicalCharacteristics;
@@ -128,7 +128,7 @@ public class MedicinalProductManufactured extends DomainResource {
      * Other codeable characteristics.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getOtherCharacteristics() {
         return otherCharacteristics;

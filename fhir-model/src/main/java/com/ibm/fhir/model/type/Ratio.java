@@ -46,7 +46,7 @@ public class Ratio extends Element {
      * The value of the numerator.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getNumerator() {
         return numerator;
@@ -56,7 +56,7 @@ public class Ratio extends Element {
      * The value of the denominator.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getDenominator() {
         return denominator;

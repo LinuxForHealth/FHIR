@@ -165,7 +165,7 @@ public class FamilyMemberHistory extends DomainResource {
      * the resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -176,7 +176,7 @@ public class FamilyMemberHistory extends DomainResource {
      * part by this FamilyMemberHistory.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -187,7 +187,7 @@ public class FamilyMemberHistory extends DomainResource {
      * whole or in part by this FamilyMemberHistory.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -197,7 +197,7 @@ public class FamilyMemberHistory extends DomainResource {
      * A code specifying the status of the record of the family history of a specific family member.
      * 
      * @return
-     *     An immutable object of type {@link FamilyHistoryStatus}.
+     *     An immutable object of type {@link FamilyHistoryStatus} that is non-null.
      */
     public FamilyHistoryStatus getStatus() {
         return status;
@@ -207,7 +207,7 @@ public class FamilyMemberHistory extends DomainResource {
      * Describes why the family member's history is not available.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDataAbsentReason() {
         return dataAbsentReason;
@@ -217,7 +217,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The person who this history concerns.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -227,7 +227,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The date (and possibly time) when the family member history was recorded or last updated.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -237,7 +237,7 @@ public class FamilyMemberHistory extends DomainResource {
      * This will either be a name or a description; e.g. "Aunt Susan", "my cousin with the red hair".
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -247,7 +247,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The type of relationship this person has to the patient (father, mother, brother etc.).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getRelationship() {
         return relationship;
@@ -257,7 +257,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The birth sex of the family member.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSex() {
         return sex;
@@ -267,7 +267,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The actual or approximate date of birth of the relative.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getBorn() {
         return born;
@@ -277,7 +277,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The age of the relative at the time the family member history is recorded.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAge() {
         return age;
@@ -287,7 +287,7 @@ public class FamilyMemberHistory extends DomainResource {
      * If true, indicates that the age value specified is an estimated value.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getEstimatedAge() {
         return estimatedAge;
@@ -298,7 +298,7 @@ public class FamilyMemberHistory extends DomainResource {
      * record.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getDeceased() {
         return deceased;
@@ -308,7 +308,7 @@ public class FamilyMemberHistory extends DomainResource {
      * Describes why the family member history occurred in coded or textual form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -319,7 +319,7 @@ public class FamilyMemberHistory extends DomainResource {
      * history event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -330,7 +330,7 @@ public class FamilyMemberHistory extends DomainResource {
      * the condition property, but this is not always possible.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -342,7 +342,7 @@ public class FamilyMemberHistory extends DomainResource {
      * condition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Condition}.
+     *     An unmodifiable list containing immutable objects of type {@link Condition} that may be empty.
      */
     public List<Condition> getCondition() {
         return condition;
@@ -1241,7 +1241,7 @@ public class FamilyMemberHistory extends DomainResource {
          * 'cancer' depending on how much is known about the condition and the capabilities of the creating system.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1252,7 +1252,7 @@ public class FamilyMemberHistory extends DomainResource {
          * relation.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOutcome() {
             return outcome;
@@ -1263,7 +1263,7 @@ public class FamilyMemberHistory extends DomainResource {
          * it is unknown.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getContributedToDeath() {
             return contributedToDeath;
@@ -1274,7 +1274,7 @@ public class FamilyMemberHistory extends DomainResource {
          * occurrences, this describes the first known occurrence.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getOnset() {
             return onset;
@@ -1284,7 +1284,7 @@ public class FamilyMemberHistory extends DomainResource {
          * An area where general notes can be placed about this specific condition.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
          */
         public List<Annotation> getNote() {
             return note;

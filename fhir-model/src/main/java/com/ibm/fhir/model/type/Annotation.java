@@ -45,7 +45,7 @@ public class Annotation extends Element {
      * The individual responsible for making the annotation.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAuthor() {
         return author;
@@ -55,7 +55,7 @@ public class Annotation extends Element {
      * Indicates when this particular annotation was made.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getTime() {
         return time;
@@ -65,7 +65,7 @@ public class Annotation extends Element {
      * The text of the annotation in markdown format.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that is non-null.
      */
     public Markdown getText() {
         return text;

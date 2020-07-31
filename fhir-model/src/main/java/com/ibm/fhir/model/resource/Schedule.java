@@ -89,7 +89,7 @@ public class Schedule extends DomainResource {
      * External Ids for this item.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -99,7 +99,7 @@ public class Schedule extends DomainResource {
      * Whether this schedule record is in active use or should not be used (such as was entered in error).
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -109,7 +109,7 @@ public class Schedule extends DomainResource {
      * A broad categorization of the service that is to be performed during this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceCategory() {
         return serviceCategory;
@@ -119,7 +119,7 @@ public class Schedule extends DomainResource {
      * The specific service that is to be performed during this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceType() {
         return serviceType;
@@ -129,7 +129,7 @@ public class Schedule extends DomainResource {
      * The specialty of a practitioner that would be required to perform the service requested in this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -139,7 +139,7 @@ public class Schedule extends DomainResource {
      * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
      */
     public List<Reference> getActor() {
         return actor;
@@ -151,7 +151,7 @@ public class Schedule extends DomainResource {
      * appointments. This does not define a "template" for planning outside these dates.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPlanningHorizon() {
         return planningHorizon;
@@ -162,7 +162,7 @@ public class Schedule extends DomainResource {
      * associated.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;

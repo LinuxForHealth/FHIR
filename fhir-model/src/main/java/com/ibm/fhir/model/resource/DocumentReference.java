@@ -143,7 +143,7 @@ public class DocumentReference extends DomainResource {
      * document. This unique identifier may be used elsewhere to identify this version of the document.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getMasterIdentifier() {
         return masterIdentifier;
@@ -153,7 +153,7 @@ public class DocumentReference extends DomainResource {
      * Other identifiers associated with the document, including version independent identifiers.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -163,7 +163,7 @@ public class DocumentReference extends DomainResource {
      * The status of this document reference.
      * 
      * @return
-     *     An immutable object of type {@link DocumentReferenceStatus}.
+     *     An immutable object of type {@link DocumentReferenceStatus} that is non-null.
      */
     public DocumentReferenceStatus getStatus() {
         return status;
@@ -173,7 +173,7 @@ public class DocumentReference extends DomainResource {
      * The status of the underlying document.
      * 
      * @return
-     *     An immutable object of type {@link ReferredDocumentStatus}.
+     *     An immutable object of type {@link ReferredDocumentStatus} that may be null.
      */
     public ReferredDocumentStatus getDocStatus() {
         return docStatus;
@@ -184,7 +184,7 @@ public class DocumentReference extends DomainResource {
      * This usually equates to the purpose of making the document referenced.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -195,7 +195,7 @@ public class DocumentReference extends DomainResource {
      * derived from the code specified in the DocumentReference.type.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -207,7 +207,7 @@ public class DocumentReference extends DomainResource {
      * that share a common exposure).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -217,7 +217,7 @@ public class DocumentReference extends DomainResource {
      * When the document reference was created.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getDate() {
         return date;
@@ -227,7 +227,7 @@ public class DocumentReference extends DomainResource {
      * Identifies who is responsible for adding the information to the document.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAuthor() {
         return author;
@@ -237,7 +237,7 @@ public class DocumentReference extends DomainResource {
      * Which person or organization authenticates that this document is valid.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthenticator() {
         return authenticator;
@@ -247,7 +247,7 @@ public class DocumentReference extends DomainResource {
      * Identifies the organization or group who is responsible for ongoing maintenance of and access to the document.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCustodian() {
         return custodian;
@@ -257,7 +257,7 @@ public class DocumentReference extends DomainResource {
      * Relationships that this document has with other document references that already exist.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatesTo}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatesTo} that may be empty.
      */
     public List<RelatesTo> getRelatesTo() {
         return relatesTo;
@@ -267,7 +267,7 @@ public class DocumentReference extends DomainResource {
      * Human-readable description of the source document.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -279,7 +279,7 @@ public class DocumentReference extends DomainResource {
      * contains a snapshot of the security labels on the document the reference refers to.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSecurityLabel() {
         return securityLabel;
@@ -289,7 +289,7 @@ public class DocumentReference extends DomainResource {
      * The document and format referenced. There may be multiple content element repetitions, each with a different format.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Content}.
+     *     An unmodifiable list containing immutable objects of type {@link Content} that is non-empty.
      */
     public List<Content> getContent() {
         return content;
@@ -299,7 +299,7 @@ public class DocumentReference extends DomainResource {
      * The clinical context in which the document was prepared.
      * 
      * @return
-     *     An immutable object of type {@link Context}.
+     *     An immutable object of type {@link Context} that may be null.
      */
     public Context getContext() {
         return context;
@@ -1113,7 +1113,7 @@ public class DocumentReference extends DomainResource {
          * The type of relationship that this document has with anther document.
          * 
          * @return
-         *     An immutable object of type {@link DocumentRelationshipType}.
+         *     An immutable object of type {@link DocumentRelationshipType} that is non-null.
          */
         public DocumentRelationshipType getCode() {
             return code;
@@ -1123,7 +1123,7 @@ public class DocumentReference extends DomainResource {
          * The target document of this relationship.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getTarget() {
             return target;
@@ -1398,7 +1398,7 @@ public class DocumentReference extends DomainResource {
          * The document or URL of the document along with critical metadata to prove content has integrity.
          * 
          * @return
-         *     An immutable object of type {@link Attachment}.
+         *     An immutable object of type {@link Attachment} that is non-null.
          */
         public Attachment getAttachment() {
             return attachment;
@@ -1409,7 +1409,7 @@ public class DocumentReference extends DomainResource {
          * indicated in the mimeType.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getFormat() {
             return format;
@@ -1699,7 +1699,7 @@ public class DocumentReference extends DomainResource {
          * Describes the clinical encounter or type of care that the document content is associated with.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getEncounter() {
             return encounter;
@@ -1711,7 +1711,7 @@ public class DocumentReference extends DomainResource {
          * being documented is necessarily a "History and Physical" act.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getEvent() {
             return event;
@@ -1721,7 +1721,7 @@ public class DocumentReference extends DomainResource {
          * The time period over which the service that is described by the document was provided.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1731,7 +1731,7 @@ public class DocumentReference extends DomainResource {
          * The kind of facility where the patient was seen.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFacilityType() {
             return facilityType;
@@ -1742,7 +1742,7 @@ public class DocumentReference extends DomainResource {
          * clinical specialty.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPracticeSetting() {
             return practiceSetting;
@@ -1753,7 +1753,7 @@ public class DocumentReference extends DomainResource {
          * contained.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getSourcePatientInfo() {
             return sourcePatientInfo;
@@ -1763,7 +1763,7 @@ public class DocumentReference extends DomainResource {
          * Related identifiers or resources associated with the DocumentReference.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getRelated() {
             return related;

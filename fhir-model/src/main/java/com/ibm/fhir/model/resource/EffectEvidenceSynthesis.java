@@ -201,7 +201,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * synthesis is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -212,7 +212,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * or referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -225,7 +225,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * is not available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -236,7 +236,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -246,7 +246,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A short, descriptive, user-friendly title for the effect evidence synthesis.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -256,7 +256,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * The status of this effect evidence synthesis. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -268,7 +268,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * substantive content of the effect evidence synthesis changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -278,7 +278,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * The name of the organization or individual that published the effect evidence synthesis.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -288,7 +288,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -298,7 +298,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A free text natural language description of the effect evidence synthesis from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -308,7 +308,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A human-readable string to clarify or explain concepts about the resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -320,7 +320,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * may be used to assist with indexing and searching for appropriate effect evidence synthesis instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -330,7 +330,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A legal or geographic region in which the effect evidence synthesis is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -341,7 +341,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * generally legal restrictions on the use and publishing of the effect evidence synthesis.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -352,7 +352,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -363,7 +363,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -373,7 +373,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * The period during which the effect evidence synthesis content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -384,7 +384,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * grouping types of EffectEvidenceSynthesiss that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -394,7 +394,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -404,7 +404,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -414,7 +414,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -424,7 +424,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -434,7 +434,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -444,7 +444,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * Type of synthesis eg meta-analysis.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSynthesisType() {
         return synthesisType;
@@ -454,7 +454,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * Type of study eg randomized trial.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStudyType() {
         return studyType;
@@ -464,7 +464,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the population for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPopulation() {
         return population;
@@ -474,7 +474,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the exposure for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getExposure() {
         return exposure;
@@ -484,7 +484,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the comparison exposure for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getExposureAlternative() {
         return exposureAlternative;
@@ -494,7 +494,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resomece that defines the outcome for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getOutcome() {
         return outcome;
@@ -504,7 +504,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A description of the size of the sample involved in the synthesis.
      * 
      * @return
-     *     An immutable object of type {@link SampleSize}.
+     *     An immutable object of type {@link SampleSize} that may be null.
      */
     public SampleSize getSampleSize() {
         return sampleSize;
@@ -514,7 +514,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A description of the results for each exposure considered in the effect estimate.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResultsByExposure}.
+     *     An unmodifiable list containing immutable objects of type {@link ResultsByExposure} that may be empty.
      */
     public List<ResultsByExposure> getResultsByExposure() {
         return resultsByExposure;
@@ -524,7 +524,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * The estimated effect of the exposure variant.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link EffectEstimate}.
+     *     An unmodifiable list containing immutable objects of type {@link EffectEstimate} that may be empty.
      */
     public List<EffectEstimate> getEffectEstimate() {
         return effectEstimate;
@@ -534,7 +534,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
      * A description of the certainty of the effect estimate.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Certainty}.
+     *     An unmodifiable list containing immutable objects of type {@link Certainty} that may be empty.
      */
     public List<Certainty> getCertainty() {
         return certainty;
@@ -1856,7 +1856,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Human-readable summary of sample size.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1866,7 +1866,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Number of studies included in this evidence synthesis.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getNumberOfStudies() {
             return numberOfStudies;
@@ -1876,7 +1876,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Number of participants included in this evidence synthesis.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getNumberOfParticipants() {
             return numberOfParticipants;
@@ -2166,7 +2166,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Human-readable summary of results by exposure state.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2176,7 +2176,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Whether these results are for the exposure state or alternative exposure state.
          * 
          * @return
-         *     An immutable object of type {@link ExposureState}.
+         *     An immutable object of type {@link ExposureState} that may be null.
          */
         public ExposureState getExposureState() {
             return exposureState;
@@ -2186,7 +2186,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Used to define variant exposure states such as low-risk state.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getVariantState() {
             return variantState;
@@ -2196,7 +2196,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Reference to a RiskEvidenceSynthesis resource.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getRiskEvidenceSynthesis() {
             return riskEvidenceSynthesis;
@@ -2525,7 +2525,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Human-readable summary of effect estimate.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2535,7 +2535,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Examples include relative risk and mean difference.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2545,7 +2545,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Used to define variant exposure states such as low-risk state.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getVariantState() {
             return variantState;
@@ -2555,7 +2555,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * The point estimate of the effect estimate.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getValue() {
             return value;
@@ -2565,7 +2565,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * Specifies the UCUM unit for the outcome.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getUnitOfMeasure() {
             return unitOfMeasure;
@@ -2575,7 +2575,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * A description of the precision of the estimate for the effect.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PrecisionEstimate}.
+         *     An unmodifiable list containing immutable objects of type {@link PrecisionEstimate} that may be empty.
          */
         public List<PrecisionEstimate> getPrecisionEstimate() {
             return precisionEstimate;
@@ -2935,7 +2935,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * Examples include confidence interval and interquartile range.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -2945,7 +2945,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * Use 95 for a 95% confidence interval.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getLevel() {
                 return level;
@@ -2955,7 +2955,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * Lower bound of confidence interval.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getFrom() {
                 return from;
@@ -2965,7 +2965,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * Upper bound of confidence interval.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getTo() {
                 return to;
@@ -3265,7 +3265,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * A rating of the certainty of the effect estimate.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRating() {
             return rating;
@@ -3275,7 +3275,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * A human-readable string to clarify or explain concepts about the resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
          */
         public List<Annotation> getNote() {
             return note;
@@ -3285,7 +3285,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * A description of a component of the overall certainty.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CertaintySubcomponent}.
+         *     An unmodifiable list containing immutable objects of type {@link CertaintySubcomponent} that may be empty.
          */
         public List<CertaintySubcomponent> getCertaintySubcomponent() {
             return certaintySubcomponent;
@@ -3629,7 +3629,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * Type of subcomponent of certainty rating.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -3639,7 +3639,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * A rating of a subcomponent of rating certainty.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getRating() {
                 return rating;
@@ -3649,7 +3649,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * A human-readable string to clarify or explain concepts about the resource.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+             *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
              */
             public List<Annotation> getNote() {
                 return note;

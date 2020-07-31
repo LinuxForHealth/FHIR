@@ -180,7 +180,7 @@ public class MessageDefinition extends DomainResource {
      * to server.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -191,7 +191,7 @@ public class MessageDefinition extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -204,7 +204,7 @@ public class MessageDefinition extends DomainResource {
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -215,7 +215,7 @@ public class MessageDefinition extends DomainResource {
      * by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -225,7 +225,7 @@ public class MessageDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the message definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -235,7 +235,7 @@ public class MessageDefinition extends DomainResource {
      * A MessageDefinition that is superseded by this definition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getReplaces() {
         return replaces;
@@ -245,7 +245,7 @@ public class MessageDefinition extends DomainResource {
      * The status of this message definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -256,7 +256,7 @@ public class MessageDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -268,7 +268,7 @@ public class MessageDefinition extends DomainResource {
      * content of the message definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDate() {
         return date;
@@ -278,7 +278,7 @@ public class MessageDefinition extends DomainResource {
      * The name of the organization or individual that published the message definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -288,7 +288,7 @@ public class MessageDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -298,7 +298,7 @@ public class MessageDefinition extends DomainResource {
      * A free text natural language description of the message definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -310,7 +310,7 @@ public class MessageDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate message definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -320,7 +320,7 @@ public class MessageDefinition extends DomainResource {
      * A legal or geographic region in which the message definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -330,7 +330,7 @@ public class MessageDefinition extends DomainResource {
      * Explanation of why this message definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -341,7 +341,7 @@ public class MessageDefinition extends DomainResource {
      * restrictions on the use and publishing of the message definition.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -351,7 +351,7 @@ public class MessageDefinition extends DomainResource {
      * The MessageDefinition that is the basis for the contents of this resource.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getBase() {
         return base;
@@ -361,7 +361,7 @@ public class MessageDefinition extends DomainResource {
      * Identifies a protocol or workflow that this MessageDefinition represents a step in.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getParent() {
         return parent;
@@ -371,7 +371,7 @@ public class MessageDefinition extends DomainResource {
      * Event code or link to the EventDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getEvent() {
         return event;
@@ -381,7 +381,7 @@ public class MessageDefinition extends DomainResource {
      * The impact of the content of the message.
      * 
      * @return
-     *     An immutable object of type {@link MessageSignificanceCategory}.
+     *     An immutable object of type {@link MessageSignificanceCategory} that may be null.
      */
     public MessageSignificanceCategory getCategory() {
         return category;
@@ -392,7 +392,7 @@ public class MessageDefinition extends DomainResource {
      * message or two Account records for a merge.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Focus}.
+     *     An unmodifiable list containing immutable objects of type {@link Focus} that may be empty.
      */
     public List<Focus> getFocus() {
         return focus;
@@ -402,7 +402,7 @@ public class MessageDefinition extends DomainResource {
      * Declare at a message definition level whether a response is required or only upon error or success, or never.
      * 
      * @return
-     *     An immutable object of type {@link MessageHeaderResponseRequest}.
+     *     An immutable object of type {@link MessageHeaderResponseRequest} that may be null.
      */
     public MessageHeaderResponseRequest getResponseRequired() {
         return responseRequired;
@@ -412,7 +412,7 @@ public class MessageDefinition extends DomainResource {
      * Indicates what types of messages may be sent as an application-level response to this message.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link AllowedResponse}.
+     *     An unmodifiable list containing immutable objects of type {@link AllowedResponse} that may be empty.
      */
     public List<AllowedResponse> getAllowedResponse() {
         return allowedResponse;
@@ -424,7 +424,7 @@ public class MessageDefinition extends DomainResource {
      * GraphDefinition can also specify profiles that apply to the various resources.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getGraph() {
         return graph;
@@ -1459,7 +1459,7 @@ public class MessageDefinition extends DomainResource {
          * The kind of resource that must be the focus for this message.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType}.
+         *     An immutable object of type {@link ResourceType} that is non-null.
          */
         public ResourceType getCode() {
             return code;
@@ -1469,7 +1469,7 @@ public class MessageDefinition extends DomainResource {
          * A profile that reflects constraints for the focal resource (and potentially for related resources).
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that may be null.
          */
         public Canonical getProfile() {
             return profile;
@@ -1480,7 +1480,7 @@ public class MessageDefinition extends DomainResource {
          * valid against this MessageDefinition.
          * 
          * @return
-         *     An immutable object of type {@link UnsignedInt}.
+         *     An immutable object of type {@link UnsignedInt} that is non-null.
          */
         public UnsignedInt getMin() {
             return min;
@@ -1491,7 +1491,7 @@ public class MessageDefinition extends DomainResource {
          * valid against this MessageDefinition.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getMax() {
             return max;
@@ -1795,7 +1795,7 @@ public class MessageDefinition extends DomainResource {
          * A reference to the message definition that must be adhered to by this supported response.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that is non-null.
          */
         public Canonical getMessage() {
             return message;
@@ -1806,7 +1806,7 @@ public class MessageDefinition extends DomainResource {
          * alternative responses).
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getSituation() {
             return situation;

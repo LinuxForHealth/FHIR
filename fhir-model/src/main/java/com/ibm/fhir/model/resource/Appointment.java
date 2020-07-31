@@ -182,7 +182,7 @@ public class Appointment extends DomainResource {
      * written / printed documentation).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -193,7 +193,7 @@ public class Appointment extends DomainResource {
      * their involvement in the process, however this status indicates the shared status.
      * 
      * @return
-     *     An immutable object of type {@link AppointmentStatus}.
+     *     An immutable object of type {@link AppointmentStatus} that is non-null.
      */
     public AppointmentStatus getStatus() {
         return status;
@@ -204,7 +204,7 @@ public class Appointment extends DomainResource {
      * determine if further actions are required, or specific fees apply.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCancelationReason() {
         return cancelationReason;
@@ -214,7 +214,7 @@ public class Appointment extends DomainResource {
      * A broad categorization of the service that is to be performed during this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceCategory() {
         return serviceCategory;
@@ -224,7 +224,7 @@ public class Appointment extends DomainResource {
      * The specific service that is to be performed during this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceType() {
         return serviceType;
@@ -234,7 +234,7 @@ public class Appointment extends DomainResource {
      * The specialty of a practitioner that would be required to perform the service requested in this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -244,7 +244,7 @@ public class Appointment extends DomainResource {
      * The style of appointment or patient that has been booked in the slot (not service type).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getAppointmentType() {
         return appointmentType;
@@ -254,7 +254,7 @@ public class Appointment extends DomainResource {
      * The coded reason that this appointment is being scheduled. This is more clinical than administrative.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -266,7 +266,7 @@ public class Appointment extends DomainResource {
      * be a Condition (with other resources referenced in the evidence.detail), or a Procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -277,7 +277,7 @@ public class Appointment extends DomainResource {
      * iCal Standard specifies 0 as undefined, 1 as highest, 9 as lowest priority).
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getPriority() {
         return priority;
@@ -288,7 +288,7 @@ public class Appointment extends DomainResource {
      * list. Detailed or expanded information should be put in the comment field.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -298,7 +298,7 @@ public class Appointment extends DomainResource {
      * Additional information to support the appointment provided when making the appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInformation() {
         return supportingInformation;
@@ -308,7 +308,7 @@ public class Appointment extends DomainResource {
      * Date/Time that the appointment is to take place.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getStart() {
         return start;
@@ -318,7 +318,7 @@ public class Appointment extends DomainResource {
      * Date/Time that the appointment is to conclude.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getEnd() {
         return end;
@@ -331,7 +331,7 @@ public class Appointment extends DomainResource {
      * appointment, the duration may be 15 minutes less than the difference between the start and end.
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that may be null.
      */
     public PositiveInt getMinutesDuration() {
         return minutesDuration;
@@ -341,7 +341,7 @@ public class Appointment extends DomainResource {
      * The slots from the participants' schedules that will be filled by the appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSlot() {
         return slot;
@@ -353,7 +353,7 @@ public class Appointment extends DomainResource {
      * over the lifespan of the appointment.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getCreated() {
         return created;
@@ -363,7 +363,7 @@ public class Appointment extends DomainResource {
      * Additional comments about the appointment.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;
@@ -374,7 +374,7 @@ public class Appointment extends DomainResource {
      * patient facing information about the Appointment (e.g. please bring your referral or fast from 8pm night before).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPatientInstruction() {
         return patientInstruction;
@@ -384,7 +384,7 @@ public class Appointment extends DomainResource {
      * The service request this appointment is allocated to assess (e.g. incoming referral or procedure request).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -394,7 +394,7 @@ public class Appointment extends DomainResource {
      * List of participants involved in the appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant} that is non-empty.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -408,7 +408,7 @@ public class Appointment extends DomainResource {
      * calculated by the scheduling system.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Period}.
+     *     An unmodifiable list containing immutable objects of type {@link Period} that may be empty.
      */
     public List<Period> getRequestedPeriod() {
         return requestedPeriod;
@@ -1457,7 +1457,7 @@ public class Appointment extends DomainResource {
          * Role of participant in the appointment.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -1467,7 +1467,7 @@ public class Appointment extends DomainResource {
          * A Person, Location/HealthcareService or Device that is participating in the appointment.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getActor() {
             return actor;
@@ -1478,7 +1478,7 @@ public class Appointment extends DomainResource {
          * meet to discuss the results for a specific patient, and the patient is not required to be present.
          * 
          * @return
-         *     An immutable object of type {@link ParticipantRequired}.
+         *     An immutable object of type {@link ParticipantRequired} that may be null.
          */
         public ParticipantRequired getRequired() {
             return required;
@@ -1488,7 +1488,7 @@ public class Appointment extends DomainResource {
          * Participation status of the actor.
          * 
          * @return
-         *     An immutable object of type {@link ParticipationStatus}.
+         *     An immutable object of type {@link ParticipationStatus} that is non-null.
          */
         public ParticipationStatus getStatus() {
             return status;
@@ -1498,7 +1498,7 @@ public class Appointment extends DomainResource {
          * Participation period of the actor.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;

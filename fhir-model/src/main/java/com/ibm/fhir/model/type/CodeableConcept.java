@@ -41,7 +41,7 @@ public class CodeableConcept extends Element {
      * A reference to a code defined by a terminology system.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getCoding() {
         return coding;
@@ -52,7 +52,7 @@ public class CodeableConcept extends Element {
      * represents the intended meaning of the user.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getText() {
         return text;

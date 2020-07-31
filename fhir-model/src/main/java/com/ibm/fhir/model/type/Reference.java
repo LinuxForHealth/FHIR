@@ -63,7 +63,7 @@ public class Reference extends Element {
      * be assumed to be version specific. Internal fragment references (start with '#') refer to contained resources.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getReference() {
         return reference;
@@ -79,7 +79,7 @@ public class Reference extends Element {
      * references in logical models, not resources).
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getType() {
         return type;
@@ -94,7 +94,7 @@ public class Reference extends Element {
      * allowed by the reference.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -104,7 +104,7 @@ public class Reference extends Element {
      * Plain text narrative that identifies the resource in addition to the resource reference.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDisplay() {
         return display;

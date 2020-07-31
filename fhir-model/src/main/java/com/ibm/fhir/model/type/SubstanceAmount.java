@@ -51,7 +51,7 @@ public class SubstanceAmount extends BackboneElement {
      * the average. If only a single definite value for a given element is given, it would be captured in this field.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAmount() {
         return amount;
@@ -65,7 +65,7 @@ public class SubstanceAmount extends BackboneElement {
      * definitional elements.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getAmountType() {
         return amountType;
@@ -75,7 +75,7 @@ public class SubstanceAmount extends BackboneElement {
      * A textual comment on a numeric value.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getAmountText() {
         return amountText;
@@ -85,7 +85,7 @@ public class SubstanceAmount extends BackboneElement {
      * Reference range of possible or expected values.
      * 
      * @return
-     *     An immutable object of type {@link ReferenceRange}.
+     *     An immutable object of type {@link ReferenceRange} that may be null.
      */
     public ReferenceRange getReferenceRange() {
         return referenceRange;
@@ -394,7 +394,7 @@ public class SubstanceAmount extends BackboneElement {
          * Lower limit possible or expected.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getLowLimit() {
             return lowLimit;
@@ -404,7 +404,7 @@ public class SubstanceAmount extends BackboneElement {
          * Upper limit possible or expected.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getHighLimit() {
             return highLimit;

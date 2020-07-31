@@ -194,7 +194,7 @@ public class Contract extends DomainResource {
      * Unique identifier for this Contract or a derivative that references a Source Contract.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -204,7 +204,7 @@ public class Contract extends DomainResource {
      * Canonical identifier for this contract, represented as a URI (globally unique).
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -214,7 +214,7 @@ public class Contract extends DomainResource {
      * An edition identifier used for business purposes to label business significant variants.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -224,7 +224,7 @@ public class Contract extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link ContractStatus}.
+     *     An immutable object of type {@link ContractStatus} that may be null.
      */
     public ContractStatus getStatus() {
         return status;
@@ -236,7 +236,7 @@ public class Contract extends DomainResource {
      * duty, obligation, or right, and therefore evidences that act, process, or agreement.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getLegalState() {
         return legalState;
@@ -246,7 +246,7 @@ public class Contract extends DomainResource {
      * The URL pointing to a FHIR-defined Contract Definition that is adhered to in whole or part by this Contract.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -256,7 +256,7 @@ public class Contract extends DomainResource {
      * The URL pointing to an externally maintained definition that is adhered to in whole or in part by this Contract.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getInstantiatesUri() {
         return instantiatesUri;
@@ -266,7 +266,7 @@ public class Contract extends DomainResource {
      * The minimal content derived from the basal information source at a specific stage in its lifecycle.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getContentDerivative() {
         return contentDerivative;
@@ -276,7 +276,7 @@ public class Contract extends DomainResource {
      * When this Contract was issued.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getIssued() {
         return issued;
@@ -286,7 +286,7 @@ public class Contract extends DomainResource {
      * Relevant time or time-period when this Contract is applicable.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getApplies() {
         return applies;
@@ -296,7 +296,7 @@ public class Contract extends DomainResource {
      * Event resulting in discontinuation or termination of this Contract instance by one or more parties to the contract.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getExpirationType() {
         return expirationType;
@@ -306,7 +306,7 @@ public class Contract extends DomainResource {
      * The target entity impacted by or of interest to parties to the agreement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -318,7 +318,7 @@ public class Contract extends DomainResource {
      * contracts and policies.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAuthority() {
         return authority;
@@ -330,7 +330,7 @@ public class Contract extends DomainResource {
      * relative to resources.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDomain() {
         return domain;
@@ -340,7 +340,7 @@ public class Contract extends DomainResource {
      * Sites in which the contract is complied with, exercised, or in force.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSite() {
         return site;
@@ -352,7 +352,7 @@ public class Contract extends DomainResource {
      * processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -363,7 +363,7 @@ public class Contract extends DomainResource {
      * giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -374,7 +374,7 @@ public class Contract extends DomainResource {
      * state.t giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -385,7 +385,7 @@ public class Contract extends DomainResource {
      * g., a domain specific contract number related to legislation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getAlias() {
         return alias;
@@ -395,7 +395,7 @@ public class Contract extends DomainResource {
      * The individual or organization that authored the Contract definition, derivative, or instance in any legal state.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -405,7 +405,7 @@ public class Contract extends DomainResource {
      * A selector of legal concerns for this Contract definition, derivative, or instance in any legal state.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getScope() {
         return scope;
@@ -415,7 +415,7 @@ public class Contract extends DomainResource {
      * Narrows the range of legal concerns to focus on the achievement of specific contractual objectives.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getTopic() {
         return topic;
@@ -427,7 +427,7 @@ public class Contract extends DomainResource {
      * distinguish the kinds of systems that would be interested in the contract.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -438,7 +438,7 @@ public class Contract extends DomainResource {
      * the context of the Contract's scope.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSubType() {
         return subType;
@@ -449,7 +449,7 @@ public class Contract extends DomainResource {
      * associated with and transformable into a Contract.
      * 
      * @return
-     *     An immutable object of type {@link ContentDefinition}.
+     *     An immutable object of type {@link ContentDefinition} that may be null.
      */
     public ContentDefinition getContentDefinition() {
         return contentDefinition;
@@ -459,7 +459,7 @@ public class Contract extends DomainResource {
      * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Term}.
+     *     An unmodifiable list containing immutable objects of type {@link Term} that may be empty.
      */
     public List<Term> getTerm() {
         return term;
@@ -469,7 +469,7 @@ public class Contract extends DomainResource {
      * Information that may be needed by/relevant to the performer in their execution of this term action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -482,7 +482,7 @@ public class Contract extends DomainResource {
      * html#Provenance.entity.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
@@ -494,7 +494,7 @@ public class Contract extends DomainResource {
      * contract such as a notary or witness.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Signer}.
+     *     An unmodifiable list containing immutable objects of type {@link Signer} that may be empty.
      */
     public List<Signer> getSigner() {
         return signer;
@@ -507,7 +507,7 @@ public class Contract extends DomainResource {
      * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Friendly}.
+     *     An unmodifiable list containing immutable objects of type {@link Friendly} that may be empty.
      */
     public List<Friendly> getFriendly() {
         return friendly;
@@ -517,7 +517,7 @@ public class Contract extends DomainResource {
      * List of Legal expressions or representations of this Contract.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Legal}.
+     *     An unmodifiable list containing immutable objects of type {@link Legal} that may be empty.
      */
     public List<Legal> getLegal() {
         return legal;
@@ -527,7 +527,7 @@ public class Contract extends DomainResource {
      * List of Computable Policy Rule Language Representations of this Contract.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Rule}.
+     *     An unmodifiable list containing immutable objects of type {@link Rule} that may be empty.
      */
     public List<Rule> getRule() {
         return rule;
@@ -538,7 +538,7 @@ public class Contract extends DomainResource {
      * considered the "source of truth" and which would be the basis for legal action related to enforcement of this Contract.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getLegallyBinding() {
         return legallyBinding;
@@ -1894,7 +1894,7 @@ public class Contract extends DomainResource {
          * policy or benefits under a program, e.g., workers compensation.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1904,7 +1904,7 @@ public class Contract extends DomainResource {
          * Detailed Precusory content type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getSubType() {
             return subType;
@@ -1914,7 +1914,7 @@ public class Contract extends DomainResource {
          * The individual or organization that published the Contract precursor content.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getPublisher() {
             return publisher;
@@ -1926,7 +1926,7 @@ public class Contract extends DomainResource {
          * contract changes.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getPublicationDate() {
             return publicationDate;
@@ -1937,7 +1937,7 @@ public class Contract extends DomainResource {
          * rejected | renewed | revoked | resolved | terminated.
          * 
          * @return
-         *     An immutable object of type {@link ContractPublicationStatus}.
+         *     An immutable object of type {@link ContractPublicationStatus} that is non-null.
          */
         public ContractPublicationStatus getPublicationStatus() {
             return publicationStatus;
@@ -1948,7 +1948,7 @@ public class Contract extends DomainResource {
          * the use and publishing of the Contract precursor content.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getCopyright() {
             return copyright;
@@ -2340,7 +2340,7 @@ public class Contract extends DomainResource {
          * Unique identifier for this particular Contract Provision.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -2350,7 +2350,7 @@ public class Contract extends DomainResource {
          * When this Contract Provision was issued.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getIssued() {
             return issued;
@@ -2360,7 +2360,7 @@ public class Contract extends DomainResource {
          * Relevant time or time-period when this Contract Provision is applicable.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getApplies() {
             return applies;
@@ -2370,7 +2370,7 @@ public class Contract extends DomainResource {
          * The entity that the term applies to.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTopic() {
             return topic;
@@ -2382,7 +2382,7 @@ public class Contract extends DomainResource {
          * specified time.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2392,7 +2392,7 @@ public class Contract extends DomainResource {
          * A specialized legal clause or condition based on overarching contract type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getSubType() {
             return subType;
@@ -2402,7 +2402,7 @@ public class Contract extends DomainResource {
          * Statement of a provision in a policy or a contract.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getText() {
             return text;
@@ -2413,7 +2413,7 @@ public class Contract extends DomainResource {
          * identified..
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link SecurityLabel}.
+         *     An unmodifiable list containing immutable objects of type {@link SecurityLabel} that may be empty.
          */
         public List<SecurityLabel> getSecurityLabel() {
             return securityLabel;
@@ -2423,7 +2423,7 @@ public class Contract extends DomainResource {
          * The matter of concern in the context of this provision of the agrement.
          * 
          * @return
-         *     An immutable object of type {@link Offer}.
+         *     An immutable object of type {@link Offer} that is non-null.
          */
         public Offer getOffer() {
             return offer;
@@ -2433,7 +2433,7 @@ public class Contract extends DomainResource {
          * Contract Term Asset List.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Asset}.
+         *     An unmodifiable list containing immutable objects of type {@link Asset} that may be empty.
          */
         public List<Asset> getAsset() {
             return asset;
@@ -2444,7 +2444,7 @@ public class Contract extends DomainResource {
          * taking place.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that may be empty.
          */
         public List<Action> getAction() {
             return action;
@@ -2454,7 +2454,7 @@ public class Contract extends DomainResource {
          * Nested group of Contract Provisions.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Term}.
+         *     An unmodifiable list containing immutable objects of type {@link Term} that may be empty.
          */
         public List<Contract.Term> getGroup() {
             return group;
@@ -3027,7 +3027,7 @@ public class Contract extends DomainResource {
              * Number used to link this term or term element to the applicable Security Label.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt} that may be empty.
              */
             public List<UnsignedInt> getNumber() {
                 return number;
@@ -3038,7 +3038,7 @@ public class Contract extends DomainResource {
              * elements.
              * 
              * @return
-             *     An immutable object of type {@link Coding}.
+             *     An immutable object of type {@link Coding} that is non-null.
              */
             public Coding getClassification() {
                 return classification;
@@ -3049,7 +3049,7 @@ public class Contract extends DomainResource {
              * elements.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Coding}.
+             *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
              */
             public List<Coding> getCategory() {
                 return category;
@@ -3059,7 +3059,7 @@ public class Contract extends DomainResource {
              * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Coding}.
+             *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
              */
             public List<Coding> getControl() {
                 return control;
@@ -3455,7 +3455,7 @@ public class Contract extends DomainResource {
              * Unique identifier for this particular Contract Provision.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+             *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
              */
             public List<Identifier> getIdentifier() {
                 return identifier;
@@ -3465,7 +3465,7 @@ public class Contract extends DomainResource {
              * Offer Recipient.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Party}.
+             *     An unmodifiable list containing immutable objects of type {@link Party} that may be empty.
              */
             public List<Party> getParty() {
                 return party;
@@ -3476,7 +3476,7 @@ public class Contract extends DomainResource {
              * any way not inconsistent with a prior contract, custom, or law (Hart, 1995, p. 30).
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getTopic() {
                 return topic;
@@ -3487,7 +3487,7 @@ public class Contract extends DomainResource {
              * time maximum benefit.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -3497,7 +3497,7 @@ public class Contract extends DomainResource {
              * Type of choice made by accepting party with respect to an offer made by an offeror/ grantee.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getDecision() {
                 return decision;
@@ -3507,7 +3507,7 @@ public class Contract extends DomainResource {
              * How the decision about a Contract was conveyed.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getDecisionMode() {
                 return decisionMode;
@@ -3517,7 +3517,7 @@ public class Contract extends DomainResource {
              * Response to offer text.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Answer}.
+             *     An unmodifiable list containing immutable objects of type {@link Answer} that may be empty.
              */
             public List<Answer> getAnswer() {
                 return answer;
@@ -3527,7 +3527,7 @@ public class Contract extends DomainResource {
              * Human readable form of this Contract Offer.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getText() {
                 return text;
@@ -3537,7 +3537,7 @@ public class Contract extends DomainResource {
              * The id of the clause or question text of the offer in the referenced questionnaire/response.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getLinkId() {
                 return linkId;
@@ -3547,7 +3547,7 @@ public class Contract extends DomainResource {
              * Security labels that protects the offer.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt} that may be empty.
              */
             public List<UnsignedInt> getSecurityLabelNumber() {
                 return securityLabelNumber;
@@ -4087,7 +4087,7 @@ public class Contract extends DomainResource {
                  * Participant in the offer.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Reference}.
+                 *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
                  */
                 public List<Reference> getReference() {
                     return reference;
@@ -4097,7 +4097,7 @@ public class Contract extends DomainResource {
                  * How the party participates in the offer.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that is non-null.
                  */
                 public CodeableConcept getRole() {
                     return role;
@@ -4382,7 +4382,7 @@ public class Contract extends DomainResource {
                  * research.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element}.
+                 *     An immutable object of type {@link Element} that is non-null.
                  */
                 public Element getValue() {
                     return value;
@@ -4695,7 +4695,7 @@ public class Contract extends DomainResource {
              * Differentiates the kind of the asset .
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getScope() {
                 return scope;
@@ -4705,7 +4705,7 @@ public class Contract extends DomainResource {
              * Target entity type about which the term may be concerned.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getType() {
                 return type;
@@ -4715,7 +4715,7 @@ public class Contract extends DomainResource {
              * Associated entities.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getTypeReference() {
                 return typeReference;
@@ -4725,7 +4725,7 @@ public class Contract extends DomainResource {
              * May be a subtype or part of an offered asset.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getSubtype() {
                 return subtype;
@@ -4736,7 +4736,7 @@ public class Contract extends DomainResource {
              * refer to it, and/or are owned by the offeree.
              * 
              * @return
-             *     An immutable object of type {@link Coding}.
+             *     An immutable object of type {@link Coding} that may be null.
              */
             public Coding getRelationship() {
                 return relationship;
@@ -4746,7 +4746,7 @@ public class Contract extends DomainResource {
              * Circumstance of the asset.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Context}.
+             *     An unmodifiable list containing immutable objects of type {@link Context} that may be empty.
              */
             public List<Context> getContext() {
                 return context;
@@ -4756,7 +4756,7 @@ public class Contract extends DomainResource {
              * Description of the quality and completeness of the asset that imay be a factor in its valuation.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getCondition() {
                 return condition;
@@ -4766,7 +4766,7 @@ public class Contract extends DomainResource {
              * Type of Asset availability for use or ownership.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getPeriodType() {
                 return periodType;
@@ -4776,7 +4776,7 @@ public class Contract extends DomainResource {
              * Asset relevant contractual time period.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Period}.
+             *     An unmodifiable list containing immutable objects of type {@link Period} that may be empty.
              */
             public List<Period> getPeriod() {
                 return period;
@@ -4786,7 +4786,7 @@ public class Contract extends DomainResource {
              * Time period of asset use.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Period}.
+             *     An unmodifiable list containing immutable objects of type {@link Period} that may be empty.
              */
             public List<Period> getUsePeriod() {
                 return usePeriod;
@@ -4797,7 +4797,7 @@ public class Contract extends DomainResource {
              * the formation of the contract.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getText() {
                 return text;
@@ -4807,7 +4807,7 @@ public class Contract extends DomainResource {
              * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getLinkId() {
                 return linkId;
@@ -4817,7 +4817,7 @@ public class Contract extends DomainResource {
              * Response to assets.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Answer}.
+             *     An unmodifiable list containing immutable objects of type {@link Answer} that may be empty.
              */
             public List<Contract.Term.Offer.Answer> getAnswer() {
                 return answer;
@@ -4827,7 +4827,7 @@ public class Contract extends DomainResource {
              * Security labels that protects the asset.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt} that may be empty.
              */
             public List<UnsignedInt> getSecurityLabelNumber() {
                 return securityLabelNumber;
@@ -4837,7 +4837,7 @@ public class Contract extends DomainResource {
              * Contract Valued Item List.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link ValuedItem}.
+             *     An unmodifiable list containing immutable objects of type {@link ValuedItem} that may be empty.
              */
             public List<ValuedItem> getValuedItem() {
                 return valuedItem;
@@ -5578,7 +5578,7 @@ public class Contract extends DomainResource {
                  * location held, e.g., building, jurisdiction.
                  * 
                  * @return
-                 *     An immutable object of type {@link Reference}.
+                 *     An immutable object of type {@link Reference} that may be null.
                  */
                 public Reference getReference() {
                     return reference;
@@ -5588,7 +5588,7 @@ public class Contract extends DomainResource {
                  * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
                  */
                 public List<CodeableConcept> getCode() {
                     return code;
@@ -5598,7 +5598,7 @@ public class Contract extends DomainResource {
                  * Context description.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getText() {
                     return text;
@@ -5919,7 +5919,7 @@ public class Contract extends DomainResource {
                  * Specific type of Contract Valued Item that may be priced.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element}.
+                 *     An immutable object of type {@link Element} that may be null.
                  */
                 public Element getEntity() {
                     return entity;
@@ -5929,7 +5929,7 @@ public class Contract extends DomainResource {
                  * Identifies a Contract Valued Item instance.
                  * 
                  * @return
-                 *     An immutable object of type {@link Identifier}.
+                 *     An immutable object of type {@link Identifier} that may be null.
                  */
                 public Identifier getIdentifier() {
                     return identifier;
@@ -5939,7 +5939,7 @@ public class Contract extends DomainResource {
                  * Indicates the time during which this Contract ValuedItem information is effective.
                  * 
                  * @return
-                 *     An immutable object of type {@link DateTime}.
+                 *     An immutable object of type {@link DateTime} that may be null.
                  */
                 public DateTime getEffectiveTime() {
                     return effectiveTime;
@@ -5950,7 +5950,7 @@ public class Contract extends DomainResource {
                  * measurable Contract Valued Item instances.
                  * 
                  * @return
-                 *     An immutable object of type {@link SimpleQuantity}.
+                 *     An immutable object of type {@link SimpleQuantity} that may be null.
                  */
                 public SimpleQuantity getQuantity() {
                     return quantity;
@@ -5960,7 +5960,7 @@ public class Contract extends DomainResource {
                  * A Contract Valued Item unit valuation measure.
                  * 
                  * @return
-                 *     An immutable object of type {@link Money}.
+                 *     An immutable object of type {@link Money} that may be null.
                  */
                 public Money getUnitPrice() {
                     return unitPrice;
@@ -5971,7 +5971,7 @@ public class Contract extends DomainResource {
                  * delivered. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
                  * 
                  * @return
-                 *     An immutable object of type {@link Decimal}.
+                 *     An immutable object of type {@link Decimal} that may be null.
                  */
                 public Decimal getFactor() {
                     return factor;
@@ -5983,7 +5983,7 @@ public class Contract extends DomainResource {
                  * Item, such that a monetary amount can be assigned to each point.
                  * 
                  * @return
-                 *     An immutable object of type {@link Decimal}.
+                 *     An immutable object of type {@link Decimal} that may be null.
                  */
                 public Decimal getPoints() {
                     return points;
@@ -5995,7 +5995,7 @@ public class Contract extends DomainResource {
                  * to be 1 if not supplied.
                  * 
                  * @return
-                 *     An immutable object of type {@link Money}.
+                 *     An immutable object of type {@link Money} that may be null.
                  */
                 public Money getNet() {
                     return net;
@@ -6005,7 +6005,7 @@ public class Contract extends DomainResource {
                  * Terms of valuation.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getPayment() {
                     return payment;
@@ -6015,7 +6015,7 @@ public class Contract extends DomainResource {
                  * When payment is due.
                  * 
                  * @return
-                 *     An immutable object of type {@link DateTime}.
+                 *     An immutable object of type {@link DateTime} that may be null.
                  */
                 public DateTime getPaymentDate() {
                     return paymentDate;
@@ -6025,7 +6025,7 @@ public class Contract extends DomainResource {
                  * Who will make payment.
                  * 
                  * @return
-                 *     An immutable object of type {@link Reference}.
+                 *     An immutable object of type {@link Reference} that may be null.
                  */
                 public Reference getResponsible() {
                     return responsible;
@@ -6035,7 +6035,7 @@ public class Contract extends DomainResource {
                  * Who will receive payment.
                  * 
                  * @return
-                 *     An immutable object of type {@link Reference}.
+                 *     An immutable object of type {@link Reference} that may be null.
                  */
                 public Reference getRecipient() {
                     return recipient;
@@ -6046,7 +6046,7 @@ public class Contract extends DomainResource {
                  * QuestionnaireResponse.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link String}.
+                 *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
                  */
                 public List<String> getLinkId() {
                     return linkId;
@@ -6056,7 +6056,7 @@ public class Contract extends DomainResource {
                  * A set of security labels that define which terms are controlled by this condition.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
+                 *     An unmodifiable list containing immutable objects of type {@link UnsignedInt} that may be empty.
                  */
                 public List<UnsignedInt> getSecurityLabelNumber() {
                     return securityLabelNumber;
@@ -6703,7 +6703,7 @@ public class Contract extends DomainResource {
              * True if the term prohibits the action.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getDoNotPerform() {
                 return doNotPerform;
@@ -6714,7 +6714,7 @@ public class Contract extends DomainResource {
              * term.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -6724,7 +6724,7 @@ public class Contract extends DomainResource {
              * Entity of the action.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Subject}.
+             *     An unmodifiable list containing immutable objects of type {@link Subject} that may be empty.
              */
             public List<Subject> getSubject() {
                 return subject;
@@ -6734,7 +6734,7 @@ public class Contract extends DomainResource {
              * Reason or purpose for the action stipulated by this Contract Provision.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getIntent() {
                 return intent;
@@ -6745,7 +6745,7 @@ public class Contract extends DomainResource {
              * QuestionnaireResponse.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getLinkId() {
                 return linkId;
@@ -6755,7 +6755,7 @@ public class Contract extends DomainResource {
              * Current state of the term action.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getStatus() {
                 return status;
@@ -6765,7 +6765,7 @@ public class Contract extends DomainResource {
              * Encounter or Episode with primary association to specified term activity.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getContext() {
                 return context;
@@ -6776,7 +6776,7 @@ public class Contract extends DomainResource {
              * QuestionnaireResponse.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getContextLinkId() {
                 return contextLinkId;
@@ -6786,7 +6786,7 @@ public class Contract extends DomainResource {
              * When action happens.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getOccurrence() {
                 return occurrence;
@@ -6796,7 +6796,7 @@ public class Contract extends DomainResource {
              * Who or what initiated the action and has responsibility for its activation.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getRequester() {
                 return requester;
@@ -6807,7 +6807,7 @@ public class Contract extends DomainResource {
              * QuestionnaireResponse.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getRequesterLinkId() {
                 return requesterLinkId;
@@ -6817,7 +6817,7 @@ public class Contract extends DomainResource {
              * The type of individual that is desired or required to perform or not perform the action.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getPerformerType() {
                 return performerType;
@@ -6827,7 +6827,7 @@ public class Contract extends DomainResource {
              * The type of role or competency of an individual desired or required to perform or not perform the action.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getPerformerRole() {
                 return performerRole;
@@ -6837,7 +6837,7 @@ public class Contract extends DomainResource {
              * Indicates who or what is being asked to perform (or not perform) the ction.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getPerformer() {
                 return performer;
@@ -6848,7 +6848,7 @@ public class Contract extends DomainResource {
              * referenced form or QuestionnaireResponse.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getPerformerLinkId() {
                 return performerLinkId;
@@ -6858,7 +6858,7 @@ public class Contract extends DomainResource {
              * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getReasonCode() {
                 return reasonCode;
@@ -6868,7 +6868,7 @@ public class Contract extends DomainResource {
              * Indicates another resource whose existence justifies permitting or not permitting this action.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Reference}.
+             *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
              */
             public List<Reference> getReasonReference() {
                 return reasonReference;
@@ -6878,7 +6878,7 @@ public class Contract extends DomainResource {
              * Describes why the action is to be performed or not performed in textual form.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getReason() {
                 return reason;
@@ -6889,7 +6889,7 @@ public class Contract extends DomainResource {
              * referenced form or QuestionnaireResponse.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getReasonLinkId() {
                 return reasonLinkId;
@@ -6899,7 +6899,7 @@ public class Contract extends DomainResource {
              * Comments made about the term action made by the requester, performer, subject or other participants.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+             *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
              */
             public List<Annotation> getNote() {
                 return note;
@@ -6909,7 +6909,7 @@ public class Contract extends DomainResource {
              * Security labels that protects the action.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
+             *     An unmodifiable list containing immutable objects of type {@link UnsignedInt} that may be empty.
              */
             public List<UnsignedInt> getSecurityLabelNumber() {
                 return securityLabelNumber;
@@ -7856,7 +7856,7 @@ public class Contract extends DomainResource {
                  * The entity the action is performed or not performed on or for.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Reference}.
+                 *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
                  */
                 public List<Reference> getReference() {
                     return reference;
@@ -7866,7 +7866,7 @@ public class Contract extends DomainResource {
                  * Role type of agent assigned roles in this Contract.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getRole() {
                     return role;
@@ -8163,7 +8163,7 @@ public class Contract extends DomainResource {
          * Role of this Contract signer, e.g. notary, grantee.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that is non-null.
          */
         public Coding getType() {
             return type;
@@ -8173,7 +8173,7 @@ public class Contract extends DomainResource {
          * Party which is a signator to this Contract.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getParty() {
             return party;
@@ -8183,7 +8183,7 @@ public class Contract extends DomainResource {
          * Legally binding Contract DSIG signature contents in Base64.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Signature}.
+         *     An unmodifiable list containing immutable objects of type {@link Signature} that is non-empty.
          */
         public List<Signature> getSignature() {
             return signature;
@@ -8502,7 +8502,7 @@ public class Contract extends DomainResource {
          * understandability.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -8747,7 +8747,7 @@ public class Contract extends DomainResource {
          * Contract legal text in human renderable form.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -8991,7 +8991,7 @@ public class Contract extends DomainResource {
          * Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getContent() {
             return content;

@@ -358,7 +358,7 @@ public class StructureDefinition extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -369,7 +369,7 @@ public class StructureDefinition extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -382,7 +382,7 @@ public class StructureDefinition extends DomainResource {
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -393,7 +393,7 @@ public class StructureDefinition extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -403,7 +403,7 @@ public class StructureDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the structure definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -413,7 +413,7 @@ public class StructureDefinition extends DomainResource {
      * The status of this structure definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -424,7 +424,7 @@ public class StructureDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -436,7 +436,7 @@ public class StructureDefinition extends DomainResource {
      * content of the structure definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -446,7 +446,7 @@ public class StructureDefinition extends DomainResource {
      * The name of the organization or individual that published the structure definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -456,7 +456,7 @@ public class StructureDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -466,7 +466,7 @@ public class StructureDefinition extends DomainResource {
      * A free text natural language description of the structure definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -478,7 +478,7 @@ public class StructureDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate structure definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -488,7 +488,7 @@ public class StructureDefinition extends DomainResource {
      * A legal or geographic region in which the structure definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -498,7 +498,7 @@ public class StructureDefinition extends DomainResource {
      * Explanation of why this structure definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -509,7 +509,7 @@ public class StructureDefinition extends DomainResource {
      * legal restrictions on the use and publishing of the structure definition.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -520,7 +520,7 @@ public class StructureDefinition extends DomainResource {
      * templates nby describing the use of this structure definition, or the content it describes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getKeyword() {
         return keyword;
@@ -531,7 +531,7 @@ public class StructureDefinition extends DomainResource {
      * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.
      * 
      * @return
-     *     An immutable object of type {@link FHIRVersion}.
+     *     An immutable object of type {@link FHIRVersion} that may be null.
      */
     public FHIRVersion getFhirVersion() {
         return fhirVersion;
@@ -541,7 +541,7 @@ public class StructureDefinition extends DomainResource {
      * An external specification that the content is mapped to.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Mapping}.
+     *     An unmodifiable list containing immutable objects of type {@link Mapping} that may be empty.
      */
     public List<Mapping> getMapping() {
         return mapping;
@@ -551,7 +551,7 @@ public class StructureDefinition extends DomainResource {
      * Defines the kind of structure that this definition is describing.
      * 
      * @return
-     *     An immutable object of type {@link StructureDefinitionKind}.
+     *     An immutable object of type {@link StructureDefinitionKind} that is non-null.
      */
     public StructureDefinitionKind getKind() {
         return kind;
@@ -562,7 +562,7 @@ public class StructureDefinition extends DomainResource {
      * instantiated. For Resources and Data types, abstract types will never be exchanged between systems.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getAbstract() {
         return _abstract;
@@ -572,7 +572,7 @@ public class StructureDefinition extends DomainResource {
      * Identifies the types of resource or data type elements to which the extension can be applied.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Context}.
+     *     An unmodifiable list containing immutable objects of type {@link Context} that may be empty.
      */
     public List<Context> getContext() {
         return context;
@@ -583,7 +583,7 @@ public class StructureDefinition extends DomainResource {
      * extension). All the rules must be true.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getContextInvariant() {
         return contextInvariant;
@@ -597,7 +597,7 @@ public class StructureDefinition extends DomainResource {
      * //hl7.org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getType() {
         return type;
@@ -607,7 +607,7 @@ public class StructureDefinition extends DomainResource {
      * An absolute URI that is the base structure from which this type is derived, either by specialization or constraint.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getBaseDefinition() {
         return baseDefinition;
@@ -617,7 +617,7 @@ public class StructureDefinition extends DomainResource {
      * How the type relates to the baseDefinition.
      * 
      * @return
-     *     An immutable object of type {@link TypeDerivationRule}.
+     *     An immutable object of type {@link TypeDerivationRule} that may be null.
      */
     public TypeDerivationRule getDerivation() {
         return derivation;
@@ -628,7 +628,7 @@ public class StructureDefinition extends DomainResource {
      * StructureDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Snapshot}.
+     *     An immutable object of type {@link Snapshot} that may be null.
      */
     public Snapshot getSnapshot() {
         return snapshot;
@@ -638,7 +638,7 @@ public class StructureDefinition extends DomainResource {
      * A differential view is expressed relative to the base StructureDefinition - a statement of differences that it applies.
      * 
      * @return
-     *     An immutable object of type {@link Differential}.
+     *     An immutable object of type {@link Differential} that may be null.
      */
     public Differential getDifferential() {
         return differential;
@@ -1714,7 +1714,7 @@ public class StructureDefinition extends DomainResource {
          * An Internal id that is used to identify this mapping set when specific mappings are made.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that is non-null.
          */
         public Id getIdentity() {
             return identity;
@@ -1724,7 +1724,7 @@ public class StructureDefinition extends DomainResource {
          * An absolute URI that identifies the specification that this mapping is expressed to.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getUri() {
             return uri;
@@ -1734,7 +1734,7 @@ public class StructureDefinition extends DomainResource {
          * A name for the specification that is being mapped to.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -1744,7 +1744,7 @@ public class StructureDefinition extends DomainResource {
          * Comments about this mapping, including version notes, issues, scope limitations, and other important notes for usage.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getComment() {
             return comment;
@@ -2052,7 +2052,7 @@ public class StructureDefinition extends DomainResource {
          * Defines how to interpret the expression that defines what the context of the extension is.
          * 
          * @return
-         *     An immutable object of type {@link ExtensionContextType}.
+         *     An immutable object of type {@link ExtensionContextType} that is non-null.
          */
         public ExtensionContextType getType() {
             return type;
@@ -2062,7 +2062,7 @@ public class StructureDefinition extends DomainResource {
          * An expression that defines where an extension can be used in resources.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getExpression() {
             return expression;
@@ -2323,7 +2323,7 @@ public class StructureDefinition extends DomainResource {
          * Captures constraints on each element within the resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ElementDefinition}.
+         *     An unmodifiable list containing immutable objects of type {@link ElementDefinition} that is non-empty.
          */
         public List<ElementDefinition> getElement() {
             return element;
@@ -2582,7 +2582,7 @@ public class StructureDefinition extends DomainResource {
          * Captures constraints on each element within the resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ElementDefinition}.
+         *     An unmodifiable list containing immutable objects of type {@link ElementDefinition} that is non-empty.
          */
         public List<ElementDefinition> getElement() {
             return element;

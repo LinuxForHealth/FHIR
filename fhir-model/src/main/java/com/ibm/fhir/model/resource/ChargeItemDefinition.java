@@ -157,7 +157,7 @@ public class ChargeItemDefinition extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -168,7 +168,7 @@ public class ChargeItemDefinition extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -184,7 +184,7 @@ public class ChargeItemDefinition extends DomainResource {
      * version is required for non-experimental active assets.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -194,7 +194,7 @@ public class ChargeItemDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the charge item definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -205,7 +205,7 @@ public class ChargeItemDefinition extends DomainResource {
      * definition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getDerivedFromUri() {
         return derivedFromUri;
@@ -215,7 +215,7 @@ public class ChargeItemDefinition extends DomainResource {
      * A larger definition of which this particular definition is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getPartOf() {
         return partOf;
@@ -226,7 +226,7 @@ public class ChargeItemDefinition extends DomainResource {
      * instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getReplaces() {
         return replaces;
@@ -236,7 +236,7 @@ public class ChargeItemDefinition extends DomainResource {
      * The current state of the ChargeItemDefinition.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -247,7 +247,7 @@ public class ChargeItemDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -259,7 +259,7 @@ public class ChargeItemDefinition extends DomainResource {
      * content of the charge item definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -269,7 +269,7 @@ public class ChargeItemDefinition extends DomainResource {
      * The name of the organization or individual that published the charge item definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -279,7 +279,7 @@ public class ChargeItemDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -289,7 +289,7 @@ public class ChargeItemDefinition extends DomainResource {
      * A free text natural language description of the charge item definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -301,7 +301,7 @@ public class ChargeItemDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate charge item definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -311,7 +311,7 @@ public class ChargeItemDefinition extends DomainResource {
      * A legal or geographic region in which the charge item definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -322,7 +322,7 @@ public class ChargeItemDefinition extends DomainResource {
      * legal restrictions on the use and publishing of the charge item definition.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -333,7 +333,7 @@ public class ChargeItemDefinition extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -344,7 +344,7 @@ public class ChargeItemDefinition extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -354,7 +354,7 @@ public class ChargeItemDefinition extends DomainResource {
      * The period during which the charge item definition content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -364,7 +364,7 @@ public class ChargeItemDefinition extends DomainResource {
      * The defined billing details in this resource pertain to the given billing code.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -374,7 +374,7 @@ public class ChargeItemDefinition extends DomainResource {
      * The defined billing details in this resource pertain to the given product instance(s).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInstance() {
         return instance;
@@ -384,7 +384,7 @@ public class ChargeItemDefinition extends DomainResource {
      * Expressions that describe applicability criteria for the billing code.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Applicability}.
+     *     An unmodifiable list containing immutable objects of type {@link Applicability} that may be empty.
      */
     public List<Applicability> getApplicability() {
         return applicability;
@@ -395,7 +395,7 @@ public class ChargeItemDefinition extends DomainResource {
      * group, then all properties always apply.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link PropertyGroup}.
+     *     An unmodifiable list containing immutable objects of type {@link PropertyGroup} that may be empty.
      */
     public List<PropertyGroup> getPropertyGroup() {
         return propertyGroup;
@@ -1415,7 +1415,7 @@ public class ChargeItemDefinition extends DomainResource {
          * A brief, natural language description of the condition that effectively communicates the intended semantics.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1426,7 +1426,7 @@ public class ChargeItemDefinition extends DomainResource {
          * "text/fhirpath" for FHIRPath expressions.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getLanguage() {
             return language;
@@ -1438,7 +1438,7 @@ public class ChargeItemDefinition extends DomainResource {
          * definition is applied.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getExpression() {
             return expression;
@@ -1713,7 +1713,7 @@ public class ChargeItemDefinition extends DomainResource {
          * Expressions that describe applicability criteria for the priceComponent.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Applicability}.
+         *     An unmodifiable list containing immutable objects of type {@link Applicability} that may be empty.
          */
         public List<ChargeItemDefinition.Applicability> getApplicability() {
             return applicability;
@@ -1726,7 +1726,7 @@ public class ChargeItemDefinition extends DomainResource {
          * the Invoice of how the prices have been calculated.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PriceComponent}.
+         *     An unmodifiable list containing immutable objects of type {@link PriceComponent} that may be empty.
          */
         public List<PriceComponent> getPriceComponent() {
             return priceComponent;
@@ -2036,7 +2036,7 @@ public class ChargeItemDefinition extends DomainResource {
              * This code identifies the type of the component.
              * 
              * @return
-             *     An immutable object of type {@link ChargeItemDefinitionPriceComponentType}.
+             *     An immutable object of type {@link ChargeItemDefinitionPriceComponentType} that is non-null.
              */
             public ChargeItemDefinitionPriceComponentType getType() {
                 return type;
@@ -2047,7 +2047,7 @@ public class ChargeItemDefinition extends DomainResource {
              * etc.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -2057,7 +2057,7 @@ public class ChargeItemDefinition extends DomainResource {
              * The factor that has been applied on the base price for calculating this component.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getFactor() {
                 return factor;
@@ -2067,7 +2067,7 @@ public class ChargeItemDefinition extends DomainResource {
              * The amount calculated for this component.
              * 
              * @return
-             *     An immutable object of type {@link Money}.
+             *     An immutable object of type {@link Money} that may be null.
              */
             public Money getAmount() {
                 return amount;

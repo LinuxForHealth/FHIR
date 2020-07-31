@@ -139,7 +139,7 @@ public class SupplyRequest extends DomainResource {
      * constant as the resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -149,7 +149,7 @@ public class SupplyRequest extends DomainResource {
      * Status of the supply request.
      * 
      * @return
-     *     An immutable object of type {@link SupplyRequestStatus}.
+     *     An immutable object of type {@link SupplyRequestStatus} that may be null.
      */
     public SupplyRequestStatus getStatus() {
         return status;
@@ -160,7 +160,7 @@ public class SupplyRequest extends DomainResource {
      * process.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCategory() {
         return category;
@@ -170,7 +170,7 @@ public class SupplyRequest extends DomainResource {
      * Indicates how quickly this SupplyRequest should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link RequestPriority}.
+     *     An immutable object of type {@link RequestPriority} that may be null.
      */
     public RequestPriority getPriority() {
         return priority;
@@ -181,7 +181,7 @@ public class SupplyRequest extends DomainResource {
      * a code that identifies the item from a known list.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getItem() {
         return item;
@@ -191,7 +191,7 @@ public class SupplyRequest extends DomainResource {
      * The amount that is being ordered of the indicated item.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that is non-null.
      */
     public Quantity getQuantity() {
         return quantity;
@@ -201,7 +201,7 @@ public class SupplyRequest extends DomainResource {
      * Specific parameters for the ordered item. For example, the size of the indicated item.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+     *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
      */
     public List<Parameter> getParameter() {
         return parameter;
@@ -211,7 +211,7 @@ public class SupplyRequest extends DomainResource {
      * When the request should be fulfilled.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -221,7 +221,7 @@ public class SupplyRequest extends DomainResource {
      * When the request was made.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -231,7 +231,7 @@ public class SupplyRequest extends DomainResource {
      * The device, practitioner, etc. who initiated the request.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequester() {
         return requester;
@@ -241,7 +241,7 @@ public class SupplyRequest extends DomainResource {
      * Who is intended to fulfill the request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupplier() {
         return supplier;
@@ -251,7 +251,7 @@ public class SupplyRequest extends DomainResource {
      * The reason why the supply item was requested.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -261,7 +261,7 @@ public class SupplyRequest extends DomainResource {
      * The reason why the supply item was requested.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -271,7 +271,7 @@ public class SupplyRequest extends DomainResource {
      * Where the supply is expected to come from.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDeliverFrom() {
         return deliverFrom;
@@ -281,7 +281,7 @@ public class SupplyRequest extends DomainResource {
      * Where the supply is destined to go.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDeliverTo() {
         return deliverTo;
@@ -1057,7 +1057,7 @@ public class SupplyRequest extends DomainResource {
          * A code or string that identifies the device detail being asserted.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1067,7 +1067,7 @@ public class SupplyRequest extends DomainResource {
          * The value of the device detail.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;
