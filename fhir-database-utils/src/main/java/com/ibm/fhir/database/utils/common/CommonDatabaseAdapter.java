@@ -640,4 +640,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         DeleteTenantDAO dao = new DeleteTenantDAO(adminSchemaName, tenantId);
         runStatement(dao);
     }
+    
+    @Override
+    public void dropIndex(String schemaName, String indexName) {
+        // Create the qualified name, making sure the input is also secure
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, indexName);
+        final String ddl = "DROP INDEX " + qname;
+        runStatement(ddl);
+    }
 }

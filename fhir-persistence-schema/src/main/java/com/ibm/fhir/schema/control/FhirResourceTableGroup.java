@@ -67,6 +67,7 @@ import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
+import com.ibm.fhir.database.utils.model.CreateIndex;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
@@ -257,6 +258,21 @@ public class FhirResourceTableGroup {
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        // Issue 1331. LAST_UPDATED should be indexed now that we're using it
+        // in search queries
+        CreateIndex idxLastUpdated = CreateIndex.builder()
+                .setTenantColumnName(MT_ID)
+                .setSchemaName(schemaName)
+                .setTableName(tableName)
+                .setIndexName(IDX + tableName + "_LUPD")
+                .setUnique(false)
+                .setVersion(FhirSchemaVersion.V0005.vid())
+                .addColumn(LAST_UPDATED)
+                .build();
+        idxLastUpdated.addDependency(tbl); // dependency to the table on which the index applies
+        group.add(idxLastUpdated);
+        
     }
 
     /**

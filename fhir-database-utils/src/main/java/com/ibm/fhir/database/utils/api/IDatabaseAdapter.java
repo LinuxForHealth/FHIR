@@ -516,4 +516,11 @@ public interface IDatabaseAdapter {
      * @param cache
      */
     public void alterTableColumnIdentityCache(String schemaName, String objectName, String columnName, int cache);
+
+    /**
+     * Drop the named index
+     * @param schemaName
+     * @param indexName
+     */
+    public void dropIndex(String schemaName, String indexName);
 }

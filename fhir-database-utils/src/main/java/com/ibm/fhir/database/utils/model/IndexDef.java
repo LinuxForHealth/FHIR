@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
@@ -28,6 +29,11 @@ public class IndexDef {
     
     // The list of include columns associated with the index
     private final List<String> includeColumns = new ArrayList<>();
+    
+    @Override
+    public String toString() {
+        return this.indexName + "(" + indexColumns.stream().collect(Collectors.joining(",")) + ")";
+    }
     
     public IndexDef(String indexName, Collection<String> indexColumns, boolean unique) {
         this.indexName = indexName;
@@ -72,5 +78,14 @@ public class IndexDef {
         else {
             target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
         }
+    }
+
+    /**
+     * Drop this index
+     * @param schemaName
+     * @param target
+     */
+    public void drop(String schemaName, IDatabaseAdapter target) {
+        target.dropIndex(schemaName, indexName);
     }
 }
