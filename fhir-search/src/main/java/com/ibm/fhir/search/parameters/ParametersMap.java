@@ -5,11 +5,14 @@
  */
 package com.ibm.fhir.search.parameters;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -39,29 +42,51 @@ public class ParametersMap {
         Objects.requireNonNull(code, "cannot insert a null code");
         Objects.requireNonNull(parameter, "cannot insert a null parameter");
 
+        String url = parameter.getUrl().getValue();
         if (codeMap.containsKey(code)) {
             SearchParameter previous = codeMap.get(code);
             if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
-                log.info("SearchParameter with code '" + code + "' already exists with the same expression; "
-                        + "adding additional url '" + previous.getUrl().getValue() + "'");
+                if (log.isLoggable(Level.FINE) && !url.equals(previous.getUrl().getValue())) {
+                    log.fine("SearchParameter with code '" + code + "' already exists with the same expression; "
+                            + "adding additional url '" + url + "'");
+                }
             } else {
-                log.warning("SearchParameter with code '" + code + "' already exists with a different expression; "
-                        + "replacing search parameter of id '" + previous.getId()
-                        + "' with search parameter of id '" + parameter.getId() + "'");
+                // Sometimes the base spec defines a search parameter like 'Type1.field | Type2.field' and an IG
+                // will refine that for a single resource, so try splitting on '|' and matching the subcomponents
+                String[] split = previous.getExpression().getValue().split("\\|");
+                List<String> clauses = new ArrayList<>();
+                for (String string : split) {
+                    string = string.trim();
+                    if (string.startsWith(parameter.getBase().get(0).getValue())) {
+                        clauses.add(string);
+                    }
+                }
+                String previousExpressionString = String.join(" | ", clauses);
+                if (previousExpressionString != null && previousExpressionString.equals(parameter.getExpression().getValue())) {
+                    if (!url.equals(previous.getUrl().getValue())) {
+                        log.info("SearchParameter with code '" + code + "' already exists with a similar expression; "
+                                + "adding additional url '" + url + "'");
+                    }
+                } else {
+                    log.warning("SearchParameter with code '" + code + "' already exists with a different expression;\n"
+                            + "replacing [url=" + previous.getUrl().getValue() + ", expression=" + previous.getExpression().getValue()
+                            + "] with [url=" + url + ", expression=" + parameter.getExpression().getValue() + "'");
+                }
             }
         }
         codeMap.put(code, parameter);
 
-        String url = parameter.getUrl().getValue();
         if (urlMap.containsKey(url)) {
             SearchParameter previous = urlMap.get(url);
             if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
-                log.info("SearchParameter with url '" + url + "' already exists with the same expression; "
-                        + "adding additional code '" + previous.getCode() + "'");
+                if (!code.equals(previous.getCode().getValue())) {
+                    log.info("SearchParameter with url '" + url + "' already exists with the same expression; "
+                            + "adding additional code '" + code + "'");
+                }
             } else {
-                log.warning("SearchParameter with url '" + url + "' already exists with a different expression;"
-                        + " replacing search parameter of id '" + previous.getId()
-                        + "' with search parameter of id '" + parameter.getId() + "'");
+                log.warning("SearchParameter with url '" + url + "' already exists with a different expression;\n"
+                        + "replacing [id=" + previous.getId() + ", expression=" + previous.getExpression().getValue()
+                        + "] with [id=" + parameter.getId() + ", expression=" + parameter.getExpression().getValue() + "]");
             }
         }
         urlMap.put(url, parameter);
