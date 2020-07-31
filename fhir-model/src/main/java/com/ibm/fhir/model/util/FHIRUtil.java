@@ -570,19 +570,19 @@ public class FHIRUtil {
     }
 
     /**
-     * Generate a random AES key or 32 byte value encoded as a Base64 string.
+     * Generate a random key using the passed algorithm or, if that algorithm isn't supported, a random 32 byte value.
+     * In either case, the resulting value is encoded as a Base64 string before returning.
      *
-     * @return
+     * @return a base64-encoded random key string
      */
-    public static String getRandomKey(String key) {
-        KeyGenerator keyGen;
+    public static String getRandomKey(String algorithm) {
         try {
-            keyGen = KeyGenerator.getInstance(key);
+            KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
             keyGen.init(256);
             return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
         } catch (NoSuchAlgorithmException e) {
+            log.warning("Algorithm '" + algorithm + "' is not supported; using SecureRandom instead");
             byte[] buffer = new byte[32];
-            RANDOM.setSeed(System.currentTimeMillis());
             RANDOM.nextBytes(buffer);
             return Base64.getEncoder().encodeToString(buffer);
         }
