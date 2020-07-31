@@ -73,4 +73,9 @@ public class DataModelVisitorBase implements DataModelVisitor {
     public void visited(AlterTableIdentityCache alterTable) {
         // NOP
     }
+
+    @Override
+    public void visited(CreateIndex createIndex) {
+        // NOP
+    }
 }

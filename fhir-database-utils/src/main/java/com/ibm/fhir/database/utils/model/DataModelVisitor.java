@@ -73,4 +73,9 @@ public interface DataModelVisitor {
      * @param alterTable
      */
     public void visited(AlterTableIdentityCache alterTable);
+    
+    /**
+     * @param createIndex
+     */
+    public void visited(CreateIndex createIndex);
 }
