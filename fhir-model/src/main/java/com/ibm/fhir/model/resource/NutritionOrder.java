@@ -142,7 +142,7 @@ public class NutritionOrder extends DomainResource {
      * Identifiers assigned to this order by the order sender or by the order receiver.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -153,7 +153,7 @@ public class NutritionOrder extends DomainResource {
      * part by this NutritionOrder.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -164,7 +164,7 @@ public class NutritionOrder extends DomainResource {
      * whole or in part by this NutritionOrder.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -175,7 +175,7 @@ public class NutritionOrder extends DomainResource {
      * NutritionOrder.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiates() {
         return instantiates;
@@ -185,7 +185,7 @@ public class NutritionOrder extends DomainResource {
      * The workflow status of the nutrition order/request.
      * 
      * @return
-     *     An immutable object of type {@link NutritionOrderStatus}.
+     *     An immutable object of type {@link NutritionOrderStatus} that is non-null.
      */
     public NutritionOrderStatus getStatus() {
         return status;
@@ -196,7 +196,7 @@ public class NutritionOrder extends DomainResource {
      * workflow chain.
      * 
      * @return
-     *     An immutable object of type {@link NutritionOrderIntent}.
+     *     An immutable object of type {@link NutritionOrderIntent} that is non-null.
      */
     public NutritionOrderIntent getIntent() {
         return intent;
@@ -207,7 +207,7 @@ public class NutritionOrder extends DomainResource {
      * feeding.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -217,7 +217,7 @@ public class NutritionOrder extends DomainResource {
      * An encounter that provides additional information about the healthcare context in which this request is made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -227,7 +227,7 @@ public class NutritionOrder extends DomainResource {
      * The date and time that this nutrition order was requested.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDateTime() {
         return dateTime;
@@ -237,7 +237,7 @@ public class NutritionOrder extends DomainResource {
      * The practitioner that holds legal responsibility for ordering the diet, nutritional supplement, or formula feedings.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOrderer() {
         return orderer;
@@ -247,7 +247,7 @@ public class NutritionOrder extends DomainResource {
      * A link to a record of allergies or intolerances which should be included in the nutrition order.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAllergyIntolerance() {
         return allergyIntolerance;
@@ -259,7 +259,7 @@ public class NutritionOrder extends DomainResource {
      * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getFoodPreferenceModifier() {
         return foodPreferenceModifier;
@@ -274,7 +274,7 @@ public class NutritionOrder extends DomainResource {
      * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getExcludeFoodModifier() {
         return excludeFoodModifier;
@@ -284,7 +284,7 @@ public class NutritionOrder extends DomainResource {
      * Diet given orally in contrast to enteral (tube) feeding.
      * 
      * @return
-     *     An immutable object of type {@link OralDiet}.
+     *     An immutable object of type {@link OralDiet} that may be null.
      */
     public OralDiet getOralDiet() {
         return oralDiet;
@@ -294,7 +294,7 @@ public class NutritionOrder extends DomainResource {
      * Oral nutritional products given in order to add further nutritional value to the patient's diet.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Supplement}.
+     *     An unmodifiable list containing immutable objects of type {@link Supplement} that may be empty.
      */
     public List<Supplement> getSupplement() {
         return supplement;
@@ -305,7 +305,7 @@ public class NutritionOrder extends DomainResource {
      * the oral cavity.
      * 
      * @return
-     *     An immutable object of type {@link EnteralFormula}.
+     *     An immutable object of type {@link EnteralFormula} that may be null.
      */
     public EnteralFormula getEnteralFormula() {
         return enteralFormula;
@@ -315,7 +315,7 @@ public class NutritionOrder extends DomainResource {
      * Comments made about the {{title}} by the requester, performer, subject or other participants.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1232,7 +1232,7 @@ public class NutritionOrder extends DomainResource {
          * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -1243,7 +1243,7 @@ public class NutritionOrder extends DomainResource {
          * schedules if more than one schedule is present.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Timing}.
+         *     An unmodifiable list containing immutable objects of type {@link Timing} that may be empty.
          */
         public List<Timing> getSchedule() {
             return schedule;
@@ -1254,7 +1254,7 @@ public class NutritionOrder extends DomainResource {
          * required for the oral diet.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Nutrient}.
+         *     An unmodifiable list containing immutable objects of type {@link Nutrient} that may be empty.
          */
         public List<Nutrient> getNutrient() {
             return nutrient;
@@ -1264,7 +1264,7 @@ public class NutritionOrder extends DomainResource {
          * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Texture}.
+         *     An unmodifiable list containing immutable objects of type {@link Texture} that may be empty.
          */
         public List<Texture> getTexture() {
             return texture;
@@ -1274,7 +1274,7 @@ public class NutritionOrder extends DomainResource {
          * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getFluidConsistencyType() {
             return fluidConsistencyType;
@@ -1284,7 +1284,7 @@ public class NutritionOrder extends DomainResource {
          * Free text or additional instructions or information pertaining to the oral diet.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getInstruction() {
             return instruction;
@@ -1725,7 +1725,7 @@ public class NutritionOrder extends DomainResource {
              * The nutrient that is being modified such as carbohydrate or sodium.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getModifier() {
                 return modifier;
@@ -1735,7 +1735,7 @@ public class NutritionOrder extends DomainResource {
              * The quantity of the specified nutrient to include in diet.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getAmount() {
                 return amount;
@@ -1998,7 +1998,7 @@ public class NutritionOrder extends DomainResource {
              * Any texture modifications (for solid foods) that should be made, e.g. easy to chew, chopped, ground, and pureed.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getModifier() {
                 return modifier;
@@ -2008,7 +2008,7 @@ public class NutritionOrder extends DomainResource {
              * The food type(s) (e.g. meats, all foods) that the texture modification applies to. This could be all foods types.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getFoodType() {
                 return foodType;
@@ -2274,7 +2274,7 @@ public class NutritionOrder extends DomainResource {
          * The kind of nutritional supplement product required such as a high protein or pediatric clear liquid supplement.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2284,7 +2284,7 @@ public class NutritionOrder extends DomainResource {
          * The product or brand name of the nutritional supplement such as "Acme Protein Shake".
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getProductName() {
             return productName;
@@ -2295,7 +2295,7 @@ public class NutritionOrder extends DomainResource {
          * combination of all schedules if more than one schedule is present.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Timing}.
+         *     An unmodifiable list containing immutable objects of type {@link Timing} that may be empty.
          */
         public List<Timing> getSchedule() {
             return schedule;
@@ -2305,7 +2305,7 @@ public class NutritionOrder extends DomainResource {
          * The amount of the nutritional supplement to be given.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -2315,7 +2315,7 @@ public class NutritionOrder extends DomainResource {
          * Free text or additional instructions or information pertaining to the oral supplement.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getInstruction() {
             return instruction;
@@ -2683,7 +2683,7 @@ public class NutritionOrder extends DomainResource {
          * The type of enteral or infant formula such as an adult standard formula with fiber or a soy-based infant formula.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getBaseFormulaType() {
             return baseFormulaType;
@@ -2693,7 +2693,7 @@ public class NutritionOrder extends DomainResource {
          * The product or brand name of the enteral or infant formula product such as "ACME Adult Standard Formula".
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getBaseFormulaProductName() {
             return baseFormulaProductName;
@@ -2704,7 +2704,7 @@ public class NutritionOrder extends DomainResource {
          * mixed with the base formula.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getAdditiveType() {
             return additiveType;
@@ -2714,7 +2714,7 @@ public class NutritionOrder extends DomainResource {
          * The product or brand name of the type of modular component to be added to the formula.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getAdditiveProductName() {
             return additiveProductName;
@@ -2726,7 +2726,7 @@ public class NutritionOrder extends DomainResource {
          * enteral formula that provides 1.5 calorie/mL.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getCaloricDensity() {
             return caloricDensity;
@@ -2737,7 +2737,7 @@ public class NutritionOrder extends DomainResource {
          * the formula feeding, e.g. nasogastric tube.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRouteofAdministration() {
             return routeofAdministration;
@@ -2749,7 +2749,7 @@ public class NutritionOrder extends DomainResource {
          * instruction to increase the rate of continuous feeding every 2 hours.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Administration}.
+         *     An unmodifiable list containing immutable objects of type {@link Administration} that may be empty.
          */
         public List<Administration> getAdministration() {
             return administration;
@@ -2760,7 +2760,7 @@ public class NutritionOrder extends DomainResource {
          * 24 hours.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getMaxVolumeToDeliver() {
             return maxVolumeToDeliver;
@@ -2770,7 +2770,7 @@ public class NutritionOrder extends DomainResource {
          * Free text formula administration, feeding instructions or additional instructions or information.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getAdministrationInstruction() {
             return administrationInstruction;
@@ -3194,7 +3194,7 @@ public class NutritionOrder extends DomainResource {
              * The time period and frequency at which the enteral formula should be delivered to the patient.
              * 
              * @return
-             *     An immutable object of type {@link Timing}.
+             *     An immutable object of type {@link Timing} that may be null.
              */
             public Timing getSchedule() {
                 return schedule;
@@ -3204,7 +3204,7 @@ public class NutritionOrder extends DomainResource {
              * The volume of formula to provide to the patient per the specified administration schedule.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getQuantity() {
                 return quantity;
@@ -3214,7 +3214,7 @@ public class NutritionOrder extends DomainResource {
              * The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getRate() {
                 return rate;

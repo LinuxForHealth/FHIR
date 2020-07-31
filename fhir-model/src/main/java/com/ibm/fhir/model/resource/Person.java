@@ -89,7 +89,7 @@ public class Person extends DomainResource {
      * Identifier for a person within a particular scope.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -99,7 +99,7 @@ public class Person extends DomainResource {
      * A name associated with the person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName} that may be empty.
      */
     public List<HumanName> getName() {
         return name;
@@ -109,7 +109,7 @@ public class Person extends DomainResource {
      * A contact detail for the person, e.g. a telephone number or an email address.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -119,7 +119,7 @@ public class Person extends DomainResource {
      * Administrative Gender.
      * 
      * @return
-     *     An immutable object of type {@link AdministrativeGender}.
+     *     An immutable object of type {@link AdministrativeGender} that may be null.
      */
     public AdministrativeGender getGender() {
         return gender;
@@ -129,7 +129,7 @@ public class Person extends DomainResource {
      * The birth date for the person.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getBirthDate() {
         return birthDate;
@@ -139,7 +139,7 @@ public class Person extends DomainResource {
      * One or more addresses for the person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address} that may be empty.
      */
     public List<Address> getAddress() {
         return address;
@@ -149,7 +149,7 @@ public class Person extends DomainResource {
      * An image that can be displayed as a thumbnail of the person to enhance the identification of the individual.
      * 
      * @return
-     *     An immutable object of type {@link Attachment}.
+     *     An immutable object of type {@link Attachment} that may be null.
      */
     public Attachment getPhoto() {
         return photo;
@@ -159,7 +159,7 @@ public class Person extends DomainResource {
      * The organization that is the custodian of the person record.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManagingOrganization() {
         return managingOrganization;
@@ -169,7 +169,7 @@ public class Person extends DomainResource {
      * Whether this person's record is in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -179,7 +179,7 @@ public class Person extends DomainResource {
      * Link to a resource that concerns the same actual person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Link}.
+     *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
      */
     public List<Link> getLink() {
         return link;
@@ -813,7 +813,7 @@ public class Person extends DomainResource {
          * The resource to which this actual person is associated.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getTarget() {
             return target;
@@ -823,7 +823,7 @@ public class Person extends DomainResource {
          * Level of assurance that this link is associated with the target resource.
          * 
          * @return
-         *     An immutable object of type {@link IdentityAssuranceLevel}.
+         *     An immutable object of type {@link IdentityAssuranceLevel} that may be null.
          */
         public IdentityAssuranceLevel getAssurance() {
             return assurance;

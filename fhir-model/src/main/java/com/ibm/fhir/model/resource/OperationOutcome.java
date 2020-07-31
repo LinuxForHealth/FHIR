@@ -52,7 +52,7 @@ public class OperationOutcome extends DomainResource {
      * An error, warning, or information message that results from a system action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Issue}.
+     *     An unmodifiable list containing immutable objects of type {@link Issue} that is non-empty.
      */
     public List<Issue> getIssue() {
         return issue;
@@ -455,7 +455,7 @@ public class OperationOutcome extends DomainResource {
          * Indicates whether the issue indicates a variation from successful processing.
          * 
          * @return
-         *     An immutable object of type {@link IssueSeverity}.
+         *     An immutable object of type {@link IssueSeverity} that is non-null.
          */
         public IssueSeverity getSeverity() {
             return severity;
@@ -466,7 +466,7 @@ public class OperationOutcome extends DomainResource {
          * from the IssueType value set, and may additional provide its own code for the error in the details element.
          * 
          * @return
-         *     An immutable object of type {@link IssueType}.
+         *     An immutable object of type {@link IssueType} that is non-null.
          */
         public IssueType getCode() {
             return code;
@@ -477,7 +477,7 @@ public class OperationOutcome extends DomainResource {
          * error.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getDetails() {
             return details;
@@ -487,7 +487,7 @@ public class OperationOutcome extends DomainResource {
          * Additional diagnostic information about the issue.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDiagnostics() {
             return diagnostics;
@@ -502,7 +502,7 @@ public class OperationOutcome extends DomainResource {
          * errors, will be "http." + the parameter name.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getLocation() {
             return location;
@@ -513,7 +513,7 @@ public class OperationOutcome extends DomainResource {
          * child accessor that identifies one of the elements in the resource that caused this issue to be raised.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getExpression() {
             return expression;

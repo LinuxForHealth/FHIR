@@ -241,7 +241,7 @@ public class TestScript extends DomainResource {
      * a canonical reference. It SHALL remain the same when the test script is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -252,7 +252,7 @@ public class TestScript extends DomainResource {
      * in a specification, model, design or an instance.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -265,7 +265,7 @@ public class TestScript extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -276,7 +276,7 @@ public class TestScript extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -286,7 +286,7 @@ public class TestScript extends DomainResource {
      * A short, descriptive, user-friendly title for the test script.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -296,7 +296,7 @@ public class TestScript extends DomainResource {
      * The status of this test script. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -307,7 +307,7 @@ public class TestScript extends DomainResource {
      * and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -319,7 +319,7 @@ public class TestScript extends DomainResource {
      * the test script changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -329,7 +329,7 @@ public class TestScript extends DomainResource {
      * The name of the organization or individual that published the test script.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -339,7 +339,7 @@ public class TestScript extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -349,7 +349,7 @@ public class TestScript extends DomainResource {
      * A free text natural language description of the test script from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -361,7 +361,7 @@ public class TestScript extends DomainResource {
      * may be used to assist with indexing and searching for appropriate test script instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -371,7 +371,7 @@ public class TestScript extends DomainResource {
      * A legal or geographic region in which the test script is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -381,7 +381,7 @@ public class TestScript extends DomainResource {
      * Explanation of why this test script is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -392,7 +392,7 @@ public class TestScript extends DomainResource {
      * restrictions on the use and publishing of the test script.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -402,7 +402,7 @@ public class TestScript extends DomainResource {
      * An abstract server used in operations within this test script in the origin element.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Origin}.
+     *     An unmodifiable list containing immutable objects of type {@link Origin} that may be empty.
      */
     public List<Origin> getOrigin() {
         return origin;
@@ -412,7 +412,7 @@ public class TestScript extends DomainResource {
      * An abstract server used in operations within this test script in the destination element.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Destination}.
+     *     An unmodifiable list containing immutable objects of type {@link Destination} that may be empty.
      */
     public List<Destination> getDestination() {
         return destination;
@@ -422,7 +422,7 @@ public class TestScript extends DomainResource {
      * The required capability must exist and are assumed to function correctly on the FHIR server being tested.
      * 
      * @return
-     *     An immutable object of type {@link Metadata}.
+     *     An immutable object of type {@link Metadata} that may be null.
      */
     public Metadata getMetadata() {
         return metadata;
@@ -432,7 +432,7 @@ public class TestScript extends DomainResource {
      * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Fixture}.
+     *     An unmodifiable list containing immutable objects of type {@link Fixture} that may be empty.
      */
     public List<Fixture> getFixture() {
         return fixture;
@@ -442,7 +442,7 @@ public class TestScript extends DomainResource {
      * Reference to the profile to be used for validation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getProfile() {
         return profile;
@@ -452,7 +452,7 @@ public class TestScript extends DomainResource {
      * Variable is set based either on element value in response body or on header field value in the response headers.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Variable}.
+     *     An unmodifiable list containing immutable objects of type {@link Variable} that may be empty.
      */
     public List<Variable> getVariable() {
         return variable;
@@ -462,7 +462,7 @@ public class TestScript extends DomainResource {
      * A series of required setup operations before tests are executed.
      * 
      * @return
-     *     An immutable object of type {@link Setup}.
+     *     An immutable object of type {@link Setup} that may be null.
      */
     public Setup getSetup() {
         return setup;
@@ -472,7 +472,7 @@ public class TestScript extends DomainResource {
      * A test in this script.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Test}.
+     *     An unmodifiable list containing immutable objects of type {@link Test} that may be empty.
      */
     public List<Test> getTest() {
         return test;
@@ -482,7 +482,7 @@ public class TestScript extends DomainResource {
      * A series of operations required to clean up after all the tests are executed (successfully or otherwise).
      * 
      * @return
-     *     An immutable object of type {@link Teardown}.
+     *     An immutable object of type {@link Teardown} that may be null.
      */
     public Teardown getTeardown() {
         return teardown;
@@ -1499,7 +1499,7 @@ public class TestScript extends DomainResource {
          * Abstract name given to an origin server in this test script. The name is provided as a number starting at 1.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that is non-null.
          */
         public Integer getIndex() {
             return index;
@@ -1509,7 +1509,7 @@ public class TestScript extends DomainResource {
          * The type of origin profile the test system supports.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that is non-null.
          */
         public Coding getProfile() {
             return profile;
@@ -1778,7 +1778,7 @@ public class TestScript extends DomainResource {
          * Abstract name given to a destination server in this test script. The name is provided as a number starting at 1.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that is non-null.
          */
         public Integer getIndex() {
             return index;
@@ -1788,7 +1788,7 @@ public class TestScript extends DomainResource {
          * The type of destination profile the test system supports.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that is non-null.
          */
         public Coding getProfile() {
             return profile;
@@ -2050,7 +2050,7 @@ public class TestScript extends DomainResource {
          * A link to the FHIR specification that this test is covering.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Link}.
+         *     An unmodifiable list containing immutable objects of type {@link Link} that may be empty.
          */
         public List<Link> getLink() {
             return link;
@@ -2060,7 +2060,7 @@ public class TestScript extends DomainResource {
          * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Capability}.
+         *     An unmodifiable list containing immutable objects of type {@link Capability} that is non-empty.
          */
         public List<Capability> getCapability() {
             return capability;
@@ -2360,7 +2360,7 @@ public class TestScript extends DomainResource {
              * URL to a particular requirement or feature within the FHIR specification.
              * 
              * @return
-             *     An immutable object of type {@link Uri}.
+             *     An immutable object of type {@link Uri} that is non-null.
              */
             public Uri getUrl() {
                 return url;
@@ -2370,7 +2370,7 @@ public class TestScript extends DomainResource {
              * Short description of the link.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -2642,7 +2642,7 @@ public class TestScript extends DomainResource {
              * execute.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that is non-null.
              */
             public Boolean getRequired() {
                 return required;
@@ -2653,7 +2653,7 @@ public class TestScript extends DomainResource {
              * execute.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that is non-null.
              */
             public Boolean getValidated() {
                 return validated;
@@ -2663,7 +2663,7 @@ public class TestScript extends DomainResource {
              * Description of the capabilities that this test script is requiring the server to support.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -2673,7 +2673,7 @@ public class TestScript extends DomainResource {
              * Which origin server these requirements apply to.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer} that may be empty.
              */
             public List<Integer> getOrigin() {
                 return origin;
@@ -2683,7 +2683,7 @@ public class TestScript extends DomainResource {
              * Which server these requirements apply to.
              * 
              * @return
-             *     An immutable object of type {@link Integer}.
+             *     An immutable object of type {@link Integer} that may be null.
              */
             public Integer getDestination() {
                 return destination;
@@ -2693,7 +2693,7 @@ public class TestScript extends DomainResource {
              * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Uri}.
+             *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
              */
             public List<Uri> getLink() {
                 return link;
@@ -2704,7 +2704,7 @@ public class TestScript extends DomainResource {
              * the referenced capability statement, then all tests in this script are skipped.
              * 
              * @return
-             *     An immutable object of type {@link Canonical}.
+             *     An immutable object of type {@link Canonical} that is non-null.
              */
             public Canonical getCapabilities() {
                 return capabilities;
@@ -3118,7 +3118,7 @@ public class TestScript extends DomainResource {
          * section.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getAutocreate() {
             return autocreate;
@@ -3130,7 +3130,7 @@ public class TestScript extends DomainResource {
          * teardown section.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getAutodelete() {
             return autodelete;
@@ -3140,7 +3140,7 @@ public class TestScript extends DomainResource {
          * Reference to the resource (containing the contents of the resource needed for operations).
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getResource() {
             return resource;
@@ -3438,7 +3438,7 @@ public class TestScript extends DomainResource {
          * Descriptive name for this variable.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -3448,7 +3448,7 @@ public class TestScript extends DomainResource {
          * A default, hard-coded, or user-defined value for this variable.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDefaultValue() {
             return defaultValue;
@@ -3458,7 +3458,7 @@ public class TestScript extends DomainResource {
          * A free text natural language description of the variable and its purpose.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -3469,7 +3469,7 @@ public class TestScript extends DomainResource {
          * expression, headerField or path must be specified.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getExpression() {
             return expression;
@@ -3479,7 +3479,7 @@ public class TestScript extends DomainResource {
          * Will be used to grab the HTTP header field value from the headers that sourceId is pointing to.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getHeaderField() {
             return headerField;
@@ -3489,7 +3489,7 @@ public class TestScript extends DomainResource {
          * Displayable text string with hint help information to the user when entering a default value.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getHint() {
             return hint;
@@ -3500,7 +3500,7 @@ public class TestScript extends DomainResource {
          * headerField or path must be specified.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPath() {
             return path;
@@ -3510,7 +3510,7 @@ public class TestScript extends DomainResource {
          * Fixture to evaluate the XPath/JSONPath expression or the headerField against within this variable.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that may be null.
          */
         public Id getSourceId() {
             return sourceId;
@@ -3889,7 +3889,7 @@ public class TestScript extends DomainResource {
          * Action would contain either an operation or an assertion.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that is non-empty.
          */
         public List<Action> getAction() {
             return action;
@@ -4148,7 +4148,7 @@ public class TestScript extends DomainResource {
              * The operation to perform.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link Operation} that may be null.
              */
             public Operation getOperation() {
                 return operation;
@@ -4158,7 +4158,7 @@ public class TestScript extends DomainResource {
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
              * 
              * @return
-             *     An immutable object of type {@link Assert}.
+             *     An immutable object of type {@link Assert} that may be null.
              */
             public Assert getAssert() {
                 return _assert;
@@ -4469,7 +4469,7 @@ public class TestScript extends DomainResource {
                  * Server interaction or operation type.
                  * 
                  * @return
-                 *     An immutable object of type {@link Coding}.
+                 *     An immutable object of type {@link Coding} that may be null.
                  */
                 public Coding getType() {
                     return type;
@@ -4479,7 +4479,7 @@ public class TestScript extends DomainResource {
                  * The type of the resource. See http://build.fhir.org/resourcelist.html.
                  * 
                  * @return
-                 *     An immutable object of type {@link FHIRDefinedType}.
+                 *     An immutable object of type {@link FHIRDefinedType} that may be null.
                  */
                 public FHIRDefinedType getResource() {
                     return resource;
@@ -4489,7 +4489,7 @@ public class TestScript extends DomainResource {
                  * The label would be used for tracking/logging purposes by test engines.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getLabel() {
                     return label;
@@ -4499,7 +4499,7 @@ public class TestScript extends DomainResource {
                  * The description would be used by test engines for tracking and reporting purposes.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDescription() {
                     return description;
@@ -4509,7 +4509,7 @@ public class TestScript extends DomainResource {
                  * The mime-type to use for RESTful operation in the 'Accept' header.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that may be null.
                  */
                 public Code getAccept() {
                     return accept;
@@ -4519,7 +4519,7 @@ public class TestScript extends DomainResource {
                  * The mime-type to use for RESTful operation in the 'Content-Type' header.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that may be null.
                  */
                 public Code getContentType() {
                     return contentType;
@@ -4530,7 +4530,7 @@ public class TestScript extends DomainResource {
                  * destination section.
                  * 
                  * @return
-                 *     An immutable object of type {@link Integer}.
+                 *     An immutable object of type {@link Integer} that may be null.
                  */
                 public Integer getDestination() {
                     return destination;
@@ -4541,7 +4541,7 @@ public class TestScript extends DomainResource {
                  * client behavior. Set to false when communicating with a server that does not support encoded url paths.
                  * 
                  * @return
-                 *     An immutable object of type {@link Boolean}.
+                 *     An immutable object of type {@link Boolean} that is non-null.
                  */
                 public Boolean getEncodeRequestUrl() {
                     return encodeRequestUrl;
@@ -4551,7 +4551,7 @@ public class TestScript extends DomainResource {
                  * The HTTP method the test engine MUST use for this operation regardless of any other operation details.
                  * 
                  * @return
-                 *     An immutable object of type {@link TestScriptRequestMethodCode}.
+                 *     An immutable object of type {@link TestScriptRequestMethodCode} that may be null.
                  */
                 public TestScriptRequestMethodCode getMethod() {
                     return method;
@@ -4562,7 +4562,7 @@ public class TestScript extends DomainResource {
                  * section.
                  * 
                  * @return
-                 *     An immutable object of type {@link Integer}.
+                 *     An immutable object of type {@link Integer} that may be null.
                  */
                 public Integer getOrigin() {
                     return origin;
@@ -4572,7 +4572,7 @@ public class TestScript extends DomainResource {
                  * Path plus parameters after [type]. Used to set parts of the request URL explicitly.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getParams() {
                     return params;
@@ -4582,7 +4582,7 @@ public class TestScript extends DomainResource {
                  * Header elements would be used to set HTTP headers.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link RequestHeader}.
+                 *     An unmodifiable list containing immutable objects of type {@link RequestHeader} that may be empty.
                  */
                 public List<RequestHeader> getRequestHeader() {
                     return requestHeader;
@@ -4592,7 +4592,7 @@ public class TestScript extends DomainResource {
                  * The fixture id (maybe new) to map to the request.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getRequestId() {
                     return requestId;
@@ -4602,7 +4602,7 @@ public class TestScript extends DomainResource {
                  * The fixture id (maybe new) to map to the response.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getResponseId() {
                     return responseId;
@@ -4612,7 +4612,7 @@ public class TestScript extends DomainResource {
                  * The id of the fixture used as the body of a PUT or POST request.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getSourceId() {
                     return sourceId;
@@ -4622,7 +4622,7 @@ public class TestScript extends DomainResource {
                  * Id of fixture used for extracting the [id], [type], and [vid] for GET requests.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getTargetId() {
                     return targetId;
@@ -4632,7 +4632,7 @@ public class TestScript extends DomainResource {
                  * Complete request URL.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getUrl() {
                     return url;
@@ -5214,7 +5214,7 @@ public class TestScript extends DomainResource {
                      * The HTTP header field e.g. "Accept".
                      * 
                      * @return
-                     *     An immutable object of type {@link String}.
+                     *     An immutable object of type {@link String} that is non-null.
                      */
                     public String getField() {
                         return field;
@@ -5224,7 +5224,7 @@ public class TestScript extends DomainResource {
                      * The value of the header e.g. "application/fhir+xml".
                      * 
                      * @return
-                     *     An immutable object of type {@link String}.
+                     *     An immutable object of type {@link String} that is non-null.
                      */
                     public String getValue() {
                         return value;
@@ -5563,7 +5563,7 @@ public class TestScript extends DomainResource {
                  * The label would be used for tracking/logging purposes by test engines.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getLabel() {
                     return label;
@@ -5573,7 +5573,7 @@ public class TestScript extends DomainResource {
                  * The description would be used by test engines for tracking and reporting purposes.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDescription() {
                     return description;
@@ -5583,7 +5583,7 @@ public class TestScript extends DomainResource {
                  * The direction to use for the assertion.
                  * 
                  * @return
-                 *     An immutable object of type {@link AssertionDirectionType}.
+                 *     An immutable object of type {@link AssertionDirectionType} that may be null.
                  */
                 public AssertionDirectionType getDirection() {
                     return direction;
@@ -5594,7 +5594,7 @@ public class TestScript extends DomainResource {
                  * definition.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getCompareToSourceId() {
                     return compareToSourceId;
@@ -5605,7 +5605,7 @@ public class TestScript extends DomainResource {
                  * compareToSourceExpression or compareToSourcePath must be defined, but not both.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getCompareToSourceExpression() {
                     return compareToSourceExpression;
@@ -5616,7 +5616,7 @@ public class TestScript extends DomainResource {
                  * compareToSourceExpression or compareToSourcePath must be defined, but not both.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getCompareToSourcePath() {
                     return compareToSourcePath;
@@ -5626,7 +5626,7 @@ public class TestScript extends DomainResource {
                  * The mime-type contents to compare against the request or response message 'Content-Type' header.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that may be null.
                  */
                 public Code getContentType() {
                     return contentType;
@@ -5636,7 +5636,7 @@ public class TestScript extends DomainResource {
                  * The FHIRPath expression to be evaluated against the request or response message contents - HTTP headers and payload.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getExpression() {
                     return expression;
@@ -5646,7 +5646,7 @@ public class TestScript extends DomainResource {
                  * The HTTP header field name e.g. 'Location'.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getHeaderField() {
                     return headerField;
@@ -5656,7 +5656,7 @@ public class TestScript extends DomainResource {
                  * The ID of a fixture. Asserts that the response contains at a minimum the fixture specified by minimumId.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getMinimumId() {
                     return minimumId;
@@ -5666,7 +5666,7 @@ public class TestScript extends DomainResource {
                  * Whether or not the test execution performs validation on the bundle navigation links.
                  * 
                  * @return
-                 *     An immutable object of type {@link Boolean}.
+                 *     An immutable object of type {@link Boolean} that may be null.
                  */
                 public Boolean getNavigationLinks() {
                     return navigationLinks;
@@ -5676,7 +5676,7 @@ public class TestScript extends DomainResource {
                  * The operator type defines the conditional behavior of the assert. If not defined, the default is equals.
                  * 
                  * @return
-                 *     An immutable object of type {@link AssertionOperatorType}.
+                 *     An immutable object of type {@link AssertionOperatorType} that may be null.
                  */
                 public AssertionOperatorType getOperator() {
                     return operator;
@@ -5686,7 +5686,7 @@ public class TestScript extends DomainResource {
                  * The XPath or JSONPath expression to be evaluated against the fixture representing the response received from server.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getPath() {
                     return path;
@@ -5696,7 +5696,7 @@ public class TestScript extends DomainResource {
                  * The request method or HTTP operation code to compare against that used by the client system under test.
                  * 
                  * @return
-                 *     An immutable object of type {@link TestScriptRequestMethodCode}.
+                 *     An immutable object of type {@link TestScriptRequestMethodCode} that may be null.
                  */
                 public TestScriptRequestMethodCode getRequestMethod() {
                     return requestMethod;
@@ -5706,7 +5706,7 @@ public class TestScript extends DomainResource {
                  * The value to use in a comparison against the request URL path string.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getRequestURL() {
                     return requestURL;
@@ -5716,7 +5716,7 @@ public class TestScript extends DomainResource {
                  * The type of the resource. See http://build.fhir.org/resourcelist.html.
                  * 
                  * @return
-                 *     An immutable object of type {@link FHIRDefinedType}.
+                 *     An immutable object of type {@link FHIRDefinedType} that may be null.
                  */
                 public FHIRDefinedType getResource() {
                     return resource;
@@ -5727,7 +5727,7 @@ public class TestScript extends DomainResource {
                  * preconditionFailed | unprocessable.
                  * 
                  * @return
-                 *     An immutable object of type {@link AssertionResponseTypes}.
+                 *     An immutable object of type {@link AssertionResponseTypes} that may be null.
                  */
                 public AssertionResponseTypes getResponse() {
                     return response;
@@ -5737,7 +5737,7 @@ public class TestScript extends DomainResource {
                  * The value of the HTTP response code to be tested.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getResponseCode() {
                     return responseCode;
@@ -5747,7 +5747,7 @@ public class TestScript extends DomainResource {
                  * Fixture to evaluate the XPath/JSONPath expression or the headerField against.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getSourceId() {
                     return sourceId;
@@ -5757,7 +5757,7 @@ public class TestScript extends DomainResource {
                  * The ID of the Profile to validate against.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getValidateProfileId() {
                     return validateProfileId;
@@ -5767,7 +5767,7 @@ public class TestScript extends DomainResource {
                  * The value to compare to.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getValue() {
                     return value;
@@ -5777,7 +5777,7 @@ public class TestScript extends DomainResource {
                  * Whether or not the test execution will produce a warning only on error for this assert.
                  * 
                  * @return
-                 *     An immutable object of type {@link Boolean}.
+                 *     An immutable object of type {@link Boolean} that is non-null.
                  */
                 public Boolean getWarningOnly() {
                     return warningOnly;
@@ -6445,7 +6445,7 @@ public class TestScript extends DomainResource {
          * The name of this test used for tracking/logging purposes by test engines.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -6455,7 +6455,7 @@ public class TestScript extends DomainResource {
          * A short description of the test used by test engines for tracking and reporting purposes.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -6465,7 +6465,7 @@ public class TestScript extends DomainResource {
          * Action would contain either an operation or an assertion.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that is non-empty.
          */
         public List<Action> getAction() {
             return action;
@@ -6764,7 +6764,7 @@ public class TestScript extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link TestScript.Setup.Action.Operation}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Operation} that may be null.
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;
@@ -6774,7 +6774,7 @@ public class TestScript extends DomainResource {
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
              * 
              * @return
-             *     An immutable object of type {@link TestScript.Setup.Action.Assert}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Assert} that may be null.
              */
             public TestScript.Setup.Action.Assert getAssert() {
                 return _assert;
@@ -7025,7 +7025,7 @@ public class TestScript extends DomainResource {
          * The teardown action will only contain an operation.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that is non-empty.
          */
         public List<Action> getAction() {
             return action;
@@ -7283,7 +7283,7 @@ public class TestScript extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link TestScript.Setup.Action.Operation}.
+             *     An immutable object of type {@link TestScript.Setup.Action.Operation} that is non-null.
              */
             public TestScript.Setup.Action.Operation getOperation() {
                 return operation;

@@ -146,7 +146,7 @@ public class List extends DomainResource {
      * Identifier for the List assigned for business purposes outside the context of FHIR.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public java.util.List<Identifier> getIdentifier() {
         return identifier;
@@ -156,7 +156,7 @@ public class List extends DomainResource {
      * Indicates the current state of this list.
      * 
      * @return
-     *     An immutable object of type {@link ListStatus}.
+     *     An immutable object of type {@link ListStatus} that is non-null.
      */
     public ListStatus getStatus() {
         return status;
@@ -168,7 +168,7 @@ public class List extends DomainResource {
      * may be marked as added, modified or deleted.
      * 
      * @return
-     *     An immutable object of type {@link ListMode}.
+     *     An immutable object of type {@link ListMode} that is non-null.
      */
     public ListMode getMode() {
         return mode;
@@ -178,7 +178,7 @@ public class List extends DomainResource {
      * A label for the list assigned by the author.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -188,7 +188,7 @@ public class List extends DomainResource {
      * This code defines the purpose of the list - why it was created.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -198,7 +198,7 @@ public class List extends DomainResource {
      * The common subject (or patient) of the resources that are in the list if there is one.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -208,7 +208,7 @@ public class List extends DomainResource {
      * The encounter that is the context in which this list was created.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -218,7 +218,7 @@ public class List extends DomainResource {
      * The date that the list was prepared.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -229,7 +229,7 @@ public class List extends DomainResource {
      * the same as the author of the list.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSource() {
         return source;
@@ -239,7 +239,7 @@ public class List extends DomainResource {
      * What order applies to the items in the list.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getOrderedBy() {
         return orderedBy;
@@ -249,7 +249,7 @@ public class List extends DomainResource {
      * Comments that apply to the overall list.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public java.util.List<Annotation> getNote() {
         return note;
@@ -259,7 +259,7 @@ public class List extends DomainResource {
      * Entries in this list.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Entry}.
+     *     An unmodifiable list containing immutable objects of type {@link Entry} that may be empty.
      */
     public java.util.List<Entry> getEntry() {
         return entry;
@@ -269,7 +269,7 @@ public class List extends DomainResource {
      * If the list is empty, why the list is empty.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getEmptyReason() {
         return emptyReason;
@@ -954,7 +954,7 @@ public class List extends DomainResource {
          * The flag allows the system constructing the list to indicate the role and significance of the item in the list.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFlag() {
             return flag;
@@ -964,7 +964,7 @@ public class List extends DomainResource {
          * True if this item is marked as deleted in the list.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getDeleted() {
             return deleted;
@@ -974,7 +974,7 @@ public class List extends DomainResource {
          * When this item was added to the list.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getDate() {
             return date;
@@ -984,7 +984,7 @@ public class List extends DomainResource {
          * A reference to the actual resource from which data was derived.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getItem() {
             return item;

@@ -137,7 +137,7 @@ public class DiagnosticReport extends DomainResource {
      * Identifiers assigned to this report by the performer or other systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -147,7 +147,7 @@ public class DiagnosticReport extends DomainResource {
      * Details concerning a service requested.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -157,7 +157,7 @@ public class DiagnosticReport extends DomainResource {
      * The status of the diagnostic report.
      * 
      * @return
-     *     An immutable object of type {@link DiagnosticReportStatus}.
+     *     An immutable object of type {@link DiagnosticReportStatus} that is non-null.
      */
     public DiagnosticReportStatus getStatus() {
         return status;
@@ -168,7 +168,7 @@ public class DiagnosticReport extends DomainResource {
      * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -178,7 +178,7 @@ public class DiagnosticReport extends DomainResource {
      * A code or name that describes this diagnostic report.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -189,7 +189,7 @@ public class DiagnosticReport extends DomainResource {
      * analyses on specimens collected from a variety of other sources.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -199,7 +199,7 @@ public class DiagnosticReport extends DomainResource {
      * The healthcare event (e.g. a patient and healthcare provider interaction) which this DiagnosticReport is about.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -211,7 +211,7 @@ public class DiagnosticReport extends DomainResource {
      * not known, only the date/time itself.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -222,7 +222,7 @@ public class DiagnosticReport extends DomainResource {
      * reviewed and verified.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getIssued() {
         return issued;
@@ -232,7 +232,7 @@ public class DiagnosticReport extends DomainResource {
      * The diagnostic service that is responsible for issuing the report.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -242,7 +242,7 @@ public class DiagnosticReport extends DomainResource {
      * The practitioner or organization that is responsible for the report's conclusions and interpretations.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getResultsInterpreter() {
         return resultsInterpreter;
@@ -252,7 +252,7 @@ public class DiagnosticReport extends DomainResource {
      * Details about the specimens on which this diagnostic report is based.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSpecimen() {
         return specimen;
@@ -262,7 +262,7 @@ public class DiagnosticReport extends DomainResource {
      * [Observations](observation.html) that are part of this diagnostic report.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getResult() {
         return result;
@@ -274,7 +274,7 @@ public class DiagnosticReport extends DomainResource {
      * information to provide views of the source images.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getImagingStudy() {
         return imagingStudy;
@@ -285,7 +285,7 @@ public class DiagnosticReport extends DomainResource {
      * may be directly of the patient, or of treated specimens (i.e. slides of interest).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Media}.
+     *     An unmodifiable list containing immutable objects of type {@link Media} that may be empty.
      */
     public List<Media> getMedia() {
         return media;
@@ -295,7 +295,7 @@ public class DiagnosticReport extends DomainResource {
      * Concise and clinically contextualized summary conclusion (interpretation/impression) of the diagnostic report.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getConclusion() {
         return conclusion;
@@ -305,7 +305,7 @@ public class DiagnosticReport extends DomainResource {
      * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getConclusionCode() {
         return conclusionCode;
@@ -316,7 +316,7 @@ public class DiagnosticReport extends DomainResource {
      * they SHALL be semantically equivalent.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getPresentedForm() {
         return presentedForm;
@@ -1265,7 +1265,7 @@ public class DiagnosticReport extends DomainResource {
          * the viewer's attention to important features.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getComment() {
             return comment;
@@ -1275,7 +1275,7 @@ public class DiagnosticReport extends DomainResource {
          * Reference to the image source.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getLink() {
             return link;

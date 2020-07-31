@@ -124,7 +124,7 @@ public class Timing extends BackboneElement {
      * Identifies specific times when the event occurs.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DateTime}.
+     *     An unmodifiable list containing immutable objects of type {@link DateTime} that may be empty.
      */
     public List<DateTime> getEvent() {
         return event;
@@ -134,7 +134,7 @@ public class Timing extends BackboneElement {
      * A set of rules that describe when the event is scheduled.
      * 
      * @return
-     *     An immutable object of type {@link Repeat}.
+     *     An immutable object of type {@link Repeat} that may be null.
      */
     public Repeat getRepeat() {
         return repeat;
@@ -148,7 +148,7 @@ public class Timing extends BackboneElement {
      * code).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -508,7 +508,7 @@ public class Timing extends BackboneElement {
          * end limits of the timing schedule.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getBounds() {
             return bounds;
@@ -519,7 +519,7 @@ public class Timing extends BackboneElement {
          * is present, this element indicates the lower bound of the allowed range of count values.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getCount() {
             return count;
@@ -529,7 +529,7 @@ public class Timing extends BackboneElement {
          * If present, indicates that the count is a range - so to perform the action between [count] and [countMax] times.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getCountMax() {
             return countMax;
@@ -540,7 +540,7 @@ public class Timing extends BackboneElement {
          * the allowed range of the duration.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getDuration() {
             return duration;
@@ -551,7 +551,7 @@ public class Timing extends BackboneElement {
          * time length.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getDurationMax() {
             return durationMax;
@@ -561,7 +561,7 @@ public class Timing extends BackboneElement {
          * The units of time for the duration, in UCUM units.
          * 
          * @return
-         *     An immutable object of type {@link UnitsOfTime}.
+         *     An immutable object of type {@link UnitsOfTime} that may be null.
          */
         public UnitsOfTime getDurationUnit() {
             return durationUnit;
@@ -572,7 +572,7 @@ public class Timing extends BackboneElement {
          * indicates the lower bound of the allowed range of the frequency.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getFrequency() {
             return frequency;
@@ -583,7 +583,7 @@ public class Timing extends BackboneElement {
          * the period or period range.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getFrequencyMax() {
             return frequencyMax;
@@ -595,7 +595,7 @@ public class Timing extends BackboneElement {
          * allowed range of the period length.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getPeriod() {
             return period;
@@ -606,7 +606,7 @@ public class Timing extends BackboneElement {
          * "do this once every 3-5 days.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getPeriodMax() {
             return periodMax;
@@ -616,7 +616,7 @@ public class Timing extends BackboneElement {
          * The units of time for the period in UCUM units.
          * 
          * @return
-         *     An immutable object of type {@link UnitsOfTime}.
+         *     An immutable object of type {@link UnitsOfTime} that may be null.
          */
         public UnitsOfTime getPeriodUnit() {
             return periodUnit;
@@ -626,7 +626,7 @@ public class Timing extends BackboneElement {
          * If one or more days of week is provided, then the action happens only on the specified day(s).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DayOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DayOfWeek} that may be empty.
          */
         public List<DayOfWeek> getDayOfWeek() {
             return dayOfWeek;
@@ -636,7 +636,7 @@ public class Timing extends BackboneElement {
          * Specified time of day for action to take place.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Time}.
+         *     An unmodifiable list containing immutable objects of type {@link Time} that may be empty.
          */
         public List<Time> getTimeOfDay() {
             return timeOfDay;
@@ -647,7 +647,7 @@ public class Timing extends BackboneElement {
          * action should occur.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link EventTiming}.
+         *     An unmodifiable list containing immutable objects of type {@link EventTiming} that may be empty.
          */
         public List<EventTiming> getWhen() {
             return when;
@@ -658,7 +658,7 @@ public class Timing extends BackboneElement {
          * event, then the offset is assumed to be after the event.
          * 
          * @return
-         *     An immutable object of type {@link UnsignedInt}.
+         *     An immutable object of type {@link UnsignedInt} that may be null.
          */
         public UnsignedInt getOffset() {
             return offset;

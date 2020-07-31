@@ -108,7 +108,7 @@ public class PractitionerRole extends DomainResource {
      * Business Identifiers that are specific to a role/location.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -118,7 +118,7 @@ public class PractitionerRole extends DomainResource {
      * Whether this practitioner role record is in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -128,7 +128,7 @@ public class PractitionerRole extends DomainResource {
      * The period during which the person is authorized to act as a practitioner in these role(s) for the organization.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -138,7 +138,7 @@ public class PractitionerRole extends DomainResource {
      * Practitioner that is able to provide the defined services for the organization.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPractitioner() {
         return practitioner;
@@ -148,7 +148,7 @@ public class PractitionerRole extends DomainResource {
      * The organization where the Practitioner performs the roles associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOrganization() {
         return organization;
@@ -158,7 +158,7 @@ public class PractitionerRole extends DomainResource {
      * Roles which this practitioner is authorized to perform for the organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCode() {
         return code;
@@ -168,7 +168,7 @@ public class PractitionerRole extends DomainResource {
      * Specific specialty of the practitioner.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -178,7 +178,7 @@ public class PractitionerRole extends DomainResource {
      * The location(s) at which this practitioner provides care.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getLocation() {
         return location;
@@ -188,7 +188,7 @@ public class PractitionerRole extends DomainResource {
      * The list of healthcare services that this worker provides for this role's Organization/Location(s).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getHealthcareService() {
         return healthcareService;
@@ -198,7 +198,7 @@ public class PractitionerRole extends DomainResource {
      * Contact details that are specific to the role/location/service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -208,7 +208,7 @@ public class PractitionerRole extends DomainResource {
      * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link AvailableTime}.
+     *     An unmodifiable list containing immutable objects of type {@link AvailableTime} that may be empty.
      */
     public List<AvailableTime> getAvailableTime() {
         return availableTime;
@@ -218,7 +218,7 @@ public class PractitionerRole extends DomainResource {
      * The practitioner is not available or performing this role during this period of time due to the provided reason.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link NotAvailable}.
+     *     An unmodifiable list containing immutable objects of type {@link NotAvailable} that may be empty.
      */
     public List<NotAvailable> getNotAvailable() {
         return notAvailable;
@@ -229,7 +229,7 @@ public class PractitionerRole extends DomainResource {
      * exceptions to normal site availability as details in the available Times and not available Times.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getAvailabilityExceptions() {
         return availabilityExceptions;
@@ -239,7 +239,7 @@ public class PractitionerRole extends DomainResource {
      * Technical endpoints providing access to services operated for the practitioner with this role.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -1040,7 +1040,7 @@ public class PractitionerRole extends DomainResource {
          * Indicates which days of the week are available between the start and end Times.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek} that may be empty.
          */
         public List<DaysOfWeek> getDaysOfWeek() {
             return daysOfWeek;
@@ -1050,7 +1050,7 @@ public class PractitionerRole extends DomainResource {
          * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getAllDay() {
             return allDay;
@@ -1060,7 +1060,7 @@ public class PractitionerRole extends DomainResource {
          * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
          * 
          * @return
-         *     An immutable object of type {@link Time}.
+         *     An immutable object of type {@link Time} that may be null.
          */
         public Time getAvailableStartTime() {
             return availableStartTime;
@@ -1070,7 +1070,7 @@ public class PractitionerRole extends DomainResource {
          * The closing time of day. Note: If the AllDay flag is set, then this time is ignored.
          * 
          * @return
-         *     An immutable object of type {@link Time}.
+         *     An immutable object of type {@link Time} that may be null.
          */
         public Time getAvailableEndTime() {
             return availableEndTime;
@@ -1382,7 +1382,7 @@ public class PractitionerRole extends DomainResource {
          * The reason that can be presented to the user as to why this time is not available.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getDescription() {
             return description;
@@ -1392,7 +1392,7 @@ public class PractitionerRole extends DomainResource {
          * Service is not available (seasonally or for a public holiday) from this date.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getDuring() {
             return during;

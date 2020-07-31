@@ -122,7 +122,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * A unique identifier assigned to this immunization evaluation record.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -132,7 +132,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * Indicates the current status of the evaluation of the vaccination administration event.
      * 
      * @return
-     *     An immutable object of type {@link ImmunizationEvaluationStatus}.
+     *     An immutable object of type {@link ImmunizationEvaluationStatus} that is non-null.
      */
     public ImmunizationEvaluationStatus getStatus() {
         return status;
@@ -142,7 +142,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * The individual for whom the evaluation is being done.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -152,7 +152,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * The date the evaluation of the vaccine administration event was performed.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -162,7 +162,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * Indicates the authority who published the protocol (e.g. ACIP).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthority() {
         return authority;
@@ -172,7 +172,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * The vaccine preventable disease the dose is being evaluated against.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getTargetDisease() {
         return targetDisease;
@@ -182,7 +182,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * The vaccine administration event being evaluated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getImmunizationEvent() {
         return immunizationEvent;
@@ -192,7 +192,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * Indicates if the dose is valid or not valid with respect to the published recommendations.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getDoseStatus() {
         return doseStatus;
@@ -203,7 +203,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * recommendations.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getDoseStatusReason() {
         return doseStatusReason;
@@ -213,7 +213,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * Additional information about the evaluation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -223,7 +223,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * One possible path to achieve presumed immunity against a disease - within the context of an authority.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSeries() {
         return series;
@@ -233,7 +233,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * Nominal position in a series.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getDoseNumber() {
         return doseNumber;
@@ -243,7 +243,7 @@ public class ImmunizationEvaluation extends DomainResource {
      * The recommended number of doses to achieve immunity.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSeriesDoses() {
         return seriesDoses;

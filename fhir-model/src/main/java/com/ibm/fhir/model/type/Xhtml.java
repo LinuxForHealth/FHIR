@@ -36,7 +36,7 @@ public class Xhtml extends Element {
      * Actual xhtml
      * 
      * @return
-     *     An immutable object of type {@link java.lang.String}.
+     *     An immutable object of type {@link java.lang.String} that is non-null.
      */
     public java.lang.String getValue() {
         return value;

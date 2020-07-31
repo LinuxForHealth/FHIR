@@ -204,7 +204,7 @@ public class Observation extends DomainResource {
      * A unique identifier assigned to this observation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -215,7 +215,7 @@ public class Observation extends DomainResource {
      * require a patient to have laboratory test performed before it is dispensed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -226,7 +226,7 @@ public class Observation extends DomainResource {
      * procedure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -236,7 +236,7 @@ public class Observation extends DomainResource {
      * The status of the result value.
      * 
      * @return
-     *     An immutable object of type {@link ObservationStatus}.
+     *     An immutable object of type {@link ObservationStatus} that is non-null.
      */
     public ObservationStatus getStatus() {
         return status;
@@ -246,7 +246,7 @@ public class Observation extends DomainResource {
      * A code that classifies the general type of observation being made.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -256,7 +256,7 @@ public class Observation extends DomainResource {
      * Describes what was observed. Sometimes this is called the observation "name".
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -268,7 +268,7 @@ public class Observation extends DomainResource {
      * the subject), the `focus` element or the `code` itself specifies the actual focus of the observation.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -283,7 +283,7 @@ public class Observation extends DomainResource {
      * example, the child is the patient of record and the mother is the focus.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getFocus() {
         return focus;
@@ -293,7 +293,7 @@ public class Observation extends DomainResource {
      * The healthcare event (e.g. a patient and healthcare provider interaction) during which this observation is made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -305,7 +305,7 @@ public class Observation extends DomainResource {
      * specimen collection, but very often the source of the date/time is not known, only the date/time itself.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -316,7 +316,7 @@ public class Observation extends DomainResource {
      * been reviewed and verified.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getIssued() {
         return issued;
@@ -326,7 +326,7 @@ public class Observation extends DomainResource {
      * Who was responsible for asserting the observed value as "true".
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -336,7 +336,7 @@ public class Observation extends DomainResource {
      * The information determined as a result of making the observation, if the information has a simple value.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getValue() {
         return value;
@@ -346,7 +346,7 @@ public class Observation extends DomainResource {
      * Provides a reason why the expected value in the element Observation.value[x] is missing.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDataAbsentReason() {
         return dataAbsentReason;
@@ -356,7 +356,7 @@ public class Observation extends DomainResource {
      * A categorical assessment of an observation value. For example, high, low, normal.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getInterpretation() {
         return interpretation;
@@ -366,7 +366,7 @@ public class Observation extends DomainResource {
      * Comments about the observation or the results.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -376,7 +376,7 @@ public class Observation extends DomainResource {
      * Indicates the site on the subject's body where the observation was made (i.e. the target site).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getBodySite() {
         return bodySite;
@@ -386,7 +386,7 @@ public class Observation extends DomainResource {
      * Indicates the mechanism used to perform the observation.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getMethod() {
         return method;
@@ -396,7 +396,7 @@ public class Observation extends DomainResource {
      * The specimen that was used when this observation was made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSpecimen() {
         return specimen;
@@ -406,7 +406,7 @@ public class Observation extends DomainResource {
      * The device used to generate the observation data.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDevice() {
         return device;
@@ -418,7 +418,7 @@ public class Observation extends DomainResource {
      * would be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ReferenceRange}.
+     *     An unmodifiable list containing immutable objects of type {@link ReferenceRange} that may be empty.
      */
     public List<ReferenceRange> getReferenceRange() {
         return referenceRange;
@@ -429,7 +429,7 @@ public class Observation extends DomainResource {
      * includes the target as a member of the group.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getHasMember() {
         return hasMember;
@@ -440,7 +440,7 @@ public class Observation extends DomainResource {
      * calculated anion gap or a fetal measurement based on an ultrasound image.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDerivedFrom() {
         return derivedFrom;
@@ -452,7 +452,7 @@ public class Observation extends DomainResource {
      * pressure measurement and multiple component observations for genetics observations.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Component}.
+     *     An unmodifiable list containing immutable objects of type {@link Component} that may be empty.
      */
     public List<Component> getComponent() {
         return component;
@@ -1604,7 +1604,7 @@ public class Observation extends DomainResource {
          * reference range is &lt;=2.3).
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getLow() {
             return low;
@@ -1616,7 +1616,7 @@ public class Observation extends DomainResource {
          * reference range is &gt;= 2.3).
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getHigh() {
             return high;
@@ -1627,7 +1627,7 @@ public class Observation extends DomainResource {
          * therapeutic range.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1640,7 +1640,7 @@ public class Observation extends DomainResource {
          * code for African American would be used.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getAppliesTo() {
             return appliesTo;
@@ -1651,7 +1651,7 @@ public class Observation extends DomainResource {
          * meaning says so.
          * 
          * @return
-         *     An immutable object of type {@link Range}.
+         *     An immutable object of type {@link Range} that may be null.
          */
         public Range getAge() {
             return age;
@@ -1662,7 +1662,7 @@ public class Observation extends DomainResource {
          * observation. An example would be a reference value of "Negative" or a list or table of "normals".
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getText() {
             return text;
@@ -2056,7 +2056,7 @@ public class Observation extends DomainResource {
          * Describes what was observed. Sometimes this is called the observation "code".
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -2066,7 +2066,7 @@ public class Observation extends DomainResource {
          * The information determined as a result of making the observation, if the information has a simple value.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;
@@ -2076,7 +2076,7 @@ public class Observation extends DomainResource {
          * Provides a reason why the expected value in the element Observation.component.value[x] is missing.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getDataAbsentReason() {
             return dataAbsentReason;
@@ -2086,7 +2086,7 @@ public class Observation extends DomainResource {
          * A categorical assessment of an observation value. For example, high, low, normal.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getInterpretation() {
             return interpretation;
@@ -2096,7 +2096,7 @@ public class Observation extends DomainResource {
          * Guidance on how to interpret the value by comparison to a normal or recommended range.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ReferenceRange}.
+         *     An unmodifiable list containing immutable objects of type {@link ReferenceRange} that may be empty.
          */
         public List<Observation.ReferenceRange> getReferenceRange() {
             return referenceRange;

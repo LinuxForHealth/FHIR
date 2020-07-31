@@ -195,7 +195,7 @@ public class TerminologyCapabilities extends DomainResource {
      * capabilities is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -208,7 +208,7 @@ public class TerminologyCapabilities extends DomainResource {
      * is not available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -219,7 +219,7 @@ public class TerminologyCapabilities extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -229,7 +229,7 @@ public class TerminologyCapabilities extends DomainResource {
      * A short, descriptive, user-friendly title for the terminology capabilities.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -239,7 +239,7 @@ public class TerminologyCapabilities extends DomainResource {
      * The status of this terminology capabilities. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -250,7 +250,7 @@ public class TerminologyCapabilities extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -262,7 +262,7 @@ public class TerminologyCapabilities extends DomainResource {
      * content of the terminology capabilities changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDate() {
         return date;
@@ -272,7 +272,7 @@ public class TerminologyCapabilities extends DomainResource {
      * The name of the organization or individual that published the terminology capabilities.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -282,7 +282,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -294,7 +294,7 @@ public class TerminologyCapabilities extends DomainResource {
      * expression of requirements as part of an RFP.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -306,7 +306,7 @@ public class TerminologyCapabilities extends DomainResource {
      * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -316,7 +316,7 @@ public class TerminologyCapabilities extends DomainResource {
      * A legal or geographic region in which the terminology capabilities is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -326,7 +326,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Explanation of why this terminology capabilities is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -337,7 +337,7 @@ public class TerminologyCapabilities extends DomainResource {
      * legal restrictions on the use and publishing of the terminology capabilities.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -348,7 +348,7 @@ public class TerminologyCapabilities extends DomainResource {
      * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
      * 
      * @return
-     *     An immutable object of type {@link CapabilityStatementKind}.
+     *     An immutable object of type {@link CapabilityStatementKind} that is non-null.
      */
     public CapabilityStatementKind getKind() {
         return kind;
@@ -359,7 +359,7 @@ public class TerminologyCapabilities extends DomainResource {
      * capabilities of a particular software version, independent of an installation.
      * 
      * @return
-     *     An immutable object of type {@link Software}.
+     *     An immutable object of type {@link Software} that may be null.
      */
     public Software getSoftware() {
         return software;
@@ -370,7 +370,7 @@ public class TerminologyCapabilities extends DomainResource {
      * particular installation, rather than the capabilities of a software program.
      * 
      * @return
-     *     An immutable object of type {@link Implementation}.
+     *     An immutable object of type {@link Implementation} that may be null.
      */
     public Implementation getImplementation() {
         return implementation;
@@ -380,7 +380,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Whether the server supports lockedDate.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getLockedDate() {
         return lockedDate;
@@ -391,7 +391,7 @@ public class TerminologyCapabilities extends DomainResource {
      * general assumptions a client can make about support for any CodeSystem resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeSystem}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeSystem} that may be empty.
      */
     public List<CodeSystem> getCodeSystem() {
         return codeSystem;
@@ -401,7 +401,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Information about the [ValueSet/$expand](valueset-operation-expand.html) operation.
      * 
      * @return
-     *     An immutable object of type {@link Expansion}.
+     *     An immutable object of type {@link Expansion} that may be null.
      */
     public Expansion getExpansion() {
         return expansion;
@@ -411,7 +411,7 @@ public class TerminologyCapabilities extends DomainResource {
      * The degree to which the server supports the code search parameter on ValueSet, if it is supported.
      * 
      * @return
-     *     An immutable object of type {@link CodeSearchSupport}.
+     *     An immutable object of type {@link CodeSearchSupport} that may be null.
      */
     public CodeSearchSupport getCodeSearch() {
         return codeSearch;
@@ -421,7 +421,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation.
      * 
      * @return
-     *     An immutable object of type {@link ValidateCode}.
+     *     An immutable object of type {@link ValidateCode} that may be null.
      */
     public ValidateCode getValidateCode() {
         return validateCode;
@@ -431,7 +431,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation.
      * 
      * @return
-     *     An immutable object of type {@link Translation}.
+     *     An immutable object of type {@link Translation} that may be null.
      */
     public Translation getTranslation() {
         return translation;
@@ -441,7 +441,7 @@ public class TerminologyCapabilities extends DomainResource {
      * Whether the $closure operation is supported.
      * 
      * @return
-     *     An immutable object of type {@link Closure}.
+     *     An immutable object of type {@link Closure} that may be null.
      */
     public Closure getClosure() {
         return closure;
@@ -1361,7 +1361,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Name the software is known by.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -1371,7 +1371,7 @@ public class TerminologyCapabilities extends DomainResource {
          * The version identifier for the software covered by this statement.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getVersion() {
             return version;
@@ -1633,7 +1633,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Information about the specific installation that this terminology capability statement relates to.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getDescription() {
             return description;
@@ -1643,7 +1643,7 @@ public class TerminologyCapabilities extends DomainResource {
          * An absolute base URL for the implementation.
          * 
          * @return
-         *     An immutable object of type {@link Url}.
+         *     An immutable object of type {@link Url} that may be null.
          */
         public Url getUrl() {
             return url;
@@ -1904,7 +1904,7 @@ public class TerminologyCapabilities extends DomainResource {
          * URI for the Code System.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that may be null.
          */
         public Canonical getUri() {
             return uri;
@@ -1914,7 +1914,7 @@ public class TerminologyCapabilities extends DomainResource {
          * For the code system, a list of versions that are supported by the server.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Version}.
+         *     An unmodifiable list containing immutable objects of type {@link Version} that may be empty.
          */
         public List<Version> getVersion() {
             return version;
@@ -1924,7 +1924,7 @@ public class TerminologyCapabilities extends DomainResource {
          * True if subsumption is supported for this version of the code system.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getSubsumption() {
             return subsumption;
@@ -2224,7 +2224,7 @@ public class TerminologyCapabilities extends DomainResource {
              * For version-less code systems, there should be a single version with no identifier.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getCode() {
                 return code;
@@ -2234,7 +2234,7 @@ public class TerminologyCapabilities extends DomainResource {
              * If this is the default version for this code system.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getIsDefault() {
                 return isDefault;
@@ -2244,7 +2244,7 @@ public class TerminologyCapabilities extends DomainResource {
              * If the compositional grammar defined by the code system is supported.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getCompositional() {
                 return compositional;
@@ -2254,7 +2254,7 @@ public class TerminologyCapabilities extends DomainResource {
              * Language Displays supported.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Code}.
+             *     An unmodifiable list containing immutable objects of type {@link Code} that may be empty.
              */
             public List<Code> getLanguage() {
                 return language;
@@ -2264,7 +2264,7 @@ public class TerminologyCapabilities extends DomainResource {
              * Filter Properties supported.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Filter}.
+             *     An unmodifiable list containing immutable objects of type {@link Filter} that may be empty.
              */
             public List<Filter> getFilter() {
                 return filter;
@@ -2274,7 +2274,7 @@ public class TerminologyCapabilities extends DomainResource {
              * Properties supported for $lookup.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Code}.
+             *     An unmodifiable list containing immutable objects of type {@link Code} that may be empty.
              */
             public List<Code> getProperty() {
                 return property;
@@ -2666,7 +2666,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * Code of the property supported.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that is non-null.
                  */
                 public Code getCode() {
                     return code;
@@ -2676,7 +2676,7 @@ public class TerminologyCapabilities extends DomainResource {
                  * Operations supported for the property.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Code}.
+                 *     An unmodifiable list containing immutable objects of type {@link Code} that is non-empty.
                  */
                 public List<Code> getOp() {
                     return op;
@@ -2967,7 +2967,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Whether the server can return nested value sets.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getHierarchical() {
             return hierarchical;
@@ -2977,7 +2977,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Whether the server supports paging on expansion.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getPaging() {
             return paging;
@@ -2987,7 +2987,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Allow request for incomplete expansions?
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getIncomplete() {
             return incomplete;
@@ -2997,7 +2997,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Supported expansion parameter.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
          */
         public List<Parameter> getParameter() {
             return parameter;
@@ -3007,7 +3007,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Documentation about text searching works.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getTextFilter() {
             return textFilter;
@@ -3338,7 +3338,7 @@ public class TerminologyCapabilities extends DomainResource {
              * Expansion Parameter name.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that is non-null.
              */
             public Code getName() {
                 return name;
@@ -3348,7 +3348,7 @@ public class TerminologyCapabilities extends DomainResource {
              * Description of support for parameter.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDocumentation() {
                 return documentation;
@@ -3606,7 +3606,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Whether translations are validated.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getTranslations() {
             return translations;
@@ -3843,7 +3843,7 @@ public class TerminologyCapabilities extends DomainResource {
          * Whether the client must identify the map.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getNeedsMap() {
             return needsMap;
@@ -4079,7 +4079,7 @@ public class TerminologyCapabilities extends DomainResource {
          * If cross-system closure is supported.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getTranslation() {
             return translation;

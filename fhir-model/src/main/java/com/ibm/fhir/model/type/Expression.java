@@ -67,7 +67,7 @@ public class Expression extends Element {
      * A brief, natural language description of the condition that effectively communicates the intended semantics.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -78,7 +78,7 @@ public class Expression extends Element {
      * defined.
      * 
      * @return
-     *     An immutable object of type {@link Id}.
+     *     An immutable object of type {@link Id} that may be null.
      */
     public Id getName() {
         return name;
@@ -88,7 +88,7 @@ public class Expression extends Element {
      * The media type of the language for the expression.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that is non-null.
      */
     public Code getLanguage() {
         return language;
@@ -98,7 +98,7 @@ public class Expression extends Element {
      * An expression in the specified language that returns a value.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getExpression() {
         return expression;
@@ -108,7 +108,7 @@ public class Expression extends Element {
      * A URI that defines where the expression is found.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getReference() {
         return reference;

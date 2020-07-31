@@ -68,7 +68,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * The medication for which this is a described interaction.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -78,7 +78,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * The interaction described.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -88,7 +88,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * The specific medication, food or laboratory test that interacts.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Interactant}.
+     *     An unmodifiable list containing immutable objects of type {@link Interactant} that may be empty.
      */
     public List<Interactant> getInteractant() {
         return interactant;
@@ -98,7 +98,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -108,7 +108,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * The effect of the interaction, for example "reduced gastric absorption of primary medication".
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getEffect() {
         return effect;
@@ -118,7 +118,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * The incidence of the interaction, e.g. theoretical, observed.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getIncidence() {
         return incidence;
@@ -128,7 +128,7 @@ public class MedicinalProductInteraction extends DomainResource {
      * Actions for managing the interaction.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getManagement() {
         return management;
@@ -629,7 +629,7 @@ public class MedicinalProductInteraction extends DomainResource {
          * The specific medication, food or laboratory test that interacts.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getItem() {
             return item;

@@ -117,7 +117,7 @@ public class InsurancePlan extends DomainResource {
      * propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -127,7 +127,7 @@ public class InsurancePlan extends DomainResource {
      * The current state of the health insurance product.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that may be null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -137,7 +137,7 @@ public class InsurancePlan extends DomainResource {
      * The kind of health insurance product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -147,7 +147,7 @@ public class InsurancePlan extends DomainResource {
      * Official name of the health insurance product as designated by the owner.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -157,7 +157,7 @@ public class InsurancePlan extends DomainResource {
      * A list of alternate names that the product is known as, or was known as in the past.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getAlias() {
         return alias;
@@ -167,7 +167,7 @@ public class InsurancePlan extends DomainResource {
      * The period of time that the health insurance product is available.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -178,7 +178,7 @@ public class InsurancePlan extends DomainResource {
      * carriers, other third-party payers, or health plan sponsors comonly referred to as 'payers'.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOwnedBy() {
         return ownedBy;
@@ -189,7 +189,7 @@ public class InsurancePlan extends DomainResource {
      * behalf of the health insurance product owner.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAdministeredBy() {
         return administeredBy;
@@ -199,7 +199,7 @@ public class InsurancePlan extends DomainResource {
      * The geographic region in which a health insurance product's benefits apply.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getCoverageArea() {
         return coverageArea;
@@ -209,7 +209,7 @@ public class InsurancePlan extends DomainResource {
      * The contact for the health insurance product for a certain purpose.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Contact}.
+     *     An unmodifiable list containing immutable objects of type {@link Contact} that may be empty.
      */
     public List<Contact> getContact() {
         return contact;
@@ -219,7 +219,7 @@ public class InsurancePlan extends DomainResource {
      * The technical endpoints providing access to services operated for the health insurance product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -229,7 +229,7 @@ public class InsurancePlan extends DomainResource {
      * Reference to the network included in the health insurance product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getNetwork() {
         return network;
@@ -239,7 +239,7 @@ public class InsurancePlan extends DomainResource {
      * Details about the coverage offered by the insurance product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coverage}.
+     *     An unmodifiable list containing immutable objects of type {@link Coverage} that may be empty.
      */
     public List<Coverage> getCoverage() {
         return coverage;
@@ -249,7 +249,7 @@ public class InsurancePlan extends DomainResource {
      * Details about an insurance plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Plan}.
+     *     An unmodifiable list containing immutable objects of type {@link Plan} that may be empty.
      */
     public List<Plan> getPlan() {
         return plan;
@@ -1053,7 +1053,7 @@ public class InsurancePlan extends DomainResource {
          * Indicates a purpose for which the contact can be reached.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPurpose() {
             return purpose;
@@ -1063,7 +1063,7 @@ public class InsurancePlan extends DomainResource {
          * A name associated with the contact.
          * 
          * @return
-         *     An immutable object of type {@link HumanName}.
+         *     An immutable object of type {@link HumanName} that may be null.
          */
         public HumanName getName() {
             return name;
@@ -1073,7 +1073,7 @@ public class InsurancePlan extends DomainResource {
          * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+         *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
          */
         public List<ContactPoint> getTelecom() {
             return telecom;
@@ -1083,7 +1083,7 @@ public class InsurancePlan extends DomainResource {
          * Visiting or postal addresses for the contact.
          * 
          * @return
-         *     An immutable object of type {@link Address}.
+         *     An immutable object of type {@link Address} that may be null.
          */
         public Address getAddress() {
             return address;
@@ -1399,7 +1399,7 @@ public class InsurancePlan extends DomainResource {
          * Home Health).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1409,7 +1409,7 @@ public class InsurancePlan extends DomainResource {
          * Reference to the network that providing the type of coverage.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getNetwork() {
             return network;
@@ -1419,7 +1419,7 @@ public class InsurancePlan extends DomainResource {
          * Specific benefits under this type of coverage.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Benefit}.
+         *     An unmodifiable list containing immutable objects of type {@link Benefit} that is non-empty.
          */
         public List<Benefit> getBenefit() {
             return benefit;
@@ -1745,7 +1745,7 @@ public class InsurancePlan extends DomainResource {
              * Type of benefit (primary care; speciality care; inpatient; outpatient).
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -1755,7 +1755,7 @@ public class InsurancePlan extends DomainResource {
              * The referral requirements to have access/coverage for this benefit.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getRequirement() {
                 return requirement;
@@ -1765,7 +1765,7 @@ public class InsurancePlan extends DomainResource {
              * The specific limits on the benefit.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Limit}.
+             *     An unmodifiable list containing immutable objects of type {@link Limit} that may be empty.
              */
             public List<Limit> getLimit() {
                 return limit;
@@ -2063,7 +2063,7 @@ public class InsurancePlan extends DomainResource {
                  * eyeglasses.
                  * 
                  * @return
-                 *     An immutable object of type {@link Quantity}.
+                 *     An immutable object of type {@link Quantity} that may be null.
                  */
                 public Quantity getValue() {
                     return value;
@@ -2073,7 +2073,7 @@ public class InsurancePlan extends DomainResource {
                  * The specific limit on the benefit.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getCode() {
                     return code;
@@ -2338,7 +2338,7 @@ public class InsurancePlan extends DomainResource {
          * propagates from server to server.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -2348,7 +2348,7 @@ public class InsurancePlan extends DomainResource {
          * Type of plan. For example, "Platinum" or "High Deductable".
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2358,7 +2358,7 @@ public class InsurancePlan extends DomainResource {
          * The geographic region in which a health insurance plan's benefits apply.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getCoverageArea() {
             return coverageArea;
@@ -2368,7 +2368,7 @@ public class InsurancePlan extends DomainResource {
          * Reference to the network that providing the type of coverage.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getNetwork() {
             return network;
@@ -2378,7 +2378,7 @@ public class InsurancePlan extends DomainResource {
          * Overall costs associated with the plan.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link GeneralCost}.
+         *     An unmodifiable list containing immutable objects of type {@link GeneralCost} that may be empty.
          */
         public List<GeneralCost> getGeneralCost() {
             return generalCost;
@@ -2388,7 +2388,7 @@ public class InsurancePlan extends DomainResource {
          * Costs associated with the coverage provided by the product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link SpecificCost}.
+         *     An unmodifiable list containing immutable objects of type {@link SpecificCost} that may be empty.
          */
         public List<SpecificCost> getSpecificCost() {
             return specificCost;
@@ -2824,7 +2824,7 @@ public class InsurancePlan extends DomainResource {
              * Type of cost.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -2834,7 +2834,7 @@ public class InsurancePlan extends DomainResource {
              * Number of participants enrolled in the plan.
              * 
              * @return
-             *     An immutable object of type {@link PositiveInt}.
+             *     An immutable object of type {@link PositiveInt} that may be null.
              */
             public PositiveInt getGroupSize() {
                 return groupSize;
@@ -2844,7 +2844,7 @@ public class InsurancePlan extends DomainResource {
              * Value of the cost.
              * 
              * @return
-             *     An immutable object of type {@link Money}.
+             *     An immutable object of type {@link Money} that may be null.
              */
             public Money getCost() {
                 return cost;
@@ -2854,7 +2854,7 @@ public class InsurancePlan extends DomainResource {
              * Additional information about the general costs associated with this plan.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getComment() {
                 return comment;
@@ -3146,7 +3146,7 @@ public class InsurancePlan extends DomainResource {
              * General category of benefit (Medical; Dental; Vision; Drug; Mental Health; Substance Abuse; Hospice, Home Health).
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getCategory() {
                 return category;
@@ -3156,7 +3156,7 @@ public class InsurancePlan extends DomainResource {
              * List of the specific benefits under this category of benefit.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Benefit}.
+             *     An unmodifiable list containing immutable objects of type {@link Benefit} that may be empty.
              */
             public List<Benefit> getBenefit() {
                 return benefit;
@@ -3435,7 +3435,7 @@ public class InsurancePlan extends DomainResource {
                  * room; urgent care).
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that is non-null.
                  */
                 public CodeableConcept getType() {
                     return type;
@@ -3445,7 +3445,7 @@ public class InsurancePlan extends DomainResource {
                  * List of the costs associated with a specific benefit.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Cost}.
+                 *     An unmodifiable list containing immutable objects of type {@link Cost} that may be empty.
                  */
                 public List<Cost> getCost() {
                     return cost;
@@ -3735,7 +3735,7 @@ public class InsurancePlan extends DomainResource {
                      * Type of cost (copay; individual cap; family cap; coinsurance; deductible).
                      * 
                      * @return
-                     *     An immutable object of type {@link CodeableConcept}.
+                     *     An immutable object of type {@link CodeableConcept} that is non-null.
                      */
                     public CodeableConcept getType() {
                         return type;
@@ -3745,7 +3745,7 @@ public class InsurancePlan extends DomainResource {
                      * Whether the cost applies to in-network or out-of-network providers (in-network; out-of-network; other).
                      * 
                      * @return
-                     *     An immutable object of type {@link CodeableConcept}.
+                     *     An immutable object of type {@link CodeableConcept} that may be null.
                      */
                     public CodeableConcept getApplicability() {
                         return applicability;
@@ -3755,7 +3755,7 @@ public class InsurancePlan extends DomainResource {
                      * Additional information about the cost, such as information about funding sources (e.g. HSA, HRA, FSA, RRA).
                      * 
                      * @return
-                     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+                     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
                      */
                     public List<CodeableConcept> getQualifiers() {
                         return qualifiers;
@@ -3766,7 +3766,7 @@ public class InsurancePlan extends DomainResource {
                      * coinsurance).
                      * 
                      * @return
-                     *     An immutable object of type {@link Quantity}.
+                     *     An immutable object of type {@link Quantity} that may be null.
                      */
                     public Quantity getValue() {
                         return value;

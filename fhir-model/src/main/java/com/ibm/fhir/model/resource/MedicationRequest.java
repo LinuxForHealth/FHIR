@@ -218,7 +218,7 @@ public class MedicationRequest extends DomainResource {
      * to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -228,7 +228,7 @@ public class MedicationRequest extends DomainResource {
      * A code specifying the current state of the order. Generally, this will be active or completed state.
      * 
      * @return
-     *     An immutable object of type {@link MedicationRequestStatus}.
+     *     An immutable object of type {@link MedicationRequestStatus} that is non-null.
      */
     public MedicationRequestStatus getStatus() {
         return status;
@@ -238,7 +238,7 @@ public class MedicationRequest extends DomainResource {
      * Captures the reason for the current state of the MedicationRequest.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -248,7 +248,7 @@ public class MedicationRequest extends DomainResource {
      * Whether the request is a proposal, plan, or an original order.
      * 
      * @return
-     *     An immutable object of type {@link MedicationRequestIntent}.
+     *     An immutable object of type {@link MedicationRequestIntent} that is non-null.
      */
     public MedicationRequestIntent getIntent() {
         return intent;
@@ -259,7 +259,7 @@ public class MedicationRequest extends DomainResource {
      * (i.e. inpatient or outpatient)).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -269,7 +269,7 @@ public class MedicationRequest extends DomainResource {
      * Indicates how quickly the Medication Request should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link MedicationRequestPriority}.
+     *     An immutable object of type {@link MedicationRequestPriority} that may be null.
      */
     public MedicationRequestPriority getPriority() {
         return priority;
@@ -279,7 +279,7 @@ public class MedicationRequest extends DomainResource {
      * If true indicates that the provider is asking for the medication request not to occur.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getDoNotPerform() {
         return doNotPerform;
@@ -290,7 +290,7 @@ public class MedicationRequest extends DomainResource {
      * truth record. It may also indicate the source of the report.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getReported() {
         return reported;
@@ -302,7 +302,7 @@ public class MedicationRequest extends DomainResource {
      * of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -312,7 +312,7 @@ public class MedicationRequest extends DomainResource {
      * A link to a resource representing the person or set of individuals to whom the medication will be given.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -322,7 +322,7 @@ public class MedicationRequest extends DomainResource {
      * The Encounter during which this [x] was created or to which the creation of this record is tightly associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -332,7 +332,7 @@ public class MedicationRequest extends DomainResource {
      * Include additional information (for example, patient height and weight) that supports the ordering of the medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInformation() {
         return supportingInformation;
@@ -342,7 +342,7 @@ public class MedicationRequest extends DomainResource {
      * The date (and perhaps time) when the prescription was initially written or authored on.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -352,7 +352,7 @@ public class MedicationRequest extends DomainResource {
      * The individual, organization, or device that initiated the request and has responsibility for its activation.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequester() {
         return requester;
@@ -362,7 +362,7 @@ public class MedicationRequest extends DomainResource {
      * The specified desired performer of the medication treatment (e.g. the performer of the medication administration).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPerformer() {
         return performer;
@@ -372,7 +372,7 @@ public class MedicationRequest extends DomainResource {
      * Indicates the type of performer of the administration of the medication.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPerformerType() {
         return performerType;
@@ -383,7 +383,7 @@ public class MedicationRequest extends DomainResource {
      * order.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRecorder() {
         return recorder;
@@ -393,7 +393,7 @@ public class MedicationRequest extends DomainResource {
      * The reason or the indication for ordering or not ordering the medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -403,7 +403,7 @@ public class MedicationRequest extends DomainResource {
      * Condition or observation that supports why the medication was ordered.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -414,7 +414,7 @@ public class MedicationRequest extends DomainResource {
      * this MedicationRequest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -425,7 +425,7 @@ public class MedicationRequest extends DomainResource {
      * whole or in part by this MedicationRequest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -435,7 +435,7 @@ public class MedicationRequest extends DomainResource {
      * A plan or request that is fulfilled in whole or in part by this medication request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -446,7 +446,7 @@ public class MedicationRequest extends DomainResource {
      * representing the identifier of the requisition or prescription.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getGroupIdentifier() {
         return groupIdentifier;
@@ -456,7 +456,7 @@ public class MedicationRequest extends DomainResource {
      * The description of the overall patte3rn of the administration of the medication to the patient.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCourseOfTherapyType() {
         return courseOfTherapyType;
@@ -467,7 +467,7 @@ public class MedicationRequest extends DomainResource {
      * the requested service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInsurance() {
         return insurance;
@@ -477,7 +477,7 @@ public class MedicationRequest extends DomainResource {
      * Extra information about the prescription that could not be conveyed by the other attributes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -487,7 +487,7 @@ public class MedicationRequest extends DomainResource {
      * Indicates how the medication is to be used by the patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Dosage}.
+     *     An unmodifiable list containing immutable objects of type {@link Dosage} that may be empty.
      */
     public List<Dosage> getDosageInstruction() {
         return dosageInstruction;
@@ -500,7 +500,7 @@ public class MedicationRequest extends DomainResource {
      * pharmacy department.
      * 
      * @return
-     *     An immutable object of type {@link DispenseRequest}.
+     *     An immutable object of type {@link DispenseRequest} that may be null.
      */
     public DispenseRequest getDispenseRequest() {
         return dispenseRequest;
@@ -512,7 +512,7 @@ public class MedicationRequest extends DomainResource {
      * substitution may be done.
      * 
      * @return
-     *     An immutable object of type {@link Substitution}.
+     *     An immutable object of type {@link Substitution} that may be null.
      */
     public Substitution getSubstitution() {
         return substitution;
@@ -522,7 +522,7 @@ public class MedicationRequest extends DomainResource {
      * A link to a resource representing an earlier order related order or prescription.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPriorPrescription() {
         return priorPrescription;
@@ -533,7 +533,7 @@ public class MedicationRequest extends DomainResource {
      * patient; e.g. Drug-drug interaction, duplicate therapy, dosage alert etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDetectedIssue() {
         return detectedIssue;
@@ -545,7 +545,7 @@ public class MedicationRequest extends DomainResource {
      * resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEventHistory() {
         return eventHistory;
@@ -1881,7 +1881,7 @@ public class MedicationRequest extends DomainResource {
          * Indicates the quantity or duration for the first dispense of the medication.
          * 
          * @return
-         *     An immutable object of type {@link InitialFill}.
+         *     An immutable object of type {@link InitialFill} that may be null.
          */
         public InitialFill getInitialFill() {
             return initialFill;
@@ -1891,7 +1891,7 @@ public class MedicationRequest extends DomainResource {
          * The minimum period of time that must occur between dispenses of the medication.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getDispenseInterval() {
             return dispenseInterval;
@@ -1901,7 +1901,7 @@ public class MedicationRequest extends DomainResource {
          * This indicates the validity period of a prescription (stale dating the Prescription).
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getValidityPeriod() {
             return validityPeriod;
@@ -1915,7 +1915,7 @@ public class MedicationRequest extends DomainResource {
          * permitted after the initial dispense.
          * 
          * @return
-         *     An immutable object of type {@link UnsignedInt}.
+         *     An immutable object of type {@link UnsignedInt} that may be null.
          */
         public UnsignedInt getNumberOfRepeatsAllowed() {
             return numberOfRepeatsAllowed;
@@ -1925,7 +1925,7 @@ public class MedicationRequest extends DomainResource {
          * The amount that is to be dispensed for one fill.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -1936,7 +1936,7 @@ public class MedicationRequest extends DomainResource {
          * is expected to last.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getExpectedSupplyDuration() {
             return expectedSupplyDuration;
@@ -1946,7 +1946,7 @@ public class MedicationRequest extends DomainResource {
          * Indicates the intended dispensing Organization specified by the prescriber.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getPerformer() {
             return performer;
@@ -2306,7 +2306,7 @@ public class MedicationRequest extends DomainResource {
              * The amount or quantity to provide as part of the first dispense.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getQuantity() {
                 return quantity;
@@ -2316,7 +2316,7 @@ public class MedicationRequest extends DomainResource {
              * The length of time that the first dispense is expected to last.
              * 
              * @return
-             *     An immutable object of type {@link Duration}.
+             *     An immutable object of type {@link Duration} that may be null.
              */
             public Duration getDuration() {
                 return duration;
@@ -2584,7 +2584,7 @@ public class MedicationRequest extends DomainResource {
          * True if the prescriber allows a different drug to be dispensed from what was prescribed.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getAllowed() {
             return allowed;
@@ -2594,7 +2594,7 @@ public class MedicationRequest extends DomainResource {
          * Indicates the reason for the substitution, or why substitution must or must not be performed.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getReason() {
             return reason;

@@ -118,7 +118,7 @@ public class CareTeam extends DomainResource {
      * resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -128,7 +128,7 @@ public class CareTeam extends DomainResource {
      * Indicates the current state of the care team.
      * 
      * @return
-     *     An immutable object of type {@link CareTeamStatus}.
+     *     An immutable object of type {@link CareTeamStatus} that may be null.
      */
     public CareTeamStatus getStatus() {
         return status;
@@ -139,7 +139,7 @@ public class CareTeam extends DomainResource {
      * team, episode of care team, longitudinal care team.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -149,7 +149,7 @@ public class CareTeam extends DomainResource {
      * A label for human use intended to distinguish like teams. E.g. the "red" vs. "green" trauma teams.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -159,7 +159,7 @@ public class CareTeam extends DomainResource {
      * Identifies the patient or group whose intended care is handled by the team.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -169,7 +169,7 @@ public class CareTeam extends DomainResource {
      * The Encounter during which this CareTeam was created or to which the creation of this record is tightly associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -179,7 +179,7 @@ public class CareTeam extends DomainResource {
      * Indicates when the team did (or is intended to) come into effect and end.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -189,7 +189,7 @@ public class CareTeam extends DomainResource {
      * Identifies all people and organizations who are expected to be involved in the care team.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant} that may be empty.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -199,7 +199,7 @@ public class CareTeam extends DomainResource {
      * Describes why the care team exists.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -209,7 +209,7 @@ public class CareTeam extends DomainResource {
      * Condition(s) that this care team addresses.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -219,7 +219,7 @@ public class CareTeam extends DomainResource {
      * The organization responsible for the care team.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getManagingOrganization() {
         return managingOrganization;
@@ -229,7 +229,7 @@ public class CareTeam extends DomainResource {
      * A central contact detail for the care team (that applies to all members).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -239,7 +239,7 @@ public class CareTeam extends DomainResource {
      * Comments made about the CareTeam.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1012,7 +1012,7 @@ public class CareTeam extends DomainResource {
          * social worker counselor", "Caregiver", etc.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRole() {
             return role;
@@ -1022,7 +1022,7 @@ public class CareTeam extends DomainResource {
          * The specific person or organization who is participating/expected to participate in the care team.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getMember() {
             return member;
@@ -1032,7 +1032,7 @@ public class CareTeam extends DomainResource {
          * The organization of the practitioner.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getOnBehalfOf() {
             return onBehalfOf;
@@ -1042,7 +1042,7 @@ public class CareTeam extends DomainResource {
          * Indicates when the specific member or organization did (or is intended to) come into effect and end.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;

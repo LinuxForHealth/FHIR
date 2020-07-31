@@ -181,7 +181,7 @@ public class ResearchStudy extends DomainResource {
      * Identifiers assigned to this research study by the sponsor or other systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -191,7 +191,7 @@ public class ResearchStudy extends DomainResource {
      * A short, descriptive user-friendly label for the study.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -201,7 +201,7 @@ public class ResearchStudy extends DomainResource {
      * The set of steps expected to be performed as part of the execution of the study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getProtocol() {
         return protocol;
@@ -211,7 +211,7 @@ public class ResearchStudy extends DomainResource {
      * A larger research study of which this particular study is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -221,7 +221,7 @@ public class ResearchStudy extends DomainResource {
      * The current state of the study.
      * 
      * @return
-     *     An immutable object of type {@link ResearchStudyStatus}.
+     *     An immutable object of type {@link ResearchStudyStatus} that is non-null.
      */
     public ResearchStudyStatus getStatus() {
         return status;
@@ -231,7 +231,7 @@ public class ResearchStudy extends DomainResource {
      * The type of study based upon the intent of the study's activities. A classification of the intent of the study.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPrimaryPurposeType() {
         return primaryPurposeType;
@@ -242,7 +242,7 @@ public class ResearchStudy extends DomainResource {
      * evaluation.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPhase() {
         return phase;
@@ -253,7 +253,7 @@ public class ResearchStudy extends DomainResource {
      * randomization, safety vs. efficacy, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -264,7 +264,7 @@ public class ResearchStudy extends DomainResource {
      * gain more information about.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getFocus() {
         return focus;
@@ -275,7 +275,7 @@ public class ResearchStudy extends DomainResource {
      * an inclusion criterion "healthy volunteer", but the target condition code would be a Lupus SNOMED code.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCondition() {
         return condition;
@@ -285,7 +285,7 @@ public class ResearchStudy extends DomainResource {
      * Contact details to assist a user in learning more about or engaging with the study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -295,7 +295,7 @@ public class ResearchStudy extends DomainResource {
      * Citations, references and other related documents.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -305,7 +305,7 @@ public class ResearchStudy extends DomainResource {
      * Key terms to aid in searching for or filtering the study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getKeyword() {
         return keyword;
@@ -315,7 +315,7 @@ public class ResearchStudy extends DomainResource {
      * Indicates a country, state or other region where the study is taking place.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getLocation() {
         return location;
@@ -325,7 +325,7 @@ public class ResearchStudy extends DomainResource {
      * A full description of how the study is being conducted.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -336,7 +336,7 @@ public class ResearchStudy extends DomainResource {
      * female Europeans between the ages of 20 and 45 with early onset diabetes".
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEnrollment() {
         return enrollment;
@@ -346,7 +346,7 @@ public class ResearchStudy extends DomainResource {
      * Identifies the start date and the expected (or actual, depending on status) end date for the study.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -356,7 +356,7 @@ public class ResearchStudy extends DomainResource {
      * An organization that initiates the investigation and is legally responsible for the study.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSponsor() {
         return sponsor;
@@ -368,7 +368,7 @@ public class ResearchStudy extends DomainResource {
      * interpretation and presentation.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPrincipalInvestigator() {
         return principalInvestigator;
@@ -378,7 +378,7 @@ public class ResearchStudy extends DomainResource {
      * A facility in which study activities are conducted.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSite() {
         return site;
@@ -388,7 +388,7 @@ public class ResearchStudy extends DomainResource {
      * A description and/or code explaining the premature termination of the study.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getReasonStopped() {
         return reasonStopped;
@@ -398,7 +398,7 @@ public class ResearchStudy extends DomainResource {
      * Comments made about the study by the performer, subject or other participants.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -409,7 +409,7 @@ public class ResearchStudy extends DomainResource {
      * exposure to drug B, wash-out, follow-up.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Arm}.
+     *     An unmodifiable list containing immutable objects of type {@link Arm} that may be empty.
      */
     public List<Arm> getArm() {
         return arm;
@@ -420,7 +420,7 @@ public class ResearchStudy extends DomainResource {
      * collected during the study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Objective}.
+     *     An unmodifiable list containing immutable objects of type {@link Objective} that may be empty.
      */
     public List<Objective> getObjective() {
         return objective;
@@ -1559,7 +1559,7 @@ public class ResearchStudy extends DomainResource {
          * Unique, human-readable label for this arm of the study.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -1569,7 +1569,7 @@ public class ResearchStudy extends DomainResource {
          * Categorization of study arm, e.g. experimental, active comparator, placebo comparater.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1579,7 +1579,7 @@ public class ResearchStudy extends DomainResource {
          * A succinct description of the path through the study that would be followed by a subject adhering to this arm.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1864,7 +1864,7 @@ public class ResearchStudy extends DomainResource {
          * Unique, human-readable label for this objective of the study.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -1874,7 +1874,7 @@ public class ResearchStudy extends DomainResource {
          * The kind of study objective.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;

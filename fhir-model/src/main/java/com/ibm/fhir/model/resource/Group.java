@@ -110,7 +110,7 @@ public class Group extends DomainResource {
      * A unique business identifier for this group.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -120,7 +120,7 @@ public class Group extends DomainResource {
      * Indicates whether the record for the group is available for use or is merely being retained for historical purposes.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -130,7 +130,7 @@ public class Group extends DomainResource {
      * Identifies the broad classification of the kind of resources the group includes.
      * 
      * @return
-     *     An immutable object of type {@link GroupType}.
+     *     An immutable object of type {@link GroupType} that is non-null.
      */
     public GroupType getType() {
         return type;
@@ -141,7 +141,7 @@ public class Group extends DomainResource {
      * of intended individuals.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getActual() {
         return actual;
@@ -151,7 +151,7 @@ public class Group extends DomainResource {
      * Provides a specific type of resource the group includes; e.g. "cow", "syringe", etc.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -161,7 +161,7 @@ public class Group extends DomainResource {
      * A label assigned to the group for human identification and communication.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -171,7 +171,7 @@ public class Group extends DomainResource {
      * A count of the number of resource instances that are part of the group.
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getQuantity() {
         return quantity;
@@ -181,7 +181,7 @@ public class Group extends DomainResource {
      * Entity responsible for defining and maintaining Group characteristics and/or registered members.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManagingEntity() {
         return managingEntity;
@@ -191,7 +191,7 @@ public class Group extends DomainResource {
      * Identifies traits whose presence r absence is shared by members of the group.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Characteristic}.
+     *     An unmodifiable list containing immutable objects of type {@link Characteristic} that may be empty.
      */
     public List<Characteristic> getCharacteristic() {
         return characteristic;
@@ -201,7 +201,7 @@ public class Group extends DomainResource {
      * Identifies the resource instances that are members of the group.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Member}.
+     *     An unmodifiable list containing immutable objects of type {@link Member} that may be empty.
      */
     public List<Member> getMember() {
         return member;
@@ -818,7 +818,7 @@ public class Group extends DomainResource {
          * A code that identifies the kind of trait being asserted.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -828,7 +828,7 @@ public class Group extends DomainResource {
          * The value of the trait that holds (or does not hold - see 'exclude') for members of the group.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -838,7 +838,7 @@ public class Group extends DomainResource {
          * If true, indicates the characteristic is one that is NOT held by members of the group.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getExclude() {
             return exclude;
@@ -848,7 +848,7 @@ public class Group extends DomainResource {
          * The period over which the characteristic is tested; e.g. the patient had an operation during the month of June.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1167,7 +1167,7 @@ public class Group extends DomainResource {
          * group, then the type must be the same.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getEntity() {
             return entity;
@@ -1177,7 +1177,7 @@ public class Group extends DomainResource {
          * The period that the member was in the group, if known.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1187,7 +1187,7 @@ public class Group extends DomainResource {
          * A flag to indicate that the member is no longer in the group, but previously may have been a member.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getInactive() {
             return inactive;

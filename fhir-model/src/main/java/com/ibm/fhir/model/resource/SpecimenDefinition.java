@@ -90,7 +90,7 @@ public class SpecimenDefinition extends DomainResource {
      * A business identifier associated with the kind of specimen.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -100,7 +100,7 @@ public class SpecimenDefinition extends DomainResource {
      * The kind of material to be collected.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getTypeCollected() {
         return typeCollected;
@@ -110,7 +110,7 @@ public class SpecimenDefinition extends DomainResource {
      * Preparation of the patient for specimen collection.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getPatientPreparation() {
         return patientPreparation;
@@ -120,7 +120,7 @@ public class SpecimenDefinition extends DomainResource {
      * Time aspect of specimen collection (duration or offset).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTimeAspect() {
         return timeAspect;
@@ -130,7 +130,7 @@ public class SpecimenDefinition extends DomainResource {
      * The action to be performed for collecting the specimen.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCollection() {
         return collection;
@@ -140,7 +140,7 @@ public class SpecimenDefinition extends DomainResource {
      * Specimen conditioned in a container as expected by the testing laboratory.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link TypeTested}.
+     *     An unmodifiable list containing immutable objects of type {@link TypeTested} that may be empty.
      */
     public List<TypeTested> getTypeTested() {
         return typeTested;
@@ -671,7 +671,7 @@ public class SpecimenDefinition extends DomainResource {
          * Primary of secondary specimen.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getIsDerived() {
             return isDerived;
@@ -681,7 +681,7 @@ public class SpecimenDefinition extends DomainResource {
          * The kind of specimen conditioned for testing expected by lab.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -691,7 +691,7 @@ public class SpecimenDefinition extends DomainResource {
          * The preference for this type of conditioned specimen.
          * 
          * @return
-         *     An immutable object of type {@link SpecimenContainedPreference}.
+         *     An immutable object of type {@link SpecimenContainedPreference} that is non-null.
          */
         public SpecimenContainedPreference getPreference() {
             return preference;
@@ -701,7 +701,7 @@ public class SpecimenDefinition extends DomainResource {
          * The specimen's container.
          * 
          * @return
-         *     An immutable object of type {@link Container}.
+         *     An immutable object of type {@link Container} that may be null.
          */
         public Container getContainer() {
             return container;
@@ -711,7 +711,7 @@ public class SpecimenDefinition extends DomainResource {
          * Requirements for delivery and special handling of this kind of conditioned specimen.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getRequirement() {
             return requirement;
@@ -722,7 +722,7 @@ public class SpecimenDefinition extends DomainResource {
          * additional testing.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getRetentionTime() {
             return retentionTime;
@@ -732,7 +732,7 @@ public class SpecimenDefinition extends DomainResource {
          * Criterion for rejection of the specimen in its container by the laboratory.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRejectionCriterion() {
             return rejectionCriterion;
@@ -743,7 +743,7 @@ public class SpecimenDefinition extends DomainResource {
          * process.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Handling}.
+         *     An unmodifiable list containing immutable objects of type {@link Handling} that may be empty.
          */
         public List<Handling> getHandling() {
             return handling;
@@ -1194,7 +1194,7 @@ public class SpecimenDefinition extends DomainResource {
              * The type of material of the container.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getMaterial() {
                 return material;
@@ -1204,7 +1204,7 @@ public class SpecimenDefinition extends DomainResource {
              * The type of container used to contain this kind of specimen.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -1214,7 +1214,7 @@ public class SpecimenDefinition extends DomainResource {
              * Color of container cap.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCap() {
                 return cap;
@@ -1224,7 +1224,7 @@ public class SpecimenDefinition extends DomainResource {
              * The textual description of the kind of container.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -1234,7 +1234,7 @@ public class SpecimenDefinition extends DomainResource {
              * The capacity (volume or other measure) of this kind of container.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that may be null.
              */
             public SimpleQuantity getCapacity() {
                 return capacity;
@@ -1244,7 +1244,7 @@ public class SpecimenDefinition extends DomainResource {
              * The minimum volume to be conditioned in the container.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getMinimumVolume() {
                 return minimumVolume;
@@ -1255,7 +1255,7 @@ public class SpecimenDefinition extends DomainResource {
              * Citrate, EDTA.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Additive}.
+             *     An unmodifiable list containing immutable objects of type {@link Additive} that may be empty.
              */
             public List<Additive> getAdditive() {
                 return additive;
@@ -1265,7 +1265,7 @@ public class SpecimenDefinition extends DomainResource {
              * Special processing that should be applied to the container for this kind of specimen.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getPreparation() {
                 return preparation;
@@ -1671,7 +1671,7 @@ public class SpecimenDefinition extends DomainResource {
                  * Citrate, EDTA.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element}.
+                 *     An immutable object of type {@link Element} that is non-null.
                  */
                 public Element getAdditive() {
                     return additive;
@@ -1929,7 +1929,7 @@ public class SpecimenDefinition extends DomainResource {
              * related to temperature may be handled in the instruction element.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getTemperatureQualifier() {
                 return temperatureQualifier;
@@ -1939,7 +1939,7 @@ public class SpecimenDefinition extends DomainResource {
              * The temperature interval for this set of handling instructions.
              * 
              * @return
-             *     An immutable object of type {@link Range}.
+             *     An immutable object of type {@link Range} that may be null.
              */
             public Range getTemperatureRange() {
                 return temperatureRange;
@@ -1949,7 +1949,7 @@ public class SpecimenDefinition extends DomainResource {
              * The maximum time interval of preservation of the specimen with these conditions.
              * 
              * @return
-             *     An immutable object of type {@link Duration}.
+             *     An immutable object of type {@link Duration} that may be null.
              */
             public Duration getMaxDuration() {
                 return maxDuration;
@@ -1960,7 +1960,7 @@ public class SpecimenDefinition extends DomainResource {
              * exposure'.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getInstruction() {
                 return instruction;

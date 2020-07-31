@@ -256,7 +256,7 @@ public class Questionnaire extends DomainResource {
      * of a canonical reference. It SHALL remain the same when the questionnaire is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -267,7 +267,7 @@ public class Questionnaire extends DomainResource {
      * in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -280,7 +280,7 @@ public class Questionnaire extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -291,7 +291,7 @@ public class Questionnaire extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -301,7 +301,7 @@ public class Questionnaire extends DomainResource {
      * A short, descriptive, user-friendly title for the questionnaire.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -311,7 +311,7 @@ public class Questionnaire extends DomainResource {
      * The URL of a Questionnaire that this Questionnaire is based on.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getDerivedFrom() {
         return derivedFrom;
@@ -321,7 +321,7 @@ public class Questionnaire extends DomainResource {
      * The status of this questionnaire. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -332,7 +332,7 @@ public class Questionnaire extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -342,7 +342,7 @@ public class Questionnaire extends DomainResource {
      * The types of subjects that can be the subject of responses created for the questionnaire.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
      */
     public List<ResourceType> getSubjectType() {
         return subjectType;
@@ -354,7 +354,7 @@ public class Questionnaire extends DomainResource {
      * the questionnaire changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -364,7 +364,7 @@ public class Questionnaire extends DomainResource {
      * The name of the organization or individual that published the questionnaire.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -374,7 +374,7 @@ public class Questionnaire extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -384,7 +384,7 @@ public class Questionnaire extends DomainResource {
      * A free text natural language description of the questionnaire from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -396,7 +396,7 @@ public class Questionnaire extends DomainResource {
      * may be used to assist with indexing and searching for appropriate questionnaire instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -406,7 +406,7 @@ public class Questionnaire extends DomainResource {
      * A legal or geographic region in which the questionnaire is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -416,7 +416,7 @@ public class Questionnaire extends DomainResource {
      * Explanation of why this questionnaire is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -427,7 +427,7 @@ public class Questionnaire extends DomainResource {
      * restrictions on the use and publishing of the questionnaire.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -438,7 +438,7 @@ public class Questionnaire extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -449,7 +449,7 @@ public class Questionnaire extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -459,7 +459,7 @@ public class Questionnaire extends DomainResource {
      * The period during which the questionnaire content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -469,7 +469,7 @@ public class Questionnaire extends DomainResource {
      * An identifier for this question or group of questions in a particular terminology such as LOINC.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getCode() {
         return code;
@@ -479,7 +479,7 @@ public class Questionnaire extends DomainResource {
      * A particular question, question grouping or display text that is part of the questionnaire.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
      */
     public List<Item> getItem() {
         return item;
@@ -1474,7 +1474,7 @@ public class Questionnaire extends DomainResource {
          * QuestionnaireResponse resource.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getLinkId() {
             return linkId;
@@ -1496,7 +1496,7 @@ public class Questionnaire extends DomainResource {
          * <p>* options (ElementDefinition.binding).
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getDefinition() {
             return definition;
@@ -1507,7 +1507,7 @@ public class Questionnaire extends DomainResource {
          * and answers).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getCode() {
             return code;
@@ -1518,7 +1518,7 @@ public class Questionnaire extends DomainResource {
          * the individual completing the questionnaire.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPrefix() {
             return prefix;
@@ -1528,7 +1528,7 @@ public class Questionnaire extends DomainResource {
          * The name of a section, the text of a question or text content for a display item.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getText() {
             return text;
@@ -1539,7 +1539,7 @@ public class Questionnaire extends DomainResource {
          * data to be captured (string, integer, coded choice, etc.).
          * 
          * @return
-         *     An immutable object of type {@link QuestionnaireItemType}.
+         *     An immutable object of type {@link QuestionnaireItemType} that is non-null.
          */
         public QuestionnaireItemType getType() {
             return type;
@@ -1550,7 +1550,7 @@ public class Questionnaire extends DomainResource {
          * specified condition is true.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link EnableWhen}.
+         *     An unmodifiable list containing immutable objects of type {@link EnableWhen} that may be empty.
          */
         public List<EnableWhen> getEnableWhen() {
             return enableWhen;
@@ -1560,7 +1560,7 @@ public class Questionnaire extends DomainResource {
          * Controls how multiple enableWhen values are interpreted - whether all or any must be true.
          * 
          * @return
-         *     An immutable object of type {@link EnableWhenBehavior}.
+         *     An immutable object of type {@link EnableWhenBehavior} that may be null.
          */
         public EnableWhenBehavior getEnableBehavior() {
             return enableBehavior;
@@ -1571,7 +1571,7 @@ public class Questionnaire extends DomainResource {
          * be skipped when answering the questionnaire.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getRequired() {
             return required;
@@ -1582,7 +1582,7 @@ public class Questionnaire extends DomainResource {
          * questions or multiple sets of answers for groups.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getRepeats() {
             return repeats;
@@ -1592,7 +1592,7 @@ public class Questionnaire extends DomainResource {
          * An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getReadOnly() {
             return readOnly;
@@ -1602,7 +1602,7 @@ public class Questionnaire extends DomainResource {
          * The maximum number of characters that are permitted in the answer to be considered a "valid" QuestionnaireResponse.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getMaxLength() {
             return maxLength;
@@ -1613,7 +1613,7 @@ public class Questionnaire extends DomainResource {
          * question.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that may be null.
          */
         public Canonical getAnswerValueSet() {
             return answerValueSet;
@@ -1623,7 +1623,7 @@ public class Questionnaire extends DomainResource {
          * One of the permitted answers for a "choice" or "open-choice" question.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link AnswerOption}.
+         *     An unmodifiable list containing immutable objects of type {@link AnswerOption} that may be empty.
          */
         public List<AnswerOption> getAnswerOption() {
             return answerOption;
@@ -1634,7 +1634,7 @@ public class Questionnaire extends DomainResource {
          * input.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Initial}.
+         *     An unmodifiable list containing immutable objects of type {@link Initial} that may be empty.
          */
         public List<Initial> getInitial() {
             return initial;
@@ -1644,7 +1644,7 @@ public class Questionnaire extends DomainResource {
          * Text, questions and other groups to be nested beneath a question or group.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Item}.
+         *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
          */
         public List<Questionnaire.Item> getItem() {
             return item;
@@ -2327,7 +2327,7 @@ public class Questionnaire extends DomainResource {
              * The linkId for the question whose answer (or lack of answer) governs whether this item is enabled.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getQuestion() {
                 return question;
@@ -2337,7 +2337,7 @@ public class Questionnaire extends DomainResource {
              * Specifies the criteria by which the question is enabled.
              * 
              * @return
-             *     An immutable object of type {@link QuestionnaireItemOperator}.
+             *     An immutable object of type {@link QuestionnaireItemOperator} that is non-null.
              */
             public QuestionnaireItemOperator getOperator() {
                 return operator;
@@ -2347,7 +2347,7 @@ public class Questionnaire extends DomainResource {
              * A value that the referenced question is tested using the specified operator in order for the item to be enabled.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getAnswer() {
                 return answer;
@@ -2653,7 +2653,7 @@ public class Questionnaire extends DomainResource {
              * A potential answer that's allowed as the answer to this question.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getValue() {
                 return value;
@@ -2663,7 +2663,7 @@ public class Questionnaire extends DomainResource {
              * Indicates whether the answer value is selected when the list of possible answers is initially shown.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getInitialSelected() {
                 return initialSelected;
@@ -2938,7 +2938,7 @@ public class Questionnaire extends DomainResource {
              * The actual value to for an initial answer.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getValue() {
                 return value;

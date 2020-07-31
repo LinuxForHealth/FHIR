@@ -68,7 +68,7 @@ public class Identifier extends Element {
      * The purpose of this identifier.
      * 
      * @return
-     *     An immutable object of type {@link IdentifierUse}.
+     *     An immutable object of type {@link IdentifierUse} that may be null.
      */
     public IdentifierUse getUse() {
         return use;
@@ -78,7 +78,7 @@ public class Identifier extends Element {
      * A coded type for the identifier that can be used to determine which identifier to use for a specific purpose.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -88,7 +88,7 @@ public class Identifier extends Element {
      * Establishes the namespace for the value - that is, a URL that describes a set values that are unique.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getSystem() {
         return system;
@@ -98,7 +98,7 @@ public class Identifier extends Element {
      * The portion of the identifier typically relevant to the user and which is unique within the context of the system.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getValue() {
         return value;
@@ -108,7 +108,7 @@ public class Identifier extends Element {
      * Time period during which identifier is/was valid for use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -118,7 +118,7 @@ public class Identifier extends Element {
      * Organization that issued/manages the identifier.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAssigner() {
         return assigner;

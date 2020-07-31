@@ -163,7 +163,7 @@ public class MedicationDispense extends DomainResource {
      * to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -173,7 +173,7 @@ public class MedicationDispense extends DomainResource {
      * The procedure that trigger the dispense.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -183,7 +183,7 @@ public class MedicationDispense extends DomainResource {
      * A code specifying the state of the set of dispense events.
      * 
      * @return
-     *     An immutable object of type {@link MedicationDispenseStatus}.
+     *     An immutable object of type {@link MedicationDispenseStatus} that is non-null.
      */
     public MedicationDispenseStatus getStatus() {
         return status;
@@ -193,7 +193,7 @@ public class MedicationDispense extends DomainResource {
      * Indicates the reason why a dispense was not performed.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getStatusReason() {
         return statusReason;
@@ -204,7 +204,7 @@ public class MedicationDispense extends DomainResource {
      * administered (i.e. inpatient or outpatient)).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCategory() {
         return category;
@@ -215,7 +215,7 @@ public class MedicationDispense extends DomainResource {
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -225,7 +225,7 @@ public class MedicationDispense extends DomainResource {
      * A link to a resource representing the person or the group to whom the medication will be given.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -235,7 +235,7 @@ public class MedicationDispense extends DomainResource {
      * The encounter or episode of care that establishes the context for this event.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getContext() {
         return context;
@@ -245,7 +245,7 @@ public class MedicationDispense extends DomainResource {
      * Additional information that supports the medication being dispensed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInformation() {
         return supportingInformation;
@@ -255,7 +255,7 @@ public class MedicationDispense extends DomainResource {
      * Indicates who or what performed the event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Performer}.
+     *     An unmodifiable list containing immutable objects of type {@link Performer} that may be empty.
      */
     public List<Performer> getPerformer() {
         return performer;
@@ -265,7 +265,7 @@ public class MedicationDispense extends DomainResource {
      * The principal physical location where the dispense was performed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -275,7 +275,7 @@ public class MedicationDispense extends DomainResource {
      * Indicates the medication order that is being dispensed against.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAuthorizingPrescription() {
         return authorizingPrescription;
@@ -286,7 +286,7 @@ public class MedicationDispense extends DomainResource {
      * Emergency Fill, Samples, etc.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -296,7 +296,7 @@ public class MedicationDispense extends DomainResource {
      * The amount of medication that has been dispensed. Includes unit of measure.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getQuantity() {
         return quantity;
@@ -306,7 +306,7 @@ public class MedicationDispense extends DomainResource {
      * The amount of medication expressed as a timing amount.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getDaysSupply() {
         return daysSupply;
@@ -316,7 +316,7 @@ public class MedicationDispense extends DomainResource {
      * The time when the dispensed product was packaged and reviewed.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getWhenPrepared() {
         return whenPrepared;
@@ -326,7 +326,7 @@ public class MedicationDispense extends DomainResource {
      * The time the dispensed product was provided to the patient or their representative.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getWhenHandedOver() {
         return whenHandedOver;
@@ -336,7 +336,7 @@ public class MedicationDispense extends DomainResource {
      * Identification of the facility/location where the medication was shipped to, as part of the dispense event.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDestination() {
         return destination;
@@ -347,7 +347,7 @@ public class MedicationDispense extends DomainResource {
      * exist where it can be a healthcare professional.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReceiver() {
         return receiver;
@@ -357,7 +357,7 @@ public class MedicationDispense extends DomainResource {
      * Extra information about the dispense that could not be conveyed in the other attributes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -367,7 +367,7 @@ public class MedicationDispense extends DomainResource {
      * Indicates how the medication is to be used by the patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Dosage}.
+     *     An unmodifiable list containing immutable objects of type {@link Dosage} that may be empty.
      */
     public List<Dosage> getDosageInstruction() {
         return dosageInstruction;
@@ -379,7 +379,7 @@ public class MedicationDispense extends DomainResource {
      * substitution did or did not happen and why. If nothing is specified, substitution was not done.
      * 
      * @return
-     *     An immutable object of type {@link Substitution}.
+     *     An immutable object of type {@link Substitution} that may be null.
      */
     public Substitution getSubstitution() {
         return substitution;
@@ -390,7 +390,7 @@ public class MedicationDispense extends DomainResource {
      * patient; e.g. drug-drug interaction, duplicate therapy, dosage alert etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDetectedIssue() {
         return detectedIssue;
@@ -400,7 +400,7 @@ public class MedicationDispense extends DomainResource {
      * A summary of the events of interest that have occurred, such as when the dispense was verified.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEventHistory() {
         return eventHistory;
@@ -1468,7 +1468,7 @@ public class MedicationDispense extends DomainResource {
          * Distinguishes the type of performer in the dispense. For example, date enterer, packager, final checker.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFunction() {
             return function;
@@ -1479,7 +1479,7 @@ public class MedicationDispense extends DomainResource {
          * medication.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getActor() {
             return actor;
@@ -1767,7 +1767,7 @@ public class MedicationDispense extends DomainResource {
          * True if the dispenser dispensed a different drug or product from what was prescribed.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that is non-null.
          */
         public Boolean getWasSubstituted() {
             return wasSubstituted;
@@ -1777,7 +1777,7 @@ public class MedicationDispense extends DomainResource {
          * A code signifying whether a different drug was dispensed from what was prescribed.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1787,7 +1787,7 @@ public class MedicationDispense extends DomainResource {
          * Indicates the reason for the substitution (or lack of substitution) from what was prescribed.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getReason() {
             return reason;
@@ -1797,7 +1797,7 @@ public class MedicationDispense extends DomainResource {
          * The person or organization that has primary responsibility for the substitution.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getResponsibleParty() {
             return responsibleParty;

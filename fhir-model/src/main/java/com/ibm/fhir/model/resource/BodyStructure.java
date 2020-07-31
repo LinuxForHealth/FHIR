@@ -94,7 +94,7 @@ public class BodyStructure extends DomainResource {
      * Identifier for this instance of the anatomical structure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -104,7 +104,7 @@ public class BodyStructure extends DomainResource {
      * Whether this body site is in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -115,7 +115,7 @@ public class BodyStructure extends DomainResource {
      * and abnormal morphologies.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getMorphology() {
         return morphology;
@@ -125,7 +125,7 @@ public class BodyStructure extends DomainResource {
      * The anatomical location or region of the specimen, lesion, or body structure.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getLocation() {
         return location;
@@ -136,7 +136,7 @@ public class BodyStructure extends DomainResource {
      * directionality, number, and plane.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getLocationQualifier() {
         return locationQualifier;
@@ -146,7 +146,7 @@ public class BodyStructure extends DomainResource {
      * A summary, characterization or explanation of the body structure.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -156,7 +156,7 @@ public class BodyStructure extends DomainResource {
      * Image or images used to identify a location.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getImage() {
         return image;
@@ -166,7 +166,7 @@ public class BodyStructure extends DomainResource {
      * The person to which the body site belongs.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;

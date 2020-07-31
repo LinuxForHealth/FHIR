@@ -122,7 +122,7 @@ public class CompartmentDefinition extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -135,7 +135,7 @@ public class CompartmentDefinition extends DomainResource {
      * not available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -146,7 +146,7 @@ public class CompartmentDefinition extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -156,7 +156,7 @@ public class CompartmentDefinition extends DomainResource {
      * The status of this compartment definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -167,7 +167,7 @@ public class CompartmentDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -179,7 +179,7 @@ public class CompartmentDefinition extends DomainResource {
      * content of the compartment definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -189,7 +189,7 @@ public class CompartmentDefinition extends DomainResource {
      * The name of the organization or individual that published the compartment definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -199,7 +199,7 @@ public class CompartmentDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -209,7 +209,7 @@ public class CompartmentDefinition extends DomainResource {
      * A free text natural language description of the compartment definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -221,7 +221,7 @@ public class CompartmentDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate compartment definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -231,7 +231,7 @@ public class CompartmentDefinition extends DomainResource {
      * Explanation of why this compartment definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -241,7 +241,7 @@ public class CompartmentDefinition extends DomainResource {
      * Which compartment this definition describes.
      * 
      * @return
-     *     An immutable object of type {@link CompartmentType}.
+     *     An immutable object of type {@link CompartmentType} that is non-null.
      */
     public CompartmentType getCode() {
         return code;
@@ -251,7 +251,7 @@ public class CompartmentDefinition extends DomainResource {
      * Whether the search syntax is supported,.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getSearch() {
         return search;
@@ -261,7 +261,7 @@ public class CompartmentDefinition extends DomainResource {
      * Information about how a resource is related to the compartment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Resource}.
+     *     An unmodifiable list containing immutable objects of type {@link Resource} that may be empty.
      */
     public List<Resource> getResource() {
         return resource;
@@ -966,7 +966,7 @@ public class CompartmentDefinition extends DomainResource {
          * The name of a resource supported by the server.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType}.
+         *     An immutable object of type {@link ResourceType} that is non-null.
          */
         public ResourceType getCode() {
             return code;
@@ -977,7 +977,7 @@ public class CompartmentDefinition extends DomainResource {
          * resource may be linked to a compartment in more than one way,.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getParam() {
             return param;
@@ -987,7 +987,7 @@ public class CompartmentDefinition extends DomainResource {
          * Additional documentation about the resource and compartment.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDocumentation() {
             return documentation;

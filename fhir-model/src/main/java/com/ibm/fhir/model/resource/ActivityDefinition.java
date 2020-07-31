@@ -260,7 +260,7 @@ public class ActivityDefinition extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -271,7 +271,7 @@ public class ActivityDefinition extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -287,7 +287,7 @@ public class ActivityDefinition extends DomainResource {
      * version is required for non-experimental active assets.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -298,7 +298,7 @@ public class ActivityDefinition extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -308,7 +308,7 @@ public class ActivityDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the activity definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -318,7 +318,7 @@ public class ActivityDefinition extends DomainResource {
      * An explanatory or alternate title for the activity definition giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -328,7 +328,7 @@ public class ActivityDefinition extends DomainResource {
      * The status of this activity definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -339,7 +339,7 @@ public class ActivityDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -349,7 +349,7 @@ public class ActivityDefinition extends DomainResource {
      * A code or group definition that describes the intended subject of the activity being defined.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -361,7 +361,7 @@ public class ActivityDefinition extends DomainResource {
      * content of the activity definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -371,7 +371,7 @@ public class ActivityDefinition extends DomainResource {
      * The name of the organization or individual that published the activity definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -381,7 +381,7 @@ public class ActivityDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -391,7 +391,7 @@ public class ActivityDefinition extends DomainResource {
      * A free text natural language description of the activity definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -403,7 +403,7 @@ public class ActivityDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate activity definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -413,7 +413,7 @@ public class ActivityDefinition extends DomainResource {
      * A legal or geographic region in which the activity definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -423,7 +423,7 @@ public class ActivityDefinition extends DomainResource {
      * Explanation of why this activity definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -433,7 +433,7 @@ public class ActivityDefinition extends DomainResource {
      * A detailed description of how the activity definition is used from a clinical perspective.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUsage() {
         return usage;
@@ -444,7 +444,7 @@ public class ActivityDefinition extends DomainResource {
      * legal restrictions on the use and publishing of the activity definition.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -455,7 +455,7 @@ public class ActivityDefinition extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -466,7 +466,7 @@ public class ActivityDefinition extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -476,7 +476,7 @@ public class ActivityDefinition extends DomainResource {
      * The period during which the activity definition content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -487,7 +487,7 @@ public class ActivityDefinition extends DomainResource {
      * that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -497,7 +497,7 @@ public class ActivityDefinition extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -507,7 +507,7 @@ public class ActivityDefinition extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -517,7 +517,7 @@ public class ActivityDefinition extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -527,7 +527,7 @@ public class ActivityDefinition extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -537,7 +537,7 @@ public class ActivityDefinition extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -547,7 +547,7 @@ public class ActivityDefinition extends DomainResource {
      * A reference to a Library resource containing any formal logic used by the activity definition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -558,7 +558,7 @@ public class ActivityDefinition extends DomainResource {
      * ServiceRequest, or a CommunicationRequest. Typically, but not always, this is a Request resource.
      * 
      * @return
-     *     An immutable object of type {@link ActivityDefinitionKind}.
+     *     An immutable object of type {@link ActivityDefinitionKind} that may be null.
      */
     public ActivityDefinitionKind getKind() {
         return kind;
@@ -568,7 +568,7 @@ public class ActivityDefinition extends DomainResource {
      * A profile to which the target of the activity definition is expected to conform.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getProfile() {
         return profile;
@@ -578,7 +578,7 @@ public class ActivityDefinition extends DomainResource {
      * Detailed description of the type of activity; e.g. What lab test, what procedure, what kind of encounter.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -589,7 +589,7 @@ public class ActivityDefinition extends DomainResource {
      * workflow chain.
      * 
      * @return
-     *     An immutable object of type {@link RequestIntent}.
+     *     An immutable object of type {@link RequestIntent} that may be null.
      */
     public RequestIntent getIntent() {
         return intent;
@@ -599,7 +599,7 @@ public class ActivityDefinition extends DomainResource {
      * Indicates how quickly the activity should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link RequestPriority}.
+     *     An immutable object of type {@link RequestPriority} that may be null.
      */
     public RequestPriority getPriority() {
         return priority;
@@ -611,7 +611,7 @@ public class ActivityDefinition extends DomainResource {
      * would still indicate to NOT perform the action.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getDoNotPerform() {
         return doNotPerform;
@@ -621,7 +621,7 @@ public class ActivityDefinition extends DomainResource {
      * The period, timing or frequency upon which the described activity is to occur.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getTiming() {
         return timing;
@@ -631,7 +631,7 @@ public class ActivityDefinition extends DomainResource {
      * Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -641,7 +641,7 @@ public class ActivityDefinition extends DomainResource {
      * Indicates who should participate in performing the action described.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant} that may be empty.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -651,7 +651,7 @@ public class ActivityDefinition extends DomainResource {
      * Identifies the food, drug or other product being consumed or supplied in the activity.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getProduct() {
         return product;
@@ -661,7 +661,7 @@ public class ActivityDefinition extends DomainResource {
      * Identifies the quantity expected to be consumed at once (per dose, per meal, etc.).
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getQuantity() {
         return quantity;
@@ -671,7 +671,7 @@ public class ActivityDefinition extends DomainResource {
      * Provides detailed dosage instructions in the same way that they are described for MedicationRequest resources.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Dosage}.
+     *     An unmodifiable list containing immutable objects of type {@link Dosage} that may be empty.
      */
     public List<Dosage> getDosage() {
         return dosage;
@@ -681,7 +681,7 @@ public class ActivityDefinition extends DomainResource {
      * Indicates the sites on the subject's body where the procedure should be performed (I.e. the target sites).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -691,7 +691,7 @@ public class ActivityDefinition extends DomainResource {
      * Defines specimen requirements for the action to be performed, such as required specimens for a lab test.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSpecimenRequirement() {
         return specimenRequirement;
@@ -701,7 +701,7 @@ public class ActivityDefinition extends DomainResource {
      * Defines observation requirements for the action to be performed, such as body weight or surface area.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getObservationRequirement() {
         return observationRequirement;
@@ -711,7 +711,7 @@ public class ActivityDefinition extends DomainResource {
      * Defines the observations that are expected to be produced by the action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getObservationResultRequirement() {
         return observationResultRequirement;
@@ -722,7 +722,7 @@ public class ActivityDefinition extends DomainResource {
      * using the ActivityDefinition instance as the input.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getTransform() {
         return transform;
@@ -734,7 +734,7 @@ public class ActivityDefinition extends DomainResource {
      * expression that calculated the weight, and the path on the request resource that would contain the result.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DynamicValue}.
+     *     An unmodifiable list containing immutable objects of type {@link DynamicValue} that may be empty.
      */
     public List<DynamicValue> getDynamicValue() {
         return dynamicValue;
@@ -2415,7 +2415,7 @@ public class ActivityDefinition extends DomainResource {
          * The type of participant in the action.
          * 
          * @return
-         *     An immutable object of type {@link ActivityParticipantType}.
+         *     An immutable object of type {@link ActivityParticipantType} that is non-null.
          */
         public ActivityParticipantType getType() {
             return type;
@@ -2425,7 +2425,7 @@ public class ActivityDefinition extends DomainResource {
          * The role the participant should play in performing the described action.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRole() {
             return role;
@@ -2691,7 +2691,7 @@ public class ActivityDefinition extends DomainResource {
          * traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getPath() {
             return path;
@@ -2701,7 +2701,7 @@ public class ActivityDefinition extends DomainResource {
          * An expression specifying the value of the customized element.
          * 
          * @return
-         *     An immutable object of type {@link Expression}.
+         *     An immutable object of type {@link Expression} that is non-null.
          */
         public Expression getExpression() {
             return expression;

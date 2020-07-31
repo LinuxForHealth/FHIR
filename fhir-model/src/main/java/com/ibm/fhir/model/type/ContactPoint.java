@@ -72,7 +72,7 @@ public class ContactPoint extends Element {
      * Telecommunications form for contact point - what communications system is required to make use of the contact.
      * 
      * @return
-     *     An immutable object of type {@link ContactPointSystem}.
+     *     An immutable object of type {@link ContactPointSystem} that may be null.
      */
     public ContactPointSystem getSystem() {
         return system;
@@ -83,7 +83,7 @@ public class ContactPoint extends Element {
      * number or email address).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getValue() {
         return value;
@@ -93,7 +93,7 @@ public class ContactPoint extends Element {
      * Identifies the purpose for the contact point.
      * 
      * @return
-     *     An immutable object of type {@link ContactPointUse}.
+     *     An immutable object of type {@link ContactPointUse} that may be null.
      */
     public ContactPointUse getUse() {
         return use;
@@ -104,7 +104,7 @@ public class ContactPoint extends Element {
      * than those with higher rank values.
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that may be null.
      */
     public PositiveInt getRank() {
         return rank;
@@ -114,7 +114,7 @@ public class ContactPoint extends Element {
      * Time period when the contact point was/is in use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;

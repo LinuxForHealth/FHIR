@@ -81,7 +81,7 @@ public abstract class DomainResource extends Resource {
      * content should be represented in the narrative to ensure clinical safety.
      * 
      * @return
-     *     An immutable object of type {@link Narrative}.
+     *     An immutable object of type {@link Narrative} that may be null.
      */
     public Narrative getText() {
         return text;
@@ -92,7 +92,7 @@ public abstract class DomainResource extends Resource {
      * identified independently, and nor can they have their own independent transaction scope.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Resource}.
+     *     An unmodifiable list containing immutable objects of type {@link Resource} that may be empty.
      */
     public List<Resource> getContained() {
         return contained;
@@ -105,7 +105,7 @@ public abstract class DomainResource extends Resource {
      * of the definition of the extension.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension} that may be empty.
      */
     public List<Extension> getExtension() {
         return extension;
@@ -123,7 +123,7 @@ public abstract class DomainResource extends Resource {
      * change the meaning of modifierExtension itself).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension} that may be empty.
      */
     public List<Extension> getModifierExtension() {
         return modifierExtension;

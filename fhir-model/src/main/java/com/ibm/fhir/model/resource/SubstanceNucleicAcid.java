@@ -62,7 +62,7 @@ public class SubstanceNucleicAcid extends DomainResource {
      * The type of the sequence shall be specified based on a controlled vocabulary.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSequenceType() {
         return sequenceType;
@@ -74,7 +74,7 @@ public class SubstanceNucleicAcid extends DomainResource {
      * specified in the reference source, the assumption is that there is 1 subunit.
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that may be null.
      */
     public Integer getNumberOfSubunits() {
         return numberOfSubunits;
@@ -86,7 +86,7 @@ public class SubstanceNucleicAcid extends DomainResource {
      * shall be used as separator as follows: “Subunitnumber Residue”.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getAreaOfHybridisation() {
         return areaOfHybridisation;
@@ -96,7 +96,7 @@ public class SubstanceNucleicAcid extends DomainResource {
      * (TBC).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getOligoNucleotideType() {
         return oligoNucleotideType;
@@ -107,7 +107,7 @@ public class SubstanceNucleicAcid extends DomainResource {
      * subunits that have identical sequences will be repeated multiple times.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Subunit}.
+     *     An unmodifiable list containing immutable objects of type {@link Subunit} that may be empty.
      */
     public List<Subunit> getSubunit() {
         return subunit;
@@ -581,7 +581,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * by molecular weight. Subunits that have identical sequences will be repeated and have sequential subscripts.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getSubunit() {
             return subunit;
@@ -592,7 +592,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * sequence, sugar and type of phosphate or non-phosphate linkage should also be captured.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSequence() {
             return sequence;
@@ -602,7 +602,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * The length of the sequence shall be captured.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getLength() {
             return length;
@@ -612,7 +612,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * (TBC).
          * 
          * @return
-         *     An immutable object of type {@link Attachment}.
+         *     An immutable object of type {@link Attachment} that may be null.
          */
         public Attachment getSequenceAttachment() {
             return sequenceAttachment;
@@ -624,7 +624,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * separate representation would be redundant.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFivePrime() {
             return fivePrime;
@@ -636,7 +636,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * separate representation would be redundant.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getThreePrime() {
             return threePrime;
@@ -646,7 +646,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * The linkages between sugar residues will also be captured.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Linkage}.
+         *     An unmodifiable list containing immutable objects of type {@link Linkage} that may be empty.
          */
         public List<Linkage> getLinkage() {
             return linkage;
@@ -656,7 +656,7 @@ public class SubstanceNucleicAcid extends DomainResource {
          * 5.3.6.8.1 Sugar ID (Mandatory).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Sugar}.
+         *     An unmodifiable list containing immutable objects of type {@link Sugar} that may be empty.
          */
         public List<Sugar> getSugar() {
             return sugar;
@@ -1088,7 +1088,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * Linkage connectivity is assumed to be 3’-5’. If the linkage is either 3’-3’ or 5’-5’ this should be specified.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getConnectivity() {
                 return connectivity;
@@ -1098,7 +1098,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * Each linkage will be registered as a fragment and have an ID.
              * 
              * @return
-             *     An immutable object of type {@link Identifier}.
+             *     An immutable object of type {@link Identifier} that may be null.
              */
             public Identifier getIdentifier() {
                 return identifier;
@@ -1109,7 +1109,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * linkage.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getName() {
                 return name;
@@ -1119,7 +1119,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * Residues shall be captured as described in 5.3.6.8.3.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getResidueSite() {
                 return residueSite;
@@ -1421,7 +1421,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * The Substance ID of the sugar or sugar-like component that make up the nucleotide.
              * 
              * @return
-             *     An immutable object of type {@link Identifier}.
+             *     An immutable object of type {@link Identifier} that may be null.
              */
             public Identifier getIdentifier() {
                 return identifier;
@@ -1431,7 +1431,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * The name of the sugar or sugar-like component that make up the nucleotide.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getName() {
                 return name;
@@ -1442,7 +1442,7 @@ public class SubstanceNucleicAcid extends DomainResource {
              * ‘direction consistent with the base sequences listed above.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getResidueSite() {
                 return residueSite;

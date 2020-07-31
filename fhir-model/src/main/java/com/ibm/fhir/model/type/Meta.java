@@ -69,7 +69,7 @@ public class Meta extends Element {
      * is created, updated, or deleted.
      * 
      * @return
-     *     An immutable object of type {@link Id}.
+     *     An immutable object of type {@link Id} that may be null.
      */
     public Id getVersionId() {
         return versionId;
@@ -79,7 +79,7 @@ public class Meta extends Element {
      * When the resource last changed - e.g. when the version changed.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getLastUpdated() {
         return lastUpdated;
@@ -91,7 +91,7 @@ public class Meta extends Element {
      * may identify another FHIR server, document, message, database, etc.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getSource() {
         return source;
@@ -103,7 +103,7 @@ public class Meta extends Element {
      * html#StructureDefinition.url).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getProfile() {
         return profile;
@@ -114,7 +114,7 @@ public class Meta extends Element {
      * infrastructure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getSecurity() {
         return security;
@@ -125,7 +125,7 @@ public class Meta extends Element {
      * and applications are not required to consider the tags when interpreting the meaning of a resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getTag() {
         return tag;

@@ -141,7 +141,7 @@ public class Device extends DomainResource {
      * Unique instance identifiers assigned to a device by manufacturers other organizations or owners.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -151,7 +151,7 @@ public class Device extends DomainResource {
      * The reference to the definition for the device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDefinition() {
         return definition;
@@ -163,7 +163,7 @@ public class Device extends DomainResource {
      * jurisdictions it could have been sold.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UdiCarrier}.
+     *     An unmodifiable list containing immutable objects of type {@link UdiCarrier} that may be empty.
      */
     public List<UdiCarrier> getUdiCarrier() {
         return udiCarrier;
@@ -173,7 +173,7 @@ public class Device extends DomainResource {
      * Status of the Device availability.
      * 
      * @return
-     *     An immutable object of type {@link FHIRDeviceStatus}.
+     *     An immutable object of type {@link FHIRDeviceStatus} that may be null.
      */
     public FHIRDeviceStatus getStatus() {
         return status;
@@ -183,7 +183,7 @@ public class Device extends DomainResource {
      * Reason for the dtatus of the Device availability.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getStatusReason() {
         return statusReason;
@@ -194,7 +194,7 @@ public class Device extends DomainResource {
      * product.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDistinctIdentifier() {
         return distinctIdentifier;
@@ -204,7 +204,7 @@ public class Device extends DomainResource {
      * A name of the manufacturer.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getManufacturer() {
         return manufacturer;
@@ -214,7 +214,7 @@ public class Device extends DomainResource {
      * The date and time when the device was manufactured.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getManufactureDate() {
         return manufactureDate;
@@ -224,7 +224,7 @@ public class Device extends DomainResource {
      * The date and time beyond which this device is no longer valid or should not be used (if applicable).
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getExpirationDate() {
         return expirationDate;
@@ -234,7 +234,7 @@ public class Device extends DomainResource {
      * Lot number assigned by the manufacturer.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getLotNumber() {
         return lotNumber;
@@ -244,7 +244,7 @@ public class Device extends DomainResource {
      * The serial number assigned by the organization when the device was manufactured.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSerialNumber() {
         return serialNumber;
@@ -256,7 +256,7 @@ public class Device extends DomainResource {
      * one of the names available from DeviceDefinition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DeviceName}.
+     *     An unmodifiable list containing immutable objects of type {@link DeviceName} that may be empty.
      */
     public List<DeviceName> getDeviceName() {
         return deviceName;
@@ -266,7 +266,7 @@ public class Device extends DomainResource {
      * The model number for the device.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getModelNumber() {
         return modelNumber;
@@ -276,7 +276,7 @@ public class Device extends DomainResource {
      * The part number of the device.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPartNumber() {
         return partNumber;
@@ -286,7 +286,7 @@ public class Device extends DomainResource {
      * The kind or type of device.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -297,7 +297,7 @@ public class Device extends DomainResource {
      * for the communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Specialization}.
+     *     An unmodifiable list containing immutable objects of type {@link Specialization} that may be empty.
      */
     public List<Specialization> getSpecialization() {
         return specialization;
@@ -307,7 +307,7 @@ public class Device extends DomainResource {
      * The actual design of the device or software version running on the device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Version}.
+     *     An unmodifiable list containing immutable objects of type {@link Version} that may be empty.
      */
     public List<Version> getVersion() {
         return version;
@@ -317,7 +317,7 @@ public class Device extends DomainResource {
      * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Property}.
+     *     An unmodifiable list containing immutable objects of type {@link Property} that may be empty.
      */
     public List<Property> getProperty() {
         return property;
@@ -327,7 +327,7 @@ public class Device extends DomainResource {
      * Patient information, If the device is affixed to a person.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPatient() {
         return patient;
@@ -337,7 +337,7 @@ public class Device extends DomainResource {
      * An organization that is responsible for the provision and ongoing maintenance of the device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOwner() {
         return owner;
@@ -347,7 +347,7 @@ public class Device extends DomainResource {
      * Contact details for an organization or a particular human that is responsible for the device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getContact() {
         return contact;
@@ -357,7 +357,7 @@ public class Device extends DomainResource {
      * The place where the device can be found.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -367,7 +367,7 @@ public class Device extends DomainResource {
      * A network address on which the device may be contacted directly.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -377,7 +377,7 @@ public class Device extends DomainResource {
      * Descriptive information, usage information or implantation information that is not captured in an existing element.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -387,7 +387,7 @@ public class Device extends DomainResource {
      * Provides additional safety characteristics about a medical device. For example devices containing latex.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSafety() {
         return safety;
@@ -397,7 +397,7 @@ public class Device extends DomainResource {
      * The parent device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getParent() {
         return parent;
@@ -1495,7 +1495,7 @@ public class Device extends DomainResource {
          * or model of a device.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDeviceIdentifier() {
             return deviceIdentifier;
@@ -1513,7 +1513,7 @@ public class Device extends DomainResource {
          * http://hl7.org/fhir/NamingSystem/iccbba-other-di.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getIssuer() {
             return issuer;
@@ -1525,7 +1525,7 @@ public class Device extends DomainResource {
          * by the FDA, the value is http://hl7.org/fhir/NamingSystem/fda-udi.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getJurisdiction() {
             return jurisdiction;
@@ -1537,7 +1537,7 @@ public class Device extends DomainResource {
          * in XML and the need to round-trip JSON data through XML, AIDC Formats *SHALL* be base64 encoded.
          * 
          * @return
-         *     An immutable object of type {@link Base64Binary}.
+         *     An immutable object of type {@link Base64Binary} that may be null.
          */
         public Base64Binary getCarrierAIDC() {
             return carrierAIDC;
@@ -1548,7 +1548,7 @@ public class Device extends DomainResource {
          * of the device.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getCarrierHRF() {
             return carrierHRF;
@@ -1558,7 +1558,7 @@ public class Device extends DomainResource {
          * A coded entry to indicate how the data was entered.
          * 
          * @return
-         *     An immutable object of type {@link UDIEntryType}.
+         *     An immutable object of type {@link UDIEntryType} that may be null.
          */
         public UDIEntryType getEntryType() {
             return entryType;
@@ -1913,7 +1913,7 @@ public class Device extends DomainResource {
          * The name of the device.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -1924,7 +1924,7 @@ public class Device extends DomainResource {
          * UDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.
          * 
          * @return
-         *     An immutable object of type {@link DeviceNameType}.
+         *     An immutable object of type {@link DeviceNameType} that is non-null.
          */
         public DeviceNameType getType() {
             return type;
@@ -2188,7 +2188,7 @@ public class Device extends DomainResource {
          * The standard that is used to operate and communicate.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getSystemType() {
             return systemType;
@@ -2198,7 +2198,7 @@ public class Device extends DomainResource {
          * The version of the standard that is used to operate and communicate.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getVersion() {
             return version;
@@ -2459,7 +2459,7 @@ public class Device extends DomainResource {
          * The type of the device version.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2469,7 +2469,7 @@ public class Device extends DomainResource {
          * A single component of the device version.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getComponent() {
             return component;
@@ -2479,7 +2479,7 @@ public class Device extends DomainResource {
          * The version text.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getValue() {
             return value;
@@ -2760,7 +2760,7 @@ public class Device extends DomainResource {
          * Code that specifies the property DeviceDefinitionPropetyCode (Extensible).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2770,7 +2770,7 @@ public class Device extends DomainResource {
          * Property value as a quantity.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Quantity}.
+         *     An unmodifiable list containing immutable objects of type {@link Quantity} that may be empty.
          */
         public List<Quantity> getValueQuantity() {
             return valueQuantity;
@@ -2780,7 +2780,7 @@ public class Device extends DomainResource {
          * Property value as a code, e.g., NTP4 (synced to NTP).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getValueCode() {
             return valueCode;

@@ -125,7 +125,7 @@ public class ExampleScenario extends DomainResource {
      * target of a canonical reference. It SHALL remain the same when the example scenario is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -136,7 +136,7 @@ public class ExampleScenario extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -149,7 +149,7 @@ public class ExampleScenario extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -160,7 +160,7 @@ public class ExampleScenario extends DomainResource {
      * by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -170,7 +170,7 @@ public class ExampleScenario extends DomainResource {
      * The status of this example scenario. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -181,7 +181,7 @@ public class ExampleScenario extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -193,7 +193,7 @@ public class ExampleScenario extends DomainResource {
      * the example scenario changes. (e.g. the 'content logical definition').
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -203,7 +203,7 @@ public class ExampleScenario extends DomainResource {
      * The name of the organization or individual that published the example scenario.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -213,7 +213,7 @@ public class ExampleScenario extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -225,7 +225,7 @@ public class ExampleScenario extends DomainResource {
      * may be used to assist with indexing and searching for appropriate example scenario instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -235,7 +235,7 @@ public class ExampleScenario extends DomainResource {
      * A legal or geographic region in which the example scenario is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -246,7 +246,7 @@ public class ExampleScenario extends DomainResource {
      * restrictions on the use and publishing of the example scenario.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -257,7 +257,7 @@ public class ExampleScenario extends DomainResource {
      * scenario itself, but the purpose of documenting a scenario.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -267,7 +267,7 @@ public class ExampleScenario extends DomainResource {
      * Actor participating in the resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Actor}.
+     *     An unmodifiable list containing immutable objects of type {@link Actor} that may be empty.
      */
     public List<Actor> getActor() {
         return actor;
@@ -277,7 +277,7 @@ public class ExampleScenario extends DomainResource {
      * Each resource and each version that is present in the workflow.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Instance}.
+     *     An unmodifiable list containing immutable objects of type {@link Instance} that may be empty.
      */
     public List<Instance> getInstance() {
         return instance;
@@ -287,7 +287,7 @@ public class ExampleScenario extends DomainResource {
      * Each major process - a group of operations.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Process}.
+     *     An unmodifiable list containing immutable objects of type {@link Process} that may be empty.
      */
     public List<Process> getProcess() {
         return process;
@@ -297,7 +297,7 @@ public class ExampleScenario extends DomainResource {
      * Another nested workflow.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getWorkflow() {
         return workflow;
@@ -1154,7 +1154,7 @@ public class ExampleScenario extends DomainResource {
          * ID or acronym of actor.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getActorId() {
             return actorId;
@@ -1164,7 +1164,7 @@ public class ExampleScenario extends DomainResource {
          * The type of actor - person or system.
          * 
          * @return
-         *     An immutable object of type {@link ExampleScenarioActorType}.
+         *     An immutable object of type {@link ExampleScenarioActorType} that is non-null.
          */
         public ExampleScenarioActorType getType() {
             return type;
@@ -1174,7 +1174,7 @@ public class ExampleScenario extends DomainResource {
          * The name of the actor as shown in the page.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -1184,7 +1184,7 @@ public class ExampleScenario extends DomainResource {
          * The description of the actor.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getDescription() {
             return description;
@@ -1501,7 +1501,7 @@ public class ExampleScenario extends DomainResource {
          * The id of the resource for referencing.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getResourceId() {
             return resourceId;
@@ -1511,7 +1511,7 @@ public class ExampleScenario extends DomainResource {
          * The type of the resource.
          * 
          * @return
-         *     An immutable object of type {@link FHIRResourceType}.
+         *     An immutable object of type {@link FHIRResourceType} that is non-null.
          */
         public FHIRResourceType getResourceType() {
             return resourceType;
@@ -1521,7 +1521,7 @@ public class ExampleScenario extends DomainResource {
          * A short name for the resource instance.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -1531,7 +1531,7 @@ public class ExampleScenario extends DomainResource {
          * Human-friendly description of the resource instance.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getDescription() {
             return description;
@@ -1541,7 +1541,7 @@ public class ExampleScenario extends DomainResource {
          * A specific version of the resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Version}.
+         *     An unmodifiable list containing immutable objects of type {@link Version} that may be empty.
          */
         public List<Version> getVersion() {
             return version;
@@ -1551,7 +1551,7 @@ public class ExampleScenario extends DomainResource {
          * Resources contained in the instance (e.g. the observations contained in a bundle).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ContainedInstance}.
+         *     An unmodifiable list containing immutable objects of type {@link ContainedInstance} that may be empty.
          */
         public List<ContainedInstance> getContainedInstance() {
             return containedInstance;
@@ -1933,7 +1933,7 @@ public class ExampleScenario extends DomainResource {
              * The identifier of a specific version of a resource.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getVersionId() {
                 return versionId;
@@ -1943,7 +1943,7 @@ public class ExampleScenario extends DomainResource {
              * The description of the resource version.
              * 
              * @return
-             *     An immutable object of type {@link Markdown}.
+             *     An immutable object of type {@link Markdown} that is non-null.
              */
             public Markdown getDescription() {
                 return description;
@@ -2205,7 +2205,7 @@ public class ExampleScenario extends DomainResource {
              * Each resource contained in the instance.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getResourceId() {
                 return resourceId;
@@ -2215,7 +2215,7 @@ public class ExampleScenario extends DomainResource {
              * A specific version of a resource contained in the instance.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getVersionId() {
                 return versionId;
@@ -2482,7 +2482,7 @@ public class ExampleScenario extends DomainResource {
          * The diagram title of the group of operations.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getTitle() {
             return title;
@@ -2492,7 +2492,7 @@ public class ExampleScenario extends DomainResource {
          * A longer description of the group of operations.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getDescription() {
             return description;
@@ -2502,7 +2502,7 @@ public class ExampleScenario extends DomainResource {
          * Description of initial status before the process starts.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getPreConditions() {
             return preConditions;
@@ -2512,7 +2512,7 @@ public class ExampleScenario extends DomainResource {
          * Description of final status after the process ends.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getPostConditions() {
             return postConditions;
@@ -2522,7 +2522,7 @@ public class ExampleScenario extends DomainResource {
          * Each step of the process.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Step}.
+         *     An unmodifiable list containing immutable objects of type {@link Step} that may be empty.
          */
         public List<Step> getStep() {
             return step;
@@ -2863,7 +2863,7 @@ public class ExampleScenario extends DomainResource {
              * Nested process.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Process}.
+             *     An unmodifiable list containing immutable objects of type {@link Process} that may be empty.
              */
             public List<ExampleScenario.Process> getProcess() {
                 return process;
@@ -2873,7 +2873,7 @@ public class ExampleScenario extends DomainResource {
              * If there is a pause in the flow.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getPause() {
                 return pause;
@@ -2883,7 +2883,7 @@ public class ExampleScenario extends DomainResource {
              * Each interaction or action.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link Operation} that may be null.
              */
             public Operation getOperation() {
                 return operation;
@@ -2894,7 +2894,7 @@ public class ExampleScenario extends DomainResource {
              * circumstances.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Alternative}.
+             *     An unmodifiable list containing immutable objects of type {@link Alternative} that may be empty.
              */
             public List<Alternative> getAlternative() {
                 return alternative;
@@ -3243,7 +3243,7 @@ public class ExampleScenario extends DomainResource {
                  * The sequential number of the interaction, e.g. 1.2.5.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that is non-null.
                  */
                 public String getNumber() {
                     return number;
@@ -3253,7 +3253,7 @@ public class ExampleScenario extends DomainResource {
                  * The type of operation - CRUD.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getType() {
                     return type;
@@ -3263,7 +3263,7 @@ public class ExampleScenario extends DomainResource {
                  * The human-friendly name of the interaction.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getName() {
                     return name;
@@ -3273,7 +3273,7 @@ public class ExampleScenario extends DomainResource {
                  * Who starts the transaction.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getInitiator() {
                     return initiator;
@@ -3283,7 +3283,7 @@ public class ExampleScenario extends DomainResource {
                  * Who receives the transaction.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getReceiver() {
                     return receiver;
@@ -3293,7 +3293,7 @@ public class ExampleScenario extends DomainResource {
                  * A comment to be inserted in the diagram.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getDescription() {
                     return description;
@@ -3303,7 +3303,7 @@ public class ExampleScenario extends DomainResource {
                  * Whether the initiator is deactivated right after the transaction.
                  * 
                  * @return
-                 *     An immutable object of type {@link Boolean}.
+                 *     An immutable object of type {@link Boolean} that may be null.
                  */
                 public Boolean getInitiatorActive() {
                     return initiatorActive;
@@ -3313,7 +3313,7 @@ public class ExampleScenario extends DomainResource {
                  * Whether the receiver is deactivated right after the transaction.
                  * 
                  * @return
-                 *     An immutable object of type {@link Boolean}.
+                 *     An immutable object of type {@link Boolean} that may be null.
                  */
                 public Boolean getReceiverActive() {
                     return receiverActive;
@@ -3323,7 +3323,7 @@ public class ExampleScenario extends DomainResource {
                  * Each resource instance used by the initiator.
                  * 
                  * @return
-                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance}.
+                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance} that may be null.
                  */
                 public ExampleScenario.Instance.ContainedInstance getRequest() {
                     return request;
@@ -3333,7 +3333,7 @@ public class ExampleScenario extends DomainResource {
                  * Each resource instance used by the responder.
                  * 
                  * @return
-                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance}.
+                 *     An immutable object of type {@link ExampleScenario.Instance.ContainedInstance} that may be null.
                  */
                 public ExampleScenario.Instance.ContainedInstance getResponse() {
                     return response;
@@ -3756,7 +3756,7 @@ public class ExampleScenario extends DomainResource {
                  * invoked.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that is non-null.
                  */
                 public String getTitle() {
                     return title;
@@ -3766,7 +3766,7 @@ public class ExampleScenario extends DomainResource {
                  * A human-readable description of the alternative explaining when the alternative should occur rather than the base step.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getDescription() {
                     return description;
@@ -3776,7 +3776,7 @@ public class ExampleScenario extends DomainResource {
                  * What happens in each alternative option.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Step}.
+                 *     An unmodifiable list containing immutable objects of type {@link Step} that may be empty.
                  */
                 public List<ExampleScenario.Process.Step> getStep() {
                     return step;

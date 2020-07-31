@@ -200,7 +200,7 @@ public class PlanDefinition extends DomainResource {
      * target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -211,7 +211,7 @@ public class PlanDefinition extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -227,7 +227,7 @@ public class PlanDefinition extends DomainResource {
      * non-experimental active artifacts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -238,7 +238,7 @@ public class PlanDefinition extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -248,7 +248,7 @@ public class PlanDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the plan definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -258,7 +258,7 @@ public class PlanDefinition extends DomainResource {
      * An explanatory or alternate title for the plan definition giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -269,7 +269,7 @@ public class PlanDefinition extends DomainResource {
      * plan definition.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -279,7 +279,7 @@ public class PlanDefinition extends DomainResource {
      * The status of this plan definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -290,7 +290,7 @@ public class PlanDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -300,7 +300,7 @@ public class PlanDefinition extends DomainResource {
      * A code or group definition that describes the intended subject of the plan definition.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -312,7 +312,7 @@ public class PlanDefinition extends DomainResource {
      * the plan definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -322,7 +322,7 @@ public class PlanDefinition extends DomainResource {
      * The name of the organization or individual that published the plan definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -332,7 +332,7 @@ public class PlanDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -342,7 +342,7 @@ public class PlanDefinition extends DomainResource {
      * A free text natural language description of the plan definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -354,7 +354,7 @@ public class PlanDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate plan definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -364,7 +364,7 @@ public class PlanDefinition extends DomainResource {
      * A legal or geographic region in which the plan definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -374,7 +374,7 @@ public class PlanDefinition extends DomainResource {
      * Explanation of why this plan definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -384,7 +384,7 @@ public class PlanDefinition extends DomainResource {
      * A detailed description of how the plan definition is used from a clinical perspective.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUsage() {
         return usage;
@@ -395,7 +395,7 @@ public class PlanDefinition extends DomainResource {
      * restrictions on the use and publishing of the plan definition.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -406,7 +406,7 @@ public class PlanDefinition extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -417,7 +417,7 @@ public class PlanDefinition extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -427,7 +427,7 @@ public class PlanDefinition extends DomainResource {
      * The period during which the plan definition content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -438,7 +438,7 @@ public class PlanDefinition extends DomainResource {
      * definition that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -448,7 +448,7 @@ public class PlanDefinition extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -458,7 +458,7 @@ public class PlanDefinition extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -468,7 +468,7 @@ public class PlanDefinition extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -478,7 +478,7 @@ public class PlanDefinition extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -488,7 +488,7 @@ public class PlanDefinition extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -498,7 +498,7 @@ public class PlanDefinition extends DomainResource {
      * A reference to a Library resource containing any formal logic used by the plan definition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -509,7 +509,7 @@ public class PlanDefinition extends DomainResource {
      * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Goal}.
+     *     An unmodifiable list containing immutable objects of type {@link Goal} that may be empty.
      */
     public List<Goal> getGoal() {
         return goal;
@@ -519,7 +519,7 @@ public class PlanDefinition extends DomainResource {
      * An action or group of actions to be taken as part of the plan.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Action}.
+     *     An unmodifiable list containing immutable objects of type {@link Action} that may be empty.
      */
     public List<Action> getAction() {
         return action;
@@ -1801,7 +1801,7 @@ public class PlanDefinition extends DomainResource {
          * Indicates a category the goal falls within.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCategory() {
             return category;
@@ -1812,7 +1812,7 @@ public class PlanDefinition extends DomainResource {
          * "negotiate an obstacle course" or "dance with child at wedding".
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getDescription() {
             return description;
@@ -1822,7 +1822,7 @@ public class PlanDefinition extends DomainResource {
          * Identifies the expected level of importance associated with reaching/sustaining the defined goal.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPriority() {
             return priority;
@@ -1832,7 +1832,7 @@ public class PlanDefinition extends DomainResource {
          * The event after which the goal should begin being pursued.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStart() {
             return start;
@@ -1842,7 +1842,7 @@ public class PlanDefinition extends DomainResource {
          * Identifies problems, conditions, issues, or concerns the goal is intended to address.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getAddresses() {
             return addresses;
@@ -1853,7 +1853,7 @@ public class PlanDefinition extends DomainResource {
          * the goal. Information resources can include inline text commentary and links to web resources.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
          */
         public List<RelatedArtifact> getDocumentation() {
             return documentation;
@@ -1863,7 +1863,7 @@ public class PlanDefinition extends DomainResource {
          * Indicates what should be done and within what timeframe.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Target}.
+         *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
          */
         public List<Target> getTarget() {
             return target;
@@ -2292,7 +2292,7 @@ public class PlanDefinition extends DomainResource {
              * The parameter whose value is to be tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getMeasure() {
                 return measure;
@@ -2305,7 +2305,7 @@ public class PlanDefinition extends DomainResource {
              * is achieved at any value at or above the low value.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getDetail() {
                 return detail;
@@ -2315,7 +2315,7 @@ public class PlanDefinition extends DomainResource {
              * Indicates the timeframe after the start of the goal in which the goal should be met.
              * 
              * @return
-             *     An immutable object of type {@link Duration}.
+             *     An immutable object of type {@link Duration} that may be null.
              */
             public Duration getDue() {
                 return due;
@@ -2698,7 +2698,7 @@ public class PlanDefinition extends DomainResource {
          * A user-visible prefix for the action.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPrefix() {
             return prefix;
@@ -2708,7 +2708,7 @@ public class PlanDefinition extends DomainResource {
          * The title of the action displayed to a user.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getTitle() {
             return title;
@@ -2718,7 +2718,7 @@ public class PlanDefinition extends DomainResource {
          * A brief description of the action used to provide a summary to display to the user.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2729,7 +2729,7 @@ public class PlanDefinition extends DomainResource {
          * the definition is consumed by a system that might not be capable of interpreting it dynamically.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getTextEquivalent() {
             return textEquivalent;
@@ -2739,7 +2739,7 @@ public class PlanDefinition extends DomainResource {
          * Indicates how quickly the action should be addressed with respect to other actions.
          * 
          * @return
-         *     An immutable object of type {@link RequestPriority}.
+         *     An immutable object of type {@link RequestPriority} that may be null.
          */
         public RequestPriority getPriority() {
             return priority;
@@ -2750,7 +2750,7 @@ public class PlanDefinition extends DomainResource {
          * section of a documentation template.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -2760,7 +2760,7 @@ public class PlanDefinition extends DomainResource {
          * A description of why this action is necessary or appropriate.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getReason() {
             return reason;
@@ -2771,7 +2771,7 @@ public class PlanDefinition extends DomainResource {
          * Information resources can include inline text commentary and links to web resources.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
          */
         public List<RelatedArtifact> getDocumentation() {
             return documentation;
@@ -2782,7 +2782,7 @@ public class PlanDefinition extends DomainResource {
          * definition.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Id}.
+         *     An unmodifiable list containing immutable objects of type {@link Id} that may be empty.
          */
         public List<Id> getGoalId() {
             return goalId;
@@ -2792,7 +2792,7 @@ public class PlanDefinition extends DomainResource {
          * A code or group definition that describes the intended subject of the action and its children, if any.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getSubject() {
             return subject;
@@ -2802,7 +2802,7 @@ public class PlanDefinition extends DomainResource {
          * A description of when the action should be triggered.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link TriggerDefinition}.
+         *     An unmodifiable list containing immutable objects of type {@link TriggerDefinition} that may be empty.
          */
         public List<TriggerDefinition> getTrigger() {
             return trigger;
@@ -2812,7 +2812,7 @@ public class PlanDefinition extends DomainResource {
          * An expression that describes applicability criteria or start/stop conditions for the action.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Condition}.
+         *     An unmodifiable list containing immutable objects of type {@link Condition} that may be empty.
          */
         public List<Condition> getCondition() {
             return condition;
@@ -2822,7 +2822,7 @@ public class PlanDefinition extends DomainResource {
          * Defines input data requirements for the action.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
+         *     An unmodifiable list containing immutable objects of type {@link DataRequirement} that may be empty.
          */
         public List<DataRequirement> getInput() {
             return input;
@@ -2832,7 +2832,7 @@ public class PlanDefinition extends DomainResource {
          * Defines the outputs of the action, if any.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
+         *     An unmodifiable list containing immutable objects of type {@link DataRequirement} that may be empty.
          */
         public List<DataRequirement> getOutput() {
             return output;
@@ -2842,7 +2842,7 @@ public class PlanDefinition extends DomainResource {
          * A relationship to another action such as "before" or "30-60 minutes after start of".
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link RelatedAction}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedAction} that may be empty.
          */
         public List<RelatedAction> getRelatedAction() {
             return relatedAction;
@@ -2852,7 +2852,7 @@ public class PlanDefinition extends DomainResource {
          * An optional value describing when the action should be performed.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -2862,7 +2862,7 @@ public class PlanDefinition extends DomainResource {
          * Indicates who should participate in performing the action described.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Participant}.
+         *     An unmodifiable list containing immutable objects of type {@link Participant} that may be empty.
          */
         public List<Participant> getParticipant() {
             return participant;
@@ -2872,7 +2872,7 @@ public class PlanDefinition extends DomainResource {
          * The type of action to perform (create, update, remove).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2882,7 +2882,7 @@ public class PlanDefinition extends DomainResource {
          * Defines the grouping behavior for the action and its children.
          * 
          * @return
-         *     An immutable object of type {@link ActionGroupingBehavior}.
+         *     An immutable object of type {@link ActionGroupingBehavior} that may be null.
          */
         public ActionGroupingBehavior getGroupingBehavior() {
             return groupingBehavior;
@@ -2892,7 +2892,7 @@ public class PlanDefinition extends DomainResource {
          * Defines the selection behavior for the action and its children.
          * 
          * @return
-         *     An immutable object of type {@link ActionSelectionBehavior}.
+         *     An immutable object of type {@link ActionSelectionBehavior} that may be null.
          */
         public ActionSelectionBehavior getSelectionBehavior() {
             return selectionBehavior;
@@ -2902,7 +2902,7 @@ public class PlanDefinition extends DomainResource {
          * Defines the required behavior for the action.
          * 
          * @return
-         *     An immutable object of type {@link ActionRequiredBehavior}.
+         *     An immutable object of type {@link ActionRequiredBehavior} that may be null.
          */
         public ActionRequiredBehavior getRequiredBehavior() {
             return requiredBehavior;
@@ -2912,7 +2912,7 @@ public class PlanDefinition extends DomainResource {
          * Defines whether the action should usually be preselected.
          * 
          * @return
-         *     An immutable object of type {@link ActionPrecheckBehavior}.
+         *     An immutable object of type {@link ActionPrecheckBehavior} that may be null.
          */
         public ActionPrecheckBehavior getPrecheckBehavior() {
             return precheckBehavior;
@@ -2922,7 +2922,7 @@ public class PlanDefinition extends DomainResource {
          * Defines whether the action can be selected multiple times.
          * 
          * @return
-         *     An immutable object of type {@link ActionCardinalityBehavior}.
+         *     An immutable object of type {@link ActionCardinalityBehavior} that may be null.
          */
         public ActionCardinalityBehavior getCardinalityBehavior() {
             return cardinalityBehavior;
@@ -2933,7 +2933,7 @@ public class PlanDefinition extends DomainResource {
          * describes a series of actions to be taken.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getDefinition() {
             return definition;
@@ -2944,7 +2944,7 @@ public class PlanDefinition extends DomainResource {
          * using the ActivityDefinition instance as the input.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that may be null.
          */
         public Canonical getTransform() {
             return transform;
@@ -2956,7 +2956,7 @@ public class PlanDefinition extends DomainResource {
          * the weight, and the path on the resource that would contain the result.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DynamicValue}.
+         *     An unmodifiable list containing immutable objects of type {@link DynamicValue} that may be empty.
          */
         public List<DynamicValue> getDynamicValue() {
             return dynamicValue;
@@ -2968,7 +2968,7 @@ public class PlanDefinition extends DomainResource {
          * as part of realizing the action definition.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that may be empty.
          */
         public List<PlanDefinition.Action> getAction() {
             return action;
@@ -4004,7 +4004,7 @@ public class PlanDefinition extends DomainResource {
              * The kind of condition.
              * 
              * @return
-             *     An immutable object of type {@link ActionConditionKind}.
+             *     An immutable object of type {@link ActionConditionKind} that is non-null.
              */
             public ActionConditionKind getKind() {
                 return kind;
@@ -4014,7 +4014,7 @@ public class PlanDefinition extends DomainResource {
              * An expression that returns true or false, indicating whether the condition is satisfied.
              * 
              * @return
-             *     An immutable object of type {@link Expression}.
+             *     An immutable object of type {@link Expression} that may be null.
              */
             public Expression getExpression() {
                 return expression;
@@ -4283,7 +4283,7 @@ public class PlanDefinition extends DomainResource {
              * The element id of the related action.
              * 
              * @return
-             *     An immutable object of type {@link Id}.
+             *     An immutable object of type {@link Id} that is non-null.
              */
             public Id getActionId() {
                 return actionId;
@@ -4293,7 +4293,7 @@ public class PlanDefinition extends DomainResource {
              * The relationship of this action to the related action.
              * 
              * @return
-             *     An immutable object of type {@link ActionRelationshipType}.
+             *     An immutable object of type {@link ActionRelationshipType} that is non-null.
              */
             public ActionRelationshipType getRelationship() {
                 return relationship;
@@ -4303,7 +4303,7 @@ public class PlanDefinition extends DomainResource {
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getOffset() {
                 return offset;
@@ -4604,7 +4604,7 @@ public class PlanDefinition extends DomainResource {
              * The type of participant in the action.
              * 
              * @return
-             *     An immutable object of type {@link ActionParticipantType}.
+             *     An immutable object of type {@link ActionParticipantType} that is non-null.
              */
             public ActionParticipantType getType() {
                 return type;
@@ -4614,7 +4614,7 @@ public class PlanDefinition extends DomainResource {
              * The role the participant should play in performing the described action.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getRole() {
                 return role;
@@ -4878,7 +4878,7 @@ public class PlanDefinition extends DomainResource {
              * traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getPath() {
                 return path;
@@ -4888,7 +4888,7 @@ public class PlanDefinition extends DomainResource {
              * An expression specifying the value of the customized element.
              * 
              * @return
-             *     An immutable object of type {@link Expression}.
+             *     An immutable object of type {@link Expression} that may be null.
              */
             public Expression getExpression() {
                 return expression;

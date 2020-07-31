@@ -69,7 +69,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * The medication for which this is an indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -79,7 +79,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * The disease, symptom or procedure for the contraindication.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDisease() {
         return disease;
@@ -89,7 +89,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * The status of the disease or symptom for the contraindication.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDiseaseStatus() {
         return diseaseStatus;
@@ -99,7 +99,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * A comorbidity (concurrent condition) or coinfection.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getComorbidity() {
         return comorbidity;
@@ -109,7 +109,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * Information about the use of the medicinal product in relation to other therapies as part of the indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getTherapeuticIndication() {
         return therapeuticIndication;
@@ -119,7 +119,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link OtherTherapy}.
+     *     An unmodifiable list containing immutable objects of type {@link OtherTherapy} that may be empty.
      */
     public List<OtherTherapy> getOtherTherapy() {
         return otherTherapy;
@@ -129,7 +129,7 @@ public class MedicinalProductContraindication extends DomainResource {
      * The population group to which this applies.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Population}.
+     *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
      */
     public List<Population> getPopulation() {
         return population;
@@ -694,7 +694,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * The type of relationship between the medicinal product indication or contraindication and another therapy.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getTherapyRelationshipType() {
             return therapyRelationshipType;
@@ -705,7 +705,7 @@ public class MedicinalProductContraindication extends DomainResource {
          * or contraindication.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getMedication() {
             return medication;

@@ -59,7 +59,7 @@ public class UsageContext extends Element {
      * A code that identifies the type of context being specified by this usage context.
      * 
      * @return
-     *     An immutable object of type {@link Coding}.
+     *     An immutable object of type {@link Coding} that is non-null.
      */
     public Coding getCode() {
         return code;
@@ -70,7 +70,7 @@ public class UsageContext extends Element {
      * code.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getValue() {
         return value;

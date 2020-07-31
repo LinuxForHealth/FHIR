@@ -46,7 +46,7 @@ public class Population extends BackboneElement {
      * The age of the specific population.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAge() {
         return age;
@@ -56,7 +56,7 @@ public class Population extends BackboneElement {
      * The gender of the specific population.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getGender() {
         return gender;
@@ -66,7 +66,7 @@ public class Population extends BackboneElement {
      * Race of the specific population.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getRace() {
         return race;
@@ -76,7 +76,7 @@ public class Population extends BackboneElement {
      * The existing physiological conditions of the specific population to which this applies.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPhysiologicalCondition() {
         return physiologicalCondition;

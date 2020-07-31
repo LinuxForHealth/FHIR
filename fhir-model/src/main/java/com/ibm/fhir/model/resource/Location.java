@@ -136,7 +136,7 @@ public class Location extends DomainResource {
      * Unique code or number identifying the location to its users.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -147,7 +147,7 @@ public class Location extends DomainResource {
      * operationStatus, or by a schedule/slots if they are configured for the location.
      * 
      * @return
-     *     An immutable object of type {@link LocationStatus}.
+     *     An immutable object of type {@link LocationStatus} that may be null.
      */
     public LocationStatus getStatus() {
         return status;
@@ -159,7 +159,7 @@ public class Location extends DomainResource {
      * other activities like maintenance.
      * 
      * @return
-     *     An immutable object of type {@link Coding}.
+     *     An immutable object of type {@link Coding} that may be null.
      */
     public Coding getOperationalStatus() {
         return operationalStatus;
@@ -169,7 +169,7 @@ public class Location extends DomainResource {
      * Name of the location as used by humans. Does not need to be unique.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -179,7 +179,7 @@ public class Location extends DomainResource {
      * A list of alternate names that the location is known as, or was known as, in the past.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getAlias() {
         return alias;
@@ -189,7 +189,7 @@ public class Location extends DomainResource {
      * Description of the Location, which helps in finding or referencing the place.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -199,7 +199,7 @@ public class Location extends DomainResource {
      * Indicates whether a resource instance represents a specific location or a class of locations.
      * 
      * @return
-     *     An immutable object of type {@link LocationMode}.
+     *     An immutable object of type {@link LocationMode} that may be null.
      */
     public LocationMode getMode() {
         return mode;
@@ -209,7 +209,7 @@ public class Location extends DomainResource {
      * Indicates the type of function performed at the location.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -220,7 +220,7 @@ public class Location extends DomainResource {
      * mobile numbers, email addresses and web sites.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -230,7 +230,7 @@ public class Location extends DomainResource {
      * Physical location.
      * 
      * @return
-     *     An immutable object of type {@link Address}.
+     *     An immutable object of type {@link Address} that may be null.
      */
     public Address getAddress() {
         return address;
@@ -240,7 +240,7 @@ public class Location extends DomainResource {
      * Physical form of the location, e.g. building, room, vehicle, road.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPhysicalType() {
         return physicalType;
@@ -251,7 +251,7 @@ public class Location extends DomainResource {
      * used in KML).
      * 
      * @return
-     *     An immutable object of type {@link Position}.
+     *     An immutable object of type {@link Position} that may be null.
      */
     public Position getPosition() {
         return position;
@@ -261,7 +261,7 @@ public class Location extends DomainResource {
      * The organization responsible for the provisioning and upkeep of the location.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManagingOrganization() {
         return managingOrganization;
@@ -271,7 +271,7 @@ public class Location extends DomainResource {
      * Another Location of which this Location is physically a part of.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPartOf() {
         return partOf;
@@ -281,7 +281,7 @@ public class Location extends DomainResource {
      * What days/times during a week is this location usually open.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link HoursOfOperation}.
+     *     An unmodifiable list containing immutable objects of type {@link HoursOfOperation} that may be empty.
      */
     public List<HoursOfOperation> getHoursOfOperation() {
         return hoursOfOperation;
@@ -292,7 +292,7 @@ public class Location extends DomainResource {
      * describing all possible exceptions to normal site availability as detailed in the opening hours Times.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getAvailabilityExceptions() {
         return availabilityExceptions;
@@ -302,7 +302,7 @@ public class Location extends DomainResource {
      * Technical endpoints providing access to services operated for the location.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -1106,7 +1106,7 @@ public class Location extends DomainResource {
          * notes below).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that is non-null.
          */
         public Decimal getLongitude() {
             return longitude;
@@ -1117,7 +1117,7 @@ public class Location extends DomainResource {
          * notes below).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that is non-null.
          */
         public Decimal getLatitude() {
             return latitude;
@@ -1128,7 +1128,7 @@ public class Location extends DomainResource {
          * notes below).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getAltitude() {
             return altitude;
@@ -1422,7 +1422,7 @@ public class Location extends DomainResource {
          * Indicates which days of the week are available between the start and end Times.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
+         *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek} that may be empty.
          */
         public List<DaysOfWeek> getDaysOfWeek() {
             return daysOfWeek;
@@ -1432,7 +1432,7 @@ public class Location extends DomainResource {
          * The Location is open all day.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getAllDay() {
             return allDay;
@@ -1442,7 +1442,7 @@ public class Location extends DomainResource {
          * Time that the Location opens.
          * 
          * @return
-         *     An immutable object of type {@link Time}.
+         *     An immutable object of type {@link Time} that may be null.
          */
         public Time getOpeningTime() {
             return openingTime;
@@ -1452,7 +1452,7 @@ public class Location extends DomainResource {
          * Time that the Location closes.
          * 
          * @return
-         *     An immutable object of type {@link Time}.
+         *     An immutable object of type {@link Time} that may be null.
          */
         public Time getClosingTime() {
             return closingTime;

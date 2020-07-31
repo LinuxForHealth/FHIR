@@ -81,7 +81,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * Unique identifier.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -91,7 +91,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * The product with this is a pack for.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -101,7 +101,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * Textual description.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -111,7 +111,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * The legal status of supply of the medicinal product as classified by the regulator.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getLegalStatusOfSupply() {
         return legalStatusOfSupply;
@@ -121,7 +121,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * Marketing information.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link MarketingStatus}.
+     *     An unmodifiable list containing immutable objects of type {@link MarketingStatus} that may be empty.
      */
     public List<MarketingStatus> getMarketingStatus() {
         return marketingStatus;
@@ -131,7 +131,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * Manufacturer of this Package Item.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getMarketingAuthorization() {
         return marketingAuthorization;
@@ -141,7 +141,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * Manufacturer of this Package Item.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getManufacturer() {
         return manufacturer;
@@ -151,7 +151,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * Batch numbering.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link BatchIdentifier}.
+     *     An unmodifiable list containing immutable objects of type {@link BatchIdentifier} that may be empty.
      */
     public List<BatchIdentifier> getBatchIdentifier() {
         return batchIdentifier;
@@ -161,7 +161,7 @@ public class MedicinalProductPackaged extends DomainResource {
      * A packaging item, as a contained for medicine, possibly with other packaging items within.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link PackageItem}.
+     *     An unmodifiable list containing immutable objects of type {@link PackageItem} that is non-empty.
      */
     public List<PackageItem> getPackageItem() {
         return packageItem;
@@ -798,7 +798,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * A number appearing on the outer packaging of a specific batch.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that is non-null.
          */
         public Identifier getOuterPackaging() {
             return outerPackaging;
@@ -808,7 +808,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * A number appearing on the immediate packaging (and not the outer packaging).
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getImmediatePackaging() {
             return immediatePackaging;
@@ -1100,7 +1100,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Including possibly Data Carrier Identifier.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -1110,7 +1110,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * The physical type of the container of the medicine.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1120,7 +1120,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * The quantity of this package in the medicinal product, at the current level of packaging. The outermost is always 1.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that is non-null.
          */
         public Quantity getQuantity() {
             return quantity;
@@ -1130,7 +1130,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Material type of the package item.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getMaterial() {
             return material;
@@ -1140,7 +1140,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * A possible alternate material for the packaging.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getAlternateMaterial() {
             return alternateMaterial;
@@ -1150,7 +1150,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * A device accompanying a medicinal product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getDevice() {
             return device;
@@ -1160,7 +1160,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * The manufactured item as contained in the packaged medicinal product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getManufacturedItem() {
             return manufacturedItem;
@@ -1170,7 +1170,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Allows containers within containers.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PackageItem}.
+         *     An unmodifiable list containing immutable objects of type {@link PackageItem} that may be empty.
          */
         public List<MedicinalProductPackaged.PackageItem> getPackageItem() {
             return packageItem;
@@ -1180,7 +1180,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Dimensions, color etc.
          * 
          * @return
-         *     An immutable object of type {@link ProdCharacteristic}.
+         *     An immutable object of type {@link ProdCharacteristic} that may be null.
          */
         public ProdCharacteristic getPhysicalCharacteristics() {
             return physicalCharacteristics;
@@ -1190,7 +1190,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Other codeable characteristics.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getOtherCharacteristics() {
             return otherCharacteristics;
@@ -1200,7 +1200,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Shelf Life and storage information.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ProductShelfLife}.
+         *     An unmodifiable list containing immutable objects of type {@link ProductShelfLife} that may be empty.
          */
         public List<ProductShelfLife> getShelfLifeStorage() {
             return shelfLifeStorage;
@@ -1210,7 +1210,7 @@ public class MedicinalProductPackaged extends DomainResource {
          * Manufacturer of this Package Item.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getManufacturer() {
             return manufacturer;

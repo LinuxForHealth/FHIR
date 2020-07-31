@@ -94,7 +94,7 @@ public class Substance extends DomainResource {
      * Unique identifier for the substance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -104,7 +104,7 @@ public class Substance extends DomainResource {
      * A code to indicate if the substance is actively used.
      * 
      * @return
-     *     An immutable object of type {@link FHIRSubstanceStatus}.
+     *     An immutable object of type {@link FHIRSubstanceStatus} that may be null.
      */
     public FHIRSubstanceStatus getStatus() {
         return status;
@@ -114,7 +114,7 @@ public class Substance extends DomainResource {
      * A code that classifies the general type of substance. This is used for searching, sorting and display purposes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -124,7 +124,7 @@ public class Substance extends DomainResource {
      * A code (or set of codes) that identify this substance.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -134,7 +134,7 @@ public class Substance extends DomainResource {
      * A description of the substance - its appearance, handling requirements, and other usage notes.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -144,7 +144,7 @@ public class Substance extends DomainResource {
      * Substance may be used to describe a kind of substance, or a specific package/container of the substance: an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Instance}.
+     *     An unmodifiable list containing immutable objects of type {@link Instance} that may be empty.
      */
     public List<Instance> getInstance() {
         return instance;
@@ -154,7 +154,7 @@ public class Substance extends DomainResource {
      * A substance can be composed of other substances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Ingredient}.
+     *     An unmodifiable list containing immutable objects of type {@link Ingredient} that may be empty.
      */
     public List<Ingredient> getIngredient() {
         return ingredient;
@@ -706,7 +706,7 @@ public class Substance extends DomainResource {
          * Identifier associated with the package/container (usually a label affixed directly).
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -716,7 +716,7 @@ public class Substance extends DomainResource {
          * When the substance is no longer valid to use. For some substances, a single arbitrary date is used for expiry.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getExpiry() {
             return expiry;
@@ -726,7 +726,7 @@ public class Substance extends DomainResource {
          * The amount of the substance.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -1007,7 +1007,7 @@ public class Substance extends DomainResource {
          * The amount of the ingredient in the substance - a concentration ratio.
          * 
          * @return
-         *     An immutable object of type {@link Ratio}.
+         *     An immutable object of type {@link Ratio} that may be null.
          */
         public Ratio getQuantity() {
             return quantity;
@@ -1017,7 +1017,7 @@ public class Substance extends DomainResource {
          * Another substance that is a component of this substance.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getSubstance() {
             return substance;

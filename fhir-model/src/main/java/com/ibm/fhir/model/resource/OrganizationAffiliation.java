@@ -100,7 +100,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Business identifiers that are specific to this role.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -110,7 +110,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Whether this organization affiliation record is in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -120,7 +120,7 @@ public class OrganizationAffiliation extends DomainResource {
      * The period during which the participatingOrganization is affiliated with the primary organization.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -130,7 +130,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Organization where the role is available (primary organization/has members).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOrganization() {
         return organization;
@@ -141,7 +141,7 @@ public class OrganizationAffiliation extends DomainResource {
      * providing services or is a member of).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getParticipatingOrganization() {
         return participatingOrganization;
@@ -152,7 +152,7 @@ public class OrganizationAffiliation extends DomainResource {
      * the indicated locations (if defined).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getNetwork() {
         return network;
@@ -162,7 +162,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Definition of the role the participatingOrganization plays in the association.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCode() {
         return code;
@@ -172,7 +172,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Specific specialty of the participatingOrganization in the context of the role.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -182,7 +182,7 @@ public class OrganizationAffiliation extends DomainResource {
      * The location(s) at which the role occurs.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getLocation() {
         return location;
@@ -192,7 +192,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Healthcare services provided through the role.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getHealthcareService() {
         return healthcareService;
@@ -202,7 +202,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Contact details at the participatingOrganization relevant to this Affiliation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -212,7 +212,7 @@ public class OrganizationAffiliation extends DomainResource {
      * Technical endpoints providing access to services operated for this role.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;

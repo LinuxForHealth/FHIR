@@ -72,7 +72,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * An identifier for the pharmaceutical medicinal product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -82,7 +82,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * The administrable dose form, after necessary reconstitution.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getAdministrableDoseForm() {
         return administrableDoseForm;
@@ -92,7 +92,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getUnitOfPresentation() {
         return unitOfPresentation;
@@ -102,7 +102,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Ingredient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getIngredient() {
         return ingredient;
@@ -112,7 +112,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Accompanying device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDevice() {
         return device;
@@ -122,7 +122,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * Characteristics e.g. a products onset of action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Characteristics}.
+     *     An unmodifiable list containing immutable objects of type {@link Characteristics} that may be empty.
      */
     public List<Characteristics> getCharacteristics() {
         return characteristics;
@@ -132,7 +132,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      * The path by which the pharmaceutical product is taken into or makes contact with the body.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RouteOfAdministration}.
+     *     An unmodifiable list containing immutable objects of type {@link RouteOfAdministration} that is non-empty.
      */
     public List<RouteOfAdministration> getRouteOfAdministration() {
         return routeOfAdministration;
@@ -707,7 +707,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * A coded characteristic.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -717,7 +717,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * The status of characteristic e.g. assigned or pending.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStatus() {
             return status;
@@ -993,7 +993,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * Coded expression for the route.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1004,7 +1004,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * numerical value and its unit of measurement.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getFirstDose() {
             return firstDose;
@@ -1015,7 +1015,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * numerical value and its unit of measurement.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getMaxSingleDose() {
             return maxSingleDose;
@@ -1026,7 +1026,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * per the protocol referenced in the clinical trial authorisation.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getMaxDosePerDay() {
             return maxDosePerDay;
@@ -1037,7 +1037,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * authorisation.
          * 
          * @return
-         *     An immutable object of type {@link Ratio}.
+         *     An immutable object of type {@link Ratio} that may be null.
          */
         public Ratio getMaxDosePerTreatmentPeriod() {
             return maxDosePerTreatmentPeriod;
@@ -1048,7 +1048,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * referenced in the clinical trial authorisation.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getMaxTreatmentPeriod() {
             return maxTreatmentPeriod;
@@ -1058,7 +1058,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * A species for which this route applies.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link TargetSpecies}.
+         *     An unmodifiable list containing immutable objects of type {@link TargetSpecies} that may be empty.
          */
         public List<TargetSpecies> getTargetSpecies() {
             return targetSpecies;
@@ -1448,7 +1448,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              * Coded expression for the species.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -1458,7 +1458,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              * A species specific time during which consumption of animal product is not appropriate.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link WithdrawalPeriod}.
+             *     An unmodifiable list containing immutable objects of type {@link WithdrawalPeriod} that may be empty.
              */
             public List<WithdrawalPeriod> getWithdrawalPeriod() {
                 return withdrawalPeriod;
@@ -1742,7 +1742,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                  * Coded expression for the type of tissue for which the withdrawal period applues, e.g. meat, milk.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that is non-null.
                  */
                 public CodeableConcept getTissue() {
                     return tissue;
@@ -1752,7 +1752,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                  * A value for the time.
                  * 
                  * @return
-                 *     An immutable object of type {@link Quantity}.
+                 *     An immutable object of type {@link Quantity} that is non-null.
                  */
                 public Quantity getValue() {
                     return value;
@@ -1762,7 +1762,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                  * Extra information about the withdrawal period.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getSupportingInformation() {
                     return supportingInformation;

@@ -84,7 +84,7 @@ public class Subscription extends DomainResource {
      * The status of the subscription, which marks the server state for managing the subscription.
      * 
      * @return
-     *     An immutable object of type {@link SubscriptionStatus}.
+     *     An immutable object of type {@link SubscriptionStatus} that is non-null.
      */
     public SubscriptionStatus getStatus() {
         return status;
@@ -95,7 +95,7 @@ public class Subscription extends DomainResource {
      * troubleshooting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getContact() {
         return contact;
@@ -105,7 +105,7 @@ public class Subscription extends DomainResource {
      * The time for the server to turn the subscription off.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getEnd() {
         return end;
@@ -115,7 +115,7 @@ public class Subscription extends DomainResource {
      * A description of why this subscription is defined.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getReason() {
         return reason;
@@ -125,7 +125,7 @@ public class Subscription extends DomainResource {
      * The rules that the server should use to determine when to generate notifications for this subscription.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getCriteria() {
         return criteria;
@@ -135,7 +135,7 @@ public class Subscription extends DomainResource {
      * A record of the last error that occurred when the server processed a notification.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getError() {
         return error;
@@ -145,7 +145,7 @@ public class Subscription extends DomainResource {
      * Details where to send notifications when resources are received that meet the criteria.
      * 
      * @return
-     *     An immutable object of type {@link Channel}.
+     *     An immutable object of type {@link Channel} that is non-null.
      */
     public Channel getChannel() {
         return channel;
@@ -664,7 +664,7 @@ public class Subscription extends DomainResource {
          * The type of channel to send notifications on.
          * 
          * @return
-         *     An immutable object of type {@link SubscriptionChannelType}.
+         *     An immutable object of type {@link SubscriptionChannelType} that is non-null.
          */
         public SubscriptionChannelType getType() {
             return type;
@@ -674,7 +674,7 @@ public class Subscription extends DomainResource {
          * The url that describes the actual end-point to send messages to.
          * 
          * @return
-         *     An immutable object of type {@link Url}.
+         *     An immutable object of type {@link Url} that may be null.
          */
         public Url getEndpoint() {
             return endpoint;
@@ -686,7 +686,7 @@ public class Subscription extends DomainResource {
          * used for Email and SMS subscriptions.
          * 
          * @return
-         *     An immutable object of type {@link Code}.
+         *     An immutable object of type {@link Code} that may be null.
          */
         public Code getPayload() {
             return payload;
@@ -696,7 +696,7 @@ public class Subscription extends DomainResource {
          * Additional headers / information to send as part of the notification.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getHeader() {
             return header;

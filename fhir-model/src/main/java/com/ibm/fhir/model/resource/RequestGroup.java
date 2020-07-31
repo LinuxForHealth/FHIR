@@ -151,7 +151,7 @@ public class RequestGroup extends DomainResource {
      * Allows a service to provide a unique, business identifier for the request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -162,7 +162,7 @@ public class RequestGroup extends DomainResource {
      * whole or in part by this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -173,7 +173,7 @@ public class RequestGroup extends DomainResource {
      * or in part by this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -183,7 +183,7 @@ public class RequestGroup extends DomainResource {
      * A plan, proposal or order that is fulfilled in whole or in part by this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -193,7 +193,7 @@ public class RequestGroup extends DomainResource {
      * Completed or terminated request(s) whose function is taken by this new request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -204,7 +204,7 @@ public class RequestGroup extends DomainResource {
      * representing the identifier of the requisition, prescription or similar form.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getGroupIdentifier() {
         return groupIdentifier;
@@ -214,7 +214,7 @@ public class RequestGroup extends DomainResource {
      * The current state of the request. For request groups, the status reflects the status of all the requests in the group.
      * 
      * @return
-     *     An immutable object of type {@link RequestStatus}.
+     *     An immutable object of type {@link RequestStatus} that is non-null.
      */
     public RequestStatus getStatus() {
         return status;
@@ -225,7 +225,7 @@ public class RequestGroup extends DomainResource {
      * workflow chain.
      * 
      * @return
-     *     An immutable object of type {@link RequestIntent}.
+     *     An immutable object of type {@link RequestIntent} that is non-null.
      */
     public RequestIntent getIntent() {
         return intent;
@@ -235,7 +235,7 @@ public class RequestGroup extends DomainResource {
      * Indicates how quickly the request should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link RequestPriority}.
+     *     An immutable object of type {@link RequestPriority} that may be null.
      */
     public RequestPriority getPriority() {
         return priority;
@@ -245,7 +245,7 @@ public class RequestGroup extends DomainResource {
      * A code that identifies what the overall request group is.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -255,7 +255,7 @@ public class RequestGroup extends DomainResource {
      * The subject for which the request group was created.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -265,7 +265,7 @@ public class RequestGroup extends DomainResource {
      * Describes the context of the request group, if any.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -275,7 +275,7 @@ public class RequestGroup extends DomainResource {
      * Indicates when the request group was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -285,7 +285,7 @@ public class RequestGroup extends DomainResource {
      * Provides a reference to the author of the request group.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -295,7 +295,7 @@ public class RequestGroup extends DomainResource {
      * Describes the reason for the request group in coded or textual form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -305,7 +305,7 @@ public class RequestGroup extends DomainResource {
      * Indicates another resource whose existence justifies this request group.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -315,7 +315,7 @@ public class RequestGroup extends DomainResource {
      * Provides a mechanism to communicate additional information about the response.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -325,7 +325,7 @@ public class RequestGroup extends DomainResource {
      * The actions, if any, produced by the evaluation of the artifact.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Action}.
+     *     An unmodifiable list containing immutable objects of type {@link Action} that may be empty.
      */
     public List<Action> getAction() {
         return action;
@@ -1298,7 +1298,7 @@ public class RequestGroup extends DomainResource {
          * A user-visible prefix for the action.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPrefix() {
             return prefix;
@@ -1308,7 +1308,7 @@ public class RequestGroup extends DomainResource {
          * The title of the action displayed to a user.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getTitle() {
             return title;
@@ -1318,7 +1318,7 @@ public class RequestGroup extends DomainResource {
          * A short description of the action used to provide a summary to display to the user.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1329,7 +1329,7 @@ public class RequestGroup extends DomainResource {
          * the definition is consumed by a system that might not be capable of interpreting it dynamically.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getTextEquivalent() {
             return textEquivalent;
@@ -1339,7 +1339,7 @@ public class RequestGroup extends DomainResource {
          * Indicates how quickly the action should be addressed with respect to other actions.
          * 
          * @return
-         *     An immutable object of type {@link RequestPriority}.
+         *     An immutable object of type {@link RequestPriority} that may be null.
          */
         public RequestPriority getPriority() {
             return priority;
@@ -1350,7 +1350,7 @@ public class RequestGroup extends DomainResource {
          * section of a documentation template.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1361,7 +1361,7 @@ public class RequestGroup extends DomainResource {
          * Information resources can include inline text commentary and links to web resources.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
          */
         public List<RelatedArtifact> getDocumentation() {
             return documentation;
@@ -1371,7 +1371,7 @@ public class RequestGroup extends DomainResource {
          * An expression that describes applicability criteria, or start/stop conditions for the action.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Condition}.
+         *     An unmodifiable list containing immutable objects of type {@link Condition} that may be empty.
          */
         public List<Condition> getCondition() {
             return condition;
@@ -1381,7 +1381,7 @@ public class RequestGroup extends DomainResource {
          * A relationship to another action such as "before" or "30-60 minutes after start of".
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link RelatedAction}.
+         *     An unmodifiable list containing immutable objects of type {@link RelatedAction} that may be empty.
          */
         public List<RelatedAction> getRelatedAction() {
             return relatedAction;
@@ -1391,7 +1391,7 @@ public class RequestGroup extends DomainResource {
          * An optional value describing when the action should be performed.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -1401,7 +1401,7 @@ public class RequestGroup extends DomainResource {
          * The participant that should perform or be responsible for this action.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getParticipant() {
             return participant;
@@ -1411,7 +1411,7 @@ public class RequestGroup extends DomainResource {
          * The type of action to perform (create, update, remove).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1421,7 +1421,7 @@ public class RequestGroup extends DomainResource {
          * Defines the grouping behavior for the action and its children.
          * 
          * @return
-         *     An immutable object of type {@link ActionGroupingBehavior}.
+         *     An immutable object of type {@link ActionGroupingBehavior} that may be null.
          */
         public ActionGroupingBehavior getGroupingBehavior() {
             return groupingBehavior;
@@ -1431,7 +1431,7 @@ public class RequestGroup extends DomainResource {
          * Defines the selection behavior for the action and its children.
          * 
          * @return
-         *     An immutable object of type {@link ActionSelectionBehavior}.
+         *     An immutable object of type {@link ActionSelectionBehavior} that may be null.
          */
         public ActionSelectionBehavior getSelectionBehavior() {
             return selectionBehavior;
@@ -1441,7 +1441,7 @@ public class RequestGroup extends DomainResource {
          * Defines expectations around whether an action is required.
          * 
          * @return
-         *     An immutable object of type {@link ActionRequiredBehavior}.
+         *     An immutable object of type {@link ActionRequiredBehavior} that may be null.
          */
         public ActionRequiredBehavior getRequiredBehavior() {
             return requiredBehavior;
@@ -1451,7 +1451,7 @@ public class RequestGroup extends DomainResource {
          * Defines whether the action should usually be preselected.
          * 
          * @return
-         *     An immutable object of type {@link ActionPrecheckBehavior}.
+         *     An immutable object of type {@link ActionPrecheckBehavior} that may be null.
          */
         public ActionPrecheckBehavior getPrecheckBehavior() {
             return precheckBehavior;
@@ -1461,7 +1461,7 @@ public class RequestGroup extends DomainResource {
          * Defines whether the action can be selected multiple times.
          * 
          * @return
-         *     An immutable object of type {@link ActionCardinalityBehavior}.
+         *     An immutable object of type {@link ActionCardinalityBehavior} that may be null.
          */
         public ActionCardinalityBehavior getCardinalityBehavior() {
             return cardinalityBehavior;
@@ -1471,7 +1471,7 @@ public class RequestGroup extends DomainResource {
          * The resource that is the target of the action (e.g. CommunicationRequest).
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getResource() {
             return resource;
@@ -1481,7 +1481,7 @@ public class RequestGroup extends DomainResource {
          * Sub actions.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that may be empty.
          */
         public List<RequestGroup.Action> getAction() {
             return action;
@@ -2213,7 +2213,7 @@ public class RequestGroup extends DomainResource {
              * The kind of condition.
              * 
              * @return
-             *     An immutable object of type {@link ActionConditionKind}.
+             *     An immutable object of type {@link ActionConditionKind} that is non-null.
              */
             public ActionConditionKind getKind() {
                 return kind;
@@ -2223,7 +2223,7 @@ public class RequestGroup extends DomainResource {
              * An expression that returns true or false, indicating whether or not the condition is satisfied.
              * 
              * @return
-             *     An immutable object of type {@link Expression}.
+             *     An immutable object of type {@link Expression} that may be null.
              */
             public Expression getExpression() {
                 return expression;
@@ -2492,7 +2492,7 @@ public class RequestGroup extends DomainResource {
              * The element id of the action this is related to.
              * 
              * @return
-             *     An immutable object of type {@link Id}.
+             *     An immutable object of type {@link Id} that is non-null.
              */
             public Id getActionId() {
                 return actionId;
@@ -2502,7 +2502,7 @@ public class RequestGroup extends DomainResource {
              * The relationship of this action to the related action.
              * 
              * @return
-             *     An immutable object of type {@link ActionRelationshipType}.
+             *     An immutable object of type {@link ActionRelationshipType} that is non-null.
              */
             public ActionRelationshipType getRelationship() {
                 return relationship;
@@ -2512,7 +2512,7 @@ public class RequestGroup extends DomainResource {
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getOffset() {
                 return offset;

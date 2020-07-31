@@ -115,7 +115,7 @@ public class Slot extends DomainResource {
      * External Ids for this item.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -125,7 +125,7 @@ public class Slot extends DomainResource {
      * A broad categorization of the service that is to be performed during this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceCategory() {
         return serviceCategory;
@@ -137,7 +137,7 @@ public class Slot extends DomainResource {
      * availability resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getServiceType() {
         return serviceType;
@@ -147,7 +147,7 @@ public class Slot extends DomainResource {
      * The specialty of a practitioner that would be required to perform the service requested in this appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialty() {
         return specialty;
@@ -157,7 +157,7 @@ public class Slot extends DomainResource {
      * The style of appointment or patient that may be booked in the slot (not service type).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getAppointmentType() {
         return appointmentType;
@@ -167,7 +167,7 @@ public class Slot extends DomainResource {
      * The schedule resource that this slot defines an interval of status information.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSchedule() {
         return schedule;
@@ -177,7 +177,7 @@ public class Slot extends DomainResource {
      * busy | free | busy-unavailable | busy-tentative | entered-in-error.
      * 
      * @return
-     *     An immutable object of type {@link SlotStatus}.
+     *     An immutable object of type {@link SlotStatus} that is non-null.
      */
     public SlotStatus getStatus() {
         return status;
@@ -187,7 +187,7 @@ public class Slot extends DomainResource {
      * Date/Time that the slot is to begin.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that is non-null.
      */
     public Instant getStart() {
         return start;
@@ -197,7 +197,7 @@ public class Slot extends DomainResource {
      * Date/Time that the slot is to conclude.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that is non-null.
      */
     public Instant getEnd() {
         return end;
@@ -207,7 +207,7 @@ public class Slot extends DomainResource {
      * This slot has already been overbooked, appointments are unlikely to be accepted for this time.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getOverbooked() {
         return overbooked;
@@ -217,7 +217,7 @@ public class Slot extends DomainResource {
      * Comments on the slot to describe any extended information. Such as custom constraints on the slot.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;

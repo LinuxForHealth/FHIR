@@ -76,7 +76,7 @@ public class EnrollmentRequest extends DomainResource {
      * The Response business identifier.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -86,7 +86,7 @@ public class EnrollmentRequest extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link EnrollmentRequestStatus}.
+     *     An immutable object of type {@link EnrollmentRequestStatus} that may be null.
      */
     public EnrollmentRequestStatus getStatus() {
         return status;
@@ -96,7 +96,7 @@ public class EnrollmentRequest extends DomainResource {
      * The date when this resource was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getCreated() {
         return created;
@@ -106,7 +106,7 @@ public class EnrollmentRequest extends DomainResource {
      * The Insurer who is target of the request.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getInsurer() {
         return insurer;
@@ -116,7 +116,7 @@ public class EnrollmentRequest extends DomainResource {
      * The practitioner who is responsible for the services rendered to the patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getProvider() {
         return provider;
@@ -126,7 +126,7 @@ public class EnrollmentRequest extends DomainResource {
      * Patient Resource.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCandidate() {
         return candidate;
@@ -136,7 +136,7 @@ public class EnrollmentRequest extends DomainResource {
      * Reference to the program or plan identification, underwriter or payor.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCoverage() {
         return coverage;

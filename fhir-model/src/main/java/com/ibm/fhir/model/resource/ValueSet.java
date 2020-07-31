@@ -178,7 +178,7 @@ public class ValueSet extends DomainResource {
      * canonical reference. It SHALL remain the same when the value set is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -189,7 +189,7 @@ public class ValueSet extends DomainResource {
      * a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -202,7 +202,7 @@ public class ValueSet extends DomainResource {
      * expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -213,7 +213,7 @@ public class ValueSet extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -223,7 +223,7 @@ public class ValueSet extends DomainResource {
      * A short, descriptive, user-friendly title for the value set.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -234,7 +234,7 @@ public class ValueSet extends DomainResource {
      * the value set definition (ValueSet.compose) and the associated ValueSet metadata. Expansions do not have a state.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -245,7 +245,7 @@ public class ValueSet extends DomainResource {
      * and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -255,7 +255,7 @@ public class ValueSet extends DomainResource {
      * The date (and optionally time) when the value set was created or revised (e.g. the 'content logical definition').
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -265,7 +265,7 @@ public class ValueSet extends DomainResource {
      * The name of the organization or individual that published the value set.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -275,7 +275,7 @@ public class ValueSet extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -287,7 +287,7 @@ public class ValueSet extends DomainResource {
      * intended use and limitations of the Value Set.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -299,7 +299,7 @@ public class ValueSet extends DomainResource {
      * may be used to assist with indexing and searching for appropriate value set instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -309,7 +309,7 @@ public class ValueSet extends DomainResource {
      * A legal or geographic region in which the value set is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -320,7 +320,7 @@ public class ValueSet extends DomainResource {
      * might still change.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getImmutable() {
         return immutable;
@@ -330,7 +330,7 @@ public class ValueSet extends DomainResource {
      * Explanation of why this value set is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -341,7 +341,7 @@ public class ValueSet extends DomainResource {
      * restrictions on the use and publishing of the value set.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -352,7 +352,7 @@ public class ValueSet extends DomainResource {
      * specified code system(s) that the value set draws from. This is also known as the Content Logical Definition (CLD).
      * 
      * @return
-     *     An immutable object of type {@link Compose}.
+     *     An immutable object of type {@link Compose} that may be null.
      */
     public Compose getCompose() {
         return compose;
@@ -363,7 +363,7 @@ public class ValueSet extends DomainResource {
      * element holds the expansion, if it has been performed.
      * 
      * @return
-     *     An immutable object of type {@link Expansion}.
+     *     An immutable object of type {@link Expansion} that may be null.
      */
     public Expansion getExpansion() {
         return expansion;
@@ -1161,7 +1161,7 @@ public class ValueSet extends DomainResource {
          * Set Definitions included in the compose that are not already tied to a specific version.
          * 
          * @return
-         *     An immutable object of type {@link Date}.
+         *     An immutable object of type {@link Date} that may be null.
          */
         public Date getLockedDate() {
             return lockedDate;
@@ -1174,7 +1174,7 @@ public class ValueSet extends DomainResource {
          * (but generally, inactive codes would be expected to be included).
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getInactive() {
             return inactive;
@@ -1184,7 +1184,7 @@ public class ValueSet extends DomainResource {
          * Include one or more codes from a code system or other value set(s).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Include}.
+         *     An unmodifiable list containing immutable objects of type {@link Include} that is non-empty.
          */
         public List<Include> getInclude() {
             return include;
@@ -1194,7 +1194,7 @@ public class ValueSet extends DomainResource {
          * Exclude one or more codes from the value set based on code system filters and/or other value sets.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Include}.
+         *     An unmodifiable list containing immutable objects of type {@link Include} that may be empty.
          */
         public List<ValueSet.Compose.Include> getExclude() {
             return exclude;
@@ -1547,7 +1547,7 @@ public class ValueSet extends DomainResource {
              * An absolute URI which is the code system from which the selected codes come from.
              * 
              * @return
-             *     An immutable object of type {@link Uri}.
+             *     An immutable object of type {@link Uri} that may be null.
              */
             public Uri getSystem() {
                 return system;
@@ -1557,7 +1557,7 @@ public class ValueSet extends DomainResource {
              * The version of the code system that the codes are selected from, or the special version '*' for all versions.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getVersion() {
                 return version;
@@ -1567,7 +1567,7 @@ public class ValueSet extends DomainResource {
              * Specifies a concept to be included or excluded.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Concept}.
+             *     An unmodifiable list containing immutable objects of type {@link Concept} that may be empty.
              */
             public List<Concept> getConcept() {
                 return concept;
@@ -1578,7 +1578,7 @@ public class ValueSet extends DomainResource {
              * system, or on filters defined by the system. If multiple filters are specified, they SHALL all be true.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Filter}.
+             *     An unmodifiable list containing immutable objects of type {@link Filter} that may be empty.
              */
             public List<Filter> getFilter() {
                 return filter;
@@ -1590,7 +1590,7 @@ public class ValueSet extends DomainResource {
              * referenced value sets.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+             *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
              */
             public List<Canonical> getValueSet() {
                 return valueSet;
@@ -1969,7 +1969,7 @@ public class ValueSet extends DomainResource {
                  * Specifies a code for the concept to be included or excluded.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that is non-null.
                  */
                 public Code getCode() {
                     return code;
@@ -1980,7 +1980,7 @@ public class ValueSet extends DomainResource {
                  * applications using the value set use the display specified for the code by the system.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDisplay() {
                     return display;
@@ -1991,7 +1991,7 @@ public class ValueSet extends DomainResource {
                  * purposes, used for particular purposes, etc.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Designation}.
+                 *     An unmodifiable list containing immutable objects of type {@link Designation} that may be empty.
                  */
                 public List<Designation> getDesignation() {
                     return designation;
@@ -2308,7 +2308,7 @@ public class ValueSet extends DomainResource {
                      * The language this designation is defined for.
                      * 
                      * @return
-                     *     An immutable object of type {@link Code}.
+                     *     An immutable object of type {@link Code} that may be null.
                      */
                     public Code getLanguage() {
                         return language;
@@ -2318,7 +2318,7 @@ public class ValueSet extends DomainResource {
                      * A code that represents types of uses of designations.
                      * 
                      * @return
-                     *     An immutable object of type {@link Coding}.
+                     *     An immutable object of type {@link Coding} that may be null.
                      */
                     public Coding getUse() {
                         return use;
@@ -2328,7 +2328,7 @@ public class ValueSet extends DomainResource {
                      * The text value for this designation.
                      * 
                      * @return
-                     *     An immutable object of type {@link String}.
+                     *     An immutable object of type {@link String} that is non-null.
                      */
                     public String getValue() {
                         return value;
@@ -2622,7 +2622,7 @@ public class ValueSet extends DomainResource {
                  * A code that identifies a property or a filter defined in the code system.
                  * 
                  * @return
-                 *     An immutable object of type {@link Code}.
+                 *     An immutable object of type {@link Code} that is non-null.
                  */
                 public Code getProperty() {
                     return property;
@@ -2632,7 +2632,7 @@ public class ValueSet extends DomainResource {
                  * The kind of operation to perform as a part of the filter criteria.
                  * 
                  * @return
-                 *     An immutable object of type {@link FilterOperator}.
+                 *     An immutable object of type {@link FilterOperator} that is non-null.
                  */
                 public FilterOperator getOp() {
                     return op;
@@ -2645,7 +2645,7 @@ public class ValueSet extends DomainResource {
                  * and false), when the operation is 'exists'.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that is non-null.
                  */
                 public String getValue() {
                     return value;
@@ -2947,7 +2947,7 @@ public class ValueSet extends DomainResource {
          * so. This is a business identifier.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getIdentifier() {
             return identifier;
@@ -2957,7 +2957,7 @@ public class ValueSet extends DomainResource {
          * The time at which the expansion was produced by the expanding system.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that is non-null.
          */
         public DateTime getTimestamp() {
             return timestamp;
@@ -2968,7 +2968,7 @@ public class ValueSet extends DomainResource {
          * number, then the server can return more using the offset parameter.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getTotal() {
             return total;
@@ -2979,7 +2979,7 @@ public class ValueSet extends DomainResource {
          * expansion. If paging is not being used, this element SHALL NOT be present.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getOffset() {
             return offset;
@@ -2990,7 +2990,7 @@ public class ValueSet extends DomainResource {
          * check whether the expansion is suitable for a particular purpose, or to pick the correct expansion.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
          */
         public List<Parameter> getParameter() {
             return parameter;
@@ -3000,7 +3000,7 @@ public class ValueSet extends DomainResource {
          * The codes that are contained in the value set expansion.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Contains}.
+         *     An unmodifiable list containing immutable objects of type {@link Contains} that may be empty.
          */
         public List<Contains> getContains() {
             return contains;
@@ -3388,7 +3388,7 @@ public class ValueSet extends DomainResource {
              * server-supplied parameters used to control the expansion process.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getName() {
                 return name;
@@ -3398,7 +3398,7 @@ public class ValueSet extends DomainResource {
              * The value of the parameter.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getValue() {
                 return value;
@@ -3680,7 +3680,7 @@ public class ValueSet extends DomainResource {
              * An absolute URI which is the code system in which the code for this item in the expansion is defined.
              * 
              * @return
-             *     An immutable object of type {@link Uri}.
+             *     An immutable object of type {@link Uri} that may be null.
              */
             public Uri getSystem() {
                 return system;
@@ -3691,7 +3691,7 @@ public class ValueSet extends DomainResource {
              * directly as a proper value.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getAbstract() {
                 return _abstract;
@@ -3703,7 +3703,7 @@ public class ValueSet extends DomainResource {
              * concept is inactive (and it may depend on the context of use).
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getInactive() {
                 return inactive;
@@ -3715,7 +3715,7 @@ public class ValueSet extends DomainResource {
              * assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getVersion() {
                 return version;
@@ -3726,7 +3726,7 @@ public class ValueSet extends DomainResource {
              * holder (abstract) and does not represent a valid code in the value set.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that may be null.
              */
             public Code getCode() {
                 return code;
@@ -3736,7 +3736,7 @@ public class ValueSet extends DomainResource {
              * The recommended display for this item in the expansion.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDisplay() {
                 return display;
@@ -3747,7 +3747,7 @@ public class ValueSet extends DomainResource {
              * purposes, etc. These are relevant when the conditions of the expansion do not fix to a single correct representation.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Designation}.
+             *     An unmodifiable list containing immutable objects of type {@link Designation} that may be empty.
              */
             public List<ValueSet.Compose.Include.Concept.Designation> getDesignation() {
                 return designation;
@@ -3757,7 +3757,7 @@ public class ValueSet extends DomainResource {
              * Other codes and entries contained under this entry in the hierarchy.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Contains}.
+             *     An unmodifiable list containing immutable objects of type {@link Contains} that may be empty.
              */
             public List<ValueSet.Expansion.Contains> getContains() {
                 return contains;

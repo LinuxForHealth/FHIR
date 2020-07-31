@@ -119,7 +119,7 @@ public class TestReport extends DomainResource {
      * Identifier for the TestScript assigned for external purposes outside the context of FHIR.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -129,7 +129,7 @@ public class TestReport extends DomainResource {
      * A free text natural language name identifying the executed TestScript.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -139,7 +139,7 @@ public class TestReport extends DomainResource {
      * The current state of this test report.
      * 
      * @return
-     *     An immutable object of type {@link TestReportStatus}.
+     *     An immutable object of type {@link TestReportStatus} that is non-null.
      */
     public TestReportStatus getStatus() {
         return status;
@@ -150,7 +150,7 @@ public class TestReport extends DomainResource {
      * the `TestScript.url`.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getTestScript() {
         return testScript;
@@ -160,7 +160,7 @@ public class TestReport extends DomainResource {
      * The overall result from the execution of the TestScript.
      * 
      * @return
-     *     An immutable object of type {@link TestReportResult}.
+     *     An immutable object of type {@link TestReportResult} that is non-null.
      */
     public TestReportResult getResult() {
         return result;
@@ -170,7 +170,7 @@ public class TestReport extends DomainResource {
      * The final score (percentage of tests passed) resulting from the execution of the TestScript.
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getScore() {
         return score;
@@ -180,7 +180,7 @@ public class TestReport extends DomainResource {
      * Name of the tester producing this report (Organization or individual).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTester() {
         return tester;
@@ -190,7 +190,7 @@ public class TestReport extends DomainResource {
      * When the TestScript was executed and this TestReport was generated.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getIssued() {
         return issued;
@@ -200,7 +200,7 @@ public class TestReport extends DomainResource {
      * A participant in the test execution, either the execution engine, a client, or a server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant} that may be empty.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -210,7 +210,7 @@ public class TestReport extends DomainResource {
      * The results of the series of required setup operations before the tests were executed.
      * 
      * @return
-     *     An immutable object of type {@link Setup}.
+     *     An immutable object of type {@link Setup} that may be null.
      */
     public Setup getSetup() {
         return setup;
@@ -220,7 +220,7 @@ public class TestReport extends DomainResource {
      * A test executed from the test script.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Test}.
+     *     An unmodifiable list containing immutable objects of type {@link Test} that may be empty.
      */
     public List<Test> getTest() {
         return test;
@@ -231,7 +231,7 @@ public class TestReport extends DomainResource {
      * otherwise).
      * 
      * @return
-     *     An immutable object of type {@link Teardown}.
+     *     An immutable object of type {@link Teardown} that may be null.
      */
     public Teardown getTeardown() {
         return teardown;
@@ -861,7 +861,7 @@ public class TestReport extends DomainResource {
          * The type of participant.
          * 
          * @return
-         *     An immutable object of type {@link TestReportParticipantType}.
+         *     An immutable object of type {@link TestReportParticipantType} that is non-null.
          */
         public TestReportParticipantType getType() {
             return type;
@@ -871,7 +871,7 @@ public class TestReport extends DomainResource {
          * The uri of the participant. An absolute URL is preferred.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that is non-null.
          */
         public Uri getUri() {
             return uri;
@@ -881,7 +881,7 @@ public class TestReport extends DomainResource {
          * The display name of the participant.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDisplay() {
             return display;
@@ -1161,7 +1161,7 @@ public class TestReport extends DomainResource {
          * Action would contain either an operation or an assertion.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that is non-empty.
          */
         public List<Action> getAction() {
             return action;
@@ -1420,7 +1420,7 @@ public class TestReport extends DomainResource {
              * The operation performed.
              * 
              * @return
-             *     An immutable object of type {@link Operation}.
+             *     An immutable object of type {@link Operation} that may be null.
              */
             public Operation getOperation() {
                 return operation;
@@ -1430,7 +1430,7 @@ public class TestReport extends DomainResource {
              * The results of the assertion performed on the previous operations.
              * 
              * @return
-             *     An immutable object of type {@link Assert}.
+             *     An immutable object of type {@link Assert} that may be null.
              */
             public Assert getAssert() {
                 return _assert;
@@ -1689,7 +1689,7 @@ public class TestReport extends DomainResource {
                  * The result of this operation.
                  * 
                  * @return
-                 *     An immutable object of type {@link TestReportActionResult}.
+                 *     An immutable object of type {@link TestReportActionResult} that is non-null.
                  */
                 public TestReportActionResult getResult() {
                     return result;
@@ -1699,7 +1699,7 @@ public class TestReport extends DomainResource {
                  * An explanatory message associated with the result.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getMessage() {
                     return message;
@@ -1709,7 +1709,7 @@ public class TestReport extends DomainResource {
                  * A link to further details on the result.
                  * 
                  * @return
-                 *     An immutable object of type {@link Uri}.
+                 *     An immutable object of type {@link Uri} that may be null.
                  */
                 public Uri getDetail() {
                     return detail;
@@ -1996,7 +1996,7 @@ public class TestReport extends DomainResource {
                  * The result of this assertion.
                  * 
                  * @return
-                 *     An immutable object of type {@link TestReportActionResult}.
+                 *     An immutable object of type {@link TestReportActionResult} that is non-null.
                  */
                 public TestReportActionResult getResult() {
                     return result;
@@ -2006,7 +2006,7 @@ public class TestReport extends DomainResource {
                  * An explanatory message associated with the result.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getMessage() {
                     return message;
@@ -2016,7 +2016,7 @@ public class TestReport extends DomainResource {
                  * A link to further details on the result.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDetail() {
                     return detail;
@@ -2299,7 +2299,7 @@ public class TestReport extends DomainResource {
          * The name of this test used for tracking/logging purposes by test engines.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -2309,7 +2309,7 @@ public class TestReport extends DomainResource {
          * A short description of the test used by test engines for tracking and reporting purposes.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2319,7 +2319,7 @@ public class TestReport extends DomainResource {
          * Action would contain either an operation or an assertion.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that is non-empty.
          */
         public List<Action> getAction() {
             return action;
@@ -2618,7 +2618,7 @@ public class TestReport extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link TestReport.Setup.Action.Operation}.
+             *     An immutable object of type {@link TestReport.Setup.Action.Operation} that may be null.
              */
             public TestReport.Setup.Action.Operation getOperation() {
                 return operation;
@@ -2628,7 +2628,7 @@ public class TestReport extends DomainResource {
              * The results of the assertion performed on the previous operations.
              * 
              * @return
-             *     An immutable object of type {@link TestReport.Setup.Action.Assert}.
+             *     An immutable object of type {@link TestReport.Setup.Action.Assert} that may be null.
              */
             public TestReport.Setup.Action.Assert getAssert() {
                 return _assert;
@@ -2880,7 +2880,7 @@ public class TestReport extends DomainResource {
          * The teardown action will only contain an operation.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Action}.
+         *     An unmodifiable list containing immutable objects of type {@link Action} that is non-empty.
          */
         public List<Action> getAction() {
             return action;
@@ -3138,7 +3138,7 @@ public class TestReport extends DomainResource {
              * An operation would involve a REST request to a server.
              * 
              * @return
-             *     An immutable object of type {@link TestReport.Setup.Action.Operation}.
+             *     An immutable object of type {@link TestReport.Setup.Action.Operation} that is non-null.
              */
             public TestReport.Setup.Action.Operation getOperation() {
                 return operation;

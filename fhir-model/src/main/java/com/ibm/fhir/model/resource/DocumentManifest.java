@@ -100,7 +100,7 @@ public class DocumentManifest extends DomainResource {
      * contexts.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getMasterIdentifier() {
         return masterIdentifier;
@@ -110,7 +110,7 @@ public class DocumentManifest extends DomainResource {
      * Other identifiers associated with the document manifest, including version independent identifiers.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -120,7 +120,7 @@ public class DocumentManifest extends DomainResource {
      * The status of this document manifest.
      * 
      * @return
-     *     An immutable object of type {@link DocumentReferenceStatus}.
+     *     An immutable object of type {@link DocumentReferenceStatus} that is non-null.
      */
     public DocumentReferenceStatus getStatus() {
         return status;
@@ -131,7 +131,7 @@ public class DocumentManifest extends DomainResource {
      * DocumentManifest.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -144,7 +144,7 @@ public class DocumentManifest extends DomainResource {
      * allowed here (unusual use case).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -155,7 +155,7 @@ public class DocumentManifest extends DomainResource {
      * resource last modified time, since it may be modified, replicated, etc.).
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getCreated() {
         return created;
@@ -165,7 +165,7 @@ public class DocumentManifest extends DomainResource {
      * Identifies who is the author of the manifest. Manifest author is not necessarly the author of the references included.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAuthor() {
         return author;
@@ -175,7 +175,7 @@ public class DocumentManifest extends DomainResource {
      * A patient, practitioner, or organization for which this set of documents is intended.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRecipient() {
         return recipient;
@@ -185,7 +185,7 @@ public class DocumentManifest extends DomainResource {
      * Identifies the source system, application, or software that produced the document manifest.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getSource() {
         return source;
@@ -195,7 +195,7 @@ public class DocumentManifest extends DomainResource {
      * Human-readable description of the source document. This is sometimes known as the "title".
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -205,7 +205,7 @@ public class DocumentManifest extends DomainResource {
      * The list of Resources that consist of the parts of this manifest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
      */
     public List<Reference> getContent() {
         return content;
@@ -215,7 +215,7 @@ public class DocumentManifest extends DomainResource {
      * Related identifiers or resources associated with the DocumentManifest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Related}.
+     *     An unmodifiable list containing immutable objects of type {@link Related} that may be empty.
      */
     public List<Related> getRelated() {
         return related;
@@ -901,7 +901,7 @@ public class DocumentManifest extends DomainResource {
          * Related identifier to this DocumentManifest. For example, Order numbers, accession numbers, XDW workflow numbers.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -911,7 +911,7 @@ public class DocumentManifest extends DomainResource {
          * Related Resource to this DocumentManifest. For example, Order, ServiceRequest, Procedure, EligibilityRequest, etc.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getRef() {
             return ref;

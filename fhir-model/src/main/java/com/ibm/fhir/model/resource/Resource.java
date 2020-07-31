@@ -50,7 +50,7 @@ public abstract class Resource extends AbstractVisitable {
      * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
      * 
      * @return
-     *     An immutable object of type {@link java.lang.String}.
+     *     An immutable object of type {@link java.lang.String} that may be null.
      */
     public java.lang.String getId() {
         return id;
@@ -61,7 +61,7 @@ public abstract class Resource extends AbstractVisitable {
      * might not always be associated with version changes to the resource.
      * 
      * @return
-     *     An immutable object of type {@link Meta}.
+     *     An immutable object of type {@link Meta} that may be null.
      */
     public Meta getMeta() {
         return meta;
@@ -73,7 +73,7 @@ public abstract class Resource extends AbstractVisitable {
      * with other profiles etc.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getImplicitRules() {
         return implicitRules;
@@ -83,7 +83,7 @@ public abstract class Resource extends AbstractVisitable {
      * The base language in which the resource is written.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getLanguage() {
         return language;

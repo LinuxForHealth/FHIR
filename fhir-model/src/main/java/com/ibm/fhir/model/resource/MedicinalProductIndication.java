@@ -75,7 +75,7 @@ public class MedicinalProductIndication extends DomainResource {
      * The medication for which this is an indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -85,7 +85,7 @@ public class MedicinalProductIndication extends DomainResource {
      * The disease, symptom or procedure that is the indication for treatment.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDiseaseSymptomProcedure() {
         return diseaseSymptomProcedure;
@@ -95,7 +95,7 @@ public class MedicinalProductIndication extends DomainResource {
      * The status of the disease or symptom for which the indication applies.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDiseaseStatus() {
         return diseaseStatus;
@@ -105,7 +105,7 @@ public class MedicinalProductIndication extends DomainResource {
      * Comorbidity (concurrent condition) or co-infection as part of the indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getComorbidity() {
         return comorbidity;
@@ -115,7 +115,7 @@ public class MedicinalProductIndication extends DomainResource {
      * The intended effect, aim or strategy to be achieved by the indication.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getIntendedEffect() {
         return intendedEffect;
@@ -125,7 +125,7 @@ public class MedicinalProductIndication extends DomainResource {
      * Timing or duration information as part of the indication.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getDuration() {
         return duration;
@@ -135,7 +135,7 @@ public class MedicinalProductIndication extends DomainResource {
      * Information about the use of the medicinal product in relation to other therapies described as part of the indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link OtherTherapy}.
+     *     An unmodifiable list containing immutable objects of type {@link OtherTherapy} that may be empty.
      */
     public List<OtherTherapy> getOtherTherapy() {
         return otherTherapy;
@@ -145,7 +145,7 @@ public class MedicinalProductIndication extends DomainResource {
      * Describe the undesirable effects of the medicinal product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getUndesirableEffect() {
         return undesirableEffect;
@@ -155,7 +155,7 @@ public class MedicinalProductIndication extends DomainResource {
      * The population group to which this applies.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Population}.
+     *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
      */
     public List<Population> getPopulation() {
         return population;
@@ -760,7 +760,7 @@ public class MedicinalProductIndication extends DomainResource {
          * The type of relationship between the medicinal product indication or contraindication and another therapy.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getTherapyRelationshipType() {
             return therapyRelationshipType;
@@ -771,7 +771,7 @@ public class MedicinalProductIndication extends DomainResource {
          * or contraindication.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getMedication() {
             return medication;

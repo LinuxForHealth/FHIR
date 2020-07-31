@@ -172,7 +172,7 @@ public class Media extends DomainResource {
      * context of its collection (e.g. series ids) and context ids such as accession numbers or other workflow identifiers.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -182,7 +182,7 @@ public class Media extends DomainResource {
      * A procedure that is fulfilled in whole or in part by the creation of this media.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -192,7 +192,7 @@ public class Media extends DomainResource {
      * A larger event of which this particular event is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -202,7 +202,7 @@ public class Media extends DomainResource {
      * The current state of the {{title}}.
      * 
      * @return
-     *     An immutable object of type {@link MediaStatus}.
+     *     An immutable object of type {@link MediaStatus} that is non-null.
      */
     public MediaStatus getStatus() {
         return status;
@@ -212,7 +212,7 @@ public class Media extends DomainResource {
      * A code that classifies whether the media is an image, video or audio recording or some other media category.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -223,7 +223,7 @@ public class Media extends DomainResource {
      * system, are wrapped in a Media resource, then this is the modality.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getModality() {
         return modality;
@@ -233,7 +233,7 @@ public class Media extends DomainResource {
      * The name of the imaging view e.g. Lateral or Antero-posterior (AP).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getView() {
         return view;
@@ -243,7 +243,7 @@ public class Media extends DomainResource {
      * Who/What this Media is a record of.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -253,7 +253,7 @@ public class Media extends DomainResource {
      * The encounter that establishes the context for this media.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -263,7 +263,7 @@ public class Media extends DomainResource {
      * The date and time(s) at which the media was collected.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getCreated() {
         return created;
@@ -273,7 +273,7 @@ public class Media extends DomainResource {
      * The date and time this version of the media was made available to providers, typically after having been reviewed.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getIssued() {
         return issued;
@@ -283,7 +283,7 @@ public class Media extends DomainResource {
      * The person who administered the collection of the image.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOperator() {
         return operator;
@@ -293,7 +293,7 @@ public class Media extends DomainResource {
      * Describes why the event occurred in coded or textual form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -303,7 +303,7 @@ public class Media extends DomainResource {
      * Indicates the site on the subject's body where the observation was made (i.e. the target site).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getBodySite() {
         return bodySite;
@@ -313,7 +313,7 @@ public class Media extends DomainResource {
      * The name of the device / manufacturer of the device that was used to make the recording.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDeviceName() {
         return deviceName;
@@ -323,7 +323,7 @@ public class Media extends DomainResource {
      * The device used to collect the media.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDevice() {
         return device;
@@ -333,7 +333,7 @@ public class Media extends DomainResource {
      * Height of the image in pixels (photo/video).
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that may be null.
      */
     public PositiveInt getHeight() {
         return height;
@@ -343,7 +343,7 @@ public class Media extends DomainResource {
      * Width of the image in pixels (photo/video).
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that may be null.
      */
     public PositiveInt getWidth() {
         return width;
@@ -355,7 +355,7 @@ public class Media extends DomainResource {
      * order to alert interface software that a multi-frame capable rendering widget is required.
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that may be null.
      */
     public PositiveInt getFrames() {
         return frames;
@@ -365,7 +365,7 @@ public class Media extends DomainResource {
      * The duration of the recording in seconds - for audio and video.
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getDuration() {
         return duration;
@@ -375,7 +375,7 @@ public class Media extends DomainResource {
      * The actual content of the media - inline or by direct reference to the media source file.
      * 
      * @return
-     *     An immutable object of type {@link Attachment}.
+     *     An immutable object of type {@link Attachment} that is non-null.
      */
     public Attachment getContent() {
         return content;
@@ -385,7 +385,7 @@ public class Media extends DomainResource {
      * Comments made about the media by the performer, subject or other participants.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;

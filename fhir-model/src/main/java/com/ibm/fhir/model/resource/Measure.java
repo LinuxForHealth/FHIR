@@ -237,7 +237,7 @@ public class Measure extends DomainResource {
      * canonical reference. It SHALL remain the same when the measure is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -248,7 +248,7 @@ public class Measure extends DomainResource {
      * specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -264,7 +264,7 @@ public class Measure extends DomainResource {
      * non-experimental active artifacts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -275,7 +275,7 @@ public class Measure extends DomainResource {
      * processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -285,7 +285,7 @@ public class Measure extends DomainResource {
      * A short, descriptive, user-friendly title for the measure.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -295,7 +295,7 @@ public class Measure extends DomainResource {
      * An explanatory or alternate title for the measure giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -305,7 +305,7 @@ public class Measure extends DomainResource {
      * The status of this measure. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -316,7 +316,7 @@ public class Measure extends DomainResource {
      * is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -327,7 +327,7 @@ public class Measure extends DomainResource {
      * of the measure can be anything.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -339,7 +339,7 @@ public class Measure extends DomainResource {
      * measure changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -349,7 +349,7 @@ public class Measure extends DomainResource {
      * The name of the organization or individual that published the measure.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -359,7 +359,7 @@ public class Measure extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -369,7 +369,7 @@ public class Measure extends DomainResource {
      * A free text natural language description of the measure from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -381,7 +381,7 @@ public class Measure extends DomainResource {
      * may be used to assist with indexing and searching for appropriate measure instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -391,7 +391,7 @@ public class Measure extends DomainResource {
      * A legal or geographic region in which the measure is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -401,7 +401,7 @@ public class Measure extends DomainResource {
      * Explanation of why this measure is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -411,7 +411,7 @@ public class Measure extends DomainResource {
      * A detailed description, from a clinical perspective, of how the measure is used.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUsage() {
         return usage;
@@ -422,7 +422,7 @@ public class Measure extends DomainResource {
      * restrictions on the use and publishing of the measure.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -433,7 +433,7 @@ public class Measure extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -444,7 +444,7 @@ public class Measure extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -454,7 +454,7 @@ public class Measure extends DomainResource {
      * The period during which the measure content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -465,7 +465,7 @@ public class Measure extends DomainResource {
      * measures that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -475,7 +475,7 @@ public class Measure extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -485,7 +485,7 @@ public class Measure extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -495,7 +495,7 @@ public class Measure extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -505,7 +505,7 @@ public class Measure extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -515,7 +515,7 @@ public class Measure extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -525,7 +525,7 @@ public class Measure extends DomainResource {
      * A reference to a Library resource containing the formal logic used by the measure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -536,7 +536,7 @@ public class Measure extends DomainResource {
      * referenced by the measure.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDisclaimer() {
         return disclaimer;
@@ -547,7 +547,7 @@ public class Measure extends DomainResource {
      * cohort. The value set is extensible, allowing additional measure scoring types to be represented.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getScoring() {
         return scoring;
@@ -558,7 +558,7 @@ public class Measure extends DomainResource {
      * score.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCompositeScoring() {
         return compositeScoring;
@@ -569,7 +569,7 @@ public class Measure extends DomainResource {
      * structure measure such as utilization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -580,7 +580,7 @@ public class Measure extends DomainResource {
      * accounted for when computing and reporting measure results.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getRiskAdjustment() {
         return riskAdjustment;
@@ -591,7 +591,7 @@ public class Measure extends DomainResource {
      * summarized result.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getRateAggregation() {
         return rateAggregation;
@@ -602,7 +602,7 @@ public class Measure extends DomainResource {
      * criterion: impact, gap in care, and evidence.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getRationale() {
         return rationale;
@@ -612,7 +612,7 @@ public class Measure extends DomainResource {
      * Provides a summary of relevant clinical guidelines or other clinical recommendations supporting the measure.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getClinicalRecommendationStatement() {
         return clinicalRecommendationStatement;
@@ -623,7 +623,7 @@ public class Measure extends DomainResource {
      * quality OR a lower score indicates better quality OR quality is within a range).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getImprovementNotation() {
         return improvementNotation;
@@ -633,7 +633,7 @@ public class Measure extends DomainResource {
      * Provides a description of an individual term used within the measure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Markdown}.
+     *     An unmodifiable list containing immutable objects of type {@link Markdown} that may be empty.
      */
     public List<Markdown> getDefinition() {
         return definition;
@@ -643,7 +643,7 @@ public class Measure extends DomainResource {
      * Additional guidance for the measure including how it can be used in a clinical context, and the intent of the measure.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getGuidance() {
         return guidance;
@@ -653,7 +653,7 @@ public class Measure extends DomainResource {
      * A group of population criteria for the measure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group} that may be empty.
      */
     public List<Group> getGroup() {
         return group;
@@ -664,7 +664,7 @@ public class Measure extends DomainResource {
      * referenced library, or a valid FHIR Resource Path.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SupplementalData}.
+     *     An unmodifiable list containing immutable objects of type {@link SupplementalData} that may be empty.
      */
     public List<SupplementalData> getSupplementalData() {
         return supplementalData;
@@ -2158,7 +2158,7 @@ public class Measure extends DomainResource {
          * broader context by drawing from a terminology, allowing groups to be correlated across measures.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -2168,7 +2168,7 @@ public class Measure extends DomainResource {
          * The human readable description of this population group.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2178,7 +2178,7 @@ public class Measure extends DomainResource {
          * A population criteria for the measure.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Population}.
+         *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
          */
         public List<Population> getPopulation() {
             return population;
@@ -2189,7 +2189,7 @@ public class Measure extends DomainResource {
          * a referenced library or a valid FHIR Resource Path.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Stratifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Stratifier} that may be empty.
          */
         public List<Stratifier> getStratifier() {
             return stratifier;
@@ -2531,7 +2531,7 @@ public class Measure extends DomainResource {
              * The type of population criteria.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -2541,7 +2541,7 @@ public class Measure extends DomainResource {
              * The human readable description of this population criteria.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -2551,7 +2551,7 @@ public class Measure extends DomainResource {
              * An expression that specifies the criteria for the population, typically the name of an expression in a library.
              * 
              * @return
-             *     An immutable object of type {@link Expression}.
+             *     An immutable object of type {@link Expression} that is non-null.
              */
             public Expression getCriteria() {
                 return criteria;
@@ -2836,7 +2836,7 @@ public class Measure extends DomainResource {
              * broader context by drawing from a terminology, allowing stratifiers to be correlated across measures.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -2846,7 +2846,7 @@ public class Measure extends DomainResource {
              * The human readable description of this stratifier criteria.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -2857,7 +2857,7 @@ public class Measure extends DomainResource {
              * within a referenced library, but it may also be a path to a stratifier element.
              * 
              * @return
-             *     An immutable object of type {@link Expression}.
+             *     An immutable object of type {@link Expression} that may be null.
              */
             public Expression getCriteria() {
                 return criteria;
@@ -2868,7 +2868,7 @@ public class Measure extends DomainResource {
              * defined within a referenced library or a valid FHIR Resource Path.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Component}.
+             *     An unmodifiable list containing immutable objects of type {@link Component} that may be empty.
              */
             public List<Component> getComponent() {
                 return component;
@@ -3187,7 +3187,7 @@ public class Measure extends DomainResource {
                  * meaning in a broader context by drawing from a terminology, allowing stratifiers to be correlated across measures.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getCode() {
                     return code;
@@ -3197,7 +3197,7 @@ public class Measure extends DomainResource {
                  * The human readable description of this stratifier criteria component.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getDescription() {
                     return description;
@@ -3208,7 +3208,7 @@ public class Measure extends DomainResource {
                  * expression defined within a referenced library, but it may also be a path to a stratifier element.
                  * 
                  * @return
-                 *     An immutable object of type {@link Expression}.
+                 *     An immutable object of type {@link Expression} that is non-null.
                  */
                 public Expression getCriteria() {
                     return criteria;
@@ -3504,7 +3504,7 @@ public class Measure extends DomainResource {
          * measures.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -3516,7 +3516,7 @@ public class Measure extends DomainResource {
          * additional information used to calculate risk adjustment factors when applying a risk model to the measure calculation.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getUsage() {
             return usage;
@@ -3526,7 +3526,7 @@ public class Measure extends DomainResource {
          * The human readable description of this supplemental data.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -3538,7 +3538,7 @@ public class Measure extends DomainResource {
          * element.
          * 
          * @return
-         *     An immutable object of type {@link Expression}.
+         *     An immutable object of type {@link Expression} that is non-null.
          */
         public Expression getCriteria() {
             return criteria;

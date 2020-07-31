@@ -109,7 +109,7 @@ public class Dosage extends BackboneElement {
      * Indicates the order in which the dosage instructions should be applied or interpreted.
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that may be null.
      */
     public Integer getSequence() {
         return sequence;
@@ -119,7 +119,7 @@ public class Dosage extends BackboneElement {
      * Free text dosage instructions e.g. SIG.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getText() {
         return text;
@@ -131,7 +131,7 @@ public class Dosage extends BackboneElement {
      * to direct sunlight or sunlamps").
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getAdditionalInstruction() {
         return additionalInstruction;
@@ -141,7 +141,7 @@ public class Dosage extends BackboneElement {
      * Instructions in terms that are understood by the patient or consumer.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPatientInstruction() {
         return patientInstruction;
@@ -151,7 +151,7 @@ public class Dosage extends BackboneElement {
      * When medication should be administered.
      * 
      * @return
-     *     An immutable object of type {@link Timing}.
+     *     An immutable object of type {@link Timing} that may be null.
      */
     public Timing getTiming() {
         return timing;
@@ -162,7 +162,7 @@ public class Dosage extends BackboneElement {
      * indicates the precondition for taking the Medication (CodeableConcept).
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAsNeeded() {
         return asNeeded;
@@ -172,7 +172,7 @@ public class Dosage extends BackboneElement {
      * Body site to administer to.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSite() {
         return site;
@@ -182,7 +182,7 @@ public class Dosage extends BackboneElement {
      * How drug should enter body.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getRoute() {
         return route;
@@ -192,7 +192,7 @@ public class Dosage extends BackboneElement {
      * Technique for administering medication.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getMethod() {
         return method;
@@ -202,7 +202,7 @@ public class Dosage extends BackboneElement {
      * The amount of medication administered.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DoseAndRate}.
+     *     An unmodifiable list containing immutable objects of type {@link DoseAndRate} that may be empty.
      */
     public List<DoseAndRate> getDoseAndRate() {
         return doseAndRate;
@@ -212,7 +212,7 @@ public class Dosage extends BackboneElement {
      * Upper limit on medication per unit of time.
      * 
      * @return
-     *     An immutable object of type {@link Ratio}.
+     *     An immutable object of type {@link Ratio} that may be null.
      */
     public Ratio getMaxDosePerPeriod() {
         return maxDosePerPeriod;
@@ -222,7 +222,7 @@ public class Dosage extends BackboneElement {
      * Upper limit on medication per administration.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getMaxDosePerAdministration() {
         return maxDosePerAdministration;
@@ -232,7 +232,7 @@ public class Dosage extends BackboneElement {
      * Upper limit on medication per lifetime of the patient.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getMaxDosePerLifetime() {
         return maxDosePerLifetime;
@@ -766,7 +766,7 @@ public class Dosage extends BackboneElement {
          * The kind of dose or rate specified, for example, ordered or calculated.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -776,7 +776,7 @@ public class Dosage extends BackboneElement {
          * Amount of medication per dose.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getDose() {
             return dose;
@@ -786,7 +786,7 @@ public class Dosage extends BackboneElement {
          * Amount of medication per unit of time.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getRate() {
             return rate;

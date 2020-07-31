@@ -65,7 +65,7 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getClazz() {
         return clazz;
@@ -75,7 +75,7 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getGeometry() {
         return geometry;
@@ -85,7 +85,7 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCopolymerConnectivity() {
         return copolymerConnectivity;
@@ -95,7 +95,7 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getModification() {
         return modification;
@@ -105,7 +105,7 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link MonomerSet}.
+     *     An unmodifiable list containing immutable objects of type {@link MonomerSet} that may be empty.
      */
     public List<MonomerSet> getMonomerSet() {
         return monomerSet;
@@ -115,7 +115,7 @@ public class SubstancePolymer extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Repeat}.
+     *     An unmodifiable list containing immutable objects of type {@link Repeat} that may be empty.
      */
     public List<Repeat> getRepeat() {
         return repeat;
@@ -637,7 +637,7 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRatioType() {
             return ratioType;
@@ -647,7 +647,7 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link StartingMaterial}.
+         *     An unmodifiable list containing immutable objects of type {@link StartingMaterial} that may be empty.
          */
         public List<StartingMaterial> getStartingMaterial() {
             return startingMaterial;
@@ -925,7 +925,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getMaterial() {
                 return material;
@@ -935,7 +935,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -945,7 +945,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getIsDefining() {
                 return isDefining;
@@ -955,7 +955,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link SubstanceAmount}.
+             *     An immutable object of type {@link SubstanceAmount} that may be null.
              */
             public SubstanceAmount getAmount() {
                 return amount;
@@ -1255,7 +1255,7 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getNumberOfUnits() {
             return numberOfUnits;
@@ -1265,7 +1265,7 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getAverageMolecularFormula() {
             return averageMolecularFormula;
@@ -1275,7 +1275,7 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRepeatUnitAmountType() {
             return repeatUnitAmountType;
@@ -1285,7 +1285,7 @@ public class SubstancePolymer extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link RepeatUnit}.
+         *     An unmodifiable list containing immutable objects of type {@link RepeatUnit} that may be empty.
          */
         public List<RepeatUnit> getRepeatUnit() {
             return repeatUnit;
@@ -1606,7 +1606,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getOrientationOfPolymerisation() {
                 return orientationOfPolymerisation;
@@ -1616,7 +1616,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getRepeatUnit() {
                 return repeatUnit;
@@ -1626,7 +1626,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An immutable object of type {@link SubstanceAmount}.
+             *     An immutable object of type {@link SubstanceAmount} that may be null.
              */
             public SubstanceAmount getAmount() {
                 return amount;
@@ -1636,7 +1636,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link DegreeOfPolymerisation}.
+             *     An unmodifiable list containing immutable objects of type {@link DegreeOfPolymerisation} that may be empty.
              */
             public List<DegreeOfPolymerisation> getDegreeOfPolymerisation() {
                 return degreeOfPolymerisation;
@@ -1646,7 +1646,7 @@ public class SubstancePolymer extends DomainResource {
              * Todo.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link StructuralRepresentation}.
+             *     An unmodifiable list containing immutable objects of type {@link StructuralRepresentation} that may be empty.
              */
             public List<StructuralRepresentation> getStructuralRepresentation() {
                 return structuralRepresentation;
@@ -1998,7 +1998,7 @@ public class SubstancePolymer extends DomainResource {
                  * Todo.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getDegree() {
                     return degree;
@@ -2008,7 +2008,7 @@ public class SubstancePolymer extends DomainResource {
                  * Todo.
                  * 
                  * @return
-                 *     An immutable object of type {@link SubstanceAmount}.
+                 *     An immutable object of type {@link SubstanceAmount} that may be null.
                  */
                 public SubstanceAmount getAmount() {
                     return amount;
@@ -2264,7 +2264,7 @@ public class SubstancePolymer extends DomainResource {
                  * Todo.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getType() {
                     return type;
@@ -2274,7 +2274,7 @@ public class SubstancePolymer extends DomainResource {
                  * Todo.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getRepresentation() {
                     return representation;
@@ -2284,7 +2284,7 @@ public class SubstancePolymer extends DomainResource {
                  * Todo.
                  * 
                  * @return
-                 *     An immutable object of type {@link Attachment}.
+                 *     An immutable object of type {@link Attachment} that may be null.
                  */
                 public Attachment getAttachment() {
                     return attachment;

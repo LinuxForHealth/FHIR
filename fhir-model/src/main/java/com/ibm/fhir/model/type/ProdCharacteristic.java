@@ -71,7 +71,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getHeight() {
         return height;
@@ -83,7 +83,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getWidth() {
         return width;
@@ -95,7 +95,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getDepth() {
         return depth;
@@ -107,7 +107,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getWeight() {
         return weight;
@@ -119,7 +119,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getNominalVolume() {
         return nominalVolume;
@@ -131,7 +131,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getExternalDiameter() {
         return externalDiameter;
@@ -142,7 +142,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getShape() {
         return shape;
@@ -153,7 +153,7 @@ public class ProdCharacteristic extends BackboneElement {
      * identifier shall be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getColor() {
         return color;
@@ -163,7 +163,7 @@ public class ProdCharacteristic extends BackboneElement {
      * Where applicable, the imprint can be specified as text.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getImprint() {
         return imprint;
@@ -174,7 +174,7 @@ public class ProdCharacteristic extends BackboneElement {
      * implementations.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getImage() {
         return image;
@@ -185,7 +185,7 @@ public class ProdCharacteristic extends BackboneElement {
      * term identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getScoring() {
         return scoring;

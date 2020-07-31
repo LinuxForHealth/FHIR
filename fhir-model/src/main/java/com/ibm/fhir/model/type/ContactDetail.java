@@ -41,7 +41,7 @@ public class ContactDetail extends Element {
      * The name of an individual to contact.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -51,7 +51,7 @@ public class ContactDetail extends Element {
      * The contact details for the individual (if a name was provided) or the organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;

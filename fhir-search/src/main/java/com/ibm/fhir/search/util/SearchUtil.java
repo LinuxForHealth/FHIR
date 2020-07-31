@@ -208,14 +208,19 @@ public class SearchUtil {
             if (spMap != null && !spMap.isEmpty()) {
                 Collection<SearchParameter> superParams =
                         filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values());
-                Set<String> resultCodes = result.stream()
+                List<String> resultCodes = result.stream()
                         .map(sp -> sp.getCode().getValue())
-                        .collect(Collectors.toSet());
+                        .collect(Collectors.toList());
 
                 for (SearchParameter sp : superParams) {
-                    if (resultCodes.contains(sp.getCode().getValue())) {
-                        log.warning("Detected conflict for code '" + sp.getCode().getValue() + "'; code is defined for both " +
-                                SearchConstants.RESOURCE_RESOURCE + " and " + resourceType + "; using " + resourceType);
+                    String spCode = sp.getCode().getValue();
+                    if (resultCodes.contains(spCode)) {
+                        SearchParameter existingSP = result.get(resultCodes.indexOf(spCode));
+                        if (sp.getExpression() != null && !sp.getExpression().equals(existingSP.getExpression())) {
+                            log.warning("Code '" + sp.getCode().getValue() + "' is defined for " +
+                                    SearchConstants.RESOURCE_RESOURCE + " and " + resourceType +
+                                    " with differing expressions; using " + resourceType);
+                        }
                     } else {
                         result.add(sp);
                     }

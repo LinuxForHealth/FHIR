@@ -137,7 +137,7 @@ public class RiskAssessment extends DomainResource {
      * Business identifier assigned to the risk assessment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -147,7 +147,7 @@ public class RiskAssessment extends DomainResource {
      * A reference to the request that is fulfilled by this risk assessment.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getBasedOn() {
         return basedOn;
@@ -157,7 +157,7 @@ public class RiskAssessment extends DomainResource {
      * A reference to a resource that this risk assessment is part of, such as a Procedure.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getParent() {
         return parent;
@@ -167,7 +167,7 @@ public class RiskAssessment extends DomainResource {
      * The status of the RiskAssessment, using the same statuses as an Observation.
      * 
      * @return
-     *     An immutable object of type {@link RiskAssessmentStatus}.
+     *     An immutable object of type {@link RiskAssessmentStatus} that is non-null.
      */
     public RiskAssessmentStatus getStatus() {
         return status;
@@ -177,7 +177,7 @@ public class RiskAssessment extends DomainResource {
      * The algorithm, process or mechanism used to evaluate the risk.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getMethod() {
         return method;
@@ -187,7 +187,7 @@ public class RiskAssessment extends DomainResource {
      * The type of the risk assessment performed.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -197,7 +197,7 @@ public class RiskAssessment extends DomainResource {
      * The patient or group the risk assessment applies to.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -207,7 +207,7 @@ public class RiskAssessment extends DomainResource {
      * The encounter where the assessment was performed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -217,7 +217,7 @@ public class RiskAssessment extends DomainResource {
      * The date (and possibly time) the risk assessment was performed.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -227,7 +227,7 @@ public class RiskAssessment extends DomainResource {
      * For assessments or prognosis specific to a particular condition, indicates the condition being assessed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCondition() {
         return condition;
@@ -237,7 +237,7 @@ public class RiskAssessment extends DomainResource {
      * The provider or software application that performed the assessment.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPerformer() {
         return performer;
@@ -247,7 +247,7 @@ public class RiskAssessment extends DomainResource {
      * The reason the risk assessment was performed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -257,7 +257,7 @@ public class RiskAssessment extends DomainResource {
      * Resources supporting the reason the risk assessment was performed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -268,7 +268,7 @@ public class RiskAssessment extends DomainResource {
      * Conditions, etc.).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasis() {
         return basis;
@@ -278,7 +278,7 @@ public class RiskAssessment extends DomainResource {
      * Describes the expected outcome for the subject.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Prediction}.
+     *     An unmodifiable list containing immutable objects of type {@link Prediction} that may be empty.
      */
     public List<Prediction> getPrediction() {
         return prediction;
@@ -288,7 +288,7 @@ public class RiskAssessment extends DomainResource {
      * A description of the steps that might be taken to reduce the identified risk(s).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getMitigation() {
         return mitigation;
@@ -298,7 +298,7 @@ public class RiskAssessment extends DomainResource {
      * Additional comments about the risk assessment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1140,7 +1140,7 @@ public class RiskAssessment extends DomainResource {
          * One of the potential outcomes for the patient (e.g. remission, death, a particular condition).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOutcome() {
             return outcome;
@@ -1150,7 +1150,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates how likely the outcome is (in the specified timeframe).
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getProbability() {
             return probability;
@@ -1161,7 +1161,7 @@ public class RiskAssessment extends DomainResource {
          * or high).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getQualitativeRisk() {
             return qualitativeRisk;
@@ -1172,7 +1172,7 @@ public class RiskAssessment extends DomainResource {
          * population in general. (Numbers greater than 1 = higher risk than the population, numbers less than 1 = lower risk.).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getRelativeRisk() {
             return relativeRisk;
@@ -1182,7 +1182,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates the period of time or age range of the subject to which the specified probability applies.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getWhen() {
             return when;
@@ -1192,7 +1192,7 @@ public class RiskAssessment extends DomainResource {
          * Additional information explaining the basis for the prediction.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getRationale() {
             return rationale;

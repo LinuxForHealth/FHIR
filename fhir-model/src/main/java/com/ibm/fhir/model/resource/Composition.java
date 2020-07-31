@@ -154,7 +154,7 @@ public class Composition extends DomainResource {
      * over time.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -164,7 +164,7 @@ public class Composition extends DomainResource {
      * The workflow/clinical status of this composition. The status is a marker for the clinical standing of the document.
      * 
      * @return
-     *     An immutable object of type {@link CompositionStatus}.
+     *     An immutable object of type {@link CompositionStatus} that is non-null.
      */
     public CompositionStatus getStatus() {
         return status;
@@ -175,7 +175,7 @@ public class Composition extends DomainResource {
      * usually equates to the purpose of making the composition.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getType() {
         return type;
@@ -186,7 +186,7 @@ public class Composition extends DomainResource {
      * from the code specified in the Composition Type.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -198,7 +198,7 @@ public class Composition extends DomainResource {
      * patients that share a common exposure).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -208,7 +208,7 @@ public class Composition extends DomainResource {
      * Describes the clinical encounter or type of care this documentation is associated with.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -218,7 +218,7 @@ public class Composition extends DomainResource {
      * The composition editing time, when the composition was last logically changed by the author.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDate() {
         return date;
@@ -228,7 +228,7 @@ public class Composition extends DomainResource {
      * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
      */
     public List<Reference> getAuthor() {
         return author;
@@ -238,7 +238,7 @@ public class Composition extends DomainResource {
      * Official human-readable label for the composition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getTitle() {
         return title;
@@ -248,7 +248,7 @@ public class Composition extends DomainResource {
      * The code specifying the level of confidentiality of the Composition.
      * 
      * @return
-     *     An immutable object of type {@link DocumentConfidentiality}.
+     *     An immutable object of type {@link DocumentConfidentiality} that may be null.
      */
     public DocumentConfidentiality getConfidentiality() {
         return confidentiality;
@@ -258,7 +258,7 @@ public class Composition extends DomainResource {
      * A participant who has attested to the accuracy of the composition/document.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attester}.
+     *     An unmodifiable list containing immutable objects of type {@link Attester} that may be empty.
      */
     public List<Attester> getAttester() {
         return attester;
@@ -269,7 +269,7 @@ public class Composition extends DomainResource {
      * composition/document information.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCustodian() {
         return custodian;
@@ -279,7 +279,7 @@ public class Composition extends DomainResource {
      * Relationships that this composition has with other compositions or documents that already exist.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatesTo}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatesTo} that may be empty.
      */
     public List<RelatesTo> getRelatesTo() {
         return relatesTo;
@@ -289,7 +289,7 @@ public class Composition extends DomainResource {
      * The clinical service, such as a colonoscopy or an appendectomy, being documented.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Event}.
+     *     An unmodifiable list containing immutable objects of type {@link Event} that may be empty.
      */
     public List<Event> getEvent() {
         return event;
@@ -299,7 +299,7 @@ public class Composition extends DomainResource {
      * The root of the sections that make up the composition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Section}.
+     *     An unmodifiable list containing immutable objects of type {@link Section} that may be empty.
      */
     public List<Section> getSection() {
         return section;
@@ -1088,7 +1088,7 @@ public class Composition extends DomainResource {
          * The type of attestation the authenticator offers.
          * 
          * @return
-         *     An immutable object of type {@link CompositionAttestationMode}.
+         *     An immutable object of type {@link CompositionAttestationMode} that is non-null.
          */
         public CompositionAttestationMode getMode() {
             return mode;
@@ -1098,7 +1098,7 @@ public class Composition extends DomainResource {
          * When the composition was attested by the party.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getTime() {
             return time;
@@ -1108,7 +1108,7 @@ public class Composition extends DomainResource {
          * Who attested the composition in the specified way.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getParty() {
             return party;
@@ -1404,7 +1404,7 @@ public class Composition extends DomainResource {
          * The type of relationship that this composition has with anther composition or document.
          * 
          * @return
-         *     An immutable object of type {@link DocumentRelationshipType}.
+         *     An immutable object of type {@link DocumentRelationshipType} that is non-null.
          */
         public DocumentRelationshipType getCode() {
             return code;
@@ -1414,7 +1414,7 @@ public class Composition extends DomainResource {
          * The target composition/document of this relationship.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getTarget() {
             return target;
@@ -1694,7 +1694,7 @@ public class Composition extends DomainResource {
          * being documented is necessarily a "History and Physical" act.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getCode() {
             return code;
@@ -1705,7 +1705,7 @@ public class Composition extends DomainResource {
          * representation for this period, only that it documents events during this time.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -1716,7 +1716,7 @@ public class Composition extends DomainResource {
          * colonoscopy or an appendectomy.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getDetail() {
             return detail;
@@ -2075,7 +2075,7 @@ public class Composition extends DomainResource {
          * to build a table of contents.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getTitle() {
             return title;
@@ -2085,7 +2085,7 @@ public class Composition extends DomainResource {
          * A code identifying the kind of content contained within the section. This must be consistent with the section title.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -2095,7 +2095,7 @@ public class Composition extends DomainResource {
          * Identifies who is responsible for the information in this section, not necessarily who typed it in.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getAuthor() {
             return author;
@@ -2109,7 +2109,7 @@ public class Composition extends DomainResource {
          * subject, focus, etc.) matches the section focus, or the resources have no logical subject (few resources).
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getFocus() {
             return focus;
@@ -2121,7 +2121,7 @@ public class Composition extends DomainResource {
          * detail to make it "clinically safe" for a human to just read the narrative.
          * 
          * @return
-         *     An immutable object of type {@link Narrative}.
+         *     An immutable object of type {@link Narrative} that may be null.
          */
         public Narrative getText() {
             return text;
@@ -2133,7 +2133,7 @@ public class Composition extends DomainResource {
          * items may be marked as added, modified or deleted.
          * 
          * @return
-         *     An immutable object of type {@link SectionMode}.
+         *     An immutable object of type {@link SectionMode} that may be null.
          */
         public SectionMode getMode() {
             return mode;
@@ -2143,7 +2143,7 @@ public class Composition extends DomainResource {
          * Specifies the order applied to the items in the section entries.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOrderedBy() {
             return orderedBy;
@@ -2153,7 +2153,7 @@ public class Composition extends DomainResource {
          * A reference to the actual resource from which the narrative in the section is derived.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getEntry() {
             return entry;
@@ -2163,7 +2163,7 @@ public class Composition extends DomainResource {
          * If the section is empty, why the list is empty. An empty section typically has some text explaining the empty reason.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getEmptyReason() {
             return emptyReason;
@@ -2173,7 +2173,7 @@ public class Composition extends DomainResource {
          * A nested sub-section within this section.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Section}.
+         *     An unmodifiable list containing immutable objects of type {@link Section} that may be empty.
          */
         public List<Composition.Section> getSection() {
             return section;

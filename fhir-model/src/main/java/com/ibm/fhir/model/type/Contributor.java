@@ -56,7 +56,7 @@ public class Contributor extends Element {
      * The type of contributor.
      * 
      * @return
-     *     An immutable object of type {@link ContributorType}.
+     *     An immutable object of type {@link ContributorType} that is non-null.
      */
     public ContributorType getType() {
         return type;
@@ -66,7 +66,7 @@ public class Contributor extends Element {
      * The name of the individual or organization responsible for the contribution.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -76,7 +76,7 @@ public class Contributor extends Element {
      * Contact details to assist a user in finding and communicating with the contributor.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;

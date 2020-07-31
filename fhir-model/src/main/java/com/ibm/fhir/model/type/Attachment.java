@@ -79,7 +79,7 @@ public class Attachment extends Element {
      * Includes mime type parameters such as charset where appropriate.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getContentType() {
         return contentType;
@@ -89,7 +89,7 @@ public class Attachment extends Element {
      * The human language of the content. The value can be any valid value according to BCP 47.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getLanguage() {
         return language;
@@ -99,7 +99,7 @@ public class Attachment extends Element {
      * The actual data of the attachment - a sequence of bytes, base64 encoded.
      * 
      * @return
-     *     An immutable object of type {@link Base64Binary}.
+     *     An immutable object of type {@link Base64Binary} that may be null.
      */
     public Base64Binary getData() {
         return data;
@@ -109,7 +109,7 @@ public class Attachment extends Element {
      * A location where the data can be accessed.
      * 
      * @return
-     *     An immutable object of type {@link Url}.
+     *     An immutable object of type {@link Url} that may be null.
      */
     public Url getUrl() {
         return url;
@@ -119,7 +119,7 @@ public class Attachment extends Element {
      * The number of bytes of data that make up this attachment (before base64 encoding, if that is done).
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getSize() {
         return size;
@@ -129,7 +129,7 @@ public class Attachment extends Element {
      * The calculated hash of the data using SHA-1. Represented using base64.
      * 
      * @return
-     *     An immutable object of type {@link Base64Binary}.
+     *     An immutable object of type {@link Base64Binary} that may be null.
      */
     public Base64Binary getHash() {
         return hash;
@@ -139,7 +139,7 @@ public class Attachment extends Element {
      * A label or set of text to display in place of the data.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -149,7 +149,7 @@ public class Attachment extends Element {
      * The date that the attachment was first created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getCreation() {
         return creation;

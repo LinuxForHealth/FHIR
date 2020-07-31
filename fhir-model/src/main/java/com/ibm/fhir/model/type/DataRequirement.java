@@ -97,7 +97,7 @@ public class DataRequirement extends Element {
      * of the base resource of the profile.
      * 
      * @return
-     *     An immutable object of type {@link FHIRAllTypes}.
+     *     An immutable object of type {@link FHIRAllTypes} that is non-null.
      */
     public FHIRAllTypes getType() {
         return type;
@@ -107,7 +107,7 @@ public class DataRequirement extends Element {
      * The profile of the required data, specified as the uri of the profile definition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getProfile() {
         return profile;
@@ -117,7 +117,7 @@ public class DataRequirement extends Element {
      * The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -133,7 +133,7 @@ public class DataRequirement extends Element {
      * full details).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getMustSupport() {
         return mustSupport;
@@ -144,7 +144,7 @@ public class DataRequirement extends Element {
      * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeFilter}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeFilter} that may be empty.
      */
     public List<CodeFilter> getCodeFilter() {
         return codeFilter;
@@ -155,7 +155,7 @@ public class DataRequirement extends Element {
      * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DateFilter}.
+     *     An unmodifiable list containing immutable objects of type {@link DateFilter} that may be empty.
      */
     public List<DateFilter> getDateFilter() {
         return dateFilter;
@@ -165,7 +165,7 @@ public class DataRequirement extends Element {
      * Specifies a maximum number of results that are required (uses the _count search parameter).
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that may be null.
      */
     public PositiveInt getLimit() {
         return limit;
@@ -175,7 +175,7 @@ public class DataRequirement extends Element {
      * Specifies the order of the results to be returned.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Sort}.
+     *     An unmodifiable list containing immutable objects of type {@link Sort} that may be empty.
      */
     public List<Sort> getSort() {
         return sort;
@@ -637,7 +637,7 @@ public class DataRequirement extends Element {
          * integer constant. The path must resolve to an element of type code, Coding, or CodeableConcept.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPath() {
             return path;
@@ -648,7 +648,7 @@ public class DataRequirement extends Element {
          * searches on elements of type code, Coding, or CodeableConcept.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSearchParam() {
             return searchParam;
@@ -660,7 +660,7 @@ public class DataRequirement extends Element {
          * the specified valueset.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that may be null.
          */
         public Canonical getValueSet() {
             return valueSet;
@@ -672,7 +672,7 @@ public class DataRequirement extends Element {
          * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Coding}.
+         *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
          */
         public List<Coding> getCode() {
             return code;
@@ -1003,7 +1003,7 @@ public class DataRequirement extends Element {
          * integer constant. The path must resolve to an element of type date, dateTime, Period, Schedule, or Timing.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getPath() {
             return path;
@@ -1014,7 +1014,7 @@ public class DataRequirement extends Element {
          * searches on elements of type date, dateTime, Period, Schedule, or Timing.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSearchParam() {
             return searchParam;
@@ -1027,7 +1027,7 @@ public class DataRequirement extends Element {
          * only those data items that fall within Duration before now.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;
@@ -1323,7 +1323,7 @@ public class DataRequirement extends Element {
          * sub-elements. Note that the index must be an integer constant.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getPath() {
             return path;
@@ -1333,7 +1333,7 @@ public class DataRequirement extends Element {
          * The direction of the sort, ascending or descending.
          * 
          * @return
-         *     An immutable object of type {@link SortDirection}.
+         *     An immutable object of type {@link SortDirection} that is non-null.
          */
         public SortDirection getDirection() {
             return direction;

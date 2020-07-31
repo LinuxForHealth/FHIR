@@ -119,7 +119,7 @@ public class ObservationDefinition extends DomainResource {
      * A code that classifies the general type of observation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -129,7 +129,7 @@ public class ObservationDefinition extends DomainResource {
      * Describes what will be observed. Sometimes this is called the observation "name".
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -139,7 +139,7 @@ public class ObservationDefinition extends DomainResource {
      * A unique identifier assigned to this ObservationDefinition artifact.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -149,7 +149,7 @@ public class ObservationDefinition extends DomainResource {
      * The data types allowed for the value element of the instance observations conforming to this ObservationDefinition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ObservationDataType}.
+     *     An unmodifiable list containing immutable objects of type {@link ObservationDataType} that may be empty.
      */
     public List<ObservationDataType> getPermittedDataType() {
         return permittedDataType;
@@ -159,7 +159,7 @@ public class ObservationDefinition extends DomainResource {
      * Multiple results allowed for observations conforming to this ObservationDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getMultipleResultsAllowed() {
         return multipleResultsAllowed;
@@ -169,7 +169,7 @@ public class ObservationDefinition extends DomainResource {
      * The method or technique used to perform the observation.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getMethod() {
         return method;
@@ -179,7 +179,7 @@ public class ObservationDefinition extends DomainResource {
      * The preferred name to be used when reporting the results of observations conforming to this ObservationDefinition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPreferredReportName() {
         return preferredReportName;
@@ -189,7 +189,7 @@ public class ObservationDefinition extends DomainResource {
      * Characteristics for quantitative results of this observation.
      * 
      * @return
-     *     An immutable object of type {@link QuantitativeDetails}.
+     *     An immutable object of type {@link QuantitativeDetails} that may be null.
      */
     public QuantitativeDetails getQuantitativeDetails() {
         return quantitativeDetails;
@@ -200,7 +200,7 @@ public class ObservationDefinition extends DomainResource {
      * ObservationDefinition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link QualifiedInterval}.
+     *     An unmodifiable list containing immutable objects of type {@link QualifiedInterval} that may be empty.
      */
     public List<QualifiedInterval> getQualifiedInterval() {
         return qualifiedInterval;
@@ -210,7 +210,7 @@ public class ObservationDefinition extends DomainResource {
      * The set of valid coded results for the observations conforming to this ObservationDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getValidCodedValueSet() {
         return validCodedValueSet;
@@ -220,7 +220,7 @@ public class ObservationDefinition extends DomainResource {
      * The set of normal coded results for the observations conforming to this ObservationDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getNormalCodedValueSet() {
         return normalCodedValueSet;
@@ -230,7 +230,7 @@ public class ObservationDefinition extends DomainResource {
      * The set of abnormal coded results for the observation conforming to this ObservationDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAbnormalCodedValueSet() {
         return abnormalCodedValueSet;
@@ -240,7 +240,7 @@ public class ObservationDefinition extends DomainResource {
      * The set of critical coded results for the observation conforming to this ObservationDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCriticalCodedValueSet() {
         return criticalCodedValueSet;
@@ -945,7 +945,7 @@ public class ObservationDefinition extends DomainResource {
          * Customary unit used to report quantitative results of observations conforming to this ObservationDefinition.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCustomaryUnit() {
             return customaryUnit;
@@ -955,7 +955,7 @@ public class ObservationDefinition extends DomainResource {
          * SI unit used to report quantitative results of observations conforming to this ObservationDefinition.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getUnit() {
             return unit;
@@ -965,7 +965,7 @@ public class ObservationDefinition extends DomainResource {
          * Factor for converting value expressed with SI unit to value expressed with customary unit.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getConversionFactor() {
             return conversionFactor;
@@ -975,7 +975,7 @@ public class ObservationDefinition extends DomainResource {
          * Number of digits after decimal separator when the results of such observations are of type Quantity.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getDecimalPrecision() {
             return decimalPrecision;
@@ -1303,7 +1303,7 @@ public class ObservationDefinition extends DomainResource {
          * The category of interval of values for continuous or ordinal observations conforming to this ObservationDefinition.
          * 
          * @return
-         *     An immutable object of type {@link ObservationRangeCategory}.
+         *     An immutable object of type {@link ObservationRangeCategory} that may be null.
          */
         public ObservationRangeCategory getCategory() {
             return category;
@@ -1313,7 +1313,7 @@ public class ObservationDefinition extends DomainResource {
          * The low and high values determining the interval. There may be only one of the two.
          * 
          * @return
-         *     An immutable object of type {@link Range}.
+         *     An immutable object of type {@link Range} that may be null.
          */
         public Range getRange() {
             return range;
@@ -1323,7 +1323,7 @@ public class ObservationDefinition extends DomainResource {
          * Codes to indicate the health context the range applies to. For example, the normal or therapeutic range.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getContext() {
             return context;
@@ -1333,7 +1333,7 @@ public class ObservationDefinition extends DomainResource {
          * Codes to indicate the target population this reference range applies to.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getAppliesTo() {
             return appliesTo;
@@ -1343,7 +1343,7 @@ public class ObservationDefinition extends DomainResource {
          * Sex of the population the range applies to.
          * 
          * @return
-         *     An immutable object of type {@link AdministrativeGender}.
+         *     An immutable object of type {@link AdministrativeGender} that may be null.
          */
         public AdministrativeGender getGender() {
             return gender;
@@ -1354,7 +1354,7 @@ public class ObservationDefinition extends DomainResource {
          * meaning says so.
          * 
          * @return
-         *     An immutable object of type {@link Range}.
+         *     An immutable object of type {@link Range} that may be null.
          */
         public Range getAge() {
             return age;
@@ -1364,7 +1364,7 @@ public class ObservationDefinition extends DomainResource {
          * The gestational age to which this reference range is applicable, in the context of pregnancy.
          * 
          * @return
-         *     An immutable object of type {@link Range}.
+         *     An immutable object of type {@link Range} that may be null.
          */
         public Range getGestationalAge() {
             return gestationalAge;
@@ -1374,7 +1374,7 @@ public class ObservationDefinition extends DomainResource {
          * Text based condition for which the reference range is valid.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getCondition() {
             return condition;

@@ -86,7 +86,7 @@ public class TriggerDefinition extends Element {
      * The type of triggering event.
      * 
      * @return
-     *     An immutable object of type {@link TriggerType}.
+     *     An immutable object of type {@link TriggerType} that is non-null.
      */
     public TriggerType getType() {
         return type;
@@ -97,7 +97,7 @@ public class TriggerDefinition extends Element {
      * registry), or a simple relative URI that identifies the event in a local context.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -107,7 +107,7 @@ public class TriggerDefinition extends Element {
      * The timing of the event (if this is a periodic trigger).
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getTiming() {
         return timing;
@@ -118,7 +118,7 @@ public class TriggerDefinition extends Element {
      * all the data requirements must be true.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
+     *     An unmodifiable list containing immutable objects of type {@link DataRequirement} that may be empty.
      */
     public List<DataRequirement> getData() {
         return data;
@@ -129,7 +129,7 @@ public class TriggerDefinition extends Element {
      * whether or not the trigger fires.
      * 
      * @return
-     *     An immutable object of type {@link Expression}.
+     *     An immutable object of type {@link Expression} that may be null.
      */
     public Expression getCondition() {
         return condition;

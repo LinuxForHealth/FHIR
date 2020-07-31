@@ -65,7 +65,7 @@ public class HumanName extends Element {
      * Identifies the purpose for this name.
      * 
      * @return
-     *     An immutable object of type {@link NameUse}.
+     *     An immutable object of type {@link NameUse} that may be null.
      */
     public NameUse getUse() {
         return use;
@@ -76,7 +76,7 @@ public class HumanName extends Element {
      * well as the specific parts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getText() {
         return text;
@@ -87,7 +87,7 @@ public class HumanName extends Element {
      * name of his father.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getFamily() {
         return family;
@@ -97,7 +97,7 @@ public class HumanName extends Element {
      * Given name.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getGiven() {
         return given;
@@ -108,7 +108,7 @@ public class HumanName extends Element {
      * appears at the start of the name.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getPrefix() {
         return prefix;
@@ -119,7 +119,7 @@ public class HumanName extends Element {
      * appears at the end of the name.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getSuffix() {
         return suffix;
@@ -129,7 +129,7 @@ public class HumanName extends Element {
      * Indicates the period of time when this name was valid for the named person.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;

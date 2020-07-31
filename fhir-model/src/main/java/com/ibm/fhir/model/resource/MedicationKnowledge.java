@@ -135,7 +135,7 @@ public class MedicationKnowledge extends DomainResource {
      * formulary code, optionally with translations to other code systems.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -146,7 +146,7 @@ public class MedicationKnowledge extends DomainResource {
      * medication and not to its medicinal properties.
      * 
      * @return
-     *     An immutable object of type {@link MedicationKnowledgeStatus}.
+     *     An immutable object of type {@link MedicationKnowledgeStatus} that may be null.
      */
     public MedicationKnowledgeStatus getStatus() {
         return status;
@@ -157,7 +157,7 @@ public class MedicationKnowledge extends DomainResource {
      * of a medication product.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManufacturer() {
         return manufacturer;
@@ -167,7 +167,7 @@ public class MedicationKnowledge extends DomainResource {
      * Describes the form of the item. Powder; tablets; capsule.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDoseForm() {
         return doseForm;
@@ -179,7 +179,7 @@ public class MedicationKnowledge extends DomainResource {
      * clarification of the package amount (For example, 3 mL, 10mL, etc.).
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getAmount() {
         return amount;
@@ -190,7 +190,7 @@ public class MedicationKnowledge extends DomainResource {
      * acetaminophen and paracetamol or salbutamol and albuterol.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getSynonym() {
         return synonym;
@@ -200,7 +200,7 @@ public class MedicationKnowledge extends DomainResource {
      * Associated or related knowledge about a medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedMedicationKnowledge}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedMedicationKnowledge} that may be empty.
      */
     public List<RelatedMedicationKnowledge> getRelatedMedicationKnowledge() {
         return relatedMedicationKnowledge;
@@ -212,7 +212,7 @@ public class MedicationKnowledge extends DomainResource {
      * branded product (e.g. Crestor).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAssociatedMedication() {
         return associatedMedication;
@@ -223,7 +223,7 @@ public class MedicationKnowledge extends DomainResource {
      * etc.).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getProductType() {
         return productType;
@@ -233,7 +233,7 @@ public class MedicationKnowledge extends DomainResource {
      * Associated documentation about the medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Monograph}.
+     *     An unmodifiable list containing immutable objects of type {@link Monograph} that may be empty.
      */
     public List<Monograph> getMonograph() {
         return monograph;
@@ -243,7 +243,7 @@ public class MedicationKnowledge extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Ingredient}.
+     *     An unmodifiable list containing immutable objects of type {@link Ingredient} that may be empty.
      */
     public List<Ingredient> getIngredient() {
         return ingredient;
@@ -253,7 +253,7 @@ public class MedicationKnowledge extends DomainResource {
      * The instructions for preparing the medication.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPreparationInstruction() {
         return preparationInstruction;
@@ -263,7 +263,7 @@ public class MedicationKnowledge extends DomainResource {
      * The intended or approved route of administration.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getIntendedRoute() {
         return intendedRoute;
@@ -273,7 +273,7 @@ public class MedicationKnowledge extends DomainResource {
      * The price of the medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Cost}.
+     *     An unmodifiable list containing immutable objects of type {@link Cost} that may be empty.
      */
     public List<Cost> getCost() {
         return cost;
@@ -283,7 +283,7 @@ public class MedicationKnowledge extends DomainResource {
      * The program under which the medication is reviewed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link MonitoringProgram}.
+     *     An unmodifiable list containing immutable objects of type {@link MonitoringProgram} that may be empty.
      */
     public List<MonitoringProgram> getMonitoringProgram() {
         return monitoringProgram;
@@ -293,7 +293,7 @@ public class MedicationKnowledge extends DomainResource {
      * Guidelines for the administration of the medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link AdministrationGuidelines}.
+     *     An unmodifiable list containing immutable objects of type {@link AdministrationGuidelines} that may be empty.
      */
     public List<AdministrationGuidelines> getAdministrationGuidelines() {
         return administrationGuidelines;
@@ -303,7 +303,7 @@ public class MedicationKnowledge extends DomainResource {
      * Categorization of the medication within a formulary or classification system.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link MedicineClassification}.
+     *     An unmodifiable list containing immutable objects of type {@link MedicineClassification} that may be empty.
      */
     public List<MedicineClassification> getMedicineClassification() {
         return medicineClassification;
@@ -313,7 +313,7 @@ public class MedicationKnowledge extends DomainResource {
      * Information that only applies to packages (not products).
      * 
      * @return
-     *     An immutable object of type {@link Packaging}.
+     *     An immutable object of type {@link Packaging} that may be null.
      */
     public Packaging getPackaging() {
         return packaging;
@@ -323,7 +323,7 @@ public class MedicationKnowledge extends DomainResource {
      * Specifies descriptive properties of the medicine, such as color, shape, imprints, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DrugCharacteristic}.
+     *     An unmodifiable list containing immutable objects of type {@link DrugCharacteristic} that may be empty.
      */
     public List<DrugCharacteristic> getDrugCharacteristic() {
         return drugCharacteristic;
@@ -334,7 +334,7 @@ public class MedicationKnowledge extends DomainResource {
      * contraindication, drug-allergy interaction, etc.).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getContraindication() {
         return contraindication;
@@ -344,7 +344,7 @@ public class MedicationKnowledge extends DomainResource {
      * Regulatory information about a medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Regulatory}.
+     *     An unmodifiable list containing immutable objects of type {@link Regulatory} that may be empty.
      */
     public List<Regulatory> getRegulatory() {
         return regulatory;
@@ -354,7 +354,7 @@ public class MedicationKnowledge extends DomainResource {
      * The time course of drug absorption, distribution, metabolism and excretion of a medication from the body.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Kinetics}.
+     *     An unmodifiable list containing immutable objects of type {@link Kinetics} that may be empty.
      */
     public List<Kinetics> getKinetics() {
         return kinetics;
@@ -1437,7 +1437,7 @@ public class MedicationKnowledge extends DomainResource {
          * The category of the associated medication knowledge reference.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1447,7 +1447,7 @@ public class MedicationKnowledge extends DomainResource {
          * Associated documentation about the associated medication knowledge.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that is non-empty.
          */
         public List<Reference> getReference() {
             return reference;
@@ -1732,7 +1732,7 @@ public class MedicationKnowledge extends DomainResource {
          * The category of documentation about the medication. (e.g. professional monograph, patient education monograph).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1742,7 +1742,7 @@ public class MedicationKnowledge extends DomainResource {
          * Associated documentation about the medication.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getSource() {
             return source;
@@ -2003,7 +2003,7 @@ public class MedicationKnowledge extends DomainResource {
          * The actual ingredient - either a substance (simple ingredient) or another medication.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getItem() {
             return item;
@@ -2013,7 +2013,7 @@ public class MedicationKnowledge extends DomainResource {
          * Indication of whether this ingredient affects the therapeutic action of the drug.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getIsActive() {
             return isActive;
@@ -2024,7 +2024,7 @@ public class MedicationKnowledge extends DomainResource {
          * expressed as a ratio where the numerator is 250mg and the denominator is 1 tablet.
          * 
          * @return
-         *     An immutable object of type {@link Ratio}.
+         *     An immutable object of type {@link Ratio} that may be null.
          */
         public Ratio getStrength() {
             return strength;
@@ -2314,7 +2314,7 @@ public class MedicationKnowledge extends DomainResource {
          * acquisition cost.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2324,7 +2324,7 @@ public class MedicationKnowledge extends DomainResource {
          * The source or owner that assigns the price to the medication.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSource() {
             return source;
@@ -2334,7 +2334,7 @@ public class MedicationKnowledge extends DomainResource {
          * The price of the medication.
          * 
          * @return
-         *     An immutable object of type {@link Money}.
+         *     An immutable object of type {@link Money} that is non-null.
          */
         public Money getCost() {
             return cost;
@@ -2616,7 +2616,7 @@ public class MedicationKnowledge extends DomainResource {
          * Type of program under which the medication is monitored.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2626,7 +2626,7 @@ public class MedicationKnowledge extends DomainResource {
          * Name of the reviewing program.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -2880,7 +2880,7 @@ public class MedicationKnowledge extends DomainResource {
          * Dosage for the medication for the specific guidelines.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Dosage}.
+         *     An unmodifiable list containing immutable objects of type {@link Dosage} that may be empty.
          */
         public List<Dosage> getDosage() {
             return dosage;
@@ -2890,7 +2890,7 @@ public class MedicationKnowledge extends DomainResource {
          * Indication for use that apply to the specific administration guidelines.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getIndication() {
             return indication;
@@ -2901,7 +2901,7 @@ public class MedicationKnowledge extends DomainResource {
          * gender, etc.).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PatientCharacteristics}.
+         *     An unmodifiable list containing immutable objects of type {@link PatientCharacteristics} that may be empty.
          */
         public List<PatientCharacteristics> getPatientCharacteristics() {
             return patientCharacteristics;
@@ -3221,7 +3221,7 @@ public class MedicationKnowledge extends DomainResource {
              * The type of dosage (for example, prophylaxis, maintenance, therapeutic, etc.).
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -3231,7 +3231,7 @@ public class MedicationKnowledge extends DomainResource {
              * Dosage for the medication for the specific guidelines.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Dosage}.
+             *     An unmodifiable list containing immutable objects of type {@link Dosage} that is non-empty.
              */
             public List<com.ibm.fhir.model.type.Dosage> getDosage() {
                 return dosage;
@@ -3517,7 +3517,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specific characteristic that is relevant to the administration guideline (e.g. height, weight, gender).
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getCharacteristic() {
                 return characteristic;
@@ -3527,7 +3527,7 @@ public class MedicationKnowledge extends DomainResource {
              * The specific characteristic (e.g. height, weight, gender, etc.).
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getValue() {
                 return value;
@@ -3813,7 +3813,7 @@ public class MedicationKnowledge extends DomainResource {
          * The type of category for the medication (for example, therapeutic classification, therapeutic sub-classification).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getType() {
             return type;
@@ -3823,7 +3823,7 @@ public class MedicationKnowledge extends DomainResource {
          * Specific category assigned to the medication (e.g. anti-infective, anti-hypertensive, antibiotic, etc.).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getClassification() {
             return classification;
@@ -4108,7 +4108,7 @@ public class MedicationKnowledge extends DomainResource {
          * bottle).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -4118,7 +4118,7 @@ public class MedicationKnowledge extends DomainResource {
          * The number of product units the package would contain if fully loaded.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -4377,7 +4377,7 @@ public class MedicationKnowledge extends DomainResource {
          * A code specifying which characteristic of the medicine is being described (for example, colour, shape, imprint).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -4387,7 +4387,7 @@ public class MedicationKnowledge extends DomainResource {
          * Description of the characteristic.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;
@@ -4653,7 +4653,7 @@ public class MedicationKnowledge extends DomainResource {
          * The authority that is specifying the regulations.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getRegulatoryAuthority() {
             return regulatoryAuthority;
@@ -4663,7 +4663,7 @@ public class MedicationKnowledge extends DomainResource {
          * Specifies if changes are allowed when dispensing a medication from a regulatory perspective.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Substitution}.
+         *     An unmodifiable list containing immutable objects of type {@link Substitution} that may be empty.
          */
         public List<Substitution> getSubstitution() {
             return substitution;
@@ -4673,7 +4673,7 @@ public class MedicationKnowledge extends DomainResource {
          * Specifies the schedule of a medication in jurisdiction.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Schedule}.
+         *     An unmodifiable list containing immutable objects of type {@link Schedule} that may be empty.
          */
         public List<Schedule> getSchedule() {
             return schedule;
@@ -4683,7 +4683,7 @@ public class MedicationKnowledge extends DomainResource {
          * The maximum number of units of the medication that can be dispensed in a period.
          * 
          * @return
-         *     An immutable object of type {@link MaxDispense}.
+         *     An immutable object of type {@link MaxDispense} that may be null.
          */
         public MaxDispense getMaxDispense() {
             return maxDispense;
@@ -5027,7 +5027,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specifies the type of substitution allowed.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -5037,7 +5037,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specifies if regulation allows for changes in the medication when dispensing.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that is non-null.
              */
             public Boolean getAllowed() {
                 return allowed;
@@ -5297,7 +5297,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specifies the specific drug schedule.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getSchedule() {
                 return schedule;
@@ -5536,7 +5536,7 @@ public class MedicationKnowledge extends DomainResource {
              * The maximum number of units of the medication that can be dispensed.
              * 
              * @return
-             *     An immutable object of type {@link SimpleQuantity}.
+             *     An immutable object of type {@link SimpleQuantity} that is non-null.
              */
             public SimpleQuantity getQuantity() {
                 return quantity;
@@ -5546,7 +5546,7 @@ public class MedicationKnowledge extends DomainResource {
              * The period that applies to the maximum number of units.
              * 
              * @return
-             *     An immutable object of type {@link Duration}.
+             *     An immutable object of type {@link Duration} that may be null.
              */
             public Duration getPeriod() {
                 return period;
@@ -5807,7 +5807,7 @@ public class MedicationKnowledge extends DomainResource {
          * The drug concentration measured at certain discrete points in time.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link SimpleQuantity}.
+         *     An unmodifiable list containing immutable objects of type {@link SimpleQuantity} that may be empty.
          */
         public List<SimpleQuantity> getAreaUnderCurve() {
             return areaUnderCurve;
@@ -5817,7 +5817,7 @@ public class MedicationKnowledge extends DomainResource {
          * The median lethal dose of a drug.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link SimpleQuantity}.
+         *     An unmodifiable list containing immutable objects of type {@link SimpleQuantity} that may be empty.
          */
         public List<SimpleQuantity> getLethalDose50() {
             return lethalDose50;
@@ -5827,7 +5827,7 @@ public class MedicationKnowledge extends DomainResource {
          * The time required for any specified property (e.g., the concentration of a substance in the body) to decrease by half.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getHalfLifePeriod() {
             return halfLifePeriod;

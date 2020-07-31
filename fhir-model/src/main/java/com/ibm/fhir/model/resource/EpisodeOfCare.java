@@ -103,7 +103,7 @@ public class EpisodeOfCare extends DomainResource {
      * is tracking the Episode for funding purposes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -113,7 +113,7 @@ public class EpisodeOfCare extends DomainResource {
      * planned | waitlist | active | onhold | finished | cancelled.
      * 
      * @return
-     *     An immutable object of type {@link EpisodeOfCareStatus}.
+     *     An immutable object of type {@link EpisodeOfCareStatus} that is non-null.
      */
     public EpisodeOfCareStatus getStatus() {
         return status;
@@ -124,7 +124,7 @@ public class EpisodeOfCare extends DomainResource {
      * resource).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link StatusHistory}.
+     *     An unmodifiable list containing immutable objects of type {@link StatusHistory} that may be empty.
      */
     public List<StatusHistory> getStatusHistory() {
         return statusHistory;
@@ -134,7 +134,7 @@ public class EpisodeOfCare extends DomainResource {
      * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -144,7 +144,7 @@ public class EpisodeOfCare extends DomainResource {
      * The list of diagnosis relevant to this episode of care.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
+     *     An unmodifiable list containing immutable objects of type {@link Diagnosis} that may be empty.
      */
     public List<Diagnosis> getDiagnosis() {
         return diagnosis;
@@ -154,7 +154,7 @@ public class EpisodeOfCare extends DomainResource {
      * The patient who is the focus of this episode of care.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -164,7 +164,7 @@ public class EpisodeOfCare extends DomainResource {
      * The organization that has assumed the specific responsibilities for the specified duration.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManagingOrganization() {
         return managingOrganization;
@@ -174,7 +174,7 @@ public class EpisodeOfCare extends DomainResource {
      * The interval during which the managing organization assumes the defined responsibility.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -184,7 +184,7 @@ public class EpisodeOfCare extends DomainResource {
      * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReferralRequest() {
         return referralRequest;
@@ -194,7 +194,7 @@ public class EpisodeOfCare extends DomainResource {
      * The practitioner that is the care manager/care coordinator for this patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getCareManager() {
         return careManager;
@@ -204,7 +204,7 @@ public class EpisodeOfCare extends DomainResource {
      * The list of practitioners that may be facilitating this episode of care for specific purposes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getTeam() {
         return team;
@@ -214,7 +214,7 @@ public class EpisodeOfCare extends DomainResource {
      * The set of accounts that may be used for billing for this EpisodeOfCare.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAccount() {
         return account;
@@ -953,7 +953,7 @@ public class EpisodeOfCare extends DomainResource {
          * planned | waitlist | active | onhold | finished | cancelled.
          * 
          * @return
-         *     An immutable object of type {@link EpisodeOfCareStatus}.
+         *     An immutable object of type {@link EpisodeOfCareStatus} that is non-null.
          */
         public EpisodeOfCareStatus getStatus() {
             return status;
@@ -963,7 +963,7 @@ public class EpisodeOfCare extends DomainResource {
          * The period during this EpisodeOfCare that the specific status applied.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that is non-null.
          */
         public Period getPeriod() {
             return period;
@@ -1238,7 +1238,7 @@ public class EpisodeOfCare extends DomainResource {
          * A list of conditions/problems/diagnoses that this episode of care is intended to be providing care for.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getCondition() {
             return condition;
@@ -1248,7 +1248,7 @@ public class EpisodeOfCare extends DomainResource {
          * Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRole() {
             return role;
@@ -1258,7 +1258,7 @@ public class EpisodeOfCare extends DomainResource {
          * Ranking of the diagnosis (for each role type).
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getRank() {
             return rank;

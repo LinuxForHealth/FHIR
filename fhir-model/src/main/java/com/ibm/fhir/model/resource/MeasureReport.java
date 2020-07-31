@@ -130,7 +130,7 @@ public class MeasureReport extends DomainResource {
      * in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -140,7 +140,7 @@ public class MeasureReport extends DomainResource {
      * The MeasureReport status. No data will be available until the MeasureReport status is complete.
      * 
      * @return
-     *     An immutable object of type {@link MeasureReportStatus}.
+     *     An immutable object of type {@link MeasureReportStatus} that is non-null.
      */
     public MeasureReportStatus getStatus() {
         return status;
@@ -154,7 +154,7 @@ public class MeasureReport extends DomainResource {
      * measure.
      * 
      * @return
-     *     An immutable object of type {@link MeasureReportType}.
+     *     An immutable object of type {@link MeasureReportType} that is non-null.
      */
     public MeasureReportType getType() {
         return type;
@@ -164,7 +164,7 @@ public class MeasureReport extends DomainResource {
      * A reference to the Measure that was calculated to produce this report.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that is non-null.
      */
     public Canonical getMeasure() {
         return measure;
@@ -174,7 +174,7 @@ public class MeasureReport extends DomainResource {
      * Optional subject identifying the individual or individuals the report is for.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -184,7 +184,7 @@ public class MeasureReport extends DomainResource {
      * The date this measure report was generated.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -194,7 +194,7 @@ public class MeasureReport extends DomainResource {
      * The individual, location, or organization that is reporting the data.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getReporter() {
         return reporter;
@@ -204,7 +204,7 @@ public class MeasureReport extends DomainResource {
      * The reporting period for which the report was calculated.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that is non-null.
      */
     public Period getPeriod() {
         return period;
@@ -214,7 +214,7 @@ public class MeasureReport extends DomainResource {
      * Whether improvement in the measure is noted by an increase or decrease in the measure score.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getImprovementNotation() {
         return improvementNotation;
@@ -224,7 +224,7 @@ public class MeasureReport extends DomainResource {
      * The results of the calculation, one for each population group in the measure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group} that may be empty.
      */
     public List<Group> getGroup() {
         return group;
@@ -234,7 +234,7 @@ public class MeasureReport extends DomainResource {
      * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEvaluatedResource() {
         return evaluatedResource;
@@ -881,7 +881,7 @@ public class MeasureReport extends DomainResource {
          * The meaning of the population group as defined in the measure definition.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -891,7 +891,7 @@ public class MeasureReport extends DomainResource {
          * The populations that make up the population group, one for each type of population appropriate for the measure.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Population}.
+         *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
          */
         public List<Population> getPopulation() {
             return population;
@@ -902,7 +902,7 @@ public class MeasureReport extends DomainResource {
          * based on the contents of the populations defined in the group.
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getMeasureScore() {
             return measureScore;
@@ -913,7 +913,7 @@ public class MeasureReport extends DomainResource {
          * measure.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Stratifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Stratifier} that may be empty.
          */
         public List<Stratifier> getStratifier() {
             return stratifier;
@@ -1257,7 +1257,7 @@ public class MeasureReport extends DomainResource {
              * The type of the population.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -1267,7 +1267,7 @@ public class MeasureReport extends DomainResource {
              * The number of members of the population.
              * 
              * @return
-             *     An immutable object of type {@link Integer}.
+             *     An immutable object of type {@link Integer} that may be null.
              */
             public Integer getCount() {
                 return count;
@@ -1277,7 +1277,7 @@ public class MeasureReport extends DomainResource {
              * This element refers to a List of subject level MeasureReport resources, one for each subject in this population.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getSubjectResults() {
                 return subjectResults;
@@ -1555,7 +1555,7 @@ public class MeasureReport extends DomainResource {
              * The meaning of this stratifier, as defined in the measure definition.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getCode() {
                 return code;
@@ -1566,7 +1566,7 @@ public class MeasureReport extends DomainResource {
              * administrative gender, there will be four strata, one for each possible gender value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Stratum}.
+             *     An unmodifiable list containing immutable objects of type {@link Stratum} that may be empty.
              */
             public List<Stratum> getStratum() {
                 return stratum;
@@ -1864,7 +1864,7 @@ public class MeasureReport extends DomainResource {
                  * must be rendered such that the value for each stratum within the stratifier is unique.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getValue() {
                     return value;
@@ -1874,7 +1874,7 @@ public class MeasureReport extends DomainResource {
                  * A stratifier component value.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Component}.
+                 *     An unmodifiable list containing immutable objects of type {@link Component} that may be empty.
                  */
                 public List<Component> getComponent() {
                     return component;
@@ -1884,7 +1884,7 @@ public class MeasureReport extends DomainResource {
                  * The populations that make up the stratum, one for each type of population appropriate to the measure.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Population}.
+                 *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
                  */
                 public List<Population> getPopulation() {
                     return population;
@@ -1895,7 +1895,7 @@ public class MeasureReport extends DomainResource {
                  * only the members of this stratum.
                  * 
                  * @return
-                 *     An immutable object of type {@link Quantity}.
+                 *     An immutable object of type {@link Quantity} that may be null.
                  */
                 public Quantity getMeasureScore() {
                     return measureScore;
@@ -2229,7 +2229,7 @@ public class MeasureReport extends DomainResource {
                      * The code for the stratum component value.
                      * 
                      * @return
-                     *     An immutable object of type {@link CodeableConcept}.
+                     *     An immutable object of type {@link CodeableConcept} that is non-null.
                      */
                     public CodeableConcept getCode() {
                         return code;
@@ -2239,7 +2239,7 @@ public class MeasureReport extends DomainResource {
                      * The stratum component value.
                      * 
                      * @return
-                     *     An immutable object of type {@link CodeableConcept}.
+                     *     An immutable object of type {@link CodeableConcept} that is non-null.
                      */
                     public CodeableConcept getValue() {
                         return value;
@@ -2510,7 +2510,7 @@ public class MeasureReport extends DomainResource {
                      * The type of the population.
                      * 
                      * @return
-                     *     An immutable object of type {@link CodeableConcept}.
+                     *     An immutable object of type {@link CodeableConcept} that may be null.
                      */
                     public CodeableConcept getCode() {
                         return code;
@@ -2520,7 +2520,7 @@ public class MeasureReport extends DomainResource {
                      * The number of members of the population in this stratum.
                      * 
                      * @return
-                     *     An immutable object of type {@link Integer}.
+                     *     An immutable object of type {@link Integer} that may be null.
                      */
                     public Integer getCount() {
                         return count;
@@ -2531,7 +2531,7 @@ public class MeasureReport extends DomainResource {
                      * this stratum.
                      * 
                      * @return
-                     *     An immutable object of type {@link Reference}.
+                     *     An immutable object of type {@link Reference} that may be null.
                      */
                     public Reference getSubjectResults() {
                         return subjectResults;

@@ -36,7 +36,7 @@ public class Boolean extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link java.lang.Boolean}.
+     *     An immutable object of type {@link java.lang.Boolean} that may be null.
      */
     public java.lang.Boolean getValue() {
         return value;

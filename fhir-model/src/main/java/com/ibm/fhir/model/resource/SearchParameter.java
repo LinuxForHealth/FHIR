@@ -204,7 +204,7 @@ public class SearchParameter extends DomainResource {
      * target of a canonical reference. It SHALL remain the same when the search parameter is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -217,7 +217,7 @@ public class SearchParameter extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -228,7 +228,7 @@ public class SearchParameter extends DomainResource {
      * by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -240,7 +240,7 @@ public class SearchParameter extends DomainResource {
      * meaning, and (usually) the functionality should be a proper subset of the underlying search parameter.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getDerivedFrom() {
         return derivedFrom;
@@ -250,7 +250,7 @@ public class SearchParameter extends DomainResource {
      * The status of this search parameter. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -261,7 +261,7 @@ public class SearchParameter extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -273,7 +273,7 @@ public class SearchParameter extends DomainResource {
      * the search parameter changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -283,7 +283,7 @@ public class SearchParameter extends DomainResource {
      * The name of the organization or individual that published the search parameter.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -293,7 +293,7 @@ public class SearchParameter extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -303,7 +303,7 @@ public class SearchParameter extends DomainResource {
      * And how it used.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that is non-null.
      */
     public Markdown getDescription() {
         return description;
@@ -315,7 +315,7 @@ public class SearchParameter extends DomainResource {
      * may be used to assist with indexing and searching for appropriate search parameter instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -325,7 +325,7 @@ public class SearchParameter extends DomainResource {
      * A legal or geographic region in which the search parameter is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -335,7 +335,7 @@ public class SearchParameter extends DomainResource {
      * Explanation of why this search parameter is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -345,7 +345,7 @@ public class SearchParameter extends DomainResource {
      * The code used in the URL or the parameter name in a parameters resource for this search parameter.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that is non-null.
      */
     public Code getCode() {
         return code;
@@ -355,7 +355,7 @@ public class SearchParameter extends DomainResource {
      * The base resource type(s) that this search parameter can be used against.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that is non-empty.
      */
     public List<ResourceType> getBase() {
         return base;
@@ -365,7 +365,7 @@ public class SearchParameter extends DomainResource {
      * The type of value that a search parameter may contain, and how the content is interpreted.
      * 
      * @return
-     *     An immutable object of type {@link SearchParamType}.
+     *     An immutable object of type {@link SearchParamType} that is non-null.
      */
     public SearchParamType getType() {
         return type;
@@ -375,7 +375,7 @@ public class SearchParameter extends DomainResource {
      * A FHIRPath expression that returns a set of elements for the search parameter.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getExpression() {
         return expression;
@@ -385,7 +385,7 @@ public class SearchParameter extends DomainResource {
      * An XPath expression that returns a set of elements for the search parameter.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getXpath() {
         return xpath;
@@ -395,7 +395,7 @@ public class SearchParameter extends DomainResource {
      * How the search parameter relates to the set of elements returned by evaluating the xpath query.
      * 
      * @return
-     *     An immutable object of type {@link XPathUsageType}.
+     *     An immutable object of type {@link XPathUsageType} that may be null.
      */
     public XPathUsageType getXpathUsage() {
         return xpathUsage;
@@ -405,7 +405,7 @@ public class SearchParameter extends DomainResource {
      * Types of resource (if a resource is referenced).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
      */
     public List<ResourceType> getTarget() {
         return target;
@@ -416,7 +416,7 @@ public class SearchParameter extends DomainResource {
      * parameter matches if any of the values match.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getMultipleOr() {
         return multipleOr;
@@ -427,7 +427,7 @@ public class SearchParameter extends DomainResource {
      * the parameters match.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getMultipleAnd() {
         return multipleAnd;
@@ -437,7 +437,7 @@ public class SearchParameter extends DomainResource {
      * Comparators supported for the search parameter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SearchComparator}.
+     *     An unmodifiable list containing immutable objects of type {@link SearchComparator} that may be empty.
      */
     public List<SearchComparator> getComparator() {
         return comparator;
@@ -447,7 +447,7 @@ public class SearchParameter extends DomainResource {
      * A modifier supported for the search parameter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SearchModifierCode}.
+     *     An unmodifiable list containing immutable objects of type {@link SearchModifierCode} that may be empty.
      */
     public List<SearchModifierCode> getModifier() {
         return modifier;
@@ -460,7 +460,7 @@ public class SearchParameter extends DomainResource {
      * drawn from SearchParameter.code for a parameter on the target resource type.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getChain() {
         return chain;
@@ -470,7 +470,7 @@ public class SearchParameter extends DomainResource {
      * Used to define the parts of a composite search parameter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Component}.
+     *     An unmodifiable list containing immutable objects of type {@link Component} that may be empty.
      */
     public List<Component> getComponent() {
         return component;
@@ -1543,7 +1543,7 @@ public class SearchParameter extends DomainResource {
          * The definition of the search parameter that describes this part.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that is non-null.
          */
         public Canonical getDefinition() {
             return definition;
@@ -1554,7 +1554,7 @@ public class SearchParameter extends DomainResource {
          * expression.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getExpression() {
             return expression;

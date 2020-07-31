@@ -53,7 +53,7 @@ public class MarketingStatus extends BackboneElement {
      * ISO 3166 ‑ 1 alpha-2 code elements.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCountry() {
         return country;
@@ -65,7 +65,7 @@ public class MarketingStatus extends BackboneElement {
      * and the controlled term identifier shall be specified.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getJurisdiction() {
         return jurisdiction;
@@ -76,7 +76,7 @@ public class MarketingStatus extends BackboneElement {
      * information and examples.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getStatus() {
         return status;
@@ -89,7 +89,7 @@ public class MarketingStatus extends BackboneElement {
      * to the release of the Medicinal Product into the distribution chain.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that is non-null.
      */
     public Period getDateRange() {
         return dateRange;
@@ -102,7 +102,7 @@ public class MarketingStatus extends BackboneElement {
      * to the release of the Medicinal Product into the distribution chain.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRestoreDate() {
         return restoreDate;

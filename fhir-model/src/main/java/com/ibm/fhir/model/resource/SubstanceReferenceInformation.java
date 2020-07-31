@@ -64,7 +64,7 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;
@@ -74,7 +74,7 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Gene}.
+     *     An unmodifiable list containing immutable objects of type {@link Gene} that may be empty.
      */
     public List<Gene> getGene() {
         return gene;
@@ -84,7 +84,7 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link GeneElement}.
+     *     An unmodifiable list containing immutable objects of type {@link GeneElement} that may be empty.
      */
     public List<GeneElement> getGeneElement() {
         return geneElement;
@@ -94,7 +94,7 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Classification}.
+     *     An unmodifiable list containing immutable objects of type {@link Classification} that may be empty.
      */
     public List<Classification> getClassification() {
         return classification;
@@ -104,7 +104,7 @@ public class SubstanceReferenceInformation extends DomainResource {
      * Todo.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Target}.
+     *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
      */
     public List<Target> getTarget() {
         return target;
@@ -609,7 +609,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getGeneSequenceOrigin() {
             return geneSequenceOrigin;
@@ -619,7 +619,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getGene() {
             return gene;
@@ -629,7 +629,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;
@@ -925,7 +925,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -935,7 +935,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getElement() {
             return element;
@@ -945,7 +945,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;
@@ -1244,7 +1244,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getDomain() {
             return domain;
@@ -1254,7 +1254,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getClassification() {
             return classification;
@@ -1264,7 +1264,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getSubtype() {
             return subtype;
@@ -1274,7 +1274,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;
@@ -1626,7 +1626,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getTarget() {
             return target;
@@ -1636,7 +1636,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -1646,7 +1646,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getInteraction() {
             return interaction;
@@ -1656,7 +1656,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOrganism() {
             return organism;
@@ -1666,7 +1666,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOrganismType() {
             return organismType;
@@ -1676,7 +1676,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1686,7 +1686,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getAmountType() {
             return amountType;
@@ -1696,7 +1696,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;

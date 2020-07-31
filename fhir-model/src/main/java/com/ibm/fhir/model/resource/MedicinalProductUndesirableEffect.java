@@ -58,7 +58,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * The medication for which this is an indication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSubject() {
         return subject;
@@ -68,7 +68,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * The symptom, condition or undesirable effect.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSymptomConditionEffect() {
         return symptomConditionEffect;
@@ -78,7 +78,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * Classification of the effect.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getClassification() {
         return classification;
@@ -88,7 +88,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * The frequency of occurrence of the effect.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getFrequencyOfOccurrence() {
         return frequencyOfOccurrence;
@@ -98,7 +98,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      * The population group to which this applies.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Population}.
+     *     An unmodifiable list containing immutable objects of type {@link Population} that may be empty.
      */
     public List<Population> getPopulation() {
         return population;

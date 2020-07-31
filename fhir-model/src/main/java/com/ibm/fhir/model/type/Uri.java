@@ -34,7 +34,7 @@ public class Uri extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link java.lang.String}.
+     *     An immutable object of type {@link java.lang.String} that may be null.
      */
     public java.lang.String getValue() {
         return value;

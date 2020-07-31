@@ -113,7 +113,7 @@ public class MedicinalProduct extends DomainResource {
      * Business identifier for this product. Could be an MPID.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -123,7 +123,7 @@ public class MedicinalProduct extends DomainResource {
      * Regulatory type, e.g. Investigational or Authorized.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -133,7 +133,7 @@ public class MedicinalProduct extends DomainResource {
      * If this medicine applies to human or veterinary uses.
      * 
      * @return
-     *     An immutable object of type {@link Coding}.
+     *     An immutable object of type {@link Coding} that may be null.
      */
     public Coding getDomain() {
         return domain;
@@ -143,7 +143,7 @@ public class MedicinalProduct extends DomainResource {
      * The dose form for a single part product, or combined form of a multiple part product.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCombinedPharmaceuticalDoseForm() {
         return combinedPharmaceuticalDoseForm;
@@ -153,7 +153,7 @@ public class MedicinalProduct extends DomainResource {
      * The legal status of supply of the medicinal product as classified by the regulator.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getLegalStatusOfSupply() {
         return legalStatusOfSupply;
@@ -163,7 +163,7 @@ public class MedicinalProduct extends DomainResource {
      * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getAdditionalMonitoringIndicator() {
         return additionalMonitoringIndicator;
@@ -173,7 +173,7 @@ public class MedicinalProduct extends DomainResource {
      * Whether the Medicinal Product is subject to special measures for regulatory reasons.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getSpecialMeasures() {
         return specialMeasures;
@@ -183,7 +183,7 @@ public class MedicinalProduct extends DomainResource {
      * If authorised for use in children.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPaediatricUseIndicator() {
         return paediatricUseIndicator;
@@ -193,7 +193,7 @@ public class MedicinalProduct extends DomainResource {
      * Allows the product to be classified by various systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getProductClassification() {
         return productClassification;
@@ -203,7 +203,7 @@ public class MedicinalProduct extends DomainResource {
      * Marketing status of the medicinal product, in contrast to marketing authorizaton.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link MarketingStatus}.
+     *     An unmodifiable list containing immutable objects of type {@link MarketingStatus} that may be empty.
      */
     public List<MarketingStatus> getMarketingStatus() {
         return marketingStatus;
@@ -213,7 +213,7 @@ public class MedicinalProduct extends DomainResource {
      * Pharmaceutical aspects of product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPharmaceuticalProduct() {
         return pharmaceuticalProduct;
@@ -223,7 +223,7 @@ public class MedicinalProduct extends DomainResource {
      * Package representation for the product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPackagedMedicinalProduct() {
         return packagedMedicinalProduct;
@@ -233,7 +233,7 @@ public class MedicinalProduct extends DomainResource {
      * Supporting documentation, typically for regulatory submission.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAttachedDocument() {
         return attachedDocument;
@@ -243,7 +243,7 @@ public class MedicinalProduct extends DomainResource {
      * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getMasterFile() {
         return masterFile;
@@ -253,7 +253,7 @@ public class MedicinalProduct extends DomainResource {
      * A product specific contact, person (in a role), or an organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getContact() {
         return contact;
@@ -263,7 +263,7 @@ public class MedicinalProduct extends DomainResource {
      * Clinical trials or studies that this product is involved in.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getClinicalTrial() {
         return clinicalTrial;
@@ -273,7 +273,7 @@ public class MedicinalProduct extends DomainResource {
      * The product's name, including full name and possibly coded parts.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Name}.
+     *     An unmodifiable list containing immutable objects of type {@link Name} that is non-empty.
      */
     public List<Name> getName() {
         return name;
@@ -283,7 +283,7 @@ public class MedicinalProduct extends DomainResource {
      * Reference to another product, e.g. for linking authorised to investigational product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getCrossReference() {
         return crossReference;
@@ -293,7 +293,7 @@ public class MedicinalProduct extends DomainResource {
      * An operation applied to the product, for manufacturing or adminsitrative purpose.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ManufacturingBusinessOperation}.
+     *     An unmodifiable list containing immutable objects of type {@link ManufacturingBusinessOperation} that may be empty.
      */
     public List<ManufacturingBusinessOperation> getManufacturingBusinessOperation() {
         return manufacturingBusinessOperation;
@@ -303,7 +303,7 @@ public class MedicinalProduct extends DomainResource {
      * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SpecialDesignation}.
+     *     An unmodifiable list containing immutable objects of type {@link SpecialDesignation} that may be empty.
      */
     public List<SpecialDesignation> getSpecialDesignation() {
         return specialDesignation;
@@ -1318,7 +1318,7 @@ public class MedicinalProduct extends DomainResource {
          * The full product name.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getProductName() {
             return productName;
@@ -1328,7 +1328,7 @@ public class MedicinalProduct extends DomainResource {
          * Coding words or phrases of the name.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link NamePart}.
+         *     An unmodifiable list containing immutable objects of type {@link NamePart} that may be empty.
          */
         public List<NamePart> getNamePart() {
             return namePart;
@@ -1338,7 +1338,7 @@ public class MedicinalProduct extends DomainResource {
          * Country where the name applies.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CountryLanguage}.
+         *     An unmodifiable list containing immutable objects of type {@link CountryLanguage} that may be empty.
          */
         public List<CountryLanguage> getCountryLanguage() {
             return countryLanguage;
@@ -1659,7 +1659,7 @@ public class MedicinalProduct extends DomainResource {
              * A fragment of a product name.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getPart() {
                 return part;
@@ -1669,7 +1669,7 @@ public class MedicinalProduct extends DomainResource {
              * Idenifying type for this part of the name (e.g. strength part).
              * 
              * @return
-             *     An immutable object of type {@link Coding}.
+             *     An immutable object of type {@link Coding} that is non-null.
              */
             public Coding getType() {
                 return type;
@@ -1937,7 +1937,7 @@ public class MedicinalProduct extends DomainResource {
              * Country code for where this name applies.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getCountry() {
                 return country;
@@ -1947,7 +1947,7 @@ public class MedicinalProduct extends DomainResource {
              * Jurisdiction code for where this name applies.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getJurisdiction() {
                 return jurisdiction;
@@ -1957,7 +1957,7 @@ public class MedicinalProduct extends DomainResource {
              * Language code for this name.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that is non-null.
              */
             public CodeableConcept getLanguage() {
                 return language;
@@ -2255,7 +2255,7 @@ public class MedicinalProduct extends DomainResource {
          * The type of manufacturing operation.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOperationType() {
             return operationType;
@@ -2265,7 +2265,7 @@ public class MedicinalProduct extends DomainResource {
          * Regulatory authorization reference number.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getAuthorisationReferenceNumber() {
             return authorisationReferenceNumber;
@@ -2275,7 +2275,7 @@ public class MedicinalProduct extends DomainResource {
          * Regulatory authorization date.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getEffectiveDate() {
             return effectiveDate;
@@ -2285,7 +2285,7 @@ public class MedicinalProduct extends DomainResource {
          * To indicate if this proces is commercially confidential.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getConfidentialityIndicator() {
             return confidentialityIndicator;
@@ -2295,7 +2295,7 @@ public class MedicinalProduct extends DomainResource {
          * The manufacturer or establishment associated with the process.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getManufacturer() {
             return manufacturer;
@@ -2305,7 +2305,7 @@ public class MedicinalProduct extends DomainResource {
          * A regulator which oversees the operation.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getRegulator() {
             return regulator;
@@ -2679,7 +2679,7 @@ public class MedicinalProduct extends DomainResource {
          * Identifier for the designation, or procedure number.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+         *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
          */
         public List<Identifier> getIdentifier() {
             return identifier;
@@ -2689,7 +2689,7 @@ public class MedicinalProduct extends DomainResource {
          * The type of special designation, e.g. orphan drug, minor use.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2699,7 +2699,7 @@ public class MedicinalProduct extends DomainResource {
          * The intended use of the product, e.g. prevention, treatment.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getIntendedUse() {
             return intendedUse;
@@ -2709,7 +2709,7 @@ public class MedicinalProduct extends DomainResource {
          * Condition for which the medicinal use applies.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getIndication() {
             return indication;
@@ -2719,7 +2719,7 @@ public class MedicinalProduct extends DomainResource {
          * For example granted, pending, expired or withdrawn.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStatus() {
             return status;
@@ -2729,7 +2729,7 @@ public class MedicinalProduct extends DomainResource {
          * Date when the designation was granted.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getDate() {
             return date;
@@ -2739,7 +2739,7 @@ public class MedicinalProduct extends DomainResource {
          * Animal species for which this applies.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getSpecies() {
             return species;

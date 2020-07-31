@@ -143,7 +143,7 @@ public class NamingSystem extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -153,7 +153,7 @@ public class NamingSystem extends DomainResource {
      * The status of this naming system. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -163,7 +163,7 @@ public class NamingSystem extends DomainResource {
      * Indicates the purpose for the naming system - what kinds of things does it make unique?
      * 
      * @return
-     *     An immutable object of type {@link NamingSystemType}.
+     *     An immutable object of type {@link NamingSystemType} that is non-null.
      */
     public NamingSystemType getKind() {
         return kind;
@@ -175,7 +175,7 @@ public class NamingSystem extends DomainResource {
      * the naming system changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDate() {
         return date;
@@ -185,7 +185,7 @@ public class NamingSystem extends DomainResource {
      * The name of the organization or individual that published the naming system.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -195,7 +195,7 @@ public class NamingSystem extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -206,7 +206,7 @@ public class NamingSystem extends DomainResource {
      * their non-collision.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getResponsible() {
         return responsible;
@@ -216,7 +216,7 @@ public class NamingSystem extends DomainResource {
      * Categorizes a naming system for easier search by grouping related naming systems.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -227,7 +227,7 @@ public class NamingSystem extends DomainResource {
      * namespace identifies including scope, granularity, version labeling, etc.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -239,7 +239,7 @@ public class NamingSystem extends DomainResource {
      * may be used to assist with indexing and searching for appropriate naming system instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -249,7 +249,7 @@ public class NamingSystem extends DomainResource {
      * A legal or geographic region in which the naming system is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -260,7 +260,7 @@ public class NamingSystem extends DomainResource {
      * case, etc.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUsage() {
         return usage;
@@ -270,7 +270,7 @@ public class NamingSystem extends DomainResource {
      * Indicates how the system may be identified when referenced in electronic exchange.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UniqueId}.
+     *     An unmodifiable list containing immutable objects of type {@link UniqueId} that is non-empty.
      */
     public List<UniqueId> getUniqueId() {
         return uniqueId;
@@ -977,7 +977,7 @@ public class NamingSystem extends DomainResource {
          * Identifies the unique identifier scheme used for this particular identifier.
          * 
          * @return
-         *     An immutable object of type {@link NamingSystemIdentifierType}.
+         *     An immutable object of type {@link NamingSystemIdentifierType} that is non-null.
          */
         public NamingSystemIdentifierType getType() {
             return type;
@@ -987,7 +987,7 @@ public class NamingSystem extends DomainResource {
          * The string that should be sent over the wire to identify the code system or identifier system.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getValue() {
             return value;
@@ -997,7 +997,7 @@ public class NamingSystem extends DomainResource {
          * Indicates whether this identifier is the "preferred" identifier of this type.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getPreferred() {
             return preferred;
@@ -1007,7 +1007,7 @@ public class NamingSystem extends DomainResource {
          * Notes about the past or intended usage of this identifier.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getComment() {
             return comment;
@@ -1018,7 +1018,7 @@ public class NamingSystem extends DomainResource {
          * Outside of this window, the identifier might be non-deterministic.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;

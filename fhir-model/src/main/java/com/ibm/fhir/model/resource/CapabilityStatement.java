@@ -264,7 +264,7 @@ public class CapabilityStatement extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -277,7 +277,7 @@ public class CapabilityStatement extends DomainResource {
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -288,7 +288,7 @@ public class CapabilityStatement extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -298,7 +298,7 @@ public class CapabilityStatement extends DomainResource {
      * A short, descriptive, user-friendly title for the capability statement.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -308,7 +308,7 @@ public class CapabilityStatement extends DomainResource {
      * The status of this capability statement. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -319,7 +319,7 @@ public class CapabilityStatement extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -331,7 +331,7 @@ public class CapabilityStatement extends DomainResource {
      * content of the capability statement changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDate() {
         return date;
@@ -341,7 +341,7 @@ public class CapabilityStatement extends DomainResource {
      * The name of the organization or individual that published the capability statement.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -351,7 +351,7 @@ public class CapabilityStatement extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -363,7 +363,7 @@ public class CapabilityStatement extends DomainResource {
      * expression of requirements as part of an RFP.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -375,7 +375,7 @@ public class CapabilityStatement extends DomainResource {
      * may be used to assist with indexing and searching for appropriate capability statement instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -385,7 +385,7 @@ public class CapabilityStatement extends DomainResource {
      * A legal or geographic region in which the capability statement is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -395,7 +395,7 @@ public class CapabilityStatement extends DomainResource {
      * Explanation of why this capability statement is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -406,7 +406,7 @@ public class CapabilityStatement extends DomainResource {
      * legal restrictions on the use and publishing of the capability statement.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -417,7 +417,7 @@ public class CapabilityStatement extends DomainResource {
      * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
      * 
      * @return
-     *     An immutable object of type {@link CapabilityStatementKind}.
+     *     An immutable object of type {@link CapabilityStatementKind} that is non-null.
      */
     public CapabilityStatementKind getKind() {
         return kind;
@@ -429,7 +429,7 @@ public class CapabilityStatement extends DomainResource {
      * the capability statement it claims to implement, so the capability statement must specify the full capability details.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiates() {
         return instantiates;
@@ -441,7 +441,7 @@ public class CapabilityStatement extends DomainResource {
      * same resources, interactions and operations to add additional details to them.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getImports() {
         return imports;
@@ -452,7 +452,7 @@ public class CapabilityStatement extends DomainResource {
      * capabilities of a particular software version, independent of an installation.
      * 
      * @return
-     *     An immutable object of type {@link Software}.
+     *     An immutable object of type {@link Software} that may be null.
      */
     public Software getSoftware() {
         return software;
@@ -463,7 +463,7 @@ public class CapabilityStatement extends DomainResource {
      * installation, rather than the capabilities of a software program.
      * 
      * @return
-     *     An immutable object of type {@link Implementation}.
+     *     An immutable object of type {@link Implementation} that may be null.
      */
     public Implementation getImplementation() {
         return implementation;
@@ -474,7 +474,7 @@ public class CapabilityStatement extends DomainResource {
      * version of the CapabilityStatement itself). There is no default value.
      * 
      * @return
-     *     An immutable object of type {@link FHIRVersion}.
+     *     An immutable object of type {@link FHIRVersion} that is non-null.
      */
     public FHIRVersion getFhirVersion() {
         return fhirVersion;
@@ -484,7 +484,7 @@ public class CapabilityStatement extends DomainResource {
      * A list of the formats supported by this implementation using their content types.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code} that is non-empty.
      */
     public List<Code> getFormat() {
         return format;
@@ -494,7 +494,7 @@ public class CapabilityStatement extends DomainResource {
      * A list of the patch formats supported by this implementation using their content types.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code} that may be empty.
      */
     public List<Code> getPatchFormat() {
         return patchFormat;
@@ -504,7 +504,7 @@ public class CapabilityStatement extends DomainResource {
      * A list of implementation guides that the server does (or should) support in their entirety.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getImplementationGuide() {
         return implementationGuide;
@@ -514,7 +514,7 @@ public class CapabilityStatement extends DomainResource {
      * A definition of the restful capabilities of the solution, if any.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Rest}.
+     *     An unmodifiable list containing immutable objects of type {@link Rest} that may be empty.
      */
     public List<Rest> getRest() {
         return rest;
@@ -524,7 +524,7 @@ public class CapabilityStatement extends DomainResource {
      * A description of the messaging capabilities of the solution.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Messaging}.
+     *     An unmodifiable list containing immutable objects of type {@link Messaging} that may be empty.
      */
     public List<Messaging> getMessaging() {
         return messaging;
@@ -534,7 +534,7 @@ public class CapabilityStatement extends DomainResource {
      * A document definition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Document}.
+     *     An unmodifiable list containing immutable objects of type {@link Document} that may be empty.
      */
     public List<Document> getDocument() {
         return document;
@@ -1652,7 +1652,7 @@ public class CapabilityStatement extends DomainResource {
          * Name the software is known by.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -1662,7 +1662,7 @@ public class CapabilityStatement extends DomainResource {
          * The version identifier for the software covered by this statement.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getVersion() {
             return version;
@@ -1672,7 +1672,7 @@ public class CapabilityStatement extends DomainResource {
          * Date this version of the software was released.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getReleaseDate() {
             return releaseDate;
@@ -1959,7 +1959,7 @@ public class CapabilityStatement extends DomainResource {
          * Information about the specific installation that this capability statement relates to.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getDescription() {
             return description;
@@ -1970,7 +1970,7 @@ public class CapabilityStatement extends DomainResource {
          * document interfaces.
          * 
          * @return
-         *     An immutable object of type {@link Url}.
+         *     An immutable object of type {@link Url} that may be null.
          */
         public Url getUrl() {
             return url;
@@ -1981,7 +1981,7 @@ public class CapabilityStatement extends DomainResource {
          * specified URL.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getCustodian() {
             return custodian;
@@ -2289,7 +2289,7 @@ public class CapabilityStatement extends DomainResource {
          * Identifies whether this portion of the statement is describing the ability to initiate or receive restful operations.
          * 
          * @return
-         *     An immutable object of type {@link RestfulCapabilityMode}.
+         *     An immutable object of type {@link RestfulCapabilityMode} that is non-null.
          */
         public RestfulCapabilityMode getMode() {
             return mode;
@@ -2299,7 +2299,7 @@ public class CapabilityStatement extends DomainResource {
          * Information about the system's restful capabilities that apply across all applications, such as security.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getDocumentation() {
             return documentation;
@@ -2309,7 +2309,7 @@ public class CapabilityStatement extends DomainResource {
          * Information about security implementation from an interface perspective - what a client needs to know.
          * 
          * @return
-         *     An immutable object of type {@link Security}.
+         *     An immutable object of type {@link Security} that may be null.
          */
         public Security getSecurity() {
             return security;
@@ -2319,7 +2319,7 @@ public class CapabilityStatement extends DomainResource {
          * A specification of the restful capabilities of the solution for a specific resource type.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Resource}.
+         *     An unmodifiable list containing immutable objects of type {@link Resource} that may be empty.
          */
         public List<Resource> getResource() {
             return resource;
@@ -2329,7 +2329,7 @@ public class CapabilityStatement extends DomainResource {
          * A specification of restful operations supported by the system.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Interaction}.
+         *     An unmodifiable list containing immutable objects of type {@link Interaction} that may be empty.
          */
         public List<Interaction> getInteraction() {
             return interaction;
@@ -2340,7 +2340,7 @@ public class CapabilityStatement extends DomainResource {
          * either references to ones defined in the specification, or additional ones defined for/by the implementation.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link SearchParam}.
+         *     An unmodifiable list containing immutable objects of type {@link SearchParam} that may be empty.
          */
         public List<CapabilityStatement.Rest.Resource.SearchParam> getSearchParam() {
             return searchParam;
@@ -2350,7 +2350,7 @@ public class CapabilityStatement extends DomainResource {
          * Definition of an operation or a named query together with its parameters and their meaning and type.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Operation}.
+         *     An unmodifiable list containing immutable objects of type {@link Operation} that may be empty.
          */
         public List<CapabilityStatement.Rest.Resource.Operation> getOperation() {
             return operation;
@@ -2361,7 +2361,7 @@ public class CapabilityStatement extends DomainResource {
          * a CompartmentDefinition resource by its canonical URL .
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+         *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
          */
         public List<Canonical> getCompartment() {
             return compartment;
@@ -2852,7 +2852,7 @@ public class CapabilityStatement extends DomainResource {
              * Server adds CORS headers when responding to requests - this enables Javascript applications to use the server.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getCors() {
                 return cors;
@@ -2862,7 +2862,7 @@ public class CapabilityStatement extends DomainResource {
              * Types of security services that are supported/required by the system.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getService() {
                 return service;
@@ -2872,7 +2872,7 @@ public class CapabilityStatement extends DomainResource {
              * General description of how security works.
              * 
              * @return
-             *     An immutable object of type {@link Markdown}.
+             *     An immutable object of type {@link Markdown} that may be null.
              */
             public Markdown getDescription() {
                 return description;
@@ -3228,7 +3228,7 @@ public class CapabilityStatement extends DomainResource {
              * A type of resource exposed via the restful interface.
              * 
              * @return
-             *     An immutable object of type {@link ResourceType}.
+             *     An immutable object of type {@link ResourceType} that is non-null.
              */
             public ResourceType getType() {
                 return type;
@@ -3240,7 +3240,7 @@ public class CapabilityStatement extends DomainResource {
              * (profiling.html#profile-uses).
              * 
              * @return
-             *     An immutable object of type {@link Canonical}.
+             *     An immutable object of type {@link Canonical} that may be null.
              */
             public Canonical getProfile() {
                 return profile;
@@ -3254,7 +3254,7 @@ public class CapabilityStatement extends DomainResource {
              * in [Using Profiles](profiling.html#profile-uses).
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+             *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
              */
             public List<Canonical> getSupportedProfile() {
                 return supportedProfile;
@@ -3264,7 +3264,7 @@ public class CapabilityStatement extends DomainResource {
              * Additional information about the resource type used by the system.
              * 
              * @return
-             *     An immutable object of type {@link Markdown}.
+             *     An immutable object of type {@link Markdown} that may be null.
              */
             public Markdown getDocumentation() {
                 return documentation;
@@ -3274,7 +3274,7 @@ public class CapabilityStatement extends DomainResource {
              * Identifies a restful operation supported by the solution.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Interaction}.
+             *     An unmodifiable list containing immutable objects of type {@link Interaction} that may be empty.
              */
             public List<Interaction> getInteraction() {
                 return interaction;
@@ -3287,7 +3287,7 @@ public class CapabilityStatement extends DomainResource {
              * including using e-tags for version integrity in the API.
              * 
              * @return
-             *     An immutable object of type {@link ResourceVersionPolicy}.
+             *     An immutable object of type {@link ResourceVersionPolicy} that may be null.
              */
             public ResourceVersionPolicy getVersioning() {
                 return versioning;
@@ -3297,7 +3297,7 @@ public class CapabilityStatement extends DomainResource {
              * A flag for whether the server is able to return past versions as part of the vRead operation.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getReadHistory() {
                 return readHistory;
@@ -3309,7 +3309,7 @@ public class CapabilityStatement extends DomainResource {
              * allows the client to create new identities on the server.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getUpdateCreate() {
                 return updateCreate;
@@ -3319,7 +3319,7 @@ public class CapabilityStatement extends DomainResource {
              * A flag that indicates that the server supports conditional create.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getConditionalCreate() {
                 return conditionalCreate;
@@ -3329,7 +3329,7 @@ public class CapabilityStatement extends DomainResource {
              * A code that indicates how the server supports conditional read.
              * 
              * @return
-             *     An immutable object of type {@link ConditionalReadStatus}.
+             *     An immutable object of type {@link ConditionalReadStatus} that may be null.
              */
             public ConditionalReadStatus getConditionalRead() {
                 return conditionalRead;
@@ -3339,7 +3339,7 @@ public class CapabilityStatement extends DomainResource {
              * A flag that indicates that the server supports conditional update.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getConditionalUpdate() {
                 return conditionalUpdate;
@@ -3349,7 +3349,7 @@ public class CapabilityStatement extends DomainResource {
              * A code that indicates how the server supports conditional delete.
              * 
              * @return
-             *     An immutable object of type {@link ConditionalDeleteStatus}.
+             *     An immutable object of type {@link ConditionalDeleteStatus} that may be null.
              */
             public ConditionalDeleteStatus getConditionalDelete() {
                 return conditionalDelete;
@@ -3359,7 +3359,7 @@ public class CapabilityStatement extends DomainResource {
              * A set of flags that defines how references are supported.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link ReferenceHandlingPolicy}.
+             *     An unmodifiable list containing immutable objects of type {@link ReferenceHandlingPolicy} that may be empty.
              */
             public List<ReferenceHandlingPolicy> getReferencePolicy() {
                 return referencePolicy;
@@ -3369,7 +3369,7 @@ public class CapabilityStatement extends DomainResource {
              * A list of _include values supported by the server.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getSearchInclude() {
                 return searchInclude;
@@ -3379,7 +3379,7 @@ public class CapabilityStatement extends DomainResource {
              * A list of _revinclude (reverse include) values supported by the server.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getSearchRevInclude() {
                 return searchRevInclude;
@@ -3390,7 +3390,7 @@ public class CapabilityStatement extends DomainResource {
              * specification, or additional ones defined for/by the implementation.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link SearchParam}.
+             *     An unmodifiable list containing immutable objects of type {@link SearchParam} that may be empty.
              */
             public List<SearchParam> getSearchParam() {
                 return searchParam;
@@ -3401,7 +3401,7 @@ public class CapabilityStatement extends DomainResource {
              * definition of the operation for details about how to invoke the operation, and the parameters.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Operation}.
+             *     An unmodifiable list containing immutable objects of type {@link Operation} that may be empty.
              */
             public List<Operation> getOperation() {
                 return operation;
@@ -4124,7 +4124,7 @@ public class CapabilityStatement extends DomainResource {
                  * Coded identifier of the operation, supported by the system resource.
                  * 
                  * @return
-                 *     An immutable object of type {@link TypeRestfulInteraction}.
+                 *     An immutable object of type {@link TypeRestfulInteraction} that is non-null.
                  */
                 public TypeRestfulInteraction getCode() {
                     return code;
@@ -4135,7 +4135,7 @@ public class CapabilityStatement extends DomainResource {
                  * allowed with version id' or 'creates permitted from pre-authorized certificates only'.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getDocumentation() {
                     return documentation;
@@ -4407,7 +4407,7 @@ public class CapabilityStatement extends DomainResource {
                  * The name of the search parameter used in the interface.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that is non-null.
                  */
                 public String getName() {
                     return name;
@@ -4420,7 +4420,7 @@ public class CapabilityStatement extends DomainResource {
                  * defined by the FHIR core specification or externally defined IGs.
                  * 
                  * @return
-                 *     An immutable object of type {@link Canonical}.
+                 *     An immutable object of type {@link Canonical} that may be null.
                  */
                 public Canonical getDefinition() {
                     return definition;
@@ -4430,7 +4430,7 @@ public class CapabilityStatement extends DomainResource {
                  * The type of value a search parameter refers to, and how the content is interpreted.
                  * 
                  * @return
-                 *     An immutable object of type {@link SearchParamType}.
+                 *     An immutable object of type {@link SearchParamType} that is non-null.
                  */
                 public SearchParamType getType() {
                     return type;
@@ -4441,7 +4441,7 @@ public class CapabilityStatement extends DomainResource {
                  * algorithms.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getDocumentation() {
                     return documentation;
@@ -4754,7 +4754,7 @@ public class CapabilityStatement extends DomainResource {
                  * query, this is the name used in the _query parameter when the query is called.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that is non-null.
                  */
                 public String getName() {
                     return name;
@@ -4768,7 +4768,7 @@ public class CapabilityStatement extends DomainResource {
                  * OperationDefinition. The custom definition would describe the specific subset of functionality supported.
                  * 
                  * @return
-                 *     An immutable object of type {@link Canonical}.
+                 *     An immutable object of type {@link Canonical} that is non-null.
                  */
                 public Canonical getDefinition() {
                     return definition;
@@ -4779,7 +4779,7 @@ public class CapabilityStatement extends DomainResource {
                  * system, type and instance-level invocation of the operation.
                  * 
                  * @return
-                 *     An immutable object of type {@link Markdown}.
+                 *     An immutable object of type {@link Markdown} that may be null.
                  */
                 public Markdown getDocumentation() {
                     return documentation;
@@ -5074,7 +5074,7 @@ public class CapabilityStatement extends DomainResource {
              * A coded identifier of the operation, supported by the system.
              * 
              * @return
-             *     An immutable object of type {@link SystemRestfulInteraction}.
+             *     An immutable object of type {@link SystemRestfulInteraction} that is non-null.
              */
             public SystemRestfulInteraction getCode() {
                 return code;
@@ -5085,7 +5085,7 @@ public class CapabilityStatement extends DomainResource {
              * information about system wide search is implemented.
              * 
              * @return
-             *     An immutable object of type {@link Markdown}.
+             *     An immutable object of type {@link Markdown} that may be null.
              */
             public Markdown getDocumentation() {
                 return documentation;
@@ -5350,7 +5350,7 @@ public class CapabilityStatement extends DomainResource {
          * An endpoint (network accessible address) to which messages and/or replies are to be sent.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Endpoint}.
+         *     An unmodifiable list containing immutable objects of type {@link Endpoint} that may be empty.
          */
         public List<Endpoint> getEndpoint() {
             return endpoint;
@@ -5361,7 +5361,7 @@ public class CapabilityStatement extends DomainResource {
          * receiver should be (if a sender).
          * 
          * @return
-         *     An immutable object of type {@link UnsignedInt}.
+         *     An immutable object of type {@link UnsignedInt} that may be null.
          */
         public UnsignedInt getReliableCache() {
             return reliableCache;
@@ -5372,7 +5372,7 @@ public class CapabilityStatement extends DomainResource {
          * statement. For example, the process for becoming an authorized messaging exchange partner.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getDocumentation() {
             return documentation;
@@ -5382,7 +5382,7 @@ public class CapabilityStatement extends DomainResource {
          * References to message definitions for messages this system can send or receive.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link SupportedMessage}.
+         *     An unmodifiable list containing immutable objects of type {@link SupportedMessage} that may be empty.
          */
         public List<SupportedMessage> getSupportedMessage() {
             return supportedMessage;
@@ -5722,7 +5722,7 @@ public class CapabilityStatement extends DomainResource {
              * A list of the messaging transport protocol(s) identifiers, supported by this endpoint.
              * 
              * @return
-             *     An immutable object of type {@link Coding}.
+             *     An immutable object of type {@link Coding} that is non-null.
              */
             public Coding getProtocol() {
                 return protocol;
@@ -5733,7 +5733,7 @@ public class CapabilityStatement extends DomainResource {
              * identifier.
              * 
              * @return
-             *     An immutable object of type {@link Url}.
+             *     An immutable object of type {@link Url} that is non-null.
              */
             public Url getAddress() {
                 return address;
@@ -6005,7 +6005,7 @@ public class CapabilityStatement extends DomainResource {
              * The mode of this event declaration - whether application is sender or receiver.
              * 
              * @return
-             *     An immutable object of type {@link EventCapabilityMode}.
+             *     An immutable object of type {@link EventCapabilityMode} that is non-null.
              */
             public EventCapabilityMode getMode() {
                 return mode;
@@ -6015,7 +6015,7 @@ public class CapabilityStatement extends DomainResource {
              * Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
              * 
              * @return
-             *     An immutable object of type {@link Canonical}.
+             *     An immutable object of type {@link Canonical} that is non-null.
              */
             public Canonical getDefinition() {
                 return definition;
@@ -6289,7 +6289,7 @@ public class CapabilityStatement extends DomainResource {
          * Mode of this document declaration - whether an application is a producer or consumer.
          * 
          * @return
-         *     An immutable object of type {@link DocumentMode}.
+         *     An immutable object of type {@link DocumentMode} that is non-null.
          */
         public DocumentMode getMode() {
             return mode;
@@ -6300,7 +6300,7 @@ public class CapabilityStatement extends DomainResource {
          * created, what action is taken with consumed documents, etc.
          * 
          * @return
-         *     An immutable object of type {@link Markdown}.
+         *     An immutable object of type {@link Markdown} that may be null.
          */
         public Markdown getDocumentation() {
             return documentation;
@@ -6310,7 +6310,7 @@ public class CapabilityStatement extends DomainResource {
          * A profile on the document Bundle that constrains which resources are present, and their contents.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that is non-null.
          */
         public Canonical getProfile() {
             return profile;

@@ -79,6 +79,7 @@ public class FHIRUtil {
     public static final com.ibm.fhir.model.type.String STRING_DATA_ABSENT_REASON_UNKNOWN = com.ibm.fhir.model.type.String.builder()
             .extension(DATA_ABSENT_REASON_UNKNOWN)
             .build();
+    @Deprecated
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
@@ -570,19 +571,21 @@ public class FHIRUtil {
     }
 
     /**
-     * Generate a random AES key or 32 byte value encoded as a Base64 string.
+     * Generate a random key using the passed algorithm or, if that algorithm isn't supported, a random 32 byte value.
+     * In either case, the resulting value is encoded as a Base64 string before returning.
      *
-     * @return
+     * @return a base64-encoded random key string
+     * @deprecated we plan to remove this from FHIRUtil in a future release
      */
-    public static String getRandomKey(String key) {
-        KeyGenerator keyGen;
+    @Deprecated
+    public static String getRandomKey(String algorithm) {
         try {
-            keyGen = KeyGenerator.getInstance(key);
+            KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
             keyGen.init(256);
             return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
         } catch (NoSuchAlgorithmException e) {
+            log.warning("Algorithm '" + algorithm + "' is not supported; using SecureRandom instead");
             byte[] buffer = new byte[32];
-            RANDOM.setSeed(System.currentTimeMillis());
             RANDOM.nextBytes(buffer);
             return Base64.getEncoder().encodeToString(buffer);
         }
