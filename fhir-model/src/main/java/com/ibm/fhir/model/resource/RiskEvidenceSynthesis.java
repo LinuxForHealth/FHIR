@@ -191,7 +191,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -202,7 +202,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -215,7 +215,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * not available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -226,7 +226,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -236,7 +236,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A short, descriptive, user-friendly title for the risk evidence synthesis.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -246,7 +246,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * The status of this risk evidence synthesis. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -258,7 +258,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * content of the risk evidence synthesis changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -268,7 +268,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * The name of the organization or individual that published the risk evidence synthesis.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -278,7 +278,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -288,7 +288,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A free text natural language description of the risk evidence synthesis from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -298,7 +298,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A human-readable string to clarify or explain concepts about the resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -310,7 +310,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * may be used to assist with indexing and searching for appropriate risk evidence synthesis instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -320,7 +320,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A legal or geographic region in which the risk evidence synthesis is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -331,7 +331,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * legal restrictions on the use and publishing of the risk evidence synthesis.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -342,7 +342,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -353,7 +353,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -363,7 +363,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * The period during which the risk evidence synthesis content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -374,7 +374,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * grouping types of EffectEvidenceSynthesiss that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -384,7 +384,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -394,7 +394,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -404,7 +404,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -414,7 +414,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -424,7 +424,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -434,7 +434,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * Type of synthesis eg meta-analysis.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSynthesisType() {
         return synthesisType;
@@ -444,7 +444,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * Type of study eg randomized trial.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStudyType() {
         return studyType;
@@ -454,7 +454,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the population for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPopulation() {
         return population;
@@ -464,7 +464,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resource that defines the exposure for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getExposure() {
         return exposure;
@@ -474,7 +474,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A reference to a EvidenceVariable resomece that defines the outcome for the research.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getOutcome() {
         return outcome;
@@ -484,7 +484,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A description of the size of the sample involved in the synthesis.
      * 
      * @return
-     *     An immutable object of type {@link SampleSize}.
+     *     An immutable object of type {@link SampleSize} that may be null.
      */
     public SampleSize getSampleSize() {
         return sampleSize;
@@ -494,7 +494,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * The estimated risk of the outcome.
      * 
      * @return
-     *     An immutable object of type {@link RiskEstimate}.
+     *     An immutable object of type {@link RiskEstimate} that may be null.
      */
     public RiskEstimate getRiskEstimate() {
         return riskEstimate;
@@ -504,7 +504,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
      * A description of the certainty of the risk estimate.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Certainty}.
+     *     An unmodifiable list containing immutable objects of type {@link Certainty} that may be empty.
      */
     public List<Certainty> getCertainty() {
         return certainty;
@@ -1735,7 +1735,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Human-readable summary of sample size.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1745,7 +1745,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Number of studies included in this evidence synthesis.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getNumberOfStudies() {
             return numberOfStudies;
@@ -1755,7 +1755,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Number of participants included in this evidence synthesis.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getNumberOfParticipants() {
             return numberOfParticipants;
@@ -2048,7 +2048,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Human-readable summary of risk estimate.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -2058,7 +2058,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Examples include proportion and mean.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -2068,7 +2068,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * The point estimate of the risk estimate.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getValue() {
             return value;
@@ -2078,7 +2078,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * Specifies the UCUM unit for the outcome.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getUnitOfMeasure() {
             return unitOfMeasure;
@@ -2088,7 +2088,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * The sample size for the group that was measured for this risk estimate.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getDenominatorCount() {
             return denominatorCount;
@@ -2098,7 +2098,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * The number of group members with the outcome of interest.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getNumeratorCount() {
             return numeratorCount;
@@ -2108,7 +2108,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A description of the precision of the estimate for the effect.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PrecisionEstimate}.
+         *     An unmodifiable list containing immutable objects of type {@link PrecisionEstimate} that may be empty.
          */
         public List<PrecisionEstimate> getPrecisionEstimate() {
             return precisionEstimate;
@@ -2488,7 +2488,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * Examples include confidence interval and interquartile range.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -2498,7 +2498,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * Use 95 for a 95% confidence interval.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getLevel() {
                 return level;
@@ -2508,7 +2508,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * Lower bound of confidence interval.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getFrom() {
                 return from;
@@ -2518,7 +2518,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * Upper bound of confidence interval.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getTo() {
                 return to;
@@ -2818,7 +2818,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A rating of the certainty of the effect estimate.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getRating() {
             return rating;
@@ -2828,7 +2828,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A human-readable string to clarify or explain concepts about the resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
          */
         public List<Annotation> getNote() {
             return note;
@@ -2838,7 +2838,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A description of a component of the overall certainty.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CertaintySubcomponent}.
+         *     An unmodifiable list containing immutable objects of type {@link CertaintySubcomponent} that may be empty.
          */
         public List<CertaintySubcomponent> getCertaintySubcomponent() {
             return certaintySubcomponent;
@@ -3182,7 +3182,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * Type of subcomponent of certainty rating.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -3192,7 +3192,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * A rating of a subcomponent of rating certainty.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getRating() {
                 return rating;
@@ -3202,7 +3202,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * A human-readable string to clarify or explain concepts about the resource.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+             *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
              */
             public List<Annotation> getNote() {
                 return note;

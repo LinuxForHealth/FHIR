@@ -109,7 +109,7 @@ public class GuidanceResponse extends DomainResource {
      * will be reproduced here to enable the requester to more easily identify the response in a multi-request scenario.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getRequestIdentifier() {
         return requestIdentifier;
@@ -119,7 +119,7 @@ public class GuidanceResponse extends DomainResource {
      * Allows a service to provide unique, business identifiers for the response.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -129,7 +129,7 @@ public class GuidanceResponse extends DomainResource {
      * An identifier, CodeableConcept or canonical reference to the guidance that was requested.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getModule() {
         return module;
@@ -144,7 +144,7 @@ public class GuidanceResponse extends DomainResource {
      * requested information.
      * 
      * @return
-     *     An immutable object of type {@link GuidanceResponseStatus}.
+     *     An immutable object of type {@link GuidanceResponseStatus} that is non-null.
      */
     public GuidanceResponseStatus getStatus() {
         return status;
@@ -154,7 +154,7 @@ public class GuidanceResponse extends DomainResource {
      * The patient for which the request was processed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -164,7 +164,7 @@ public class GuidanceResponse extends DomainResource {
      * The encounter during which this response was created or to which the creation of this record is tightly associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -174,7 +174,7 @@ public class GuidanceResponse extends DomainResource {
      * Indicates when the guidance response was processed.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getOccurrenceDateTime() {
         return occurrenceDateTime;
@@ -184,7 +184,7 @@ public class GuidanceResponse extends DomainResource {
      * Provides a reference to the device that performed the guidance.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPerformer() {
         return performer;
@@ -194,7 +194,7 @@ public class GuidanceResponse extends DomainResource {
      * Describes the reason for the guidance response in coded or textual form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -206,7 +206,7 @@ public class GuidanceResponse extends DomainResource {
      * indication of the cause for the response.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -216,7 +216,7 @@ public class GuidanceResponse extends DomainResource {
      * Provides a mechanism to communicate additional information about the response.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -227,7 +227,7 @@ public class GuidanceResponse extends DomainResource {
      * produce informational or warning messages. These messages will be provided by this element.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEvaluationMessage() {
         return evaluationMessage;
@@ -239,7 +239,7 @@ public class GuidanceResponse extends DomainResource {
      * specific outputs that would be returned as the result of the evaluation, and these would be returned in this element.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOutputParameters() {
         return outputParameters;
@@ -249,7 +249,7 @@ public class GuidanceResponse extends DomainResource {
      * The actions, if any, produced by the evaluation of the artifact.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getResult() {
         return result;
@@ -261,7 +261,7 @@ public class GuidanceResponse extends DomainResource {
      * evaluation. A subsequent request to the service should include this data.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
+     *     An unmodifiable list containing immutable objects of type {@link DataRequirement} that may be empty.
      */
     public List<DataRequirement> getDataRequirement() {
         return dataRequirement;

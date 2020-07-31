@@ -100,7 +100,7 @@ public class SupplyDelivery extends DomainResource {
      * Identifier for the supply delivery event that is used to identify it across multiple disparate systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -110,7 +110,7 @@ public class SupplyDelivery extends DomainResource {
      * A plan, proposal or order that is fulfilled in whole or in part by this event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -120,7 +120,7 @@ public class SupplyDelivery extends DomainResource {
      * A larger event of which this particular event is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -130,7 +130,7 @@ public class SupplyDelivery extends DomainResource {
      * A code specifying the state of the dispense event.
      * 
      * @return
-     *     An immutable object of type {@link SupplyDeliveryStatus}.
+     *     An immutable object of type {@link SupplyDeliveryStatus} that may be null.
      */
     public SupplyDeliveryStatus getStatus() {
         return status;
@@ -140,7 +140,7 @@ public class SupplyDelivery extends DomainResource {
      * A link to a resource representing the person whom the delivered item is for.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPatient() {
         return patient;
@@ -151,7 +151,7 @@ public class SupplyDelivery extends DomainResource {
      * Fill, Emergency Fill, Samples, etc.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -161,7 +161,7 @@ public class SupplyDelivery extends DomainResource {
      * The item that is being delivered or has been supplied.
      * 
      * @return
-     *     An immutable object of type {@link SuppliedItem}.
+     *     An immutable object of type {@link SuppliedItem} that may be null.
      */
     public SuppliedItem getSuppliedItem() {
         return suppliedItem;
@@ -171,7 +171,7 @@ public class SupplyDelivery extends DomainResource {
      * The date or time(s) the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -181,7 +181,7 @@ public class SupplyDelivery extends DomainResource {
      * The individual responsible for dispensing the medication, supplier or device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSupplier() {
         return supplier;
@@ -191,7 +191,7 @@ public class SupplyDelivery extends DomainResource {
      * Identification of the facility/location where the Supply was shipped to, as part of the dispense event.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDestination() {
         return destination;
@@ -201,7 +201,7 @@ public class SupplyDelivery extends DomainResource {
      * Identifies the person who picked up the Supply.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReceiver() {
         return receiver;
@@ -853,7 +853,7 @@ public class SupplyDelivery extends DomainResource {
          * The amount of supply that has been dispensed. Includes unit of measure.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getQuantity() {
             return quantity;
@@ -864,7 +864,7 @@ public class SupplyDelivery extends DomainResource {
          * details of the item or a code that identifies the item from a known list.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getItem() {
             return item;

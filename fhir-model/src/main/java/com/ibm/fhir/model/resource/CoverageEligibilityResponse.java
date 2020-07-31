@@ -145,7 +145,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * A unique identifier assigned to this coverage eligiblity request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -155,7 +155,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link EligibilityResponseStatus}.
+     *     An immutable object of type {@link EligibilityResponseStatus} that is non-null.
      */
     public EligibilityResponseStatus getStatus() {
         return status;
@@ -167,7 +167,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link EligibilityResponsePurpose}.
+     *     An unmodifiable list containing immutable objects of type {@link EligibilityResponsePurpose} that is non-empty.
      */
     public List<EligibilityResponsePurpose> getPurpose() {
         return purpose;
@@ -177,7 +177,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The party who is the beneficiary of the supplied coverage and for whom eligibility is sought.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -187,7 +187,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The date or dates when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getServiced() {
         return serviced;
@@ -197,7 +197,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The date this resource was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getCreated() {
         return created;
@@ -207,7 +207,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The provider which is responsible for the request.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequestor() {
         return requestor;
@@ -217,7 +217,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * Reference to the original request resource.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getRequest() {
         return request;
@@ -227,7 +227,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The outcome of the request processing.
      * 
      * @return
-     *     An immutable object of type {@link RemittanceOutcome}.
+     *     An immutable object of type {@link RemittanceOutcome} that is non-null.
      */
     public RemittanceOutcome getOutcome() {
         return outcome;
@@ -237,7 +237,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * A human readable description of the status of the adjudication.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDisposition() {
         return disposition;
@@ -247,7 +247,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The Insurer who issued the coverage in question and is the author of the response.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getInsurer() {
         return insurer;
@@ -257,7 +257,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * Financial instruments for reimbursement for the health care products and services.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Insurance}.
+     *     An unmodifiable list containing immutable objects of type {@link Insurance} that may be empty.
      */
     public List<Insurance> getInsurance() {
         return insurance;
@@ -268,7 +268,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * request occurred.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPreAuthRef() {
         return preAuthRef;
@@ -278,7 +278,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * A code for the form to be used for printing the content.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getForm() {
         return form;
@@ -288,7 +288,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * Errors encountered during the processing of the request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Error}.
+     *     An unmodifiable list containing immutable objects of type {@link Error} that may be empty.
      */
     public List<Error> getError() {
         return error;
@@ -1057,7 +1057,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * will use these details to locate the patient's actual coverage within the insurer's information system.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getCoverage() {
             return coverage;
@@ -1068,7 +1068,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * duration of the service dates.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getInforce() {
             return inforce;
@@ -1078,7 +1078,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * The term of the benefits documented in this response.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getBenefitPeriod() {
             return benefitPeriod;
@@ -1088,7 +1088,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * Benefits and optionally current balances, and authorization details by category or service.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Item}.
+         *     An unmodifiable list containing immutable objects of type {@link Item} that may be empty.
          */
         public List<Item> getItem() {
             return item;
@@ -1480,7 +1480,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Code to identify the general type of benefits under which products and services are provided.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCategory() {
                 return category;
@@ -1490,7 +1490,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * This contains the product, service, drug or other billing code for the item.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getProductOrService() {
                 return productOrService;
@@ -1500,7 +1500,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Item typification or modifiers codes to convey additional context for the product or service.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getModifier() {
                 return modifier;
@@ -1510,7 +1510,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * The practitioner who is eligible for the provision of the product or service.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that may be null.
              */
             public Reference getProvider() {
                 return provider;
@@ -1521,7 +1521,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * included in the coverage.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getExcluded() {
                 return excluded;
@@ -1531,7 +1531,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * A short name or tag for the benefit.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getName() {
                 return name;
@@ -1541,7 +1541,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * A richer description of the benefit or services covered.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -1551,7 +1551,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Is a flag to indicate whether the benefits refer to in-network providers or out-of-network providers.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getNetwork() {
                 return network;
@@ -1561,7 +1561,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Indicates if the benefits apply to an individual or to the family.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getUnit() {
                 return unit;
@@ -1571,7 +1571,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * The term or period of the values such as 'maximum lifetime benefit' or 'maximum annual visits'.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getTerm() {
                 return term;
@@ -1581,7 +1581,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Benefits used to date.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Benefit}.
+             *     An unmodifiable list containing immutable objects of type {@link Benefit} that may be empty.
              */
             public List<Benefit> getBenefit() {
                 return benefit;
@@ -1591,7 +1591,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * A boolean flag indicating whether a preauthorization is required prior to actual service delivery.
              * 
              * @return
-             *     An immutable object of type {@link Boolean}.
+             *     An immutable object of type {@link Boolean} that may be null.
              */
             public Boolean getAuthorizationRequired() {
                 return authorizationRequired;
@@ -1601,7 +1601,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * Codes or comments regarding information or actions associated with the preauthorization.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getAuthorizationSupporting() {
                 return authorizationSupporting;
@@ -1611,7 +1611,7 @@ public class CoverageEligibilityResponse extends DomainResource {
              * A web location for obtaining requirements or descriptive information regarding the preauthorization.
              * 
              * @return
-             *     An immutable object of type {@link Uri}.
+             *     An immutable object of type {@link Uri} that may be null.
              */
             public Uri getAuthorizationUrl() {
                 return authorizationUrl;
@@ -2179,7 +2179,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * Classification of benefit being provided.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that is non-null.
                  */
                 public CodeableConcept getType() {
                     return type;
@@ -2189,7 +2189,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which is permitted under the coverage.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element}.
+                 *     An immutable object of type {@link Element} that may be null.
                  */
                 public Element getAllowed() {
                     return allowed;
@@ -2199,7 +2199,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which have been consumed to date.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element}.
+                 *     An immutable object of type {@link Element} that may be null.
                  */
                 public Element getUsed() {
                     return used;
@@ -2498,7 +2498,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * An error code,from a specified code system, which details why the eligibility check could not be performed.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;

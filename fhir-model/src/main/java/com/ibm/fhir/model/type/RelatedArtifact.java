@@ -64,7 +64,7 @@ public class RelatedArtifact extends Element {
      * The type of relationship to the related artifact.
      * 
      * @return
-     *     An immutable object of type {@link RelatedArtifactType}.
+     *     An immutable object of type {@link RelatedArtifactType} that is non-null.
      */
     public RelatedArtifactType getType() {
         return type;
@@ -75,7 +75,7 @@ public class RelatedArtifact extends Element {
      * index.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getLabel() {
         return label;
@@ -85,7 +85,7 @@ public class RelatedArtifact extends Element {
      * A brief description of the document or knowledge resource being referenced, suitable for display to a consumer.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDisplay() {
         return display;
@@ -96,7 +96,7 @@ public class RelatedArtifact extends Element {
      * format.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCitation() {
         return citation;
@@ -106,7 +106,7 @@ public class RelatedArtifact extends Element {
      * A url for the artifact that can be followed to access the actual content.
      * 
      * @return
-     *     An immutable object of type {@link Url}.
+     *     An immutable object of type {@link Url} that may be null.
      */
     public Url getUrl() {
         return url;
@@ -116,7 +116,7 @@ public class RelatedArtifact extends Element {
      * The document being referenced, represented as an attachment. This is exclusive with the resource element.
      * 
      * @return
-     *     An immutable object of type {@link Attachment}.
+     *     An immutable object of type {@link Attachment} that may be null.
      */
     public Attachment getDocument() {
         return document;
@@ -126,7 +126,7 @@ public class RelatedArtifact extends Element {
      * The related resource, such as a library, value set, profile, or other knowledge resource.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getResource() {
         return resource;

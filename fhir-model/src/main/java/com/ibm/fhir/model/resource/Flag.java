@@ -101,7 +101,7 @@ public class Flag extends DomainResource {
      * updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -111,7 +111,7 @@ public class Flag extends DomainResource {
      * Supports basic workflow.
      * 
      * @return
-     *     An immutable object of type {@link FlagStatus}.
+     *     An immutable object of type {@link FlagStatus} that is non-null.
      */
     public FlagStatus getStatus() {
         return status;
@@ -122,7 +122,7 @@ public class Flag extends DomainResource {
      * means of filtering which flags are displayed to particular user or in a given context.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -132,7 +132,7 @@ public class Flag extends DomainResource {
      * The coded value or textual component of the flag to display to the user.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -142,7 +142,7 @@ public class Flag extends DomainResource {
      * The patient, location, group, organization, or practitioner etc. this is about record this flag is associated with.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -153,7 +153,7 @@ public class Flag extends DomainResource {
      * period should be unspecified.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -163,7 +163,7 @@ public class Flag extends DomainResource {
      * This alert is only relevant during the encounter.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -173,7 +173,7 @@ public class Flag extends DomainResource {
      * The person, organization or device that created the flag.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;

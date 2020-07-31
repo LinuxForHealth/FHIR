@@ -63,7 +63,7 @@ public class SubstanceProtein extends DomainResource {
      * available or derivable from a nucleic acid sequence.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSequenceType() {
         return sequenceType;
@@ -74,7 +74,7 @@ public class SubstanceProtein extends DomainResource {
      * SubstanceProtein shall be described. It is possible that the number of subunits can be variable.
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that may be null.
      */
     public Integer getNumberOfSubunits() {
         return numberOfSubunits;
@@ -87,7 +87,7 @@ public class SubstanceProtein extends DomainResource {
      * positions shall actually contain the amino acid Cysteine at the respective positions.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getDisulfideLinkage() {
         return disulfideLinkage;
@@ -101,7 +101,7 @@ public class SubstanceProtein extends DomainResource {
      * decreasing molecular weight; subunits that have identical sequences will be repeated multiple times.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Subunit}.
+     *     An unmodifiable list containing immutable objects of type {@link Subunit} that may be empty.
      */
     public List<Subunit> getSubunit() {
         return subunit;
@@ -599,7 +599,7 @@ public class SubstanceProtein extends DomainResource {
          * sequential subscripts.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getSubunit() {
             return subunit;
@@ -613,7 +613,7 @@ public class SubstanceProtein extends DomainResource {
          * will be distinguished by their position in the sequence.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSequence() {
             return sequence;
@@ -623,7 +623,7 @@ public class SubstanceProtein extends DomainResource {
          * Length of linear sequences of amino acids contained in the subunit.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getLength() {
             return length;
@@ -637,7 +637,7 @@ public class SubstanceProtein extends DomainResource {
          * will be distinguished by their position in the sequence.
          * 
          * @return
-         *     An immutable object of type {@link Attachment}.
+         *     An immutable object of type {@link Attachment} that may be null.
          */
         public Attachment getSequenceAttachment() {
             return sequenceAttachment;
@@ -647,7 +647,7 @@ public class SubstanceProtein extends DomainResource {
          * Unique identifier for molecular fragment modification based on the ISO 11238 Substance ID.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getNTerminalModificationId() {
             return nTerminalModificationId;
@@ -657,7 +657,7 @@ public class SubstanceProtein extends DomainResource {
          * The name of the fragment modified at the N-terminal of the SubstanceProtein shall be specified.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getNTerminalModification() {
             return nTerminalModification;
@@ -667,7 +667,7 @@ public class SubstanceProtein extends DomainResource {
          * Unique identifier for molecular fragment modification based on the ISO 11238 Substance ID.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getCTerminalModificationId() {
             return cTerminalModificationId;
@@ -677,7 +677,7 @@ public class SubstanceProtein extends DomainResource {
          * The modification at the C-terminal shall be specified.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getCTerminalModification() {
             return cTerminalModification;

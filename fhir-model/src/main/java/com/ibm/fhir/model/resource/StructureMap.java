@@ -193,7 +193,7 @@ public class StructureMap extends DomainResource {
      * of a canonical reference. It SHALL remain the same when the structure map is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -204,7 +204,7 @@ public class StructureMap extends DomainResource {
      * in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -217,7 +217,7 @@ public class StructureMap extends DomainResource {
      * also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -228,7 +228,7 @@ public class StructureMap extends DomainResource {
      * machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -238,7 +238,7 @@ public class StructureMap extends DomainResource {
      * A short, descriptive, user-friendly title for the structure map.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -248,7 +248,7 @@ public class StructureMap extends DomainResource {
      * The status of this structure map. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -259,7 +259,7 @@ public class StructureMap extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -271,7 +271,7 @@ public class StructureMap extends DomainResource {
      * the structure map changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -281,7 +281,7 @@ public class StructureMap extends DomainResource {
      * The name of the organization or individual that published the structure map.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -291,7 +291,7 @@ public class StructureMap extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -301,7 +301,7 @@ public class StructureMap extends DomainResource {
      * A free text natural language description of the structure map from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -313,7 +313,7 @@ public class StructureMap extends DomainResource {
      * may be used to assist with indexing and searching for appropriate structure map instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -323,7 +323,7 @@ public class StructureMap extends DomainResource {
      * A legal or geographic region in which the structure map is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -333,7 +333,7 @@ public class StructureMap extends DomainResource {
      * Explanation of why this structure map is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -344,7 +344,7 @@ public class StructureMap extends DomainResource {
      * restrictions on the use and publishing of the structure map.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -355,7 +355,7 @@ public class StructureMap extends DomainResource {
      * instances that are produced.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Structure}.
+     *     An unmodifiable list containing immutable objects of type {@link Structure} that may be empty.
      */
     public List<Structure> getStructure() {
         return structure;
@@ -365,7 +365,7 @@ public class StructureMap extends DomainResource {
      * Other maps used by this map (canonical URLs).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getImport() {
         return _import;
@@ -375,7 +375,7 @@ public class StructureMap extends DomainResource {
      * Organizes the mapping into manageable chunks for human review/ease of maintenance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Group}.
+     *     An unmodifiable list containing immutable objects of type {@link Group} that is non-empty.
      */
     public List<Group> getGroup() {
         return group;
@@ -1248,7 +1248,7 @@ public class StructureMap extends DomainResource {
          * The canonical reference to the structure.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that is non-null.
          */
         public Canonical getUrl() {
             return url;
@@ -1258,7 +1258,7 @@ public class StructureMap extends DomainResource {
          * How the referenced structure is used in this mapping.
          * 
          * @return
-         *     An immutable object of type {@link StructureMapModelMode}.
+         *     An immutable object of type {@link StructureMapModelMode} that is non-null.
          */
         public StructureMapModelMode getMode() {
             return mode;
@@ -1268,7 +1268,7 @@ public class StructureMap extends DomainResource {
          * The name used for this type in the map.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getAlias() {
             return alias;
@@ -1278,7 +1278,7 @@ public class StructureMap extends DomainResource {
          * Documentation that describes how the structure is used in the mapping.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDocumentation() {
             return documentation;
@@ -1603,7 +1603,7 @@ public class StructureMap extends DomainResource {
          * A unique name for the group for the convenience of human readers.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that is non-null.
          */
         public Id getName() {
             return name;
@@ -1613,7 +1613,7 @@ public class StructureMap extends DomainResource {
          * Another group that this group adds rules to.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that may be null.
          */
         public Id getExtends() {
             return _extends;
@@ -1623,7 +1623,7 @@ public class StructureMap extends DomainResource {
          * If this is the default rule set to apply for the source type or this combination of types.
          * 
          * @return
-         *     An immutable object of type {@link StructureMapGroupTypeMode}.
+         *     An immutable object of type {@link StructureMapGroupTypeMode} that is non-null.
          */
         public StructureMapGroupTypeMode getTypeMode() {
             return typeMode;
@@ -1633,7 +1633,7 @@ public class StructureMap extends DomainResource {
          * Additional supporting documentation that explains the purpose of the group and the types of mappings within it.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDocumentation() {
             return documentation;
@@ -1643,7 +1643,7 @@ public class StructureMap extends DomainResource {
          * A name assigned to an instance of data. The instance must be provided when the mapping is invoked.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Input}.
+         *     An unmodifiable list containing immutable objects of type {@link Input} that is non-empty.
          */
         public List<Input> getInput() {
             return input;
@@ -1653,7 +1653,7 @@ public class StructureMap extends DomainResource {
          * Transform Rule from source to target.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Rule}.
+         *     An unmodifiable list containing immutable objects of type {@link Rule} that is non-empty.
          */
         public List<Rule> getRule() {
             return rule;
@@ -2058,7 +2058,7 @@ public class StructureMap extends DomainResource {
              * Name for this instance of data.
              * 
              * @return
-             *     An immutable object of type {@link Id}.
+             *     An immutable object of type {@link Id} that is non-null.
              */
             public Id getName() {
                 return name;
@@ -2068,7 +2068,7 @@ public class StructureMap extends DomainResource {
              * Type for this instance of data.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getType() {
                 return type;
@@ -2078,7 +2078,7 @@ public class StructureMap extends DomainResource {
              * Mode for this instance of data.
              * 
              * @return
-             *     An immutable object of type {@link StructureMapInputMode}.
+             *     An immutable object of type {@link StructureMapInputMode} that is non-null.
              */
             public StructureMapInputMode getMode() {
                 return mode;
@@ -2088,7 +2088,7 @@ public class StructureMap extends DomainResource {
              * Documentation for this instance of data.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDocumentation() {
                 return documentation;
@@ -2404,7 +2404,7 @@ public class StructureMap extends DomainResource {
              * Name of the rule for internal references.
              * 
              * @return
-             *     An immutable object of type {@link Id}.
+             *     An immutable object of type {@link Id} that is non-null.
              */
             public Id getName() {
                 return name;
@@ -2414,7 +2414,7 @@ public class StructureMap extends DomainResource {
              * Source inputs to the mapping.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Source}.
+             *     An unmodifiable list containing immutable objects of type {@link Source} that is non-empty.
              */
             public List<Source> getSource() {
                 return source;
@@ -2424,7 +2424,7 @@ public class StructureMap extends DomainResource {
              * Content to create because of this mapping rule.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Target}.
+             *     An unmodifiable list containing immutable objects of type {@link Target} that may be empty.
              */
             public List<Target> getTarget() {
                 return target;
@@ -2434,7 +2434,7 @@ public class StructureMap extends DomainResource {
              * Rules contained in this rule.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Rule}.
+             *     An unmodifiable list containing immutable objects of type {@link Rule} that may be empty.
              */
             public List<StructureMap.Group.Rule> getRule() {
                 return rule;
@@ -2444,7 +2444,7 @@ public class StructureMap extends DomainResource {
              * Which other rules to apply in the context of this rule.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Dependent}.
+             *     An unmodifiable list containing immutable objects of type {@link Dependent} that may be empty.
              */
             public List<Dependent> getDependent() {
                 return dependent;
@@ -2454,7 +2454,7 @@ public class StructureMap extends DomainResource {
              * Documentation for this instance of data.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDocumentation() {
                 return documentation;
@@ -2913,7 +2913,7 @@ public class StructureMap extends DomainResource {
                  * Type or variable this rule applies to.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that is non-null.
                  */
                 public Id getContext() {
                     return context;
@@ -2924,7 +2924,7 @@ public class StructureMap extends DomainResource {
                  * content.
                  * 
                  * @return
-                 *     An immutable object of type {@link Integer}.
+                 *     An immutable object of type {@link Integer} that may be null.
                  */
                 public Integer getMin() {
                     return min;
@@ -2935,7 +2935,7 @@ public class StructureMap extends DomainResource {
                  * check on the input content (* just serves as documentation; it's the default value).
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getMax() {
                     return max;
@@ -2945,7 +2945,7 @@ public class StructureMap extends DomainResource {
                  * Specified type for the element. This works as a condition on the mapping - use for polymorphic elements.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getType() {
                     return type;
@@ -2955,7 +2955,7 @@ public class StructureMap extends DomainResource {
                  * A value to use if there is no existing value in the source object.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element}.
+                 *     An immutable object of type {@link Element} that may be null.
                  */
                 public Element getDefaultValue() {
                     return defaultValue;
@@ -2965,7 +2965,7 @@ public class StructureMap extends DomainResource {
                  * Optional field for this source.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getElement() {
                     return element;
@@ -2975,7 +2975,7 @@ public class StructureMap extends DomainResource {
                  * How to handle the list mode for this element.
                  * 
                  * @return
-                 *     An immutable object of type {@link StructureMapSourceListMode}.
+                 *     An immutable object of type {@link StructureMapSourceListMode} that may be null.
                  */
                 public StructureMapSourceListMode getListMode() {
                     return listMode;
@@ -2985,7 +2985,7 @@ public class StructureMap extends DomainResource {
                  * Named context for field, if a field is specified.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getVariable() {
                     return variable;
@@ -2995,7 +2995,7 @@ public class StructureMap extends DomainResource {
                  * FHIRPath expression - must be true or the rule does not apply.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getCondition() {
                     return condition;
@@ -3005,7 +3005,7 @@ public class StructureMap extends DomainResource {
                  * FHIRPath expression - must be true or the mapping engine throws an error instead of completing.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getCheck() {
                     return check;
@@ -3016,7 +3016,7 @@ public class StructureMap extends DomainResource {
                  * found.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getLogMessage() {
                     return logMessage;
@@ -3549,7 +3549,7 @@ public class StructureMap extends DomainResource {
                  * Type or variable this rule applies to.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getContext() {
                     return context;
@@ -3559,7 +3559,7 @@ public class StructureMap extends DomainResource {
                  * How to interpret the context.
                  * 
                  * @return
-                 *     An immutable object of type {@link StructureMapContextType}.
+                 *     An immutable object of type {@link StructureMapContextType} that may be null.
                  */
                 public StructureMapContextType getContextType() {
                     return contextType;
@@ -3569,7 +3569,7 @@ public class StructureMap extends DomainResource {
                  * Field to create in the context.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getElement() {
                     return element;
@@ -3579,7 +3579,7 @@ public class StructureMap extends DomainResource {
                  * Named context for field, if desired, and a field is specified.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getVariable() {
                     return variable;
@@ -3589,7 +3589,7 @@ public class StructureMap extends DomainResource {
                  * If field is a list, how to manage the list.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link StructureMapTargetListMode}.
+                 *     An unmodifiable list containing immutable objects of type {@link StructureMapTargetListMode} that may be empty.
                  */
                 public List<StructureMapTargetListMode> getListMode() {
                     return listMode;
@@ -3599,7 +3599,7 @@ public class StructureMap extends DomainResource {
                  * Internal rule reference for shared list items.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that may be null.
                  */
                 public Id getListRuleId() {
                     return listRuleId;
@@ -3609,7 +3609,7 @@ public class StructureMap extends DomainResource {
                  * How the data is copied / created.
                  * 
                  * @return
-                 *     An immutable object of type {@link StructureMapTransform}.
+                 *     An immutable object of type {@link StructureMapTransform} that may be null.
                  */
                 public StructureMapTransform getTransform() {
                     return transform;
@@ -3619,7 +3619,7 @@ public class StructureMap extends DomainResource {
                  * Parameters to the transform.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+                 *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
                  */
                 public List<Parameter> getParameter() {
                     return parameter;
@@ -4030,7 +4030,7 @@ public class StructureMap extends DomainResource {
                      * Parameter value - variable or literal.
                      * 
                      * @return
-                     *     An immutable object of type {@link Element}.
+                     *     An immutable object of type {@link Element} that is non-null.
                      */
                     public Element getValue() {
                         return value;
@@ -4282,7 +4282,7 @@ public class StructureMap extends DomainResource {
                  * Name of a rule or group to apply.
                  * 
                  * @return
-                 *     An immutable object of type {@link Id}.
+                 *     An immutable object of type {@link Id} that is non-null.
                  */
                 public Id getName() {
                     return name;
@@ -4292,7 +4292,7 @@ public class StructureMap extends DomainResource {
                  * Variable to pass to the rule or group.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link String}.
+                 *     An unmodifiable list containing immutable objects of type {@link String} that is non-empty.
                  */
                 public List<String> getVariable() {
                     return variable;

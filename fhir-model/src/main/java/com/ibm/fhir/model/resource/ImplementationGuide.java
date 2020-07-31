@@ -176,7 +176,7 @@ public class ImplementationGuide extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that is non-null.
      */
     public Uri getUrl() {
         return url;
@@ -189,7 +189,7 @@ public class ImplementationGuide extends DomainResource {
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -200,7 +200,7 @@ public class ImplementationGuide extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -210,7 +210,7 @@ public class ImplementationGuide extends DomainResource {
      * A short, descriptive, user-friendly title for the implementation guide.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -220,7 +220,7 @@ public class ImplementationGuide extends DomainResource {
      * The status of this implementation guide. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -231,7 +231,7 @@ public class ImplementationGuide extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -243,7 +243,7 @@ public class ImplementationGuide extends DomainResource {
      * content of the implementation guide changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -253,7 +253,7 @@ public class ImplementationGuide extends DomainResource {
      * The name of the organization or individual that published the implementation guide.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -263,7 +263,7 @@ public class ImplementationGuide extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -273,7 +273,7 @@ public class ImplementationGuide extends DomainResource {
      * A free text natural language description of the implementation guide from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -285,7 +285,7 @@ public class ImplementationGuide extends DomainResource {
      * may be used to assist with indexing and searching for appropriate implementation guide instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -295,7 +295,7 @@ public class ImplementationGuide extends DomainResource {
      * A legal or geographic region in which the implementation guide is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -306,7 +306,7 @@ public class ImplementationGuide extends DomainResource {
      * legal restrictions on the use and publishing of the implementation guide.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -318,7 +318,7 @@ public class ImplementationGuide extends DomainResource {
      * assigned with care.
      * 
      * @return
-     *     An immutable object of type {@link Id}.
+     *     An immutable object of type {@link Id} that is non-null.
      */
     public Id getPackageId() {
         return packageId;
@@ -328,7 +328,7 @@ public class ImplementationGuide extends DomainResource {
      * The license that applies to this Implementation Guide, using an SPDX license code, or 'not-open-source'.
      * 
      * @return
-     *     An immutable object of type {@link SPDXLicense}.
+     *     An immutable object of type {@link SPDXLicense} that may be null.
      */
     public SPDXLicense getLicense() {
         return license;
@@ -340,7 +340,7 @@ public class ImplementationGuide extends DomainResource {
      * [minor], which is 4.0.1. for this version.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
+     *     An unmodifiable list containing immutable objects of type {@link FHIRVersion} that is non-empty.
      */
     public List<FHIRVersion> getFhirVersion() {
         return fhirVersion;
@@ -351,7 +351,7 @@ public class ImplementationGuide extends DomainResource {
      * profiles etc.defined in other implementation guides.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
+     *     An unmodifiable list containing immutable objects of type {@link DependsOn} that may be empty.
      */
     public List<DependsOn> getDependsOn() {
         return dependsOn;
@@ -361,7 +361,7 @@ public class ImplementationGuide extends DomainResource {
      * A set of profiles that all resources covered by this implementation guide must conform to.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Global}.
+     *     An unmodifiable list containing immutable objects of type {@link Global} that may be empty.
      */
     public List<Global> getGlobal() {
         return global;
@@ -371,7 +371,7 @@ public class ImplementationGuide extends DomainResource {
      * The information needed by an IG publisher tool to publish the whole implementation guide.
      * 
      * @return
-     *     An immutable object of type {@link Definition}.
+     *     An immutable object of type {@link Definition} that may be null.
      */
     public Definition getDefinition() {
         return definition;
@@ -381,7 +381,7 @@ public class ImplementationGuide extends DomainResource {
      * Information about an assembled implementation guide, created by the publication tooling.
      * 
      * @return
-     *     An immutable object of type {@link Manifest}.
+     *     An immutable object of type {@link Manifest} that may be null.
      */
     public Manifest getManifest() {
         return manifest;
@@ -1273,7 +1273,7 @@ public class ImplementationGuide extends DomainResource {
          * A canonical reference to the Implementation guide for the dependency.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that is non-null.
          */
         public Canonical getUri() {
             return uri;
@@ -1283,7 +1283,7 @@ public class ImplementationGuide extends DomainResource {
          * The NPM package name for the Implementation Guide that this IG depends on.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that may be null.
          */
         public Id getPackageId() {
             return packageId;
@@ -1293,7 +1293,7 @@ public class ImplementationGuide extends DomainResource {
          * The version of the IG that is depended on, when the correct version is required to understand the IG correctly.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getVersion() {
             return version;
@@ -1581,7 +1581,7 @@ public class ImplementationGuide extends DomainResource {
          * The type of resource that all instances must conform to.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType}.
+         *     An immutable object of type {@link ResourceType} that is non-null.
          */
         public ResourceType getType() {
             return type;
@@ -1591,7 +1591,7 @@ public class ImplementationGuide extends DomainResource {
          * A reference to the profile that all instances must conform to.
          * 
          * @return
-         *     An immutable object of type {@link Canonical}.
+         *     An immutable object of type {@link Canonical} that is non-null.
          */
         public Canonical getProfile() {
             return profile;
@@ -1859,7 +1859,7 @@ public class ImplementationGuide extends DomainResource {
          * A logical group of resources. Logical groups can be used when building pages.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Grouping}.
+         *     An unmodifiable list containing immutable objects of type {@link Grouping} that may be empty.
          */
         public List<Grouping> getGrouping() {
             return grouping;
@@ -1871,7 +1871,7 @@ public class ImplementationGuide extends DomainResource {
          * example resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Resource}.
+         *     An unmodifiable list containing immutable objects of type {@link Resource} that is non-empty.
          */
         public List<Resource> getResource() {
             return resource;
@@ -1881,7 +1881,7 @@ public class ImplementationGuide extends DomainResource {
          * A page / section in the implementation guide. The root page is the implementation guide home page.
          * 
          * @return
-         *     An immutable object of type {@link Page}.
+         *     An immutable object of type {@link Page} that may be null.
          */
         public Page getPage() {
             return page;
@@ -1891,7 +1891,7 @@ public class ImplementationGuide extends DomainResource {
          * Defines how IG is built by tools.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
          */
         public List<Parameter> getParameter() {
             return parameter;
@@ -1901,7 +1901,7 @@ public class ImplementationGuide extends DomainResource {
          * A template for building resources.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Template}.
+         *     An unmodifiable list containing immutable objects of type {@link Template} that may be empty.
          */
         public List<Template> getTemplate() {
             return template;
@@ -2305,7 +2305,7 @@ public class ImplementationGuide extends DomainResource {
              * The human-readable title to display for the package of resources when rendering the implementation guide.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getName() {
                 return name;
@@ -2315,7 +2315,7 @@ public class ImplementationGuide extends DomainResource {
              * Human readable text describing the package.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -2591,7 +2591,7 @@ public class ImplementationGuide extends DomainResource {
              * Where this resource is found.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that is non-null.
              */
             public Reference getReference() {
                 return reference;
@@ -2602,7 +2602,7 @@ public class ImplementationGuide extends DomainResource {
              * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
+             *     An unmodifiable list containing immutable objects of type {@link FHIRVersion} that may be empty.
              */
             public List<FHIRVersion> getFhirVersion() {
                 return fhirVersion;
@@ -2613,7 +2613,7 @@ public class ImplementationGuide extends DomainResource {
              * resource (e.g. ValueSet.name).
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getName() {
                 return name;
@@ -2623,7 +2623,7 @@ public class ImplementationGuide extends DomainResource {
              * A description of the reason that a resource has been included in the implementation guide.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getDescription() {
                 return description;
@@ -2634,7 +2634,7 @@ public class ImplementationGuide extends DomainResource {
              * example is an example of the specified profile.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getExample() {
                 return example;
@@ -2644,7 +2644,7 @@ public class ImplementationGuide extends DomainResource {
              * Reference to the id of the grouping this resource appears in.
              * 
              * @return
-             *     An immutable object of type {@link Id}.
+             *     An immutable object of type {@link Id} that may be null.
              */
             public Id getGroupingId() {
                 return groupingId;
@@ -3026,7 +3026,7 @@ public class ImplementationGuide extends DomainResource {
              * The source address for the page.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that is non-null.
              */
             public Element getName() {
                 return name;
@@ -3036,7 +3036,7 @@ public class ImplementationGuide extends DomainResource {
              * A short title used to represent this page in navigational structures such as table of contents, bread crumbs, etc.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getTitle() {
                 return title;
@@ -3046,7 +3046,7 @@ public class ImplementationGuide extends DomainResource {
              * A code that indicates how the page is generated.
              * 
              * @return
-             *     An immutable object of type {@link GuidePageGeneration}.
+             *     An immutable object of type {@link GuidePageGeneration} that is non-null.
              */
             public GuidePageGeneration getGeneration() {
                 return generation;
@@ -3056,7 +3056,7 @@ public class ImplementationGuide extends DomainResource {
              * Nested Pages/Sections under this page.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Page}.
+             *     An unmodifiable list containing immutable objects of type {@link Page} that may be empty.
              */
             public List<ImplementationGuide.Definition.Page> getPage() {
                 return page;
@@ -3395,7 +3395,7 @@ public class ImplementationGuide extends DomainResource {
              * json | generate-turtle | html-template.
              * 
              * @return
-             *     An immutable object of type {@link GuideParameterCode}.
+             *     An immutable object of type {@link GuideParameterCode} that is non-null.
              */
             public GuideParameterCode getCode() {
                 return code;
@@ -3405,7 +3405,7 @@ public class ImplementationGuide extends DomainResource {
              * Value for named type.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getValue() {
                 return value;
@@ -3672,7 +3672,7 @@ public class ImplementationGuide extends DomainResource {
              * Type of template specified.
              * 
              * @return
-             *     An immutable object of type {@link Code}.
+             *     An immutable object of type {@link Code} that is non-null.
              */
             public Code getCode() {
                 return code;
@@ -3682,7 +3682,7 @@ public class ImplementationGuide extends DomainResource {
              * The source location for the template.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getSource() {
                 return source;
@@ -3692,7 +3692,7 @@ public class ImplementationGuide extends DomainResource {
              * The scope in which the template applies.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getScope() {
                 return scope;
@@ -3983,7 +3983,7 @@ public class ImplementationGuide extends DomainResource {
          * A pointer to official web page, PDF or other rendering of the implementation guide.
          * 
          * @return
-         *     An immutable object of type {@link Url}.
+         *     An immutable object of type {@link Url} that may be null.
          */
         public Url getRendering() {
             return rendering;
@@ -3995,7 +3995,7 @@ public class ImplementationGuide extends DomainResource {
          * example resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Resource}.
+         *     An unmodifiable list containing immutable objects of type {@link Resource} that is non-empty.
          */
         public List<Resource> getResource() {
             return resource;
@@ -4005,7 +4005,7 @@ public class ImplementationGuide extends DomainResource {
          * Information about a page within the IG.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Page}.
+         *     An unmodifiable list containing immutable objects of type {@link Page} that may be empty.
          */
         public List<Page> getPage() {
             return page;
@@ -4015,7 +4015,7 @@ public class ImplementationGuide extends DomainResource {
          * Indicates a relative path to an image that exists within the IG.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getImage() {
             return image;
@@ -4026,7 +4026,7 @@ public class ImplementationGuide extends DomainResource {
          * similar files that could be the target of a hyperlink in a derived IG.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getOther() {
             return other;
@@ -4438,7 +4438,7 @@ public class ImplementationGuide extends DomainResource {
              * Where this resource is found.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that is non-null.
              */
             public Reference getReference() {
                 return reference;
@@ -4449,7 +4449,7 @@ public class ImplementationGuide extends DomainResource {
              * example is an example of the specified profile.
              * 
              * @return
-             *     An immutable object of type {@link Element}.
+             *     An immutable object of type {@link Element} that may be null.
              */
             public Element getExample() {
                 return example;
@@ -4459,7 +4459,7 @@ public class ImplementationGuide extends DomainResource {
              * The relative path for primary page for this resource within the IG.
              * 
              * @return
-             *     An immutable object of type {@link Url}.
+             *     An immutable object of type {@link Url} that may be null.
              */
             public Url getRelativePath() {
                 return relativePath;
@@ -4747,7 +4747,7 @@ public class ImplementationGuide extends DomainResource {
              * Relative path to the page.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getName() {
                 return name;
@@ -4757,7 +4757,7 @@ public class ImplementationGuide extends DomainResource {
              * Label for the page intended for human display.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getTitle() {
                 return title;
@@ -4767,7 +4767,7 @@ public class ImplementationGuide extends DomainResource {
              * The name of an anchor available on the page.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link String}.
+             *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
              */
             public List<String> getAnchor() {
                 return anchor;

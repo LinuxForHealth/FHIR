@@ -116,7 +116,7 @@ public class MessageHeader extends DomainResource {
      * to the EventDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getEvent() {
         return event;
@@ -126,7 +126,7 @@ public class MessageHeader extends DomainResource {
      * The destination application which the message is intended for.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Destination}.
+     *     An unmodifiable list containing immutable objects of type {@link Destination} that may be empty.
      */
     public List<Destination> getDestination() {
         return destination;
@@ -136,7 +136,7 @@ public class MessageHeader extends DomainResource {
      * Identifies the sending system to allow the use of a trust relationship.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSender() {
         return sender;
@@ -147,7 +147,7 @@ public class MessageHeader extends DomainResource {
      * pick the most proximal to the message. Can provide other enterers in extensions.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEnterer() {
         return enterer;
@@ -158,7 +158,7 @@ public class MessageHeader extends DomainResource {
      * more than one candidate, pick the most proximal to the MessageHeader. Can provide other authors in extensions.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -168,7 +168,7 @@ public class MessageHeader extends DomainResource {
      * The source application from which this message originated.
      * 
      * @return
-     *     An immutable object of type {@link Source}.
+     *     An immutable object of type {@link Source} that is non-null.
      */
     public Source getSource() {
         return source;
@@ -179,7 +179,7 @@ public class MessageHeader extends DomainResource {
      * that the message event happened under the policies of the responsible party.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getResponsible() {
         return responsible;
@@ -190,7 +190,7 @@ public class MessageHeader extends DomainResource {
      * this message.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getReason() {
         return reason;
@@ -200,7 +200,7 @@ public class MessageHeader extends DomainResource {
      * Information about the message that this message is a response to. Only present if this message is a response.
      * 
      * @return
-     *     An immutable object of type {@link Response}.
+     *     An immutable object of type {@link Response} that may be null.
      */
     public Response getResponse() {
         return response;
@@ -210,7 +210,7 @@ public class MessageHeader extends DomainResource {
      * The actual data of the message - a reference to the root/focus class of the event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getFocus() {
         return focus;
@@ -220,7 +220,7 @@ public class MessageHeader extends DomainResource {
      * Permanent link to the MessageDefinition for this message.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getDefinition() {
         return definition;
@@ -861,7 +861,7 @@ public class MessageHeader extends DomainResource {
          * Human-readable name for the target system.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -871,7 +871,7 @@ public class MessageHeader extends DomainResource {
          * Identifies the target end system in situations where the initial message transmission is to an intermediary system.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getTarget() {
             return target;
@@ -881,7 +881,7 @@ public class MessageHeader extends DomainResource {
          * Indicates where the message should be routed to.
          * 
          * @return
-         *     An immutable object of type {@link Url}.
+         *     An immutable object of type {@link Url} that is non-null.
          */
         public Url getEndpoint() {
             return endpoint;
@@ -892,7 +892,7 @@ public class MessageHeader extends DomainResource {
          * application isn't sufficient.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getReceiver() {
             return receiver;
@@ -1215,7 +1215,7 @@ public class MessageHeader extends DomainResource {
          * Human-readable name for the source system.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -1225,7 +1225,7 @@ public class MessageHeader extends DomainResource {
          * May include configuration or other information useful in debugging.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSoftware() {
             return software;
@@ -1235,7 +1235,7 @@ public class MessageHeader extends DomainResource {
          * Can convey versions of multiple systems in situations where a message passes through multiple hands.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getVersion() {
             return version;
@@ -1245,7 +1245,7 @@ public class MessageHeader extends DomainResource {
          * An e-mail, phone, website or other contact point to use to resolve issues with message communications.
          * 
          * @return
-         *     An immutable object of type {@link ContactPoint}.
+         *     An immutable object of type {@link ContactPoint} that may be null.
          */
         public ContactPoint getContact() {
             return contact;
@@ -1255,7 +1255,7 @@ public class MessageHeader extends DomainResource {
          * Identifies the routing target to send acknowledgements to.
          * 
          * @return
-         *     An immutable object of type {@link Url}.
+         *     An immutable object of type {@link Url} that is non-null.
          */
         public Url getEndpoint() {
             return endpoint;
@@ -1588,7 +1588,7 @@ public class MessageHeader extends DomainResource {
          * The MessageHeader.id of the message to which this message is a response.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that is non-null.
          */
         public Id getIdentifier() {
             return identifier;
@@ -1599,7 +1599,7 @@ public class MessageHeader extends DomainResource {
          * resent or not.
          * 
          * @return
-         *     An immutable object of type {@link ResponseType}.
+         *     An immutable object of type {@link ResponseType} that is non-null.
          */
         public ResponseType getCode() {
             return code;
@@ -1609,7 +1609,7 @@ public class MessageHeader extends DomainResource {
          * Full details of any issues found in the message.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getDetails() {
             return details;

@@ -85,7 +85,7 @@ public class Signature extends Element {
      * signature information and can be used when determining accountability for various actions concerning the document.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that is non-empty.
      */
     public List<Coding> getType() {
         return type;
@@ -95,7 +95,7 @@ public class Signature extends Element {
      * When the digital signature was signed.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that is non-null.
      */
     public Instant getWhen() {
         return when;
@@ -106,7 +106,7 @@ public class Signature extends Element {
      * key).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getWho() {
         return who;
@@ -116,7 +116,7 @@ public class Signature extends Element {
      * A reference to an application-usable description of the identity that is represented by the signature.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOnBehalfOf() {
         return onBehalfOf;
@@ -126,7 +126,7 @@ public class Signature extends Element {
      * A mime type that indicates the technical format of the target resources signed by the signature.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getTargetFormat() {
         return targetFormat;
@@ -137,7 +137,7 @@ public class Signature extends Element {
      * for X ML DigSig, application/jose for JWS, and image/* for a graphical image of a signature, etc.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that may be null.
      */
     public Code getSigFormat() {
         return sigFormat;
@@ -148,7 +148,7 @@ public class Signature extends Element {
      * empty.
      * 
      * @return
-     *     An immutable object of type {@link Base64Binary}.
+     *     An immutable object of type {@link Base64Binary} that may be null.
      */
     public Base64Binary getData() {
         return data;

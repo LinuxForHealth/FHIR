@@ -121,7 +121,7 @@ public class SubstanceSpecification extends DomainResource {
      * Identifier by which this substance is known.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -131,7 +131,7 @@ public class SubstanceSpecification extends DomainResource {
      * High level categorization, e.g. polymer or nucleic acid.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -141,7 +141,7 @@ public class SubstanceSpecification extends DomainResource {
      * Status of substance within the catalogue e.g. approved.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatus() {
         return status;
@@ -151,7 +151,7 @@ public class SubstanceSpecification extends DomainResource {
      * If the substance applies to only human or veterinary use.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getDomain() {
         return domain;
@@ -161,7 +161,7 @@ public class SubstanceSpecification extends DomainResource {
      * Textual description of the substance.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -171,7 +171,7 @@ public class SubstanceSpecification extends DomainResource {
      * Supporting literature.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSource() {
         return source;
@@ -181,7 +181,7 @@ public class SubstanceSpecification extends DomainResource {
      * Textual comment about this record of a substance.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;
@@ -191,7 +191,7 @@ public class SubstanceSpecification extends DomainResource {
      * Moiety, for structural modifications.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Moiety}.
+     *     An unmodifiable list containing immutable objects of type {@link Moiety} that may be empty.
      */
     public List<Moiety> getMoiety() {
         return moiety;
@@ -201,7 +201,7 @@ public class SubstanceSpecification extends DomainResource {
      * General specifications for this substance, including how it is related to other substances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Property}.
+     *     An unmodifiable list containing immutable objects of type {@link Property} that may be empty.
      */
     public List<Property> getProperty() {
         return property;
@@ -211,7 +211,7 @@ public class SubstanceSpecification extends DomainResource {
      * General information detailing this substance.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getReferenceInformation() {
         return referenceInformation;
@@ -221,7 +221,7 @@ public class SubstanceSpecification extends DomainResource {
      * Structural information.
      * 
      * @return
-     *     An immutable object of type {@link Structure}.
+     *     An immutable object of type {@link Structure} that may be null.
      */
     public Structure getStructure() {
         return structure;
@@ -231,7 +231,7 @@ public class SubstanceSpecification extends DomainResource {
      * Codes associated with the substance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Code}.
+     *     An unmodifiable list containing immutable objects of type {@link Code} that may be empty.
      */
     public List<Code> getCode() {
         return code;
@@ -241,7 +241,7 @@ public class SubstanceSpecification extends DomainResource {
      * Names applicable to this substance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Name}.
+     *     An unmodifiable list containing immutable objects of type {@link Name} that may be empty.
      */
     public List<Name> getName() {
         return name;
@@ -251,7 +251,7 @@ public class SubstanceSpecification extends DomainResource {
      * The molecular weight or weight range (for proteins, polymers or nucleic acids).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link MolecularWeight}.
+     *     An unmodifiable list containing immutable objects of type {@link MolecularWeight} that may be empty.
      */
     public List<SubstanceSpecification.Structure.Isotope.MolecularWeight> getMolecularWeight() {
         return molecularWeight;
@@ -261,7 +261,7 @@ public class SubstanceSpecification extends DomainResource {
      * A link between this substance and another, with details of the relationship.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Relationship}.
+     *     An unmodifiable list containing immutable objects of type {@link Relationship} that may be empty.
      */
     public List<Relationship> getRelationship() {
         return relationship;
@@ -271,7 +271,7 @@ public class SubstanceSpecification extends DomainResource {
      * Data items specific to nucleic acids.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getNucleicAcid() {
         return nucleicAcid;
@@ -281,7 +281,7 @@ public class SubstanceSpecification extends DomainResource {
      * Data items specific to polymers.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPolymer() {
         return polymer;
@@ -291,7 +291,7 @@ public class SubstanceSpecification extends DomainResource {
      * Data items specific to proteins.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getProtein() {
         return protein;
@@ -301,7 +301,7 @@ public class SubstanceSpecification extends DomainResource {
      * Material or taxonomic/anatomical source for the substance.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSourceMaterial() {
         return sourceMaterial;
@@ -1184,7 +1184,7 @@ public class SubstanceSpecification extends DomainResource {
          * Role that the moiety is playing.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRole() {
             return role;
@@ -1194,7 +1194,7 @@ public class SubstanceSpecification extends DomainResource {
          * Identifier by which this moiety substance is known.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getIdentifier() {
             return identifier;
@@ -1204,7 +1204,7 @@ public class SubstanceSpecification extends DomainResource {
          * Textual name for this moiety substance.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -1214,7 +1214,7 @@ public class SubstanceSpecification extends DomainResource {
          * Stereochemistry type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStereochemistry() {
             return stereochemistry;
@@ -1224,7 +1224,7 @@ public class SubstanceSpecification extends DomainResource {
          * Optical activity type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOpticalActivity() {
             return opticalActivity;
@@ -1234,7 +1234,7 @@ public class SubstanceSpecification extends DomainResource {
          * Molecular formula.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getMolecularFormula() {
             return molecularFormula;
@@ -1244,7 +1244,7 @@ public class SubstanceSpecification extends DomainResource {
          * Quantitative value for this moiety.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1614,7 +1614,7 @@ public class SubstanceSpecification extends DomainResource {
          * A category for this property, e.g. Physical, Chemical, Enzymatic.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCategory() {
             return category;
@@ -1624,7 +1624,7 @@ public class SubstanceSpecification extends DomainResource {
          * Property type e.g. viscosity, pH, isoelectric point.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1634,7 +1634,7 @@ public class SubstanceSpecification extends DomainResource {
          * Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1).
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getParameters() {
             return parameters;
@@ -1644,7 +1644,7 @@ public class SubstanceSpecification extends DomainResource {
          * A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol).
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getDefiningSubstance() {
             return definingSubstance;
@@ -1654,7 +1654,7 @@ public class SubstanceSpecification extends DomainResource {
          * Quantitative value for this property.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1997,7 +1997,7 @@ public class SubstanceSpecification extends DomainResource {
          * Stereochemistry type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStereochemistry() {
             return stereochemistry;
@@ -2007,7 +2007,7 @@ public class SubstanceSpecification extends DomainResource {
          * Optical activity type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getOpticalActivity() {
             return opticalActivity;
@@ -2017,7 +2017,7 @@ public class SubstanceSpecification extends DomainResource {
          * Molecular formula.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getMolecularFormula() {
             return molecularFormula;
@@ -2028,7 +2028,7 @@ public class SubstanceSpecification extends DomainResource {
          * dot.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getMolecularFormulaByMoiety() {
             return molecularFormulaByMoiety;
@@ -2038,7 +2038,7 @@ public class SubstanceSpecification extends DomainResource {
          * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Isotope}.
+         *     An unmodifiable list containing immutable objects of type {@link Isotope} that may be empty.
          */
         public List<Isotope> getIsotope() {
             return isotope;
@@ -2048,7 +2048,7 @@ public class SubstanceSpecification extends DomainResource {
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
          * 
          * @return
-         *     An immutable object of type {@link SubstanceSpecification.Structure.Isotope.MolecularWeight}.
+         *     An immutable object of type {@link SubstanceSpecification.Structure.Isotope.MolecularWeight} that may be null.
          */
         public SubstanceSpecification.Structure.Isotope.MolecularWeight getMolecularWeight() {
             return molecularWeight;
@@ -2058,7 +2058,7 @@ public class SubstanceSpecification extends DomainResource {
          * Supporting literature.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;
@@ -2068,7 +2068,7 @@ public class SubstanceSpecification extends DomainResource {
          * Molecular structural representation.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Representation}.
+         *     An unmodifiable list containing immutable objects of type {@link Representation} that may be empty.
          */
         public List<Representation> getRepresentation() {
             return representation;
@@ -2511,7 +2511,7 @@ public class SubstanceSpecification extends DomainResource {
              * Substance identifier for each non-natural or radioisotope.
              * 
              * @return
-             *     An immutable object of type {@link Identifier}.
+             *     An immutable object of type {@link Identifier} that may be null.
              */
             public Identifier getIdentifier() {
                 return identifier;
@@ -2521,7 +2521,7 @@ public class SubstanceSpecification extends DomainResource {
              * Substance name for each non-natural or radioisotope.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getName() {
                 return name;
@@ -2531,7 +2531,7 @@ public class SubstanceSpecification extends DomainResource {
              * The type of isotopic substitution present in a single substance.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getSubstitution() {
                 return substitution;
@@ -2541,7 +2541,7 @@ public class SubstanceSpecification extends DomainResource {
              * Half life - for a non-natural nuclide.
              * 
              * @return
-             *     An immutable object of type {@link Quantity}.
+             *     An immutable object of type {@link Quantity} that may be null.
              */
             public Quantity getHalfLife() {
                 return halfLife;
@@ -2551,7 +2551,7 @@ public class SubstanceSpecification extends DomainResource {
              * The molecular weight or weight range (for proteins, polymers or nucleic acids).
              * 
              * @return
-             *     An immutable object of type {@link MolecularWeight}.
+             *     An immutable object of type {@link MolecularWeight} that may be null.
              */
             public MolecularWeight getMolecularWeight() {
                 return molecularWeight;
@@ -2866,7 +2866,7 @@ public class SubstanceSpecification extends DomainResource {
                  * The method by which the molecular weight was determined.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getMethod() {
                     return method;
@@ -2876,7 +2876,7 @@ public class SubstanceSpecification extends DomainResource {
                  * Type of molecular weight such as exact, average (also known as. number average), weight average.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getType() {
                     return type;
@@ -2887,7 +2887,7 @@ public class SubstanceSpecification extends DomainResource {
                  * the average. If only a single definite value for a given element is given, it would be captured in this field.
                  * 
                  * @return
-                 *     An immutable object of type {@link Quantity}.
+                 *     An immutable object of type {@link Quantity} that may be null.
                  */
                 public Quantity getAmount() {
                     return amount;
@@ -3166,7 +3166,7 @@ public class SubstanceSpecification extends DomainResource {
              * The type of structure (e.g. Full, Partial, Representative).
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getType() {
                 return type;
@@ -3176,7 +3176,7 @@ public class SubstanceSpecification extends DomainResource {
              * The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getRepresentation() {
                 return representation;
@@ -3186,7 +3186,7 @@ public class SubstanceSpecification extends DomainResource {
              * An attached file with the structural representation.
              * 
              * @return
-             *     An immutable object of type {@link Attachment}.
+             *     An immutable object of type {@link Attachment} that may be null.
              */
             public Attachment getAttachment() {
                 return attachment;
@@ -3469,7 +3469,7 @@ public class SubstanceSpecification extends DomainResource {
          * The specific code.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -3479,7 +3479,7 @@ public class SubstanceSpecification extends DomainResource {
          * Status of the code assignment.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStatus() {
             return status;
@@ -3489,7 +3489,7 @@ public class SubstanceSpecification extends DomainResource {
          * The date at which the code status is changed as part of the terminology maintenance.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getStatusDate() {
             return statusDate;
@@ -3499,7 +3499,7 @@ public class SubstanceSpecification extends DomainResource {
          * Any comment can be provided in this field, if necessary.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getComment() {
             return comment;
@@ -3509,7 +3509,7 @@ public class SubstanceSpecification extends DomainResource {
          * Supporting literature.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;
@@ -3870,7 +3870,7 @@ public class SubstanceSpecification extends DomainResource {
          * The actual name.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getName() {
             return name;
@@ -3880,7 +3880,7 @@ public class SubstanceSpecification extends DomainResource {
          * Name type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getType() {
             return type;
@@ -3890,7 +3890,7 @@ public class SubstanceSpecification extends DomainResource {
          * The status of the name.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStatus() {
             return status;
@@ -3900,7 +3900,7 @@ public class SubstanceSpecification extends DomainResource {
          * If this is the preferred name for this substance.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getPreferred() {
             return preferred;
@@ -3910,7 +3910,7 @@ public class SubstanceSpecification extends DomainResource {
          * Language of the name.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getLanguage() {
             return language;
@@ -3921,7 +3921,7 @@ public class SubstanceSpecification extends DomainResource {
          * colour additive.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getDomain() {
             return domain;
@@ -3931,7 +3931,7 @@ public class SubstanceSpecification extends DomainResource {
          * The jurisdiction where this name applies.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getJurisdiction() {
             return jurisdiction;
@@ -3941,7 +3941,7 @@ public class SubstanceSpecification extends DomainResource {
          * A synonym of this name.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Name}.
+         *     An unmodifiable list containing immutable objects of type {@link Name} that may be empty.
          */
         public List<SubstanceSpecification.Name> getSynonym() {
             return synonym;
@@ -3951,7 +3951,7 @@ public class SubstanceSpecification extends DomainResource {
          * A translation for this name.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Name}.
+         *     An unmodifiable list containing immutable objects of type {@link Name} that may be empty.
          */
         public List<SubstanceSpecification.Name> getTranslation() {
             return translation;
@@ -3961,7 +3961,7 @@ public class SubstanceSpecification extends DomainResource {
          * Details of the official nature of this name.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Official}.
+         *     An unmodifiable list containing immutable objects of type {@link Official} that may be empty.
          */
         public List<Official> getOfficial() {
             return official;
@@ -3971,7 +3971,7 @@ public class SubstanceSpecification extends DomainResource {
          * Supporting literature.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;
@@ -4557,7 +4557,7 @@ public class SubstanceSpecification extends DomainResource {
              * Which authority uses this official name.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getAuthority() {
                 return authority;
@@ -4567,7 +4567,7 @@ public class SubstanceSpecification extends DomainResource {
              * The status of the official name.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getStatus() {
                 return status;
@@ -4577,7 +4577,7 @@ public class SubstanceSpecification extends DomainResource {
              * Date of official name change.
              * 
              * @return
-             *     An immutable object of type {@link DateTime}.
+             *     An immutable object of type {@link DateTime} that may be null.
              */
             public DateTime getDate() {
                 return date;
@@ -4868,7 +4868,7 @@ public class SubstanceSpecification extends DomainResource {
          * A pointer to another substance, as a resource or just a representational code.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getSubstance() {
             return substance;
@@ -4878,7 +4878,7 @@ public class SubstanceSpecification extends DomainResource {
          * For example "salt to parent", "active moiety", "starting material".
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRelationship() {
             return relationship;
@@ -4889,7 +4889,7 @@ public class SubstanceSpecification extends DomainResource {
          * enzyme, out of several possible substance relationships.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getIsDefining() {
             return isDefining;
@@ -4900,7 +4900,7 @@ public class SubstanceSpecification extends DomainResource {
          * active substance in relation to some other.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -4910,7 +4910,7 @@ public class SubstanceSpecification extends DomainResource {
          * For use when the numeric.
          * 
          * @return
-         *     An immutable object of type {@link Ratio}.
+         *     An immutable object of type {@link Ratio} that may be null.
          */
         public Ratio getAmountRatioLowLimit() {
             return amountRatioLowLimit;
@@ -4920,7 +4920,7 @@ public class SubstanceSpecification extends DomainResource {
          * An operator for the amount, for example "average", "approximately", "less than".
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getAmountType() {
             return amountType;
@@ -4930,7 +4930,7 @@ public class SubstanceSpecification extends DomainResource {
          * Supporting literature.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSource() {
             return source;

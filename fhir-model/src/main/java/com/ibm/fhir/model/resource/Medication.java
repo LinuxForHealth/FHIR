@@ -97,7 +97,7 @@ public class Medication extends DomainResource {
      * Business identifier for this medication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -109,7 +109,7 @@ public class Medication extends DomainResource {
      * or local formulary code, optionally with translations to other code systems.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -119,7 +119,7 @@ public class Medication extends DomainResource {
      * A code to indicate if the medication is in active use.
      * 
      * @return
-     *     An immutable object of type {@link MedicationStatus}.
+     *     An immutable object of type {@link MedicationStatus} that may be null.
      */
     public MedicationStatus getStatus() {
         return status;
@@ -130,7 +130,7 @@ public class Medication extends DomainResource {
      * of a medication product.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManufacturer() {
         return manufacturer;
@@ -140,7 +140,7 @@ public class Medication extends DomainResource {
      * Describes the form of the item. Powder; tablets; capsule.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getForm() {
         return form;
@@ -152,7 +152,7 @@ public class Medication extends DomainResource {
      * clarification of the package amount (For example, 3 mL, 10mL, etc.).
      * 
      * @return
-     *     An immutable object of type {@link Ratio}.
+     *     An immutable object of type {@link Ratio} that may be null.
      */
     public Ratio getAmount() {
         return amount;
@@ -162,7 +162,7 @@ public class Medication extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Ingredient}.
+     *     An unmodifiable list containing immutable objects of type {@link Ingredient} that may be empty.
      */
     public List<Ingredient> getIngredient() {
         return ingredient;
@@ -172,7 +172,7 @@ public class Medication extends DomainResource {
      * Information that only applies to packages (not products).
      * 
      * @return
-     *     An immutable object of type {@link Batch}.
+     *     An immutable object of type {@link Batch} that may be null.
      */
     public Batch getBatch() {
         return batch;
@@ -706,7 +706,7 @@ public class Medication extends DomainResource {
          * The actual ingredient - either a substance (simple ingredient) or another medication of a medication.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getItem() {
             return item;
@@ -716,7 +716,7 @@ public class Medication extends DomainResource {
          * Indication of whether this ingredient affects the therapeutic action of the drug.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getIsActive() {
             return isActive;
@@ -727,7 +727,7 @@ public class Medication extends DomainResource {
          * expressed as a ratio where the numerator is 250mg and the denominator is 1 tablet.
          * 
          * @return
-         *     An immutable object of type {@link Ratio}.
+         *     An immutable object of type {@link Ratio} that may be null.
          */
         public Ratio getStrength() {
             return strength;
@@ -1012,7 +1012,7 @@ public class Medication extends DomainResource {
          * The assigned lot number of a batch of the specified product.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getLotNumber() {
             return lotNumber;
@@ -1022,7 +1022,7 @@ public class Medication extends DomainResource {
          * When this specific batch of product will expire.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getExpirationDate() {
             return expirationDate;

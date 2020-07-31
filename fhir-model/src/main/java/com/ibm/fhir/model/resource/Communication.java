@@ -166,7 +166,7 @@ public class Communication extends DomainResource {
      * resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -177,7 +177,7 @@ public class Communication extends DomainResource {
      * part by this Communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -188,7 +188,7 @@ public class Communication extends DomainResource {
      * whole or in part by this Communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -198,7 +198,7 @@ public class Communication extends DomainResource {
      * An order, proposal or plan fulfilled in whole or in part by this Communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -208,7 +208,7 @@ public class Communication extends DomainResource {
      * Part of this action.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -218,7 +218,7 @@ public class Communication extends DomainResource {
      * Prior communication that this communication is in response to.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInResponseTo() {
         return inResponseTo;
@@ -228,7 +228,7 @@ public class Communication extends DomainResource {
      * The status of the transmission.
      * 
      * @return
-     *     An immutable object of type {@link CommunicationStatus}.
+     *     An immutable object of type {@link CommunicationStatus} that is non-null.
      */
     public CommunicationStatus getStatus() {
         return status;
@@ -238,7 +238,7 @@ public class Communication extends DomainResource {
      * Captures the reason for the current state of the Communication.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -248,7 +248,7 @@ public class Communication extends DomainResource {
      * The type of message conveyed such as alert, notification, reminder, instruction, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -259,7 +259,7 @@ public class Communication extends DomainResource {
      * urgent, routine.
      * 
      * @return
-     *     An immutable object of type {@link CommunicationPriority}.
+     *     An immutable object of type {@link CommunicationPriority} that may be null.
      */
     public CommunicationPriority getPriority() {
         return priority;
@@ -269,7 +269,7 @@ public class Communication extends DomainResource {
      * A channel that was used for this communication (e.g. email, fax).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getMedium() {
         return medium;
@@ -279,7 +279,7 @@ public class Communication extends DomainResource {
      * The patient or group that was the focus of this communication.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -289,7 +289,7 @@ public class Communication extends DomainResource {
      * Description of the purpose/content, similar to a subject line in an email.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getTopic() {
         return topic;
@@ -299,7 +299,7 @@ public class Communication extends DomainResource {
      * Other resources that pertain to this communication and to which this communication should be associated.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAbout() {
         return about;
@@ -310,7 +310,7 @@ public class Communication extends DomainResource {
      * associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -320,7 +320,7 @@ public class Communication extends DomainResource {
      * The time when this communication was sent.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getSent() {
         return sent;
@@ -330,7 +330,7 @@ public class Communication extends DomainResource {
      * The time when this communication arrived at the destination.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getReceived() {
         return received;
@@ -343,7 +343,7 @@ public class Communication extends DomainResource {
      * mail-out) or a receipt is captured in aggregate (all emails confirmed received by a particular time).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRecipient() {
         return recipient;
@@ -354,7 +354,7 @@ public class Communication extends DomainResource {
      * communication.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSender() {
         return sender;
@@ -364,7 +364,7 @@ public class Communication extends DomainResource {
      * The reason or justification for the communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -374,7 +374,7 @@ public class Communication extends DomainResource {
      * Indicates another resource whose existence justifies this communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -384,7 +384,7 @@ public class Communication extends DomainResource {
      * Text, attachment(s), or resource(s) that was communicated to the recipient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Payload}.
+     *     An unmodifiable list containing immutable objects of type {@link Payload} that may be empty.
      */
     public List<Payload> getPayload() {
         return payload;
@@ -394,7 +394,7 @@ public class Communication extends DomainResource {
      * Additional notes or commentary about the communication by the sender, receiver or other interested parties.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1498,7 +1498,7 @@ public class Communication extends DomainResource {
          * A communicated content (or for multi-part communications, one portion of the communication).
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getContent() {
             return content;

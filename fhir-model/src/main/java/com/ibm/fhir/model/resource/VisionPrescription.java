@@ -97,7 +97,7 @@ public class VisionPrescription extends DomainResource {
      * A unique identifier assigned to this vision prescription.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -107,7 +107,7 @@ public class VisionPrescription extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link VisionStatus}.
+     *     An immutable object of type {@link VisionStatus} that is non-null.
      */
     public VisionStatus getStatus() {
         return status;
@@ -117,7 +117,7 @@ public class VisionPrescription extends DomainResource {
      * The date this resource was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getCreated() {
         return created;
@@ -127,7 +127,7 @@ public class VisionPrescription extends DomainResource {
      * A resource reference to the person to whom the vision prescription applies.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -138,7 +138,7 @@ public class VisionPrescription extends DomainResource {
      * provider during which the prescription was issued.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -148,7 +148,7 @@ public class VisionPrescription extends DomainResource {
      * The date (and perhaps time) when the prescription was written.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getDateWritten() {
         return dateWritten;
@@ -158,7 +158,7 @@ public class VisionPrescription extends DomainResource {
      * The healthcare professional responsible for authorizing the prescription.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPrescriber() {
         return prescriber;
@@ -169,7 +169,7 @@ public class VisionPrescription extends DomainResource {
      * certified professionals.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link LensSpecification}.
+     *     An unmodifiable list containing immutable objects of type {@link LensSpecification} that is non-empty.
      */
     public List<LensSpecification> getLensSpecification() {
         return lensSpecification;
@@ -773,7 +773,7 @@ public class VisionPrescription extends DomainResource {
          * Identifies the type of vision correction product which is required for the patient.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getProduct() {
             return product;
@@ -783,7 +783,7 @@ public class VisionPrescription extends DomainResource {
          * The eye for which the lens specification applies.
          * 
          * @return
-         *     An immutable object of type {@link VisionEyes}.
+         *     An immutable object of type {@link VisionEyes} that is non-null.
          */
         public VisionEyes getEye() {
             return eye;
@@ -793,7 +793,7 @@ public class VisionPrescription extends DomainResource {
          * Lens power measured in dioptres (0.25 units).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getSphere() {
             return sphere;
@@ -803,7 +803,7 @@ public class VisionPrescription extends DomainResource {
          * Power adjustment for astigmatism measured in dioptres (0.25 units).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getCylinder() {
             return cylinder;
@@ -813,7 +813,7 @@ public class VisionPrescription extends DomainResource {
          * Adjustment for astigmatism measured in integer degrees.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getAxis() {
             return axis;
@@ -823,7 +823,7 @@ public class VisionPrescription extends DomainResource {
          * Allows for adjustment on two axis.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Prism}.
+         *     An unmodifiable list containing immutable objects of type {@link Prism} that may be empty.
          */
         public List<Prism> getPrism() {
             return prism;
@@ -833,7 +833,7 @@ public class VisionPrescription extends DomainResource {
          * Power adjustment for multifocal lenses measured in dioptres (0.25 units).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getAdd() {
             return add;
@@ -843,7 +843,7 @@ public class VisionPrescription extends DomainResource {
          * Contact lens power measured in dioptres (0.25 units).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getPower() {
             return power;
@@ -853,7 +853,7 @@ public class VisionPrescription extends DomainResource {
          * Back curvature measured in millimetres.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getBackCurve() {
             return backCurve;
@@ -863,7 +863,7 @@ public class VisionPrescription extends DomainResource {
          * Contact lens diameter measured in millimetres.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getDiameter() {
             return diameter;
@@ -873,7 +873,7 @@ public class VisionPrescription extends DomainResource {
          * The recommended maximum wear period for the lens.
          * 
          * @return
-         *     An immutable object of type {@link SimpleQuantity}.
+         *     An immutable object of type {@link SimpleQuantity} that may be null.
          */
         public SimpleQuantity getDuration() {
             return duration;
@@ -883,7 +883,7 @@ public class VisionPrescription extends DomainResource {
          * Special color or pattern.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getColor() {
             return color;
@@ -893,7 +893,7 @@ public class VisionPrescription extends DomainResource {
          * Brand recommendations or restrictions.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getBrand() {
             return brand;
@@ -903,7 +903,7 @@ public class VisionPrescription extends DomainResource {
          * Notes for special requirements such as coatings and lens materials.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
          */
         public List<Annotation> getNote() {
             return note;
@@ -1451,7 +1451,7 @@ public class VisionPrescription extends DomainResource {
              * Amount of prism to compensate for eye alignment in fractional units.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that is non-null.
              */
             public Decimal getAmount() {
                 return amount;
@@ -1461,7 +1461,7 @@ public class VisionPrescription extends DomainResource {
              * The relative base, or reference lens edge, for the prism.
              * 
              * @return
-             *     An immutable object of type {@link VisionBase}.
+             *     An immutable object of type {@link VisionBase} that is non-null.
              */
             public VisionBase getBase() {
                 return base;

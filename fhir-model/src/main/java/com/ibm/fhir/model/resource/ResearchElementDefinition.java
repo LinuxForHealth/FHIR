@@ -203,7 +203,7 @@ public class ResearchElementDefinition extends DomainResource {
      * definition is stored on different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -214,7 +214,7 @@ public class ResearchElementDefinition extends DomainResource {
      * or referenced in a specification, model, design or an instance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -230,7 +230,7 @@ public class ResearchElementDefinition extends DomainResource {
      * version is required for non-experimental active artifacts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -241,7 +241,7 @@ public class ResearchElementDefinition extends DomainResource {
      * the module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -251,7 +251,7 @@ public class ResearchElementDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the research element definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -262,7 +262,7 @@ public class ResearchElementDefinition extends DomainResource {
      * not necessary.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getShortTitle() {
         return shortTitle;
@@ -272,7 +272,7 @@ public class ResearchElementDefinition extends DomainResource {
      * An explanatory or alternate title for the ResearchElementDefinition giving additional information about its content.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getSubtitle() {
         return subtitle;
@@ -282,7 +282,7 @@ public class ResearchElementDefinition extends DomainResource {
      * The status of this research element definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -293,7 +293,7 @@ public class ResearchElementDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -304,7 +304,7 @@ public class ResearchElementDefinition extends DomainResource {
      * assumed, but the subject of the ResearchElementDefinition can be anything.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -316,7 +316,7 @@ public class ResearchElementDefinition extends DomainResource {
      * substantive content of the research element definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -326,7 +326,7 @@ public class ResearchElementDefinition extends DomainResource {
      * The name of the organization or individual that published the research element definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -336,7 +336,7 @@ public class ResearchElementDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -346,7 +346,7 @@ public class ResearchElementDefinition extends DomainResource {
      * A free text natural language description of the research element definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -356,7 +356,7 @@ public class ResearchElementDefinition extends DomainResource {
      * A human-readable string to clarify or explain concepts about the resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getComment() {
         return comment;
@@ -368,7 +368,7 @@ public class ResearchElementDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate research element definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -378,7 +378,7 @@ public class ResearchElementDefinition extends DomainResource {
      * A legal or geographic region in which the research element definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -388,7 +388,7 @@ public class ResearchElementDefinition extends DomainResource {
      * Explanation of why this research element definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -398,7 +398,7 @@ public class ResearchElementDefinition extends DomainResource {
      * A detailed description, from a clinical perspective, of how the ResearchElementDefinition is used.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getUsage() {
         return usage;
@@ -409,7 +409,7 @@ public class ResearchElementDefinition extends DomainResource {
      * generally legal restrictions on the use and publishing of the research element definition.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getCopyright() {
         return copyright;
@@ -420,7 +420,7 @@ public class ResearchElementDefinition extends DomainResource {
      * officially approved for usage.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getApprovalDate() {
         return approvalDate;
@@ -431,7 +431,7 @@ public class ResearchElementDefinition extends DomainResource {
      * change the original approval date.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getLastReviewDate() {
         return lastReviewDate;
@@ -441,7 +441,7 @@ public class ResearchElementDefinition extends DomainResource {
      * The period during which the research element definition content was or is planned to be in active use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getEffectivePeriod() {
         return effectivePeriod;
@@ -452,7 +452,7 @@ public class ResearchElementDefinition extends DomainResource {
      * grouping types of ResearchElementDefinitions that can be useful for filtering and searching.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getTopic() {
         return topic;
@@ -462,7 +462,7 @@ public class ResearchElementDefinition extends DomainResource {
      * An individiual or organization primarily involved in the creation and maintenance of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getAuthor() {
         return author;
@@ -472,7 +472,7 @@ public class ResearchElementDefinition extends DomainResource {
      * An individual or organization primarily responsible for internal coherence of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEditor() {
         return editor;
@@ -482,7 +482,7 @@ public class ResearchElementDefinition extends DomainResource {
      * An individual or organization primarily responsible for review of some aspect of the content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getReviewer() {
         return reviewer;
@@ -492,7 +492,7 @@ public class ResearchElementDefinition extends DomainResource {
      * An individual or organization responsible for officially endorsing the content for use in some setting.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getEndorser() {
         return endorser;
@@ -502,7 +502,7 @@ public class ResearchElementDefinition extends DomainResource {
      * Related artifacts such as additional documentation, justification, or bibliographic references.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
+     *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact} that may be empty.
      */
     public List<RelatedArtifact> getRelatedArtifact() {
         return relatedArtifact;
@@ -512,7 +512,7 @@ public class ResearchElementDefinition extends DomainResource {
      * A reference to a Library resource containing the formal logic used by the ResearchElementDefinition.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getLibrary() {
         return library;
@@ -522,7 +522,7 @@ public class ResearchElementDefinition extends DomainResource {
      * The type of research element, a population, an exposure, or an outcome.
      * 
      * @return
-     *     An immutable object of type {@link ResearchElementType}.
+     *     An immutable object of type {@link ResearchElementType} that is non-null.
      */
     public ResearchElementType getType() {
         return type;
@@ -532,7 +532,7 @@ public class ResearchElementDefinition extends DomainResource {
      * The type of the outcome (e.g. Dichotomous, Continuous, or Descriptive).
      * 
      * @return
-     *     An immutable object of type {@link VariableType}.
+     *     An immutable object of type {@link VariableType} that may be null.
      */
     public VariableType getVariableType() {
         return variableType;
@@ -543,7 +543,7 @@ public class ResearchElementDefinition extends DomainResource {
      * semantics.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Characteristic}.
+     *     An unmodifiable list containing immutable objects of type {@link Characteristic} that is non-empty.
      */
     public List<Characteristic> getCharacteristic() {
         return characteristic;
@@ -1879,7 +1879,7 @@ public class ResearchElementDefinition extends DomainResource {
          * last year).
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getDefinition() {
             return definition;
@@ -1889,7 +1889,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Use UsageContext to define the members of the population, such as Age Ranges, Genders, Settings.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+         *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
          */
         public List<UsageContext> getUsageContext() {
             return usageContext;
@@ -1899,7 +1899,7 @@ public class ResearchElementDefinition extends DomainResource {
          * When true, members with this characteristic are excluded from the element.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getExclude() {
             return exclude;
@@ -1909,7 +1909,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Specifies the UCUM unit for the outcome.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getUnitOfMeasure() {
             return unitOfMeasure;
@@ -1919,7 +1919,7 @@ public class ResearchElementDefinition extends DomainResource {
          * A narrative description of the time period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getStudyEffectiveDescription() {
             return studyEffectiveDescription;
@@ -1929,7 +1929,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates what effective period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getStudyEffective() {
             return studyEffective;
@@ -1939,7 +1939,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates duration from the study initiation.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getStudyEffectiveTimeFromStart() {
             return studyEffectiveTimeFromStart;
@@ -1949,7 +1949,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates how elements are aggregated within the study effective period.
          * 
          * @return
-         *     An immutable object of type {@link GroupMeasure}.
+         *     An immutable object of type {@link GroupMeasure} that may be null.
          */
         public GroupMeasure getStudyEffectiveGroupMeasure() {
             return studyEffectiveGroupMeasure;
@@ -1959,7 +1959,7 @@ public class ResearchElementDefinition extends DomainResource {
          * A narrative description of the time period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getParticipantEffectiveDescription() {
             return participantEffectiveDescription;
@@ -1969,7 +1969,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates what effective period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getParticipantEffective() {
             return participantEffective;
@@ -1979,7 +1979,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates duration from the participant's study entry.
          * 
          * @return
-         *     An immutable object of type {@link Duration}.
+         *     An immutable object of type {@link Duration} that may be null.
          */
         public Duration getParticipantEffectiveTimeFromStart() {
             return participantEffectiveTimeFromStart;
@@ -1989,7 +1989,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates how elements are aggregated within the study effective period.
          * 
          * @return
-         *     An immutable object of type {@link GroupMeasure}.
+         *     An immutable object of type {@link GroupMeasure} that may be null.
          */
         public GroupMeasure getParticipantEffectiveGroupMeasure() {
             return participantEffectiveGroupMeasure;

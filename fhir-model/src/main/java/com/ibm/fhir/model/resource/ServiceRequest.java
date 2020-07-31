@@ -243,7 +243,7 @@ public class ServiceRequest extends DomainResource {
      * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -254,7 +254,7 @@ public class ServiceRequest extends DomainResource {
      * part by this ServiceRequest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -265,7 +265,7 @@ public class ServiceRequest extends DomainResource {
      * whole or in part by this ServiceRequest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -275,7 +275,7 @@ public class ServiceRequest extends DomainResource {
      * Plan/proposal/order fulfilled by this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -285,7 +285,7 @@ public class ServiceRequest extends DomainResource {
      * The request takes the place of the referenced completed or terminated request(s).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -296,7 +296,7 @@ public class ServiceRequest extends DomainResource {
      * author, representing the composite or group identifier.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getRequisition() {
         return requisition;
@@ -306,7 +306,7 @@ public class ServiceRequest extends DomainResource {
      * The status of the order.
      * 
      * @return
-     *     An immutable object of type {@link ServiceRequestStatus}.
+     *     An immutable object of type {@link ServiceRequestStatus} that is non-null.
      */
     public ServiceRequestStatus getStatus() {
         return status;
@@ -316,7 +316,7 @@ public class ServiceRequest extends DomainResource {
      * Whether the request is a proposal, plan, an original order or a reflex order.
      * 
      * @return
-     *     An immutable object of type {@link ServiceRequestIntent}.
+     *     An immutable object of type {@link ServiceRequestIntent} that is non-null.
      */
     public ServiceRequestIntent getIntent() {
         return intent;
@@ -326,7 +326,7 @@ public class ServiceRequest extends DomainResource {
      * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -336,7 +336,7 @@ public class ServiceRequest extends DomainResource {
      * Indicates how quickly the ServiceRequest should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link ServiceRequestPriority}.
+     *     An immutable object of type {@link ServiceRequestPriority} that may be null.
      */
     public ServiceRequestPriority getPriority() {
         return priority;
@@ -346,7 +346,7 @@ public class ServiceRequest extends DomainResource {
      * Set this to true if the record is saying that the service/procedure should NOT be performed.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getDoNotPerform() {
         return doNotPerform;
@@ -357,7 +357,7 @@ public class ServiceRequest extends DomainResource {
      * that have been requested.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -369,7 +369,7 @@ public class ServiceRequest extends DomainResource {
      * require additional instructions specifying how the bandage should be applied.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getOrderDetail() {
         return orderDetail;
@@ -380,7 +380,7 @@ public class ServiceRequest extends DomainResource {
      * example, 20 half day visits per month), or a range (2.0 to 1.8 Gy per fraction).
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getQuantity() {
         return quantity;
@@ -391,7 +391,7 @@ public class ServiceRequest extends DomainResource {
      * groups of humans or animals, devices such as dialysis machines, or even locations (typically for environmental scans).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -401,7 +401,7 @@ public class ServiceRequest extends DomainResource {
      * An encounter that provides additional information about the healthcare context in which this request is made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -411,7 +411,7 @@ public class ServiceRequest extends DomainResource {
      * The date/time at which the requested service should occur.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -422,7 +422,7 @@ public class ServiceRequest extends DomainResource {
      * flare-up", etc.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getAsNeeded() {
         return asNeeded;
@@ -432,7 +432,7 @@ public class ServiceRequest extends DomainResource {
      * When the request transitioned to being actionable.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -442,7 +442,7 @@ public class ServiceRequest extends DomainResource {
      * The individual who initiated the request and has responsibility for its activation.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequester() {
         return requester;
@@ -452,7 +452,7 @@ public class ServiceRequest extends DomainResource {
      * Desired type of performer for doing the requested service.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPerformerType() {
         return performerType;
@@ -462,7 +462,7 @@ public class ServiceRequest extends DomainResource {
      * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPerformer() {
         return performer;
@@ -473,7 +473,7 @@ public class ServiceRequest extends DomainResource {
      * nursing day care center.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getLocationCode() {
         return locationCode;
@@ -484,7 +484,7 @@ public class ServiceRequest extends DomainResource {
      * care center.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getLocationReference() {
         return locationReference;
@@ -495,7 +495,7 @@ public class ServiceRequest extends DomainResource {
      * billing purposes. May relate to the resources referred to in `supportingInfo`.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -506,7 +506,7 @@ public class ServiceRequest extends DomainResource {
      * resources referred to in `supportingInfo`.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -517,7 +517,7 @@ public class ServiceRequest extends DomainResource {
      * the requested service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInsurance() {
         return insurance;
@@ -531,7 +531,7 @@ public class ServiceRequest extends DomainResource {
      * example, reporting the amount of inspired oxygen for blood gas measurements.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -541,7 +541,7 @@ public class ServiceRequest extends DomainResource {
      * One or more specimens that the laboratory procedure will use.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSpecimen() {
         return specimen;
@@ -551,7 +551,7 @@ public class ServiceRequest extends DomainResource {
      * Anatomic location where the procedure should be performed. This is the target site.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getBodySite() {
         return bodySite;
@@ -561,7 +561,7 @@ public class ServiceRequest extends DomainResource {
      * Any other notes and comments made about the service request. For example, internal billing notes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -571,7 +571,7 @@ public class ServiceRequest extends DomainResource {
      * Instructions in terms that are understood by the patient or consumer.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPatientInstruction() {
         return patientInstruction;
@@ -581,7 +581,7 @@ public class ServiceRequest extends DomainResource {
      * Key events in the history of the request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;

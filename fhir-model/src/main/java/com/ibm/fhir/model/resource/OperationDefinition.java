@@ -195,7 +195,7 @@ public class OperationDefinition extends DomainResource {
      * different servers.
      * 
      * @return
-     *     An immutable object of type {@link Uri}.
+     *     An immutable object of type {@link Uri} that may be null.
      */
     public Uri getUrl() {
         return url;
@@ -208,7 +208,7 @@ public class OperationDefinition extends DomainResource {
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getVersion() {
         return version;
@@ -219,7 +219,7 @@ public class OperationDefinition extends DomainResource {
      * module by machine processing applications such as code generation.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that is non-null.
      */
     public String getName() {
         return name;
@@ -229,7 +229,7 @@ public class OperationDefinition extends DomainResource {
      * A short, descriptive, user-friendly title for the operation definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getTitle() {
         return title;
@@ -239,7 +239,7 @@ public class OperationDefinition extends DomainResource {
      * The status of this operation definition. Enables tracking the life-cycle of the content.
      * 
      * @return
-     *     An immutable object of type {@link PublicationStatus}.
+     *     An immutable object of type {@link PublicationStatus} that is non-null.
      */
     public PublicationStatus getStatus() {
         return status;
@@ -249,7 +249,7 @@ public class OperationDefinition extends DomainResource {
      * Whether this is an operation or a named query.
      * 
      * @return
-     *     An immutable object of type {@link OperationKind}.
+     *     An immutable object of type {@link OperationKind} that is non-null.
      */
     public OperationKind getKind() {
         return kind;
@@ -260,7 +260,7 @@ public class OperationDefinition extends DomainResource {
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getExperimental() {
         return experimental;
@@ -272,7 +272,7 @@ public class OperationDefinition extends DomainResource {
      * content of the operation definition changes.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -282,7 +282,7 @@ public class OperationDefinition extends DomainResource {
      * The name of the organization or individual that published the operation definition.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPublisher() {
         return publisher;
@@ -292,7 +292,7 @@ public class OperationDefinition extends DomainResource {
      * Contact details to assist a user in finding and communicating with the publisher.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactDetail} that may be empty.
      */
     public List<ContactDetail> getContact() {
         return contact;
@@ -302,7 +302,7 @@ public class OperationDefinition extends DomainResource {
      * A free text natural language description of the operation definition from a consumer's perspective.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getDescription() {
         return description;
@@ -314,7 +314,7 @@ public class OperationDefinition extends DomainResource {
      * may be used to assist with indexing and searching for appropriate operation definition instances.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
+     *     An unmodifiable list containing immutable objects of type {@link UsageContext} that may be empty.
      */
     public List<UsageContext> getUseContext() {
         return useContext;
@@ -324,7 +324,7 @@ public class OperationDefinition extends DomainResource {
      * A legal or geographic region in which the operation definition is intended to be used.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
@@ -334,7 +334,7 @@ public class OperationDefinition extends DomainResource {
      * Explanation of why this operation definition is needed and why it has been designed as it has.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPurpose() {
         return purpose;
@@ -345,7 +345,7 @@ public class OperationDefinition extends DomainResource {
      * state'.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getAffectsState() {
         return affectsState;
@@ -355,7 +355,7 @@ public class OperationDefinition extends DomainResource {
      * The name used to invoke the operation.
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that is non-null.
      */
     public Code getCode() {
         return code;
@@ -365,7 +365,7 @@ public class OperationDefinition extends DomainResource {
      * Additional information about how to use this operation or named query.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getComment() {
         return comment;
@@ -375,7 +375,7 @@ public class OperationDefinition extends DomainResource {
      * Indicates that this operation definition is a constraining profile on the base.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getBase() {
         return base;
@@ -385,7 +385,7 @@ public class OperationDefinition extends DomainResource {
      * The types on which this operation can be executed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
      */
     public List<ResourceType> getResource() {
         return resource;
@@ -396,7 +396,7 @@ public class OperationDefinition extends DomainResource {
      * resource type for the context).
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getSystem() {
         return system;
@@ -407,7 +407,7 @@ public class OperationDefinition extends DomainResource {
      * level (e.g. without needing to choose a specific resource id for the context).
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getType() {
         return type;
@@ -417,7 +417,7 @@ public class OperationDefinition extends DomainResource {
      * Indicates whether this operation can be invoked on a particular instance of one of the given types.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that is non-null.
      */
     public Boolean getInstance() {
         return instance;
@@ -428,7 +428,7 @@ public class OperationDefinition extends DomainResource {
      * is a constraint on the parameters resource as a whole.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getInputProfile() {
         return inputProfile;
@@ -439,7 +439,7 @@ public class OperationDefinition extends DomainResource {
      * profile is a constraint on the parameters resource.
      * 
      * @return
-     *     An immutable object of type {@link Canonical}.
+     *     An immutable object of type {@link Canonical} that may be null.
      */
     public Canonical getOutputProfile() {
         return outputProfile;
@@ -449,7 +449,7 @@ public class OperationDefinition extends DomainResource {
      * The parameters for the operation/query.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+     *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
      */
     public List<Parameter> getParameter() {
         return parameter;
@@ -460,7 +460,7 @@ public class OperationDefinition extends DomainResource {
      * generating overloaded parameter sets for this operation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Overload}.
+     *     An unmodifiable list containing immutable objects of type {@link Overload} that may be empty.
      */
     public List<Overload> getOverload() {
         return overload;
@@ -1507,7 +1507,7 @@ public class OperationDefinition extends DomainResource {
          * The name of used to identify the parameter.
          * 
          * @return
-         *     An immutable object of type {@link Code}.
+         *     An immutable object of type {@link Code} that is non-null.
          */
         public Code getName() {
             return name;
@@ -1517,7 +1517,7 @@ public class OperationDefinition extends DomainResource {
          * Whether this is an input or an output parameter.
          * 
          * @return
-         *     An immutable object of type {@link OperationParameterUse}.
+         *     An immutable object of type {@link OperationParameterUse} that is non-null.
          */
         public OperationParameterUse getUse() {
             return use;
@@ -1527,7 +1527,7 @@ public class OperationDefinition extends DomainResource {
          * The minimum number of times this parameter SHALL appear in the request or response.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that is non-null.
          */
         public Integer getMin() {
             return min;
@@ -1537,7 +1537,7 @@ public class OperationDefinition extends DomainResource {
          * The maximum number of times this element is permitted to appear in the request or response.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that is non-null.
          */
         public String getMax() {
             return max;
@@ -1547,7 +1547,7 @@ public class OperationDefinition extends DomainResource {
          * Describes the meaning or use of this parameter.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDocumentation() {
             return documentation;
@@ -1557,7 +1557,7 @@ public class OperationDefinition extends DomainResource {
          * The type for this parameter.
          * 
          * @return
-         *     An immutable object of type {@link FHIRAllTypes}.
+         *     An immutable object of type {@link FHIRAllTypes} that may be null.
          */
         public FHIRAllTypes getType() {
             return type;
@@ -1571,7 +1571,7 @@ public class OperationDefinition extends DomainResource {
          * the target resource SHALL conform to at least one profile defined in the implementation guide.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+         *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
          */
         public List<Canonical> getTargetProfile() {
             return targetProfile;
@@ -1581,7 +1581,7 @@ public class OperationDefinition extends DomainResource {
          * How the parameter is understood as a search parameter. This is only used if the parameter type is 'string'.
          * 
          * @return
-         *     An immutable object of type {@link SearchParamType}.
+         *     An immutable object of type {@link SearchParamType} that may be null.
          */
         public SearchParamType getSearchType() {
             return searchType;
@@ -1591,7 +1591,7 @@ public class OperationDefinition extends DomainResource {
          * Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
          * 
          * @return
-         *     An immutable object of type {@link Binding}.
+         *     An immutable object of type {@link Binding} that may be null.
          */
         public Binding getBinding() {
             return binding;
@@ -1601,7 +1601,7 @@ public class OperationDefinition extends DomainResource {
          * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ReferencedFrom}.
+         *     An unmodifiable list containing immutable objects of type {@link ReferencedFrom} that may be empty.
          */
         public List<ReferencedFrom> getReferencedFrom() {
             return referencedFrom;
@@ -1611,7 +1611,7 @@ public class OperationDefinition extends DomainResource {
          * The parts of a nested Parameter.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+         *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
          */
         public List<OperationDefinition.Parameter> getPart() {
             return part;
@@ -2134,7 +2134,7 @@ public class OperationDefinition extends DomainResource {
              * provided value set must be adhered to in the instances.
              * 
              * @return
-             *     An immutable object of type {@link BindingStrength}.
+             *     An immutable object of type {@link BindingStrength} that is non-null.
              */
             public BindingStrength getStrength() {
                 return strength;
@@ -2144,7 +2144,7 @@ public class OperationDefinition extends DomainResource {
              * Points to the value set or external definition (e.g. implicit value set) that identifies the set of codes to be used.
              * 
              * @return
-             *     An immutable object of type {@link Canonical}.
+             *     An immutable object of type {@link Canonical} that is non-null.
              */
             public Canonical getValueSet() {
                 return valueSet;
@@ -2408,7 +2408,7 @@ public class OperationDefinition extends DomainResource {
              * to contain a reference to this resource.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that is non-null.
              */
             public String getSource() {
                 return source;
@@ -2418,7 +2418,7 @@ public class OperationDefinition extends DomainResource {
              * The id of the element in the referencing resource that is expected to resolve to this resource.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getSourceId() {
                 return sourceId;
@@ -2679,7 +2679,7 @@ public class OperationDefinition extends DomainResource {
          * Name of parameter to include in overload.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link String}.
+         *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
          */
         public List<String> getParameterName() {
             return parameterName;
@@ -2689,7 +2689,7 @@ public class OperationDefinition extends DomainResource {
          * Comments to go on overload.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getComment() {
             return comment;

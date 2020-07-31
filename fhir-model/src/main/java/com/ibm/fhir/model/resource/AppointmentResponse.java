@@ -98,7 +98,7 @@ public class AppointmentResponse extends DomainResource {
      * or used to refer to it when a direct URL reference to the resource itself is not appropriate.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -108,7 +108,7 @@ public class AppointmentResponse extends DomainResource {
      * Appointment that this response is replying to.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getAppointment() {
         return appointment;
@@ -118,7 +118,7 @@ public class AppointmentResponse extends DomainResource {
      * Date/Time that the appointment is to take place, or requested new start time.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getStart() {
         return start;
@@ -129,7 +129,7 @@ public class AppointmentResponse extends DomainResource {
      * time to request a re-negotiation of the end time.
      * 
      * @return
-     *     An immutable object of type {@link Instant}.
+     *     An immutable object of type {@link Instant} that may be null.
      */
     public Instant getEnd() {
         return end;
@@ -139,7 +139,7 @@ public class AppointmentResponse extends DomainResource {
      * Role of participant in the appointment.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getParticipantType() {
         return participantType;
@@ -149,7 +149,7 @@ public class AppointmentResponse extends DomainResource {
      * A Person, Location, HealthcareService, or Device that is participating in the appointment.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getActor() {
         return actor;
@@ -161,7 +161,7 @@ public class AppointmentResponse extends DomainResource {
      * the times can either be the time of the appointment (as a confirmation of the time) or can be empty.
      * 
      * @return
-     *     An immutable object of type {@link ParticipantStatus}.
+     *     An immutable object of type {@link ParticipantStatus} that is non-null.
      */
     public ParticipantStatus getParticipantStatus() {
         return participantStatus;
@@ -171,7 +171,7 @@ public class AppointmentResponse extends DomainResource {
      * Additional comments about the appointment.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getComment() {
         return comment;

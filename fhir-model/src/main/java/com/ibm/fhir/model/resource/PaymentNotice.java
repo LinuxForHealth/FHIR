@@ -106,7 +106,7 @@ public class PaymentNotice extends DomainResource {
      * A unique identifier assigned to this payment notice.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -116,7 +116,7 @@ public class PaymentNotice extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link PaymentNoticeStatus}.
+     *     An immutable object of type {@link PaymentNoticeStatus} that is non-null.
      */
     public PaymentNoticeStatus getStatus() {
         return status;
@@ -126,7 +126,7 @@ public class PaymentNotice extends DomainResource {
      * Reference of resource for which payment is being made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequest() {
         return request;
@@ -136,7 +136,7 @@ public class PaymentNotice extends DomainResource {
      * Reference of response to resource for which payment is being made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getResponse() {
         return response;
@@ -146,7 +146,7 @@ public class PaymentNotice extends DomainResource {
      * The date when this resource was created.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that is non-null.
      */
     public DateTime getCreated() {
         return created;
@@ -156,7 +156,7 @@ public class PaymentNotice extends DomainResource {
      * The practitioner who is responsible for the services rendered to the patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getProvider() {
         return provider;
@@ -166,7 +166,7 @@ public class PaymentNotice extends DomainResource {
      * A reference to the payment which is the subject of this notice.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPayment() {
         return payment;
@@ -176,7 +176,7 @@ public class PaymentNotice extends DomainResource {
      * The date when the above payment action occurred.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getPaymentDate() {
         return paymentDate;
@@ -186,7 +186,7 @@ public class PaymentNotice extends DomainResource {
      * The party who will receive or has received payment that is the subject of this notification.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPayee() {
         return payee;
@@ -196,7 +196,7 @@ public class PaymentNotice extends DomainResource {
      * The party who is notified of the payment status.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getRecipient() {
         return recipient;
@@ -206,7 +206,7 @@ public class PaymentNotice extends DomainResource {
      * The amount sent to the payee.
      * 
      * @return
-     *     An immutable object of type {@link Money}.
+     *     An immutable object of type {@link Money} that is non-null.
      */
     public Money getAmount() {
         return amount;
@@ -216,7 +216,7 @@ public class PaymentNotice extends DomainResource {
      * A code indicating whether payment has been sent or cleared.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPaymentStatus() {
         return paymentStatus;

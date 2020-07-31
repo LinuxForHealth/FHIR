@@ -99,7 +99,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * CDA documents, or in written / printed documentation).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -109,7 +109,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * Broad category of this product.
      * 
      * @return
-     *     An immutable object of type {@link BiologicallyDerivedProductCategory}.
+     *     An immutable object of type {@link BiologicallyDerivedProductCategory} that may be null.
      */
     public BiologicallyDerivedProductCategory getProductCategory() {
         return productCategory;
@@ -119,7 +119,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * A code that identifies the kind of this biologically derived product (SNOMED Ctcode).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getProductCode() {
         return productCode;
@@ -129,7 +129,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * Whether the product is currently available.
      * 
      * @return
-     *     An immutable object of type {@link BiologicallyDerivedProductStatus}.
+     *     An immutable object of type {@link BiologicallyDerivedProductStatus} that may be null.
      */
     public BiologicallyDerivedProductStatus getStatus() {
         return status;
@@ -139,7 +139,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * Procedure request to obtain this biologically derived product.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRequest() {
         return request;
@@ -149,7 +149,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * Number of discrete units within this product.
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that may be null.
      */
     public Integer getQuantity() {
         return quantity;
@@ -159,7 +159,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * Parent product (if any).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getParent() {
         return parent;
@@ -169,7 +169,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * How this product was collected.
      * 
      * @return
-     *     An immutable object of type {@link Collection}.
+     *     An immutable object of type {@link Collection} that may be null.
      */
     public Collection getCollection() {
         return collection;
@@ -180,7 +180,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * example adding anti-coagulants during the collection of Peripheral Blood Stem Cells.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Processing}.
+     *     An unmodifiable list containing immutable objects of type {@link Processing} that may be empty.
      */
     public List<Processing> getProcessing() {
         return processing;
@@ -191,7 +191,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * or CD8 reduction of Peripheral Blood Stem Cells to make it more suitable for infusion.
      * 
      * @return
-     *     An immutable object of type {@link Manipulation}.
+     *     An immutable object of type {@link Manipulation} that may be null.
      */
     public Manipulation getManipulation() {
         return manipulation;
@@ -201,7 +201,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * Product storage.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Storage}.
+     *     An unmodifiable list containing immutable objects of type {@link Storage} that may be empty.
      */
     public List<Storage> getStorage() {
         return storage;
@@ -855,7 +855,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Healthcare professional who is performing the collection.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getCollector() {
             return collector;
@@ -866,7 +866,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * providing the product.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getSource() {
             return source;
@@ -876,7 +876,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Time of product collection.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getCollected() {
             return collected;
@@ -1180,7 +1180,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Description of of processing.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1190,7 +1190,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Procesing code.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getProcedure() {
             return procedure;
@@ -1200,7 +1200,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Substance added during processing.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getAdditive() {
             return additive;
@@ -1210,7 +1210,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Time of processing.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTime() {
             return time;
@@ -1514,7 +1514,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Description of manipulation.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1524,7 +1524,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Time of manipulation.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getTime() {
             return time;
@@ -1791,7 +1791,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Description of storage.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1801,7 +1801,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Storage temperature.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getTemperature() {
             return temperature;
@@ -1811,7 +1811,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Temperature scale used.
          * 
          * @return
-         *     An immutable object of type {@link BiologicallyDerivedProductStorageScale}.
+         *     An immutable object of type {@link BiologicallyDerivedProductStorageScale} that may be null.
          */
         public BiologicallyDerivedProductStorageScale getScale() {
             return scale;
@@ -1821,7 +1821,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Storage timeperiod.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getDuration() {
             return duration;

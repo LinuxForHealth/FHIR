@@ -68,7 +68,7 @@ public class Linkage extends DomainResource {
      * Indicates whether the asserted set of linkages are considered to be "in effect".
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -79,7 +79,7 @@ public class Linkage extends DomainResource {
      * establishes the context in which the nature of each linkage is evaluated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAuthor() {
         return author;
@@ -90,7 +90,7 @@ public class Linkage extends DomainResource {
      * be evaluated within the collection of linked items.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Item}.
+     *     An unmodifiable list containing immutable objects of type {@link Item} that is non-empty.
      */
     public List<Item> getItem() {
         return item;
@@ -521,7 +521,7 @@ public class Linkage extends DomainResource {
          * representations.
          * 
          * @return
-         *     An immutable object of type {@link LinkageType}.
+         *     An immutable object of type {@link LinkageType} that is non-null.
          */
         public LinkageType getType() {
             return type;
@@ -531,7 +531,7 @@ public class Linkage extends DomainResource {
          * The resource instance being linked as part of the group.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getResource() {
             return resource;

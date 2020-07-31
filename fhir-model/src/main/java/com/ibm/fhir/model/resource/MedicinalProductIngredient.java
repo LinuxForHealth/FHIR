@@ -68,7 +68,7 @@ public class MedicinalProductIngredient extends DomainResource {
      * URL reference to the resource itself is not appropriate.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -78,7 +78,7 @@ public class MedicinalProductIngredient extends DomainResource {
      * Ingredient role e.g. Active ingredient, excipient.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getRole() {
         return role;
@@ -88,7 +88,7 @@ public class MedicinalProductIngredient extends DomainResource {
      * If the ingredient is a known or suspected allergen.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getAllergenicIndicator() {
         return allergenicIndicator;
@@ -98,7 +98,7 @@ public class MedicinalProductIngredient extends DomainResource {
      * Manufacturer of this Ingredient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getManufacturer() {
         return manufacturer;
@@ -108,7 +108,7 @@ public class MedicinalProductIngredient extends DomainResource {
      * A specified substance that comprises this ingredient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link SpecifiedSubstance}.
+     *     An unmodifiable list containing immutable objects of type {@link SpecifiedSubstance} that may be empty.
      */
     public List<SpecifiedSubstance> getSpecifiedSubstance() {
         return specifiedSubstance;
@@ -118,7 +118,7 @@ public class MedicinalProductIngredient extends DomainResource {
      * The ingredient substance.
      * 
      * @return
-     *     An immutable object of type {@link Substance}.
+     *     An immutable object of type {@link Substance} that may be null.
      */
     public Substance getSubstance() {
         return substance;
@@ -616,7 +616,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * The specified substance.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -626,7 +626,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * The group of specified substance, e.g. group 1 to 4.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getGroup() {
             return group;
@@ -636,7 +636,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * Confidentiality level of the specified substance as the ingredient.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getConfidentiality() {
             return confidentiality;
@@ -646,7 +646,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Strength}.
+         *     An unmodifiable list containing immutable objects of type {@link Strength} that may be empty.
          */
         public List<Strength> getStrength() {
             return strength;
@@ -985,7 +985,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * or manufactured item.
              * 
              * @return
-             *     An immutable object of type {@link Ratio}.
+             *     An immutable object of type {@link Ratio} that is non-null.
              */
             public Ratio getPresentation() {
                 return presentation;
@@ -996,7 +996,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * this is the lower limit, with the presentation attribute becoming the upper limit.
              * 
              * @return
-             *     An immutable object of type {@link Ratio}.
+             *     An immutable object of type {@link Ratio} that may be null.
              */
             public Ratio getPresentationLowLimit() {
                 return presentationLowLimit;
@@ -1006,7 +1006,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * The strength per unitary volume (or mass).
              * 
              * @return
-             *     An immutable object of type {@link Ratio}.
+             *     An immutable object of type {@link Ratio} that may be null.
              */
             public Ratio getConcentration() {
                 return concentration;
@@ -1017,7 +1017,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * then becomes the upper limit.
              * 
              * @return
-             *     An immutable object of type {@link Ratio}.
+             *     An immutable object of type {@link Ratio} that may be null.
              */
             public Ratio getConcentrationLowLimit() {
                 return concentrationLowLimit;
@@ -1027,7 +1027,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * For when strength is measured at a particular point or distance.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getMeasurementPoint() {
                 return measurementPoint;
@@ -1037,7 +1037,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * The country or countries for which the strength range applies.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+             *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
              */
             public List<CodeableConcept> getCountry() {
                 return country;
@@ -1047,7 +1047,7 @@ public class MedicinalProductIngredient extends DomainResource {
              * Strength expressed in terms of a reference substance.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link ReferenceStrength}.
+             *     An unmodifiable list containing immutable objects of type {@link ReferenceStrength} that may be empty.
              */
             public List<ReferenceStrength> getReferenceStrength() {
                 return referenceStrength;
@@ -1462,7 +1462,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * Relevant reference substance.
                  * 
                  * @return
-                 *     An immutable object of type {@link CodeableConcept}.
+                 *     An immutable object of type {@link CodeableConcept} that may be null.
                  */
                 public CodeableConcept getSubstance() {
                     return substance;
@@ -1472,7 +1472,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * Strength expressed in terms of a reference substance.
                  * 
                  * @return
-                 *     An immutable object of type {@link Ratio}.
+                 *     An immutable object of type {@link Ratio} that is non-null.
                  */
                 public Ratio getStrength() {
                     return strength;
@@ -1482,7 +1482,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * Strength expressed in terms of a reference substance.
                  * 
                  * @return
-                 *     An immutable object of type {@link Ratio}.
+                 *     An immutable object of type {@link Ratio} that may be null.
                  */
                 public Ratio getStrengthLowLimit() {
                     return strengthLowLimit;
@@ -1492,7 +1492,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * For when strength is measured at a particular point or distance.
                  * 
                  * @return
-                 *     An immutable object of type {@link String}.
+                 *     An immutable object of type {@link String} that may be null.
                  */
                 public String getMeasurementPoint() {
                     return measurementPoint;
@@ -1502,7 +1502,7 @@ public class MedicinalProductIngredient extends DomainResource {
                  * The country or countries for which the strength range applies.
                  * 
                  * @return
-                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+                 *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
                  */
                 public List<CodeableConcept> getCountry() {
                     return country;
@@ -1845,7 +1845,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * The ingredient substance.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1855,7 +1855,7 @@ public class MedicinalProductIngredient extends DomainResource {
          * Quantity of the substance or specified substance present in the manufactured item or pharmaceutical product.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Strength}.
+         *     An unmodifiable list containing immutable objects of type {@link Strength} that may be empty.
          */
         public List<MedicinalProductIngredient.SpecifiedSubstance.Strength> getStrength() {
             return strength;

@@ -204,7 +204,7 @@ public class Immunization extends DomainResource {
      * A unique identifier assigned to this immunization record.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -214,7 +214,7 @@ public class Immunization extends DomainResource {
      * Indicates the current status of the immunization event.
      * 
      * @return
-     *     An immutable object of type {@link ImmunizationStatus}.
+     *     An immutable object of type {@link ImmunizationStatus} that is non-null.
      */
     public ImmunizationStatus getStatus() {
         return status;
@@ -224,7 +224,7 @@ public class Immunization extends DomainResource {
      * Indicates the reason the immunization event was not performed.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -234,7 +234,7 @@ public class Immunization extends DomainResource {
      * Vaccine that was administered or was to be administered.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getVaccineCode() {
         return vaccineCode;
@@ -244,7 +244,7 @@ public class Immunization extends DomainResource {
      * The patient who either received or did not receive the immunization.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -255,7 +255,7 @@ public class Immunization extends DomainResource {
      * part of.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -265,7 +265,7 @@ public class Immunization extends DomainResource {
      * Date vaccine administered or was to be administered.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -276,7 +276,7 @@ public class Immunization extends DomainResource {
      * occurrence of the event.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRecorded() {
         return recorded;
@@ -287,7 +287,7 @@ public class Immunization extends DomainResource {
      * This reflects the context under which the data was originally recorded.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getPrimarySource() {
         return primarySource;
@@ -298,7 +298,7 @@ public class Immunization extends DomainResource {
      * administered the vaccine.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getReportOrigin() {
         return reportOrigin;
@@ -308,7 +308,7 @@ public class Immunization extends DomainResource {
      * The service delivery location where the vaccine administration occurred.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -318,7 +318,7 @@ public class Immunization extends DomainResource {
      * Name of vaccine manufacturer.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getManufacturer() {
         return manufacturer;
@@ -328,7 +328,7 @@ public class Immunization extends DomainResource {
      * Lot number of the vaccine product.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getLotNumber() {
         return lotNumber;
@@ -338,7 +338,7 @@ public class Immunization extends DomainResource {
      * Date vaccine batch expires.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getExpirationDate() {
         return expirationDate;
@@ -348,7 +348,7 @@ public class Immunization extends DomainResource {
      * Body site where vaccine was administered.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getSite() {
         return site;
@@ -358,7 +358,7 @@ public class Immunization extends DomainResource {
      * The path by which the vaccine product is taken into the body.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getRoute() {
         return route;
@@ -368,7 +368,7 @@ public class Immunization extends DomainResource {
      * The quantity of vaccine product that was administered.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getDoseQuantity() {
         return doseQuantity;
@@ -378,7 +378,7 @@ public class Immunization extends DomainResource {
      * Indicates who performed the immunization event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Performer}.
+     *     An unmodifiable list containing immutable objects of type {@link Performer} that may be empty.
      */
     public List<Performer> getPerformer() {
         return performer;
@@ -388,7 +388,7 @@ public class Immunization extends DomainResource {
      * Extra information about the immunization that is not conveyed by the other attributes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -398,7 +398,7 @@ public class Immunization extends DomainResource {
      * Reasons why the vaccine was administered.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -408,7 +408,7 @@ public class Immunization extends DomainResource {
      * Condition, Observation or DiagnosticReport that supports why the immunization was administered.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -418,7 +418,7 @@ public class Immunization extends DomainResource {
      * Indication if a dose is considered to be subpotent. By default, a dose should be considered to be potent.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getIsSubpotent() {
         return isSubpotent;
@@ -428,7 +428,7 @@ public class Immunization extends DomainResource {
      * Reason why a dose is considered to be subpotent.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSubpotentReason() {
         return subpotentReason;
@@ -438,7 +438,7 @@ public class Immunization extends DomainResource {
      * Educational material presented to the patient (or guardian) at the time of vaccine administration.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Education}.
+     *     An unmodifiable list containing immutable objects of type {@link Education} that may be empty.
      */
     public List<Education> getEducation() {
         return education;
@@ -448,7 +448,7 @@ public class Immunization extends DomainResource {
      * Indicates a patient's eligibility for a funding program.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getProgramEligibility() {
         return programEligibility;
@@ -460,7 +460,7 @@ public class Immunization extends DomainResource {
      * private funds was actually administered).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getFundingSource() {
         return fundingSource;
@@ -470,7 +470,7 @@ public class Immunization extends DomainResource {
      * Categorical data indicating that an adverse event is associated in time to an immunization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reaction}.
+     *     An unmodifiable list containing immutable objects of type {@link Reaction} that may be empty.
      */
     public List<Reaction> getReaction() {
         return reaction;
@@ -480,7 +480,7 @@ public class Immunization extends DomainResource {
      * The protocol (set of recommendations) being followed by the provider who administered the dose.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ProtocolApplied}.
+     *     An unmodifiable list containing immutable objects of type {@link ProtocolApplied} that may be empty.
      */
     public List<ProtocolApplied> getProtocolApplied() {
         return protocolApplied;
@@ -1619,7 +1619,7 @@ public class Immunization extends DomainResource {
          * Describes the type of performance (e.g. ordering provider, administering provider, etc.).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getFunction() {
             return function;
@@ -1629,7 +1629,7 @@ public class Immunization extends DomainResource {
          * The practitioner or organization who performed the action.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getActor() {
             return actor;
@@ -1898,7 +1898,7 @@ public class Immunization extends DomainResource {
          * Identifier of the material presented to the patient.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDocumentType() {
             return documentType;
@@ -1908,7 +1908,7 @@ public class Immunization extends DomainResource {
          * Reference pointer to the educational material given to the patient if the information was on line.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getReference() {
             return reference;
@@ -1918,7 +1918,7 @@ public class Immunization extends DomainResource {
          * Date the educational material was published.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getPublicationDate() {
             return publicationDate;
@@ -1928,7 +1928,7 @@ public class Immunization extends DomainResource {
          * Date the educational material was given to the patient.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getPresentationDate() {
             return presentationDate;
@@ -2223,7 +2223,7 @@ public class Immunization extends DomainResource {
          * Date of reaction to the immunization.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getDate() {
             return date;
@@ -2233,7 +2233,7 @@ public class Immunization extends DomainResource {
          * Details of the reaction.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getDetail() {
             return detail;
@@ -2243,7 +2243,7 @@ public class Immunization extends DomainResource {
          * Self-reported indicator.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getReported() {
             return reported;
@@ -2536,7 +2536,7 @@ public class Immunization extends DomainResource {
          * One possible path to achieve presumed immunity against a disease - within the context of an authority.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getSeries() {
             return series;
@@ -2546,7 +2546,7 @@ public class Immunization extends DomainResource {
          * Indicates the authority who published the protocol (e.g. ACIP) that is being followed.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getAuthority() {
             return authority;
@@ -2556,7 +2556,7 @@ public class Immunization extends DomainResource {
          * The vaccine preventable disease the dose is being administered against.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getTargetDisease() {
             return targetDisease;
@@ -2566,7 +2566,7 @@ public class Immunization extends DomainResource {
          * Nominal position in a series.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getDoseNumber() {
             return doseNumber;
@@ -2576,7 +2576,7 @@ public class Immunization extends DomainResource {
          * The recommended number of doses to achieve immunity.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getSeriesDoses() {
             return seriesDoses;

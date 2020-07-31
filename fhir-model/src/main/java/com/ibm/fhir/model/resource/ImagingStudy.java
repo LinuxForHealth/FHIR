@@ -154,7 +154,7 @@ public class ImagingStudy extends DomainResource {
      * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -164,7 +164,7 @@ public class ImagingStudy extends DomainResource {
      * The current state of the ImagingStudy.
      * 
      * @return
-     *     An immutable object of type {@link ImagingStudyStatus}.
+     *     An immutable object of type {@link ImagingStudyStatus} that is non-null.
      */
     public ImagingStudyStatus getStatus() {
         return status;
@@ -175,7 +175,7 @@ public class ImagingStudy extends DomainResource {
      * 29 (value set OID 1.2.840.10008.6.1.19).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Coding}.
+     *     An unmodifiable list containing immutable objects of type {@link Coding} that may be empty.
      */
     public List<Coding> getModality() {
         return modality;
@@ -185,7 +185,7 @@ public class ImagingStudy extends DomainResource {
      * The subject, typically a patient, of the imaging study.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -195,7 +195,7 @@ public class ImagingStudy extends DomainResource {
      * The healthcare event (e.g. a patient and healthcare provider interaction) during which this ImagingStudy is made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -205,7 +205,7 @@ public class ImagingStudy extends DomainResource {
      * Date and time the study started.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getStarted() {
         return started;
@@ -215,7 +215,7 @@ public class ImagingStudy extends DomainResource {
      * A list of the diagnostic requests that resulted in this imaging study being performed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -225,7 +225,7 @@ public class ImagingStudy extends DomainResource {
      * The requesting/referring physician.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getReferrer() {
         return referrer;
@@ -235,7 +235,7 @@ public class ImagingStudy extends DomainResource {
      * Who read the study and interpreted the images or other content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInterpreter() {
         return interpreter;
@@ -247,7 +247,7 @@ public class ImagingStudy extends DomainResource {
      * by a series-level endpoint with the same Endpoint.connectionType.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -259,7 +259,7 @@ public class ImagingStudy extends DomainResource {
      * elements are present.
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getNumberOfSeries() {
         return numberOfSeries;
@@ -271,7 +271,7 @@ public class ImagingStudy extends DomainResource {
      * elements are present.
      * 
      * @return
-     *     An immutable object of type {@link UnsignedInt}.
+     *     An immutable object of type {@link UnsignedInt} that may be null.
      */
     public UnsignedInt getNumberOfInstances() {
         return numberOfInstances;
@@ -281,7 +281,7 @@ public class ImagingStudy extends DomainResource {
      * The procedure which this ImagingStudy was part of.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getProcedureReference() {
         return procedureReference;
@@ -291,7 +291,7 @@ public class ImagingStudy extends DomainResource {
      * The code for the performed procedure type.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getProcedureCode() {
         return procedureCode;
@@ -301,7 +301,7 @@ public class ImagingStudy extends DomainResource {
      * The principal physical location where the ImagingStudy was performed.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getLocation() {
         return location;
@@ -311,7 +311,7 @@ public class ImagingStudy extends DomainResource {
      * Description of clinical condition indicating why the ImagingStudy was requested.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -321,7 +321,7 @@ public class ImagingStudy extends DomainResource {
      * Indicates another resource whose existence justifies this Study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -333,7 +333,7 @@ public class ImagingStudy extends DomainResource {
      * this element.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -344,7 +344,7 @@ public class ImagingStudy extends DomainResource {
      * (component) performed.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDescription() {
         return description;
@@ -354,7 +354,7 @@ public class ImagingStudy extends DomainResource {
      * Each study has one or more series of images or other content.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Series}.
+     *     An unmodifiable list containing immutable objects of type {@link Series} that may be empty.
      */
     public List<Series> getSeries() {
         return series;
@@ -1378,7 +1378,7 @@ public class ImagingStudy extends DomainResource {
          * The DICOM Series Instance UID for the series.
          * 
          * @return
-         *     An immutable object of type {@link Id}.
+         *     An immutable object of type {@link Id} that is non-null.
          */
         public Id getUid() {
             return uid;
@@ -1388,7 +1388,7 @@ public class ImagingStudy extends DomainResource {
          * The numeric identifier of this series in the study.
          * 
          * @return
-         *     An immutable object of type {@link UnsignedInt}.
+         *     An immutable object of type {@link UnsignedInt} that may be null.
          */
         public UnsignedInt getNumber() {
             return number;
@@ -1398,7 +1398,7 @@ public class ImagingStudy extends DomainResource {
          * The modality of this series sequence.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that is non-null.
          */
         public Coding getModality() {
             return modality;
@@ -1408,7 +1408,7 @@ public class ImagingStudy extends DomainResource {
          * A description of the series.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1420,7 +1420,7 @@ public class ImagingStudy extends DomainResource {
          * elements are present.
          * 
          * @return
-         *     An immutable object of type {@link UnsignedInt}.
+         *     An immutable object of type {@link UnsignedInt} that may be null.
          */
         public UnsignedInt getNumberOfInstances() {
             return numberOfInstances;
@@ -1432,7 +1432,7 @@ public class ImagingStudy extends DomainResource {
          * endpoint with the same Endpoint.connectionType.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getEndpoint() {
             return endpoint;
@@ -1445,7 +1445,7 @@ public class ImagingStudy extends DomainResource {
          * laterality.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getBodySite() {
             return bodySite;
@@ -1456,7 +1456,7 @@ public class ImagingStudy extends DomainResource {
          * abdomen. If present, shall be consistent with any laterality information indicated in ImagingStudy.series.bodySite.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that may be null.
          */
         public Coding getLaterality() {
             return laterality;
@@ -1466,7 +1466,7 @@ public class ImagingStudy extends DomainResource {
          * The specimen imaged, e.g., for whole slide imaging of a biopsy.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Reference}.
+         *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
          */
         public List<Reference> getSpecimen() {
             return specimen;
@@ -1476,7 +1476,7 @@ public class ImagingStudy extends DomainResource {
          * The date and time the series was started.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getStarted() {
             return started;
@@ -1486,7 +1486,7 @@ public class ImagingStudy extends DomainResource {
          * Indicates who or what performed the series and how they were involved.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Performer}.
+         *     An unmodifiable list containing immutable objects of type {@link Performer} that may be empty.
          */
         public List<Performer> getPerformer() {
             return performer;
@@ -1496,7 +1496,7 @@ public class ImagingStudy extends DomainResource {
          * A single SOP instance within the series, e.g. an image, or presentation state.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Instance}.
+         *     An unmodifiable list containing immutable objects of type {@link Instance} that may be empty.
          */
         public List<Instance> getInstance() {
             return instance;
@@ -2057,7 +2057,7 @@ public class ImagingStudy extends DomainResource {
              * Distinguishes the type of involvement of the performer in the series.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getFunction() {
                 return function;
@@ -2067,7 +2067,7 @@ public class ImagingStudy extends DomainResource {
              * Indicates who or what performed the series.
              * 
              * @return
-             *     An immutable object of type {@link Reference}.
+             *     An immutable object of type {@link Reference} that is non-null.
              */
             public Reference getActor() {
                 return actor;
@@ -2348,7 +2348,7 @@ public class ImagingStudy extends DomainResource {
              * The DICOM SOP Instance UID for this image or other DICOM content.
              * 
              * @return
-             *     An immutable object of type {@link Id}.
+             *     An immutable object of type {@link Id} that is non-null.
              */
             public Id getUid() {
                 return uid;
@@ -2358,7 +2358,7 @@ public class ImagingStudy extends DomainResource {
              * DICOM instance type.
              * 
              * @return
-             *     An immutable object of type {@link Coding}.
+             *     An immutable object of type {@link Coding} that is non-null.
              */
             public Coding getSopClass() {
                 return sopClass;
@@ -2368,7 +2368,7 @@ public class ImagingStudy extends DomainResource {
              * The number of instance in the series.
              * 
              * @return
-             *     An immutable object of type {@link UnsignedInt}.
+             *     An immutable object of type {@link UnsignedInt} that may be null.
              */
             public UnsignedInt getNumber() {
                 return number;
@@ -2378,7 +2378,7 @@ public class ImagingStudy extends DomainResource {
              * The description of the instance.
              * 
              * @return
-             *     An immutable object of type {@link String}.
+             *     An immutable object of type {@link String} that may be null.
              */
             public String getTitle() {
                 return title;

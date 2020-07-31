@@ -45,7 +45,7 @@ public abstract class Element extends AbstractVisitable {
      * contain spaces.
      * 
      * @return
-     *     An immutable object of type {@link java.lang.String}.
+     *     An immutable object of type {@link java.lang.String} that may be null.
      */
     public java.lang.String getId() {
         return id;
@@ -58,7 +58,7 @@ public abstract class Element extends AbstractVisitable {
      * of the definition of the extension.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Extension}.
+     *     An unmodifiable list containing immutable objects of type {@link Extension} that may be empty.
      */
     public List<Extension> getExtension() {
         return extension;

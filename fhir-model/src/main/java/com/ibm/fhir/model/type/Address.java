@@ -83,7 +83,7 @@ public class Address extends Element {
      * The purpose of this address.
      * 
      * @return
-     *     An immutable object of type {@link AddressUse}.
+     *     An immutable object of type {@link AddressUse} that may be null.
      */
     public AddressUse getUse() {
         return use;
@@ -94,7 +94,7 @@ public class Address extends Element {
      * addresses). Most addresses are both.
      * 
      * @return
-     *     An immutable object of type {@link AddressType}.
+     *     An immutable object of type {@link AddressType} that may be null.
      */
     public AddressType getType() {
         return type;
@@ -105,7 +105,7 @@ public class Address extends Element {
      * well as the specific parts.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getText() {
         return text;
@@ -116,7 +116,7 @@ public class Address extends Element {
      * hints, and similar address information.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getLine() {
         return line;
@@ -126,7 +126,7 @@ public class Address extends Element {
      * The name of the city, town, suburb, village or other community or delivery center.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getCity() {
         return city;
@@ -136,7 +136,7 @@ public class Address extends Element {
      * The name of the administrative area (county).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDistrict() {
         return district;
@@ -147,7 +147,7 @@ public class Address extends Element {
      * common use (e.g. US 2 letter state codes).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getState() {
         return state;
@@ -157,7 +157,7 @@ public class Address extends Element {
      * A postal code designating a region defined by the postal service.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getPostalCode() {
         return postalCode;
@@ -167,7 +167,7 @@ public class Address extends Element {
      * Country - a nation as commonly understood or generally accepted.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getCountry() {
         return country;
@@ -177,7 +177,7 @@ public class Address extends Element {
      * Time period when address was/is in use.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;

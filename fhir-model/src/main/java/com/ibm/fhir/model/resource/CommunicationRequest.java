@@ -163,7 +163,7 @@ public class CommunicationRequest extends DomainResource {
      * the resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -173,7 +173,7 @@ public class CommunicationRequest extends DomainResource {
      * A plan or proposal that is fulfilled in whole or in part by this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -183,7 +183,7 @@ public class CommunicationRequest extends DomainResource {
      * Completed or terminated request(s) whose function is taken by this new request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReplaces() {
         return replaces;
@@ -194,7 +194,7 @@ public class CommunicationRequest extends DomainResource {
      * representing the identifier of the requisition, prescription or similar form.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getGroupIdentifier() {
         return groupIdentifier;
@@ -204,7 +204,7 @@ public class CommunicationRequest extends DomainResource {
      * The status of the proposal or order.
      * 
      * @return
-     *     An immutable object of type {@link CommunicationRequestStatus}.
+     *     An immutable object of type {@link CommunicationRequestStatus} that is non-null.
      */
     public CommunicationRequestStatus getStatus() {
         return status;
@@ -214,7 +214,7 @@ public class CommunicationRequest extends DomainResource {
      * Captures the reason for the current state of the CommunicationRequest.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getStatusReason() {
         return statusReason;
@@ -224,7 +224,7 @@ public class CommunicationRequest extends DomainResource {
      * The type of message to be sent such as alert, notification, reminder, instruction, etc.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getCategory() {
         return category;
@@ -234,7 +234,7 @@ public class CommunicationRequest extends DomainResource {
      * Characterizes how quickly the proposed act must be initiated. Includes concepts such as stat, urgent, routine.
      * 
      * @return
-     *     An immutable object of type {@link CommunicationPriority}.
+     *     An immutable object of type {@link CommunicationPriority} that may be null.
      */
     public CommunicationPriority getPriority() {
         return priority;
@@ -244,7 +244,7 @@ public class CommunicationRequest extends DomainResource {
      * If true indicates that the CommunicationRequest is asking for the specified action to *not* occur.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getDoNotPerform() {
         return doNotPerform;
@@ -254,7 +254,7 @@ public class CommunicationRequest extends DomainResource {
      * A channel that was used for this communication (e.g. email, fax).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getMedium() {
         return medium;
@@ -264,7 +264,7 @@ public class CommunicationRequest extends DomainResource {
      * The patient or group that is the focus of this communication request.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -275,7 +275,7 @@ public class CommunicationRequest extends DomainResource {
      * associated.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAbout() {
         return about;
@@ -286,7 +286,7 @@ public class CommunicationRequest extends DomainResource {
      * associated.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -296,7 +296,7 @@ public class CommunicationRequest extends DomainResource {
      * Text, attachment(s), or resource(s) to be communicated to the recipient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Payload}.
+     *     An unmodifiable list containing immutable objects of type {@link Payload} that may be empty.
      */
     public List<Payload> getPayload() {
         return payload;
@@ -306,7 +306,7 @@ public class CommunicationRequest extends DomainResource {
      * The time when this communication is to occur.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -317,7 +317,7 @@ public class CommunicationRequest extends DomainResource {
      * activation.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -327,7 +327,7 @@ public class CommunicationRequest extends DomainResource {
      * The device, individual, or organization who initiated the request and has responsibility for its activation.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequester() {
         return requester;
@@ -338,7 +338,7 @@ public class CommunicationRequest extends DomainResource {
      * target of the communication.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRecipient() {
         return recipient;
@@ -349,7 +349,7 @@ public class CommunicationRequest extends DomainResource {
      * communication.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSender() {
         return sender;
@@ -359,7 +359,7 @@ public class CommunicationRequest extends DomainResource {
      * Describes why the request is being made in coded or textual form.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -369,7 +369,7 @@ public class CommunicationRequest extends DomainResource {
      * Indicates another resource whose existence justifies this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -379,7 +379,7 @@ public class CommunicationRequest extends DomainResource {
      * Comments made about the request by the requester, sender, recipient, subject or other participants.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1414,7 +1414,7 @@ public class CommunicationRequest extends DomainResource {
          * The communicated content (or for multi-part communications, one portion of the communication).
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getContent() {
             return content;

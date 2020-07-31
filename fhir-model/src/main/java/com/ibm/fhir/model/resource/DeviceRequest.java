@@ -178,7 +178,7 @@ public class DeviceRequest extends DomainResource {
      * Identifiers assigned to this order by the orderer or by the receiver.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -189,7 +189,7 @@ public class DeviceRequest extends DomainResource {
      * part by this DeviceRequest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Canonical}.
+     *     An unmodifiable list containing immutable objects of type {@link Canonical} that may be empty.
      */
     public List<Canonical> getInstantiatesCanonical() {
         return instantiatesCanonical;
@@ -200,7 +200,7 @@ public class DeviceRequest extends DomainResource {
      * whole or in part by this DeviceRequest.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Uri}.
+     *     An unmodifiable list containing immutable objects of type {@link Uri} that may be empty.
      */
     public List<Uri> getInstantiatesUri() {
         return instantiatesUri;
@@ -210,7 +210,7 @@ public class DeviceRequest extends DomainResource {
      * Plan/proposal/order fulfilled by this request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -220,7 +220,7 @@ public class DeviceRequest extends DomainResource {
      * The request takes the place of the referenced completed or terminated request(s).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPriorRequest() {
         return priorRequest;
@@ -230,7 +230,7 @@ public class DeviceRequest extends DomainResource {
      * Composite request this is part of.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getGroupIdentifier() {
         return groupIdentifier;
@@ -240,7 +240,7 @@ public class DeviceRequest extends DomainResource {
      * The status of the request.
      * 
      * @return
-     *     An immutable object of type {@link DeviceRequestStatus}.
+     *     An immutable object of type {@link DeviceRequestStatus} that may be null.
      */
     public DeviceRequestStatus getStatus() {
         return status;
@@ -250,7 +250,7 @@ public class DeviceRequest extends DomainResource {
      * Whether the request is a proposal, plan, an original order or a reflex order.
      * 
      * @return
-     *     An immutable object of type {@link RequestIntent}.
+     *     An immutable object of type {@link RequestIntent} that is non-null.
      */
     public RequestIntent getIntent() {
         return intent;
@@ -260,7 +260,7 @@ public class DeviceRequest extends DomainResource {
      * Indicates how quickly the {{title}} should be addressed with respect to other requests.
      * 
      * @return
-     *     An immutable object of type {@link RequestPriority}.
+     *     An immutable object of type {@link RequestPriority} that may be null.
      */
     public RequestPriority getPriority() {
         return priority;
@@ -270,7 +270,7 @@ public class DeviceRequest extends DomainResource {
      * The details of the device to be used.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getCode() {
         return code;
@@ -280,7 +280,7 @@ public class DeviceRequest extends DomainResource {
      * Specific parameters for the ordered item. For example, the prism value for lenses.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Parameter}.
+     *     An unmodifiable list containing immutable objects of type {@link Parameter} that may be empty.
      */
     public List<Parameter> getParameter() {
         return parameter;
@@ -290,7 +290,7 @@ public class DeviceRequest extends DomainResource {
      * The patient who will use the device.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -300,7 +300,7 @@ public class DeviceRequest extends DomainResource {
      * An encounter that provides additional context in which this request is made.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -312,7 +312,7 @@ public class DeviceRequest extends DomainResource {
      * Oct 2013 and 1 Nov 2013".
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -322,7 +322,7 @@ public class DeviceRequest extends DomainResource {
      * When the request transitioned to being actionable.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getAuthoredOn() {
         return authoredOn;
@@ -332,7 +332,7 @@ public class DeviceRequest extends DomainResource {
      * The individual who initiated the request and has responsibility for its activation.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequester() {
         return requester;
@@ -342,7 +342,7 @@ public class DeviceRequest extends DomainResource {
      * Desired type of performer for doing the diagnostic testing.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPerformerType() {
         return performerType;
@@ -352,7 +352,7 @@ public class DeviceRequest extends DomainResource {
      * The desired performer for doing the diagnostic testing.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPerformer() {
         return performer;
@@ -362,7 +362,7 @@ public class DeviceRequest extends DomainResource {
      * Reason or justification for the use of this device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -372,7 +372,7 @@ public class DeviceRequest extends DomainResource {
      * Reason or justification for the use of this device.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -383,7 +383,7 @@ public class DeviceRequest extends DomainResource {
      * the requested service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getInsurance() {
         return insurance;
@@ -394,7 +394,7 @@ public class DeviceRequest extends DomainResource {
      * include where on the subject's body the device will be used (i.e. the target site).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getSupportingInfo() {
         return supportingInfo;
@@ -405,7 +405,7 @@ public class DeviceRequest extends DomainResource {
      * class. These may include for example a comment, an instruction, or a note associated with the statement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -415,7 +415,7 @@ public class DeviceRequest extends DomainResource {
      * Key events in the history of the request.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
@@ -1532,7 +1532,7 @@ public class DeviceRequest extends DomainResource {
          * A code or string that identifies the device detail being asserted.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getCode() {
             return code;
@@ -1542,7 +1542,7 @@ public class DeviceRequest extends DomainResource {
          * The value of the device detail.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that may be null.
          */
         public Element getValue() {
             return value;

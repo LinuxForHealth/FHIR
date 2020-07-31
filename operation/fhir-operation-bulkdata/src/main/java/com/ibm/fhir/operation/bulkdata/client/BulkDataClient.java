@@ -14,18 +14,21 @@ import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.KeyGenerator;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -57,6 +60,7 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 public class BulkDataClient {
     private static final String CLASSNAME = BulkDataClient.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     // @formatter:off
     private static final DateTimeFormatter DATE_TIME_PARSER_FORMATTER =
@@ -182,7 +186,7 @@ public class BulkDataClient {
 
         // Use AES to get a long RandomKey to use for the paths so that they cannot be guessed,
         // replacing '/' with '_' to avoid potential issues with the S3 API
-        builder.cosBucketPathPrefix(FHIRUtil.getRandomKey("AES").replaceAll("/", "_"));
+        builder.cosBucketPathPrefix(getRandomKey("AES").replaceAll("/", "_"));
 
         // Export Type - FHIR
         switch (exportType) {
@@ -616,7 +620,7 @@ public class BulkDataClient {
         builder.fhirStorageType(storageDetail);
 
         // Fetch a string generated from random 32 bytes
-        builder.cosBucketPathPrefix(FHIRUtil.getRandomKey("AES"));
+        builder.cosBucketPathPrefix(getRandomKey("AES"));
 
         String fhirTenant = FHIRRequestContext.get().getTenantId();
         builder.fhirTenant(fhirTenant);
@@ -643,5 +647,24 @@ public class BulkDataClient {
         String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
         return baseUri + "/$bulkdata-status?job="
                 + BulkDataExportUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
+    }
+
+    /**
+     * Generate a random key using the passed algorithm or, if that algorithm isn't supported, a random 32 byte value.
+     * In either case, the resulting value is encoded as a Base64 string before returning.
+     *
+     * @return a base64-encoded random key string
+     */
+    private static String getRandomKey(String algorithm) {
+        try {
+            KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
+            keyGen.init(256);
+            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+        } catch (NoSuchAlgorithmException e) {
+            log.warning("Algorithm '" + algorithm + "' is not supported; using SecureRandom instead");
+            byte[] buffer = new byte[32];
+            RANDOM.nextBytes(buffer);
+            return Base64.getEncoder().encodeToString(buffer);
+        }
     }
 }

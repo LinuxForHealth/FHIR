@@ -156,7 +156,7 @@ public class MedicationStatement extends DomainResource {
      * server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -166,7 +166,7 @@ public class MedicationStatement extends DomainResource {
      * A plan, proposal or order that is fulfilled in whole or in part by this event.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -176,7 +176,7 @@ public class MedicationStatement extends DomainResource {
      * A larger event of which this particular event is a component or step.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPartOf() {
         return partOf;
@@ -187,7 +187,7 @@ public class MedicationStatement extends DomainResource {
      * is about. Generally, this will be active or completed.
      * 
      * @return
-     *     An immutable object of type {@link MedicationStatementStatus}.
+     *     An immutable object of type {@link MedicationStatementStatus} that is non-null.
      */
     public MedicationStatementStatus getStatus() {
         return status;
@@ -197,7 +197,7 @@ public class MedicationStatement extends DomainResource {
      * Captures the reason for the current state of the MedicationStatement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getStatusReason() {
         return statusReason;
@@ -207,7 +207,7 @@ public class MedicationStatement extends DomainResource {
      * Indicates where the medication is expected to be consumed or administered.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCategory() {
         return category;
@@ -218,7 +218,7 @@ public class MedicationStatement extends DomainResource {
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -228,7 +228,7 @@ public class MedicationStatement extends DomainResource {
      * The person, animal or group who is/was taking the medication.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getSubject() {
         return subject;
@@ -238,7 +238,7 @@ public class MedicationStatement extends DomainResource {
      * The encounter or episode of care that establishes the context for this MedicationStatement.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getContext() {
         return context;
@@ -249,7 +249,7 @@ public class MedicationStatement extends DomainResource {
      * not taking, when the MedicationStatement.taken element is No).
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -259,7 +259,7 @@ public class MedicationStatement extends DomainResource {
      * The date when the medication statement was asserted by the information source.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDateAsserted() {
         return dateAsserted;
@@ -270,7 +270,7 @@ public class MedicationStatement extends DomainResource {
      * when a MedicationStatement is derived from other resources, e.g. Claim or MedicationRequest.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getInformationSource() {
         return informationSource;
@@ -281,7 +281,7 @@ public class MedicationStatement extends DomainResource {
      * is used to derive the MedicationStatement.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getDerivedFrom() {
         return derivedFrom;
@@ -291,7 +291,7 @@ public class MedicationStatement extends DomainResource {
      * A reason for why the medication is being/was taken.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -301,7 +301,7 @@ public class MedicationStatement extends DomainResource {
      * Condition or observation that supports why the medication is being/was taken.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -311,7 +311,7 @@ public class MedicationStatement extends DomainResource {
      * Provides extra information about the medication statement that is not conveyed by the other attributes.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -321,7 +321,7 @@ public class MedicationStatement extends DomainResource {
      * Indicates how the medication is/was or should be taken by the patient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Dosage}.
+     *     An unmodifiable list containing immutable objects of type {@link Dosage} that may be empty.
      */
     public List<Dosage> getDosage() {
         return dosage;

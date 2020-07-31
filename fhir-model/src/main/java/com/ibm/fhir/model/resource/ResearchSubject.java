@@ -85,7 +85,7 @@ public class ResearchSubject extends DomainResource {
      * Identifiers assigned to this research subject for a study.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -95,7 +95,7 @@ public class ResearchSubject extends DomainResource {
      * The current state of the subject.
      * 
      * @return
-     *     An immutable object of type {@link ResearchSubjectStatus}.
+     *     An immutable object of type {@link ResearchSubjectStatus} that is non-null.
      */
     public ResearchSubjectStatus getStatus() {
         return status;
@@ -105,7 +105,7 @@ public class ResearchSubject extends DomainResource {
      * The dates the subject began and ended their participation in the study.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -115,7 +115,7 @@ public class ResearchSubject extends DomainResource {
      * Reference to the study the subject is participating in.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getStudy() {
         return study;
@@ -125,7 +125,7 @@ public class ResearchSubject extends DomainResource {
      * The record of the person or animal who is involved in the study.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getIndividual() {
         return individual;
@@ -135,7 +135,7 @@ public class ResearchSubject extends DomainResource {
      * The name of the arm in the study the subject is expected to follow as part of this study.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getAssignedArm() {
         return assignedArm;
@@ -145,7 +145,7 @@ public class ResearchSubject extends DomainResource {
      * The name of the arm in the study the subject actually followed as part of this study.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getActualArm() {
         return actualArm;
@@ -155,7 +155,7 @@ public class ResearchSubject extends DomainResource {
      * A record of the patient's informed agreement to participate in the study.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getConsent() {
         return consent;

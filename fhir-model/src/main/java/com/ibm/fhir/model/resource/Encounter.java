@@ -157,7 +157,7 @@ public class Encounter extends DomainResource {
      * Identifier(s) by which this encounter is known.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -167,7 +167,7 @@ public class Encounter extends DomainResource {
      * planned | arrived | triaged | in-progress | onleave | finished | cancelled +.
      * 
      * @return
-     *     An immutable object of type {@link EncounterStatus}.
+     *     An immutable object of type {@link EncounterStatus} that is non-null.
      */
     public EncounterStatus getStatus() {
         return status;
@@ -178,7 +178,7 @@ public class Encounter extends DomainResource {
      * historical versions of the resource, or even have the server store them.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link StatusHistory}.
+     *     An unmodifiable list containing immutable objects of type {@link StatusHistory} that may be empty.
      */
     public List<StatusHistory> getStatusHistory() {
         return statusHistory;
@@ -189,7 +189,7 @@ public class Encounter extends DomainResource {
      * health or others due to local variations.
      * 
      * @return
-     *     An immutable object of type {@link Coding}.
+     *     An immutable object of type {@link Coding} that is non-null.
      */
     public Coding getClazz() {
         return clazz;
@@ -203,7 +203,7 @@ public class Encounter extends DomainResource {
      * emergency to inpatient.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ClassHistory}.
+     *     An unmodifiable list containing immutable objects of type {@link ClassHistory} that may be empty.
      */
     public List<ClassHistory> getClassHistory() {
         return classHistory;
@@ -213,7 +213,7 @@ public class Encounter extends DomainResource {
      * Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -223,7 +223,7 @@ public class Encounter extends DomainResource {
      * Broad categorization of the service that is to be provided (e.g. cardiology).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getServiceType() {
         return serviceType;
@@ -233,7 +233,7 @@ public class Encounter extends DomainResource {
      * Indicates the urgency of the encounter.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getPriority() {
         return priority;
@@ -243,7 +243,7 @@ public class Encounter extends DomainResource {
      * The patient or group present at the encounter.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -257,7 +257,7 @@ public class Encounter extends DomainResource {
      * another encounter to it (the episode of care could span years).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEpisodeOfCare() {
         return episodeOfCare;
@@ -267,7 +267,7 @@ public class Encounter extends DomainResource {
      * The request this encounter satisfies (e.g. incoming referral or procedure request).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getBasedOn() {
         return basedOn;
@@ -277,7 +277,7 @@ public class Encounter extends DomainResource {
      * The list of people responsible for providing the service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant} that may be empty.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -287,7 +287,7 @@ public class Encounter extends DomainResource {
      * The appointment that scheduled this encounter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAppointment() {
         return appointment;
@@ -297,7 +297,7 @@ public class Encounter extends DomainResource {
      * The start and end time of the encounter.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -307,7 +307,7 @@ public class Encounter extends DomainResource {
      * Quantity of time the encounter lasted. This excludes the time during leaves of absence.
      * 
      * @return
-     *     An immutable object of type {@link Duration}.
+     *     An immutable object of type {@link Duration} that may be null.
      */
     public Duration getLength() {
         return length;
@@ -318,7 +318,7 @@ public class Encounter extends DomainResource {
      * diagnosis.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getReasonCode() {
         return reasonCode;
@@ -329,7 +329,7 @@ public class Encounter extends DomainResource {
      * diagnosis.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getReasonReference() {
         return reasonReference;
@@ -339,7 +339,7 @@ public class Encounter extends DomainResource {
      * The list of diagnosis relevant to this encounter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
+     *     An unmodifiable list containing immutable objects of type {@link Diagnosis} that may be empty.
      */
     public List<Diagnosis> getDiagnosis() {
         return diagnosis;
@@ -349,7 +349,7 @@ public class Encounter extends DomainResource {
      * The set of accounts that may be used for billing for this Encounter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getAccount() {
         return account;
@@ -359,7 +359,7 @@ public class Encounter extends DomainResource {
      * Details about the admission to a healthcare service.
      * 
      * @return
-     *     An immutable object of type {@link Hospitalization}.
+     *     An immutable object of type {@link Hospitalization} that may be null.
      */
     public Hospitalization getHospitalization() {
         return hospitalization;
@@ -369,7 +369,7 @@ public class Encounter extends DomainResource {
      * List of locations where the patient has been during this encounter.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Location}.
+     *     An unmodifiable list containing immutable objects of type {@link Location} that may be empty.
      */
     public List<Location> getLocation() {
         return location;
@@ -382,7 +382,7 @@ public class Encounter extends DomainResource {
      * showing an abbreviated set of Encounters for a colonoscopy.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getServiceProvider() {
         return serviceProvider;
@@ -392,7 +392,7 @@ public class Encounter extends DomainResource {
      * Another Encounter of which this encounter is a part of (administratively or in time).
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPartOf() {
         return partOf;
@@ -1493,7 +1493,7 @@ public class Encounter extends DomainResource {
          * planned | arrived | triaged | in-progress | onleave | finished | cancelled +.
          * 
          * @return
-         *     An immutable object of type {@link EncounterStatus}.
+         *     An immutable object of type {@link EncounterStatus} that is non-null.
          */
         public EncounterStatus getStatus() {
             return status;
@@ -1503,7 +1503,7 @@ public class Encounter extends DomainResource {
          * The time that the episode was in the specified status.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that is non-null.
          */
         public Period getPeriod() {
             return period;
@@ -1776,7 +1776,7 @@ public class Encounter extends DomainResource {
          * inpatient | outpatient | ambulatory | emergency +.
          * 
          * @return
-         *     An immutable object of type {@link Coding}.
+         *     An immutable object of type {@link Coding} that is non-null.
          */
         public Coding getClazz() {
             return clazz;
@@ -1786,7 +1786,7 @@ public class Encounter extends DomainResource {
          * The time that the episode was in the specified class.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that is non-null.
          */
         public Period getPeriod() {
             return period;
@@ -2059,7 +2059,7 @@ public class Encounter extends DomainResource {
          * Role of participant in encounter.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getType() {
             return type;
@@ -2070,7 +2070,7 @@ public class Encounter extends DomainResource {
          * the overall encounter's period.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;
@@ -2080,7 +2080,7 @@ public class Encounter extends DomainResource {
          * Persons involved in the encounter other than the patient.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getIndividual() {
             return individual;
@@ -2393,7 +2393,7 @@ public class Encounter extends DomainResource {
          * detail), or a Procedure.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getCondition() {
             return condition;
@@ -2403,7 +2403,7 @@ public class Encounter extends DomainResource {
          * Role that this diagnosis has within the encounter (e.g. admission, billing, discharge …).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getUse() {
             return use;
@@ -2413,7 +2413,7 @@ public class Encounter extends DomainResource {
          * Ranking of the diagnosis (for each role type).
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getRank() {
             return rank;
@@ -2753,7 +2753,7 @@ public class Encounter extends DomainResource {
          * Pre-admission identifier.
          * 
          * @return
-         *     An immutable object of type {@link Identifier}.
+         *     An immutable object of type {@link Identifier} that may be null.
          */
         public Identifier getPreAdmissionIdentifier() {
             return preAdmissionIdentifier;
@@ -2763,7 +2763,7 @@ public class Encounter extends DomainResource {
          * The location/organization from which the patient came before admission.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getOrigin() {
             return origin;
@@ -2773,7 +2773,7 @@ public class Encounter extends DomainResource {
          * From where patient was admitted (physician referral, transfer).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getAdmitSource() {
             return admitSource;
@@ -2783,7 +2783,7 @@ public class Encounter extends DomainResource {
          * Whether this hospitalization is a readmission and why if known.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getReAdmission() {
             return reAdmission;
@@ -2793,7 +2793,7 @@ public class Encounter extends DomainResource {
          * Diet preferences reported by the patient.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getDietPreference() {
             return dietPreference;
@@ -2803,7 +2803,7 @@ public class Encounter extends DomainResource {
          * Special courtesies (VIP, board member).
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getSpecialCourtesy() {
             return specialCourtesy;
@@ -2814,7 +2814,7 @@ public class Encounter extends DomainResource {
          * equipment or other things.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
          */
         public List<CodeableConcept> getSpecialArrangement() {
             return specialArrangement;
@@ -2824,7 +2824,7 @@ public class Encounter extends DomainResource {
          * Location/organization to which the patient is discharged.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getDestination() {
             return destination;
@@ -2834,7 +2834,7 @@ public class Encounter extends DomainResource {
          * Category or kind of location after discharge.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getDischargeDisposition() {
             return dischargeDisposition;
@@ -3319,7 +3319,7 @@ public class Encounter extends DomainResource {
          * The location where the encounter takes place.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getLocation() {
             return location;
@@ -3330,7 +3330,7 @@ public class Encounter extends DomainResource {
          * no longer at the location, then the period will have an end date/time.
          * 
          * @return
-         *     An immutable object of type {@link EncounterLocationStatus}.
+         *     An immutable object of type {@link EncounterLocationStatus} that may be null.
          */
         public EncounterLocationStatus getStatus() {
             return status;
@@ -3341,7 +3341,7 @@ public class Encounter extends DomainResource {
          * messaging or query.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPhysicalType() {
             return physicalType;
@@ -3351,7 +3351,7 @@ public class Encounter extends DomainResource {
          * Time period during which the patient was present at the location.
          * 
          * @return
-         *     An immutable object of type {@link Period}.
+         *     An immutable object of type {@link Period} that may be null.
          */
         public Period getPeriod() {
             return period;

@@ -105,7 +105,7 @@ public class RelatedPerson extends DomainResource {
      * Identifier for a person within a particular scope.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -115,7 +115,7 @@ public class RelatedPerson extends DomainResource {
      * Whether this related person record is in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -125,7 +125,7 @@ public class RelatedPerson extends DomainResource {
      * The patient this person is related to.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -135,7 +135,7 @@ public class RelatedPerson extends DomainResource {
      * The nature of the relationship between a patient and the related person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getRelationship() {
         return relationship;
@@ -145,7 +145,7 @@ public class RelatedPerson extends DomainResource {
      * A name associated with the person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link HumanName}.
+     *     An unmodifiable list containing immutable objects of type {@link HumanName} that may be empty.
      */
     public List<HumanName> getName() {
         return name;
@@ -155,7 +155,7 @@ public class RelatedPerson extends DomainResource {
      * A contact detail for the person, e.g. a telephone number or an email address.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -166,7 +166,7 @@ public class RelatedPerson extends DomainResource {
      * purposes.
      * 
      * @return
-     *     An immutable object of type {@link AdministrativeGender}.
+     *     An immutable object of type {@link AdministrativeGender} that may be null.
      */
     public AdministrativeGender getGender() {
         return gender;
@@ -176,7 +176,7 @@ public class RelatedPerson extends DomainResource {
      * The date on which the related person was born.
      * 
      * @return
-     *     An immutable object of type {@link Date}.
+     *     An immutable object of type {@link Date} that may be null.
      */
     public Date getBirthDate() {
         return birthDate;
@@ -186,7 +186,7 @@ public class RelatedPerson extends DomainResource {
      * Address where the related person can be contacted or visited.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address} that may be empty.
      */
     public List<Address> getAddress() {
         return address;
@@ -196,7 +196,7 @@ public class RelatedPerson extends DomainResource {
      * Image of the person.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Attachment}.
+     *     An unmodifiable list containing immutable objects of type {@link Attachment} that may be empty.
      */
     public List<Attachment> getPhoto() {
         return photo;
@@ -207,7 +207,7 @@ public class RelatedPerson extends DomainResource {
      * is unknown.
      * 
      * @return
-     *     An immutable object of type {@link Period}.
+     *     An immutable object of type {@link Period} that may be null.
      */
     public Period getPeriod() {
         return period;
@@ -217,7 +217,7 @@ public class RelatedPerson extends DomainResource {
      * A language which may be used to communicate with about the patient's health.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Communication}.
+     *     An unmodifiable list containing immutable objects of type {@link Communication} that may be empty.
      */
     public List<Communication> getCommunication() {
         return communication;
@@ -941,7 +941,7 @@ public class RelatedPerson extends DomainResource {
          * English.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that is non-null.
          */
         public CodeableConcept getLanguage() {
             return language;
@@ -951,7 +951,7 @@ public class RelatedPerson extends DomainResource {
          * Indicates whether or not the patient prefers this language (over other languages he masters up a certain level).
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getPreferred() {
             return preferred;

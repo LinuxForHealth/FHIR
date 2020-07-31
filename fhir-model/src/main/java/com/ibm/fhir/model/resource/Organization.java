@@ -109,7 +109,7 @@ public class Organization extends DomainResource {
      * Identifier for the organization that is used to identify the organization across multiple disparate systems.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -119,7 +119,7 @@ public class Organization extends DomainResource {
      * Whether the organization's record is still in active use.
      * 
      * @return
-     *     An immutable object of type {@link Boolean}.
+     *     An immutable object of type {@link Boolean} that may be null.
      */
     public Boolean getActive() {
         return active;
@@ -129,7 +129,7 @@ public class Organization extends DomainResource {
      * The kind(s) of organization that this is.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getType() {
         return type;
@@ -139,7 +139,7 @@ public class Organization extends DomainResource {
      * A name associated with the organization.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getName() {
         return name;
@@ -149,7 +149,7 @@ public class Organization extends DomainResource {
      * A list of alternate names that the organization is known as, or was known as in the past.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link String}.
+     *     An unmodifiable list containing immutable objects of type {@link String} that may be empty.
      */
     public List<String> getAlias() {
         return alias;
@@ -159,7 +159,7 @@ public class Organization extends DomainResource {
      * A contact detail for the organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+     *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
      */
     public List<ContactPoint> getTelecom() {
         return telecom;
@@ -169,7 +169,7 @@ public class Organization extends DomainResource {
      * An address for the organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Address}.
+     *     An unmodifiable list containing immutable objects of type {@link Address} that may be empty.
      */
     public List<Address> getAddress() {
         return address;
@@ -179,7 +179,7 @@ public class Organization extends DomainResource {
      * The organization of which this organization forms a part.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPartOf() {
         return partOf;
@@ -189,7 +189,7 @@ public class Organization extends DomainResource {
      * Contact for the organization for a certain purpose.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Contact}.
+     *     An unmodifiable list containing immutable objects of type {@link Contact} that may be empty.
      */
     public List<Contact> getContact() {
         return contact;
@@ -199,7 +199,7 @@ public class Organization extends DomainResource {
      * Technical endpoints providing access to services operated for the organization.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getEndpoint() {
         return endpoint;
@@ -874,7 +874,7 @@ public class Organization extends DomainResource {
          * Indicates a purpose for which the contact can be reached.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getPurpose() {
             return purpose;
@@ -884,7 +884,7 @@ public class Organization extends DomainResource {
          * A name associated with the contact.
          * 
          * @return
-         *     An immutable object of type {@link HumanName}.
+         *     An immutable object of type {@link HumanName} that may be null.
          */
         public HumanName getName() {
             return name;
@@ -894,7 +894,7 @@ public class Organization extends DomainResource {
          * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
+         *     An unmodifiable list containing immutable objects of type {@link ContactPoint} that may be empty.
          */
         public List<ContactPoint> getTelecom() {
             return telecom;
@@ -904,7 +904,7 @@ public class Organization extends DomainResource {
          * Visiting or postal addresses for the contact.
          * 
          * @return
-         *     An immutable object of type {@link Address}.
+         *     An immutable object of type {@link Address} that may be null.
          */
         public Address getAddress() {
             return address;

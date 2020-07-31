@@ -42,7 +42,7 @@ public class Instant extends Element {
      * The actual value
      * 
      * @return
-     *     An immutable object of type {@link java.time.ZonedDateTime}.
+     *     An immutable object of type {@link java.time.ZonedDateTime} that may be null.
      */
     public ZonedDateTime getValue() {
         return value;

@@ -58,7 +58,7 @@ public class SampledData extends Element {
      * measurement series.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that is non-null.
      */
     public SimpleQuantity getOrigin() {
         return origin;
@@ -68,7 +68,7 @@ public class SampledData extends Element {
      * The length of time between sampling times, measured in milliseconds.
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that is non-null.
      */
     public Decimal getPeriod() {
         return period;
@@ -78,7 +78,7 @@ public class SampledData extends Element {
      * A correction factor that is applied to the sampled data points before they are added to the origin.
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getFactor() {
         return factor;
@@ -89,7 +89,7 @@ public class SampledData extends Element {
      * (lower than detection limit).
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getLowerLimit() {
         return lowerLimit;
@@ -100,7 +100,7 @@ public class SampledData extends Element {
      * (higher than detection limit).
      * 
      * @return
-     *     An immutable object of type {@link Decimal}.
+     *     An immutable object of type {@link Decimal} that may be null.
      */
     public Decimal getUpperLimit() {
         return upperLimit;
@@ -111,7 +111,7 @@ public class SampledData extends Element {
      * interlaced - all the sample points for a point in time will be recorded at once.
      * 
      * @return
-     *     An immutable object of type {@link PositiveInt}.
+     *     An immutable object of type {@link PositiveInt} that is non-null.
      */
     public PositiveInt getDimensions() {
         return dimensions;
@@ -122,7 +122,7 @@ public class SampledData extends Element {
      * (error), "L" (below detection limit) and "U" (above detection limit) can also be used in place of a decimal value.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getData() {
         return data;

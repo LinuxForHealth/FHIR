@@ -143,7 +143,7 @@ public class MolecularSequence extends DomainResource {
      * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -153,7 +153,7 @@ public class MolecularSequence extends DomainResource {
      * Amino Acid Sequence/ DNA Sequence / RNA Sequence.
      * 
      * @return
-     *     An immutable object of type {@link SequenceType}.
+     *     An immutable object of type {@link SequenceType} that may be null.
      */
     public SequenceType getType() {
         return type;
@@ -164,7 +164,7 @@ public class MolecularSequence extends DomainResource {
      * starting at 1 (1-based numbering, inclusive start and inclusive end).
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that is non-null.
      */
     public Integer getCoordinateSystem() {
         return coordinateSystem;
@@ -174,7 +174,7 @@ public class MolecularSequence extends DomainResource {
      * The patient whose sequencing results are described by this resource.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPatient() {
         return patient;
@@ -184,7 +184,7 @@ public class MolecularSequence extends DomainResource {
      * Specimen used for sequencing.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSpecimen() {
         return specimen;
@@ -194,7 +194,7 @@ public class MolecularSequence extends DomainResource {
      * The method for sequencing, for example, chip information.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getDevice() {
         return device;
@@ -204,7 +204,7 @@ public class MolecularSequence extends DomainResource {
      * The organization or lab that should be responsible for this result.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getPerformer() {
         return performer;
@@ -214,7 +214,7 @@ public class MolecularSequence extends DomainResource {
      * The number of copies of the sequence of interest. (RNASeq).
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that may be null.
      */
     public Quantity getQuantity() {
         return quantity;
@@ -224,7 +224,7 @@ public class MolecularSequence extends DomainResource {
      * A sequence that is used as a reference to describe variants that are present in a sequence analyzed.
      * 
      * @return
-     *     An immutable object of type {@link ReferenceSeq}.
+     *     An immutable object of type {@link ReferenceSeq} that may be null.
      */
     public ReferenceSeq getReferenceSeq() {
         return referenceSeq;
@@ -237,7 +237,7 @@ public class MolecularSequence extends DomainResource {
      * string.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Variant}.
+     *     An unmodifiable list containing immutable objects of type {@link Variant} that may be empty.
      */
     public List<Variant> getVariant() {
         return variant;
@@ -248,7 +248,7 @@ public class MolecularSequence extends DomainResource {
      * shall start from referenceSeq.windowStart and end by referenceSeq.windowEnd.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getObservedSeq() {
         return observedSeq;
@@ -259,7 +259,7 @@ public class MolecularSequence extends DomainResource {
      * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Quality}.
+     *     An unmodifiable list containing immutable objects of type {@link Quality} that may be empty.
      */
     public List<Quality> getQuality() {
         return quality;
@@ -270,7 +270,7 @@ public class MolecularSequence extends DomainResource {
      * sequence.
      * 
      * @return
-     *     An immutable object of type {@link Integer}.
+     *     An immutable object of type {@link Integer} that may be null.
      */
     public Integer getReadCoverage() {
         return readCoverage;
@@ -281,7 +281,7 @@ public class MolecularSequence extends DomainResource {
      * target's observedSeq.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Repository}.
+     *     An unmodifiable list containing immutable objects of type {@link Repository} that may be empty.
      */
     public List<Repository> getRepository() {
         return repository;
@@ -291,7 +291,7 @@ public class MolecularSequence extends DomainResource {
      * Pointer to next atomic sequence which at most contains one variant.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reference}.
+     *     An unmodifiable list containing immutable objects of type {@link Reference} that may be empty.
      */
     public List<Reference> getPointer() {
         return pointer;
@@ -301,7 +301,7 @@ public class MolecularSequence extends DomainResource {
      * Information about chromosome structure variation.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link StructureVariant}.
+     *     An unmodifiable list containing immutable objects of type {@link StructureVariant} that may be empty.
      */
     public List<StructureVariant> getStructureVariant() {
         return structureVariant;
@@ -1153,7 +1153,7 @@ public class MolecularSequence extends DomainResource {
          * org/browser/current_svn/term/SO:0000340)).
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getChromosome() {
             return chromosome;
@@ -1164,7 +1164,7 @@ public class MolecularSequence extends DomainResource {
          * a versioned release of a primary build was used.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getGenomeBuild() {
             return genomeBuild;
@@ -1175,7 +1175,7 @@ public class MolecularSequence extends DomainResource {
          * gene is the "sense" strand, and the opposite complementary strand is the "antisense" strand.
          * 
          * @return
-         *     An immutable object of type {@link OrientationType}.
+         *     An immutable object of type {@link OrientationType} that may be null.
          */
         public OrientationType getOrientation() {
             return orientation;
@@ -1187,7 +1187,7 @@ public class MolecularSequence extends DomainResource {
          * and “NP_” for amino acid sequences.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getReferenceSeqId() {
             return referenceSeqId;
@@ -1197,7 +1197,7 @@ public class MolecularSequence extends DomainResource {
          * A pointer to another MolecularSequence entity as reference sequence.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getReferenceSeqPointer() {
             return referenceSeqPointer;
@@ -1207,7 +1207,7 @@ public class MolecularSequence extends DomainResource {
          * A string like "ACGT".
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getReferenceSeqString() {
             return referenceSeqString;
@@ -1218,7 +1218,7 @@ public class MolecularSequence extends DomainResource {
          * and the Crick strand as the one whose 5'-end is on the long arm.
          * 
          * @return
-         *     An immutable object of type {@link StrandType}.
+         *     An immutable object of type {@link StrandType} that may be null.
          */
         public StrandType getStrand() {
             return strand;
@@ -1229,7 +1229,7 @@ public class MolecularSequence extends DomainResource {
          * start position is inclusive.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getWindowStart() {
             return windowStart;
@@ -1241,7 +1241,7 @@ public class MolecularSequence extends DomainResource {
          * position.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getWindowEnd() {
             return windowEnd;
@@ -1667,7 +1667,7 @@ public class MolecularSequence extends DomainResource {
          * start position is inclusive.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getStart() {
             return start;
@@ -1679,7 +1679,7 @@ public class MolecularSequence extends DomainResource {
          * position.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getEnd() {
             return end;
@@ -1692,7 +1692,7 @@ public class MolecularSequence extends DomainResource {
          * sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getObservedAllele() {
             return observedAllele;
@@ -1705,7 +1705,7 @@ public class MolecularSequence extends DomainResource {
          * sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getReferenceAllele() {
             return referenceAllele;
@@ -1718,7 +1718,7 @@ public class MolecularSequence extends DomainResource {
          * htm).
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getCigar() {
             return cigar;
@@ -1728,7 +1728,7 @@ public class MolecularSequence extends DomainResource {
          * A pointer to an Observation containing variant information.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that may be null.
          */
         public Reference getVariantPointer() {
             return variantPointer;
@@ -2137,7 +2137,7 @@ public class MolecularSequence extends DomainResource {
          * INDEL / SNP / Undefined variant.
          * 
          * @return
-         *     An immutable object of type {@link QualityType}.
+         *     An immutable object of type {@link QualityType} that is non-null.
          */
         public QualityType getType() {
             return type;
@@ -2147,7 +2147,7 @@ public class MolecularSequence extends DomainResource {
          * Gold standard sequence used for comparing against.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getStandardSequence() {
             return standardSequence;
@@ -2158,7 +2158,7 @@ public class MolecularSequence extends DomainResource {
          * inclusive.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getStart() {
             return start;
@@ -2169,7 +2169,7 @@ public class MolecularSequence extends DomainResource {
          * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getEnd() {
             return end;
@@ -2180,7 +2180,7 @@ public class MolecularSequence extends DomainResource {
          * org/browser/current_svn/term/SO:0001685)).
          * 
          * @return
-         *     An immutable object of type {@link Quantity}.
+         *     An immutable object of type {@link Quantity} that may be null.
          */
         public Quantity getScore() {
             return score;
@@ -2190,7 +2190,7 @@ public class MolecularSequence extends DomainResource {
          * Which method is used to get sequence quality.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getMethod() {
             return method;
@@ -2202,7 +2202,7 @@ public class MolecularSequence extends DomainResource {
          * an accurate genotype call for the event.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getTruthTP() {
             return truthTP;
@@ -2214,7 +2214,7 @@ public class MolecularSequence extends DomainResource {
          * an accurate genotype call for the event.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getQueryTP() {
             return queryTP;
@@ -2226,7 +2226,7 @@ public class MolecularSequence extends DomainResource {
          * the event. Sites with correct variant but incorrect genotype are counted here.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getTruthFN() {
             return truthFN;
@@ -2237,7 +2237,7 @@ public class MolecularSequence extends DomainResource {
          * that is consistent with this site. Sites with correct variant but incorrect genotype are counted here.
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getQueryFP() {
             return queryFP;
@@ -2248,7 +2248,7 @@ public class MolecularSequence extends DomainResource {
          * truth is 1/1 and the query is 0/1 or similar).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getGtFP() {
             return gtFP;
@@ -2258,7 +2258,7 @@ public class MolecularSequence extends DomainResource {
          * QUERY.TP / (QUERY.TP + QUERY.FP).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getPrecision() {
             return precision;
@@ -2268,7 +2268,7 @@ public class MolecularSequence extends DomainResource {
          * TRUTH.TP / (TRUTH.TP + TRUTH.FN).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getRecall() {
             return recall;
@@ -2278,7 +2278,7 @@ public class MolecularSequence extends DomainResource {
          * Harmonic mean of Recall and Precision, computed as: 2 * precision * recall / (precision + recall).
          * 
          * @return
-         *     An immutable object of type {@link Decimal}.
+         *     An immutable object of type {@link Decimal} that may be null.
          */
         public Decimal getFScore() {
             return fScore;
@@ -2288,7 +2288,7 @@ public class MolecularSequence extends DomainResource {
          * Receiver Operator Characteristic (ROC) Curve to give sensitivity/specificity tradeoff.
          * 
          * @return
-         *     An immutable object of type {@link Roc}.
+         *     An immutable object of type {@link Roc} that may be null.
          */
         public Roc getRoc() {
             return roc;
@@ -2833,7 +2833,7 @@ public class MolecularSequence extends DomainResource {
              * Invidual data point representing the GQ (genotype quality) score threshold.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer} that may be empty.
              */
             public List<Integer> getScore() {
                 return score;
@@ -2843,7 +2843,7 @@ public class MolecularSequence extends DomainResource {
              * The number of true positives if the GQ score threshold was set to "score" field value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer} that may be empty.
              */
             public List<Integer> getNumTP() {
                 return numTP;
@@ -2853,7 +2853,7 @@ public class MolecularSequence extends DomainResource {
              * The number of false positives if the GQ score threshold was set to "score" field value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer} that may be empty.
              */
             public List<Integer> getNumFP() {
                 return numFP;
@@ -2863,7 +2863,7 @@ public class MolecularSequence extends DomainResource {
              * The number of false negatives if the GQ score threshold was set to "score" field value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Integer}.
+             *     An unmodifiable list containing immutable objects of type {@link Integer} that may be empty.
              */
             public List<Integer> getNumFN() {
                 return numFN;
@@ -2873,7 +2873,7 @@ public class MolecularSequence extends DomainResource {
              * Calculated precision if the GQ score threshold was set to "score" field value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Decimal}.
+             *     An unmodifiable list containing immutable objects of type {@link Decimal} that may be empty.
              */
             public List<Decimal> getPrecision() {
                 return precision;
@@ -2883,7 +2883,7 @@ public class MolecularSequence extends DomainResource {
              * Calculated sensitivity if the GQ score threshold was set to "score" field value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Decimal}.
+             *     An unmodifiable list containing immutable objects of type {@link Decimal} that may be empty.
              */
             public List<Decimal> getSensitivity() {
                 return sensitivity;
@@ -2893,7 +2893,7 @@ public class MolecularSequence extends DomainResource {
              * Calculated fScore if the GQ score threshold was set to "score" field value.
              * 
              * @return
-             *     An unmodifiable list containing immutable objects of type {@link Decimal}.
+             *     An unmodifiable list containing immutable objects of type {@link Decimal} that may be empty.
              */
             public List<Decimal> getFMeasure() {
                 return fMeasure;
@@ -3407,7 +3407,7 @@ public class MolecularSequence extends DomainResource {
          * Click and see / RESTful API / Need login to see / RESTful API with authentication / Other ways to see resource.
          * 
          * @return
-         *     An immutable object of type {@link RepositoryType}.
+         *     An immutable object of type {@link RepositoryType} that is non-null.
          */
         public RepositoryType getType() {
             return type;
@@ -3417,7 +3417,7 @@ public class MolecularSequence extends DomainResource {
          * URI of an external repository which contains further details about the genetics data.
          * 
          * @return
-         *     An immutable object of type {@link Uri}.
+         *     An immutable object of type {@link Uri} that may be null.
          */
         public Uri getUrl() {
             return url;
@@ -3427,7 +3427,7 @@ public class MolecularSequence extends DomainResource {
          * URI of an external repository which contains further details about the genetics data.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getName() {
             return name;
@@ -3438,7 +3438,7 @@ public class MolecularSequence extends DomainResource {
          * about datasets in external repository.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDatasetId() {
             return datasetId;
@@ -3449,7 +3449,7 @@ public class MolecularSequence extends DomainResource {
          * about variantsets in external repository.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getVariantsetId() {
             return variantsetId;
@@ -3459,7 +3459,7 @@ public class MolecularSequence extends DomainResource {
          * Id of the read in this external repository.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getReadsetId() {
             return readsetId;
@@ -3816,7 +3816,7 @@ public class MolecularSequence extends DomainResource {
          * Information about chromosome structure variation DNA change type.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getVariantType() {
             return variantType;
@@ -3826,7 +3826,7 @@ public class MolecularSequence extends DomainResource {
          * Used to indicate if the outer and inner start-end values have the same meaning.
          * 
          * @return
-         *     An immutable object of type {@link Boolean}.
+         *     An immutable object of type {@link Boolean} that may be null.
          */
         public Boolean getExact() {
             return exact;
@@ -3836,7 +3836,7 @@ public class MolecularSequence extends DomainResource {
          * Length of the variant chromosome.
          * 
          * @return
-         *     An immutable object of type {@link Integer}.
+         *     An immutable object of type {@link Integer} that may be null.
          */
         public Integer getLength() {
             return length;
@@ -3846,7 +3846,7 @@ public class MolecularSequence extends DomainResource {
          * Structural variant outer.
          * 
          * @return
-         *     An immutable object of type {@link Outer}.
+         *     An immutable object of type {@link Outer} that may be null.
          */
         public Outer getOuter() {
             return outer;
@@ -3856,7 +3856,7 @@ public class MolecularSequence extends DomainResource {
          * Structural variant inner.
          * 
          * @return
-         *     An immutable object of type {@link Inner}.
+         *     An immutable object of type {@link Inner} that may be null.
          */
         public Inner getInner() {
             return inner;
@@ -4169,7 +4169,7 @@ public class MolecularSequence extends DomainResource {
              * inclusive.
              * 
              * @return
-             *     An immutable object of type {@link Integer}.
+             *     An immutable object of type {@link Integer} that may be null.
              */
             public Integer getStart() {
                 return start;
@@ -4180,7 +4180,7 @@ public class MolecularSequence extends DomainResource {
              * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
              * 
              * @return
-             *     An immutable object of type {@link Integer}.
+             *     An immutable object of type {@link Integer} that may be null.
              */
             public Integer getEnd() {
                 return end;
@@ -4436,7 +4436,7 @@ public class MolecularSequence extends DomainResource {
              * inclusive.
              * 
              * @return
-             *     An immutable object of type {@link Integer}.
+             *     An immutable object of type {@link Integer} that may be null.
              */
             public Integer getStart() {
                 return start;
@@ -4447,7 +4447,7 @@ public class MolecularSequence extends DomainResource {
              * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
              * 
              * @return
-             *     An immutable object of type {@link Integer}.
+             *     An immutable object of type {@link Integer} that may be null.
              */
             public Integer getEnd() {
                 return end;

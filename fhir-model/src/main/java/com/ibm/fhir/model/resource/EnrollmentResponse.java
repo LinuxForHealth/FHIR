@@ -84,7 +84,7 @@ public class EnrollmentResponse extends DomainResource {
      * The Response business identifier.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -94,7 +94,7 @@ public class EnrollmentResponse extends DomainResource {
      * The status of the resource instance.
      * 
      * @return
-     *     An immutable object of type {@link EnrollmentResponseStatus}.
+     *     An immutable object of type {@link EnrollmentResponseStatus} that may be null.
      */
     public EnrollmentResponseStatus getStatus() {
         return status;
@@ -104,7 +104,7 @@ public class EnrollmentResponse extends DomainResource {
      * Original request resource reference.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequest() {
         return request;
@@ -114,7 +114,7 @@ public class EnrollmentResponse extends DomainResource {
      * Processing status: error, complete.
      * 
      * @return
-     *     An immutable object of type {@link RemittanceOutcome}.
+     *     An immutable object of type {@link RemittanceOutcome} that may be null.
      */
     public RemittanceOutcome getOutcome() {
         return outcome;
@@ -124,7 +124,7 @@ public class EnrollmentResponse extends DomainResource {
      * A description of the status of the adjudication.
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getDisposition() {
         return disposition;
@@ -134,7 +134,7 @@ public class EnrollmentResponse extends DomainResource {
      * The date when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getCreated() {
         return created;
@@ -144,7 +144,7 @@ public class EnrollmentResponse extends DomainResource {
      * The Insurer who produced this adjudicated response.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getOrganization() {
         return organization;
@@ -154,7 +154,7 @@ public class EnrollmentResponse extends DomainResource {
      * The practitioner who is responsible for the services rendered to the patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRequestProvider() {
         return requestProvider;

@@ -166,7 +166,7 @@ public class AllergyIntolerance extends DomainResource {
      * the resource is updated and propagates from server to server.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -176,7 +176,7 @@ public class AllergyIntolerance extends DomainResource {
      * The clinical status of the allergy or intolerance.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getClinicalStatus() {
         return clinicalStatus;
@@ -187,7 +187,7 @@ public class AllergyIntolerance extends DomainResource {
      * (including pharmaceutical product).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getVerificationStatus() {
         return verificationStatus;
@@ -197,7 +197,7 @@ public class AllergyIntolerance extends DomainResource {
      * Identification of the underlying physiological mechanism for the reaction risk.
      * 
      * @return
-     *     An immutable object of type {@link AllergyIntoleranceType}.
+     *     An immutable object of type {@link AllergyIntoleranceType} that may be null.
      */
     public AllergyIntoleranceType getType() {
         return type;
@@ -207,7 +207,7 @@ public class AllergyIntolerance extends DomainResource {
      * Category of the identified substance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link AllergyIntoleranceCategory}.
+     *     An unmodifiable list containing immutable objects of type {@link AllergyIntoleranceCategory} that may be empty.
      */
     public List<AllergyIntoleranceCategory> getCategory() {
         return category;
@@ -217,7 +217,7 @@ public class AllergyIntolerance extends DomainResource {
      * Estimate of the potential clinical harm, or seriousness, of the reaction to the identified substance.
      * 
      * @return
-     *     An immutable object of type {@link AllergyIntoleranceCriticality}.
+     *     An immutable object of type {@link AllergyIntoleranceCriticality} that may be null.
      */
     public AllergyIntoleranceCriticality getCriticality() {
         return criticality;
@@ -236,7 +236,7 @@ public class AllergyIntolerance extends DomainResource {
      * system should ignore AllergyIntolerance.reaction.substance.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getCode() {
         return code;
@@ -246,7 +246,7 @@ public class AllergyIntolerance extends DomainResource {
      * The patient who has the allergy or intolerance.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that is non-null.
      */
     public Reference getPatient() {
         return patient;
@@ -256,7 +256,7 @@ public class AllergyIntolerance extends DomainResource {
      * The encounter when the allergy or intolerance was asserted.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getEncounter() {
         return encounter;
@@ -266,7 +266,7 @@ public class AllergyIntolerance extends DomainResource {
      * Estimated or actual date, date-time, or age when allergy or intolerance was identified.
      * 
      * @return
-     *     An immutable object of type {@link Element}.
+     *     An immutable object of type {@link Element} that may be null.
      */
     public Element getOnset() {
         return onset;
@@ -277,7 +277,7 @@ public class AllergyIntolerance extends DomainResource {
      * system-generated date.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getRecordedDate() {
         return recordedDate;
@@ -287,7 +287,7 @@ public class AllergyIntolerance extends DomainResource {
      * Individual who recorded the record and takes responsibility for its content.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRecorder() {
         return recorder;
@@ -297,7 +297,7 @@ public class AllergyIntolerance extends DomainResource {
      * The source of the information about the allergy that is recorded.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAsserter() {
         return asserter;
@@ -307,7 +307,7 @@ public class AllergyIntolerance extends DomainResource {
      * Represents the date and/or time of the last known occurrence of a reaction event.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getLastOccurrence() {
         return lastOccurrence;
@@ -317,7 +317,7 @@ public class AllergyIntolerance extends DomainResource {
      * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -327,7 +327,7 @@ public class AllergyIntolerance extends DomainResource {
      * Details about each adverse reaction event linked to exposure to the identified substance.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Reaction}.
+     *     An unmodifiable list containing immutable objects of type {@link Reaction} that may be empty.
      */
     public List<Reaction> getReaction() {
         return reaction;
@@ -1143,7 +1143,7 @@ public class AllergyIntolerance extends DomainResource {
          * AllergyIntolerance.reaction.substance.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getSubstance() {
             return substance;
@@ -1153,7 +1153,7 @@ public class AllergyIntolerance extends DomainResource {
          * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+         *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that is non-empty.
          */
         public List<CodeableConcept> getManifestation() {
             return manifestation;
@@ -1163,7 +1163,7 @@ public class AllergyIntolerance extends DomainResource {
          * Text description about the reaction as a whole, including details of the manifestation if required.
          * 
          * @return
-         *     An immutable object of type {@link String}.
+         *     An immutable object of type {@link String} that may be null.
          */
         public String getDescription() {
             return description;
@@ -1173,7 +1173,7 @@ public class AllergyIntolerance extends DomainResource {
          * Record of the date and/or time of the onset of the Reaction.
          * 
          * @return
-         *     An immutable object of type {@link DateTime}.
+         *     An immutable object of type {@link DateTime} that may be null.
          */
         public DateTime getOnset() {
             return onset;
@@ -1184,7 +1184,7 @@ public class AllergyIntolerance extends DomainResource {
          * manifestations.
          * 
          * @return
-         *     An immutable object of type {@link AllergyIntoleranceSeverity}.
+         *     An immutable object of type {@link AllergyIntoleranceSeverity} that may be null.
          */
         public AllergyIntoleranceSeverity getSeverity() {
             return severity;
@@ -1194,7 +1194,7 @@ public class AllergyIntolerance extends DomainResource {
          * Identification of the route by which the subject was exposed to the substance.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getExposureRoute() {
             return exposureRoute;
@@ -1204,7 +1204,7 @@ public class AllergyIntolerance extends DomainResource {
          * Additional text about the adverse reaction event not captured in other fields.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+         *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
          */
         public List<Annotation> getNote() {
             return note;

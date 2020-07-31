@@ -115,7 +115,7 @@ public class Invoice extends DomainResource {
      * Identifier of this Invoice, often used for reference in correspondence about this invoice or for tracking of payments.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Identifier}.
+     *     An unmodifiable list containing immutable objects of type {@link Identifier} that may be empty.
      */
     public List<Identifier> getIdentifier() {
         return identifier;
@@ -125,7 +125,7 @@ public class Invoice extends DomainResource {
      * The current state of the Invoice.
      * 
      * @return
-     *     An immutable object of type {@link InvoiceStatus}.
+     *     An immutable object of type {@link InvoiceStatus} that is non-null.
      */
     public InvoiceStatus getStatus() {
         return status;
@@ -135,7 +135,7 @@ public class Invoice extends DomainResource {
      * In case of Invoice cancellation a reason must be given (entered in error, superseded by corrected invoice etc.).
      * 
      * @return
-     *     An immutable object of type {@link String}.
+     *     An immutable object of type {@link String} that may be null.
      */
     public String getCancelledReason() {
         return cancelledReason;
@@ -145,7 +145,7 @@ public class Invoice extends DomainResource {
      * Type of Invoice depending on domain, realm an usage (e.g. internal/external, dental, preliminary).
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that may be null.
      */
     public CodeableConcept getType() {
         return type;
@@ -155,7 +155,7 @@ public class Invoice extends DomainResource {
      * The individual or set of individuals receiving the goods and services billed in this invoice.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSubject() {
         return subject;
@@ -165,7 +165,7 @@ public class Invoice extends DomainResource {
      * The individual or Organization responsible for balancing of this invoice.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getRecipient() {
         return recipient;
@@ -175,7 +175,7 @@ public class Invoice extends DomainResource {
      * Date/time(s) of when this Invoice was posted.
      * 
      * @return
-     *     An immutable object of type {@link DateTime}.
+     *     An immutable object of type {@link DateTime} that may be null.
      */
     public DateTime getDate() {
         return date;
@@ -185,7 +185,7 @@ public class Invoice extends DomainResource {
      * Indicates who or what performed or participated in the charged service.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Participant}.
+     *     An unmodifiable list containing immutable objects of type {@link Participant} that may be empty.
      */
     public List<Participant> getParticipant() {
         return participant;
@@ -195,7 +195,7 @@ public class Invoice extends DomainResource {
      * The organizationissuing the Invoice.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getIssuer() {
         return issuer;
@@ -205,7 +205,7 @@ public class Invoice extends DomainResource {
      * Account which is supposed to be balanced with this Invoice.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getAccount() {
         return account;
@@ -216,7 +216,7 @@ public class Invoice extends DomainResource {
      * in the referenced ChargeItem resource.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link LineItem}.
+     *     An unmodifiable list containing immutable objects of type {@link LineItem} that may be empty.
      */
     public List<LineItem> getLineItem() {
         return lineItem;
@@ -228,7 +228,7 @@ public class Invoice extends DomainResource {
      * how the total price was calculated.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link PriceComponent}.
+     *     An unmodifiable list containing immutable objects of type {@link PriceComponent} that may be empty.
      */
     public List<Invoice.LineItem.PriceComponent> getTotalPriceComponent() {
         return totalPriceComponent;
@@ -238,7 +238,7 @@ public class Invoice extends DomainResource {
      * Invoice total , taxes excluded.
      * 
      * @return
-     *     An immutable object of type {@link Money}.
+     *     An immutable object of type {@link Money} that may be null.
      */
     public Money getTotalNet() {
         return totalNet;
@@ -248,7 +248,7 @@ public class Invoice extends DomainResource {
      * Invoice total, tax included.
      * 
      * @return
-     *     An immutable object of type {@link Money}.
+     *     An immutable object of type {@link Money} that may be null.
      */
     public Money getTotalGross() {
         return totalGross;
@@ -258,7 +258,7 @@ public class Invoice extends DomainResource {
      * Payment details such as banking details, period of payment, deductibles, methods of payment.
      * 
      * @return
-     *     An immutable object of type {@link Markdown}.
+     *     An immutable object of type {@link Markdown} that may be null.
      */
     public Markdown getPaymentTerms() {
         return paymentTerms;
@@ -268,7 +268,7 @@ public class Invoice extends DomainResource {
      * Comments made about the invoice by the issuer, subject, or other participants.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Annotation}.
+     *     An unmodifiable list containing immutable objects of type {@link Annotation} that may be empty.
      */
     public List<Annotation> getNote() {
         return note;
@@ -1048,7 +1048,7 @@ public class Invoice extends DomainResource {
          * automatically, the Participant may be a billing engine or another kind of device.
          * 
          * @return
-         *     An immutable object of type {@link CodeableConcept}.
+         *     An immutable object of type {@link CodeableConcept} that may be null.
          */
         public CodeableConcept getRole() {
             return role;
@@ -1058,7 +1058,7 @@ public class Invoice extends DomainResource {
          * The device, practitioner, etc. who performed or participated in the service.
          * 
          * @return
-         *     An immutable object of type {@link Reference}.
+         *     An immutable object of type {@link Reference} that is non-null.
          */
         public Reference getActor() {
             return actor;
@@ -1332,7 +1332,7 @@ public class Invoice extends DomainResource {
          * Sequence in which the items appear on the invoice.
          * 
          * @return
-         *     An immutable object of type {@link PositiveInt}.
+         *     An immutable object of type {@link PositiveInt} that may be null.
          */
         public PositiveInt getSequence() {
             return sequence;
@@ -1343,7 +1343,7 @@ public class Invoice extends DomainResource {
          * the lineItem, inline billing codes can be added using the CodeableConcept data type instead of the Reference.
          * 
          * @return
-         *     An immutable object of type {@link Element}.
+         *     An immutable object of type {@link Element} that is non-null.
          */
         public Element getChargeItem() {
             return chargeItem;
@@ -1356,7 +1356,7 @@ public class Invoice extends DomainResource {
          * the Invoice as to how the prices have been calculated.
          * 
          * @return
-         *     An unmodifiable list containing immutable objects of type {@link PriceComponent}.
+         *     An unmodifiable list containing immutable objects of type {@link PriceComponent} that may be empty.
          */
         public List<PriceComponent> getPriceComponent() {
             return priceComponent;
@@ -1680,7 +1680,7 @@ public class Invoice extends DomainResource {
              * This code identifies the type of the component.
              * 
              * @return
-             *     An immutable object of type {@link InvoicePriceComponentType}.
+             *     An immutable object of type {@link InvoicePriceComponentType} that is non-null.
              */
             public InvoicePriceComponentType getType() {
                 return type;
@@ -1691,7 +1691,7 @@ public class Invoice extends DomainResource {
              * etc.
              * 
              * @return
-             *     An immutable object of type {@link CodeableConcept}.
+             *     An immutable object of type {@link CodeableConcept} that may be null.
              */
             public CodeableConcept getCode() {
                 return code;
@@ -1701,7 +1701,7 @@ public class Invoice extends DomainResource {
              * The factor that has been applied on the base price for calculating this component.
              * 
              * @return
-             *     An immutable object of type {@link Decimal}.
+             *     An immutable object of type {@link Decimal} that may be null.
              */
             public Decimal getFactor() {
                 return factor;
@@ -1711,7 +1711,7 @@ public class Invoice extends DomainResource {
              * The amount calculated for this component.
              * 
              * @return
-             *     An immutable object of type {@link Money}.
+             *     An immutable object of type {@link Money} that may be null.
              */
             public Money getAmount() {
                 return amount;

@@ -55,7 +55,7 @@ public class Binary extends Resource {
      * MimeType of the binary content represented as a standard MimeType (BCP 13).
      * 
      * @return
-     *     An immutable object of type {@link Code}.
+     *     An immutable object of type {@link Code} that is non-null.
      */
     public Code getContentType() {
         return contentType;
@@ -70,7 +70,7 @@ public class Binary extends Resource {
      * resource relates to a patient, and access should only be granted to applications that have access to the patient.
      * 
      * @return
-     *     An immutable object of type {@link Reference}.
+     *     An immutable object of type {@link Reference} that may be null.
      */
     public Reference getSecurityContext() {
         return securityContext;
@@ -80,7 +80,7 @@ public class Binary extends Resource {
      * The actual content, base64 encoded.
      * 
      * @return
-     *     An immutable object of type {@link Base64Binary}.
+     *     An immutable object of type {@link Base64Binary} that may be null.
      */
     public Base64Binary getData() {
         return data;

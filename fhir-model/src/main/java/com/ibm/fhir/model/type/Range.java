@@ -46,7 +46,7 @@ public class Range extends Element {
      * The low limit. The boundary is inclusive.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getLow() {
         return low;
@@ -56,7 +56,7 @@ public class Range extends Element {
      * The high limit. The boundary is inclusive.
      * 
      * @return
-     *     An immutable object of type {@link SimpleQuantity}.
+     *     An immutable object of type {@link SimpleQuantity} that may be null.
      */
     public SimpleQuantity getHigh() {
         return high;

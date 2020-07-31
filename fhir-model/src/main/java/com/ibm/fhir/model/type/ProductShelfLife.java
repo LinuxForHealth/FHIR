@@ -50,7 +50,7 @@ public class ProductShelfLife extends BackboneElement {
      * Unique identifier for the packaged Medicinal Product.
      * 
      * @return
-     *     An immutable object of type {@link Identifier}.
+     *     An immutable object of type {@link Identifier} that may be null.
      */
     public Identifier getIdentifier() {
         return identifier;
@@ -63,7 +63,7 @@ public class ProductShelfLife extends BackboneElement {
      * controlled term identifier shall be specified.
      * 
      * @return
-     *     An immutable object of type {@link CodeableConcept}.
+     *     An immutable object of type {@link CodeableConcept} that is non-null.
      */
     public CodeableConcept getType() {
         return type;
@@ -75,7 +75,7 @@ public class ProductShelfLife extends BackboneElement {
      * symbol and the symbol identifier shall be used.
      * 
      * @return
-     *     An immutable object of type {@link Quantity}.
+     *     An immutable object of type {@link Quantity} that is non-null.
      */
     public Quantity getPeriod() {
         return period;
@@ -86,7 +86,7 @@ public class ProductShelfLife extends BackboneElement {
      * term and the controlled term identifier shall be specified.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
+     *     An unmodifiable list containing immutable objects of type {@link CodeableConcept} that may be empty.
      */
     public List<CodeableConcept> getSpecialPrecautionsForStorage() {
         return specialPrecautionsForStorage;
