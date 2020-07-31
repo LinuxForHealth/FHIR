@@ -92,7 +92,7 @@ public class SearchChainTest extends FHIRServerTestBase {
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-        System.out.println(bundle);
+
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -106,7 +106,7 @@ public class SearchChainTest extends FHIRServerTestBase {
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-        System.out.println(bundle);
+
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 0);
     }
