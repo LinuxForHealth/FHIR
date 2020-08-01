@@ -750,7 +750,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar);
 
         // If we're dealing with anything other than id, then proceed to add the parameters table.
-        if (!"_id".equals(currentParm.getCode())) {
+        if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
             whereClauseSegment.append(", ")
                 .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter()))
                 .append(chainedParmVar);
@@ -782,10 +782,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 .append(AND)
                 .append(chainedResourceTableAlias)
                 .append("IS_DELETED").append(" <> 'Y'")
-                .append(AND)
-                .append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
+                .append(AND);
+        if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
+            whereClauseSegment.append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
                 .append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID")
                 .append(AND);
+        }
     }
 
     /**
