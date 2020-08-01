@@ -37,7 +37,6 @@ import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -50,6 +49,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearchTest {
     private Boolean DEBUG = Boolean.FALSE;
 
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
     }
@@ -58,16 +58,17 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         assertNotNull(resource);
         assertNotNull(resource.getId());
 
-        String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
+        String resourceTypeName = resource.getClass().getSimpleName();
         return Reference.builder()
                 .reference(string(resourceTypeName + "/" + resource.getId()))
                 .build();
     }
 
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
 
-        // this might deserve its own method, but just use setTenant for now 
+        // this might deserve its own method, but just use setTenant for now
         // since its called before creating any resources
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-4:00"));
     }

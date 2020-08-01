@@ -21,7 +21,6 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;

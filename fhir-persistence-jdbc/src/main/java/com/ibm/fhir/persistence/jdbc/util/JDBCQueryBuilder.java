@@ -9,19 +9,21 @@ package com.ibm.fhir.persistence.jdbc.util;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
@@ -33,8 +35,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * the logical resource, not the resource version.
  * <br>
  * Useful column reference:<br>
- * 
+ *
  * <pre>
  * ------------------------
  * RESOURCE_TYPE_NAME    the formal name of the resource type e.g. 'Patient'
@@ -108,7 +108,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     private final ParameterDAO parameterDao;
     private final ResourceDAO resourceDao;
-    
+
     // Hints to use for certain queries
     private final QueryHints queryHints;
 
@@ -122,7 +122,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * Builds a query that returns the count of the search results that would be
      * found by applying the search parameters
      * contained within the passed search context.
-     * 
+     *
      * @param resourceType
      *                      - The type of resource being searched for.
      * @param searchContext
@@ -168,7 +168,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     /**
      * Contains logic common to the building of both 'count' resource queries and
      * 'regular' resource queries.
-     * 
+     *
      * @param resourceType
      *                      The type of FHIR resource being searched for.
      * @param searchContext
@@ -276,7 +276,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * the mapping results in the default
      * operator, override the default operator with the passed operator if the
      * passed operator is not null.
-     * 
+     *
      * @param queryParm
      *                        - A valid query Parameter.
      * @param defaultOverride
@@ -309,7 +309,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * Builds a query segment for the passed query parameter.
-     * 
+     *
      * @param resourceType - A valid FHIR Resource type
      * @param queryParm    - A Parameter object describing the name, value and type
      *                     of search parm
@@ -373,7 +373,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 default:
                     throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
                 }
-            } else { 
+            } else {
                 NearLocationHandler handler = new NearLocationHandler();
                 List<Bounding> boundingAreas;
                 try {
@@ -429,7 +429,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     // a 'starts with' search value.
                     searchValue = tempSearchValue + PERCENT_WILDCARD;
 
-                    // Specific processing for 
+                    // Specific processing for
                     if (Type.URI.compareTo(queryParm.getType()) == 0
                             && queryParm.getModifier() != null
                             && Modifier.BELOW.compareTo(queryParm.getModifier()) == 0) {
@@ -574,7 +574,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *
      * <pre>
      * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
-     * FROM Observation_LOGICAL_RESOURCES LR 
+     * FROM Observation_LOGICAL_RESOURCES LR
      * JOIN Observation_RESOURCES R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'
      * JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES
      * WHERE(P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN
@@ -586,7 +586,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')))
      * TMP0 ON TMP0.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID;
      * </pre>
-     * 
+     *
      * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
      * @param queryParm
      *                  - A Parameter representing a chained query.
@@ -616,7 +616,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         while (currentParm != null) {
             QueryParameter nextParameter = currentParm.getNextParameter();
             if (nextParameter != null) {
-                Type nextParmaterType = nextParameter.getType();
                 if (refParmIndex == 0) {
                     // Must build this first piece using px placeholder table alias, which will be replaced with a
                     // generated value in the buildQuery() method.
@@ -649,16 +648,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 resourceTypeName = currentParm.getModifierResourceTypeName();
                 // Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
                 whereClauseSegment.append(LEFT_PAREN);
-                appendInnerSelect(whereClauseSegment, currentParm, nextParmaterType, resourceTypeName,
+                appendInnerSelect(whereClauseSegment, currentParm, resourceTypeName,
                         chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
             } else {
                 // This logic processes the LAST parameter in the chain.
                 // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
                 if (chainedParmVar == null) {
-                    chainedParmVar            = CP + 1;
+                    chainedParmVar = CP + 1;
                 }
                 Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
-                SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
+
+                String code = currentParm.getCode();
+                SqlQueryData sqlQueryData;
+                if (!"_id".equals(code)) {
+                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
+                } else {
+                    // The code '_id' is only going to be the end of the change as it is a base element.
+                    // We know at this point this is an '_id' and at the tail of the parameter chain
+                    sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
+                }
 
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("chained sqlQueryData[" + chainedParmVar + "] = " + sqlQueryData.getQueryString());
@@ -680,6 +688,35 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         return queryData;
     }
 
+    /*
+     * Builds the specific handling for exact matches on _id.
+     * The procedure here is SIMILAR to that of QuerySegmentAggregator.processFromClauseForId
+     *
+     * Results in a query like: CP1.LOGICAL_ID IN (?)
+     */
+    private SqlQueryData buildChainedIdClause(QueryParameter currentParm, String chainedParmVar) {
+        StringBuilder whereClauseSegment = new StringBuilder();
+        List<Object> bindVariables = new ArrayList<>();
+
+        whereClauseSegment
+            .append(chainedParmVar.replace("CP", "CLR")).append(DOT).append("LOGICAL_ID").append(" IN (");
+
+        List<QueryParameterValue> vals = currentParm.getValues();
+        boolean add = false;
+        for (QueryParameterValue v : vals) {
+            if (add) {
+                whereClauseSegment.append(COMMA);
+            } else {
+                add = true;
+            }
+            whereClauseSegment.append(BIND_VAR);
+            bindVariables.add(SqlParameterEncoder.encode(v.getValueCode()));
+        }
+        whereClauseSegment.append(") ");
+
+        return new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+    }
+
     private void appendMidChainParm(StringBuilder whereClauseSegment, QueryParameter currentParm, String chainedParmVar)
             throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException, FHIRPersistenceException {
         Integer parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getCode());
@@ -694,9 +731,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 .append(AND).append(chainedParmVar).append(DOT).append(STR_VALUE).append(IN);
     }
 
-    private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm, Type nextParmaterType,
-            String resourceTypeName,
-            String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
+    private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm,
+            String resourceTypeName, String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
         String chainedResourceTableAlias = chainedResourceVar + ".";
         String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + ".";
         String chainedParmTableAlias = chainedParmVar + ".";
@@ -711,9 +747,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
         whereClauseSegment.append(FROM)
                 .append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ")
-                .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar).append(", ")
+                .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar);
+
+        // If we're dealing with anything other than id, then proceed to add the parameters table.
+        if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
+            whereClauseSegment.append(", ")
                 .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter()))
                 .append(chainedParmVar);
+        }
 
         if (Type.COMPOSITE.equals(nextParameter.getType())) {
             if (nextParameter.getValues() != null && !nextParameter.getValues().isEmpty()) {
@@ -734,30 +775,32 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         whereClauseSegment.append(" WHERE ");
 
-        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND 
+        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND
         // CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
         whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ")
                 .append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID")
                 .append(AND)
                 .append(chainedResourceTableAlias)
                 .append("IS_DELETED").append(" <> 'Y'")
-                .append(AND)
-                .append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
+                .append(AND);
+        if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
+            whereClauseSegment.append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
                 .append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID")
                 .append(AND);
+        }
     }
 
     /**
      * This method handles the processing of a wildcard chained reference parameter.
      * The wildcard represents ALL FHIR
      * resource types stored in the FHIR database.
-     * 
+     *
      * @throws Exception
      */
     private void processWildcardChainedRefParm(QueryParameter currentParm, String chainedResourceVar,
             String chainedLogicalResourceVar, String chainedParmVar,
             StringBuilder whereClauseSegment, List<Object> bindVariables) throws Exception {
-        final String METHODNAME = "processChainedReferenceParm";
+        final String METHODNAME = "processWildcardChainedRefParm";
         log.entering(CLASSNAME, METHODNAME, currentParm.toString());
 
         String resourceTypeName;
@@ -787,7 +830,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 whereClauseSegment.append(LEFT_PAREN);
             }
 
-            appendInnerSelect(whereClauseSegment, currentParm, lastParm.getType(), resourceTypeName, chainedResourceVar,
+            appendInnerSelect(whereClauseSegment, currentParm, resourceTypeName, chainedResourceVar,
                     chainedLogicalResourceVar, chainedParmVar);
 
             // This logic processes the LAST parameter in the chain.
@@ -809,7 +852,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * define resources that are part of a
      * comparment-based search.
      * Example inclusion criteria for AuditEvent in the Patient compartment:
-     * 
+     *
      * <pre>
      * {
      *        "name": "AuditEvent",
@@ -824,7 +867,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * <li>PARAMETER_NAME_ID 13 = 'participant'
      * <li>PARAMETER_NAME_ID 14 = 'patient'
      * <li>PARAMETER_NAME_ID 16 = 'reference'
-     * 
+     *
      * <pre>
      *    SELECT COUNT(R.RESOURCE_ID) FROM
      *    AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR , AuditEvent_STR_VALUES P1 WHERE
@@ -864,7 +907,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *                CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *                CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
      * </pre>
-     * 
+     *
      * @throws Exception
      * @see compartments.json for the specificaiton of compartments, resources
      *      contained in each compartment, and the
@@ -1029,8 +1072,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         // (P1.PARAMETER_NAME_ID = x AND
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
-        // Calls to the NumberParmBehaviorUtil which encapsulates the precision 
-        // selection criteria. 
+        // Calls to the NumberParmBehaviorUtil which encapsulates the precision
+        // selection criteria.
         NumberParmBehaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, resourceType, tableAlias,
                 this);
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
@@ -1056,8 +1099,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         // (P1.PARAMETER_NAME_ID = x AND
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
-        // Calls to the QuantityParmBehaviorUtil which encapsulates the precision 
-        // selection criteria. 
+        // Calls to the QuantityParmBehaviorUtil which encapsulates the precision
+        // selection criteria.
         QuantityParmBehaviorUtil behaviorUtil = new QuantityParmBehaviorUtil();
         behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias, parameterDao);
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
@@ -1073,7 +1116,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * Creates a query segment for a URI type parameter.
-     * 
+     *
      * @param queryParm  - The query parameter
      * @param tableAlias - An alias for the table to query
      * @return SqlQueryData - An object containing query segment
@@ -1095,7 +1138,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * Creates a query segment for a URI type parameter.
-     * 
+     *
      * @param queryParm  - The query parameter
      * @param tableAlias - An alias for the table to query
      * @return SqlQueryData - An object containing query segment
@@ -1171,7 +1214,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * Populates the parameter name sub-segment of the passed where clause segment.
-     * 
+     *
      * @param whereClauseSegment
      * @param queryParmName
      * @throws FHIRPersistenceException
@@ -1203,7 +1246,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * Use -1 in place of a null literal, otherwise return the literal value
-     * 
+     *
      * @param n
      * @return
      */
@@ -1218,7 +1261,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * criteria. That new Parameter is then
      * passed to the inherited processChainedReferenceParamter() method to generate
      * the required where clause segment.
-     * 
+     *
      * @see https://www.hl7.org/fhir/compartments.html
      * @param queryParm
      *                  - A Parameter representing chained inclusion criterion.
