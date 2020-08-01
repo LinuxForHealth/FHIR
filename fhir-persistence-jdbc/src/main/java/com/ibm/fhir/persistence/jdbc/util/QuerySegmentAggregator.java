@@ -363,7 +363,7 @@ public class QuerySegmentAggregator {
                 queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
                 queryString.append(" AND R.IS_DELETED <> 'Y'");
 
-                // An important step here is to add _id, values table bind variables, and then and _lastUpdated
+                // An important step here is to add _id, values table bind variables, and then _lastUpdated
                 allBindVariables.addAll(idsObjects);
                 //Adding all other values to the bind variable list for this resource type.
                 for (SqlQueryData querySegment : this.querySegments) {
