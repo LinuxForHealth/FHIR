@@ -70,7 +70,7 @@ public class ParametersMap {
                 } else {
                     log.warning("SearchParameter with code '" + code + "' already exists with a different expression;\n"
                             + "replacing [url=" + previous.getUrl().getValue() + ", expression=" + previous.getExpression().getValue()
-                            + "] with [url=" + url + ", expression=" + parameter.getExpression().getValue() + "'");
+                            + "] with [url=" + url + ", expression=" + parameter.getExpression().getValue() + "]");
                 }
             }
         }
