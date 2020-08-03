@@ -1,0 +1,71 @@
+name: Database Migration
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/site.yml'
+
+jobs:
+  db2-migration:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
+    strategy:
+      matrix:
+        java: [ 'openjdk8' ]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Build samples
+      run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+    - name: Build parent without tests
+      run: |
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
+        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+    - name: free disk space
+      run: |
+        # create and remove a 200 MB file to make sure we have the room needed later
+        dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
+        rm -f balloon.dat
+        sudo apt clean
+        docker system prune -f
+        df -h
+    - name: Server Integration Tests
+      run: |
+        export WORKSPACE=${GITHUB_WORKSPACE}
+        build/db2-migration-test-docker.sh
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        build/post-integration-test-docker.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        it_results=integration-test-results
+        rm -fr ${it_results} 2>/dev/null
+        mkdir -p ${it_results}/server-logs
+        mkdir -p ${it_results}/fhir-server-test
+        containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+        if [[ -z "${containerId}" ]]; then
+            echo "Warning: Could not find fhir container!!!"
+        else
+            echo "fhir container id: $containerId"
+
+            # Grab the container's console log
+            docker logs $containerId  >& ${it_results}/docker-console.txt
+
+            echo "Gathering post-test server logs from docker container: $containerId"
+            docker cp -L $containerId:/logs ${it_results}/server-logs
+        fi
+        echo "Gathering integration test output"
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: db2-migration-test-results-${{ matrix.java }}
+        path: integration-test-results

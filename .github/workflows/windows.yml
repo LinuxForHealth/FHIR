@@ -1,0 +1,66 @@
+name: Integration - Windows
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/site.yml'
+
+jobs:
+  e2e-windows:
+    runs-on: windows-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Build samples
+      shell: powershell
+      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
+    - name: Build parent without tests
+      shell: powershell
+      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+    - name: Server Integration Tests
+      shell: powershell
+      run: |
+        $ErrorActionPreference = "Stop"
+        & build/pre-integration-test.ps1
+        & build/tests.ps1
+        & build/post-integration-test.ps1
+    - name: Gather error logs
+      shell: powershell
+      if: failure()
+      run: |
+        Write-Host 'Clean up existing integration test results'
+        $it_results='SIT/integration-test-results'
+        If (Test-Path -Path $it_results) {
+          Remove-Item -path $it_results -Recurse -Force
+        }
+
+        Write-Host 'Create destinations for the files/folders'
+        $DST_SL='server-logs'
+        $DST_ST='fhir-server-test'
+        New-Item -Path $it_results -Name $DST_SL -ItemType 'directory' -Force
+        New-Item -Path $it_results -Name $DST_ST -ItemType 'directory' -Force
+
+        Write-Host 'Gathering post-test server logs'
+        $SRC_ST='SIT/wlp/usr/servers/fhir-server/logs'
+        $DST_SL_F=$it_results + '/' + $DST_SL
+        Copy-Item -Path $SRC_ST -Destination $DST_SL_F -Recurse -Force
+
+        Write-Host 'Gathering integration test output'
+        $SRC_ST='./fhir-server-test/target/surefire-reports'
+        $DST_ST_F=$it_results + '/' + $DST_ST
+        Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@main
+      with:
+        name: integration-test-results-windows-${{ matrix.java }}
+        path: SIT/integration-test-results
