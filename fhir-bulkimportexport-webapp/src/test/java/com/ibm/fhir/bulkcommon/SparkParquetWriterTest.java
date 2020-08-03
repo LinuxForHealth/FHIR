@@ -18,7 +18,10 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.jbatch.bulkdata.export.common.SparkParquetWriter;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
@@ -68,6 +71,20 @@ public class SparkParquetWriterTest {
             Path tmpDir = Files.createTempDirectory("SparkParquetWriterTest");
             sparkParquetWriter.writeParquet(Collections.singletonList(patient), tmpDir.toString());
             assertTrue(Files.exists(tmpDir));
+
+
+            patient = patient.toBuilder()
+                    // add an extension
+                    .extension(Extension.builder()
+                        .url("http://examples.com/my-cool-extension")
+                        .value(string("test"))
+                        .build())
+                    // change deceased[x] from a boolean to a datetime
+                    .deceased(DateTime.now())
+                    .build();
+            sparkParquetWriter.writeParquet(Collections.singletonList(patient), tmpDir.toString());
+            assertTrue(Files.exists(tmpDir));
+
             FileUtils.deleteDirectory(tmpDir.toFile());
         }
     }
@@ -112,7 +129,6 @@ public class SparkParquetWriterTest {
                 .id("someId")
                 .given(string("John"))
                 .given(string("Jingle"))
-                .given(string("value no extension"))
                 .family(string("Doe"))
                 .build();
 
@@ -129,6 +145,7 @@ public class SparkParquetWriterTest {
                 .meta(meta)
                 .name(name)
                 .birthDate(Date.of("1970-01-01"))
+                .deceased(Boolean.FALSE)
                 .build();
 
         return patient;

@@ -15,28 +15,42 @@ public class Constants {
     public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
 
     /**
-     * The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only)
+     * The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only).
      */
     public static final int COS_PART_MINIMALSIZE = 10485760;
+
+    /**
+     * The maximum number of resources read in each iteration of the system export ChunkReader.
+     */
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
+
+    /**
+     * The maximum number of resources read in each iteration of the the patient or group export ChunkReaders.
+     */
     public static final int DEFAULT_PATIENT_EXPORT_SEARCH_PAGE_SIZE = 200;
 
     /**
-     * The threshold size (200MiB) for when to start writing to a new file (NDJSON-only)
+     * The threshold size (200MiB) for when to start writing to a new file (NDJSON-only).
      */
     public static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
-    public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 500000;
+    /**
+     * The number of resources at which the server will start a new file for the next page of results (NDJSON and Parquet).
+     * 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COSFILE_MAX_SIZE.
+     */
+    public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 200000;
+
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
     public static final int IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
     public static final int EXPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
+
     // The number of resources to commit to DB in each batch, the slower the DB connection, the smaller
     // this value should be set.
     public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
+    public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
-    public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
 
     // Job parameters

@@ -1456,7 +1456,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/validBaseUrls`|string|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|boolean|Disables the URL checking feature|
 |`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
-|`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
+|`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 200000 |
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
@@ -1507,7 +1507,7 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/audit/serviceProperties/geoCounty`|US|
 |`fhirServer/bulkdata/isExportPublic`|true|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
-|`fhirServer/bulkdata/cosFileMaxResources`|500000|
+|`fhirServer/bulkdata/cosFileMaxResources`|200000|
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 |`fhirServer/bulkdata/patientExportPageSize`|200|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|

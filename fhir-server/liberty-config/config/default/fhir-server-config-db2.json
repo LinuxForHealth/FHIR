@@ -114,8 +114,11 @@
             "batch-truststore": "resources/security/fhirTrustStore.p12",
             "batch-truststore-password": "change-password",
             "isExportPublic": true,
+            "cosFileMaxResources": 200000,
+            "cosFileMaxSize": 209715200,
             "validBaseUrls": [],
-            "useFhirServerTrustStore": true
+            "useFhirServerTrustStore": true,
+            "enableParquet": false
         }
     }
 }

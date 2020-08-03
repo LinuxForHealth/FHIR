@@ -17,7 +17,6 @@ import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.SparkSession.Builder;
 
-import com.github.wnameless.json.flattener.JsonFlattener;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
@@ -82,16 +81,16 @@ public class SparkParquetWriter implements AutoCloseable {
      */
     public void writeParquet(List<Resource> resources, String outDirName)
             throws FHIRGeneratorException {
-        ArrayList<String> flatJsonResources = new ArrayList<String>();
+        List<String> jsonResources = new ArrayList<String>();
 
         FHIRGenerator generator = FHIRGenerator.generator(Format.JSON);
         for (Resource singleResource : resources) {
             StringWriter stringWriter = new StringWriter();
             generator.generate(singleResource, stringWriter);
-            flatJsonResources.add(flattenAndClean(stringWriter.toString()));
+            jsonResources.add(stringWriter.toString());
         }
 
-        Dataset<String> jDataset = spark.createDataset(flatJsonResources, Encoders.STRING());
+        Dataset<String> jDataset = spark.createDataset(jsonResources, Encoders.STRING());
         Dataset<?> jsonDF = spark.read().json(jDataset);
 
         if (logger.isLoggable(Level.FINEST)) {
@@ -105,16 +104,6 @@ public class SparkParquetWriter implements AutoCloseable {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Parquet file written under " + outDirName);
         }
-    }
-
-    public static String flattenAndClean(String jInput) {
-        String flatJson = JsonFlattener.flatten(jInput);
-        String flattenJson1 = flatJson.replaceAll("\\[", "").replaceAll("\\]", "");
-        String flattenJson = flattenJson1.replace('.', '_');
-        if (logger.isLoggable(Level.FINER)) {
-            logger.finer("flattenAndClean: Flattened string = " + flattenJson);
-        }
-        return (flattenJson);
     }
 
     @Override

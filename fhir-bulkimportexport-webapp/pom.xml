@@ -133,10 +133,6 @@
             <version>3.0.0</version>
             <scope>provided</scope>
             <exclusions>
-                <!-- <exclusion>
-                    <groupId>xerces</groupId>
-                    <artifactId>xercesImpl</artifactId>
-                </exclusion> -->
                 <exclusion>
                     <groupId>org.apache.avro</groupId>
                     <artifactId>avro</artifactId>
@@ -192,11 +188,6 @@
             <artifactId>stocator</artifactId>
             <version>1.1.1</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.wnameless</groupId>
-            <artifactId>json-flattener</artifactId>
-            <version>0.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
