@@ -26,6 +26,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -55,7 +56,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public static final String GROUP_VALID_URL = "Group/?/$export";
     public static final String BASE_VALID_URL = "/$export";
     public static final String BASE_VALID_STATUS_URL = "/$bulkdata-status";
-    public static final String FORMAT = "application/fhir+ndjson";
+    public static final String FORMAT_NDJSON = "application/fhir+ndjson";
+    public static final String FORMAT_PARQUET = "application/fhir+parquet";
     private final String tenantName = "default";
     private final String dataStoreId = "default";
 
@@ -64,13 +66,13 @@ public class ExportOperationTest extends FHIRServerTestBase {
     private static boolean isUseMinio = false;
     private static boolean isUseMinioInBuildPipeline = false;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     private String exportStatusUrl;
     private String savedPatientId, savedPatientId2;
     private String savedGroupId, savedGroupId2;
     private String minioUserName;
     private String minioPassword;
-  
+
     @BeforeClass
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
@@ -98,10 +100,9 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
                 .post(entity, Response.class);
-
     }
 
-    /*
+    /**
      * @param outputFormat
      * @param since
      * @param types
@@ -111,7 +112,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
      * @throws IOException
      */
     private Parameters generateParameters(String outputFormat, Instant since, List<String> types, List<String> typeFilters)
-        throws FHIRGeneratorException, IOException {
+            throws FHIRGeneratorException, IOException {
         List<Parameter> parameters = new ArrayList<>();
 
         if (outputFormat != null) {
@@ -172,15 +173,15 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 .header("X-FHIR-DSID", dataStoreId)
                 .get(Response.class);
     }
-    
+
     private void verifyDownloadUrl(String downloadUrl) {
-        // Minio doesn't support file level ACL using which we make can make the published file public, so we have to 
-        // get the token first, and then use the token to download the file. 
+        // Minio doesn't support file level ACL using which we make can make the published file public, so we have to
+        // get the token first, and then use the token to download the file.
         if (isUseMinio) {
             downloadUrl = downloadUrl.substring(8);
             String minioHost = downloadUrl.substring(0, downloadUrl.indexOf("/"));
             String minioFilePath = downloadUrl.substring(minioHost.length());
-            
+
             // If using minio in build pipeline, then we have to change the host name to "localhost" to all the
             // build machine to access the minio server via it.
             if (isUseMinioInBuildPipeline) {
@@ -188,21 +189,21 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 minioHostArray[0] = "localhost";
                 minioHost = String.join(":", minioHostArray);
             }
-            
+
             String minioAuthUrl = "https://" + minioHost + "/minio/webrpc";
-            String minioAuthRequestBody = "{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":{\"username\":\"" 
+            String minioAuthRequestBody = "{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":{\"username\":\""
                 + minioUserName  + "\",\"password\":\"" + minioPassword + "\"},\"method\":\"Web.Login\"}";
-            
+
             WebTarget client2 = ClientBuilder.newBuilder().trustStore(client.getTrustStore()).build().target(minioAuthUrl);
             Response response = client2.request()
                     .header("Content-Type", MediaType.APPLICATION_JSON)
                     .header("User-Agent", "Mozilla")
                     .post(Entity.json(minioAuthRequestBody));
-            
+
             String strToken = response.readEntity(String.class);
             strToken = strToken.substring(strToken.indexOf("token\":") + 8);
             strToken = strToken.substring(0, strToken.indexOf(",") - 1);
-            
+
             downloadUrl = "https://" + minioHost + "/minio/download" + minioFilePath + "?token=" + strToken;
             client2 = ClientBuilder.newBuilder().trustStore(client.getTrustStore()).build().target(downloadUrl);
             response = client2.request()
@@ -222,7 +223,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
-            assertTrue(response.getStatus() == Response.Status.OK.getStatusCode() || response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
             Thread.sleep(5000);
         } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
@@ -440,7 +441,46 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void testBaseExport() throws Exception {
         if (ON) {
             Response response =
-                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(false);
+        } else {
+            System.out.println("Base Export Test Disabled, Skipping");
+        }
+    }
+
+    /**
+     * Ensure that export to parquet returns a reasonable error when its disabled on the server
+     */
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
+    public void testExportToParquetResponse() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+            assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode(), "Response status");
+        } else {
+            System.out.println("Base Export Test Disabled, Skipping");
+        }
+    }
+
+    /**
+     * Disabled due to limitations with writing parquet to minio
+     * https://stackoverflow.com/questions/63174444/how-to-write-parquet-to-minio-from-spark
+     */
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
+    public void testBaseExportToParquet() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
             // check the content-location that's returned.
@@ -461,7 +501,32 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void testPatientExport() throws Exception {
         if (ON) {
             Response response =
-                    doPost(PATIENT_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Observation,Condition,Patient"), null);
+                    doPost(PATIENT_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Observation,Condition,Patient"), null);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(true);
+        } else {
+            System.out.println("Patient Export Test Disabled, Skipping");
+        }
+    }
+
+    /**
+     * Disabled due to limitations with writing parquet to minio
+     * https://stackoverflow.com/questions/63174444/how-to-write-parquet-to-minio-from-spark
+     */
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
+    public void testPatientExportToParquet() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(PATIENT_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Observation,Condition,Patient"), null);
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
             // check the content-location that's returned.
@@ -482,7 +547,32 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void testGroupExport() throws Exception {
         if (ON) {
             Response response =
-                    doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), null, null);
+                    doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), null, null);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkGroupExportStatus();
+        } else {
+            System.out.println("Group Export Test Disabled, Skipping");
+        }
+    }
+
+    /**
+     * Disabled due to limitations with writing parquet to minio
+     * https://stackoverflow.com/questions/63174444/how-to-write-parquet-to-minio-from-spark
+     */
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
+    public void testGroupExportToParquet() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET, Instant.of("2019-01-01T08:21:26.94-04:00"), null, null);
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
             // check the content-location that's returned.
@@ -505,7 +595,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
-            assertTrue(response.getStatus() == Response.Status.OK.getStatusCode() || response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
             Thread.sleep(5000);
         } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
@@ -521,7 +611,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         if (DEBUG) {
             System.out.println("downloadUrl = " + downloadUrl);
         }
-        
+
         // Verify to make sure there are Groups, Condition and Observation in the output
         // (1) Verify that there is one condition exported
         assertTrue(body.contains("Condition_1.ndjson"));
@@ -543,7 +633,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         String patientStr = body.substring(body.lastIndexOf("Patient_1.ndjson"));
         patientStr = patientStr.substring(0, patientStr.indexOf("}") + 1);
         assertTrue(patientStr.contains("\"count\": 2"));
-        
+
         verifyDownloadUrl(downloadUrl);
     }
 }

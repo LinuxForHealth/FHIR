@@ -14,7 +14,8 @@ import java.io.ByteArrayOutputStream;
  */
 public class TransientUserData extends CheckPointUserData {
     private static final long serialVersionUID = -5892726731783560418L;
-    private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
+
+    private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream(2 ^ 16); // 2 ^ 20 = 1 MiB
 
     protected TransientUserData() {
         super();
@@ -40,6 +41,7 @@ public class TransientUserData extends CheckPointUserData {
     public ByteArrayOutputStream getBufferStream() {
         return bufferStream;
     }
+
     public static class Builder extends CheckPointUserData.Builder {
 
         public static Builder builder() {

@@ -23,12 +23,12 @@ public class FHIRParserTest {
     public void testUnrecognizedElements1() throws Exception {
         String value = "handling=strict";
         if (value.startsWith("handling=")) {
-            
+
             value = value.substring("handling=".length());
             System.out.println(value);
         }
-        
-        
+
+
         try (InputStream in = FHIRParserTest.class.getClassLoader().getResourceAsStream("JSON/observation-unrecognized-elements.json")) {
             FHIRParser.parser(Format.JSON).parse(in);
             fail();
@@ -36,7 +36,7 @@ public class FHIRParserTest {
             assertTrue(e.getMessage().startsWith("Unrecognized element"));
         }
     }
-    
+
     @Test
     public void testUnrecognizedElements2() throws Exception {
         try (InputStream in = FHIRParserTest.class.getClassLoader().getResourceAsStream("JSON/observation-unrecognized-elements.json")) {

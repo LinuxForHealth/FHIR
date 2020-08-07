@@ -11,6 +11,9 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -52,7 +55,16 @@ public class ExportOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         // Pick off parameters
-        MediaType outputFormat = BulkDataExportUtil.checkAndConvertToMediaType(operationContext);
+        MediaType outputFormat = BulkDataExportUtil.checkAndConvertToMediaType(parameters);
+        if (FHIRMediaType.SUBTYPE_FHIR_PARQUET.equals(outputFormat.getSubtype())) {
+            Boolean enableParquet = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET, false);
+            if (!enableParquet) {
+                throw buildExceptionWithIssue(
+                        "Export to parquet is not enabled; try 'application/fhir+ndjson' or contact the system administrator",
+                        IssueType.INVALID);
+            }
+        }
+
         Instant since = BulkDataExportUtil.checkAndExtractSince(parameters);
         List<String> types = BulkDataExportUtil.checkAndValidateTypes(parameters);
         List<String> typeFilters = BulkDataExportUtil.checkAndValidateTypeFilters(parameters);
@@ -67,7 +79,7 @@ public class ExportOperation extends AbstractOperation {
                 throw BulkDataExportUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
             }
 
-            response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types, 
+            response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types,
                     typeFilters, operationContext, resourceHelper);
         } else {
             // Unsupported on instance, specific types other than group/patient/system

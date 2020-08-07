@@ -12,7 +12,7 @@
         <feature>websocket-1.1</feature>
         <feature>localConnector-1.0</feature>
         <feature>mpOpenAPI-1.0</feature>
-        <!-- mpJwt-1.1 isn't used by default, 
+        <!-- mpJwt-1.1 isn't used by default,
              but we include it here to avoid NoClassDefFound in our classes that *can* use it -->
         <feature>mpJwt-1.1</feature>
     </featureManager>
@@ -42,8 +42,8 @@
      -->
     <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9443" onError="FAIL"/>
 
-    <!-- 
-        Modify the trace string below as needed to enable/disable tracing. 
+    <!--
+        Modify the trace string below as needed to enable/disable tracing.
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
         <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>
     -->
@@ -76,7 +76,7 @@
         <fileset dir="${server.config.dir}/config" includes="*.jar"/>
     </library>
 
-    <!-- 
+    <!--
         This sharedlib can contain user-contributed jars that are intended to augment
         the IBM FHIR Server installation (persistence interceptors, persistence layer impl's,
         custom operation impl's, etc.)
@@ -101,7 +101,7 @@
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
 
     <!-- Define a basic user registry with a few users. -->
-    <basicRegistry id="basic" realm="BasicRealm"> 
+    <basicRegistry id="basic" realm="BasicRealm">
         <user name="fhiruser" password="change-password"/>
         <user name="fhiradmin" password="change-password"/>
         <group name="FHIRUsers">

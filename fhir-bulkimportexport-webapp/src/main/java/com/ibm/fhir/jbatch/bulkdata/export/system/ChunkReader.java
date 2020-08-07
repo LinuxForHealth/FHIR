@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
@@ -45,7 +46,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Bulk system export Chunk implementation - the Reader.
- *
  */
 @Dependent
 public class ChunkReader extends AbstractItemReader {
@@ -89,6 +89,13 @@ public class ChunkReader extends AbstractItemReader {
     String fhirResourceType;
 
     /**
+     * Fhir export format.
+     */
+    @Inject
+    @BatchProperty(name = Constants.EXPORT_FHIR_FORMAT)
+    protected String fhirExportFormat;
+
+    /**
      * Fhir Search from date.
      */
     @Inject
@@ -126,42 +133,46 @@ public class ChunkReader extends AbstractItemReader {
     private void fillChunkDataBuffer(List<Resource> resources) throws Exception {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         int resSubTotal = 0;
-        if (chunkData != null) {
-            for (Resource res : resources) {
-                if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
-                    continue;
-                }
-
-                try {
-                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
-                    resSubTotal++;
-                    if (isDoDuplicationCheck) {
-                        loadedResourceIds.add(res.getId());
-                    }
-                } catch (FHIRGeneratorException e) {
-                    if (res.getId() != null) {
-                        logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
-                                + res.getId() + "'", e);
-                    } else {
-                        logger.log(Level.WARNING,
-                                "fillChunkDataBuffer: Error while writing resources with unknown id", e);
-                    }
-                } catch (IOException e) {
-                    logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
-                    throw e;
-                }
-            }
-            chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
-            chunkData.setCurrentUploadSize(chunkData.getCurrentUploadSize() + chunkData.getBufferStream().size());
-            chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
-            logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
-                    + chunkData.getBufferStream().size());
-        } else {
+        if (chunkData == null) {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
             throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
         }
 
+        for (Resource res : resources) {
+            if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
+                continue;
+            }
+
+            try {
+                // No need to fill buffer for parquet because we're letting spark write to COS;
+                // we don't need to control the Multi-part upload like in the NDJSON case
+                if (!FHIRMediaType.APPLICATION_PARQUET.equals(fhirExportFormat)) {
+                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                }
+                resSubTotal++;
+                if (isDoDuplicationCheck && res.getId() != null) {
+                    loadedResourceIds.add(res.getId());
+                }
+            } catch (FHIRGeneratorException e) {
+                // TODO write OperationOutcome to COS for these errors
+                if (res.getId() != null) {
+                    logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
+                            + res.getId() + "'", e);
+                } else {
+                    logger.log(Level.WARNING,
+                            "fillChunkDataBuffer: Error while writing resources with no id", e);
+                }
+            } catch (IOException e) {
+                logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
+                throw e;
+            }
+        }
+        chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
+        chunkData.setCurrentUploadSize(chunkData.getCurrentUploadSize() + chunkData.getBufferStream().size());
+        chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
+        logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
+                + chunkData.getBufferStream().size());
     }
 
     @Override
@@ -173,7 +184,7 @@ public class ChunkReader extends AbstractItemReader {
                 chunkData.setMoreToExport(false);
                 return null;
             } else {
-             // If there is more typeFilter to process for current resource type, then reset pageNum only and move to the next typeFilter.
+                // If there is more typeFilter to process for current resource type, then reset pageNum only and move to the next typeFilter.
                 pageNum = 1;
                 indexOfCurrentTypeFilter++;
             }
@@ -244,7 +255,7 @@ public class ChunkReader extends AbstractItemReader {
 
         if (resources != null) {
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("readItem: loaded resources number - " + resources.size());
+                logger.fine("readItem: loaded " + resources.size() + " resources");
             }
             fillChunkDataBuffer(resources);
         } else {

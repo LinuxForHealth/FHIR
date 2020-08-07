@@ -136,9 +136,9 @@
                 "cos.bucket.name": "fhir-r4-connectathon",
                 "cos.location": "us",
                 "cos.endpointurl": "fake",
-                "cos.credential.ibm": "Y",
-                "cos.api.key": "fake",
-                "cos.srvinst.id": "fake"
+                "cos.credential.ibm": "N",
+                "cos.access.key": "fake",
+                "cos.secret.key": "fake"
             },
             "implementation_type": "cos",
             "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
@@ -147,10 +147,11 @@
             "batch-truststore": "resources/security/fhirTrustStore.p12",
             "batch-truststore-password": "change-password",
             "isExportPublic": true,
-            "cosFileMaxResources": 500000,
+            "cosFileMaxResources": 200000,
             "cosFileMaxSize": 209715200,
             "validBaseUrls": [],
-            "useFhirServerTrustStore": false
+            "useFhirServerTrustStore": true,
+            "enableParquet": false
         }
     }
 }

@@ -106,7 +106,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
         // This function is called at partition chunk check points and also at the end of partition processing.
         // So, check the NumOfToBeImported to make sure at the end of partition processing:
-        // (1) upload the remaining OperationComes to COS/S3.
+        // (1) upload the remaining OperationOutcomes to COS/S3.
         // (2) finish the multiple-parts uploads.
         // (3) release the resources hold by this partition.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
@@ -166,6 +166,10 @@ public class ImportPartitionCollector implements PartitionCollector {
 
         ImportCheckPointData partitionSummaryForMetrics = ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         partitionSummaryForMetrics.setNumOfToBeImported(partitionSummaryData.getNumOfToBeImported());
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.info("collected partition data: " + partitionSummaryForMetrics);
+        }
         return partitionSummaryForMetrics;
     }
 
