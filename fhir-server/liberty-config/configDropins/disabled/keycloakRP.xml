@@ -8,25 +8,25 @@
 
     <!-- Override the application-bnd binding of the main webapp -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
-        <application-bnd>
+        <application-bnd id="bind">
             <security-role id="users" name="FHIRUsers">
-                <group id="usersGroup" name="JwtUsers" access-id="group:https://localhost:9443/oauth2/endpoint/oauth2-provider/FHIRUsers"/>
+                <group id="usersGroup" access-id="group:https://localhost:8443/auth/realms/master/inferno"/>
             </security-role>
         </application-bnd>
     </webApplication>
-
+    
     <!-- The MP JWT configuration that injects the caller's JWT into a
          ResourceScoped bean for inspection. -->
     <mpJwt id="jwtConsumer"
-           keyName="libertyop"
+           jwksUri="http://localhost:8080/auth/realms/master/protocol/openid-connect/certs"
+           audiences="https://localhost:9443/fhir-server/api/v4"
            userNameAttribute="sub"
-           groupNameAttribute="groupIds"
-           issuer="https://localhost:9443/oauth2/endpoint/oauth2-provider,https://host.docker.internal:9443/oauth2/endpoint/oauth2-provider"
+           groupNameAttribute="azp"
+           issuer="https://localhost:8443/auth/realms/master"
+           signatureAlgorithm="RS256"
            authFilterRef="filter"/>
 
     <authFilter id="filter">
         <requestUrl urlPattern="/fhir-server" />
-        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/metadata" />
-        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/.well-known/smart-configuration" />
     </authFilter>
 </server>

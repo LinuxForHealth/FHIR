@@ -48,7 +48,7 @@ public class FHIRConfigHelper {
     /**
      * This function retrieves the specified property as a generic JsonValue. First we try to retrieve the property from
      * the current tenant's config, and then if not found we'll also look in the "default" config.
-     * 
+     *
      * @param propertyName
      *            the hierarchical name of the property to be retrieved (e.g. "level1/level2/prop1")
      * @return a JsonValue representing the property's value or null if it wasn't found in either config
@@ -72,7 +72,7 @@ public class FHIRConfigHelper {
 
         // If we didn't find the property in the tenant-specific config, then
         // let's try to find it in the default config.
-        if (result == null && !tenantId.equals(FHIRConfiguration.DEFAULT_TENANT_ID)) {
+        if (result == null && !FHIRConfiguration.DEFAULT_TENANT_ID.equals(tenantId)) {
             try {
                 pg = FHIRConfiguration.getInstance().loadConfiguration();
                 if (pg != null) {
@@ -89,7 +89,7 @@ public class FHIRConfigHelper {
     /**
      * This generic function will perform the work of retrieving a property from either the tenant-specific config, or
      * the default config, and then converting the resulting value to the appropriate type.
-     * 
+     *
      * @param propertyName
      *            the name of the property to retrieve
      * @param defaultValue
