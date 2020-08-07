@@ -220,5 +220,26 @@
 			"multipleAnd": true,
 			"modifier": []
 		}
+	},
+	{
+		"fullUrl": "http://ibm.com/fhir/SearchParameter/Encounter-diff-start-end-time",
+		"resource": {
+			"resourceType": "SearchParameter",
+			"id": "Encounter-diff-start-end-time",
+			"meta": {
+				"versionId": "1",
+				"lastUpdated": "2020-08-06T20:04:51.394047Z"
+			},
+			"url": "https://fhir.ibm.com/demo/diff-start-end-time",
+			"name": "diff-start-end-time",
+			"status": "draft",
+			"description": "Example of sophisiticated extraction using custom `between`",
+			"code": "diff-start-end-time",
+			"base": [
+				"Encounter"
+			],
+			"type": "quantity",
+			"expression": "iif(period.start.exists() and period.end.exists(), between(period.start , period.end, 'days'), {})"
+		}
 	}]
 }

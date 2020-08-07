@@ -1384,6 +1384,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             p.setValueNumber(systemValue.asQuantityValue().value());
             p.setValueSystem("http://unitsofmeasure.org"); // FHIRPath Quantity requires UCUM units
             p.setValueCode(systemValue.asQuantityValue().unit());
+            parameter = p;
         }
         return parameter;
     }
