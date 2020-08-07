@@ -36,7 +36,11 @@ public class SearchAdvancedExpressionTest extends FHIRServerTestBase {
         Encounter procedure = TestUtil.readExampleResource("json/spec/encounter-example-f203-20130311.json");
 
         Entity<Encounter> entity = Entity.entity(procedure, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Encounter").request().post(entity, Response.class);
+        Response response = target.path("Encounter")
+                .request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "study1")
+                .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         encounterId = getLocationLogicalId(response);
 
@@ -71,7 +75,11 @@ public class SearchAdvancedExpressionTest extends FHIRServerTestBase {
     @AfterClass(groups = { "server-search-advanced" })
     public void deleteEncounter() throws Exception {
         WebTarget target = getWebTarget();
-        Response response = target.path("Encounter/" + encounterId).request().delete();
+        Response response = target.path("Encounter/" + encounterId)
+                .request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "study1")
+                .delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 }
