@@ -1,212 +1,212 @@
 <CapabilityStatement xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="q3p1YKmuYa"/>
-    <lastUpdated value="2020-03-12T00:11:47.83-04:00"/>
-    <source value="_GZAi97GrS"/>
-    <profile value="_nfmLdQhnr"/>
+    <versionId value="nWYjpnSrAZ"/>
+    <lastUpdated value="2020-08-11T16:26:53.538-05:00"/>
+    <source value="OAXITXD3Ak"/>
+    <profile value="X1ca3j4Zx4"/>
     <security>
-      <system value="plJ259JyMZ"/>
-      <version value="IyEOX449Um"/>
-      <code value="1nmMbFe0y9"/>
-      <display value="KVU0N_4K5z"/>
+      <system value="yCl2HdPxgf"/>
+      <version value="A532QfcIjf"/>
+      <code value="ifHND_6qX6"/>
+      <display value="AE41byMmGy"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="HYm38VqS_p"/>
-      <version value="NPV_vGoBtI"/>
-      <code value="u6IxK9vhou"/>
-      <display value="RsrSZg25j1"/>
+      <system value="F09bzD_PaX"/>
+      <version value="9ZOJqFKozh"/>
+      <code value="0cBaAWeN3S"/>
+      <display value="BfiLatWxpW"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="2c8vVv9IkS"/>
-  <language value="fNCapxGBLV"/>
+  <implicitRules value="NvlyHhFBUp"/>
+  <language value="en-US"/>
   <text>
-    <status value="empty"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
-  <url value="3vqQSs6Gw6"/>
-  <version value="eamvDCJENo"/>
-  <name value="oYyEJyhqEs"/>
-  <title value="gHcL6iapJe"/>
-  <status value="retired"/>
+  <url value="wAmz0QcYNX"/>
+  <version value="N4Gm2EFG2O"/>
+  <name value="9Fzw_4PvV5"/>
+  <title value="kdAo4gW8he"/>
+  <status value="active"/>
   <experimental value="true"/>
-  <date value="2020-03-12T00:11:47.836-04:00"/>
-  <publisher value="2M4vnvbQEU"/>
+  <date value="2020-08-11T16:26:53.538-05:00"/>
+  <publisher value="vuxBQ7MWhd"/>
   <contact>
-    <name value="uFQS7_or32"/>
+    <name value="NoUGdVHSZz"/>
     <telecom>
       <system value="email"/>
-      <value value="t4Brl5Mrbn"/>
-      <use value="old"/>
-      <rank value="543676363"/>
+      <value value="uEHzRCtCfT"/>
+      <use value="mobile"/>
+      <rank value="1603594189"/>
       <period>
-        <start value="2020-03-12T00:11:47.831-04:00"/>
-        <end value="2020-03-12T00:11:47.831-04:00"/>
+        <start value="2020-08-11T16:26:53.533-05:00"/>
+        <end value="2020-08-11T16:26:53.533-05:00"/>
       </period>
     </telecom>
   </contact>
-  <description value="nA5MjcYPTu"/>
+  <description value="ObiCc2dETu"/>
   <useContext>
     <code>
-      <system value="p8Z8Z1w1Tb"/>
-      <version value="bhgw7dwpUQ"/>
-      <code value="yvirWiYUzu"/>
-      <display value="zEcazJnkzD"/>
+      <system value="S1akGE2fDS"/>
+      <version value="HilqXdkLBS"/>
+      <code value="MnSI_TOmuh"/>
+      <display value="sotzF7R17W"/>
       <userSelected value="true"/>
     </code>
     <valueCodeableConcept>
       <coding>
-        <system value="6Rlv9gqXsU"/>
-        <version value="Mte5A7pBFA"/>
-        <code value="iGaexe6ElY"/>
-        <display value="kLEQ3HiNkJ"/>
+        <system value="Gz8lZfn9aV"/>
+        <version value="0YOUX2clin"/>
+        <code value="b2c46CYjVz"/>
+        <display value="CHqv1xEdDz"/>
         <userSelected value="true"/>
       </coding>
-      <text value="JrtT3V6W0f"/>
+      <text value="JyJ4byA13R"/>
     </valueCodeableConcept>
   </useContext>
   <jurisdiction>
     <coding>
-      <system value="7gNuv04WD2"/>
-      <version value="iGP8Y39kmj"/>
-      <code value="rFGvJhtkDX"/>
-      <display value="sttdYMDTCp"/>
+      <system value="C0o3FslvkI"/>
+      <version value="PdwbIpf_ja"/>
+      <code value="GeDA3fjn3B"/>
+      <display value="0KVVY_1WQ7"/>
       <userSelected value="true"/>
     </coding>
-    <text value="vIAo9Nsrfx"/>
+    <text value="rNKrqoCEOh"/>
   </jurisdiction>
-  <purpose value="bI1goMOIN6"/>
-  <copyright value="IfATXrtKFx"/>
+  <purpose value="Ax8kJcWZlx"/>
+  <copyright value="I5XAglh67M"/>
   <kind value="instance"/>
-  <instantiates value="ojRX6jwxdz"/>
-  <imports value="Zi8nYN80Mt"/>
+  <instantiates value="Ch2hMrKwIx"/>
+  <imports value="YQJ5iCcQhE"/>
   <software>
-    <name value="ASTeS90qNt"/>
-    <version value="CVk2apJ9C_"/>
-    <releaseDate value="2020-03-12T00:11:47.794-04:00"/>
+    <name value="5pjZnLV2O0"/>
+    <version value="scmxBiQ8dT"/>
+    <releaseDate value="2020-08-11T16:26:53.535-05:00"/>
   </software>
   <implementation>
-    <description value="6gznA9IkIz"/>
-    <url value="TuPQw2x6vO"/>
+    <description value="X8AlB_U8Ai"/>
+    <url value="FUEd4SuyaI"/>
     <custodian>
-      <reference value="Organization/JBD6kzlPdq"/>
+      <reference value="Organization/u_wQL8VuCC"/>
       <type value="Organization"/>
       <identifier>
-        <use value="secondary"/>
+        <use value="usual"/>
         <type>
           <coding>
-            <system value="HLo3YFNE1I"/>
-            <version value="_JC2oaZTk9"/>
-            <code value="6sanfOnQZj"/>
-            <display value="iXYPqdPILt"/>
+            <system value="kcClIV8NDs"/>
+            <version value="w7bkIxMR0v"/>
+            <code value="YBxvzF5qtq"/>
+            <display value="V11jsRVN33"/>
             <userSelected value="true"/>
           </coding>
-          <text value="FWQP9SQX0j"/>
+          <text value="GBJfZysDaB"/>
         </type>
-        <system value="ynET5tt2kF"/>
-        <value value="rlGm20XaCQ"/>
+        <system value="unMHg3rIM2"/>
+        <value value="TuXCQGSapC"/>
         <period>
-          <start value="2020-03-12T00:11:47.796-04:00"/>
-          <end value="2020-03-12T00:11:47.796-04:00"/>
+          <start value="2020-08-11T16:26:53.513-05:00"/>
+          <end value="2020-08-11T16:26:53.514-05:00"/>
         </period>
       </identifier>
-      <display value="A0Y3HeFKAC"/>
+      <display value="2K2Uu4qYxT"/>
     </custodian>
   </implementation>
-  <fhirVersion value="1.8.0"/>
-  <format value="fpege0Ehxg"/>
-  <patchFormat value="mvsPBDFZN5"/>
-  <implementationGuide value="vIBmoyNRuF"/>
+  <fhirVersion value="3.3.0"/>
+  <format value="r4YtjDoTs4"/>
+  <patchFormat value="hhOiTTUiZi"/>
+  <implementationGuide value="fIuw__N00S"/>
   <rest>
-    <mode value="client"/>
-    <documentation value="V6JC47UiC3"/>
+    <mode value="server"/>
+    <documentation value="n97W8tVk2l"/>
     <security>
       <cors value="true"/>
       <service>
         <coding>
-          <system value="P3JB1y8Aeg"/>
-          <version value="KkzYhMTceJ"/>
-          <code value="zaAN3BbhcP"/>
-          <display value="2njsIMxxpi"/>
+          <system value="OaxlCwN1hx"/>
+          <version value="vyZwxffE39"/>
+          <code value="ouy_63mBLL"/>
+          <display value="VqrJxS08Kw"/>
           <userSelected value="true"/>
         </coding>
-        <text value="AT_yoTCdth"/>
+        <text value="jRo4CKcQ3G"/>
       </service>
-      <description value="uMPv4LTDQ2"/>
+      <description value="eONPsgoj4r"/>
     </security>
     <resource>
-      <type value="MedicationRequest"/>
-      <profile value="MczaE8eLNf"/>
-      <supportedProfile value="12qOIVaPYM"/>
-      <documentation value="KTLlG41RGV"/>
+      <type value="Medication"/>
+      <profile value="AF7jc1ZQWY"/>
+      <supportedProfile value="93O9FZt_TF"/>
+      <documentation value="3px6jDOq44"/>
       <interaction>
-        <code value="vread"/>
-        <documentation value="dHbGzaw1lb"/>
+        <code value="update"/>
+        <documentation value="WL41awGpsX"/>
       </interaction>
-      <versioning value="versioned"/>
+      <versioning value="versioned-update"/>
       <readHistory value="true"/>
       <updateCreate value="true"/>
       <conditionalCreate value="true"/>
       <conditionalRead value="modified-since"/>
       <conditionalUpdate value="true"/>
-      <conditionalDelete value="single"/>
+      <conditionalDelete value="not-supported"/>
       <referencePolicy value="local"/>
-      <searchInclude value="zhtmu7TmD7"/>
-      <searchRevInclude value="cttDx2_saZ"/>
+      <searchInclude value="SbWi6l7kZF"/>
+      <searchRevInclude value="4JOOJLAV4h"/>
       <searchParam>
-        <name value="sP1x9gkPjm"/>
-        <definition value="_Npd4dAIlt"/>
-        <type value="date"/>
-        <documentation value="H43O2dQtZz"/>
+        <name value="s6oCUdkmEF"/>
+        <definition value="MBuiLyGMek"/>
+        <type value="uri"/>
+        <documentation value="lXyb7CejvV"/>
       </searchParam>
       <operation>
-        <name value="6Mfmk17lyl"/>
-        <definition value="wTiQWjdpzw"/>
-        <documentation value="kWo8HxZse_"/>
+        <name value="proY01Fa0d"/>
+        <definition value="vnSOJgl0Ap"/>
+        <documentation value="eD2OUeL2e5"/>
       </operation>
     </resource>
     <interaction>
-      <code value="transaction"/>
-      <documentation value="e9CsO0myVR"/>
+      <code value="batch"/>
+      <documentation value="FaZn1mH0P7"/>
     </interaction>
     <searchParam>
-      <name value="tdMWeitAkh"/>
-      <definition value="9aww7nQv5a"/>
-      <type value="special"/>
-      <documentation value="zvcbzRaxWc"/>
+      <name value="0B1N3vnPqD"/>
+      <definition value="4hn25dYYV1"/>
+      <type value="date"/>
+      <documentation value="Ojc9yqWHQ8"/>
     </searchParam>
     <operation>
-      <name value="b6dpUAAMbw"/>
-      <definition value="o8iZBhmuvJ"/>
-      <documentation value="Y8fd03bn6M"/>
+      <name value="6EsTNIIUsk"/>
+      <definition value="k24oFhpgSX"/>
+      <documentation value="SrizPrQhFU"/>
     </operation>
-    <compartment value="Vl5_lwEc9G"/>
+    <compartment value="2QTxOg90QM"/>
   </rest>
   <messaging>
     <endpoint>
       <protocol>
-        <system value="HOGzcyGC3P"/>
-        <version value="9CL8UMvvQA"/>
-        <code value="8_vHM2eevG"/>
-        <display value="WlISsm8OQT"/>
+        <system value="bEsNJ6gbGH"/>
+        <version value="m9tJxKqEsH"/>
+        <code value="0dE29pEg8j"/>
+        <display value="4aW82Tle9e"/>
         <userSelected value="true"/>
       </protocol>
-      <address value="9zp4KuUA3O"/>
+      <address value="bLaqEe8cfT"/>
     </endpoint>
-    <reliableCache value="213596023"/>
-    <documentation value="G4RcEUbhhm"/>
+    <reliableCache value="724466710"/>
+    <documentation value="OiukuQP2YJ"/>
     <supportedMessage>
       <mode value="sender"/>
-      <definition value="YtyT8StmBh"/>
+      <definition value="JRTIyWEIbZ"/>
     </supportedMessage>
   </messaging>
   <document>
     <mode value="producer"/>
-    <documentation value="NF6lwqObrC"/>
-    <profile value="GYUHu6DzRR"/>
+    <documentation value="dZ9WT61JOt"/>
+    <profile value="nh8DX9A8ab"/>
   </document>
 </CapabilityStatement>
