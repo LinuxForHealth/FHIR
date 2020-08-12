@@ -1147,7 +1147,8 @@ public class CodeGenerator {
                             String valueSet = binding.getString("valueSet").split("\\|")[0];
                             if (!"required".equals(binding.getString("strength")) || hasConcepts(valueSet)) {
                                 valueSet = getMaxValueSet(binding);
-                                valueSet = (valueSet != null) ? valueSet.split("\\|")[0] : valueSet;
+                                valueSet = (valueSet != null) ? valueSet.split("\\|")[0] : null;
+                                valueSet = (valueSet != null && !hasConcepts(valueSet)) ? valueSet : null;
                             }
                             // If there is a required (or maxValueSet) binding to a syntax-based value set, then do the appropriate checking for that syntax-based value set
                             String validationMethodName = getSyntaxBasedValueSetValidationMethod(valueSet, fieldType, isRepeating(elementDefinition));
