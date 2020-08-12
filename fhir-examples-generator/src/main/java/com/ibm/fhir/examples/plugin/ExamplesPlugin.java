@@ -62,7 +62,7 @@ public class ExamplesPlugin extends AbstractMojo {
         String definitionsDir = baseDir + "/definitions";
 
         // Only runs for the fhir-model project, short-circuits otherwise.
-        if (mavenProject.getArtifactId().contains("fhir-model")) {
+        if (mavenProject.getArtifactId().contains("fhir-examples-generator")) {
 
             // Check the base directory
             if ((new File(definitionsDir)).exists()) {

@@ -71,6 +71,7 @@ public class Attachment extends Element {
         hash = builder.hash;
         title = builder.title;
         creation = builder.creation;
+        ValidationSupport.checkLanguageCode(language, "language");
         ValidationSupport.requireValueOrChildren(this);
     }
 

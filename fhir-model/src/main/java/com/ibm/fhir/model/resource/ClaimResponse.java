@@ -5943,6 +5943,7 @@ public class ClaimResponse extends DomainResource {
             type = builder.type;
             text = ValidationSupport.requireNonNull(builder.text, "text");
             language = builder.language;
+            ValidationSupport.checkLanguageCodeableConcept(language, "language");
             ValidationSupport.requireValueOrChildren(this);
         }
 

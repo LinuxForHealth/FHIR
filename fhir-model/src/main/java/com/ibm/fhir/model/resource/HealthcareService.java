@@ -157,6 +157,7 @@ public class HealthcareService extends DomainResource {
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
+        ValidationSupport.checkLanguageCodeableConcepts(communication, "communication");
         ValidationSupport.requireChildren(this);
     }
 

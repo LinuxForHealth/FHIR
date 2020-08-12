@@ -932,6 +932,7 @@ public class RelatedPerson extends DomainResource {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
             preferred = builder.preferred;
+            ValidationSupport.checkLanguageCodeableConcept(language, "language");
             ValidationSupport.requireValueOrChildren(this);
         }
 

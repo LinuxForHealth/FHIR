@@ -89,6 +89,7 @@ public class Practitioner extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        ValidationSupport.checkLanguageCodeableConcepts(communication, "communication");
         ValidationSupport.requireChildren(this);
     }
 

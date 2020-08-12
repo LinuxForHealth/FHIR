@@ -1,135 +1,135 @@
 <SubstanceNucleicAcid xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="UPCsA2JI4o"/>
-    <lastUpdated value="2020-03-12T00:12:01.083-04:00"/>
-    <source value="sSRSsqLDmM"/>
-    <profile value="7lobPwdarV"/>
+    <versionId value="v6luOliTB9"/>
+    <lastUpdated value="2020-08-11T16:27:03.071-05:00"/>
+    <source value="KipVpydEEt"/>
+    <profile value="zEXfs1D4Y3"/>
     <security>
-      <system value="O8K22IImFG"/>
-      <version value="iqOQMdL0n0"/>
-      <code value="5bwOFEa4Nd"/>
-      <display value="sPjn04SgVP"/>
+      <system value="ltCn5dtKlG"/>
+      <version value="9xxXsplBdz"/>
+      <code value="cM0DXXolpP"/>
+      <display value="3de6gQXI_i"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="toPvlIiAZ4"/>
-      <version value="L53VvHCi2c"/>
-      <code value="ulDPDKaPIH"/>
-      <display value="YJ7xDBV2VN"/>
+      <system value="6PFDO2uhK7"/>
+      <version value="du_TfWiwsR"/>
+      <code value="OqGRrf2B2M"/>
+      <display value="Cijz0dyzxh"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="pZcw6yy0XA"/>
-  <language value="61YsHZDzC4"/>
+  <implicitRules value="UkFPduQv6r"/>
+  <language value="en-US"/>
   <text>
-    <status value="additional"/>
+    <status value="empty"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <sequenceType>
     <coding>
-      <system value="X0163bJNBp"/>
-      <version value="Tlx1uTYEu2"/>
-      <code value="rAM3c6XIpM"/>
-      <display value="WqFi4zia1o"/>
+      <system value="X9zaxeluaK"/>
+      <version value="Gfl3yp9bGt"/>
+      <code value="wV7jUHMRfT"/>
+      <display value="xMMhF4r7ZG"/>
       <userSelected value="true"/>
     </coding>
-    <text value="RsXmC5eHMp"/>
+    <text value="_hqMTl2p0n"/>
   </sequenceType>
-  <numberOfSubunits value="1682710160"/>
-  <areaOfHybridisation value="c09m_UxSUO"/>
+  <numberOfSubunits value="712685982"/>
+  <areaOfHybridisation value="EUzR1r4Gqd"/>
   <oligoNucleotideType>
     <coding>
-      <system value="7dXwyGBH5o"/>
-      <version value="5uUTUu76z6"/>
-      <code value="C3RjAMXVgF"/>
-      <display value="h79ynC3K4L"/>
+      <system value="ApP6mkFgqc"/>
+      <version value="XzzLJnVEyh"/>
+      <code value="EcPNcWjvEG"/>
+      <display value="ZN3CfGsu6E"/>
       <userSelected value="true"/>
     </coding>
-    <text value="eiy900FmIa"/>
+    <text value="fPC96R_A56"/>
   </oligoNucleotideType>
   <subunit>
-    <subunit value="222872820"/>
-    <sequence value="hws6chUJlJ"/>
-    <length value="379821062"/>
+    <subunit value="508587559"/>
+    <sequence value="G3AMmBo9Me"/>
+    <length value="660657162"/>
     <sequenceAttachment>
-      <contentType value="J_ewQkZcTR"/>
-      <language value="G63DJ4DtKl"/>
-      <data value="CT0JHQ4="/>
-      <url value="IMd_tAFRbF"/>
-      <size value="783441148"/>
-      <hash value="WHpLG3Q="/>
-      <title value="gWi6HLUVF6"/>
-      <creation value="2020-03-12T00:12:01.086-04:00"/>
+      <contentType value="NtBcW4AjtA"/>
+      <language value="en-US"/>
+      <data value="JgcQWik="/>
+      <url value="qN0pdyV5TP"/>
+      <size value="1682004750"/>
+      <hash value="dy1uTTM="/>
+      <title value="29xbg1TPeq"/>
+      <creation value="2020-08-11T16:27:03.073-05:00"/>
     </sequenceAttachment>
     <fivePrime>
       <coding>
-        <system value="g52qIpuOol"/>
-        <version value="Pcpxi0ns4n"/>
-        <code value="HzDnUIFCoX"/>
-        <display value="KzyVm668fk"/>
+        <system value="hUAbGZksnv"/>
+        <version value="I_e2VvcWvH"/>
+        <code value="kJP6GKcl9b"/>
+        <display value="XnRnVEeNEs"/>
         <userSelected value="true"/>
       </coding>
-      <text value="S03cbX0z7K"/>
+      <text value="f0T10AJDoR"/>
     </fivePrime>
     <threePrime>
       <coding>
-        <system value="ak7JUltJaH"/>
-        <version value="0yrxOSPYc7"/>
-        <code value="F0IGDwr1Yh"/>
-        <display value="aJd6NtuBDG"/>
+        <system value="CwJXlKvc9U"/>
+        <version value="oV0Uu7xfje"/>
+        <code value="ILTUkSctUq"/>
+        <display value="uEqpLZD7xt"/>
         <userSelected value="true"/>
       </coding>
-      <text value="Br0BiAqoBH"/>
+      <text value="oo0uyTX3_w"/>
     </threePrime>
     <linkage>
-      <connectivity value="GWJgqma8CD"/>
+      <connectivity value="PazUHuiQs4"/>
       <identifier>
         <use value="temp"/>
         <type>
           <coding>
-            <system value="gb7BKLxK3H"/>
-            <version value="sjVtOmiq8D"/>
-            <code value="WbYDjqfBAw"/>
-            <display value="h5GkpEvfXh"/>
+            <system value="jdnoKR7VUF"/>
+            <version value="UHcvXbcOhU"/>
+            <code value="Fpsunc0Gix"/>
+            <display value="Nr9WbvZfFO"/>
             <userSelected value="true"/>
           </coding>
-          <text value="nl_aTzfQzV"/>
+          <text value="WV_kmZ1kXh"/>
         </type>
-        <system value="OUgSeJsS6k"/>
-        <value value="qdg6XwMebP"/>
+        <system value="ZXVTsIo3iL"/>
+        <value value="n1sv2XKmC7"/>
         <period>
-          <start value="2020-03-12T00:12:01.086-04:00"/>
-          <end value="2020-03-12T00:12:01.086-04:00"/>
+          <start value="2020-08-11T16:27:03.074-05:00"/>
+          <end value="2020-08-11T16:27:03.074-05:00"/>
         </period>
       </identifier>
-      <name value="OizuRyKlgp"/>
-      <residueSite value="M_OcleVciT"/>
+      <name value="nttLnlnw3X"/>
+      <residueSite value="EEGSf55A_M"/>
     </linkage>
     <sugar>
       <identifier>
-        <use value="usual"/>
+        <use value="temp"/>
         <type>
           <coding>
-            <system value="Fbx03BxQIn"/>
-            <version value="BLmgF0g1G1"/>
-            <code value="Br9nxSeLJU"/>
-            <display value="ynTQ5c8LTD"/>
+            <system value="K6EmKdxsYB"/>
+            <version value="901TFZnins"/>
+            <code value="K_iX_JPd7V"/>
+            <display value="0vwfeixFCr"/>
             <userSelected value="true"/>
           </coding>
-          <text value="OOVtQHqDJy"/>
+          <text value="i9PCw_jeqX"/>
         </type>
-        <system value="_6uq84ErtS"/>
-        <value value="iL5sH5RUat"/>
+        <system value="QDNpj4qrKV"/>
+        <value value="a1AO7JNpV_"/>
         <period>
-          <start value="2020-03-12T00:12:01.087-04:00"/>
-          <end value="2020-03-12T00:12:01.087-04:00"/>
+          <start value="2020-08-11T16:27:03.076-05:00"/>
+          <end value="2020-08-11T16:27:03.076-05:00"/>
         </period>
       </identifier>
-      <name value="lh4uiAMmD4"/>
-      <residueSite value="Fv1GSoYvnC"/>
+      <name value="kiVzX829wh"/>
+      <residueSite value="gEcx_bg0nd"/>
     </sugar>
   </subunit>
 </SubstanceNucleicAcid>
