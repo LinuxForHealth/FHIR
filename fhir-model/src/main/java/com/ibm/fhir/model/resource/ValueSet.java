@@ -2301,6 +2301,7 @@ public class ValueSet extends DomainResource {
                         language = builder.language;
                         use = builder.use;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
+                        ValidationSupport.checkLanguageCode(language, "language");
                         ValidationSupport.requireValueOrChildren(this);
                     }
 

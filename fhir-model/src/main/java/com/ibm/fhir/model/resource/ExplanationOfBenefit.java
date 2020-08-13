@@ -11226,6 +11226,7 @@ public class ExplanationOfBenefit extends DomainResource {
             type = builder.type;
             text = builder.text;
             language = builder.language;
+            ValidationSupport.checkLanguageCodeableConcept(language, "language");
             ValidationSupport.requireValueOrChildren(this);
         }
 

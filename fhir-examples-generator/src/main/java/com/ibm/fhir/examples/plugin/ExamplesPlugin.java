@@ -61,8 +61,8 @@ public class ExamplesPlugin extends AbstractMojo {
         String targetDir = baseDir + "/src/test/resources/JSON";
         String definitionsDir = baseDir + "/definitions";
 
-        // Only runs for the fhir-model project, short-circuits otherwise.
-        if (mavenProject.getArtifactId().contains("fhir-model")) {
+        // Only runs for the fhir-examples-generator project since that is where the definitions directory exists, short-circuits otherwise.
+        if (mavenProject.getArtifactId().contains("fhir-examples-generator")) {
 
             // Check the base directory
             if ((new File(definitionsDir)).exists()) {

@@ -44,6 +44,7 @@ public abstract class Resource extends AbstractVisitable {
         implicitRules = builder.implicitRules;
         language = builder.language;
         ValidationSupport.checkId(id);
+        ValidationSupport.checkLanguageCode(language, "language");
     }
 
     /**

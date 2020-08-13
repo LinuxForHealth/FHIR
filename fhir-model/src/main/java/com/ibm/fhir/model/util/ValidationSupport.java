@@ -11,8 +11,10 @@ import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.IllformedLocaleException;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -28,6 +30,7 @@ import javax.xml.validation.Validator;
 
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
@@ -40,6 +43,7 @@ import com.ibm.fhir.model.type.Reference;
  *          so that Builder.build() methods can throw the most appropriate exception without catching and wrapping
  */
 public final class ValidationSupport {
+    public static final String BCP_47_URN = "urn:ietf:bcp:47";
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
@@ -196,6 +200,104 @@ public final class ValidationSupport {
         }
     }
 
+    /**
+     * Checks that each language code in the list has a valid BCP-47 syntax.
+     * @param language the language code list
+     * @param elementName the element name
+     * @throws IllegalStateException if the passed language code list is not valid
+     */
+    public static void checkLanguageCodes(List<Code> languages, String elementName) {
+        if (languages != null) {
+            for (Code language : languages) {
+                checkLanguageCode(language, elementName);
+            }
+        }
+    }
+    
+    /**
+     * Checks that the language code has a valid BCP-47 syntax.
+     * @param language the language code
+     * @param elementName the element name
+     * @throws IllegalStateException if the passed language code is not valid
+     */
+    public static void checkLanguageCode(Code language, String elementName) {
+        if (language != null && language.getValue() != null) {
+            String languageValue = language.getValue();
+            try {
+                new Locale.Builder().setLanguageTag(languageValue).build();
+            }
+            catch (IllformedLocaleException e) {
+                throw new IllegalStateException(String.format("Language code: '%s' is not a valid language", languageValue));
+            }
+        }
+    }
+
+    /**
+     * Checks that each language coding in the list has a valid BCP-47 syntax.
+     * @param language the language coding list
+     * @param elementName the element name
+     * @throws IllegalStateException if the passed language coding list is not valid
+     */
+    public static void checkLanguageCodings(List<Coding> languages, String elementName) {
+        if (languages != null) {
+            for (Coding language : languages) {
+                checkLanguageCoding(language, elementName);
+            }
+        }
+    }
+    
+    /**
+     * Checks that the language coding has a valid BCP-47 syntax.
+     * @param language the language coding
+     * @param elementName the element name
+     * @throws IllegalStateException if the passed language coding is not valid
+     */
+    public static void checkLanguageCoding(Coding language, String elementName) {
+        if (language != null) {
+            if (hasSystemAndCodeValues(language)) {
+                if (!BCP_47_URN.equals(language.getSystem().getValue())) {
+                    throw new IllegalStateException(String.format("Language system must be '%s'", BCP_47_URN));
+                }
+                checkLanguageCode(language.getCode(), elementName);
+            }
+        }
+    }
+
+    /**
+     * Checks that the language codeable concept has at least one coding with a valid BCP-47 syntax.
+     * @param language the language codeable concept
+     * @param elementName the element name
+     * @throws IllegalStateException if the passed language codeable concept is not valid
+     */
+    public static void checkLanguageCodeableConcepts(List<CodeableConcept> languages, String elementName) {
+        if (languages != null) {
+            for (CodeableConcept language : languages) {
+                checkLanguageCodeableConcept(language, elementName);
+            }
+        }
+    }
+
+    /**
+     * Checks that the language codeable concept has at least one coding with a valid BCP-47 syntax.
+     * @param language the language codeable concept
+     * @param elementName the element name
+     * @throws IllegalStateException if the passed language codeable concept is not valid
+     */
+    public static void checkLanguageCodeableConcept(CodeableConcept language, String elementName) {
+        if (language != null && !language.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(language)) {
+            for (Coding coding : language.getCoding()) {
+                if (hasSystemAndCodeValues(coding)) {
+                    try {
+                        checkLanguageCoding(coding, elementName);
+                        return;
+                    }
+                    catch (IllegalStateException e) {}
+                }
+            }
+            throw new IllegalStateException(String.format("Element: '%s' must contain a language system of '%s' and a valid language code", elementName, BCP_47_URN));
+        }
+    }
+        
     /**
      * @throws IllegalStateException if the passed String is longer than the maximum string length
      */
