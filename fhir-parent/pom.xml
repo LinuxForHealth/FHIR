@@ -74,6 +74,7 @@
         <module>../fhir-server-webapp</module>
         <module>../fhir-server-test</module>
         <module>../fhir-smart</module>
+        <module>../fhir-bucket</module>
         <module>../fhir-swagger-generator</module>
         <module>../fhir-openapi</module>
         <module>../fhir-install</module>
@@ -228,6 +229,16 @@
                 <groupId>io.nats</groupId>
                 <artifactId>jnats</artifactId>
                 <version>2.6.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.6</version>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
