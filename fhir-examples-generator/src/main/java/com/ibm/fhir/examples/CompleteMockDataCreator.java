@@ -91,6 +91,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 public class CompleteMockDataCreator extends DataCreatorBase {
     protected final PodamFactory podam;
+    private static final String ENGLISH_US = "en-US";
 
     public CompleteMockDataCreator() throws IOException {
         super();
@@ -202,19 +203,19 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                             || (builder instanceof CodeSystem.Concept.Designation.Builder && "language".equals(method.getName()))
                             || (builder instanceof Resource.Builder && "language".equals(method.getName()))
                             || (builder instanceof ValueSet.Compose.Include.Concept.Designation.Builder && "language".equals(method.getName()))) {
-                        argument = Code.of("en-US");
+                        argument = Code.of(ENGLISH_US);
                     }
                     // Must contain a valid BCP-47 system and code (CodeableConcept)
                     else if ((builder instanceof ClaimResponse.ProcessNote.Builder && "language".equals(method.getName()))
                             || (builder instanceof ExplanationOfBenefit.ProcessNote.Builder && "language".equals(method.getName()))
                             || (builder instanceof Patient.Communication.Builder && "language".equals(method.getName()))
                             || (builder instanceof RelatedPerson.Communication.Builder && "language".equals(method.getName()))) {
-                        argument = CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("en-US")).build()).build();
+                        argument = CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build();
                     }                    
                     // Must contain a valid BCP-47 system and code (List<CodeableConcept>)
                     else if ((builder instanceof HealthcareService.Builder && "communication".equals(method.getName()))
                             || (builder instanceof Practitioner.Builder && "communication".equals(method.getName()))) {
-                        argument = Collections.singletonList(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("en-US")).build()).build());
+                        argument = Collections.singletonList(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build());
                     }                    
                     // drt-1: There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.
                     else if (builder instanceof Duration.Builder && method.getName().equals("code")) {
