@@ -227,7 +227,7 @@ public final class ValidationSupport {
                 new Locale.Builder().setLanguageTag(languageValue).build();
             }
             catch (IllformedLocaleException e) {
-                throw new IllegalStateException(String.format("Language code: '%s' is not a valid language", languageValue));
+                throw new IllegalStateException(String.format("'%s' is not a valid language code", languageValue));
             }
         }
     }
@@ -256,7 +256,7 @@ public final class ValidationSupport {
         if (language != null) {
             if (hasSystemAndCodeValues(language)) {
                 if (!BCP_47_URN.equals(language.getSystem().getValue())) {
-                    throw new IllegalStateException(String.format("Language system must be '%s'", BCP_47_URN));
+                    throw new IllegalStateException(String.format("Language system is not '%s'", BCP_47_URN));
                 }
                 checkLanguageCode(language.getCode(), elementName);
             }
@@ -294,7 +294,7 @@ public final class ValidationSupport {
                     catch (IllegalStateException e) {}
                 }
             }
-            throw new IllegalStateException(String.format("Element: '%s' must contain a language system of '%s' and a valid language code", elementName, BCP_47_URN));
+            throw new IllegalStateException(String.format("'%s' does not contain a language system of '%s' and a valid language code", elementName, BCP_47_URN));
         }
     }
         

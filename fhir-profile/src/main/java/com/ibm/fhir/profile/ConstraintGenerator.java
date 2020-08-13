@@ -36,6 +36,7 @@ import com.ibm.fhir.model.type.ElementDefinition.Binding;
 import com.ibm.fhir.model.type.ElementDefinition.Slicing;
 import com.ibm.fhir.model.type.ElementDefinition.Slicing.Discriminator;
 import com.ibm.fhir.model.type.ElementDefinition.Type;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
@@ -50,6 +51,7 @@ public class ConstraintGenerator {
 
     private static final String MONEY_QUANTITY_PROFILE = "http://hl7.org/fhir/StructureDefinition/MoneyQuantity";
     private static final String SIMPLE_QUANTITY_PROFILE = "http://hl7.org/fhir/StructureDefinition/SimpleQuantity";
+    private static final String MAX_VALUE_SET_EXTENSION_URL = "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet";
 
     private final StructureDefinition profile;
     private final Map<String, ElementDefinition> elementDefinitionMap;
@@ -474,6 +476,11 @@ public class ConstraintGenerator {
         return hasFixedValueConstraint(node.elementDefinition) ? generateFixedValueConstraint(node.elementDefinition) : generatePatternValueConstraint(node);
     }
 
+    /**
+     * Generates FHIRPath constraint based on the cardinality, choice type, and binding of the element.
+     * @param elementDefinition the element definition
+     * @return the FHIRPath constraint
+     */
     private String generateVocabularyConstraint(ElementDefinition elementDefinition) {
         StringBuilder sb = new StringBuilder();
 
@@ -519,11 +526,59 @@ public class ConstraintGenerator {
             sb.append(")");
         }
 
+        // If the binding defines a maxValueSet, then add a "required" binding to the maxValueSet
+        String maxValueSet = getMaxValueSet(binding);
+        if (maxValueSet != null) {
+            sb.append(" and ").append(identifier);
+            if (hasChoiceTypeConstraint(elementDefinition)) {
+                Type type = getTypes(elementDefinition).get(0);
+                if (type.getCode() != null) {
+                    String code = type.getCode().getValue();
+                    sb.append(".as(").append(code).append(")");
+                }
+            }
+
+            if (isRepeating(elementDefinition)) {
+                sb.append(".all(");
+            } else {
+                sb.append(".");
+            }
+            
+            sb.append("memberOf('").append(maxValueSet).append("', '").append(BindingStrength.REQUIRED.getValue()).append("')");
+            
+            if (isRepeating(elementDefinition)) {
+                sb.append(")");
+            }
+        }
+        
         if (isOptional(elementDefinition)) {
             sb.append(")");
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Gets the URI or Canonical of the maximum allowable value set. This defines a 'required' binding over the top of the 'extensible' or 'preferred' binding.
+     * @param binding the binding
+     * @return the URI or Canonical of the maximum allowable value set, or null
+     */
+    private String getMaxValueSet(Binding binding) {
+        if (binding != null) {
+            for (Extension extension : binding.getExtension()) {
+                if (MAX_VALUE_SET_EXTENSION_URL.equals(extension.getUrl())) {
+                    String valueUri = extension.getValue().is(Uri.class) ? extension.getValue().as(Uri.class).getValue() : null;
+                    if (valueUri != null) {
+                        return valueUri;
+                    }
+                    String valueCanonical = extension.getValue().is(Canonical.class) ? extension.getValue().as(Canonical.class).getValue() : null;
+                    if (valueCanonical != null) {
+                        return valueCanonical;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private String getExtensionUrl(Node node) {

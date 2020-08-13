@@ -24,12 +24,16 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.function.MemberOfFunction;
 
 public class MemberOfFunctionTest {
+    private static final String ENGLISH_US = "en-US";
+
     @Test
     public void testMemberOfFunction1() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -248,7 +252,140 @@ public class MemberOfFunctionTest {
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
+    
+    @Test
+    public void testMemberOfFunction18() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of(ENGLISH_US), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction19() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("invalidLanguageCode"), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
 
+    @Test
+    public void testMemberOfFunction20() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Coding coding = Coding.builder()
+                .system(Uri.of(ValidationSupport.BCP_47_URN))
+                .code(Code.of(ENGLISH_US))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction21() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Coding coding = Coding.builder()
+                .system(Uri.of("urn:invalid"))
+                .code(Code.of(ENGLISH_US))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction22() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Coding coding = Coding.builder()
+                .system(Uri.of(ValidationSupport.BCP_47_URN))
+                .code(Code.of("invalidLanguageCode"))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction23() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        CodeableConcept codeableConcept = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of(ValidationSupport.BCP_47_URN))
+                    .code(Code.of(ENGLISH_US))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction24() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        CodeableConcept codeableConcept = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("urn:invalid"))
+                    .code(Code.of(ENGLISH_US))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction25() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        CodeableConcept codeableConcept = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of(ValidationSupport.BCP_47_URN))
+                    .code(Code.of("invalidLanguageCode"))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction26() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of(ValidationSupport.BCP_47_URN))
+                .code(Code.of(ENGLISH_US))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction27() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of("urn:invalid"))
+                .code(Code.of(ENGLISH_US))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction28() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of(ValidationSupport.BCP_47_URN))
+                .code(Code.of("invalidLanguageCode"))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction29() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of(ENGLISH_US), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction30() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of("invalidLanguageCode"), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
     private Collection<FHIRPathNode> getChildren(FHIRPathNode node, String name) {
         return node.children().stream()
                 .filter(child -> name.equals(child.name()))

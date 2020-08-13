@@ -65,6 +65,60 @@
             "type": "FamilyMemberHistory"
         },
         {
+            "filename": "test-language-primary-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-language-primary-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-language-primary-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "test-language-secondary-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-language-secondary-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "test-language-tertiary-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-language-tertiary-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "test-language-others-opt-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-language-others-opt-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-language-others-opt-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "test-language-others-req-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-language-others-req-extension",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-language-others-req-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "test-device.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-device",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-device",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "Device"
+        },
+        {
             "filename": "test-reference-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-reference-extension",
