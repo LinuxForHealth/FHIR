@@ -147,7 +147,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @return true or false
      */
     private boolean isSyntaxBased(ValueSet valueSet) {
-        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue().split("\\|")[0] : null;
+        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
         return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl);
     }
     
@@ -196,7 +196,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @return true if validation was successful, otherwise false
      */
     private boolean validateCodeAgainstSyntaxBasedValuedSet(ValueSet valueSet, Code code, Coding coding, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue().split("\\|")[0] : null;
+        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
 
         try {
             // Validate against all-languages value set
