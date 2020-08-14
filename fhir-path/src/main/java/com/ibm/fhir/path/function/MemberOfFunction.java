@@ -124,20 +124,17 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     }
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
-            }
-            else if (isSyntaxBased(valueSet)) {
-                
+            } else if (isSyntaxBased(valueSet)) {
+
                 // Validate against syntax-based value set
                 if (validateAgainstSyntaxBasedValueSet(valueSet, evaluationContext, elementNode, strength)) {
                     return SINGLETON_TRUE;
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
-            }
-            else {
+            } else {
                 generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode.path());
             }
-        }
-        else {
+        } else {
             generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode.path());
         }
 
@@ -171,18 +168,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         // Determine the system/version/code or CodableConcept to validate
         if (element.is(Code.class)) {
             code = element.as(Code.class);
-        }
-        else if (element.is(Coding.class)) {
+        } else if (element.is(Coding.class)) {
             coding = element.as(Coding.class);
-        }
-        else if (element.is(CodeableConcept.class)) {
+        } else if (element.is(CodeableConcept.class)) {
             codeableConcept = element.as(CodeableConcept.class);
-        }
-        else if (element.is(Quantity.class)) {
+        } else if (element.is(Quantity.class)) {
             Quantity quantity = element.as(Quantity.class);
             coding = Coding.builder().system(quantity.getSystem()).code(quantity.getCode()).build();
-        }
-        else {
+        } else {
             code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
         }
         
@@ -218,7 +211,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     ValidationSupport.checkLanguageCodeableConcept(codeableConcept, elementNode.path());
                 }
             }
-        } catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             generateIssue(e.getMessage(), evaluationContext, elementNode, strength);
             return false;
         }
