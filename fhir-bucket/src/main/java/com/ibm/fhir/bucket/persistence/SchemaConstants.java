@@ -11,6 +11,10 @@ package com.ibm.fhir.bucket.persistence;
  */
 public class SchemaConstants {
     
+    // common constants
+    public static final boolean NOT_NULL = false;
+    public static final boolean NULLABLE = true;
+    
     // common prefixes
     public static final String FK = "FK";
     public static final String IDX = "IDX";
@@ -33,6 +37,7 @@ public class SchemaConstants {
     public static final String LOADER_INSTANCE_ID = "LOADER_INSTANCE_ID";
     public static final String LOADER_INSTANCE_KEY = "LOADER_INSTANCE_KEY";
     public static final String HEARTBEAT_TSTAMP = "HEARTBEAT_TSTAMP";
+    public static final String STATUS = "STATUS";
     public static final String HOSTNAME = "HOSTNAME";
     public static final String PID = "PID";
     public static final String CURRENT_ID = "CURRENT_ID";
@@ -65,6 +70,7 @@ public class SchemaConstants {
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
     public static final String LOGICAL_RESOURCE_ID = "LOGICAL_RESOURCE_ID";
     public static final String LOGICAL_ID = "LOGICAL_ID";
+    public static final String LINE_NUMBER = "LINE_NUMBER";
     
     public static final int LOGICAL_ID_BYTES = 64;
     public static final int SHA256_BASE64_BYTES = 44;

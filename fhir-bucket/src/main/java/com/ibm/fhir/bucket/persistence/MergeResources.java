@@ -48,7 +48,7 @@ public class MergeResources implements IDatabaseStatement {
         final String merge = "MERGE INTO logical_resources tgt "
                 + " USING " + source + " src "
                 + "    ON tgt.resource_type_id = ? AND tgt.logical_id = ? "
-                + " WHEN NOT MATCHED THEN INSERT (resource_type_id, logical_id, resource_bundle_id) VALUES (?, ?, ?)";
+                + " WHEN NOT MATCHED THEN INSERT (resource_type_id, logical_id, resource_bundle_id, line_number) VALUES (?, ?, ?, ?)";
         
         try (PreparedStatement ps = c.prepareStatement(merge)) {
             // Assume the list is small enough to process in one batch
@@ -58,6 +58,7 @@ public class MergeResources implements IDatabaseStatement {
                 ps.setInt(3, resource.getResourceTypeId());
                 ps.setString(4, resource.getLogicalId());
                 ps.setLong(5, resource.getResourceBundleId());
+                ps.setInt(6, resource.getLineNumber());
                 ps.addBatch();
             }
             ps.executeBatch();

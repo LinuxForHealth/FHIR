@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.ResourceEntry;
@@ -45,14 +46,18 @@ public class ResourceHandler {
     // flag used to handle shutdown
     private volatile boolean running = true;
 
+    // Access to the FHIR bucket persistence layer to record logical ids
+    private final DataAccess dataAccess;
+    
     /**
      * Public constructor
      * @param poolSize
      */
-    public ResourceHandler(int poolSize, FhirClient fc) {
+    public ResourceHandler(int poolSize, FhirClient fc, DataAccess dataAccess) {
         this.poolSize = poolSize;
         this.fhirClient = fc;
         this.pool = Executors.newFixedThreadPool(poolSize);
+        this.dataAccess = dataAccess;
     }
 
     /**
@@ -110,6 +115,8 @@ public class ResourceHandler {
             pool.submit(() -> {
                 try {
                     processThr(entry);
+                } catch (Exception x) {
+                    logger.log(Level.SEVERE, entry.toString(), x);
                 } finally {
                     lock.lock();
                     try {
@@ -130,14 +137,34 @@ public class ResourceHandler {
      * @param resource
      */
     public void processThr(ResourceEntry entry) {
-        Resource resource = entry.getResource();
-        final String resourceType = resource.getClass().getSimpleName();
-        logger.info("Processing resource: " + resourceType);
         
-        // Build a post request for the resource and send to FHIR
-        PostResource post = new PostResource(resource);
-        String id = post.run(fhirClient);
-        logger.info("New " + resourceType + ": " + id);
+        try {
+            Resource resource = entry.getResource();
+            final String resourceType = resource.getClass().getSimpleName();
+            logger.info("Processing resource: " + resourceType);
+            
+            // Build a post request for the resource and send to FHIR
+            PostResource post = new PostResource(resource);
+            String id = post.run(fhirClient);
+            if (id != null) {
+                
+                if (id.startsWith("https://")) {
+                    // We want to extract the raw logical identifier from the full location string
+                    // https://localhost:9443/fhir-server/api/v4/DiagnosticReport/173eed87a99-605de23b-266d-4b4d-b64f-31e769fda112/_history/1
+                    String[] parts = id.split("/");
+                    if (parts.length == 10) {
+                        id = parts[7];
+                    }
+                }
+                
+                logger.info("New " + entry.toString() + ": " + id);
+                dataAccess.recordLogicalId(resourceType, id, entry.getJob().getResourceBundleId(), entry.getLineNumber());
+            }
+        } finally {
+            // if this is the last operation for a job, then the entire
+            // job will be marked as complete
+            entry.getJob().operationComplete();
+        }
     }
 
     /**

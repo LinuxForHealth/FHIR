@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.bucket.api;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+
 /**
  * Represents an allocated job to load a bundle
  */
@@ -23,6 +26,15 @@ public class BucketLoaderJob {
     
     private final FileType fileType;
     
+    // The number of resources read from the object
+    private int inflight;
+    
+    // The number of resources processed
+    private final AtomicInteger completedCount = new AtomicInteger(0);
+    
+    // Callback when the last resource is processed
+    private Consumer<BucketLoaderJob> jobCompleteCallback;
+    
     /**
      * @param resourceBundleId
      * @param bucketName
@@ -37,6 +49,14 @@ public class BucketLoaderJob {
         this.objectName = objectName;
         this.objectSize = objectSize;
         this.fileType = ft;
+    }
+
+    /**
+     * Register a Consumer to call back when the job is done
+     * @param cb
+     */
+    public void registerCallback(Consumer<BucketLoaderJob> cb) {
+        this.jobCompleteCallback = cb;
     }
     
     @Override
@@ -76,5 +96,29 @@ public class BucketLoaderJob {
      */
     public FileType getFileType() {
         return this.fileType;
+    }
+
+    /**
+     * @return the resourceBundleId
+     */
+    public long getResourceBundleId() {
+        return resourceBundleId;
+    }
+
+    /**
+     * Increment the number of operations inflight
+     */
+    public void incInflight() {
+        this.inflight++;
+    }
+
+    /**
+     * Signal operation complete.
+     */
+    public void operationComplete() {
+        if (completedCount.addAndGet(1) == this.inflight && this.jobCompleteCallback != null) {
+            // job is done, so make the call
+            this.jobCompleteCallback.accept(this);
+        }
     }
 }

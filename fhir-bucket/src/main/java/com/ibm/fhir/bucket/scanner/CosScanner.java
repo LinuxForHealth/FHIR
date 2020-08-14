@@ -32,7 +32,7 @@ public class CosScanner {
     private volatile boolean running = true;
     
     // Scan COS every 60 seconds by default
-    private long scanSleep = 60000;
+    private long scanIntervalMs = 60000;
 
     // active object thread
     private Thread mainLoopThread;
@@ -42,6 +42,13 @@ public class CosScanner {
     
     // Only process files matching these types
     private final Set<FileType> fileTypes;
+
+    // time tracker for regular heartbeats
+    public static final long HEARTBEAT_INTERVAL_MS = 5000;
+    private long lastHeartbeatTime = -1;
+    
+    // number of nanos per ms
+    private static final long NANO_MS = 1000000;
 
     /**
      * Public constructor
@@ -93,13 +100,23 @@ public class CosScanner {
      * The main loop running inside this active object's thread
      */
     public void mainLoop() {
+        long nextScanTime = -1;
+        
         while (this.running) {
             long start = System.nanoTime();
-            scan();
-            double elapsed = (System.nanoTime() - start) / 1e9;
-            logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
+            heartbeat();
             
-            safeSleep(scanSleep);
+            if (nextScanTime == -1 || start >= nextScanTime) {
+                scan();
+                
+                double elapsed = (System.nanoTime() - start) / 1e9;
+                logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
+                
+                // roughly schedule the next scan
+                nextScanTime = start + scanIntervalMs * NANO_MS;
+            }
+            
+            safeSleep(HEARTBEAT_INTERVAL_MS);
         }
     }
 
@@ -147,6 +164,23 @@ public class CosScanner {
         // Only process items we recognize
         if (fileTypes.contains(item.getFileType())) {
             dataAccess.registerBucketItem(item);
+        }
+        
+        // keep the heartbeat going within the scan just in case a scan
+        // takes a really long time
+        heartbeat();
+    }
+
+    /**
+     * Update the heartbeat on a (reasonably) regular basis to
+     * demonstrate this loader instance is still alive
+     */
+    protected void heartbeat() {
+        long now = System.nanoTime();
+        long gap = (now - this.lastHeartbeatTime) / NANO_MS;
+        if (this.lastHeartbeatTime < 0 || gap > HEARTBEAT_INTERVAL_MS) {
+            this.lastHeartbeatTime = now;
+            dataAccess.heartbeat();
         }
     }
 }

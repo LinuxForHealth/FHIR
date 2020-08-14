@@ -81,12 +81,13 @@ public class FhirBucketSchema {
     protected Table addLoaderInstances(PhysicalDataModel pdm) {
 
         Table bucketPaths = Table.builder(schemaName, LOADER_INSTANCES)
-                .addBigIntColumn(   LOADER_INSTANCE_ID,              false)
+                .addBigIntColumn(   LOADER_INSTANCE_ID,              NOT_NULL)
                 .setIdentityColumn( LOADER_INSTANCE_ID, Generated.ALWAYS)
-                .addVarcharColumn( LOADER_INSTANCE_KEY,          36, false)
-                .addVarcharColumn(            HOSTNAME,          64, false)
-                .addIntColumn(                     PID,              false)
-                .addTimestampColumn(  HEARTBEAT_TSTAMP,              false)
+                .addVarcharColumn( LOADER_INSTANCE_KEY,          36, NOT_NULL)
+                .addVarcharColumn(            HOSTNAME,          64, NOT_NULL)
+                .addIntColumn(                     PID,              NOT_NULL)
+                .addTimestampColumn(  HEARTBEAT_TSTAMP,              NOT_NULL)
+                .addVarcharColumn(              STATUS,           8, NOT_NULL)
                 .addUniqueIndex(UNQ + "_loader_instances_key", LOADER_INSTANCE_KEY)
                 .addPrimaryKey(LOADER_INSTANCES + "_PK", LOADER_INSTANCE_ID)
                 .build(pdm);
@@ -108,10 +109,10 @@ public class FhirBucketSchema {
         // scanner thread of a loader claims the bucket/path for scanning,
         // and is set to NULL again after the scan is complete
         Table bucketPaths = Table.builder(schemaName, BUCKET_PATHS)
-                .addBigIntColumn(       BUCKET_PATH_ID,              false)
+                .addBigIntColumn(       BUCKET_PATH_ID,              NOT_NULL)
                 .setIdentityColumn(BUCKET_PATH_ID, Generated.ALWAYS)
-                .addVarcharColumn(         BUCKET_NAME,          64, false)
-                .addVarcharColumn(         BUCKET_PATH,         256, false)
+                .addVarcharColumn(         BUCKET_NAME,          64, NOT_NULL)
+                .addVarcharColumn(         BUCKET_PATH,         256, NOT_NULL)
                 .addUniqueIndex(UNQ + "_bucket_paths_nmpth", BUCKET_NAME, BUCKET_PATH)
                 .addPrimaryKey(BUCKET_PATHS + "_PK", BUCKET_PATH_ID)
                 .build(pdm);
@@ -131,16 +132,16 @@ public class FhirBucketSchema {
         // Note that the object_name is relative to the bundle path associated
         // with each record
         Table resourceBundles = Table.builder(schemaName, RESOURCE_BUNDLES)
-                .addBigIntColumn(  RESOURCE_BUNDLE_ID,             false)
+                .addBigIntColumn(  RESOURCE_BUNDLE_ID,             NOT_NULL)
                 .setIdentityColumn(RESOURCE_BUNDLE_ID,  Generated.ALWAYS)
-                .addBigIntColumn(      BUCKET_PATH_ID,             false)
-                .addVarcharColumn(        OBJECT_NAME,         64, false)
-                .addBigIntColumn(         OBJECT_SIZE,             false)
-                .addVarcharColumn(          FILE_TYPE,         12, false)
-                .addBigIntColumn(       ALLOCATION_ID,              true)
-                .addBigIntColumn(  LOADER_INSTANCE_ID,              true)
-                .addTimestampColumn(     LOAD_STARTED,              true)
-                .addTimestampColumn(   LOAD_COMPLETED,              true)
+                .addBigIntColumn(      BUCKET_PATH_ID,             NOT_NULL)
+                .addVarcharColumn(        OBJECT_NAME,         64, NOT_NULL)
+                .addBigIntColumn(         OBJECT_SIZE,             NOT_NULL)
+                .addVarcharColumn(          FILE_TYPE,         12, NOT_NULL)
+                .addBigIntColumn(       ALLOCATION_ID,             NULLABLE)
+                .addBigIntColumn(  LOADER_INSTANCE_ID,             NULLABLE)
+                .addTimestampColumn(     LOAD_STARTED,             NULLABLE)
+                .addTimestampColumn(   LOAD_COMPLETED,             NULLABLE)
                 .addUniqueIndex(UNQ + "_resource_bundle_bktnm", BUCKET_PATH_ID, OBJECT_NAME)
                 .addIndex(IDX + "_resource_bundle_allocid", ALLOCATION_ID)
                 .addPrimaryKey(RESOURCE_BUNDLES + "_PK", RESOURCE_BUNDLE_ID)
@@ -160,9 +161,9 @@ public class FhirBucketSchema {
      */
     protected Table addResourceTypes(PhysicalDataModel pdm) {
         Table resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
-                .addIntColumn(     RESOURCE_TYPE_ID,            false)
+                .addIntColumn(     RESOURCE_TYPE_ID,            NOT_NULL)
                 .setIdentityColumn(RESOURCE_TYPE_ID, Generated.ALWAYS)
-                .addVarcharColumn(    RESOURCE_TYPE,        64, false)
+                .addVarcharColumn(    RESOURCE_TYPE,        64, NOT_NULL)
                 .addUniqueIndex(UNQ + "_resource_types_rt", RESOURCE_TYPE)
                 .addPrimaryKey(RESOURCE_TYPES + "_PK", RESOURCE_TYPE_ID)
                 .build(pdm);
@@ -179,11 +180,12 @@ public class FhirBucketSchema {
         // note that the same bundle can be loaded multiple times,
         // and also that each bundle may contain several resources
         Table tbl = Table.builder(schemaName, tableName)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,                   NOT_NULL)
                 .setIdentityColumn(LOGICAL_RESOURCE_ID, Generated.ALWAYS)
-                .addIntColumn(RESOURCE_TYPE_ID, false)
-                .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
-                .addBigIntColumn(RESOURCE_BUNDLE_ID, false)
+                .addIntColumn(        RESOURCE_TYPE_ID,                   NOT_NULL)
+                .addVarcharColumn(          LOGICAL_ID, LOGICAL_ID_BYTES, NOT_NULL)
+                .addBigIntColumn(   RESOURCE_BUNDLE_ID,                   NOT_NULL)
+                .addIntColumn(             LINE_NUMBER,                   NOT_NULL)
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)

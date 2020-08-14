@@ -33,9 +33,12 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
+import com.ibm.fhir.bucket.persistence.ClearStaleAllocations;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
+import com.ibm.fhir.bucket.persistence.MarkBundleDone;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResources;
+import com.ibm.fhir.bucket.persistence.RecordLogicalId;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
@@ -225,9 +228,12 @@ public class FhirBucketSchemaTest {
                 // Add a few patient resources
                 List<ResourceRec> resources = new ArrayList<>();
                 for (int i=0; i<5; i++) {
-                    resources.add(new ResourceRec(patientTypeId, "patient-" + i, resourceBundleId));
+                    resources.add(new ResourceRec(patientTypeId, "patient-" + i, resourceBundleId, i));
                 }
                 adapter.runStatement(new MergeResources(resources));
+                
+                RecordLogicalId c3 = new RecordLogicalId(patientTypeId, "patient-5", resourceBundleId, 0);
+                adapter.runStatement(c3);
                 
             } catch (Throwable t) {
                 // mark the transaction for rollback
@@ -257,6 +263,19 @@ public class FhirBucketSchemaTest {
                 adapter.runStatement(c3);
                 assertEquals(jobList.size(), 1);
                 assertEquals(jobList.get(0).getObjectKey(), "/path/to/dir2/patient1.json");
+
+                // Remove any stale allocations. Give a fake loaderInstanceId
+                ClearStaleAllocations c4 = new ClearStaleAllocations(loaderInstanceId + 1, 0);
+                adapter.runStatement(c4);
+
+                // Now we should be able to see all 3 allocations be reassigned
+                jobList.clear();
+                AllocateJobs c5 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, loaderInstanceId, 3);
+                adapter.runStatement(c5);
+                assertEquals(jobList.size(), 3);
+                
+                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleId());
+                adapter.runStatement(c6);
                 
             } catch (Throwable t) {
                 // mark the transaction for rollback

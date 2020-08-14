@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -28,12 +29,15 @@ import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.cos.CosClient;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
+import com.ibm.fhir.bucket.persistence.LoaderInstanceHeartbeat;
+import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.scanner.CosReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
@@ -53,6 +57,7 @@ import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
+import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -60,6 +65,7 @@ import com.ibm.fhir.task.core.service.TaskService;
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int DEFAULT_POOL_SIZE = 10;
+    private static final String DEFAULT_SCHEMA_NAME = "FHIRBUCKET";
     private final Properties cosProperties = new Properties();
     private final Properties dbProperties = new Properties();
     private final Properties fhirClientProperties = new Properties();
@@ -114,6 +120,9 @@ public class Main {
     // Set of file types we are interested in
     private Set<FileType> fileTypes = new HashSet<>();
     
+    // Only run the schema update/deploy
+    private boolean dbOnly = false;
+    
     /**
      * Parse command line arguments
      * @param args
@@ -128,6 +137,9 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("missing value for --db-type");
                 }
+                break;
+            case "--db-only":
+                this.dbOnly = true;
                 break;
             case "--cos-properties":
                 if (i < args.length + 1) {
@@ -295,11 +307,18 @@ public class Main {
      */
     public void setupDb2Repository() {
         if (schemaName == null) {
-            schemaName = "fhirbucket";
+            schemaName = DEFAULT_SCHEMA_NAME;
+        }
+        
+        IDatabaseTranslator translator = new Db2Translator();
+        try {
+            Class.forName(translator.getDriverClassName());
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
         }
         
         Db2PropertyAdapter propertyAdapter = new Db2PropertyAdapter(dbProperties);
-        IConnectionProvider cp = new JdbcConnectionProvider(new Db2Translator(), propertyAdapter);
+        IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, maxPoolSize);
         this.adapter = new Db2Adapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
@@ -311,11 +330,18 @@ public class Main {
      */
     public void setupPostgresRepository() {
         if (schemaName == null) {
-            schemaName = "fhirbucket";
+            schemaName = DEFAULT_SCHEMA_NAME;
+        }
+        
+        IDatabaseTranslator translator = new PostgreSqlTranslator();
+        try {
+            Class.forName(translator.getDriverClassName());
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
         }
 
         PostgreSqlPropertyAdapter propertyAdapter = new PostgreSqlPropertyAdapter(dbProperties);
-        IConnectionProvider cp = new JdbcConnectionProvider(new PostgreSqlTranslator(), propertyAdapter);
+        IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, maxPoolSize);
         this.adapter = new PostgreSqlAdapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
@@ -387,6 +413,20 @@ public class Main {
         } else {
             logger.info("Schema update [SUCCEEDED]");
         }
+        
+        // populate the RESOURCE_TYPES table
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
+                        .map(FHIRResourceType.ValueSet::value)
+                        .collect(Collectors.toSet());
+                MergeResourceTypes mrt = new MergeResourceTypes(resourceTypes);
+                adapter.runStatement(mrt);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
     }
 
     /**
@@ -408,6 +448,11 @@ public class Main {
      */
     protected void runAndWait() {
 
+        // quick exit if all we want to do is create/update the schema
+        if (this.dbOnly) {
+            return;
+        }
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
         
         // Set up the client we use to send requests to the FHIR server
@@ -423,7 +468,7 @@ public class Main {
         scanner.init();
         
         // Set up the handler to process resources as they are read from COS
-        this.resourceHandler = new ResourceHandler(this.resourcePoolSize, fhirClient);
+        this.resourceHandler = new ResourceHandler(this.resourcePoolSize, fhirClient, dataAccess);
         resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler

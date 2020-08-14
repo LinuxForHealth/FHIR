@@ -7,11 +7,9 @@ package com.ibm.fhir.bucket.scanner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PushbackInputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
@@ -181,13 +179,27 @@ public class CosReader {
         dataAccess.allocateJobs(jobList, free);
         
         logger.info("Allocated job count: " + jobList.size());
+        
+        // Tell each job to call us back when they are done
+        jobList.stream().forEach(job -> job.registerCallback(jd -> markJobDone(jd)));
 
         // add each job to the pool
         jobList.stream().forEach(job -> process(job));
         
         return jobList.size();
     }
-    
+
+    /**
+     * Callback when the last record in the job completes
+     * @param job
+     */
+    protected void markJobDone(final BucketLoaderJob job) {
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Marking job done: " + job.toString());
+        }
+        dataAccess.markJobDone(job);
+    }
+
     /**
      * Submit the job to the internal threadpool
      * @param job
@@ -238,12 +250,18 @@ public class CosReader {
      */
     public void process(final BucketLoaderJob job, final BufferedReader br) {
         
+        // To avoid a race condition where the job could be marked as
+        // done before we've finished processing all the resources, we
+        // count ourselves as an inflight task
+        job.incInflight();
+        
         // Reading as a continuous stream appears to be problematic,
         // so we have to take a line-based approach
         try {
             int lineNumber = 0;
             String line;
             while ((line = br.readLine()) != null) {
+                job.incInflight();
                 StringReader lineReader = new StringReader(line);
                 process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++);
             }
@@ -253,8 +271,14 @@ public class CosReader {
         } catch (IOException x) {
             // errors will be logged where this exception is handled
             throw new IllegalStateException(x);
+        } finally {
+            // we've submitted everything, so increment the completion counter
+            // although the job won't actually be marked complete until all the
+            // individual resources are processed
+            job.operationComplete();
         }
     }
+
     
     /**
      * Process the resource parsed from the input stream
@@ -265,7 +289,7 @@ public class CosReader {
         
         try {
             validateInput(resource);
-            resourceHandler.accept(new ResourceEntry(job, resource));
+            resourceHandler.accept(new ResourceEntry(job, resource, lineNumber));
         } catch (FHIROperationException e) {
             logger.warning("Resource validation failed: " + e.getMessage());
             

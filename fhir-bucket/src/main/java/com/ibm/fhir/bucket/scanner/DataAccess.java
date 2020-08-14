@@ -19,6 +19,10 @@ import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
+import com.ibm.fhir.bucket.persistence.ClearStaleAllocations;
+import com.ibm.fhir.bucket.persistence.LoaderInstanceHeartbeat;
+import com.ibm.fhir.bucket.persistence.MarkBundleDone;
+import com.ibm.fhir.bucket.persistence.RecordLogicalId;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
@@ -31,6 +35,9 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
  */
 public class DataAccess {
     private static final Logger logger = Logger.getLogger(DataAccess.class.getName());
+
+    // no heartbeats for 60 seconds means something has gone wrong
+    private static final long HEARTBEAT_TIMEOUT_MS = 60000;
     
     // The adapter we use to execute database statements
     private final IDatabaseAdapter dbAdapter;
@@ -47,6 +54,7 @@ public class DataAccess {
     // The id returned by the database when registering this loader instance
     private long loaderInstanceId;
     
+    // the name of the schema holding all the tables
     private final String schemaName;
     
     /**
@@ -134,8 +142,67 @@ public class DataAccess {
     public void allocateJobs(List<BucketLoaderJob> jobList, int free) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
+                // First business of the day is to check for liveness and clear
+                // any allocations for instances we think are no longer active
+                ClearStaleAllocations liveness = new ClearStaleAllocations(loaderInstanceId, HEARTBEAT_TIMEOUT_MS);
+                dbAdapter.runStatement(liveness);
+                
                 AllocateJobs cmd = new AllocateJobs(schemaName, jobList, loaderInstanceId, free);
                 dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Save the logical id
+     * @param simpleName
+     * @param logicalId
+     */
+    public void recordLogicalId(String resourceType, String logicalId, long resourceBundleId, int lineNumber) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                Integer resourceTypeId = resourceTypeMap.get(resourceType);
+                if (resourceTypeId == null) {
+                    // unlikely, unless the map hasn't been initialized properly
+                    throw new IllegalStateException("resourceType not found: " + resourceType);
+                }
+                
+                RecordLogicalId cmd = new RecordLogicalId(resourceTypeId, logicalId, resourceBundleId, lineNumber);
+                dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Update the heartbeat tstamp of the record representing this loader instance
+     * to tell everyone that we're still alive.
+     */
+    public void heartbeat() {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                LoaderInstanceHeartbeat heartbeat = new LoaderInstanceHeartbeat(this.loaderInstanceId);
+                dbAdapter.runStatement(heartbeat);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * @param job
+     */
+    public void markJobDone(BucketLoaderJob job) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleId());
+                dbAdapter.runStatement(c1);
             } catch (Exception x) {
                 tx.setRollbackOnly();
                 throw x;

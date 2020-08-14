@@ -39,7 +39,7 @@ public class PostResource implements FhirServerRequest<String> {
             throw new IllegalStateException(e);
         }
 
-        FhirServerResponse response = client.post(getResourceType(), os.toString(StandardCharsets.UTF_8), PostResource::parseResponse);
+        FhirServerResponse response = client.post(getResourceType(), os.toString(StandardCharsets.UTF_8));
         return response.getLocationHeader();
     }
 

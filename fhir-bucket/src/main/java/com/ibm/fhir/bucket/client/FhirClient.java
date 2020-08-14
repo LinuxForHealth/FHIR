@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +31,7 @@ import javax.net.ssl.SSLContext;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NoHttpResponseException;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -218,10 +220,14 @@ public class FhirClient {
                 HttpResponse response = client.execute(getRequest);
                 if(logger.isLoggable(Level.FINE)){
                     Header responseHeaders[] = response.getAllHeaders();
-                    logger.fine("Response HTTP Headers: ");
+                    
+                    StringBuilder msg = new StringBuilder();
+                    msg.append("Response HTTP Headers: ");
                     for (Header responseHeader : responseHeaders) {
-                        logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
+                        msg.append(System.lineSeparator());
+                        msg.append("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                     }
+                    logger.fine(msg.toString());
                 }
                 return buildResponse(response, startTime, fn);
             } catch (NoHttpResponseException e) {
@@ -243,7 +249,7 @@ public class FhirClient {
      * @param body
      * @return
      */
-    public FhirServerResponse post(String url, String body, Function<Reader, Resource> responseFunction) {
+    public FhirServerResponse post(String url, String body) {
         String target = buildTargetPath(url);
         if(logger.isLoggable(Level.FINE)){
             logger.fine("REQUEST POST "+ target);
@@ -264,14 +270,19 @@ public class FhirClient {
             HttpResponse response = client.execute(postRequest);
             
             // Log details of the response if required
-            if (logger.isLoggable(Level.FINE)) {
+            if(logger.isLoggable(Level.FINE)){
                 Header responseHeaders[] = response.getAllHeaders();
-                logger.fine("Response HTTP Headers: ");
+                
+                StringBuilder msg = new StringBuilder();
+                msg.append("Response HTTP Headers: ");
                 for (Header responseHeader : responseHeaders) {
-                    logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
+                    msg.append(System.lineSeparator());
+                    msg.append("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                 }
+                logger.fine(msg.toString());
             }
-            return buildResponse(response, startTime, responseFunction);
+            
+            return buildResponse(response, startTime);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
@@ -426,5 +437,54 @@ public class FhirClient {
                     }        
                 })
                 .build();
-    }        
+    }
+    
+    private FhirServerResponse buildResponse(HttpResponse response, long startTime) {
+        FhirServerResponse result = new FhirServerResponse();
+        
+        try {
+            result.setStatusCode(response.getStatusLine().getStatusCode());
+            result.setStatusMessage(response.getStatusLine().getReasonPhrase());
+            
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                // operation outcome?
+                try (InputStream instream = entity.getContent()) {
+                    char[] buffer = new char[4096];
+                    Reader reader = new InputStreamReader(instream, StandardCharsets.UTF_8);
+                    
+                    // make sure we consume everything even though currently we don't care
+                    // what it contains
+                    int read;
+                    do {
+                        read = reader.read(buffer, 0, buffer.length);
+                    } while (read >= 0);
+                    
+                } finally {
+                    EntityUtils.consume(entity);
+                }
+            }
+            
+            long endTime = System.currentTimeMillis();
+            
+            
+            if (result.getStatusCode() == HttpStatus.SC_CREATED && response.getFirstHeader("Location") != null) {
+                result.setLocationHeader(response.getFirstHeader("Location").getValue());
+            }
+            
+            result.setResponseTime(endTime-startTime);
+        } catch (ParseException | IOException e) {
+            logger.severe("Error while executing request. "+e);
+            throw new IllegalStateException(e);
+        } finally {
+            try {
+                EntityUtils.consume(response.getEntity());
+            } catch (IOException e) {
+                logger.severe("Error while consuming response. "+e);
+            }
+        }
+        
+        return result;
+    }
+
 }

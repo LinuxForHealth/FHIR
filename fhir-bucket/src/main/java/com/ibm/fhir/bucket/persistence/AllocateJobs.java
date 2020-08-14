@@ -81,6 +81,7 @@ public class AllocateJobs implements IDatabaseStatement {
                 + "     SELECT resource_bundle_id "
                 + "       FROM resource_bundles "
                 + "      WHERE allocation_id IS NULL "
+                + "        AND load_completed IS NULL "
                 + "   ORDER BY resource_bundle_id "
                 + "FETCH FIRST ? ROWS ONLY)";
         
