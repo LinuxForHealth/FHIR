@@ -8,10 +8,13 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchStringTest;
@@ -20,7 +23,7 @@ import com.ibm.fhir.persistence.search.test.AbstractSearchStringTest;
 public class JDBCSearchStringTest extends AbstractSearchStringTest {
 
     private Properties testProps;
-    
+
     private PoolConnectionProvider connectionPool;
 
     public JDBCSearchStringTest() throws Exception {
@@ -45,7 +48,7 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
         }
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
     }
-    
+
     @Override
     protected void shutdownPools() throws Exception {
         // Mark the pool as no longer in use. This allows the pool to check for
@@ -53,5 +56,22 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
         if (this.connectionPool != null) {
             this.connectionPool.close();
         }
+    }
+
+
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters.
+     * https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    @Override
+    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
+    public void testSearchString_string_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-string:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-string:missing", "false");
     }
 }

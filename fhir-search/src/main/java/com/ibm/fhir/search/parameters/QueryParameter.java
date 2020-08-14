@@ -19,7 +19,7 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 
 /**
- * general type of parameter. 
+ * general type of parameter.
  */
 public class QueryParameter {
     private Type type = null;
@@ -73,6 +73,7 @@ public class QueryParameter {
         return this.nextParameter != null && !this.isInclusionCriteria;
     }
 
+    @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
 
@@ -157,8 +158,8 @@ public class QueryParameter {
 
     /**
      * The returned value is intentionally not abstract. The order is important.
-     * 
-     * @return
+     *
+     * @return A non-null linked list of parameters that starts from the nextParameter.
      */
     public LinkedList<QueryParameter> getChain() {
 

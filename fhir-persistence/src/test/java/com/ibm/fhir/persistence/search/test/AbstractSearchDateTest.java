@@ -26,22 +26,24 @@ import com.ibm.fhir.model.test.TestUtil;
  * - Date</a> Tests
  */
 public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
     }
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("date");
-        
-        // this might deserve its own method, but just use setTenant for now 
+
+        // this might deserve its own method, but just use setTenant for now
         // since its called before creating any resources
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-4:00"));
         System.out.println(ZoneId.systemDefault());
     }
-    
+
     @Test
     public void testSearchDate_date_Day_noTZ() throws Exception {
         // "date" is 2018-10-29
-        
+
         // the day before
         assertSearchDoesntReturnSavedResource("date",   "2018-10-28");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-28");
@@ -78,7 +80,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Seconds_noTZ() throws Exception {
         // "date" is 2018-10-29
-        
+
         // the last second before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-28T23:59:59");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-28T23:59:59");
@@ -89,7 +91,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-28T23:59:59");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-28T23:59:59");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-28T23:59:59");
-        
+
         // the first second of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T00:00:00Z");
@@ -103,7 +105,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T00:00:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T00:00:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T00:00:00");
-        
+
         // a second in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00");
@@ -116,7 +118,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00");
-        
+
         // the last second of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T23:59:59");
@@ -130,7 +132,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T23:59:59");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T23:59:59");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T23:59:59");
-        
+
         // the first second after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T00:00:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T00:00:00");
@@ -145,7 +147,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Seconds_EDT() throws Exception {
         // "date" is 2018-10-29
-        
+
         // the last second before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-28T23:59:59-04:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-28T23:59:59-04:00");
@@ -156,7 +158,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-28T23:59:59-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-28T23:59:59-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-28T23:59:59-04:00");
-        
+
         // the first second of the day
         // This one shouldn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T00:00:00-04:00");
@@ -170,7 +172,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T00:00:00-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T00:00:00-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T00:00:00-04:00");
-        
+
         // a second in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00-04:00");
@@ -183,7 +185,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00-04:00");
-        
+
         // the last second of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T23:59:59-04:00");
@@ -197,7 +199,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T23:59:59-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T23:59:59-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T23:59:59-04:00");
-        
+
         // the first second after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T00:00:00-04:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T00:00:00-04:00");
@@ -212,9 +214,9 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Seconds_UTC() throws Exception {
         // "date" is 2018-10-29
-        
+
         // we set the system time to GMT-4, so this is really [2018-10-29T04:00:00Z, 2018-10-30T03:59:59.999999]
-        
+
         // the last second before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T03:59:59Z");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-29T03:59:59Z");
@@ -225,7 +227,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-29T03:59:59Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T03:59:59Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T03:59:59Z");
-        
+
         // the first second of the day
         // This one shouldn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T04:00:00Z");
@@ -239,7 +241,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T04:00:00Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T04:00:00Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T04:00:00Z");
-        
+
         // a second in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00Z");
@@ -252,7 +254,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00Z");
-        
+
         // the last second of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T03:59:59Z");
@@ -266,7 +268,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-30T03:59:59Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-30T03:59:59Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-30T03:59:59Z");
-        
+
         // the first second after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T04:00:00Z");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T04:00:00Z");
@@ -281,7 +283,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Fractions_noTZ() throws Exception {
         // "date" is 2018-10-29
-        
+
         // the last instant before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-28T23:59:59.999999");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-28T23:59:59.999999");
@@ -292,7 +294,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-28T23:59:59.999999");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-28T23:59:59.999999");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-28T23:59:59.999999");
-        
+
         // the first instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T00:00:00.0Z");
@@ -305,7 +307,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T00:00:00.0");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T00:00:00.0");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T00:00:00.0");
-        
+
         // an instant in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00.0");
@@ -318,7 +320,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00.0");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00.0");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00.0");
-        
+
         // the last instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T23:59:59.999999");
@@ -331,7 +333,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T23:59:59.999999");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T23:59:59.999999");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T23:59:59.999999");
-        
+
         // the first instant after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T00:00:00.0");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T00:00:00.0");
@@ -346,7 +348,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Fractions_EDT() throws Exception {
         // "date" is 2018-10-29
-        
+
         // the last instant before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-28T23:59:59.999999-04:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-28T23:59:59.999999-04:00");
@@ -357,7 +359,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-28T23:59:59.999999-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-28T23:59:59.999999-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-28T23:59:59.999999-04:00");
-        
+
         // the first instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T00:00:00.0-04:00");
@@ -370,7 +372,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T00:00:00.0-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T00:00:00.0-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T00:00:00.0-04:00");
-        
+
         // an instant in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00.0-04:00");
@@ -383,7 +385,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00.0-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00.0-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00.0-04:00");
-        
+
         // the last instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T23:59:59.999999-04:00");
@@ -396,7 +398,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T23:59:59.999999-04:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T23:59:59.999999-04:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T23:59:59.999999-04:00");
-        
+
         // the first instant after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T00:00:00.0-04:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T00:00:00.0-04:00");
@@ -411,7 +413,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Fractions_IDT() throws Exception {
         // "date" is 2018-10-29
-        
+
         // the last instant before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-28T23:59:59.999999+03:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-28T23:59:59.999999+03:00");
@@ -422,7 +424,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-28T23:59:59.999999+03:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-28T23:59:59.999999+03:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-28T23:59:59.999999+03:00");
-        
+
         // the first instant of the day
         // This one shouldn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T00:00:00.0+03:00");
@@ -435,7 +437,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 //        assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T00:00:00.0+03:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T00:00:00.0+03:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T00:00:00.0+03:00");
-        
+
         // an instant in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00.0+03:00");
@@ -448,7 +450,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00.0+03:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00.0+03:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00.0+03:00");
-        
+
         // the last instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T23:59:59.999999+03:00");
@@ -461,7 +463,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T23:59:59.999999+03:00");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T23:59:59.999999+03:00");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T23:59:59.999999+03:00");
-        
+
         // the first instant after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T00:00:00.0+03:00");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T00:00:00.0+03:00");
@@ -476,9 +478,9 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_Fractions_UTC() throws Exception {
         // "date" is 2018-10-29
-        
+
         // we set the system time to GMT-4, so this is really [2018-10-29T04:00:00Z, 2018-10-30T03:59:59.999999]
-        
+
         // the last instant before 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T03:59:59.999999Z");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-29T03:59:59.999999Z");
@@ -489,7 +491,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "date", "sa2018-10-29T03:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T03:59:59.999999Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T03:59:59.999999Z");
-        
+
         // the first instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T04:00:00.0Z");
@@ -502,7 +504,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T04:00:00.0Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T04:00:00.0Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T04:00:00.0Z");
-        
+
         // an instant in the middle of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-29T17:12:00.0Z");
@@ -515,7 +517,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-29T17:12:00.0Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-29T17:12:00.0Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-29T17:12:00.0Z");
-        
+
         // the last instant of the day
         // This one doesn't return the resource because the search range does not include the entire target range.
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T03:59:59.999999Z");
@@ -528,7 +530,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("date", "sa2018-10-30T03:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("date", "eb2018-10-30T03:59:59.999999Z");
         assertSearchReturnsSavedResource(     "date", "ap2018-10-30T03:59:59.999999Z");
-        
+
         // the first instant after 2018-10-29
         assertSearchDoesntReturnSavedResource("date",   "2018-10-30T04:00:00.0Z");
         assertSearchReturnsSavedResource(     "date", "ne2018-10-30T04:00:00.0Z");
@@ -605,7 +607,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     public void testSearchDate_dateTime_Day_noTZ() throws Exception {
         // "dateTime" is 2019-12-31T20:00:00-04:00
         assertSearchReturnsSavedResource(     "dateTime",   "2019-12-31");
-        
+
         // the day before
         assertSearchDoesntReturnSavedResource("dateTime",   "2019-12-30");
         assertSearchReturnsSavedResource(     "dateTime", "ne2019-12-30");
@@ -616,7 +618,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "dateTime", "sa2019-12-30");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-30");
         // assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-30");
-        
+
         // the day of
         assertSearchReturnsSavedResource(     "dateTime",   "2019-12-31");
         assertSearchDoesntReturnSavedResource("dateTime", "ne2019-12-31");
@@ -627,7 +629,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "sa2019-12-31");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31");
-        
+
         // the day after
         assertSearchDoesntReturnSavedResource("dateTime",   "2020-01-01");
         assertSearchReturnsSavedResource(     "dateTime", "ne2020-01-01");
@@ -637,7 +639,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "ge2020-01-01");
         assertSearchDoesntReturnSavedResource("dateTime", "sa2020-01-01");
         assertSearchReturnsSavedResource(     "dateTime", "eb2020-01-01");
-        // This test is very dynamic and is not reliable. 
+        // This test is very dynamic and is not reliable.
         assertSearchReturnsSavedResource(     "dateTime", "ap2020-01-01");
     }
     @Test
@@ -645,7 +647,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         // "dateTime" is 2019-12-31T20:00:00-04:00
 
         // we set the system to GMT-4, so it should match the timezone of the target dateTime
-        
+
         // the second before
         assertSearchDoesntReturnSavedResource("dateTime",   "2019-12-31T19:59:59");
         assertSearchReturnsSavedResource(     "dateTime", "ne2019-12-31T19:59:59");
@@ -656,7 +658,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "dateTime", "sa2019-12-31T19:59:59");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31T19:59:59");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31T19:59:59");
-        
+
         // the exact second
         assertSearchReturnsSavedResource(     "dateTime",   "2019-12-31T20:00:00");
         assertSearchDoesntReturnSavedResource("dateTime", "ne2019-12-31T20:00:00");
@@ -667,7 +669,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "sa2019-12-31T20:00:00");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31T20:00:00");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31T20:00:00");
-        
+
         // the next second
         assertSearchDoesntReturnSavedResource("dateTime",   "2019-12-31T20:00:01");
         assertSearchReturnsSavedResource(     "dateTime", "ne2019-12-31T20:00:01");
@@ -683,7 +685,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     public void testSearchDate_dateTime_Seconds_UTC() throws Exception {
         // "dateTime" is 2019-12-31T20:00:00-04:00
         assertSearchReturnsSavedResource(     "dateTime",   "2020-01-01T00:00:00Z");
-        
+
         // the second before
         assertSearchDoesntReturnSavedResource("dateTime",   "2019-12-31T23:59:59Z");
         assertSearchReturnsSavedResource(     "dateTime", "ne2019-12-31T23:59:59Z");
@@ -694,7 +696,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "dateTime", "sa2019-12-31T23:59:59Z");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31T23:59:59Z");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31T23:59:59Z");
-        
+
         // the exact second
         assertSearchReturnsSavedResource(     "dateTime",   "2020-01-01T00:00:00Z");
         assertSearchDoesntReturnSavedResource("dateTime", "ne2020-01-01T00:00:00Z");
@@ -705,7 +707,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "sa2020-01-01T00:00:00Z");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2020-01-01T00:00:00Z");
         assertSearchReturnsSavedResource(     "dateTime", "ap2020-01-01T00:00:00Z");
-        
+
         // the next second
         assertSearchDoesntReturnSavedResource("dateTime",   "2020-01-01T00:00:01Z");
         assertSearchReturnsSavedResource(     "dateTime", "ne2020-01-01T00:00:01Z");
@@ -733,7 +735,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "dateTime", "sa2019-12-31T19:59:59.999999");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31T19:59:59.999999");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31T19:59:59.999999");
-        
+
         // the exact instant
         // This one does not return the resource because the search value is a single point
         // and the target value is a range from 2019-12-31T20:00:00-04:00 to 2019-12-31T20:00:01-04:00
@@ -747,7 +749,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "sa2019-12-31T20:00:00.0");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31T20:00:00.0");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31T20:00:00.0");
-        
+
         // the next instant
         assertSearchDoesntReturnSavedResource("dateTime",   "2019-12-31T20:00:00.000001");
         assertSearchReturnsSavedResource(     "dateTime", "ne2019-12-31T20:00:00.000001");
@@ -773,7 +775,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "dateTime", "sa2019-12-31T23:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-31T23:59:59.999999Z");
         assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-31T23:59:59.999999Z");
-        
+
         // the exact instant
         // This one does not return the resource because the search value is a single point
         // and the target value is a range from 2019-12-31T20:00:00-04:00 to 2019-12-31T20:00:01-04:00
@@ -787,7 +789,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "sa2020-01-01T00:00:00.0Z");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2020-01-01T00:00:00.0Z");
         assertSearchReturnsSavedResource(     "dateTime", "ap2020-01-01T00:00:00.0Z");
-        
+
         // the next instant
         assertSearchDoesntReturnSavedResource("dateTime",   "2020-01-01T00:00:00.000001Z");
         assertSearchReturnsSavedResource(     "dateTime", "ne2020-01-01T00:00:00.000001Z");
@@ -802,7 +804,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_dateTime_chained() throws Exception {
         // "dateTime" is 2019-12-31T20:00:00-04:00
-        
+
         assertSearchReturnsComposition("subject:Basic.dateTime", "2019-12-31T20:00:00-04:00");
         assertSearchDoesntReturnSavedResource("subject:Basic.dateTime", "2025-10-29");
     }
@@ -1493,7 +1495,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-29");
         assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-29");
         assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-29");
-        
+
         // search on the dateTime at the end of the Period-noStart
         // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-29T17:18:00+04:00");
@@ -1506,7 +1508,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-29T17:18:00-04:00");
         assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-29T17:18:00-04:00");
         assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-29T17:18:00-04:00");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-28");
         assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-28");
         assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-28");
@@ -1518,7 +1520,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-28");
         assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-28");
         assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-28");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-28T23:59:59.999999Z");
         assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-28T23:59:59.999999Z");
         assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-28T23:59:59.999999Z");
@@ -1530,7 +1532,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-28T23:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("Period-noStart", "eb2018-10-28T23:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-28T23:59:59.999999Z");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-30");
         assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-30");
         assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-30");
@@ -1540,7 +1542,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noStart", "sa2018-10-30");
         assertSearchReturnsSavedResource("Period-noStart", "eb2018-10-30");
         assertSearchDoesntReturnSavedResource("Period-noStart", "ap2018-10-30");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noStart", "2018-10-30T00:00:00.000001Z");
         assertSearchReturnsSavedResource("Period-noStart", "ne2018-10-30T00:00:00.000001Z");
         assertSearchReturnsSavedResource("Period-noStart", "lt2018-10-30T00:00:00.000001Z");
@@ -1567,7 +1569,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-29");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-29");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2010-10-29");
-        
+
         // search on the dateTime at the start of the Period-noEnd
         // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-29T17:12:00-04:00");
@@ -1581,7 +1583,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-29T17:12:00-04:00");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-29T17:12:00-04:00");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2010-10-29T17:12:00-04:00");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-28");
         assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-28");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "lt2018-10-28");
@@ -1591,7 +1593,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Period-noEnd", "sa2018-10-28");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-28");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2010-10-28");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-28T23:59:59.999999Z");
         assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-28T23:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "lt2018-10-28T23:59:59.999999Z");
@@ -1601,7 +1603,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Period-noEnd", "sa2018-10-28T23:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-28T23:59:59.999999Z");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2010-10-28T23:59:59.999999Z");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-30");
         assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-30");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "lt2018-10-28");
@@ -1616,7 +1618,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period-noEnd", "sa2018-10-30");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "eb2018-10-30");
         assertSearchDoesntReturnSavedResource("Period-noEnd", "ap2018-10-30");
-        
+
         assertSearchDoesntReturnSavedResource("Period-noEnd", "2018-10-30T00:00:00.000001Z");
         assertSearchReturnsSavedResource("Period-noEnd", "ne2018-10-30T00:00:00.000001Z");
         assertSearchReturnsSavedResource("Period-noEnd", "lt2018-10-30T00:00:00.000001Z");
@@ -1660,7 +1662,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period", "eb2018-10-28,9999-01-01");
         assertSearchReturnsSavedResource("Period", "ap2018-10-28,9999-01-01");
         assertSearchDoesntReturnSavedResource("Period", "ap2010-10-28,9999-01-01");
-        
+
         assertSearchDoesntReturnSavedResource("Period", "9999-01-01,2018-10-28");
         assertSearchReturnsSavedResource("Period", "9999-01-01,ne2018-10-28");
         assertSearchDoesntReturnSavedResource("Period", "9999-01-01,lt2018-10-28");
@@ -1671,11 +1673,13 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Period", "9999-01-01,eb2018-10-28");
         assertSearchDoesntReturnSavedResource("Period", "9999-01-01,ap2010-10-28");
     }
+
     // We decided that Periods with no start or end should not even be indexed
     //    @Test
     //    public void testSearchDate_Period_NoStartOrEnd() throws Exception {
     //        assertSearchReturnsSavedResource("Period-noStartOrEnd", "2018-10-29T17:12:44-04:00");
     //    }
+
     // Timing search is not working properly.
     //    @Test
     //    public void testSearchDate_Timing_EventsOnly() throws Exception {
@@ -1693,48 +1697,37 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     //    public void testSearchDate_Timing_BoundPeriod() throws Exception {
     //        testSearchDateReturnsResourceWithExtension("Timing-boundPeriod", "2018-10-29T17:18:00-04:00", "http://example.org/TimingBoundsPeriod");
     //    }
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters.
-     * https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
-    //    @Test
-    //    public void testSearchDate_instant_chained_missing() throws Exception {
-    //        assertSearchReturnsSavedResource("subject:Basic.instant:missing", "false");
-    //        assertSearchDoesntReturnSavedResource("subject:Basic.instant:missing", "true");
-    //
-    //        assertSearchReturnsSavedResource("subject:Basic.missing-instant:missing", "true");
-    //        assertSearchDoesntReturnSavedResource("subject:Basic.missing-instant:missing", "false");
-    //    }
-    //  @Test
-    //  public void testSearchDate_Period_chained_missing() throws Exception {
-    //      assertSearchReturnsComposition("subject:Basic.Period:missing", "false");
-    //      assertSearchDoesntReturnComposition("subject:Basic.Period:missing", "true");
-    //
-    //      assertSearchReturnsComposition("subject:Basic.missing-Period:missing", "true");
-    //      assertSearchDoesntReturnComposition("subject:Basic.missing-Period:missing", "false");
-    //  }
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters.
-     * https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
-    //    @Test
-    //    public void testSearchDate_date_chained_missing() throws Exception {
-    //        assertSearchReturnsComposition("subject:Basic.date:missing", "false");
-    //        assertSearchDoesntReturnSavedResource("subject:Basic.date:missing", "true");
-    //
-    //        assertSearchReturnsComposition("subject:Basic.missing-date:missing", "true");
-    //        assertSearchDoesntReturnSavedResource("subject:Basic.missing-date:missing", "false");
-    //    }
-    //    @Test
-    //    public void testSearchDate_dateTime_chained_missing() throws Exception {
-    //        assertSearchReturnsComposition("subject:Basic.dateTime:missing", "false");
-    //        assertSearchDoesntReturnComposition("subject:Basic.dateTime:missing", "true");
-    //
-    //        assertSearchReturnsComposition("subject:Basic.missing-dateTime:missing", "true");
-    //        assertSearchDoesntReturnComposition("subject:Basic.missing-dateTime:missing", "false");
-    //    }
+
+    @Test
+    public void testSearchDate_instant_chained_missing() throws Exception {
+        assertSearchReturnsSavedResource("subject:Basic.instant:missing", "false");
+        assertSearchDoesntReturnSavedResource("subject:Basic.instant:missing", "true");
+
+        assertSearchReturnsSavedResource("subject:Basic.missing-instant:missing", "true");
+        assertSearchDoesntReturnSavedResource("subject:Basic.missing-instant:missing", "false");
+    }
+    @Test
+    public void testSearchDate_Period_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Period:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.Period:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-Period:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-Period:missing", "false");
+    }
+    @Test
+    public void testSearchDate_date_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.date:missing", "false");
+        assertSearchDoesntReturnSavedResource("subject:Basic.date:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-date:missing", "true");
+        assertSearchDoesntReturnSavedResource("subject:Basic.missing-date:missing", "false");
+    }
+    @Test
+    public void testSearchDate_dateTime_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.dateTime:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.dateTime:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-dateTime:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-dateTime:missing", "false");
+    }
 }

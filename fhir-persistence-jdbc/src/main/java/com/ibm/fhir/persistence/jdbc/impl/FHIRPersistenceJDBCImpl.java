@@ -82,6 +82,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
@@ -119,6 +120,7 @@ import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
@@ -541,7 +543,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
-            checkModifiers(searchContext);
+            checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints());
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
@@ -627,14 +629,36 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * @throws FHIRPersistenceException if the search context contains one or more unsupported modifiers
+     * @return true if this instance represents a FHIR system level search
      */
-    private void checkModifiers(FHIRSearchContext searchContext) throws FHIRPersistenceException {
+    private boolean isSystemLevelSearch(Class<? extends Resource> resourceType) {
+        return Resource.class.equals(resourceType);
+    }
+
+    /**
+     * @param resourceType
+     * @throws FHIRPersistenceNotSupportedException if the search context contains one or more unsupported modifiers
+     */
+    private void checkModifiers(FHIRSearchContext searchContext, boolean isSystemLevelSearch) throws FHIRPersistenceNotSupportedException {
         for (QueryParameter param : searchContext.getSearchParameters()) {
+            if (param.getChain().isEmpty()) {
+                if (isSystemLevelSearch && param.getModifier() == Modifier.MISSING) {
+                    // modifiers are not supported for whole-system searches
+                    throw new FHIRPersistenceNotSupportedException("Modifier '" + param.getModifier() + "' is not yet supported "
+                            + "for whole-system search [code=" + param.getCode() + "]");
+                }
+            } else {
+                if (param.getChain().getLast().getModifier() != null) {
+                    // modifiers on the last parameter in the chain are not yet supported
+                    throw new FHIRPersistenceNotSupportedException("Modifiers are not yet supported "
+                            + "at the end of a chained parameter [code=" + param.getCode() + "]");
+                }
+            }
+
             do {
-                if(param.getModifier() != null &&
+                if (param.getModifier() != null &&
                         !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {
-                    throw new FHIRPersistenceException("Found unsupported modifier '" + param.getModifier() + "'"
+                    throw new FHIRPersistenceNotSupportedException("Found unsupported modifier '" + param.getModifier() + "'"
                             + " for search parameter '" + param.getCode() + "' of type " + param.getType());
                 }
                 param = param.getNextParameter();

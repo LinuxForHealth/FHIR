@@ -12,8 +12,6 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 
 /**
  * Thrown for methods or features not yet fully implemented.
- * @author markd
- *
  */
 public class FHIRPersistenceNotSupportedException extends FHIRPersistenceException {
 
@@ -32,7 +30,7 @@ public class FHIRPersistenceNotSupportedException extends FHIRPersistenceExcepti
         super.withIssue(issues);
         return this;
     }
-    
+
     @Override
     public FHIRPersistenceException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);

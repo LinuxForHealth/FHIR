@@ -26,10 +26,12 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
  */
 public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicString.json");
     }
 
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("string");
     }
@@ -37,92 +39,86 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
     @Test
     public void testSearchString_string() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "testString");
-        
+
         assertSearchReturnsSavedResource("string", "testString");
         assertSearchReturnsSavedResource("string", "test");
-        
+
         assertSearchReturnsSavedResource("string:contains", "String");
         assertSearchReturnsSavedResource("string:contains", "string");
-        
+
         assertSearchDoesntReturnSavedResource("string", "String");
         assertSearchDoesntReturnSavedResource("string:exact", "test");
         assertSearchDoesntReturnSavedResource("string:exact", "teststring");
-        
+
         // TODO add test for diacritics and other unusual characters
     }
-    
+
     @Test
     public void testSearchString_string_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
-        
+
         assertSearchReturnsComposition("subject:Basic.string", "testString");
         assertSearchReturnsComposition("subject:Basic.string", "test");
-        
+
         assertSearchReturnsComposition("subject:Basic.string:contains", "String");
         assertSearchReturnsComposition("subject:Basic.string:contains", "string");
-        
+
         assertSearchDoesntReturnComposition("subject:Basic.string", "String");
 
         assertSearchDoesntReturnComposition("subject:Basic.string:exact", "test");
         assertSearchDoesntReturnComposition("subject:Basic.string:exact", "teststring");
-        
+
         // TODO add test for diacritics and other unusual characters
     }
-    
+
     @Test
     public void testSearchString_string_revinclude() throws Exception {
         assertSearchReturnsComposition("subject:Basic.string:exact", "testString");
-        
+
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
         queryParms.put("string:exact", Collections.singletonList("testString"));
         assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
         assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
-    
-    
+
+
     @Test
     public void testSearchString_string_missing() throws Exception {
         assertSearchReturnsSavedResource("string:missing", "false");
         assertSearchDoesntReturnSavedResource("string:missing", "true");
-        
+
         assertSearchReturnsSavedResource("missing-string:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
     }
-    
+
     @Test
     public void testSearchString_string_or() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "foo,testString,bar");
         assertSearchDoesntReturnSavedResource("string:exact", "foo\\,testString,bar");
         assertSearchDoesntReturnSavedResource("string:exact", "foo,testString\\,bar");
     }
-    
+
     @Test
     public void testSearchString_string_escaping() throws Exception {
         assertSearchReturnsSavedResource("string:exact", "special testChars & : ; \\$ \\| \\, \\\\");
         assertSearchReturnsSavedResource("string:contains", "& : ; \\$ \\| \\, \\\\");
     }
-    
+
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchString_string_invalidEscaping() throws Exception {
         runQueryTest(Basic.class, "string", "\\", Integer.MAX_VALUE);
     }
-    
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
-    
-//    @Test
-//    public void testSearchString_string_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");
-//        
-//        assertSearchReturnsComposition("subject:Basic.missing-string:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-string:missing", "false");
-//    }
-    
+
+    @Test
+    public void testSearchString_string_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-string:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-string:missing", "false");
+    }
+
     @Test
     public void testSearchString_HumanName() throws Exception {
         /*
@@ -140,7 +136,7 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("HumanName", "II");
         assertSearchReturnsSavedResource("HumanName", "Topo Gigio");
     }
-    
+
     @Test
     public void testSearchString_Address() throws Exception {
         /*
