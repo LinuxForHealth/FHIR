@@ -49,6 +49,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.UnsignedInt;
@@ -501,7 +502,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
+                throw buildUnsupportedResourceTypeException(type);
             }
 
             Class<? extends Resource> resourceType =
@@ -683,7 +684,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
+                throw buildUnsupportedResourceTypeException(type);
             }
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
@@ -761,7 +762,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
+                throw buildUnsupportedResourceTypeException(type);
             }
 
             Class<? extends Resource> resourceType =
@@ -836,7 +837,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
-                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
+                throw buildUnsupportedResourceTypeException(type);
             }
 
             Class<? extends Resource> resourceType =
@@ -913,7 +914,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Check to see if it's supported, else, throw a bad request.
             // If this is removed, it'll result in nullpointer when processing the request
             if (!ModelSupport.isResourceType(type)) {
-                throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
+                throw buildUnsupportedResourceTypeException(type);
             }
 
             Class<? extends Resource> resourceType =
@@ -1161,7 +1162,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     IssueType extendedIssueType = IssueType.NOT_SUPPORTED.toBuilder()
                             .extension(Extension.builder()
                                 .url(EXTENSION_URL +  "/not-supported-detail")
-                                .value(string("interaction"))
+                                .value(Code.of("interaction"))
                                 .build())
                             .build();
                     throw buildRestException(msg, extendedIssueType);
@@ -1304,7 +1305,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 IssueType extendedIssueType = IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
                             .url(EXTENSION_URL +  "/not-supported-detail")
-                            .value(string("interaction"))
+                            .value(Code.of("interaction"))
                             .build())
                         .build();
                 throw buildRestException(msg, extendedIssueType);
@@ -1379,9 +1380,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName, IssueType issueType)
+    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName)
             throws FHIROperationException {
-        return buildRestException("'" + resourceTypeName + "' is not a valid resource type.", issueType);
+        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        Issue issue = OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.FATAL)
+                .code(IssueType.NOT_SUPPORTED.toBuilder()
+                        .extension(Extension.builder()
+                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .value(Code.of("resource"))
+                            .build())
+                        .build())
+                .details(CodeableConcept.builder().text(string(msg)).build())
+                .build();
+        return new FHIROperationException(msg).withIssue(issue);
     }
 
     private FHIROperationException buildRestException(String msg, IssueType issueType) {

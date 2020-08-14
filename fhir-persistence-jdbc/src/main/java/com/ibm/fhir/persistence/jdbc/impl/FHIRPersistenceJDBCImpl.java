@@ -60,8 +60,10 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
@@ -644,26 +646,39 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if (param.getChain().isEmpty()) {
                 if (isSystemLevelSearch && param.getModifier() == Modifier.MISSING) {
                     // modifiers are not supported for whole-system searches
-                    throw new FHIRPersistenceNotSupportedException("Modifier '" + param.getModifier() + "' is not yet supported "
+                    throw buildNotSupportedException("Modifier '" + param.getModifier() + "' is not yet supported "
                             + "for whole-system search [code=" + param.getCode() + "]");
                 }
             } else {
-                if (param.getChain().getLast().getModifier() != null) {
+                if (param.getChain().getLast().getModifier() == Modifier.MISSING) {
                     // modifiers on the last parameter in the chain are not yet supported
-                    throw new FHIRPersistenceNotSupportedException("Modifiers are not yet supported "
-                            + "at the end of a chained parameter [code=" + param.getCode() + "]");
+                    throw buildNotSupportedException("Modifier '" + Modifier.MISSING.value() + "' is not yet supported "
+                            + "for chained parameters [code=" + param.getCode() + "]");
                 }
             }
 
             do {
                 if (param.getModifier() != null &&
                         !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {
-                    throw new FHIRPersistenceNotSupportedException("Found unsupported modifier '" + param.getModifier() + "'"
+                    throw buildNotSupportedException("Found unsupported modifier '" + param.getModifier() + "'"
                             + " for search parameter '" + param.getCode() + "' of type " + param.getType());
                 }
                 param = param.getNextParameter();
             } while (param != null);
         }
+    }
+
+    private FHIRPersistenceNotSupportedException buildNotSupportedException(String msg) {
+        return new FHIRPersistenceNotSupportedException(msg).withIssue(OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.FATAL)
+                .code(IssueType.NOT_SUPPORTED.toBuilder()
+                        .extension(Extension.builder()
+                            .url("http://ibm.com/fhir/extension/not-supported-detail")
+                            .value(Code.of("interaction"))
+                            .build())
+                        .build())
+                .details(CodeableConcept.builder().text(string(msg)).build())
+                .build());
     }
 
     @Override
