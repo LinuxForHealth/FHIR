@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bucket.persistence;
-
+package com.ibm.fhir.bucket.api;
 
 /**
  * Represents an allocated job to load a bundle
@@ -22,6 +21,8 @@ public class BucketLoaderJob {
     
     private final long objectSize;
     
+    private final FileType fileType;
+    
     /**
      * @param resourceBundleId
      * @param bucketName
@@ -29,12 +30,13 @@ public class BucketLoaderJob {
      * @param objectName
      * @param objectSize
      */
-    public BucketLoaderJob(long resourceBundleId, String bucketName, String bucketPath, String objectName, long objectSize) {
+    public BucketLoaderJob(long resourceBundleId, String bucketName, String bucketPath, String objectName, long objectSize, FileType ft) {
         this.resourceBundleId = resourceBundleId;
         this.bucketName = bucketName;
         this.bucketPath = bucketPath;
         this.objectName = objectName;
         this.objectSize = objectSize;
+        this.fileType = ft;
     }
     
     @Override
@@ -66,5 +68,13 @@ public class BucketLoaderJob {
      */
     public long getObjectSize() {
         return this.objectSize;
+    }
+
+    /**
+     * Get the type of file this object represents
+     * @return
+     */
+    public FileType getFileType() {
+        return this.fileType;
     }
 }

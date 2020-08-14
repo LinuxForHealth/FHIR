@@ -28,10 +28,11 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
-import com.ibm.fhir.bucket.persistence.BucketLoaderJob;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResources;
@@ -142,7 +143,7 @@ public class FhirBucketSchemaTest {
                 assertEquals(id3, id2);
 
                 // Register a resource bundle under the first bucket path "bucket1:/path/to/dir1/"
-                AddResourceBundle c4 = new AddResourceBundle(bucketId, "patient1.json", 1024);
+                AddResourceBundle c4 = new AddResourceBundle(bucketId, "patient1.json", 1024, FileType.JSON);
                 Long id4 = adapter.runStatement(c4);
                 assertNotNull(id4);
  
@@ -152,7 +153,7 @@ public class FhirBucketSchemaTest {
                 assertEquals(id4, id5);
 
                 // Add a second resource bundle record
-                AddResourceBundle c5 = new AddResourceBundle(bucketId, "patient2.json", 1024);
+                AddResourceBundle c5 = new AddResourceBundle(bucketId, "patient2.json", 1024, FileType.JSON);
                 Long id6 = adapter.runStatement(c5);
                 assertNotNull(id6);
                 assertNotEquals(id6, id5);
@@ -210,7 +211,7 @@ public class FhirBucketSchemaTest {
                 Long bucketPathId = adapter.runStatement(c1);
 
                 // Need a resouce bundle so we can create a logical_resource
-                AddResourceBundle c2 = new AddResourceBundle(bucketPathId, "patient1.json", 1024);
+                AddResourceBundle c2 = new AddResourceBundle(bucketPathId, "patient1.json", 1024, FileType.JSON);
                 Long resourceBundleId = adapter.runStatement(c2);
 
                 // Need resource types so we can create a logical_resource

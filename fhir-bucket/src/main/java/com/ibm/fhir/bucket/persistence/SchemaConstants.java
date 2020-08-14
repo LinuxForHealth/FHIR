@@ -50,6 +50,7 @@ public class SchemaConstants {
     public static final String RESOURCE_BUNDLE_ID = "RESOURCE_BUNDLE_ID";
     public static final String OBJECT_NAME = "OBJECT_NAME";
     public static final String OBJECT_SIZE = "OBJECT_SIZE";
+    public static final String FILE_TYPE = "FILE_TYPE";
     public static final String LAST_MODIFIED = "LAST_MODIFIED";
     public static final String FILE_SHA256 = "FILE_SHA256";
     public static final String LOADER_ID = "LOADER_ID";

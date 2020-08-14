@@ -136,6 +136,7 @@ public class FhirBucketSchema {
                 .addBigIntColumn(      BUCKET_PATH_ID,             false)
                 .addVarcharColumn(        OBJECT_NAME,         64, false)
                 .addBigIntColumn(         OBJECT_SIZE,             false)
+                .addVarcharColumn(          FILE_TYPE,         12, false)
                 .addBigIntColumn(       ALLOCATION_ID,              true)
                 .addBigIntColumn(  LOADER_INSTANCE_ID,              true)
                 .addTimestampColumn(     LOAD_STARTED,              true)

@@ -34,6 +34,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
 import com.ibm.fhir.bucket.api.CosItem;
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.scanner.NoCloseInputStream;
 
 /**
@@ -123,9 +124,10 @@ public class CosClient {
     /**
      * Scan the COS bucket, feeding each returned item to the given consumer
      * @param bucketName
-     * @param consumer
+     * @param fileType function to derive fileType from the item key value
+     * @param consumer target for each non-empty CosItem we find in the bucket
      */
-    public void scan(String bucketName, Consumer<CosItem> consumer) {
+    public void scan(String bucketName, Function<String, FileType> fileTyper, Consumer<CosItem> consumer) {
         logger.info("Scanning bucket: '" + bucketName + "'");
         ListObjectsV2Result result = null;
         String nextToken = null;
@@ -143,8 +145,10 @@ public class CosClient {
                     logger.fine("COS Item: {bucket=" + bucketName + ", item=" + objectSummary.getKey()
                             + ", bytes=" + objectSummary.getSize() + "}");
                 }
+                
                 if (objectSummary.getSize() > 0) {
-                    consumer.accept(new CosItem(bucketName, objectSummary.getKey(), objectSummary.getSize()));
+                    FileType ft = fileTyper.apply(objectSummary.getKey());
+                    consumer.accept(new CosItem(bucketName, objectSummary.getKey(), objectSummary.getSize(), ft));
                 }
             }
         } while (result != null && result.isTruncated());

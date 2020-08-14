@@ -16,6 +16,9 @@ public class ClientPropertyAdapter {
     public static final String FHIR_SERVER_HOST = "fhir.server.host";
     public static final String FHIR_SERVER_PORT = "fhir.server.port";
     public static final String FHIR_SERVER_ENDPOINT = "fhir.server.endpoint";
+    public static final String FHIR_SERVER_USER = "fhir.server.user";
+    public static final String FHIR_SERVER_PASS = "fhir.server.pass";
+    
     public static final String TRUSTSTORE = "truststore";
     public static final String TRUSTSTORE_PASS = "truststore.pass";
     public static final String POOL_CONNECTIONS_MAX = "pool.connections.max";
@@ -74,5 +77,13 @@ public class ClientPropertyAdapter {
     
     public String getEnabledCiphers() {
         return properties.getProperty(ENABLED_CIPHERS);
+    }
+    
+    public String getFhirServerUser() {
+        return properties.getProperty(FHIR_SERVER_USER);
+    }
+    
+    public String getFhirServerPass() {
+        return properties.getProperty(FHIR_SERVER_PASS);
     }
 }

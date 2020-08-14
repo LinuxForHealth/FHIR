@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
@@ -93,7 +95,8 @@ public class AllocateJobs implements IDatabaseStatement {
         }
         
         // Now fetch the records we just marked
-        final String FETCH = "SELECT rb.resource_bundle_id, bp.bucket_name, bp.bucket_path, rb.object_name, rb.object_size"
+        final String FETCH = "SELECT rb.resource_bundle_id, bp.bucket_name, bp.bucket_path, rb.object_name, rb.object_size, "
+                + " rb.file_type "
                 + " FROM resource_bundles rb, "
                 + "      bucket_paths bp"
                 + " WHERE rb.allocation_id = ? "
@@ -108,7 +111,9 @@ public class AllocateJobs implements IDatabaseStatement {
                 String bucketPath = rs.getString(3);
                 String objectName = rs.getString(4);
                 long objectSize = rs.getLong(5);
-                jobList.add(new BucketLoaderJob(resourceBundleId, bucketName, bucketPath, objectName, objectSize));
+                String fileTypeValue = rs.getString(6);
+                jobList.add(new BucketLoaderJob(resourceBundleId, bucketName, bucketPath, objectName, objectSize,
+                    FileType.valueOf(fileTypeValue)));
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, FETCH, x);

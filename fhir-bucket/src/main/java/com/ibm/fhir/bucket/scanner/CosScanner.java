@@ -8,9 +8,11 @@ package com.ibm.fhir.bucket.scanner;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.CosItem;
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.cos.CosClient;
 
 /**
@@ -38,19 +40,19 @@ public class CosScanner {
     // Access to our data layer for persistence
     private final DataAccess dataAccess;
     
-    // Only process files with this suffix
-    private final String objectSuffix;
+    // Only process files matching these types
+    private final Set<FileType> fileTypes;
 
     /**
      * Public constructor
      * @param client
      * @param buckets
      */
-    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, String objectSuffix) {
+    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes) {
         this.client = client;
         this.buckets = new ArrayList<>(buckets);
         this.dataAccess = dataAccess;
-        this.objectSuffix = objectSuffix;
+        this.fileTypes = fileTypes;
     }
     
     /**
@@ -118,7 +120,22 @@ public class CosScanner {
      */
     protected void scan() {
         for (String bucket: this.buckets) {
-            client.scan(bucket, ci -> handle(ci));
+            client.scan(bucket, CosScanner::fileTyper, ci -> handle(ci));
+        }
+    }
+    
+    /**
+     * Determine the type of the file based on the suffix
+     * @param itemName
+     * @return
+     */
+    protected static FileType fileTyper(String itemName) {
+        if (itemName.endsWith(".ndjson") || itemName.endsWith(".NDJSON")) {
+            return FileType.NDJSON;
+        } else if (itemName.endsWith(".json") || itemName.endsWith(".JSON")) {
+            return FileType.JSON;
+        } else {
+            return FileType.UNKNOWN;
         }
     }
     
@@ -127,8 +144,8 @@ public class CosScanner {
      * @param item
      */
     protected void handle(CosItem item) {
-        if (objectSuffix == null || objectSuffix.isEmpty()
-            || item.getItemName().endsWith(objectSuffix)) {
+        // Only process items we recognize
+        if (fileTypes.contains(item.getFileType())) {
             dataAccess.registerBucketItem(item);
         }
     }

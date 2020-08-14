@@ -17,15 +17,16 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
-import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.ConnectionReuseStrategy;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -36,6 +37,7 @@ import org.apache.http.client.UserTokenHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
@@ -43,6 +45,7 @@ import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -54,8 +57,12 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 
+import com.ibm.fhir.model.resource.Resource;
+
 /**
- * Handles pooled HTTP/S connections to a FHIR server.
+ * Handles pooled HTTP/S connections to a FHIR server. Derived from the
+ * former High Volume Ingestion Tool (HVIT) which is known to scale to
+ * a large number of client connections.
  */
 public class FhirClient {
 
@@ -71,6 +78,9 @@ public class FhirClient {
 
     // connection properties encapsulated in an adapter for easy access
     private final ClientPropertyAdapter propertyAdapter;
+
+    // The common headers we use which are shared across all threads
+    private final Map<String,String> headers = new ConcurrentHashMap<String, String>();
     
     /**
      * Public constructor
@@ -79,11 +89,20 @@ public class FhirClient {
     public FhirClient(ClientPropertyAdapter cpa) {
         this.propertyAdapter = cpa;
     }
+
+    /**
+     * Add the given key/value as a header
+     * @param key
+     * @param value
+     */
+    public void addHeader(String key, String value) {
+        this.headers.put(key, value);
+    }
     
     /**
      * Initialize the SSL connection pool after all the required field values have been injected
      */
-    public void init() {
+    public void init(String tenantName) {
         if (connManager != null) {
             throw new IllegalStateException("Already initialied");
         }
@@ -141,25 +160,57 @@ public class FhirClient {
             throw new IllegalStateException("Failed to initialize connection manager", x);
         }
 
-    }
-    
-    public FhirServerResponse get(String sUrl, Map<String, String> headers) {
-        
-        if(logger.isLoggable(Level.FINE)){
-            logger.fine("REQUEST GET "+ sUrl);
+        if (tenantName != null) {
+            this.headers.put(Headers.TENANT_HEADER, tenantName);
         }
 
-        HttpGet getRequest = new HttpGet(sUrl);
-        
-        if (headers != null) {
-            for(String attribute:headers.keySet()) {
-                getRequest.addHeader(attribute, headers.get(attribute));
-                
-                if(logger.isLoggable(Level.FINE)){
-                    logger.fine(attribute+": "+headers.get(attribute));
-                }
-            }
+        // For now, we only talk JSON with the FHIR server
+        this.headers.put(Headers.ACCEPT_HEADER, ContentType.APPLICATION_JSON.getMimeType());
+        this.headers.put(Headers.CONTENT_TYPE_HEADER, ContentType.APPLICATION_JSON.getMimeType());
+
+        String user = propertyAdapter.getFhirServerUser();
+        String pass = propertyAdapter.getFhirServerPass();
+        if (user != null && pass != null) {
+            // Set up basic auth
+            String b64 = Base64.getEncoder().encodeToString(user.concat(":").concat(pass).getBytes());
+            headers.put(Headers.AUTH_HEADER, "Basic ".concat(b64));
         }
+    }
+    
+    /**
+     * Add our headers to the request
+     * @param request
+     */
+    private void addHeadersTo(final HttpRequestBase request) {
+        // inject each header into the request
+        headers.entrySet().stream().forEach(e -> request.addHeader(e.getKey(), e.getValue())); 
+    }
+    
+    private String buildTargetPath(String resourceName) {
+        StringBuilder result = new StringBuilder();
+
+        result.append("https://");
+        result.append(propertyAdapter.fhirServerHost());
+        result.append(":");
+        result.append(propertyAdapter.fhirServerPort());
+        result.append(propertyAdapter.fhirServerEndpoint());
+        
+        if (resourceName != null) {
+            result.append(resourceName);
+        }
+        
+        return result.toString();
+    }
+    
+    public FhirServerResponse get(String url, Function<Reader, Resource> fn) {
+        
+        String target = buildTargetPath(url);
+        if (logger.isLoggable(Level.FINE)){
+            logger.fine("REQUEST GET "+ target);
+        }
+
+        HttpGet getRequest = new HttpGet(target);
+        addHeadersTo(getRequest);
         
         for (int i = 1; ; i++) {
             try {
@@ -172,114 +223,106 @@ public class FhirClient {
                         logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                     }
                 }
-                return mapToSimulatorResponse(response, startTime);
+                return buildResponse(response, startTime, fn);
             } catch (NoHttpResponseException e) {
                 logger.warning("Encountered an org.apache.http.NoHttpResponseException during GET request. " + e);
-                logger.warning("GET URL: "+sUrl);
+                logger.warning("GET URL: "+target);
                 logger.warning("Will retry this request for the Nth time. N = " + i);
             } catch (IOException e) {
                 logger.severe("Error while executing the GET request. " + e);
-                logger.warning("GET URL: "+sUrl);
+                logger.warning("GET URL: "+target);
                 logger.warning("Skipping this request.");
                 return null;
             }
         }        
     }
     
-    public FhirServerResponse post(String sUrl, Map<String, String> headers, String body) {
+    /**
+     * Issue a POST request at the given url
+     * @param sUrl
+     * @param body
+     * @return
+     */
+    public FhirServerResponse post(String url, String body, Function<Reader, Resource> responseFunction) {
+        String target = buildTargetPath(url);
         if(logger.isLoggable(Level.FINE)){
-            logger.fine("REQUEST POST "+ sUrl);
+            logger.fine("REQUEST POST "+ target);
         }
         
         try {
             
-            HttpPost postRequest = new HttpPost(sUrl);
+            HttpPost postRequest = new HttpPost(target);
             postRequest.setEntity(new StringEntity(body));
+            addHeadersTo(postRequest);
             
-            if(headers != null){
-                for(String attribute:headers.keySet()){
-                    postRequest.addHeader(attribute, headers.get(attribute));
-                    
-                    if(logger.isLoggable(Level.FINE)){
-                        logger.fine(attribute+": "+headers.get(attribute));
-                    }
-                }
-            }
-            
-            if(logger.isLoggable(Level.FINE)){
-                logger.fine("REQUEST POST BODY - "+body);
+            if(logger.isLoggable(Level.FINE)) {
+                logger.fine("REQUEST POST BODY - " + body);
             }
             
             
             long startTime = System.currentTimeMillis();
             HttpResponse response = client.execute(postRequest);
-            if(logger.isLoggable(Level.FINE)){
+            
+            // Log details of the response if required
+            if (logger.isLoggable(Level.FINE)) {
                 Header responseHeaders[] = response.getAllHeaders();
                 logger.fine("Response HTTP Headers: ");
                 for (Header responseHeader : responseHeaders) {
                     logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                 }
             }
-            return mapToSimulatorResponse(response, startTime);
+            return buildResponse(response, startTime, responseFunction);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
-            logger.warning("POST URL: "+sUrl+"\nRequest Body: "+body);
+            logger.warning("POST URL: "+target+"\nRequest Body: "+body);
         } catch (ClientProtocolException e) {
             logger.severe("Error while executing the POST request. "+e);
-            logger.warning("POST URL: "+sUrl+"\nRequest Body: "+body);
+            logger.warning("POST URL: "+target+"\nRequest Body: "+body);
         } catch (IOException e) {
             logger.severe("Error while executing the POST request. "+e);
-            logger.warning("POST URL: "+sUrl+"\nRequest Body: "+body);
+            logger.warning("POST URL: "+target+"\nRequest Body: "+body);
         }
         
         return null;
     }
     
-    public FhirServerResponse put(String sUrl, Map<String, String> headers, String body) {
-            
-        if(logger.isLoggable(Level.FINE)){
-            logger.fine("REQUEST PUT "+sUrl);
+    public FhirServerResponse put(String url, Map<String, String> headers, String body, Function<Reader, Resource> responseFunction) {
+        String target = buildTargetPath(url);
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("REQUEST PUT "+target);
         }
+        
         try {
-            
-            HttpPut putRequest = new HttpPut(sUrl);
+            HttpPut putRequest = new HttpPut(target);
             putRequest.setEntity(new StringEntity(body));
+            addHeadersTo(putRequest);
             
-            if(headers != null){
-                for(String attribute:headers.keySet()){
-                    putRequest.addHeader(attribute, headers.get(attribute));
-                    
-                    if(logger.isLoggable(Level.FINE)){
-                        logger.fine(attribute+": "+headers.get(attribute));
-                    }
-                }
-            }
-            
-            if(logger.isLoggable(Level.FINE)){
-                logger.fine("REQUEST PUT BODY - "+body);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("REQUEST PUT BODY - " + body);
             }
             
             long startTime = System.currentTimeMillis();
             HttpResponse response = client.execute(putRequest);
-            if(logger.isLoggable(Level.FINE)){
+            if (logger.isLoggable(Level.FINE)) {
                 Header responseHeaders[] = response.getAllHeaders();
                 logger.fine("Response HTTP Headers: ");
                 for (Header responseHeader : responseHeaders) {
                     logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                 }
             }
-            return mapToSimulatorResponse(response, startTime);
+            return buildResponse(response, startTime, responseFunction);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
-            logger.warning("PUT URL: "+sUrl+"\nRequest Body: "+body);
+            logger.warning("PUT URL: "+target+"\nRequest Body: "+body);
         } catch (ClientProtocolException e) {
             logger.severe("Error while executing the PUT request. "+e);
-            logger.warning("PUT URL: "+sUrl+"\nRequest Body: "+body);
+            logger.warning("PUT URL: "+target+"\nRequest Body: "+body);
         } catch (IOException e) {
             logger.severe("Error while executing the PUT request. "+e);
-            logger.warning("PUT URL: "+sUrl+"\nRequest Body: "+body);
+            logger.warning("PUT URL: "+target+"\nRequest Body: "+body);
         }
         
         return null;
@@ -297,38 +340,40 @@ public class FhirClient {
         
     }
 
+    /**
+     * Get statistics from the internal HTTP connection manager
+     * @return
+     */
     public PoolStats getPoolInformation() {
-        if(connManager != null){
+        if (connManager != null) {
             return connManager.getTotalStats();
         } 
         
         return null;
     }
-    
-    private FhirServerResponse mapToSimulatorResponse(HttpResponse response, long startTime){
+
+    /**
+     * Construct a FhirServerResponse from the FHIR server {@link HttpResponse}
+     * @param response
+     * @param startTime
+     * @return
+     */
+    private FhirServerResponse buildResponse(HttpResponse response, long startTime, Function<Reader, Resource> fn) {
         try {
-            
             FhirServerResponse sr = new FhirServerResponse();
             sr.setStatusCode(response.getStatusLine().getStatusCode());
             sr.setStatusMessage(response.getStatusLine().getReasonPhrase());
             
             HttpEntity entity = response.getEntity();
-            if(entity != null){
-                InputStream instream = entity.getContent();
-                StringBuilder builder = new StringBuilder();
-                try (Reader reader = new BufferedReader(new InputStreamReader(instream))){
-                    
-                    int c = 0;
-                    while((c = reader.read()) != -1){
-                        builder.append((char) c);
-                    }
-                    
+            if (entity != null) {
+                
+                try (InputStream instream = entity.getContent()) {
+                    Reader reader = new InputStreamReader(instream);
+                    Resource resource = fn.apply(reader);
+                    sr.setResource(resource);
                 } finally {
-                    instream.close();
                     EntityUtils.consume(entity);
                 }
-                
-                // TODO parse the response
             }
             
             long endTime = System.currentTimeMillis();

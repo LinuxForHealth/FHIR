@@ -20,10 +20,13 @@ public class CosItem {
     // size of the object in bytes
     private final long size;
     
-    public CosItem(String bucketName, String itemName, long size) {
+    private final FileType fileType;
+    
+    public CosItem(String bucketName, String itemName, long size, FileType fileType) {
         this.bucketName = bucketName;
         this.itemName = itemName;
         this.size = size;
+        this.fileType = fileType;
     }
     
     @Override
@@ -31,7 +34,6 @@ public class CosItem {
         return bucketName + ":" + itemName + "[" + size + "]";
     }
 
-    
     /**
      * @return the bucketName
      */
@@ -52,5 +54,12 @@ public class CosItem {
      */
     public long getSize() {
         return this.size;
+    }
+
+    /**
+     * @return the fileType
+     */
+    public FileType getFileType() {
+        return this.fileType;
     }
 }

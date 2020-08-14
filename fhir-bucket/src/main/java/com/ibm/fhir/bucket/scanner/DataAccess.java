@@ -14,11 +14,11 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
-import com.ibm.fhir.bucket.persistence.BucketLoaderJob;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
@@ -114,7 +114,7 @@ public class DataAccess {
                     Long bucketPathId = dbAdapter.runStatement(c1);
         
                     // Now register the bundle using the bucket record we created/retrieved
-                    AddResourceBundle c2 = new AddResourceBundle(bucketPathId, name, item.getSize());
+                    AddResourceBundle c2 = new AddResourceBundle(bucketPathId, name, item.getSize(), item.getFileType());
                     dbAdapter.runStatement(c2);
                 } else {
                     logger.warning("Bad item name: '" + item.toString());

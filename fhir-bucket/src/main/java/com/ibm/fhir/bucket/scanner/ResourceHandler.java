@@ -14,7 +14,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.client.FhirClient;
+import com.ibm.fhir.bucket.client.FhirServerResponse;
+import com.ibm.fhir.bucket.client.PostResource;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
@@ -77,9 +80,13 @@ public class ResourceHandler {
         }
     }
 
-    public boolean process(Resource resource) {
+    public boolean process(ResourceEntry entry) {
         boolean result = false;
-        
+
+        // Throttle how many resources we allow to be inflight
+        // at any point in time...this helps to keep memory
+        // consumption reasonable, because we can read and parse
+        // more quickly than the FHIR server(s) can process
         int maxInflight = 3 * poolSize;
         lock.lock();
         try {
@@ -102,7 +109,7 @@ public class ResourceHandler {
         if (result) {
             pool.submit(() -> {
                 try {
-                    processThr(resource);
+                    processThr(entry);
                 } finally {
                     lock.lock();
                     try {
@@ -122,10 +129,15 @@ public class ResourceHandler {
      * Process the resource in the thread pool
      * @param resource
      */
-    public void processThr(Resource resource) {
-        logger.info("Processing resource: " + resource.getClass().getSimpleName());
+    public void processThr(ResourceEntry entry) {
+        Resource resource = entry.getResource();
+        final String resourceType = resource.getClass().getSimpleName();
+        logger.info("Processing resource: " + resourceType);
         
         // Build a post request for the resource and send to FHIR
+        PostResource post = new PostResource(resource);
+        String id = post.run(fhirClient);
+        logger.info("New " + resourceType + ": " + id);
     }
 
     /**

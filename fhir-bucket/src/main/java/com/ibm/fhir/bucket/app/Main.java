@@ -13,14 +13,17 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.cos.CosClient;
@@ -76,8 +79,6 @@ public class Main {
     // Database connection pool size
     private int maxPoolSize = DEFAULT_POOL_SIZE;
     
-    private String objectSuffix = ".ndjson";
-
     // Configured connection to IBM Cloud Object Storage (S3)
     private CosClient cosClient;
     
@@ -106,6 +107,12 @@ public class Main {
     private ResourceHandler resourceHandler;
         
     private String logDir = ".";
+
+    // The tenant name
+    private String tenantName;
+
+    // Set of file types we are interested in
+    private Set<FileType> fileTypes = new HashSet<>();
     
     /**
      * Parse command line arguments
@@ -150,11 +157,11 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --bucket");
                 }
                 break;
-            case "--suffix":
+            case "--file-type":
                 if (i < args.length + 1) {
-                    this.objectSuffix = args[++i];
+                    this.fileTypes.add(FileType.valueOf(args[++i]));
                 } else {
-                    throw new IllegalArgumentException("missing value for --suffix");
+                    throw new IllegalArgumentException("missing value for --file-type");
                 }
                 break;
             case "--resource-pool-size":
@@ -162,6 +169,13 @@ public class Main {
                     this.resourcePoolSize = Integer.parseInt(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --resource-pool-size");
+                }
+                break;
+            case "--tenant-name":
+                if (i < args.length + 1) {
+                    this.tenantName = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --tenant-name");
                 }
                 break;
             default:
@@ -232,6 +246,11 @@ public class Main {
      * the schema update process and avoid race conditions.
      */
     public void configure() {
+        
+        if (fileTypes.isEmpty()) {
+            // use NDJSON if the user didn't provide their own choice
+            this.fileTypes.add(FileType.NDJSON);
+        }
         
         File f = new File(logDir, "fhirbucket.log");
         LogFormatter.init(f.getPath());
@@ -393,14 +412,14 @@ public class Main {
         
         // Set up the client we use to send requests to the FHIR server
         fhirClient = new FhirClient(new ClientPropertyAdapter(fhirClientProperties));
-        fhirClient.init();
+        fhirClient.init(this.tenantName);
         
         // Set up our data access layer
         DataAccess dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
         dataAccess.init();
         
         // Set up the scanner to look for new COS objects and register them in our database
-        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.objectSuffix);
+        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes);
         scanner.init();
         
         // Set up the handler to process resources as they are read from COS

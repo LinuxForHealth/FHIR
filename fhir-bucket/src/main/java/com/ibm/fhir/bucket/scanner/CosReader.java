@@ -23,8 +23,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.cos.CosClient;
-import com.ibm.fhir.bucket.persistence.BucketLoaderJob;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -47,7 +48,7 @@ public class CosReader {
     private final CosClient client;
 
     // The handler which processes resources we've read from COS
-    private final Consumer<Resource> resourceHandler;
+    private final Consumer<ResourceEntry> resourceHandler;
     
     // The number of threads in our thread pool
     private final int poolSize;
@@ -79,7 +80,7 @@ public class CosReader {
      * Public constructor
      * @param client
      */
-    public CosReader(CosClient client, Consumer<Resource> resourceHandler, int poolSize, DataAccess da) {
+    public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da) {
         this.client = client;
         this.resourceHandler = resourceHandler;
         this.poolSize = poolSize;
@@ -131,7 +132,11 @@ public class CosReader {
                 }
                 
                 // Calculate the max number of jobs we can request to be allocated
-                // to this instance from the database
+                // to this instance from the database. Need to be careful with
+                // possible contention here because we are holding the lock during
+                // the allocation database call. The alternative is to unlock, read,
+                // then lock a second time if the allocation is smaller than free.
+                // TODO...consider this change
                 free = this.maxInflight - this.inflight;
                 if (free > 0) {
                     allocated = allocateJobs(free);
@@ -183,8 +188,11 @@ public class CosReader {
         return jobList.size();
     }
     
+    /**
+     * Submit the job to the internal threadpool
+     * @param job
+     */
     private void process(BucketLoaderJob job) {
-        // submit the job to the threadpool
         pool.submit(() -> {
             try {
                 processThr(job);
@@ -197,8 +205,7 @@ public class CosReader {
                     // Apply some hysteresis before we wake up the allocation
                     // thread. This is so we fetch larger allocations in fewer
                     // calls to the database
-                    int free = maxInflight - inflight;
-                    if (free >= poolSize) {
+                    if (inflight < rescanThreshold) {
                         resourceLimit.signal();
                     }
                 } finally {
@@ -212,12 +219,12 @@ public class CosReader {
      * Process this job in a thread-pool thread
      * @param job
      */
-    private void processThr(BucketLoaderJob job) {
+    private void processThr(final BucketLoaderJob job) {
         // Ask the COS client to open the stream for the object and pass it to
         // our process method for reading
         try {
             logger.info("Processing job: " + job.toString());
-            client.process(job.getBucketName(), job.getObjectKey(), br -> process(br));
+            client.process(job.getBucketName(), job.getObjectKey(), br -> process(job, br));
         } catch (Exception x) {
             // make sure we don't propagate exceptions back to the pool thread
             logger.log(Level.SEVERE, "Error processing job: " + job.toString(), x);
@@ -229,15 +236,16 @@ public class CosReader {
      * @param is
      * @return
      */
-    public void process(BufferedReader br) {
+    public void process(final BucketLoaderJob job, final BufferedReader br) {
         
         // Reading as a continuous stream appears to be problematic,
         // so we have to take a line-based approach
         try {
+            int lineNumber = 0;
             String line;
             while ((line = br.readLine()) != null) {
                 StringReader lineReader = new StringReader(line);
-                process(FHIRParser.parser(Format.JSON).parse(lineReader));
+                process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++);
             }
         } catch (FHIRParserException x) {
             // errors will be logged where this exception is handled
@@ -251,13 +259,13 @@ public class CosReader {
     /**
      * Process the resource parsed from the input stream
      * @param r
+     * @param lineNumber the line number of this resource in the source
      */
-    protected void process(Resource resource) {
-        logger.info("Processing resource type=" + resource.getClass().getSimpleName());
+    protected void process(BucketLoaderJob job, Resource resource, int lineNumber) {
         
         try {
             validateInput(resource);
-            resourceHandler.accept(resource);
+            resourceHandler.accept(new ResourceEntry(job, resource));
         } catch (FHIROperationException e) {
             logger.warning("Resource validation failed: " + e.getMessage());
             
