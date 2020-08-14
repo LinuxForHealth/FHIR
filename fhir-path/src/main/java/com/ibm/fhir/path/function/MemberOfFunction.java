@@ -195,7 +195,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * Issues will be added to evaluation context if validation is not successful.
      * @param valueSet the value set
      * @param code the code to validate
-     * @param code the coding to validate
+     * @param coding the coding to validate
      * @param codeableConcept the codeable concept to validate
      * @param evaluationContext the evaluation context
      * @param elementNode the element node to validate
