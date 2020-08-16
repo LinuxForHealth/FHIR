@@ -29,7 +29,6 @@ import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.cos.CosClient;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
-import com.ibm.fhir.bucket.persistence.LoaderInstanceHeartbeat;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.scanner.CosReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
@@ -120,8 +119,11 @@ public class Main {
     // Set of file types we are interested in
     private Set<FileType> fileTypes = new HashSet<>();
     
-    // Only run the schema update/deploy
-    private boolean dbOnly = false;
+    // optional prefix for scanning a subset of the COS bucket
+    private String pathPrefix;
+    
+    // Just create the schema and exit
+    private boolean createSchema = false;
     
     /**
      * Parse command line arguments
@@ -138,8 +140,8 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --db-type");
                 }
                 break;
-            case "--db-only":
-                this.dbOnly = true;
+            case "--create-schema":
+                this.createSchema = true;
                 break;
             case "--cos-properties":
                 if (i < args.length + 1) {
@@ -188,6 +190,13 @@ public class Main {
                     this.tenantName = args[++i];
                 } else {
                     throw new IllegalArgumentException("missing value for --tenant-name");
+                }
+                break;
+            case "--path-prefix":
+                if (i < args.length + 1) {
+                    this.pathPrefix = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --path-prefix");
                 }
                 break;
             default:
@@ -278,10 +287,7 @@ public class Main {
         case POSTGRESQL:
             setupPostgresRepository();
             break;
-        }
-        
-        bootstrapDb();
-        cosClient = new CosClient(cosProperties);
+        }        
     }
 
     /**
@@ -441,19 +447,28 @@ public class Main {
         this.fhirClient.shutdown();
         logger.info("All services stopped");
     }
-    
+
+    /**
+     * Choose which mode of the program we want to run:
+     * - create the schema
+     * - scan and load
+     */
+    public void process() {
+        if (this.createSchema) {
+            bootstrapDb();
+        } else {
+            scanAndLoad();
+        }
+    }
     
     /**
      * Start the processing threads and wait until we get told to stop
      */
-    protected void runAndWait() {
-
-        // quick exit if all we want to do is create/update the schema
-        if (this.dbOnly) {
-            return;
-        }
+    protected void scanAndLoad() {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
+        
+        cosClient = new CosClient(cosProperties);
         
         // Set up the client we use to send requests to the FHIR server
         fhirClient = new FhirClient(new ClientPropertyAdapter(fhirClientProperties));
@@ -464,7 +479,7 @@ public class Main {
         dataAccess.init();
         
         // Set up the scanner to look for new COS objects and register them in our database
-        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes);
+        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix);
         scanner.init();
         
         // Set up the handler to process resources as they are read from COS
@@ -489,6 +504,6 @@ public class Main {
         m.parseArgs(args);
         m.checkConfig();
         m.configure();
-        m.runAndWait();
+        m.process();
     }
 }

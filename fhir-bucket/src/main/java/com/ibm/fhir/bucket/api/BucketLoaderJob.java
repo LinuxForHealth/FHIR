@@ -32,6 +32,9 @@ public class BucketLoaderJob {
     // The number of resources processed
     private final AtomicInteger completedCount = new AtomicInteger(0);
     
+    // How many of the jobs have failed
+    private final AtomicInteger failureCount = new AtomicInteger(0);
+    
     // Callback when the last resource is processed
     private Consumer<BucketLoaderJob> jobCompleteCallback;
     
@@ -61,7 +64,7 @@ public class BucketLoaderJob {
     
     @Override
     public String toString() {
-        return bucketName + ":" + getObjectKey();
+        return bucketName + ":" + getObjectKey() + ": " + failureCount + "/" + completedCount;
     }
     
     public String getBucketName() {
@@ -115,10 +118,31 @@ public class BucketLoaderJob {
     /**
      * Signal operation complete.
      */
-    public void operationComplete() {
+    public void operationComplete(boolean success) {
+        // keep track of how many rows in the job failed
+        if (!success) {
+            failureCount.addAndGet(1);
+        }
+        
         if (completedCount.addAndGet(1) == this.inflight && this.jobCompleteCallback != null) {
             // job is done, so make the call
             this.jobCompleteCallback.accept(this);
         }
+    }
+
+    /**
+     * How many rows have failed
+     * @return
+     */
+    public int getFailureCount() {
+        return this.failureCount.get();
+    }
+    
+    /**
+     * How many rows have been completed so far
+     * @return
+     */
+    public int getCompletedCount() {
+        return this.completedCount.get();
     }
 }

@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.CosItem;
+import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
@@ -122,8 +123,17 @@ public class DataAccess {
                     Long bucketPathId = dbAdapter.runStatement(c1);
         
                     // Now register the bundle using the bucket record we created/retrieved
-                    AddResourceBundle c2 = new AddResourceBundle(bucketPathId, name, item.getSize(), item.getFileType());
-                    dbAdapter.runStatement(c2);
+                    AddResourceBundle c2 = new AddResourceBundle(bucketPathId, name, item.getSize(), item.getFileType(),
+                        item.geteTag(), item.getLastModified());
+                    ResourceBundleData old = dbAdapter.runStatement(c2);
+                    if (old != null && !old.matches(item.getSize(), item.geteTag(), item.getLastModified())) {
+                        // log the fact that the item has been changed in COS and so we've updated our
+                        // record of it in the bucket database -> it will be processed again.
+                        logger.info("COS item changed, " + item.toString() 
+                        + ", old={size=" + old.getObjectSize() + ", etag=" + old.geteTag() + ", lastModified=" + old.getLastModified() + "}"
+                        + ", new={size=" + item.getSize() + ", etag=" + item.geteTag() + ", lastModified=" + item.getLastModified() + "}"
+                        );
+                    }
                 } else {
                     logger.warning("Bad item name: '" + item.toString());
                 }
@@ -201,7 +211,7 @@ public class DataAccess {
     public void markJobDone(BucketLoaderJob job) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleId());
+                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleId(), job.getFailureCount());
                 dbAdapter.runStatement(c1);
             } catch (Exception x) {
                 tx.setRollbackOnly();

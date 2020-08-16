@@ -34,17 +34,6 @@ public class FhirBucketSchema {
     public FhirBucketSchema(String schemaName) {
         this.schemaName = schemaName;
     }
-    
-    /**
-     * Populate the resource types table with all the resource type names
-     * defined in the FHIR R4 model
-     */
-    private void fillResourceTypes(IDatabaseAdapter adapter) {
-        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet());
-
-    }
 
     /**
      * Create the model
@@ -135,13 +124,17 @@ public class FhirBucketSchema {
                 .addBigIntColumn(  RESOURCE_BUNDLE_ID,             NOT_NULL)
                 .setIdentityColumn(RESOURCE_BUNDLE_ID,  Generated.ALWAYS)
                 .addBigIntColumn(      BUCKET_PATH_ID,             NOT_NULL)
-                .addVarcharColumn(        OBJECT_NAME,         64, NOT_NULL)
+                .addVarcharColumn(        OBJECT_NAME,        128, NOT_NULL)
                 .addBigIntColumn(         OBJECT_SIZE,             NOT_NULL)
                 .addVarcharColumn(          FILE_TYPE,         12, NOT_NULL)
+                .addVarcharColumn(               ETAG,         32, NOT_NULL) // assumes 128 bit MD5
+                .addTimestampColumn(    LAST_MODIFIED,             NOT_NULL)
+                .addTimestampColumn(      SCAN_TSTAMP,             NOT_NULL)
                 .addBigIntColumn(       ALLOCATION_ID,             NULLABLE)
                 .addBigIntColumn(  LOADER_INSTANCE_ID,             NULLABLE)
                 .addTimestampColumn(     LOAD_STARTED,             NULLABLE)
                 .addTimestampColumn(   LOAD_COMPLETED,             NULLABLE)
+                .addIntColumn(          FAILURE_COUNT,             NULLABLE)
                 .addUniqueIndex(UNQ + "_resource_bundle_bktnm", BUCKET_PATH_ID, OBJECT_NAME)
                 .addIndex(IDX + "_resource_bundle_allocid", ALLOCATION_ID)
                 .addPrimaryKey(RESOURCE_BUNDLES + "_PK", RESOURCE_BUNDLE_ID)

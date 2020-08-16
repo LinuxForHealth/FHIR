@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.FileType;
+import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
@@ -146,20 +148,20 @@ public class FhirBucketSchemaTest {
                 assertEquals(id3, id2);
 
                 // Register a resource bundle under the first bucket path "bucket1:/path/to/dir1/"
-                AddResourceBundle c4 = new AddResourceBundle(bucketId, "patient1.json", 1024, FileType.JSON);
-                Long id4 = adapter.runStatement(c4);
+                AddResourceBundle c4 = new AddResourceBundle(bucketId, "patient1.json", 1024, FileType.JSON, "1234abcd", new Date());
+                ResourceBundleData id4 = adapter.runStatement(c4);
                 assertNotNull(id4);
  
-                // Try adding the same record again (should be ignored)
-                Long id5 = adapter.runStatement(c4);
+                // Try adding the same record again (should be ignored because we didn't change it)
+                ResourceBundleData id5 = adapter.runStatement(c4);
                 assertNotNull(id5);
-                assertEquals(id4, id5);
+                assertEquals(id4.getResourceBundleId(), id5.getResourceBundleId());
 
                 // Add a second resource bundle record
-                AddResourceBundle c5 = new AddResourceBundle(bucketId, "patient2.json", 1024, FileType.JSON);
-                Long id6 = adapter.runStatement(c5);
+                AddResourceBundle c5 = new AddResourceBundle(bucketId, "patient2.json", 1024, FileType.JSON, "1234abcd", new Date());
+                ResourceBundleData id6 = adapter.runStatement(c5);
                 assertNotNull(id6);
-                assertNotEquals(id6, id5);
+                assertNotEquals(id6.getResourceBundleId(), id5.getResourceBundleId());
 
                 // Populate the resource types table
                 Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
@@ -214,8 +216,8 @@ public class FhirBucketSchemaTest {
                 Long bucketPathId = adapter.runStatement(c1);
 
                 // Need a resouce bundle so we can create a logical_resource
-                AddResourceBundle c2 = new AddResourceBundle(bucketPathId, "patient1.json", 1024, FileType.JSON);
-                Long resourceBundleId = adapter.runStatement(c2);
+                AddResourceBundle c2 = new AddResourceBundle(bucketPathId, "patient1.json", 1024, FileType.JSON, "abcd123", new Date());
+                ResourceBundleData resourceBundleData = adapter.runStatement(c2);
 
                 // Need resource types so we can create a logical_resource
                 Map<String, Integer> resourceTypeMap = new HashMap<>();
@@ -228,11 +230,11 @@ public class FhirBucketSchemaTest {
                 // Add a few patient resources
                 List<ResourceRec> resources = new ArrayList<>();
                 for (int i=0; i<5; i++) {
-                    resources.add(new ResourceRec(patientTypeId, "patient-" + i, resourceBundleId, i));
+                    resources.add(new ResourceRec(patientTypeId, "patient-" + i, resourceBundleData.getResourceBundleId(), i));
                 }
                 adapter.runStatement(new MergeResources(resources));
                 
-                RecordLogicalId c3 = new RecordLogicalId(patientTypeId, "patient-5", resourceBundleId, 0);
+                RecordLogicalId c3 = new RecordLogicalId(patientTypeId, "patient-5", resourceBundleData.getResourceBundleId(), 0);
                 adapter.runStatement(c3);
                 
             } catch (Throwable t) {
@@ -274,7 +276,7 @@ public class FhirBucketSchemaTest {
                 adapter.runStatement(c5);
                 assertEquals(jobList.size(), 3);
                 
-                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleId());
+                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleId(), 0);
                 adapter.runStatement(c6);
                 
             } catch (Throwable t) {

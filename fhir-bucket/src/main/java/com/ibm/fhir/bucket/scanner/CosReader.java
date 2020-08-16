@@ -7,6 +7,7 @@ package com.ibm.fhir.bucket.scanner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -236,7 +238,19 @@ public class CosReader {
         // our process method for reading
         try {
             logger.info("Processing job: " + job.toString());
-            client.process(job.getBucketName(), job.getObjectKey(), br -> process(job, br));
+            switch (job.getFileType()) {
+            case NDJSON:
+                // Process the object using our NDJSON reader
+                client.process(job.getBucketName(), job.getObjectKey(), br -> processNDJSON(job, br));
+                break;
+            case JSON:
+                // Process the object using our JSON reader
+                client.process(job.getBucketName(), job.getObjectKey(), rdr -> processJSON(job, rdr));
+                break;
+            default:
+                logger.warning("Unrecognized file type for job: " + job.toString());
+                break;
+            }
         } catch (Exception x) {
             // make sure we don't propagate exceptions back to the pool thread
             logger.log(Level.SEVERE, "Error processing job: " + job.toString(), x);
@@ -244,11 +258,34 @@ public class CosReader {
     }
 
     /**
+     * Process a JSON stream (as opposed to an NDJSON stream)
+     * @param job
+     * @param reader
+     */
+    private void processJSON(final BucketLoaderJob job, final Reader reader) {
+        // make sure we don't think the job is done before it really is
+        job.incInflight();
+        boolean success = false;
+        try {
+            process(job, FHIRParser.parser(Format.JSON).parse(reader), 0);
+            success = true;
+        } catch (FHIRParserException x) {
+            // errors will be logged where this exception is handled
+            throw new IllegalStateException(x);
+        } finally {
+            // this is a single entry, but currently we still dispatch
+            // to a thread pool, so the job isn't actually complete until
+            // that process is done...but we need this here
+            job.operationComplete(success);
+        }
+    }
+    
+    /**
      * Read the resources from the given reader
      * @param is
      * @return
      */
-    public void process(final BucketLoaderJob job, final BufferedReader br) {
+    public void processNDJSON(final BucketLoaderJob job, final BufferedReader br) {
         
         // To avoid a race condition where the job could be marked as
         // done before we've finished processing all the resources, we
@@ -257,6 +294,7 @@ public class CosReader {
         
         // Reading as a continuous stream appears to be problematic,
         // so we have to take a line-based approach
+        boolean success = false;
         try {
             int lineNumber = 0;
             String line;
@@ -265,6 +303,7 @@ public class CosReader {
                 StringReader lineReader = new StringReader(line);
                 process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++);
             }
+            success = true;
         } catch (FHIRParserException x) {
             // errors will be logged where this exception is handled
             throw new IllegalStateException(x);
@@ -275,7 +314,7 @@ public class CosReader {
             // we've submitted everything, so increment the completion counter
             // although the job won't actually be marked complete until all the
             // individual resources are processed
-            job.operationComplete();
+            job.operationComplete(success);
         }
     }
 
@@ -289,7 +328,6 @@ public class CosReader {
         
         try {
             validateInput(resource);
-            resourceHandler.accept(new ResourceEntry(job, resource, lineNumber));
         } catch (FHIROperationException e) {
             logger.warning("Resource validation failed: " + e.getMessage());
             
@@ -298,11 +336,14 @@ public class CosReader {
                     .flatMap(details -> Stream.of(details.getText()))
                     .flatMap(text -> Stream.of(text.getValue()))
                     .collect(Collectors.joining(", "));
-            logger.warning("Validation warnings for input resource: [" + info + "]");
+            logger.finer("Validation warnings for input resource: [" + info + "]");
+            throw new DataAccessException("Validation failed", e);
             
         } catch (FHIRValidationException e) {
-            logger.warning("Resource validation failed: " + e.getMessage());
+            throw new DataAccessException("Validation failed", e);
         }
+        
+        resourceHandler.accept(new ResourceEntry(job, resource, lineNumber));
     }
 
     /**
@@ -324,14 +365,14 @@ public class CosReader {
 
             if (includesFailure) {
                 throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
-            } else if (logger.isLoggable(Level.FINE)) {
+            } else if (logger.isLoggable(Level.FINER)) {
                 // optionally log any warnings
                 String info = issues.stream()
                             .flatMap(issue -> Stream.of(issue.getDetails()))
                             .flatMap(details -> Stream.of(details.getText()))
                             .flatMap(text -> Stream.of(text.getValue()))
                             .collect(Collectors.joining(", "));
-                logger.fine("Validation warnings for input resource: [" + info + "]");
+                logger.finer("Validation warnings for input resource: [" + info + "]");
             }
         }
         return issues;

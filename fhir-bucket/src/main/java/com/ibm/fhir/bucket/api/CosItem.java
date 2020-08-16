@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.bucket.api;
 
+import java.time.Instant;
+import java.util.Date;
 
 /**
  * Represents an item found in a COS bucket
@@ -22,11 +24,29 @@ public class CosItem {
     
     private final FileType fileType;
     
-    public CosItem(String bucketName, String itemName, long size, FileType fileType) {
+    // The hash of the object according to COS
+    private final String eTag;
+    
+    // The timestamp when this object was last modified according to COS
+    private final Date lastModified;
+        
+    // The database assigned identifier
+    private long resourceBucketId;
+    
+    /**
+     * Public constructor
+     * @param bucketName
+     * @param itemName
+     * @param size
+     * @param fileType
+     */
+    public CosItem(String bucketName, String itemName, long size, FileType fileType, String eTag, Date lastModified) {
         this.bucketName = bucketName;
         this.itemName = itemName;
         this.size = size;
         this.fileType = fileType;
+        this.eTag = eTag;
+        this.lastModified = lastModified;
     }
     
     @Override
@@ -61,5 +81,33 @@ public class CosItem {
      */
     public FileType getFileType() {
         return this.fileType;
+    }
+
+    /**
+     * @return the eTag
+     */
+    public String geteTag() {
+        return eTag;
+    }
+
+    /**
+     * @return the lastModified
+     */
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    /**
+     * @return the resourceBucketId
+     */
+    public long getResourceBucketId() {
+        return resourceBucketId;
+    }
+
+    /**
+     * @param resourceBucketId the resourceBucketId to set
+     */
+    public void setResourceBucketId(long resourceBucketId) {
+        this.resourceBucketId = resourceBucketId;
     }
 }

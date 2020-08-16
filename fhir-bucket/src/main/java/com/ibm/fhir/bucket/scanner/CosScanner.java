@@ -43,6 +43,9 @@ public class CosScanner {
     // Only process files matching these types
     private final Set<FileType> fileTypes;
 
+    // optional prefix to narrow the scan inside the bucket
+    private final String pathPrefix;
+    
     // time tracker for regular heartbeats
     public static final long HEARTBEAT_INTERVAL_MS = 5000;
     private long lastHeartbeatTime = -1;
@@ -55,11 +58,12 @@ public class CosScanner {
      * @param client
      * @param buckets
      */
-    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes) {
+    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix) {
         this.client = client;
         this.buckets = new ArrayList<>(buckets);
         this.dataAccess = dataAccess;
         this.fileTypes = fileTypes;
+        this.pathPrefix = pathPrefix;
     }
     
     /**
@@ -116,6 +120,9 @@ public class CosScanner {
                 nextScanTime = start + scanIntervalMs * NANO_MS;
             }
             
+            // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)
+            // so we don't need to bother with calculating different sleep schedules to wake
+            // up exactly on time for the next heartbeat/scan.
             safeSleep(HEARTBEAT_INTERVAL_MS);
         }
     }
@@ -133,11 +140,11 @@ public class CosScanner {
     }
     
     /**
-     * Perform a scan for each of the buckets
+     * Perform a scan for each of the configured buckets
      */
     protected void scan() {
         for (String bucket: this.buckets) {
-            client.scan(bucket, CosScanner::fileTyper, ci -> handle(ci));
+            client.scan(bucket, this.pathPrefix, CosScanner::fileTyper, ci -> handle(ci));
         }
     }
     
@@ -161,7 +168,7 @@ public class CosScanner {
      * @param item
      */
     protected void handle(CosItem item) {
-        // Only process items we recognize
+        // Only process items we recognize and want
         if (fileTypes.contains(item.getFileType())) {
             dataAccess.registerBucketItem(item);
         }

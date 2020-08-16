@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.client.FhirClient;
-import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.bucket.client.PostResource;
 import com.ibm.fhir.model.resource.Resource;
 
@@ -85,8 +84,17 @@ public class ResourceHandler {
         }
     }
 
+    /**
+     * Add the resource entry to the thread-pool for processing, subject to the
+     * rate limiting we have to make sure memory consumption is kept in check
+     * @param entry
+     * @return
+     */
     public boolean process(ResourceEntry entry) {
         boolean result = false;
+
+        // Add this so we can track when the job completes
+        entry.getJob().incInflight();
 
         // Throttle how many resources we allow to be inflight
         // at any point in time...this helps to keep memory
@@ -138,6 +146,7 @@ public class ResourceHandler {
      */
     public void processThr(ResourceEntry entry) {
         
+        boolean success = false;
         try {
             Resource resource = entry.getResource();
             final String resourceType = resource.getClass().getSimpleName();
@@ -159,11 +168,12 @@ public class ResourceHandler {
                 
                 logger.info("New " + entry.toString() + ": " + id);
                 dataAccess.recordLogicalId(resourceType, id, entry.getJob().getResourceBundleId(), entry.getLineNumber());
+                success = true;
             }
         } finally {
             // if this is the last operation for a job, then the entire
             // job will be marked as complete
-            entry.getJob().operationComplete();
+            entry.getJob().operationComplete(success);
         }
     }
 

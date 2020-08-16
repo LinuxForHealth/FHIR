@@ -35,7 +35,6 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
-import com.ibm.fhir.bucket.scanner.NoCloseInputStream;
 
 /**
  * Encapsulates the AmazonS3 client for interaction with IBM Cloud Object Storage (COS)
@@ -100,7 +99,9 @@ public class CosClient {
     }
 
     /**
-     * Read and process the object, feeding the stream to the given consumer
+     * Read and process the object, feeding the content to the given consumer as a
+     * BufferedReader. We keep control of the stream, and close it when the consumer
+     * accept call returns
      * @param bucketName
      * @param itemName
      * @param consumer
@@ -115,8 +116,6 @@ public class CosClient {
         } catch (IOException x) {
             logger.log(Level.SEVERE, "error closing stream for '" + bucketName + ":" + itemName + "'");
             throw new IllegalStateException("error closing object stream", x);
-        } finally {
-            logger.info("Completed: " + bucketName + ":" + itemName);
         }
     }
 
@@ -127,7 +126,7 @@ public class CosClient {
      * @param fileType function to derive fileType from the item key value
      * @param consumer target for each non-empty CosItem we find in the bucket
      */
-    public void scan(String bucketName, Function<String, FileType> fileTyper, Consumer<CosItem> consumer) {
+    public void scan(String bucketName, String pathPrefix, Function<String, FileType> fileTyper, Consumer<CosItem> consumer) {
         logger.info("Scanning bucket: '" + bucketName + "'");
         ListObjectsV2Result result = null;
         String nextToken = null;
@@ -138,17 +137,26 @@ public class CosClient {
             ListObjectsV2Request request =
                     new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(propertiesAdapter.getMaxKeys())
                             .withContinuationToken(nextToken);
+            if (pathPrefix != null) {
+                request.withPrefix(pathPrefix);
+            }
             result = client.listObjectsV2(request);
-            
-            for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("COS Item: {bucket=" + bucketName + ", item=" + objectSummary.getKey()
-                            + ", bytes=" + objectSummary.getSize() + "}");
-                }
-                
-                if (objectSummary.getSize() > 0) {
-                    FileType ft = fileTyper.apply(objectSummary.getKey());
-                    consumer.accept(new CosItem(bucketName, objectSummary.getKey(), objectSummary.getSize(), ft));
+
+            if (result != null) {
+                for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("COS Item: {bucket=" + bucketName + ", item=" + objectSummary.getKey()
+                                + ", bytes=" + objectSummary.getSize() + "}");
+                    }
+    
+                    if (objectSummary.getSize() > 0) {
+                        // Use the fileTyper function to determine the file type. We use create a
+                        // CosItem to represent the item so we can hide ListObjectsV2Request for
+                        // better separation of concerns.
+                        FileType ft = fileTyper.apply(objectSummary.getKey());
+                        consumer.accept(new CosItem(bucketName, objectSummary.getKey(), objectSummary.getSize(), ft,
+                            objectSummary.getETag(), objectSummary.getLastModified()));
+                    }
                 }
             }
         } while (result != null && result.isTruncated());

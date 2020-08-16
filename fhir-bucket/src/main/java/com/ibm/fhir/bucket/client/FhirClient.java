@@ -59,6 +59,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 
+import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
@@ -287,15 +288,16 @@ public class FhirClient {
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
             logger.warning("POST URL: "+target+"\nRequest Body: "+body);
+            throw new IllegalStateException("FHIR client configuration error");
         } catch (ClientProtocolException e) {
             logger.severe("Error while executing the POST request. "+e);
             logger.warning("POST URL: "+target+"\nRequest Body: "+body);
+            throw new DataAccessException("FHIR server connection failed");
         } catch (IOException e) {
             logger.severe("Error while executing the POST request. "+e);
             logger.warning("POST URL: "+target+"\nRequest Body: "+body);
+            throw new DataAccessException("FHIR server connection failed");
         }
-        
-        return null;
     }
     
     public FhirServerResponse put(String url, Map<String, String> headers, String body, Function<Reader, Resource> responseFunction) {

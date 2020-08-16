@@ -56,12 +56,14 @@ public class SchemaConstants {
     public static final String OBJECT_NAME = "OBJECT_NAME";
     public static final String OBJECT_SIZE = "OBJECT_SIZE";
     public static final String FILE_TYPE = "FILE_TYPE";
+    public static final String ETAG = "ETAG";
     public static final String LAST_MODIFIED = "LAST_MODIFIED";
     public static final String FILE_SHA256 = "FILE_SHA256";
     public static final String LOADER_ID = "LOADER_ID";
     public static final String ALLOCATION_ID = "ALLOCATION_ID";
     public static final String LOAD_STARTED = "LOAD_STARTED";
     public static final String LOAD_COMPLETED = "LOAD_COMPLETED";
+    public static final String FAILURE_COUNT = "FAILURE_COUNT";
     public static final String HTTP_STATUS_CODE = "HTTP_STATUS_CODE";
     public static final String HTTP_STATUS_TEXT = "HTTP_STATUS_TEXT";
     public static final int HTTP_STATUS_TEXT_LEN = 64;
