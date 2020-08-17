@@ -33,6 +33,7 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathTree;
@@ -48,6 +49,8 @@ import com.ibm.fhir.term.spi.ValidationOutcome;
  * is used to determine whether or not to add a warning to the evaluation context if the membership check fails.
  */
 public class MemberOfFunction extends FHIRPathAbstractFunction {
+    public static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
+
     @Override
     public String getName() {
         return "memberOf";
@@ -90,6 +93,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         if (valueSet != null) {
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
+
+                // Validate against expanded value set
                 if (element.is(Code.class)) {
                     Uri system = getSystem(evaluationContext.getTree(), elementNode);
                     Code code = element.as(Code.class);
@@ -119,6 +124,13 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     }
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
+            } else if (isSyntaxBased(valueSet)) {
+
+                // Validate against syntax-based value set
+                if (validateAgainstSyntaxBasedValueSet(valueSet, evaluationContext, elementNode, strength)) {
+                    return SINGLETON_TRUE;
+                }
+                return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else {
                 generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode.path());
             }
@@ -129,6 +141,84 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         return SINGLETON_TRUE;
     }
 
+    /**
+     * Determines if the value set is syntax-based.
+     * @param valueSet the value set
+     * @return true or false
+     */
+    private boolean isSyntaxBased(ValueSet valueSet) {
+        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
+        return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl);
+    }
+    
+    /**
+     * Validates the element against the syntax-based value set.
+     * @param valueSet the value set
+     * @param evaluationContext the evaluation context
+     * @param elementNode the element node to validate
+     * @param strength the binding strength
+     * @return true if validation was successful, otherwise false
+     */
+    private boolean validateAgainstSyntaxBasedValueSet(ValueSet valueSet, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        Element element = elementNode.element();
+        Code code = null;
+        Coding coding = null;
+        CodeableConcept codeableConcept = null;
+
+        // Determine the system/version/code or CodableConcept to validate
+        if (element.is(Code.class)) {
+            code = element.as(Code.class);
+        } else if (element.is(Coding.class)) {
+            coding = element.as(Coding.class);
+        } else if (element.is(CodeableConcept.class)) {
+            codeableConcept = element.as(CodeableConcept.class);
+        } else if (element.is(Quantity.class)) {
+            Quantity quantity = element.as(Quantity.class);
+            coding = Coding.builder().system(quantity.getSystem()).code(quantity.getCode()).build();
+        } else {
+            code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
+        }
+        
+        return validateCodeAgainstSyntaxBasedValuedSet(valueSet, code, coding, codeableConcept, evaluationContext, elementNode, strength);
+    }
+    
+    /**
+     * Validates the Code, Coding, CodableConcept against the syntax based value set.
+     * Only one of Code, Coding, or CodeableConept should be passed in.
+     * Issues will be added to evaluation context if validation is not successful.
+     * @param valueSet the value set
+     * @param code the code to validate
+     * @param coding the coding to validate
+     * @param codeableConcept the codeable concept to validate
+     * @param evaluationContext the evaluation context
+     * @param elementNode the element node to validate
+     * @param strength the binding strength
+     * @return true if validation was successful, otherwise false
+     */
+    private boolean validateCodeAgainstSyntaxBasedValuedSet(ValueSet valueSet, Code code, Coding coding, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
+
+        try {
+            // Validate against all-languages value set
+            if (ALL_LANG_VALUE_SET_URL.equals(valueSetUrl)) {
+                if (code != null) {
+                    ValidationSupport.checkLanguageCode(code, elementNode.path());
+                }
+                if (coding != null) {
+                    ValidationSupport.checkLanguageCoding(coding, elementNode.path());
+                }
+                if (codeableConcept != null) {
+                    ValidationSupport.checkLanguageCodeableConcept(codeableConcept, elementNode.path());
+                }
+            }
+        } catch (IllegalStateException e) {
+            generateIssue(e.getMessage(), evaluationContext, elementNode, strength);
+            return false;
+        }
+        
+        return true;
+     }
+    
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version, Code code, com.ibm.fhir.model.type.String display, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = service.validateCode(valueSet, system, version, code, display);
         if (Boolean.FALSE.equals(outcome.getResult())) {
@@ -155,12 +245,30 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         }
         return true;
     }
-
+    
+    /**
+     * Adds an issue to the evaluation context.
+     * @param outcome the validation outcome containing the message
+     * @param evaluationContext the evaluation context
+     * @param elementNode the element name
+     * @param strength the binding strength
+     */
     private void generateIssue(ValidationOutcome outcome, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         if (outcome.getMessage() != null) {
-            IssueSeverity severity = ("extensible".equals(strength) || "preferred".equals(strength)) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-            generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, outcome.getMessage().getValue(), elementNode.path());
+            generateIssue(outcome.getMessage().getValue(), evaluationContext, elementNode, strength);
         }
+    }
+    
+    /**
+     * Adds an issue to the evaluation context.
+     * @param message the message
+     * @param evaluationContext the evaluation context
+     * @param elementNode the element name
+     * @param strength the binding strength
+     */
+    private void generateIssue(String message, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        IssueSeverity severity = ("extensible".equals(strength) || "preferred".equals(strength)) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+        generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, message, elementNode.path());
     }
 
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
