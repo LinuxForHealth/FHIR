@@ -123,7 +123,7 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to return at most 1000 records. If the client specifies a `_count` of over 1000, the page size is capped at 1000. If the client specifies a `_count` of 1000 or less, the server honors the client request.
+The `_count` parameter can be used to request up to 1000 records matching the search criteria.  An attempt to exceed this `_count` limit will not be honored and returned records will be capped at 1000.  Any associated `_include` records are not considered in the `_count` limit. 
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
