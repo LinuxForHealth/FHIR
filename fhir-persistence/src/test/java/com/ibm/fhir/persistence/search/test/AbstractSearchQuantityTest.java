@@ -25,10 +25,12 @@ import com.ibm.fhir.model.test.TestUtil;
  */
 public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicQuantity.json");
     }
 
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("quantity");
     }
@@ -218,7 +220,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         // assertSearchDoesntReturnSavedResource("Quantity-lessThan", "3||lt");
         // assertSearchReturnsSavedResource("Quantity-lessThan", "lt2||lt");      // < 3 may be < 2
         assertSearchReturnsSavedResource("Quantity-lessThan", "gt2||lt"); // < 3 may be > 2
-        assertSearchReturnsSavedResource("Quantity-lessThan", "lt4||lt"); // < 3 may be < 4 
+        assertSearchReturnsSavedResource("Quantity-lessThan", "lt4||lt"); // < 3 may be < 4
         assertSearchDoesntReturnSavedResource("Quantity-lessThan", "gt4||lt"); // < 3 is not > 4
     }
 
@@ -252,7 +254,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "lt2||lte"); // <= 3 may be < 2
         assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "gt2||lte"); // <= 3 may be > 2
-        assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "lt4||lte"); // <= 3 may be < 4 
+        assertSearchReturnsSavedResource("Quantity-lessThanOrEqual", "lt4||lte"); // <= 3 may be < 4
         assertSearchDoesntReturnSavedResource("Quantity-lessThanOrEqual", "gt4||lte"); // <= 3 is not > 4
 
         // <= 3 may be <= 3
@@ -268,7 +270,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "lt2||gte"); // >= 3 is not < 2
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "gt2||gte"); // >= 3 may be > 2
-        assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "lt4||gte"); // >= 3 may be < 4 
+        assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "lt4||gte"); // >= 3 may be < 4
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "gt4||gte"); // >= 3 may be > 4
 
         // >= 3 may be <= 3
@@ -290,7 +292,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Range_EQ_Implied() throws Exception {
         // 1e1 has implicit range of 5 - 15
         assertSearchReturnsSavedResource("Range", "1e1||s");
-        
+
         // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Range", "4||s");
         assertSearchDoesntReturnSavedResource("Range", "5||s");
@@ -380,28 +382,21 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-Range:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Range:missing", "false");
     }
-    
+
     @Test
     public void testSearchQuantity_Exponent() throws Exception {
         // Value 1.2E+2 should return the value
-        // The value is extracted, and stored in the values tables. 
+        // The value is extracted, and stored in the values tables.
         assertSearchReturnsSavedResource("Quantity-withExponent", "1.2E+2");
         assertSearchReturnsSavedResource("Quantity-withExponent", "120");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters.
-     * https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
+    @Test
+    public void testSearchQuantity_Quantity_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Quantity:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.Quantity:missing", "true");
 
-    //    @Test
-    //    public void testSearchQuantity_Quantity_chained_missing() throws Exception {
-    //        assertSearchReturnsComposition("subject:Basic.Quantity:missing", "false");
-    //        assertSearchDoesntReturnComposition("subject:Basic.Quantity:missing", "true");
-    //        
-    //        assertSearchReturnsComposition("subject:Basic.missing-Quantity:missing", "true");
-    //        assertSearchDoesntReturnComposition("subject:Basic.missing-Quantity:missing", "false");
-    //    }
+        assertSearchReturnsComposition("subject:Basic.missing-Quantity:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-Quantity:missing", "false");
+    }
 }

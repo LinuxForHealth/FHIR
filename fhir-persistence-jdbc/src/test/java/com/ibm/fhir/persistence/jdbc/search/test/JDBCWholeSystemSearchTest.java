@@ -8,20 +8,23 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractWholeSystemSearchTest;
 
 public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
-    
+
     private Properties testProps;
-    
+
     private PoolConnectionProvider connectionPool;
-    
+
     public JDBCWholeSystemSearchTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -36,7 +39,7 @@ public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
             this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -44,7 +47,7 @@ public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
         }
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
     }
-    
+
     @Override
     protected void shutdownPools() throws Exception {
         // Mark the pool as no longer in use. This allows the pool to check for
@@ -52,5 +55,12 @@ public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
         if (this.connectionPool != null) {
             this.connectionPool.close();
         }
+    }
+
+
+    @Override
+    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
+    public void testSearchAllUsingIdAndLastUpdatedAndAnyTagOrProfile() throws Exception {
+        super.testSearchAllUsingIdAndLastUpdatedAndAnyTagOrProfile();
     }
 }

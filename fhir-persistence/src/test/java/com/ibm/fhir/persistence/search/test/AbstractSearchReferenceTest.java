@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,30 +24,32 @@ import com.ibm.fhir.model.test.TestUtil;
  */
 public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
 
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicReference.json");
     }
 
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("reference");
     }
 
     @Test
     public void testSearchReference_Reference_relative() throws Exception {
-        // Reference by id really only works when the system knows which resource type(s) 
+        // Reference by id really only works when the system knows which resource type(s)
         // can be referenced from a given element.
-        // TODO does this work if you define the extension in a StructureDefinition 
-        // and declare the allowed types? 
+        // TODO does this work if you define the extension in a StructureDefinition
+        // and declare the allowed types?
 //        assertSearchReturnsSavedResource("Reference-relative", "123");
-        
+
         assertSearchReturnsSavedResource("Reference-relative", "Patient/123");
-        
+
         // TODO if this matched the hostname that the test was running on, would it work?
 //        assertSearchReturnsSavedResource("Reference-relative", "https://example.com/Patient/123");
-        
+
         assertSearchReturnsSavedResource("Reference-relative:Patient", "123");
         assertSearchDoesntReturnSavedResource("Reference-relative:Basic", "123");
-        
+
     }
 
     @Test
@@ -77,8 +79,8 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         // where the current test was running, would these work?
 //        assertSearchReturnsSavedResource("Reference-absolute", "123");
 //        assertSearchReturnsSavedResource("Reference-absolute", "Patient/123");
-//        assertSearchReturnsSavedResource("Reference-absolute:Patient", "123");        
-        
+//        assertSearchReturnsSavedResource("Reference-absolute:Patient", "123");
+
         assertSearchReturnsSavedResource("Reference-absolute", "https://example.com/Patient/123");
     }
 
@@ -86,7 +88,7 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     public void testSearchReference_Reference_missing() throws Exception {
         assertSearchReturnsSavedResource("Reference:missing", "false");
         assertSearchDoesntReturnSavedResource("Reference:missing", "true");
-        
+
         assertSearchReturnsSavedResource("missing-Reference:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Reference:missing", "false");
     }
@@ -105,7 +107,7 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     public void testSearchReference_uri_missing() throws Exception {
         assertSearchReturnsSavedResource("uri:missing", "false");
         assertSearchDoesntReturnSavedResource("uri:missing", "true");
-        
+
         assertSearchReturnsSavedResource("missing-uri:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
@@ -115,26 +117,21 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         // should the server index the Reference.identifier field if there is no valued reference?
     }
 
-    /*
-     * Currently, as documented in our conformance doc, we do not support modifiers on chained parameters.
-     * See https://ibm.github.io/FHIR/Conformance#search-modifiers and
-     * refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
-//    @Test
-//    public void testSearchReference_Reference_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.Reference:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.Reference:missing", "true");
-//        
-//        assertSearchReturnsComposition("subject:Basic.missing-Reference:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-Reference:missing", "false");
-//    }
+    @Test
+    public void testSearchReference_Reference_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Reference:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.Reference:missing", "true");
 
-//    @Test
-//    public void testSearchReference_uri_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.uri:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.uri:missing", "true");
-//        
-//        assertSearchReturnsComposition("subject:Basic.missing-uri:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-uri:missing", "false");
-//    }
+        assertSearchReturnsComposition("subject:Basic.missing-Reference:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-Reference:missing", "false");
+    }
+
+    @Test
+    public void testSearchReference_uri_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.uri:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.uri:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-uri:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-uri:missing", "false");
+    }
 }

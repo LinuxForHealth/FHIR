@@ -116,7 +116,7 @@ public class CodeGenerator {
 
     private static final String URI_PATTERN = "\\S*";
     private static final String STRING_PATTERN = "[ \\r\\n\\t\\S]+";
-    
+
     private static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
 
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
@@ -1248,7 +1248,7 @@ public class CodeGenerator {
             }
         }
     }
-    
+
     /**
      * Gets the name of the validationSupport method to use to validate the syntax-based value set.
      * @param valueSet the value set
@@ -1896,6 +1896,9 @@ public class CodeGenerator {
     private void generateIsAsMethods(JsonObject structureDefinition, CodeBuilder cb) {
         String name = structureDefinition.getString("name");
         if ("Resource".equals(name)) {
+            cb.javadocStart()
+                .javadocReturn("true if the resource can be cast to the requested resourceType")
+                .javadocEnd();
             cb.method(mods("public"), "<T extends Resource> boolean", "is", params("Class<T> resourceType"))
                 ._return("resourceType.isInstance(this)")
             .end().newLine();
@@ -1908,6 +1911,9 @@ public class CodeGenerator {
             .end().newLine();
         }
         if ("Element".equals(name)) {
+            cb.javadocStart()
+                .javadocReturn("true if the element can be cast to the requested elementType")
+                .javadocEnd();
             cb.method(mods("public"), "<T extends Element> boolean", "is", params("Class<T> elementType"))
                 ._return("elementType.isInstance(this)")
             .end().newLine();
@@ -3300,7 +3306,7 @@ public class CodeGenerator {
         }
         return null;
     }
-    
+
     private String getMinValueSet(JsonObject binding) {
         for (JsonValue extension : binding.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
             if (extension.asJsonObject().getString("url").endsWith("minValueSet")) {

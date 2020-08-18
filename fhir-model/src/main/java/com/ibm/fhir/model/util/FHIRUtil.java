@@ -471,7 +471,8 @@ public class FHIRUtil {
     }
 
     /**
-     * @return the value of the first extension with a valueString or null if the list has no such extensions
+     * @return the value of the first extension with a url of {@code extensionUrl} and a value of type
+     *     {@code com.ibm.fhir.model.type.String} (or a subclass); null if the list has no such extensions
      */
     private static String getExtensionStringValue(String extensionUrl, List<Extension> extensions) {
         String value = null;

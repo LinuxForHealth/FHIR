@@ -8,17 +8,20 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchDateTest;
 
 public class JDBCSearchDateTest extends AbstractSearchDateTest {
     private Properties testProps;
-    
+
     private PoolConnectionProvider connectionPool;
 
     public JDBCSearchDateTest() throws Exception {
@@ -42,7 +45,7 @@ public class JDBCSearchDateTest extends AbstractSearchDateTest {
         }
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
     }
-    
+
     @Override
     protected void shutdownPools() throws Exception {
         // Mark the pool as no longer in use. This allows the pool to check for
@@ -50,5 +53,32 @@ public class JDBCSearchDateTest extends AbstractSearchDateTest {
         if (this.connectionPool != null) {
             this.connectionPool.close();
         }
+    }
+
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters.
+     * https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    @Override
+    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
+    public void testSearchDate_instant_chained_missing() throws Exception {
+        super.testSearchDate_instant_chained_missing();
+    }
+    @Override
+    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
+    public void testSearchDate_Period_chained_missing() throws Exception {
+        super.testSearchDate_Period_chained_missing();
+    }
+    @Override
+    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
+    public void testSearchDate_date_chained_missing() throws Exception {
+        super.testSearchDate_date_chained_missing();
+    }
+    @Override
+    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
+    public void testSearchDate_dateTime_chained_missing() throws Exception {
+        super.testSearchDate_dateTime_chained_missing();
     }
 }

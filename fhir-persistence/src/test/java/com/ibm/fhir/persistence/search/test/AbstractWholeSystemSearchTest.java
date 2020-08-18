@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
-import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
@@ -258,6 +259,29 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<Resource> resources =
                 runQueryTest(Resource.class,
                         "_tag", TAG);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingIdAndLastUpdatedAndAnyTagOrProfile() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        List<String> savedId = Collections.singletonList(savedResource.getId());
+
+        String dateTime = savedResource.getMeta().getLastUpdated().getValue().toString();
+        List<String> savedLastUpdated = Collections.singletonList(dateTime);
+        List<String> falseString = Collections.singletonList("false");
+        queryParms.put("_id", savedId);
+        queryParms.put("_lastUpdated", savedLastUpdated);
+        queryParms.put("_tag:missing", falseString);
+        queryParms.put("_profile:missing", falseString);
+
+        if (DEBUG) {
+            generateOutput(savedResource);
+        }
+
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
