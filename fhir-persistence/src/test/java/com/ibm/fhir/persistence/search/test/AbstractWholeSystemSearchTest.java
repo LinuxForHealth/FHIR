@@ -274,6 +274,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<String> falseString = Collections.singletonList("false");
         queryParms.put("_id", savedId);
         queryParms.put("_lastUpdated", savedLastUpdated);
+        queryParms.put("_tag:missing", falseString);
         queryParms.put("_profile:missing", falseString);
 
         if (DEBUG) {
