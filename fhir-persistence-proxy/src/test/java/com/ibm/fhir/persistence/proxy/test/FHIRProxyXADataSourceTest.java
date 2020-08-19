@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.proxy.test;
 
+import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -135,8 +136,10 @@ public class FHIRProxyXADataSourceTest {
     }
     
     @Test
-    public void testDerby_default() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext("tenant1", "default_derby"));
+    public void testDerby_default_default() throws Exception {
+        // We can only request databases in the default tenant by explicitly
+        // specifying the default tenant. Fallback is no longer supported (issue 639)
+        FHIRRequestContext.set(new FHIRRequestContext("default", "default_derby"));
         
         FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
         XADataSource xaDS = proxyDS.getDelegate();
@@ -147,6 +150,18 @@ public class FHIRProxyXADataSourceTest {
         assertEquals("create", derbyDS.getCreateDatabase());
     }
     
+    @Test(expectedExceptions = java.sql.SQLException.class)
+    public void testDerby_default() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("tenant1", "default_derby"));
+        
+        // As of issue 639, we no longer allow tenant datasource lookups
+        // to fall back to the default tenant. So this lookup
+        // is expected to fail
+        FHIRProxyXADataSource proxyDS = new FHIRProxyXADataSource();
+        XADataSource xaDS = proxyDS.getDelegate();
+        assertNull(xaDS);
+    }
+
     @Test
     public void testDB2_1() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1", "db2_1"));

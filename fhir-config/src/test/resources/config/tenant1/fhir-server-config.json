@@ -9,5 +9,14 @@
 			"stringList1": ["token3",
 			"token4"]
 		}
-	}
+	},
+    "fhirServer": {
+        "persistence": {
+            "datasources": {
+                "not_default": {
+                    "type": "derby"
+                }
+            }
+        }
+    }
 }
