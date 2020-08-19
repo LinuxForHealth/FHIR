@@ -154,4 +154,160 @@ public class ValidationSupportTest {
         catch (IllegalStateException e) {}
     }
     
+    @Test
+    public void testCheckUcumCodeValid() {
+        ValidationSupport.checkUcumCode(null, "elementName");
+        ValidationSupport.checkUcumCode(Code.of("10.uN.s/(cm.m2)"), "elementName");
+        ValidationSupport.checkUcumCode(Code.of("%{Activity}"), "elementName");
+        ValidationSupport.checkUcumCode(Code.of("[mi_us]"), "elementName");
+    }
+
+    @Test
+    public void testCheckUcumCodeNotValid() {
+        try {
+            ValidationSupport.checkUcumCode(Code.of(null), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCode(Code.of("{invalid{annotation}}"), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCode(Code.of("invalid space"), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCode(Code.of("]invalidBracket["), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+    }
+    
+    @Test
+    public void testCheckUcumCodesValid() {
+        ValidationSupport.checkUcumCodes(Collections.singletonList(Code.of("mg/dL")), "elementName");
+    }
+    
+    @Test
+    public void testCheckUcumCodesNotValid() {
+        try {
+            ValidationSupport.checkUcumCodes(Arrays.asList(Code.of("mg/dL"), Code.of("[[]]")), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+    }
+
+    @Test
+    public void testCheckUcumCodingValid() {
+        ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("10*6/L")).build(), "elementName");
+        ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("cm[H2O]")).build(), "elementName");
+        ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("g.m/({hb}.m2)")).build(), "elementName");
+        ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("mg/mmol")).build(), "elementName");
+    }
+
+    @Test
+    public void testCheckUcumCodingNotValid() {
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().code(Code.of("mg/mmol")).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(null)).code(Code.of("mg/mmol")).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of(null)).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("mg/mmol")).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try { 
+            ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("invalid space")).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+        try {
+            ValidationSupport.checkUcumCoding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("{embedded{}brace}")).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+    }
+    
+    @Test
+    public void testCheckUcumCodingsValid() {
+        ValidationSupport.checkUcumCodings(Collections.singletonList(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("mg/dL")).build()), "elementName");
+    }
+
+    @Test
+    public void testCheckUcumCodingsNotValid() {
+        try {
+            ValidationSupport.checkUcumCodings(Arrays.asList(Coding.builder().code(Code.of("mg/dL")).build(),
+                Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("mg/dL")).build()), "elementName");
+            fail();    
+        }
+        catch (IllegalStateException e) {}
+    }
+
+    @Test
+    public void testCheckUcumCodeableConceptValid() {
+        ValidationSupport.checkUcumCodeableConcept(CodeableConcept.builder().coding(
+            Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("10*6/L")).build()).build(), "elementName");
+        ValidationSupport.checkUcumCodeableConcept(CodeableConcept.builder().coding(
+            Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("cm[H2O]")).build()).build(), "elementName");
+        ValidationSupport.checkUcumCodeableConcept(CodeableConcept.builder().coding(
+                Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("mg/dL")).build(),
+                Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("g.m/({hb}.m2)")).build()).build(), "elementName");
+    }
+
+    @Test
+    public void testCheckUcumCodeableConceptNotValid() {
+        try {
+            ValidationSupport.checkUcumCodeableConcept(CodeableConcept.builder().coding(
+                Coding.builder().build(),
+                Coding.builder().code(Code.of("mg/dL")).build(),
+                Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("mg/dL")).build(),
+                Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("invalid ucum code")).build()).build(), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+    }
+    
+    @Test
+    public void testCheckUcumCodeableConceptsValid() {
+        ValidationSupport.checkUcumCodeableConcepts(Collections.singletonList(CodeableConcept.builder().coding(
+            Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("10*6/L")).build()).build()), "elementName");
+    }
+
+    @Test
+    public void testCheckUcumCodeableConceptsNotValid() {
+        try {
+            ValidationSupport.checkUcumCodeableConcepts(Arrays.asList(
+                CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("10*6/L")).build()).build(),
+                CodeableConcept.builder().coding(
+                    Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("mg/dL")).build(),
+                    Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("invalid code")).build()).build()), "elementName");
+            fail();
+        }
+        catch (IllegalStateException e) {}
+    }
+    
 }

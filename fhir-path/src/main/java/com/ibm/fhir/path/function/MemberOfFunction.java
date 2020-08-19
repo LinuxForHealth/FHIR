@@ -50,6 +50,7 @@ import com.ibm.fhir.term.spi.ValidationOutcome;
  */
 public class MemberOfFunction extends FHIRPathAbstractFunction {
     public static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
+    public static final String UCUM_UNITS_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/ucum-units";
 
     @Override
     public String getName() {
@@ -148,7 +149,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      */
     private boolean isSyntaxBased(ValueSet valueSet) {
         String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
-        return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl);
+        return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl) || UCUM_UNITS_VALUE_SET_URL.equals(valueSetUrl);
     }
     
     /**
@@ -209,6 +210,16 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
                 if (codeableConcept != null) {
                     ValidationSupport.checkLanguageCodeableConcept(codeableConcept, elementNode.path());
+                }
+            } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSetUrl)) {
+                if (code != null) {
+                    ValidationSupport.checkUcumCode(code, elementNode.path());
+                }
+                if (coding != null) {
+                    ValidationSupport.checkUcumCoding(coding, elementNode.path());
+                }
+                if (codeableConcept != null) {
+                    ValidationSupport.checkUcumCodeableConcept(codeableConcept, elementNode.path());
                 }
             }
         } catch (IllegalStateException e) {
