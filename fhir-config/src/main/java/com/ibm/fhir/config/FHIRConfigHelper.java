@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,9 +74,16 @@ public class FHIRConfigHelper {
         // let's try to find it in the default config.
         if (result == null && !FHIRConfiguration.DEFAULT_TENANT_ID.equals(tenantId)) {
             try {
-                pg = FHIRConfiguration.getInstance().loadConfiguration();
-                if (pg != null) {
-                    result = pg.getJsonValue(propertyName);
+                if (propertyName.startsWith(FHIRConfiguration.PROPERTY_DATASOURCES)) {
+                    // Issue #639. Prevent datasource lookups from falling back to 
+                    // the default datasource which breaks tenant isolation.
+                    result = null;
+                } else {
+                    // Non-datasource property, which we allow to fall back to default
+                    pg = FHIRConfiguration.getInstance().loadConfiguration();
+                    if (pg != null) {
+                        result = pg.getJsonValue(propertyName);
+                    }
                 }
             } catch (Exception e) {
                 log.log(Level.WARNING, "Error loading default configuration: " + e.getMessage());

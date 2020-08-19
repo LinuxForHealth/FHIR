@@ -17,5 +17,14 @@
             "doubleProp1": 12345.001,
             "doubleProp2": "12345.001"
         }
+    },
+    "fhirServer": {
+	    "persistence": {
+            "datasources": {
+                "default": {
+                    "type": "db2"
+                }
+            }
+        }
     }
 }
