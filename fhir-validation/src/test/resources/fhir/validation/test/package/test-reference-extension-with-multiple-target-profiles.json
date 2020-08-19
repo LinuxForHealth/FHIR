@@ -1,9 +1,9 @@
 {
   "resourceType": "StructureDefinition",
-  "id": "test-reference-extension-with-target-profile",
-  "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-target-profile",
+  "id": "test-reference-extension-with-multiple-target-profiles",
+  "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-multiple-target-profiles",
   "version": "0.1.0",
-  "name": "TestReferenceExtensionWithTargetProfile",
+  "name": "TestReferenceExtensionWithMultipleTargetProfiles",
   "status": "active",
   "description": "The FHIR resource reference to the resource from which this resource data was derived.",
   "fhirVersion": "4.0.1",
@@ -228,7 +228,8 @@
           {
             "code": "Reference",
             "targetProfile": [
-                "http://ibm.com/fhir/StructureDefinition/test-profile"
+                "http://ibm.com/fhir/StructureDefinition/test-profile",
+                "http://hl7.org/fhir/StructureDefinition/Patient"
             ]
           }
         ],

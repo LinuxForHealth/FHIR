@@ -421,12 +421,10 @@ public class ConstraintGenerator {
 
         sb.append(identifier);
         if (hasChoiceTypeConstraint(elementDefinition)) {
-            Type type = getTypes(elementDefinition).get(0);
-            if (type.getCode() != null) {
-                String code = type.getCode().getValue();
-                sb.append(".as(").append(code).append(")");
-            }
+            sb.append(".as(Reference)");
         }
+
+        String prefix = sb.toString();
 
         if (isOptional(elementDefinition)) {
             sb.append(".exists() implies (");
@@ -434,19 +432,11 @@ public class ConstraintGenerator {
             sb.append(".exists() and ");
         }
 
-        sb.append(identifier);
-        if (hasChoiceTypeConstraint(elementDefinition)) {
-            Type type = getTypes(elementDefinition).get(0);
-            if (type.getCode() != null) {
-                String code = type.getCode().getValue();
-                sb.append(".as(").append(code).append(")");
-            }
-        }
-
         if (isRepeating(elementDefinition)) {
-            sb.append(".all(");
+            sb.append(prefix).append(".all(");
+            prefix = "";
         } else {
-            sb.append(".");
+            prefix = prefix + ".";
         }
 
         List<String> targetProfiles = getTargetProfiles(getTypes(elementDefinition).get(0));
@@ -454,9 +444,9 @@ public class ConstraintGenerator {
         for (String targetProfile : targetProfiles) {
             if (isResourceDefinition(targetProfile)) {
                 String resourceType = targetProfile.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
-                joiner.add("resolve().is(" + resourceType + ")");
+                joiner.add(prefix + "resolve().is(" + resourceType + ")");
             } else {
-                joiner.add("resolve().conformsTo('" + targetProfile + "')");
+                joiner.add(prefix + "resolve().conformsTo('" + targetProfile + "')");
             }
         }
         sb.append(joiner.toString());
@@ -543,14 +533,14 @@ public class ConstraintGenerator {
             } else {
                 sb.append(".");
             }
-            
+
             sb.append("memberOf('").append(maxValueSet).append("', '").append(BindingStrength.REQUIRED.getValue()).append("')");
-            
+
             if (isRepeating(elementDefinition)) {
                 sb.append(")");
             }
         }
-        
+
         if (isOptional(elementDefinition)) {
             sb.append(")");
         }

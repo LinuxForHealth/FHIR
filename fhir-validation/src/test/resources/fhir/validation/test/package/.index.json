@@ -135,6 +135,15 @@
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
+        },
+        {
+            "filename": "test-reference-extension-with-multiple-target-profiles.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-reference-extension-with-multiple-target-profiles",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-multiple-target-profiles",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
         }
     ]
 }
