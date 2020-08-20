@@ -35,4 +35,13 @@ public class ReferenceExtensionTest {
         constraints.forEach(System.out::println);
         assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/test-profile')");
     }
+
+    @Test
+    public void testReferenceExtension3() throws Exception {
+        StructureDefinition extensionDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-multiple-target-profiles", StructureDefinition.class);
+        ConstraintGenerator generator = new ConstraintGenerator(extensionDefinition);
+        List<Constraint> constraints = generator.generate();
+        constraints.forEach(System.out::println);
+        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/test-profile') or value.as(Reference).resolve().is(Patient)");
+    }
 }
