@@ -33,6 +33,7 @@ import com.ibm.fhir.path.function.MemberOfFunction;
 
 public class MemberOfFunctionTest {
     private static final String ENGLISH_US = "en-US";
+    private static final String UNITS_PER_LITER = "U/L";
 
     @Test
     public void testMemberOfFunction1() throws Exception {
@@ -383,6 +384,139 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction30() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of("invalidLanguageCode"), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction31() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of(UNITS_PER_LITER), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction32() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("invalid ucum code"), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction33() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Coding coding = Coding.builder()
+                .system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL))
+                .code(Code.of(UNITS_PER_LITER))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction34() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Coding coding = Coding.builder()
+                .system(Uri.of("invalid"))
+                .code(Code.of(UNITS_PER_LITER))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction35() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Coding coding = Coding.builder()
+                .system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL))
+                .code(Code.of("invalid ucum code"))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction36() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        CodeableConcept codeableConcept = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL))
+                    .code(Code.of(UNITS_PER_LITER))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction37() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        CodeableConcept codeableConcept = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("invalid"))
+                    .code(Code.of(UNITS_PER_LITER))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction38() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        CodeableConcept codeableConcept = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL))
+                    .code(Code.of("invalid ucum code"))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction39() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL))
+                .code(Code.of(UNITS_PER_LITER))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction40() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of("invalid"))
+                .code(Code.of(UNITS_PER_LITER))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction41() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL))
+                .code(Code.of("invalid ucum code"))
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+    
+    @Test
+    public void testMemberOfFunction42() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of(UNITS_PER_LITER), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+    
+    @Test
+    public void testMemberOfFunction43() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of("invalid ucum code"), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
     

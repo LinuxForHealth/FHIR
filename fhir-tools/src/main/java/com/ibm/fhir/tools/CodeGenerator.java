@@ -118,6 +118,7 @@ public class CodeGenerator {
     private static final String STRING_PATTERN = "[ \\r\\n\\t\\S]+";
 
     private static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
+    private static final String UCUM_UNITS_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/ucum-units";
 
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
         this.structureDefinitionMap = structureDefinitionMap;
@@ -1260,6 +1261,8 @@ public class CodeGenerator {
         String suffix = fieldType + (isRepeating ? "s" : "");
         if (ALL_LANG_VALUE_SET_URL.equals(valueSet)) {
             return "checkLanguage" + suffix;
+        } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
+            return "checkUcum" + suffix;
         }
         return null;
     }

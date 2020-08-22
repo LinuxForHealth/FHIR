@@ -34,7 +34,9 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.ucum.util.UCUMUtil;
 
 /**
  * Static helper methods for validating model objects during construction
@@ -44,6 +46,8 @@ import com.ibm.fhir.model.type.Reference;
  */
 public final class ValidationSupport {
     public static final String BCP_47_URN = "urn:ietf:bcp:47";
+    public static final String UCUM_CODE_SYSTEM_URL = "http://unitsofmeasure.org";
+    public static final String DATA_ABSENT_REASON_EXTENSION_URL = "http://hl7.org/fhir/StructureDefinition/data-absent-reason";
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
@@ -299,6 +303,109 @@ public final class ValidationSupport {
     }
         
     /**
+     * Checks that each UCUM code in the list has a valid UCUM syntax.
+     * @param ucumCodes the UCUM code list
+     * @param elementName the element name
+     * @throws IllegalStateException if any code in the list is not valid
+     */
+    public static void checkUcumCodes(List<Code> ucumCodes, String elementName) {
+        if (ucumCodes != null) {
+            for (Code ucumCode : ucumCodes) {
+                checkUcumCode(ucumCode, elementName);
+            }
+        }
+    }
+    
+    /**
+     * Checks that the UCUM code has a valid UCUM syntax.
+     * @param ucumCode the UCUM code
+     * @param elementName the element name
+     * @throws IllegalStateException if the code is not valid
+     */
+    public static void checkUcumCode(Code ucumCode, String elementName) {
+        if (ucumCode != null) {
+            String ucumCodeValue = ucumCode.getValue();
+            if (!UCUMUtil.isValidUcum(ucumCodeValue)) {
+               throw new IllegalStateException(String.format("'%s' is not a valid UCUM code", ucumCodeValue));
+            }
+        }
+    }
+
+    /**
+     * Checks that each UCUM coding in the list has a valid UCUM syntax.
+     * @param ucumCodings the UCUM coding list
+     * @param elementName the element name
+     * @throws IllegalStateException if any coding in the list is not valid
+     */
+    public static void checkUcumCodings(List<Coding> ucumCodings, String elementName) {
+        if (ucumCodings != null) {
+            for (Coding ucumCoding : ucumCodings) {
+                checkUcumCoding(ucumCoding, elementName);
+            }
+        }
+    }
+    
+    /**
+     * Checks that the UCUM coding has a valid UCUM syntax.
+     * @param ucumCoding the UCUM coding
+     * @param elementName the element name
+     * @throws IllegalStateException if the coding is not valid
+     */
+    public static void checkUcumCoding(Coding ucumCoding, String elementName) {
+        if (ucumCoding != null) {
+            if (hasSystemAndCodeValues(ucumCoding)) {
+                if (!UCUM_CODE_SYSTEM_URL.equals(ucumCoding.getSystem().getValue())) {
+                    throw new IllegalStateException(String.format("UCUM system is not '%s'", UCUM_CODE_SYSTEM_URL));
+                } else {
+                    checkUcumCode(ucumCoding.getCode(), elementName);
+                }
+                return;
+            }
+            throw new IllegalStateException(String.format("Coding does not contain a UCUM system of '%s' and a valid UCUM code", UCUM_CODE_SYSTEM_URL));
+        }
+    }
+
+    /**
+     * Checks that each UCUM codeable concept in the list has at least one coding with a valid UCUM syntax.
+     * @param ucumCodeableConcepts the UCUM codeable concept list
+     * @param elementName the element name
+     * @throws IllegalStateException if andy codeable concept in the list is not valid
+     */
+    public static void checkUcumCodeableConcepts(List<CodeableConcept> ucumCodeableConcepts, String elementName) {
+        if (ucumCodeableConcepts != null) {
+            for (CodeableConcept ucumCodeableConcept : ucumCodeableConcepts) {
+                checkUcumCodeableConcept(ucumCodeableConcept, elementName);
+            }
+        }
+    }
+
+    /**
+     * Checks that the UCUM codeable concept has at least one coding with a valid UCUM syntax,
+     * or at least one coding with no system or code element specified, but containing a
+     * data-absent-reason extension.
+     * @param ucumCodeableConcept the UCUM codeable concept
+     * @param elementName the element name
+     * @throws IllegalStateException if the codeable concept is not valid
+     */
+    public static void checkUcumCodeableConcept(CodeableConcept ucumCodeableConcept, String elementName) {
+        if (ucumCodeableConcept != null) {
+            if (ucumCodeableConcept.getCoding() != null) {
+                for (Coding coding : ucumCodeableConcept.getCoding()) {
+                    if (hasSystemOrCodeElements(coding)) {
+                        try {
+                            checkUcumCoding(coding, elementName);
+                            return;
+                        } catch (IllegalStateException e) {}
+                    } else if (hasDataAbsentReasonExtension(coding)) {
+                        return;
+                    }
+                }
+            }
+            throw new IllegalStateException(String.format("'%s' does not contain a Coding with a UCUM system of '%s' and a valid UCUM code", elementName, UCUM_CODE_SYSTEM_URL));
+        }
+    }
+        
+    /**
      * @throws IllegalStateException if the passed String is longer than the maximum string length
      */
     public static void checkMaxLength(String value) {
@@ -529,6 +636,10 @@ public final class ValidationSupport {
                 coding.getCode().getValue() != null;
     }
 
+    private static boolean hasSystemOrCodeElements(Coding coding) {
+        return coding.getSystem() != null || coding.getCode() != null;
+    }
+
     /**
      * @throws IllegalStateException if the resource type found in the reference value does not match the specified Reference.type value
      *                               or is not one of the allowed reference types for that element
@@ -617,4 +728,14 @@ public final class ValidationSupport {
             }
         }
     }
+    
+    private static boolean hasDataAbsentReasonExtension(Element element) {
+        for (Extension extension : element.getExtension()) {
+            if (DATA_ABSENT_REASON_EXTENSION_URL.equals(extension.getUrl())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

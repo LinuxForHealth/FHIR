@@ -2041,6 +2041,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             denominatorCount = builder.denominatorCount;
             numeratorCount = builder.numeratorCount;
             precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
+            ValidationSupport.checkUcumCodeableConcept(unitOfMeasure, "unitOfMeasure");
             ValidationSupport.requireValueOrChildren(this);
         }
 
