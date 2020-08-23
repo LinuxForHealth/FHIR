@@ -32,11 +32,14 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
+import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
+import com.ibm.fhir.bucket.persistence.AddResourceBundleErrors;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
 import com.ibm.fhir.bucket.persistence.ClearStaleAllocations;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
+import com.ibm.fhir.bucket.persistence.GetLastProcessedLineNumber;
 import com.ibm.fhir.bucket.persistence.MarkBundleDone;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResources;
@@ -170,6 +173,13 @@ public class FhirBucketSchemaTest {
                 MergeResourceTypes c6 = new MergeResourceTypes(resourceTypes);
                 adapter.runStatement(c6);
 
+                // Add some resource bundle errors
+                // int lineNumber, String errorText, Integer responseTimeMs, Integer httpStatusCode, String httpStatusText
+                List<ResourceBundleError> errors = new ArrayList<>();
+                errors.add(new ResourceBundleError(0, "error1", null, null, null));
+                errors.add(new ResourceBundleError(1, "error2", 60000, 400, "timeout"));
+                AddResourceBundleErrors c7 = new AddResourceBundleErrors(loaderInstanceId, id6.getResourceBundleId(), errors, 10);
+                adapter.runStatement(c7);
                 
             } catch (Throwable t) {
                 // mark the transaction for rollback
@@ -232,11 +242,15 @@ public class FhirBucketSchemaTest {
                 for (int i=0; i<5; i++) {
                     resources.add(new ResourceRec(patientTypeId, "patient-" + i, resourceBundleData.getResourceBundleId(), i));
                 }
-                adapter.runStatement(new MergeResources(resources));
+                adapter.runStatement(new MergeResources(this.loaderInstanceId, resources));
                 
-                RecordLogicalId c3 = new RecordLogicalId(patientTypeId, "patient-5", resourceBundleData.getResourceBundleId(), 0);
+                RecordLogicalId c3 = new RecordLogicalId(loaderInstanceId, patientTypeId, "patient-5", resourceBundleData.getResourceBundleId(), 0, 0);
                 adapter.runStatement(c3);
                 
+                GetLastProcessedLineNumber c4 = new GetLastProcessedLineNumber(resourceBundleData.getResourceBundleId());
+                Integer lastLine = adapter.runStatement(c4);
+                assertNotNull(lastLine);
+                assertEquals(lastLine.intValue(), 4); // max line number from the ResourceRec loop above                
             } catch (Throwable t) {
                 // mark the transaction for rollback
                 tx.setRollbackOnly();
@@ -276,7 +290,7 @@ public class FhirBucketSchemaTest {
                 adapter.runStatement(c5);
                 assertEquals(jobList.size(), 3);
                 
-                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleId(), 0);
+                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleId(), 0, 1);
                 adapter.runStatement(c6);
                 
             } catch (Throwable t) {

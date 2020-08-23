@@ -97,7 +97,7 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
             } else {
                 // log this, but don't propagate values in the exception
                 logger.log(Level.SEVERE, "Error registering bucket path: " + INS + "; "
-                    + bucketPathId + ", " + objectName);
+                    + bucketPathId + ", " + objectName + ", " + objectSize + ", " + fileType.name() + ", " + eTag);
                 throw translator.translate(x);
             }
         }

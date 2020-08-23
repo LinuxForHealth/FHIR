@@ -17,13 +17,18 @@ import java.util.logging.Logger;
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
+import com.ibm.fhir.bucket.api.ResourceBundleError;
+import com.ibm.fhir.bucket.api.ResourceIdValue;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
+import com.ibm.fhir.bucket.persistence.AddResourceBundleErrors;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
 import com.ibm.fhir.bucket.persistence.ClearStaleAllocations;
+import com.ibm.fhir.bucket.persistence.GetLastProcessedLineNumber;
 import com.ibm.fhir.bucket.persistence.LoaderInstanceHeartbeat;
 import com.ibm.fhir.bucket.persistence.MarkBundleDone;
 import com.ibm.fhir.bucket.persistence.RecordLogicalId;
+import com.ibm.fhir.bucket.persistence.RecordLogicalIdList;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
@@ -39,6 +44,9 @@ public class DataAccess {
 
     // no heartbeats for 60 seconds means something has gone wrong
     private static final long HEARTBEAT_TIMEOUT_MS = 60000;
+    
+    // how many errors to insert per JDBC batch
+    private int errorBatchSize = 10;
     
     // The adapter we use to execute database statements
     private final IDatabaseAdapter dbAdapter;
@@ -171,7 +179,7 @@ public class DataAccess {
      * @param simpleName
      * @param logicalId
      */
-    public void recordLogicalId(String resourceType, String logicalId, long resourceBundleId, int lineNumber) {
+    public void recordLogicalId(String resourceType, String logicalId, long resourceBundleId, int lineNumber, Integer responseTimeMs) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 Integer resourceTypeId = resourceTypeMap.get(resourceType);
@@ -180,7 +188,7 @@ public class DataAccess {
                     throw new IllegalStateException("resourceType not found: " + resourceType);
                 }
                 
-                RecordLogicalId cmd = new RecordLogicalId(resourceTypeId, logicalId, resourceBundleId, lineNumber);
+                RecordLogicalId cmd = new RecordLogicalId(this.loaderInstanceId, resourceTypeId, logicalId, resourceBundleId, lineNumber, responseTimeMs);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
@@ -211,8 +219,69 @@ public class DataAccess {
     public void markJobDone(BucketLoaderJob job) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleId(), job.getFailureCount());
+                // The file itself counts as one completion, so we have to subtract 1 to get the
+                // actual row count of the file contents
+                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleId(), job.getFailureCount(), job.getCompletedCount()-1);
                 dbAdapter.runStatement(c1);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Load the list of resourceType/logicalId DTO objects as a batch in one transaction
+     * @param resourceBundleId
+     * @param lineNumber
+     * @param idValues
+     */
+    public void recordLogicalIds(long resourceBundleId, int lineNumber, List<ResourceIdValue> idValues, int batchSize) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                RecordLogicalIdList cmd = new RecordLogicalIdList(this.loaderInstanceId, resourceBundleId, lineNumber, idValues, resourceTypeMap, batchSize);
+                dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+    }
+
+    /**
+     * Save the errors generated when loading the given resource bundle. Because a given
+     * bundle may be loaded multiple times with different outcomes, the error records are
+     * each associated with the current loaderInstanceId. This can occur when a loader
+     * dies before the bundle completes.
+     * @param resourceBundleId
+     * @param lineNumber
+     * @param errors
+     * @param batchSize
+     */
+    public void recordErrors(long resourceBundleId, int lineNumber, List<ResourceBundleError> errors) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                AddResourceBundleErrors cmd = new AddResourceBundleErrors(this.loaderInstanceId, resourceBundleId, errors, errorBatchSize);
+                dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Get the last processed line number for the given resource bundle identified by its id.
+     * This is calculated by looking for the max line_number value recorded for the bundle
+     * in the logical_resources table.
+     * @param resourceBundleId
+     */
+    public Integer getLastProcessedLineNumber(long resourceBundleId) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                GetLastProcessedLineNumber cmd = new GetLastProcessedLineNumber(resourceBundleId);
+                return dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
                 throw x;

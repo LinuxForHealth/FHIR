@@ -26,14 +26,17 @@ public class MergeResources implements IDatabaseStatement {
 
     // The list of resource types we want to add
     private final List<ResourceRec> resources;
+
+    // the current instance id of this loader
+    private final long loaderInstanceId;
     
     /**
      * Public constructor
      * @param resourceType
      */
-    public MergeResources(Collection<ResourceRec> resources) {
-        // copy the list for safety
-        this.resources = new ArrayList<ResourceRec>(resources);
+    public MergeResources(long loaderInstanceId, Collection<ResourceRec> resources) {
+        this.loaderInstanceId = loaderInstanceId;
+        this.resources = new ArrayList<ResourceRec>(resources); // copy for safety
     }
 
     @Override
@@ -48,7 +51,8 @@ public class MergeResources implements IDatabaseStatement {
         final String merge = "MERGE INTO logical_resources tgt "
                 + " USING " + source + " src "
                 + "    ON tgt.resource_type_id = ? AND tgt.logical_id = ? "
-                + " WHEN NOT MATCHED THEN INSERT (resource_type_id, logical_id, resource_bundle_id, line_number) VALUES (?, ?, ?, ?)";
+                + " WHEN NOT MATCHED THEN INSERT (resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, "
+                + "   created_tstamp, response_time_ms) VALUES (?, ?, ?, ?, ?, CURRENT TIMESTAMP, NULL)";
         
         try (PreparedStatement ps = c.prepareStatement(merge)) {
             // Assume the list is small enough to process in one batch
@@ -59,6 +63,7 @@ public class MergeResources implements IDatabaseStatement {
                 ps.setString(4, resource.getLogicalId());
                 ps.setLong(5, resource.getResourceBundleId());
                 ps.setInt(6, resource.getLineNumber());
+                ps.setLong(7, loaderInstanceId);
                 ps.addBatch();
             }
             ps.executeBatch();

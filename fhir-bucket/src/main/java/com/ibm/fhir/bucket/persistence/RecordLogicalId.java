@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,35 +32,51 @@ public class RecordLogicalId implements IDatabaseStatement {
 
     // The newly assigned logical id of the resource
     private final String logicalId;
+    
+    private final long loaderInstanceId;
 
     // The bundle file from which the resource originated
     private final long resourceBundleId;
 
     // the line number of the resource (in an NDJSON file)
     private final int lineNumber;
+    
+    // Response time if this was an individual resource create (not part of a bundle)
+    private final Integer responseTimeMs;
 
     /**
      * Public constructor
      * @param bucketId
      * @param objectName
      */
-    public RecordLogicalId(int resourceTypeId, String logicalId, long resourceBundleId, int lineNumber) {
+    public RecordLogicalId(long loaderInstanceId, int resourceTypeId, String logicalId, long resourceBundleId, int lineNumber, Integer responseTimeMs) {
+        this.loaderInstanceId = loaderInstanceId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.resourceBundleId = resourceBundleId;
         this.lineNumber = lineNumber;
+        this.responseTimeMs = responseTimeMs;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
 
-        final String INS = "INSERT INTO logical_resources (resource_type_id, logical_id, resource_bundle_id, line_number) VALUES (?, ?, ?, ?)";
+        final String INS = 
+                "INSERT INTO logical_resources ("
+                + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
+                + "   VALUES (?, ?, ?, ?, ?, ?, CURRENT TIMESTAMP)";
         
         try (PreparedStatement ps = c.prepareStatement(INS)) {
             ps.setLong(1, resourceTypeId);
             ps.setString(2, logicalId);
             ps.setLong(3, resourceBundleId);
             ps.setInt(4, lineNumber);
+            ps.setLong(5, loaderInstanceId);
+            if (this.responseTimeMs != null) {
+                ps.setInt(6, this.responseTimeMs);
+            } else {
+                ps.setNull(6, Types.INTEGER);
+            }
             ps.executeUpdate();
         } catch (SQLException x) {
             if (translator.isDuplicate(x)) {

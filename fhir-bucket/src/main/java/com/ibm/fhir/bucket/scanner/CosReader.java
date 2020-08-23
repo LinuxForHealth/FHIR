@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.cos.CosClient;
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -75,12 +77,15 @@ public class CosReader {
 
     // active object running flag
     private volatile boolean running = true;
+    
+    // Try to skip over rows we've already processed in a bundle
+    private boolean incremental;
 
     /**
      * Public constructor
      * @param client
      */
-    public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da) {
+    public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da, boolean incremental) {
         this.client = client;
         this.resourceHandler = resourceHandler;
         this.poolSize = poolSize;
@@ -88,6 +93,7 @@ public class CosReader {
         this.dataAccess = da;
         this.maxInflight = 3 * poolSize;
         this.rescanThreshold = 2 * poolSize;
+        this.incremental = incremental;
     }
     
     /**
@@ -127,6 +133,7 @@ public class CosReader {
             int allocated = 0;
             lock.lock();
             try {
+                // wait here until inflight drops below the rescanThreshold
                 while (this.inflight >= this.rescanThreshold) {
                     resourceLimit.await();
                 }
@@ -141,6 +148,7 @@ public class CosReader {
                 if (free > 0) {
                     allocated = allocateJobs(free);
                     this.inflight += allocated;
+                    logger.info("Inflight job count: " + this.inflight);
                 }
             } catch (InterruptedException x) {
                 // NOP
@@ -211,15 +219,17 @@ public class CosReader {
             try {
                 processThr(job);
             } finally {
-                // free up capacity
+                // free up capacity after the job completes
                 lock.lock();
                 try {
                     inflight--;
+                    logger.info("Job queued...inflight count now: " + inflight);
                     
                     // Apply some hysteresis before we wake up the allocation
                     // thread. This is so we fetch larger allocations in fewer
                     // calls to the database
                     if (inflight < rescanThreshold) {
+                        logger.info("triggering job fetch");
                         resourceLimit.signal();
                     }
                 } finally {
@@ -252,7 +262,10 @@ public class CosReader {
                 break;
             }
         } catch (Exception x) {
-            // make sure we don't propagate exceptions back to the pool thread
+            // make sure we don't propagate exceptions back to the pool thread. This probably
+            // means we are having problems talking to COS or the FHIRBUCKET tracking database 
+            // because parsing and processing errors are handled inside the processNDJSON/processJSON
+            // methods
             logger.log(Level.SEVERE, "Error processing job: " + job.toString(), x);
         }
     }
@@ -264,19 +277,15 @@ public class CosReader {
      */
     private void processJSON(final BucketLoaderJob job, final Reader reader) {
         // make sure we don't think the job is done before it really is
-        job.incInflight();
-        boolean success = false;
+        final int lineNumber = 0;
         try {
-            process(job, FHIRParser.parser(Format.JSON).parse(reader), 0);
-            success = true;
+            process(job, FHIRParser.parser(Format.JSON).parse(reader), lineNumber);
         } catch (FHIRParserException x) {
-            // errors will be logged where this exception is handled
-            throw new IllegalStateException(x);
+            // record the error in the database
+            ResourceBundleError error = new ResourceBundleError(lineNumber, "Parse error: " + x.getMessage());
+            dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
         } finally {
-            // this is a single entry, but currently we still dispatch
-            // to a thread pool, so the job isn't actually complete until
-            // that process is done...but we need this here
-            job.operationComplete(success);
+            job.fileProcessingComplete();
         }
     }
     
@@ -286,35 +295,50 @@ public class CosReader {
      * @return
      */
     public void processNDJSON(final BucketLoaderJob job, final BufferedReader br) {
-        
-        // To avoid a race condition where the job could be marked as
-        // done before we've finished processing all the resources, we
-        // count ourselves as an inflight task
-        job.incInflight();
+
+        int skipLines = 0;
+        if (this.incremental) {
+            Integer maxLineNumber = getLastProcessedLineNumber(job);
+            if (maxLineNumber != null) {
+                // line numbers start at 0
+                skipLines = maxLineNumber + 1;
+                
+                logger.info(job.toString() + "; previously processed, so skipping lines: " + skipLines);
+            }
+        }
         
         // Reading as a continuous stream appears to be problematic,
         // so we have to take a line-based approach
-        boolean success = false;
+        boolean success = true;
         try {
             int lineNumber = 0;
             String line;
-            while ((line = br.readLine()) != null) {
-                job.incInflight();
-                StringReader lineReader = new StringReader(line);
-                process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++);
+            
+            // skip lines we've already processed if we're doing an incremental load
+            while (lineNumber < skipLines && (line = br.readLine()) != null) {
+                lineNumber++;
             }
-            success = true;
-        } catch (FHIRParserException x) {
-            // errors will be logged where this exception is handled
-            throw new IllegalStateException(x);
+            
+            while ((line = br.readLine()) != null) {
+                // note that we don't increment the job counter until we actually
+                // submit something to the process queue
+                StringReader lineReader = new StringReader(line);
+                try {
+                    success = process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++) && success;
+                } catch (FHIRParserException x) {
+                    // Something is wrong with this current line:
+                    logger.log(Level.WARNING, line, x);
+                    
+                    // Record the error in the database
+                    ResourceBundleError error = new ResourceBundleError(lineNumber, "Parse error: " + x.getMessage());
+                    dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+                }
+            }
         } catch (IOException x) {
             // errors will be logged where this exception is handled
             throw new IllegalStateException(x);
         } finally {
-            // we've submitted everything, so increment the completion counter
-            // although the job won't actually be marked complete until all the
-            // individual resources are processed
-            job.operationComplete(success);
+            job.fileProcessingComplete();
         }
     }
 
@@ -324,10 +348,12 @@ public class CosReader {
      * @param r
      * @param lineNumber the line number of this resource in the source
      */
-    protected void process(BucketLoaderJob job, Resource resource, int lineNumber) {
+    protected boolean process(BucketLoaderJob job, Resource resource, int lineNumber) {
+        boolean result = false;
         
         try {
             validateInput(resource);
+            result = true;
         } catch (FHIROperationException e) {
             logger.warning("Resource validation failed: " + e.getMessage());
             
@@ -337,13 +363,29 @@ public class CosReader {
                     .flatMap(text -> Stream.of(text.getValue()))
                     .collect(Collectors.joining(", "));
             logger.finer("Validation warnings for input resource: [" + info + "]");
-            throw new DataAccessException("Validation failed", e);
+            ResourceBundleError error = new ResourceBundleError(lineNumber, info);
+            dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
             
         } catch (FHIRValidationException e) {
-            throw new DataAccessException("Validation failed", e);
+            logger.warning("Resource validation exception: " + e.getMessage());
+            ResourceBundleError error = new ResourceBundleError(lineNumber, e.getMessage());
+            dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+        }
+
+        if (result) {
+            try {
+                // Note if we hit an exception before the entry is queued, the
+                // jobs entry count will not be incremented, so we don't need
+                // to worry about adding to the completion counter
+                resourceHandler.accept(new ResourceEntry(job, resource, lineNumber));
+            } catch (Exception x) {
+                result = false;
+                ResourceBundleError error = new ResourceBundleError(lineNumber, x.getMessage());
+                dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+            }
         }
         
-        resourceHandler.accept(new ResourceEntry(job, resource, lineNumber));
+        return result;
     }
 
     /**
@@ -376,5 +418,9 @@ public class CosReader {
             }
         }
         return issues;
+    }
+    
+    private Integer getLastProcessedLineNumber(BucketLoaderJob job) {
+        return dataAccess.getLastProcessedLineNumber(job.getResourceBundleId());
     }
 }

@@ -21,6 +21,15 @@ import com.ibm.fhir.bucket.cos.CosClient;
  */
 public class CosScanner {
     private static final Logger logger = Logger.getLogger(CosScanner.class.getName());
+    
+    // number of nanos per ms
+    private static final long NANO_MS = 1000000;
+
+    // in auto scan mode, do not scan more quickly than this (1 minute)
+    private static final long MIN_AUTO_SCAN_DELAY = 60000L;
+
+    // regular heartbeats every 5 seconds so we can see if a node has failed
+    public static final long HEARTBEAT_INTERVAL_MS = 5000;
 
     // COS connection
     private final CosClient client;
@@ -31,8 +40,11 @@ public class CosScanner {
     // main thread control flag
     private volatile boolean running = true;
     
-    // Scan COS every 60 seconds by default
-    private long scanIntervalMs = 60000;
+    // Interval between scans of COS looking for new items in the configured buckets
+    private long scanIntervalMs;
+
+    // Automatic scan interval based on how long a single scan takes
+    private long calculatedScanInterval = -1;
 
     // active object thread
     private Thread mainLoopThread;
@@ -47,23 +59,26 @@ public class CosScanner {
     private final String pathPrefix;
     
     // time tracker for regular heartbeats
-    public static final long HEARTBEAT_INTERVAL_MS = 5000;
     private long lastHeartbeatTime = -1;
     
-    // number of nanos per ms
-    private static final long NANO_MS = 1000000;
 
     /**
      * Public constructor
      * @param client
-     * @param buckets
+     * @param buckets the COS buckets to scan
+     * @param dataAccess the data access layer for persisting items discovered during the scan
+     * @param fileTypes set of FileType values accepted for processing
+     * @param prefix only scan items with this prefix if set
+     * @param scanIntervalMs the number of milliseconds between scans. -1 for automatic
      */
-    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix) {
+    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
+        int scanIntervalMs) {
         this.client = client;
         this.buckets = new ArrayList<>(buckets);
         this.dataAccess = dataAccess;
         this.fileTypes = fileTypes;
         this.pathPrefix = pathPrefix;
+        this.scanIntervalMs = scanIntervalMs;
     }
     
     /**
@@ -116,8 +131,11 @@ public class CosScanner {
                 double elapsed = (System.nanoTime() - start) / 1e9;
                 logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
                 
-                // roughly schedule the next scan
-                nextScanTime = start + scanIntervalMs * NANO_MS;
+                // roughly schedule the next scan. If the configured scan interval is < 0
+                // then we use an automatic calculation which is 10x the amount of time
+                // it took to complete the previous scan
+                long delayMs = scanIntervalMs >= 0 ? scanIntervalMs : Math.max((long)(10L * 1000L * elapsed), MIN_AUTO_SCAN_DELAY);
+                nextScanTime = start + delayMs * NANO_MS;
             }
             
             // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)

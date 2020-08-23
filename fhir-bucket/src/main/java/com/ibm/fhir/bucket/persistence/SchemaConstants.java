@@ -66,6 +66,7 @@ public class SchemaConstants {
     public static final String FAILURE_COUNT = "FAILURE_COUNT";
     public static final String HTTP_STATUS_CODE = "HTTP_STATUS_CODE";
     public static final String HTTP_STATUS_TEXT = "HTTP_STATUS_TEXT";
+    public static final String ROWS_PROCESSED = "ROWS_PROCESSED";
     public static final int HTTP_STATUS_TEXT_LEN = 64;
     
     // The FHIR resource identities created mapped to the bundles
@@ -73,6 +74,14 @@ public class SchemaConstants {
     public static final String LOGICAL_RESOURCE_ID = "LOGICAL_RESOURCE_ID";
     public static final String LOGICAL_ID = "LOGICAL_ID";
     public static final String LINE_NUMBER = "LINE_NUMBER";
+    public static final String CREATED_TSTAMP = "CREATED_TSTAMP";
+    public static final String RESPONSE_TIME_MS = "RESPONSE_TIME_MS";
+    
+    // Errors encountered processing a particular resource bundle file
+    public static final String RESOURCE_BUNDLE_ERRORS = "RESOURCE_BUNDLE_ERRORS";
+    public static final String ERROR_TEXT = "ERROR_TEXT";
+    public static final String ERROR_TSTAMP = "ERROR_TSTAMP";
+    public static final int ERROR_TEXT_LEN = 1024;
     
     public static final int LOGICAL_ID_BYTES = 64;
     public static final int SHA256_BASE64_BYTES = 44;

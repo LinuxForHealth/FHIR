@@ -27,13 +27,16 @@ public class MarkBundleDone implements IDatabaseStatement {
     // How many records failed when processing this file/bundle
     private final int failureCount;
     
+    private final int rowsProcessed;
+    
     /**
      * Public constructor
      * @param loaderInstanceId
      */
-    public MarkBundleDone(long resourceBundleId, int failureCount) {
+    public MarkBundleDone(long resourceBundleId, int failureCount, int rowsProcessed) {
         this.resourceBundleId = resourceBundleId;
         this.failureCount = failureCount;
+        this.rowsProcessed = rowsProcessed;
     }
 
     @Override
@@ -42,12 +45,14 @@ public class MarkBundleDone implements IDatabaseStatement {
         final String DML = ""
                 + "UPDATE resource_bundles "
                 + "   SET load_completed = CURRENT TIMESTAMP,"
-                + "       failure_count = ? "
+                + "       failure_count      = ?, "
+                + "       rows_processed     = ? "
                 + " WHERE resource_bundle_id = ? "
                 + "   AND load_completed IS NULL ";
         try (PreparedStatement ps = c.prepareStatement(DML)) {
             ps.setInt(1, failureCount);
-            ps.setLong(2, resourceBundleId);
+            ps.setInt(2, rowsProcessed);
+            ps.setLong(3, resourceBundleId);
             ps.executeUpdate();
         } catch (SQLException x) {
             // log this, but don't propagate values in the exception

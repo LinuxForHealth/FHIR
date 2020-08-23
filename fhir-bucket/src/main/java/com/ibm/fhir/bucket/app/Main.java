@@ -63,7 +63,10 @@ import com.ibm.fhir.task.core.service.TaskService;
 
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
-    private static final int DEFAULT_POOL_SIZE = 10;
+    private static final int DEFAULT_CONNECTION_POOL_SIZE = 10;
+    private static final int DEFAULT_READER_POOL_SIZE = 1;
+    private static final int DEFAULT_HANDLER_POOL_SIZE = 1;
+    private static final int DEFAULT_COS_SCAN_INTERVAL_MS = 300000; // 5 mins
     private static final String DEFAULT_SCHEMA_NAME = "FHIRBUCKET";
     private final Properties cosProperties = new Properties();
     private final Properties dbProperties = new Properties();
@@ -82,7 +85,12 @@ public class Main {
     private String schemaName = null;
 
     // Database connection pool size
-    private int maxPoolSize = DEFAULT_POOL_SIZE;
+    private int connectionPoolSize = DEFAULT_CONNECTION_POOL_SIZE;
+    
+    private int readerPoolSize = DEFAULT_READER_POOL_SIZE;
+    
+    // The number of resources we can process in parallel
+    private int handlerPoolSize = DEFAULT_HANDLER_POOL_SIZE;
     
     // Configured connection to IBM Cloud Object Storage (S3)
     private CosClient cosClient;
@@ -99,14 +107,13 @@ public class Main {
     // The number of threads to use for the schema creation step
     private int createSchemaThreads = 1;
     
+    private int cosScanIntervalMs = DEFAULT_COS_SCAN_INTERVAL_MS;
+    
     // The COS scanner active object
     private CosScanner scanner;
     
     // The COS loader active object
     private CosReader reader;
-    
-    // The number of resources we can process in parallel
-    private int resourcePoolSize = 10;
     
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
@@ -124,6 +131,9 @@ public class Main {
     
     // Just create the schema and exit
     private boolean createSchema = false;
+    
+    // Skip NDJSON rows already processed. Assumes each row is an individual resource or transaction bundle
+    private boolean incremental = false;
     
     /**
      * Parse command line arguments
@@ -157,6 +167,13 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --db-properties");
                 }
                 break;
+            case "--db-prop":
+                if (i < args.length + 1) {
+                    addDbProperty(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --db-properties");
+                }
+                break;
             case "--fhir-properties":
                 if (i < args.length + 1) {
                     loadFhirClientProperties(args[++i]);
@@ -178,11 +195,32 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --file-type");
                 }
                 break;
-            case "--resource-pool-size":
+            case "--cos-scan-interval-ms":
                 if (i < args.length + 1) {
-                    this.resourcePoolSize = Integer.parseInt(args[++i]);
+                    this.cosScanIntervalMs = Integer.parseInt(args[++i]);
                 } else {
-                    throw new IllegalArgumentException("missing value for --resource-pool-size");
+                    throw new IllegalArgumentException("missing value for --cos-scan-interval-ms");
+                }
+                break;
+            case "--handler-pool-size":
+                if (i < args.length + 1) {
+                    this.handlerPoolSize = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --handler-pool-size");
+                }
+                break;
+            case "--reader-pool-size":
+                if (i < args.length + 1) {
+                    this.readerPoolSize = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --reader-pool-size");
+                }
+                break;
+            case "--connection-pool-size":
+                if (i < args.length + 1) {
+                    this.connectionPoolSize = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --connection-pool-size");
                 }
                 break;
             case "--tenant-name":
@@ -198,6 +236,9 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("missing value for --path-prefix");
                 }
+                break;
+            case "--incremental":
+                this.incremental = true;
                 break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
@@ -239,7 +280,20 @@ public class Main {
         } catch (IOException x) {
             throw new IllegalArgumentException(x);
         }
-        
+    }
+
+    /**
+     * Add the property from the arg given in the form of:
+     *   param=value
+     * @param arg
+     */
+    protected void addDbProperty(String arg) {
+        String props[] = arg.split("=");
+        if (props.length == 2) {
+            dbProperties.put(props[0], props[1]);
+        } else {
+            logger.warning("Invalid property value: " + arg);
+        }
     }
     
     /**
@@ -251,12 +305,25 @@ public class Main {
             throw new IllegalArgumentException("No --db-type given");
         }
         
-        if (cosProperties.isEmpty()) {
-            throw new IllegalArgumentException("No --cos-properties");
+        if (dbProperties.isEmpty()) {
+            throw new IllegalArgumentException("No database properties");
+        }
+
+        
+        if (!this.createSchema && cosProperties.isEmpty()) {
+            throw new IllegalArgumentException("No COS properties");
         }
         
-        if (dbProperties.isEmpty()) {
-            throw new IllegalArgumentException("No --db-properties");
+        if (!this.createSchema && fhirClientProperties.isEmpty()) {
+            throw new IllegalArgumentException("No FHIR properties");
+        }
+
+        // This is just a heuristic check...it really depends on the
+        // "occupancy" value...which depends on the proportion of time
+        // each thread is holding a connection. Note that some other
+        // threads may also use connections.
+        if (this.connectionPoolSize < this.readerPoolSize) {
+            logger.warning("Connection pool size too small for reader pool size - might cause connection waits");
         }
     }
     
@@ -302,7 +369,7 @@ public class Main {
         
         DerbyPropertyAdapter propertyAdapter = new DerbyPropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(new DerbyTranslator(), propertyAdapter);
-        this.connectionPool = new PoolConnectionProvider(cp, maxPoolSize);
+        this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.adapter = new DerbyAdapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
@@ -325,7 +392,7 @@ public class Main {
         
         Db2PropertyAdapter propertyAdapter = new Db2PropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
-        this.connectionPool = new PoolConnectionProvider(cp, maxPoolSize);
+        this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.adapter = new Db2Adapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
@@ -348,7 +415,7 @@ public class Main {
 
         PostgreSqlPropertyAdapter propertyAdapter = new PostgreSqlPropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
-        this.connectionPool = new PoolConnectionProvider(cp, maxPoolSize);
+        this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.adapter = new PostgreSqlAdapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
@@ -479,15 +546,16 @@ public class Main {
         dataAccess.init();
         
         // Set up the scanner to look for new COS objects and register them in our database
-        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix);
+        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
         scanner.init();
         
         // Set up the handler to process resources as they are read from COS
-        this.resourceHandler = new ResourceHandler(this.resourcePoolSize, fhirClient, dataAccess);
+        // Uses an internal pool to parallelize NDJSON work
+        this.resourceHandler = new ResourceHandler(this.handlerPoolSize, fhirClient, dataAccess);
         resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler
-        this.reader = new CosReader(cosClient, resource -> resourceHandler.process(resource), maxPoolSize, dataAccess);
+        this.reader = new CosReader(cosClient, resource -> resourceHandler.process(resource), readerPoolSize, dataAccess, incremental);
         reader.init();
 
         // JVM won't exit until the threads are stopped via the

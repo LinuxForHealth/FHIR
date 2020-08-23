@@ -21,7 +21,7 @@ import com.ibm.fhir.model.resource.Resource;
 /**
  * Create the resource by POSTing to the FHIR server
  */
-public class PostResource implements FhirServerRequest<String> {
+public class PostResource implements FhirServerRequest<FhirServerResponse> {
     // The resource we want to POST to the FHIR server
     private final Resource resource;
     
@@ -30,7 +30,7 @@ public class PostResource implements FhirServerRequest<String> {
     }
     
     @Override
-    public String run(FhirClient client) {
+    public FhirServerResponse run(FhirClient client) {
         // Serialize the resource as a JSON string
         ByteArrayOutputStream os = new ByteArrayOutputStream(4096);
         try {
@@ -39,20 +39,12 @@ public class PostResource implements FhirServerRequest<String> {
             throw new IllegalStateException(e);
         }
 
-        FhirServerResponse response = client.post(getResourceType(), os.toString(StandardCharsets.UTF_8));
-        return response.getLocationHeader();
-    }
-
-    /**
-     * Parse the response into a Resource object
-     * @param rdr
-     * @return
-     */
-    private static Resource parseResponse(Reader rdr) {
-        try {
-            return FHIRParser.parser(Format.JSON).parse(rdr);
-        } catch (FHIRParserException e) {
-            throw new IllegalStateException(e);
+        String resourceType = getResourceType();
+        if ("Bundle".equals(resourceType)) {
+            return client.post("", os.toString(StandardCharsets.UTF_8));
+            
+        } else {
+            return client.post(resourceType, os.toString(StandardCharsets.UTF_8));
         }
     }
     

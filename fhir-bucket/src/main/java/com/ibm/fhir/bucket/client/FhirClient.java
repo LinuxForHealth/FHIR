@@ -16,10 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -33,7 +31,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NoHttpResponseException;
-import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.UserTokenHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -60,6 +57,9 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
@@ -170,6 +170,7 @@ public class FhirClient {
         // For now, we only talk JSON with the FHIR server
         this.headers.put(Headers.ACCEPT_HEADER, ContentType.APPLICATION_JSON.getMimeType());
         this.headers.put(Headers.CONTENT_TYPE_HEADER, ContentType.APPLICATION_JSON.getMimeType());
+        this.headers.put("Prefer", "return=representation");
 
         String user = propertyAdapter.getFhirServerUser();
         String pass = propertyAdapter.getFhirServerPass();
@@ -230,7 +231,7 @@ public class FhirClient {
                     }
                     logger.fine(msg.toString());
                 }
-                return buildResponse(response, startTime, fn);
+                return buildResponse(response, startTime, true);
             } catch (NoHttpResponseException e) {
                 logger.warning("Encountered an org.apache.http.NoHttpResponseException during GET request. " + e);
                 logger.warning("GET URL: "+target);
@@ -252,12 +253,11 @@ public class FhirClient {
      */
     public FhirServerResponse post(String url, String body) {
         String target = buildTargetPath(url);
-        if(logger.isLoggable(Level.FINE)){
+        if(logger.isLoggable(Level.FINE)) {
             logger.fine("REQUEST POST "+ target);
         }
         
         try {
-            
             HttpPost postRequest = new HttpPost(target);
             postRequest.setEntity(new StringEntity(body));
             addHeadersTo(postRequest);
@@ -266,12 +266,11 @@ public class FhirClient {
                 logger.fine("REQUEST POST BODY - " + body);
             }
             
-            
             long startTime = System.currentTimeMillis();
             HttpResponse response = client.execute(postRequest);
             
             // Log details of the response if required
-            if(logger.isLoggable(Level.FINE)){
+            if(logger.isLoggable(Level.FINE)) {
                 Header responseHeaders[] = response.getAllHeaders();
                 
                 StringBuilder msg = new StringBuilder();
@@ -282,8 +281,10 @@ public class FhirClient {
                 }
                 logger.fine(msg.toString());
             }
-            
-            return buildResponse(response, startTime);
+
+            // If we are posting a bundle, then we need to parse the response entity
+            boolean isBundle = url.isEmpty();
+            return buildResponse(response, startTime, isBundle);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
@@ -300,7 +301,7 @@ public class FhirClient {
         }
     }
     
-    public FhirServerResponse put(String url, Map<String, String> headers, String body, Function<Reader, Resource> responseFunction) {
+    public FhirServerResponse put(String url, Map<String, String> headers, String body) {
         String target = buildTargetPath(url);
 
         if (logger.isLoggable(Level.FINE)) {
@@ -325,7 +326,7 @@ public class FhirClient {
                     logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                 }
             }
-            return buildResponse(response, startTime, responseFunction);
+            return buildResponse(response, startTime, false);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
@@ -371,30 +372,33 @@ public class FhirClient {
      * @param startTime
      * @return
      */
-    private FhirServerResponse buildResponse(HttpResponse response, long startTime, Function<Reader, Resource> fn) {
+    private FhirServerResponse buildResponse(HttpResponse response, long startTime, boolean processResponseEntity) {
+        FhirServerResponse sr = new FhirServerResponse();
+        
+        int status = response.getStatusLine().getStatusCode();
+        sr.setStatusCode(status);
+        sr.setStatusMessage(response.getStatusLine().getReasonPhrase());
+
+        HttpEntity entity = response.getEntity();
         try {
-            FhirServerResponse sr = new FhirServerResponse();
-            sr.setStatusCode(response.getStatusLine().getStatusCode());
-            sr.setStatusMessage(response.getStatusLine().getReasonPhrase());
-            
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                
-                try (InputStream instream = entity.getContent()) {
-                    Reader reader = new InputStreamReader(instream);
-                    Resource resource = fn.apply(reader);
-                    sr.setResource(resource);
-                } finally {
-                    EntityUtils.consume(entity);
+            if (status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED) {
+                if (processResponseEntity) {
+                    processEntity(sr, entity);
+                } else if (response.getFirstHeader("Location") != null) {
+                    // Single resource case, no response body, just the URL returned in the Location header
+                    sr.setLocationHeader(response.getFirstHeader("Location").getValue());
+                } else {
+                    logger.warning("No body or Location header in response");
                 }
+            } else {
+                logger.severe("TODO: parse operational outcome");
             }
+        } finally {
+            consume(entity);
+        }
+        
+        long endTime = System.currentTimeMillis();
             
-            long endTime = System.currentTimeMillis();
-            
-            
-            if (response.getFirstHeader("Location") != null) {
-                sr.setLocationHeader(response.getFirstHeader("Location").getValue());
-            }
             
             // Last-Modified: 2018-11-26T05:07:00.954Z
             // TODO
@@ -407,20 +411,24 @@ public class FhirClient {
 //                sr.setLastModified(new Date(0));
 //            }
             
-            sr.setResponseTime(endTime-startTime);
+        sr.setResponseTime(endTime-startTime);
                     
-            return sr;
-        } catch (ParseException | IOException e) {
-            logger.severe("Error while executing request. "+e);
-        } finally {
+        return sr;
+    }
+
+    /**
+     * Consume any remaining content from the entity so that the connection
+     * can be reused
+     * @param entity
+     */
+    private void consume(HttpEntity entity) {
+        if (entity != null) {
             try {
-                EntityUtils.consume(response.getEntity());
-            } catch (IOException e) {
-                logger.severe("Error while consuming response. "+e);
+                EntityUtils.consume(entity);
+            } catch (IOException x) {
+                logger.warning("consume(entity) failed: " + x.getMessage());
             }
         }
-        
-        return null;
     }
 
     
@@ -441,52 +449,32 @@ public class FhirClient {
                 .build();
     }
     
-    private FhirServerResponse buildResponse(HttpResponse response, long startTime) {
-        FhirServerResponse result = new FhirServerResponse();
-        
-        try {
-            result.setStatusCode(response.getStatusLine().getStatusCode());
-            result.setStatusMessage(response.getStatusLine().getReasonPhrase());
-            
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                // operation outcome?
-                try (InputStream instream = entity.getContent()) {
-                    char[] buffer = new char[4096];
-                    Reader reader = new InputStreamReader(instream, StandardCharsets.UTF_8);
-                    
-                    // make sure we consume everything even though currently we don't care
-                    // what it contains
-                    int read;
-                    do {
-                        read = reader.read(buffer, 0, buffer.length);
-                    } while (read >= 0);
-                    
-                } finally {
-                    EntityUtils.consume(entity);
-                }
-            }
-            
-            long endTime = System.currentTimeMillis();
-            
-            
-            if (result.getStatusCode() == HttpStatus.SC_CREATED && response.getFirstHeader("Location") != null) {
-                result.setLocationHeader(response.getFirstHeader("Location").getValue());
-            }
-            
-            result.setResponseTime(endTime-startTime);
-        } catch (ParseException | IOException e) {
-            logger.severe("Error while executing request. "+e);
-            throw new IllegalStateException(e);
-        } finally {
-            try {
-                EntityUtils.consume(response.getEntity());
-            } catch (IOException e) {
-                logger.severe("Error while consuming response. "+e);
-            }
-        }
-        
-        return result;
-    }
 
+    /**
+     * Parse the response returned by the FHIR server
+     * @param rdr
+     * @return
+     */
+    private void processEntity(FhirServerResponse sr, HttpEntity entity) {
+
+        try {
+            try (InputStream instream = entity.getContent()) {
+                Resource resource = FHIRParser.parser(Format.JSON).parse(new InputStreamReader(instream, StandardCharsets.UTF_8));
+                sr.setResource(resource);
+            } catch (FHIRParserException e) {
+                throw new IllegalStateException(e);
+            } finally {
+            }
+        } catch (IOException x) {
+            throw new IllegalStateException(x);
+        }
+    }
+    
+    private void dump(Reader rdr) throws IOException {
+        BufferedReader br = new BufferedReader(rdr);
+        String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+    }
 }

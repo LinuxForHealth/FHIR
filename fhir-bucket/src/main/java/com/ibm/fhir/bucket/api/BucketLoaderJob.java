@@ -25,16 +25,19 @@ public class BucketLoaderJob {
     private final long objectSize;
     
     private final FileType fileType;
+
+    // true while the file is being processed
+    private volatile boolean fileProcessing = true;
     
-    // The number of resources read from the object
-    private int inflight;
+    // The number of entries read from the object
+    private volatile int entryCount;
     
-    // The number of resources processed
+    // The number of entries for which processing has been completed
     private final AtomicInteger completedCount = new AtomicInteger(0);
     
     // How many of the jobs have failed
     private final AtomicInteger failureCount = new AtomicInteger(0);
-    
+        
     // Callback when the last resource is processed
     private Consumer<BucketLoaderJob> jobCompleteCallback;
     
@@ -111,8 +114,8 @@ public class BucketLoaderJob {
     /**
      * Increment the number of operations inflight
      */
-    public void incInflight() {
-        this.inflight++;
+    public void addEntry() {
+        this.entryCount++;
     }
 
     /**
@@ -124,9 +127,29 @@ public class BucketLoaderJob {
             failureCount.addAndGet(1);
         }
         
-        if (completedCount.addAndGet(1) == this.inflight && this.jobCompleteCallback != null) {
+        if (completedCount.addAndGet(1) == this.entryCount && !this.fileProcessing && this.jobCompleteCallback != null) {
             // job is done, so make the call
             this.jobCompleteCallback.accept(this);
+        }
+    }
+    
+    /**
+     * Called after the file has been read (but the job is not complete
+     * until the completedCount matches the itemCount
+     */
+    public void fileProcessingComplete() {
+        if (this.fileProcessing) {
+            this.fileProcessing = false;
+            
+            // If we've also processed all the registered entries, then
+            // we can make the call to signal to mark the job as done
+            if (completedCount.get() == this.entryCount && this.jobCompleteCallback != null) {
+                // job is done, so make the call
+                this.jobCompleteCallback.accept(this);
+            }
+            
+        } else {
+            throw new IllegalStateException("fileProcessingComplete called more than once");
         }
     }
 
@@ -144,5 +167,13 @@ public class BucketLoaderJob {
      */
     public int getCompletedCount() {
         return this.completedCount.get();
+    }
+
+    /**
+     * @return the entryCount. This value is only meaningful after fileProcessingComplete().
+     * If called before, the value may not representative of all the entries in the file
+     */
+    public int getEntryCount() {
+        return this.entryCount;
     }
 }

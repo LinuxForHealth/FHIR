@@ -50,6 +50,7 @@ public class FhirBucketSchema {
         // the bundle files discovered during the bucket scan
         addBucketPaths(pdm);
         addResourceBundles(pdm);
+        addResourceBundleErrors(pdm);
 
         // for recording the ids generated for each resource by the FHIR server
         // as we load the bundles discovered during the scan phase
@@ -127,13 +128,14 @@ public class FhirBucketSchema {
                 .addVarcharColumn(        OBJECT_NAME,        128, NOT_NULL)
                 .addBigIntColumn(         OBJECT_SIZE,             NOT_NULL)
                 .addVarcharColumn(          FILE_TYPE,         12, NOT_NULL)
-                .addVarcharColumn(               ETAG,         32, NOT_NULL) // assumes 128 bit MD5
+                .addVarcharColumn(               ETAG,         64, NOT_NULL) // COS is returning more than 32 character strings
                 .addTimestampColumn(    LAST_MODIFIED,             NOT_NULL)
                 .addTimestampColumn(      SCAN_TSTAMP,             NOT_NULL)
                 .addBigIntColumn(       ALLOCATION_ID,             NULLABLE)
                 .addBigIntColumn(  LOADER_INSTANCE_ID,             NULLABLE)
                 .addTimestampColumn(     LOAD_STARTED,             NULLABLE)
                 .addTimestampColumn(   LOAD_COMPLETED,             NULLABLE)
+                .addIntColumn(         ROWS_PROCESSED,             NULLABLE)
                 .addIntColumn(          FAILURE_COUNT,             NULLABLE)
                 .addUniqueIndex(UNQ + "_resource_bundle_bktnm", BUCKET_PATH_ID, OBJECT_NAME)
                 .addIndex(IDX + "_resource_bundle_allocid", ALLOCATION_ID)
@@ -166,7 +168,12 @@ public class FhirBucketSchema {
         
         return resourceTypesTable;
     }
-    
+
+    /**
+     * Add the LOGICAL_RESOURCES table definition to the physical data model
+     * @param pdm
+     * @param resourceTypes
+     */
     protected void addLogicalResources(PhysicalDataModel pdm, Table resourceTypes) {
         final String tableName = LOGICAL_RESOURCES;
 
@@ -177,18 +184,51 @@ public class FhirBucketSchema {
                 .setIdentityColumn(LOGICAL_RESOURCE_ID, Generated.ALWAYS)
                 .addIntColumn(        RESOURCE_TYPE_ID,                   NOT_NULL)
                 .addVarcharColumn(          LOGICAL_ID, LOGICAL_ID_BYTES, NOT_NULL)
-                .addBigIntColumn(   RESOURCE_BUNDLE_ID,                   NOT_NULL)
+                .addBigIntColumn(   LOADER_INSTANCE_ID,                   NOT_NULL) // create by this loader
+                .addBigIntColumn(   RESOURCE_BUNDLE_ID,                   NOT_NULL) // belonging to this bundle
                 .addIntColumn(             LINE_NUMBER,                   NOT_NULL)
+                .addTimestampColumn(    CREATED_TSTAMP,                   NOT_NULL)
+                .addIntColumn(        RESPONSE_TIME_MS,                   NULLABLE)
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RBID", schemaName, RESOURCE_BUNDLES, RESOURCE_BUNDLE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LIID", schemaName, LOADER_INSTANCES, LOADER_INSTANCE_ID)
                 .build(pdm);
         
         pdm.addTable(tbl);
         pdm.addObject(tbl);
     }
-    
+
+    /**
+     * Add the RESOURCE_BUNDLE_ERRORS table to the {@link PhysicalDataModel}
+     * @param pdm
+     */
+    protected void addResourceBundleErrors(PhysicalDataModel pdm) {
+        final String tableName = RESOURCE_BUNDLE_ERRORS;
+
+        // note that the same bundle can be loaded multiple times,
+        // and also that each bundle may contain several resources
+        // although each line is parsed and processed as a resource
+        // and therefore is what we associate with any errors
+        Table tbl = Table.builder(schemaName, tableName)
+                .addBigIntColumn(   LOADER_INSTANCE_ID,                        NOT_NULL)
+                .addBigIntColumn(   RESOURCE_BUNDLE_ID,                        NOT_NULL)
+                .addIntColumn(             LINE_NUMBER,                        NOT_NULL)
+                .addVarcharColumn(          ERROR_TEXT,        ERROR_TEXT_LEN, NOT_NULL)
+                .addTimestampColumn(      ERROR_TSTAMP,                        NOT_NULL)
+                .addIntColumn(        RESPONSE_TIME_MS,                        NULLABLE)
+                .addIntColumn(        HTTP_STATUS_CODE,                        NULLABLE)
+                .addVarcharColumn(    HTTP_STATUS_TEXT,  HTTP_STATUS_TEXT_LEN, NULLABLE)
+                .addUniqueIndex("UNQ_" + RESOURCE_BUNDLE_ERRORS + "LIRBLN", LOADER_INSTANCE_ID, RESOURCE_BUNDLE_ID, LINE_NUMBER)
+                .addForeignKeyConstraint(FK + tableName + "_RBID", schemaName, RESOURCE_BUNDLES, RESOURCE_BUNDLE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LIID", schemaName, LOADER_INSTANCES, LOADER_INSTANCE_ID)
+                .build(pdm);
+        
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
     /**
      * Apply the model to the database. Will generate the DDL and execute it
      * @param pdm

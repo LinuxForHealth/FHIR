@@ -38,8 +38,8 @@ public class LogicalIdRecorder {
      * @param job
      * @param logicalId
      */
-    public void recordLogicalId(ResourceEntry entry, String logicalId) {
+    public void recordLogicalId(ResourceEntry entry, String logicalId, int responseTimeMs) {
         dataAccess.recordLogicalId(entry.getResource().getClass().getSimpleName(), logicalId,
-            entry.getJob().getResourceBundleId(), entry.getLineNumber());
+            entry.getJob().getResourceBundleId(), entry.getLineNumber(), responseTimeMs);
     }
 }
