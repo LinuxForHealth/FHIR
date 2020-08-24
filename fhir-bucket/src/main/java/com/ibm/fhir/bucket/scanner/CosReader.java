@@ -27,7 +27,6 @@ import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.cos.CosClient;
-import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -51,9 +50,6 @@ public class CosReader {
 
     // The handler which processes resources we've read from COS
     private final Consumer<ResourceEntry> resourceHandler;
-    
-    // The number of threads in our thread pool
-    private final int poolSize;
 
     // The pool used to parallelize loading
     private ExecutorService pool;
@@ -88,7 +84,6 @@ public class CosReader {
     public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da, boolean incremental) {
         this.client = client;
         this.resourceHandler = resourceHandler;
-        this.poolSize = poolSize;
         pool = Executors.newFixedThreadPool(poolSize);
         this.dataAccess = da;
         this.maxInflight = 3 * poolSize;
@@ -97,19 +92,42 @@ public class CosReader {
     }
     
     /**
-     * Tell the main loop thread to stop
+     * Tell the main thread of this active object that it should start shutting down
      */
-    public void stop() {
-        logger.info("Stopping COS reader");
-        this.running = false;
+    public void signalStop() {
+        if (this.running) {
+            logger.info("Stopping COS reader");
+            this.running = false;
+        }
         
         if (mainLoopThread != null) {
+
+            // wake up the thread if it's currently waiting on a condition
+            lock.lock();
+            try {
+                resourceLimit.signalAll();
+            } finally {
+                lock.unlock();
+            }
+            
+            // interrupt it in case it's stuck somewhere else
             this.mainLoopThread.interrupt();
+        }
+    }
+    
+    /**
+     * Tell the main loop thread to stop
+     */
+    public void waitForStop() {
+        signalStop();
+        logger.info("Waiting for COS reader to stop");
+        
+        if (mainLoopThread != null) {
             try {
                 // give it a few seconds to respond
                 mainLoopThread.join(5000);
             } catch (InterruptedException x) {
-                logger.warning("Main loop thread did not terminate in 5000ms");
+                logger.warning("CosReader loop did not terminate in 5000ms");
             }
         }
         logger.info("COS reader stopped");
@@ -134,7 +152,7 @@ public class CosReader {
             lock.lock();
             try {
                 // wait here until inflight drops below the rescanThreshold
-                while (this.inflight >= this.rescanThreshold) {
+                while (running && this.inflight >= this.rescanThreshold) {
                     resourceLimit.await();
                 }
                 
@@ -144,11 +162,13 @@ public class CosReader {
                 // the allocation database call. The alternative is to unlock, read,
                 // then lock a second time if the allocation is smaller than free.
                 // TODO...consider this change
-                free = this.maxInflight - this.inflight;
-                if (free > 0) {
-                    allocated = allocateJobs(free);
-                    this.inflight += allocated;
-                    logger.info("Inflight job count: " + this.inflight);
+                if (running) {
+                    free = this.maxInflight - this.inflight;
+                    if (free > 0) {
+                        allocated = allocateJobs(free);
+                        this.inflight += allocated;
+                        logger.info("Inflight job count: " + this.inflight);
+                    }
                 }
             } catch (InterruptedException x) {
                 // NOP
@@ -156,7 +176,7 @@ public class CosReader {
                 lock.unlock();
             }
 
-            if (allocated < free) {
+            if (running && allocated < free) {
                 // We have more capacity than work is currently available in the database,
                 // so take a nap before checking again
                 logger.fine("No work. Napping");

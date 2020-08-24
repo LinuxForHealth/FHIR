@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.apache.http.HttpStatus;
 
+import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.api.ResourceIdValue;
 import com.ibm.fhir.bucket.client.FhirClient;
@@ -60,22 +61,29 @@ public class ResourceHandler {
     // Access to the FHIR bucket persistence layer to record logical ids
     private final DataAccess dataAccess;
     
+    // How many seconds to wait for the pool to complete current work before we force termination
+    private final int poolShutdownTimeoutSeconds;
+    
     /**
      * Public constructor
      * @param poolSize
      */
-    public ResourceHandler(int poolSize, FhirClient fc, DataAccess dataAccess) {
+    public ResourceHandler(int poolSize, FhirClient fc, DataAccess dataAccess, int poolShutdownTimeoutSeconds) {
         this.poolSize = poolSize;
         this.fhirClient = fc;
         this.pool = Executors.newFixedThreadPool(poolSize);
         this.dataAccess = dataAccess;
+        this.poolShutdownTimeoutSeconds = poolShutdownTimeoutSeconds;
     }
 
     /**
-     * Shut down all resource processing
+     * Tell the ResourceHandler to shut down processing
      */
-    public void stop() {
-        this.running = false;
+    public void signalStop() {
+        if (running) {
+            logger.info("Shutting down resource handler pool");
+            this.running = false;
+        }
         
         // Wake up anything which may be blocked
         lock.lock();
@@ -85,14 +93,28 @@ public class ResourceHandler {
             lock.unlock();
         }
         
-        // Shut down the pool
+        // Tell the pool it can't accept any more work (which it shouldn't get
+        // anyway because the work producer should've been stopped first
         this.pool.shutdown();
-        
+    }
+    
+    /**
+     * Shut down all resource processing
+     */
+    public void waitForStop() {
+        signalStop();
+        logger.info("Waiting " + this.poolShutdownTimeoutSeconds + " seconds for existing FHIR requests to complete");
+
+        // Wait for processing to complete. This time ought to be longer than the
+        // FHIR transaction timeout and socket read timeout
         try {
-            this.pool.awaitTermination(5, TimeUnit.SECONDS);
+            this.pool.awaitTermination(this.poolShutdownTimeoutSeconds, TimeUnit.SECONDS);
         } catch (InterruptedException x) {
             // Not much to do other than moan
             logger.warning("Interrupted waiting for pool to shut down");
+            
+            // try to stop what is still running. Doesn't wait
+            this.pool.shutdownNow();
         }
     }
 
@@ -128,7 +150,7 @@ public class ResourceHandler {
         }
 
         // only submit to the queue if we have permission
-        if (result) {
+        if (running && result) {
             // Add this so we can track when the job completes
             entry.getJob().addEntry();
             pool.submit(() -> {
@@ -194,6 +216,7 @@ public class ResourceHandler {
             default:
                 logger.warning("FHIR request failed [" + re.toString() + "]: " + 
                         response.getStatusCode() + " " + response.getStatusMessage());
+                processBadRequest(re, response);
                 break;
             }
         } catch (Throwable x) {
@@ -326,6 +349,21 @@ public class ResourceHandler {
         }
         
         return result;
+    }
+
+    /**
+     * Record the error
+     * @param re
+     * @param response
+     */
+    protected void processBadRequest(ResourceEntry re, FhirServerResponse response) {
+        List<ResourceBundleError> errors = new ArrayList<>();
+        errors.add(new ResourceBundleError(re.getLineNumber(), response.getOperationalOutcomeText(), 
+            response.getResponseTime(), response.getStatusCode(), response.getStatusMessage()));
+        
+        
+        
+        dataAccess.recordErrors(re.getJob().getResourceBundleId(), re.getLineNumber(), errors);
     }
 
     /**

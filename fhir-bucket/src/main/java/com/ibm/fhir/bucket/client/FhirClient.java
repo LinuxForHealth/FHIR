@@ -218,7 +218,7 @@ public class FhirClient {
         
         for (int i = 1; ; i++) {
             try {
-                long startTime = System.currentTimeMillis();
+                long startTime = System.nanoTime();
                 HttpResponse response = client.execute(getRequest);
                 if(logger.isLoggable(Level.FINE)){
                     Header responseHeaders[] = response.getAllHeaders();
@@ -390,16 +390,17 @@ public class FhirClient {
                 } else {
                     logger.warning("No body or Location header in response");
                 }
+            } else if (status == HttpStatus.SC_BAD_REQUEST) {
+                processOperationalOutcome(sr, entity);
             } else {
-                logger.severe("TODO: parse operational outcome");
+                logger.warning("Unexpected server response: " + status + " " + response.getStatusLine().getReasonPhrase());
             }
         } finally {
             consume(entity);
+            long endTime = System.nanoTime();
+            sr.setResponseTime((int)(endTime-startTime));
         }
         
-        long endTime = System.currentTimeMillis();
-            
-            
             // Last-Modified: 2018-11-26T05:07:00.954Z
             // TODO
 //            Header lastModifiedHeader = response.getFirstHeader("Last-Modified");
@@ -411,9 +412,23 @@ public class FhirClient {
 //                sr.setLastModified(new Date(0));
 //            }
             
-        sr.setResponseTime(endTime-startTime);
                     
         return sr;
+    }
+    
+    /**
+     * Extract the operational outcome message from the response entity
+     * @param sr
+     * @param entity
+     */
+    protected void processOperationalOutcome(FhirServerResponse sr, HttpEntity entity) {
+        // simply consume the message as a string
+        try {
+            sr.setOperationalOutcomeText(EntityUtils.toString(entity));
+        } catch (IOException x) {
+            logger.severe("IO error reading response entity: " + x.getMessage());
+            sr.setOperationalOutcomeText(x.getMessage());
+        }
     }
 
     /**

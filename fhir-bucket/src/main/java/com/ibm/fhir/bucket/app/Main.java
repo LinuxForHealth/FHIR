@@ -93,6 +93,9 @@ public class Main {
     // The number of resources we can process in parallel
     private int handlerPoolSize = DEFAULT_HANDLER_POOL_SIZE;
     
+    // Just slightly over 2 minutes, which is just slightly longer than the FHIR default tx timeout
+    private int resourcePoolShutdownTimeoutSeconds = 130;
+    
     // Configured connection to IBM Cloud Object Storage (S3)
     private CosClient cosClient;
     
@@ -222,6 +225,13 @@ public class Main {
                     this.connectionPoolSize = Integer.parseInt(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --connection-pool-size");
+                }
+                break;
+            case "--resource-pool-shutdown-timeout-seconds":
+                if (i < args.length + 1) {
+                    this.resourcePoolShutdownTimeoutSeconds = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --resource-pool-shutdown-timeout-seconds");
                 }
                 break;
             case "--tenant-name":
@@ -512,14 +522,25 @@ public class Main {
     }
 
     /**
-     * Called by the shutdown hook
+     * Called by the shutdown hook to stop everything in an orderly fashion
      */
     protected void shutdown() {
-        // TODO synchronization/null checking
+        // The goal here is to stop the generation of new work and let
+        // existing work drain before we completely pull the plug. This
+        // hopefully means we don't end up with gaps in the resources
+        // processed from an NDJSON file, allowing the --incremental option
+        // to be used safely without skipping rows that weren't actually loaded
         logger.info("Stopping all services");
-        this.scanner.stop();
-        this.reader.stop();
-        this.resourceHandler.stop();
+
+        // First up, signal everything to stop. This is just a notification,
+        // we don't block on any of these
+        this.scanner.signalStop();
+        this.reader.signalStop();
+        this.resourceHandler.signalStop();
+        
+        this.scanner.waitForStop();
+        this.reader.waitForStop();
+        this.resourceHandler.waitForStop();
         this.fhirClient.shutdown();
         logger.info("All services stopped");
     }
@@ -560,7 +581,7 @@ public class Main {
         
         // Set up the handler to process resources as they are read from COS
         // Uses an internal pool to parallelize NDJSON work
-        this.resourceHandler = new ResourceHandler(this.handlerPoolSize, fhirClient, dataAccess);
+        this.resourceHandler = new ResourceHandler(this.handlerPoolSize, fhirClient, dataAccess, resourcePoolShutdownTimeoutSeconds);
         resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler

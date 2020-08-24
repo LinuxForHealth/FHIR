@@ -47,6 +47,9 @@ public class CosClient {
 
     private CosPropertiesAdapter propertiesAdapter;
     
+    // Set to false to tell a scan to return early
+    private volatile boolean running = true;
+    
     static {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
     }
@@ -77,6 +80,13 @@ public class CosClient {
             .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 
+    /**
+     * Tell the scanner to stop. Can be used to get scan() to finish early
+     */
+    public void signalStop() {
+        this.running = false;
+    }
+    
     /**
      * Read the object using the given function
      * @param <T>
@@ -131,6 +141,10 @@ public class CosClient {
         ListObjectsV2Result result = null;
         String nextToken = null;
         do {
+            if (!running) {
+                return; // stopped by another thread
+            }
+            
             if (result != null) {
                 nextToken = result.getNextContinuationToken();
             }
@@ -142,7 +156,7 @@ public class CosClient {
             }
             result = client.listObjectsV2(request);
 
-            if (result != null) {
+            if (running && result != null) {
                 for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
                     if (logger.isLoggable(Level.FINE)) {
                         logger.fine("COS Item: {bucket=" + bucketName + ", item=" + objectSummary.getKey()
@@ -159,6 +173,6 @@ public class CosClient {
                     }
                 }
             }
-        } while (result != null && result.isTruncated());
+        } while (running && result != null && result.isTruncated());
     }
 }

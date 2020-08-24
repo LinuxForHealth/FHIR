@@ -16,7 +16,10 @@ public class FhirServerResponse {
     private String statusMessage;
     private String locationHeader;
     private Resource resource;
-    private long responseTime;
+    private int responseTime;
+    
+    // contains error context if there was a problem with FHIR processing the request
+    private String operationalOutcomeText;
     
     /**
      * @return the statusCode
@@ -81,14 +84,28 @@ public class FhirServerResponse {
     /**
      * @return the responseTime
      */
-    public long getResponseTime() {
+    public int getResponseTime() {
         return responseTime;
     }
 
     /**
      * @param responseTime the responseTime to set
      */
-    public void setResponseTime(long responseTime) {
+    public void setResponseTime(int responseTime) {
         this.responseTime = responseTime;
+    }
+
+    /**
+     * @return the operationalOutcomeText
+     */
+    public String getOperationalOutcomeText() {
+        return operationalOutcomeText;
+    }
+
+    /**
+     * @param operationalOutcomeText the operationalOutcomeText to set
+     */
+    public void setOperationalOutcomeText(String operationalOutcomeText) {
+        this.operationalOutcomeText = operationalOutcomeText;
     }
 }

@@ -43,9 +43,6 @@ public class CosScanner {
     // Interval between scans of COS looking for new items in the configured buckets
     private long scanIntervalMs;
 
-    // Automatic scan interval based on how long a single scan takes
-    private long calculatedScanInterval = -1;
-
     // active object thread
     private Thread mainLoopThread;
     
@@ -95,16 +92,34 @@ public class CosScanner {
         });
         mainLoopThread.start();
     }
+    
 
     /**
-     * Tell the main loop thread to stop
+     * Tell the active object to stop any new work, but existing work can
+     * complete
      */
-    public void stop() {
-        logger.info("Stopping CosScanner");
-        this.running = false;
+    public void signalStop() {
+        if (this.running) {
+            logger.info("Stopping CosScanner");
+            this.running = false;
+        }
         
+        this.client.signalStop();
+        this.running = false;
         if (mainLoopThread != null) {
             this.mainLoopThread.interrupt();
+        }
+    }
+
+    /**
+     * Tell the main loop thread to stop if it hasn't already and wait a reasonable time
+     * for the main thread loop to terminate
+     */
+    public void waitForStop() {
+        signalStop();
+        
+        logger.info("Waiting for CosScanner to stop");
+        if (mainLoopThread != null) {
             try {
                 // give it a few seconds to respond
                 mainLoopThread.join(5000);
@@ -141,7 +156,9 @@ public class CosScanner {
             // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)
             // so we don't need to bother with calculating different sleep schedules to wake
             // up exactly on time for the next heartbeat/scan.
-            safeSleep(HEARTBEAT_INTERVAL_MS);
+            if (running) {
+                safeSleep(HEARTBEAT_INTERVAL_MS);
+            }
         }
     }
 
