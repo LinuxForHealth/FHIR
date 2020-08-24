@@ -30,7 +30,7 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Setup prerequisites
       env: 
-        WORKSPACE: ${{ github.workspace }}
+        WORKSPACE: ${{ GITHUB_WORKSPACE }}
       run: bash build/security/setup.sh
     - name: Security
       env: 
@@ -38,6 +38,7 @@ jobs:
         APPSCAN_SECRET: ${{ secrets.APPSCAN_SECRET }}
         APPSCAN_KEY: ${{ secrets.APPSCAN_KEY }}
         APPSCAN_APPID: ${{ secrets.APPSCAN_APPID }}
+        WORKSPACE: ${{ GITHUB_WORKSPACE }}
       run: bash build/security/run.sh
     - name: Upload logs
       if: always()
