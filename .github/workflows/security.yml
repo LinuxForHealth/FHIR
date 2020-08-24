@@ -29,9 +29,9 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Setup prerequisites
-      env: 
-        WORKSPACE: ${{ GITHUB_WORKSPACE }}
-      run: bash build/security/setup.sh
+      run: |
+        export WORKSPACE=${GITHUB_WORKSPACE}
+        bash build/security/setup.sh
     - name: Security
       env: 
         SCANNERS: 'asoc trivy dockle'
@@ -39,7 +39,9 @@ jobs:
         APPSCAN_KEY: ${{ secrets.APPSCAN_KEY }}
         APPSCAN_APPID: ${{ secrets.APPSCAN_APPID }}
         WORKSPACE: ${{ GITHUB_WORKSPACE }}
-      run: bash build/security/run.sh
+      run: |
+        export WORKSPACE=${GITHUB_WORKSPACE}
+        bash build/security/run.sh
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2
