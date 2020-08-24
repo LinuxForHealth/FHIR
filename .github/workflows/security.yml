@@ -38,7 +38,6 @@ jobs:
         APPSCAN_SECRET: ${{ secrets.APPSCAN_SECRET }}
         APPSCAN_KEY: ${{ secrets.APPSCAN_KEY }}
         APPSCAN_APPID: ${{ secrets.APPSCAN_APPID }}
-        WORKSPACE: ${{ GITHUB_WORKSPACE }}
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         bash build/security/run.sh
