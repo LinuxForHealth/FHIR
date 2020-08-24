@@ -1,0 +1,49 @@
+name: Application Security Testing
+
+# The workflow creates the build/release artifacts and runs a set of workflow configured tests.
+# See build/security/README.md for more details.
+
+on:
+  pull_request:
+    branches-ignore:
+      - 'master'
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+  schedule:
+    # Runs on Saturday
+    - cron: '* * * * 6'
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    # Check to see if it's scheduled or has a security label
+    if: "contains(github.event.pull_request.labels.*.name, 'security') || contains(github.event.schedule, '* * * * 6') "
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+      fail-fast: false
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    - name: Set up java
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Setup prerequisites
+      env: 
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/security/setup.sh
+    - name: Security
+      env: 
+        SCANNERS: 'asoc trivy dockle'
+        APPSCAN_SECRET: ${{ secrets.APPSCAN_SECRET }}
+        APPSCAN_KEY: ${{ secrets.APPSCAN_KEY }}
+        APPSCAN_APPID: ${{ secrets.APPSCAN_APPID }}
+      run: bash build/security/run.sh
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: security-testing-results
+        path: build/security/logs/output
