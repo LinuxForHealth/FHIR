@@ -42,12 +42,13 @@ public class ClearStaleAllocations implements IDatabaseStatement {
 
         // Firstly, mark as stopped any loader instances which are currently active
         // but haven't updated their heartbeat within the required time.
+        final String currentTimestamp = translator.currentTimestampString();
         final String MARK = ""
                 + "UPDATE loader_instances "
                 + "   SET status = 'STOPPED' "
                 + " WHERE loader_instance_id != ? "
                 + "   AND status = 'RUNNING' "
-                + "   AND " + translator.timestampDiff("CURRENT TIMESTAMP", "heartbeat_tstamp", null) + " >= ?"
+                + "   AND " + translator.timestampDiff(currentTimestamp, "heartbeat_tstamp", null) + " >= ?"
                 ;
         
         try (PreparedStatement ps = c.prepareStatement(MARK)) {

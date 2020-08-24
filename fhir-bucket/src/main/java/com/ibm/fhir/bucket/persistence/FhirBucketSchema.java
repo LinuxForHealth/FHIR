@@ -40,7 +40,7 @@ public class FhirBucketSchema {
      * @param pdm
      */
     public void constructModel(PhysicalDataModel pdm) {
-        
+
         addSequences(pdm);
         
         // each time this program runs it registers an entry in
@@ -57,9 +57,9 @@ public class FhirBucketSchema {
         Table resourceTypes = addResourceTypes(pdm);        
         addLogicalResources(pdm, resourceTypes);
     }
-    
+        
     protected void addSequences(PhysicalDataModel pdm) {
-        Sequence jobAllocationSeq = new Sequence(schemaName, JOB_ALLOCATION_SEQ, 1, 0, 1000);
+        Sequence jobAllocationSeq = new Sequence(schemaName, JOB_ALLOCATION_SEQ, 1, 1, 1000);
         pdm.addObject(jobAllocationSeq);
     }
 

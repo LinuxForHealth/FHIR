@@ -181,4 +181,9 @@ public class DerbyTranslator implements IDatabaseTranslator {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
     }
+    
+    @Override
+    public String currentTimestampString() {
+        return "CURRENT TIMESTAMP";
+    }
 }

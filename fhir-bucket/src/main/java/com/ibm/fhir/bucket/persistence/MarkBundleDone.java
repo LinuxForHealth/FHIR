@@ -42,9 +42,10 @@ public class MarkBundleDone implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         
+        final String currentTimestamp = translator.currentTimestampString();
         final String DML = ""
                 + "UPDATE resource_bundles "
-                + "   SET load_completed = CURRENT TIMESTAMP,"
+                + "   SET load_completed = " + currentTimestamp + ", "
                 + "       failure_count      = ?, "
                 + "       rows_processed     = ? "
                 + " WHERE resource_bundle_id = ? "

@@ -61,10 +61,11 @@ public class RecordLogicalIdList implements IDatabaseStatement {
         // Use a batch to insert the freshly minted logical ids in one go.
         // Bundles can be large (O(1000) resources), so we periodically execute
         // the batch as we go
+        final String currentTimestamp = translator.currentTimestampString();
         final String INS = 
                 "INSERT INTO logical_resources ("
                 + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
-                + "   VALUES (?, ?, ?, ?, ?, NULL, CURRENT TIMESTAMP)";
+                + "   VALUES (?, ?, ?, ?, ?, NULL, " + currentTimestamp + ")";
 
         int batchCount = 0;
         try (PreparedStatement ps = c.prepareStatement(INS)) {

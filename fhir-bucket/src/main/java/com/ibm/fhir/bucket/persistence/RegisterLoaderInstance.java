@@ -45,7 +45,9 @@ public class RegisterLoaderInstance implements IDatabaseSupplier<Long> {
         Long loaderInstanceId;
 
         // loader_instance_id is generated always as identity
-        final String SQL = "INSERT INTO loader_instances (loader_instance_key, hostname, pid, heartbeat_tstamp, status) VALUES (?, ?, ?, CURRENT TIMESTAMP, 'RUNNING')";
+        final String currentTimestamp = translator.currentTimestampString();
+        final String SQL = "INSERT INTO loader_instances (loader_instance_key, hostname, pid, heartbeat_tstamp, status) "
+                + " VALUES (?, ?, ?, " + currentTimestamp + ", 'RUNNING')";
         try (PreparedStatement ps = c.prepareStatement(SQL, 1)) {
             ps.setString(1, loaderInstanceKey);
             ps.setString(2, host);

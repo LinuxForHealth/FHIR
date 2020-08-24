@@ -73,10 +73,11 @@ public class AllocateJobs implements IDatabaseStatement {
         }
         
         // Mark the records we want to allocate using the unique allocationId we just obtained
+        final String currentTimestamp = translator.currentTimestampString();
         final String MARK = "UPDATE resource_bundles rb "
                 + " SET allocation_id = ?, "
                 + "     loader_instance_id = ?, "
-                + "     load_started = CURRENT TIMESTAMP "
+                + "     load_started =  " + currentTimestamp + " "
                 + "WHERE rb.resource_bundle_id IN ( "
                 + "     SELECT resource_bundle_id "
                 + "       FROM resource_bundles "

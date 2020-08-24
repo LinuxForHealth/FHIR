@@ -19,6 +19,7 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
@@ -60,13 +61,24 @@ public class RecordLogicalId implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
+        final String currentTimestamp = translator.currentTimestampString();
 
-        final String INS = 
+        String dml;
+        if (translator.getType() == DbType.POSTGRESQL) {
+            // Use UPSERT syntax for Postgres to avoid breaking the transaction when
+            // a statement fails
+            dml = 
+                    "INSERT INTO logical_resources ("
+                    + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
+                    + "   VALUES (?, ?, ?, ?, ?, ?, " + currentTimestamp + ") ON CONFLICT (resource_type_id, logical_id) DO NOTHING";
+        } else {
+            dml = 
                 "INSERT INTO logical_resources ("
                 + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
-                + "   VALUES (?, ?, ?, ?, ?, ?, CURRENT TIMESTAMP)";
+                + "   VALUES (?, ?, ?, ?, ?, ?, " + currentTimestamp + ")";
+        }
         
-        try (PreparedStatement ps = c.prepareStatement(INS)) {
+        try (PreparedStatement ps = c.prepareStatement(dml)) {
             ps.setLong(1, resourceTypeId);
             ps.setString(2, logicalId);
             ps.setLong(3, resourceBundleId);
@@ -86,7 +98,7 @@ public class RecordLogicalId implements IDatabaseStatement {
                     + " from " + resourceBundleId + "#" + lineNumber);
             } else {
                 // log this, but don't propagate values in the exception
-                logger.log(Level.SEVERE, "Error registering logical resource: " + INS + "; "
+                logger.log(Level.SEVERE, "Error registering logical resource: " + dml + "; "
                     + resourceTypeId + ", " + logicalId + ", " + resourceBundleId + ", " + lineNumber);
                 throw translator.translate(x);
             }

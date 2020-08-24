@@ -22,10 +22,9 @@ import com.ibm.fhir.database.utils.model.DbType;
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
  * in the schema. 
- * Supports: Db2 and Derby
- * Does not support: PostgreSQL
+ * Supports only: PostgreSQL
  */
-public class MergeResourceTypes implements IDatabaseStatement {
+public class MergeResourceTypesPostgres implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
     // The list of resource types we want to add
@@ -33,41 +32,31 @@ public class MergeResourceTypes implements IDatabaseStatement {
     
     /**
      * Public constructor
-     * @param resourceType
+     * @param resourceTypes the list of resource types to merge into the RESOURCE_TYPES
+     * table
      */
-    public MergeResourceTypes(Collection<String> resourceTypes) {
+    public MergeResourceTypesPostgres(Collection<String> resourceTypes) {
         // copy the list for safety
         this.resourceTypes = new ArrayList<String>(resourceTypes);
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
-        final String dual = translator.dualTableName();
-        final String source = dual == null ? "(SELECT 1)" : dual;
 
-        // Use a bulk merge approach to insert resource types not previously
-        // loaded
-        final String merge = "MERGE INTO resource_types tgt "
-                    + "            USING " + source + " src "
-                    + "               ON tgt.resource_type = ? "
-                    + " WHEN NOT MATCHED THEN INSERT (resource_type) VALUES (?)";
+        // UPSERT PostgreSQL style
+        final String dml = ""
+                + " INSERT INTO resource_types (resource_type) "
+                + "      VALUES (?) "
+                + " ON CONFLICT (resource_type) DO NOTHING";
         
-        try (PreparedStatement ps = c.prepareStatement(merge)) {
-            // Assume the list is small enough to process in one batch
+        try (PreparedStatement ps = c.prepareStatement(dml)) {
             for (String resourceType: resourceTypes) {
-                if (translator.getType() == DbType.POSTGRESQL) {
-                    ps.setString(1, resourceType);
-                } else {
-                    ps.setString(1, resourceType);
-                    ps.setString(2, resourceType);
-                }
-                ps.addBatch();
+                ps.setString(1, resourceType);
+                ps.executeUpdate();
             }
-            ps.executeBatch();
         } catch (SQLException x) {
             // log this, but don't propagate values in the exception
-            logger.log(Level.SEVERE, "Error adding resource types: " + merge + ";");
+            logger.log(Level.SEVERE, "Error adding resource types: " + dml + ";");
             throw translator.translate(x);
         }
     }

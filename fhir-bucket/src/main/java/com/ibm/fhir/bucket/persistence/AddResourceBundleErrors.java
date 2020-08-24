@@ -60,11 +60,12 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
         // Use a batch to insert the freshly minted logical ids in one go.
         // Bundles can be large (O(1000) resources), so we periodically execute
         // the batch as we go
+        final String currentTimestamp = translator.currentTimestampString();
         final String INS = 
                 "INSERT INTO resource_bundle_errors ("
                 + "          loader_instance_id, resource_bundle_id, line_number, error_tstamp, error_text, "
                 + "          response_time_ms, http_status_code, http_status_text) "
-                + "   VALUES (?, ?, ?, CURRENT TIMESTAMP, ?, ?, ?, ?)";
+                + "   VALUES (?, ?, ?, " + currentTimestamp + ", ?, ?, ?, ?)";
 
         int batchCount = 0;
         try (PreparedStatement ps = c.prepareStatement(INS)) {

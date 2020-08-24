@@ -217,4 +217,9 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "SELECT nextval('" + qname + "')";
     }
+
+    @Override
+    public String currentTimestampString() {
+        return "CURRENT_TIMESTAMP";
+    }
 }

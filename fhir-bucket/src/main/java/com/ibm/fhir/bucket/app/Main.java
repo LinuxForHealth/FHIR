@@ -30,6 +30,7 @@ import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.cos.CosClient;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
+import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
 import com.ibm.fhir.bucket.scanner.CosReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
@@ -434,6 +435,7 @@ public class Main {
         // Create the version history table if it doesn't yet exist
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
+                adapter.createSchema(schemaName);
                 CreateVersionHistory.createTableIfNeeded(schemaName, this.adapter);
             } catch (Exception x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);
@@ -493,8 +495,15 @@ public class Main {
                 Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
                         .map(FHIRResourceType.ValueSet::value)
                         .collect(Collectors.toSet());
-                MergeResourceTypes mrt = new MergeResourceTypes(resourceTypes);
-                adapter.runStatement(mrt);
+                
+                if (adapter.getTranslator().getType() == DbType.POSTGRESQL) {
+                    // Postgres doesn't support batched merges, so we go with a simpler UPSERT
+                    MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(resourceTypes);
+                    adapter.runStatement(mrt);
+                } else {
+                    MergeResourceTypes mrt = new MergeResourceTypes(resourceTypes);
+                    adapter.runStatement(mrt);
+                }
             } catch (Exception x) {
                 tx.setRollbackOnly();
                 throw x;

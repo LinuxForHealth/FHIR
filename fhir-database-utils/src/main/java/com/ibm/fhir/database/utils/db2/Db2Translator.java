@@ -205,10 +205,10 @@ public class Db2Translator implements IDatabaseTranslator {
         // take note...timestampdiff in Db2 is not the same as timestampdiff in Derby
         // https://www.ibm.com/support/producthub/db2/docs/content/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0000861.html
         if (alias == null || alias.isEmpty()) {
-            return String.format("timestampdiff(2, %s - %s)", left, right);
+            return String.format("SYSIBM.timestampdiff(2, %s - %s)", left, right);
         }
         else {
-            return String.format("timestampdiff(2, %s - %s) AS %s", left, right, alias);
+            return String.format("SYSIBM.timestampdiff(2, %s - %s) AS %s", left, right, alias);
         }
     }
 
@@ -252,5 +252,10 @@ public class Db2Translator implements IDatabaseTranslator {
     public String selectSequenceNextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
+    }
+    
+    @Override
+    public String currentTimestampString() {
+        return "CURRENT TIMESTAMP";
     }
 }

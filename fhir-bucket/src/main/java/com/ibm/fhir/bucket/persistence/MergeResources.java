@@ -43,6 +43,7 @@ public class MergeResources implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         
         // Support for PostgreSQL as well as Derby/Db2
+        final String currentTimestamp = translator.currentTimestampString();
         final String dual = translator.dualTableName();
         final String source = dual == null ? "(SELECT 1)" : dual;
 
@@ -52,7 +53,7 @@ public class MergeResources implements IDatabaseStatement {
                 + " USING " + source + " src "
                 + "    ON tgt.resource_type_id = ? AND tgt.logical_id = ? "
                 + " WHEN NOT MATCHED THEN INSERT (resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, "
-                + "   created_tstamp, response_time_ms) VALUES (?, ?, ?, ?, ?, CURRENT TIMESTAMP, NULL)";
+                + "   created_tstamp, response_time_ms) VALUES (?, ?, ?, ?, ?, " + currentTimestamp + ", NULL)";
         
         try (PreparedStatement ps = c.prepareStatement(merge)) {
             // Assume the list is small enough to process in one batch

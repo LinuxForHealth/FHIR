@@ -35,10 +35,11 @@ public class LoaderInstanceHeartbeat implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
+        final String currentTimestamp = translator.currentTimestampString();
         
         final String DML = ""
                 + "UPDATE loader_instances "
-                + "   SET heartbeat_tstamp = CURRENT TIMESTAMP "
+                + "   SET heartbeat_tstamp = " + currentTimestamp
                 + " WHERE loader_instance_id = ?";
         try (PreparedStatement ps = c.prepareStatement(DML)) {
             ps.setLong(1, loaderInstanceId);
