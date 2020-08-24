@@ -41,20 +41,20 @@ then
   unzip -o -qq SAClientUtil.zip
   ls -al
   find ./SAClientUtil*
-  chmod -R +x ./SAClientUtil*
+  chmod -R +x ./SAClientUtil*/bin/*
 fi
 
-export PATH=`pwd`/SAClientUtil*/bin:$PATH
+export PATH=`pwd`/SAClientUtil*/bin/:$PATH
 
 # Prepare appscan.sh 
 APPSCAN_SCAN_NAME="ibm-fhir-server"
-appscan.sh prepare -c ${WORKSPACE}/build/security/logs/appscan-config.xml -n "$APPSCAN_SCAN_NAME.irx"
+SAClientUtil*/bin/appscan.sh prepare -c ${WORKSPACE}/build/security/logs/appscan-config.xml -n "$APPSCAN_SCAN_NAME.irx"
 
 # Login
-appscan.sh api_login -P ${APPSCAN_SECRET} -persist -u ${APPSCAN_KEY}
+SAClientUtil*/bin/appscan.sh api_login -P ${APPSCAN_SECRET} -persist -u ${APPSCAN_KEY}
 
 # queue analysis 
-appscan.sh queue_analysis -a ${APPSCAN_APPID} -f "$APPSCAN_SCAN_NAME.irx" -n $APPSCAN_SCAN_NAME 
+SAClientUtil*/bin/appscan.sh queue_analysis -a ${APPSCAN_APPID} -f "$APPSCAN_SCAN_NAME.irx" -n $APPSCAN_SCAN_NAME 
 
 # Copy over to output folder
 cp -f $APPSCAN_SCAN_NAME.irx ${WORKSPACE}/build/security/logs/output/
