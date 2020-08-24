@@ -46,14 +46,14 @@ else
 
         pushd `pwd`
         cd ${WORKSPACE}
-        echo "Starting the run"
+        echo "Starting the scans"
         for SCANNER in ${SCANNERS}
         do 
             scan_it ${SCANNER}
         done
 
-        popd `pwd`
-        echo "Finished the setup"
+        popd
+        echo "Finished the scans"
     fi
 fi
 # EOF
