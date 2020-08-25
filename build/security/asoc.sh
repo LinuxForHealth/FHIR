@@ -13,13 +13,13 @@ mkdir -p ${WORKSPACE}/build/security/logs/tmp
 mkdir -p ${WORKSPACE}/build/security/logs/output/
 find ${WORKSPACE} -iname 'fhir-*.jar' -exec cp -f {} ${WORKSPACE}/build/security/logs/tmp \;
 
-# Ignore Tests and Implementation Guides (ig)
-find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-tests.jar' -delete
-find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-test-*.jar' -delete
-find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-ig-*.jar' -delete
-find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-persistence-schema-*-cli.jar' -delete
-find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-swagger-generator-*-cli.jar' -delete
-find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-examples-*.jar' -delete
+# Ignore Tests and Implementation Guides (ig) and uber jars
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-tests.jar' -delete | true
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-test-*.jar' -delete | true
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-ig-*.jar' -delete | true
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-persistence-schema-*-cli.jar' -delete | true
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-swagger-generator-*-cli.jar' -delete | true
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-examples-*.jar' -delete | true
 
 cd ${WORKSPACE}/build/security/logs/
 
