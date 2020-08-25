@@ -5,6 +5,8 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -ex
+
 # Runs through the SCANNERS
 
 # Menu system for each scan
@@ -47,9 +49,11 @@ else
         pushd `pwd`
         cd ${WORKSPACE}
         echo "Starting the scans"
-        for SCANNER in ${SCANNERS}
-        do 
+        for SCANNER in ${SCANNERS_ARRAY}
+        do
+            echo "Scanning -> ${SCANNER}"
             scan_it ${SCANNER}
+            echo "Done Scanning -> ${SCANNER}"
         done
 
         popd

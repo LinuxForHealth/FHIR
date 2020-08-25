@@ -14,7 +14,7 @@ else
 fi
 
 # Builds the image, and extracts the TRIVY_START and TRIVY_END
-docker build ${WORKSPACE}/build/security/resources/trivy/ --squash --tag ibm-fhir-server-vulnerability-trivy --rm --force-rm --no-cache > ${WORKSPACE}/build/security/logs/output/trivy-build.log
+docker build ${WORKSPACE}/build/security/resources/trivy/ --tag ibm-fhir-server-vulnerability-trivy --rm --force-rm --no-cache | tee ${WORKSPACE}/build/security/logs/output/trivy-build.log
 sed -n '/^TRIVY_START$/,/^TRIVY_END$/p' ${WORKSPACE}/build/security/logs/output/trivy-build.log | sed 's|TRIVY_START||g' | sed 's|TRIVY_END||g' > ${WORKSPACE}/build/security/logs/output/trivy.json
 
 cat ${WORKSPACE}/build/security/logs/output/trivy.json | jq -r '.[].Vulnerabilities[] | "\(.VulnerabilityID),\(.PkgName)\(.Title)"' > ${WORKSPACE}/build/security/logs/output/trivy.log

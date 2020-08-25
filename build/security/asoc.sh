@@ -39,8 +39,6 @@ if [ ! -f SAClientUtil.zip ]
 then 
   curl -L -o SAClientUtil.zip "https://cloud.appscan.com/api/SCX/StaticAnalyzer/SAClientUtil?os=linux" -o /dev/null
   unzip -o -qq SAClientUtil.zip
-  ls -al
-  find ./SAClientUtil*
   chmod -R +x ./SAClientUtil*/bin/*
 fi
 
