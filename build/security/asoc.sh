@@ -5,6 +5,8 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -ex
+
 echo "Starting AppScan Preparation" 
 
 mkdir -p ${WORKSPACE}/build/security/logs/tmp
@@ -39,15 +41,35 @@ if [ ! -f SAClientUtil.zip ]
 then 
   curl -L -o SAClientUtil.zip "https://cloud.appscan.com/api/SCX/StaticAnalyzer/SAClientUtil?os=linux" -o /dev/null
   unzip -o -qq SAClientUtil.zip
-  chmod -R +x ./SAClientUtil*/bin/*
+  chmod -R +x ./SAClientUtil*/
 fi
 
 export PATH=`pwd`/SAClientUtil*/bin/:$PATH
+
+# Quick Check of the Secrets
+if [ -z "${APPSCAN_SECRET}" ]
+then 
+  echo "APPSCAN_SECRET must be set"
+  exit -1
+fi
+
+if [ -z "${APPSCAN_APPID}" ]
+then 
+  echo "APPSCAN_APPID must be set"
+  exit -1
+fi
+
+if [ -z "${APPSCAN_SCAN_NAME}" ]
+then 
+  echo "APPSCAN_SCAN_NAME must be set"
+  exit -1
+fi
 
 # Prepare appscan.sh 
 APPSCAN_SCAN_NAME="ibm-fhir-server"
 SAClientUtil*/bin/appscan.sh prepare -c ${WORKSPACE}/build/security/logs/appscan-config.xml -n "$APPSCAN_SCAN_NAME.irx"
 
+export JAVA_TOOL_OPTIONS=""
 # Login
 SAClientUtil*/bin/appscan.sh api_login -P ${APPSCAN_SECRET} -persist -u ${APPSCAN_KEY}
 
