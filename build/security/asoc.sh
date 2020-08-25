@@ -53,15 +53,15 @@ then
   exit -1
 fi
 
-if [ -z "${APPSCAN_APPID}" ]
+if [ -z "${APPSCAN_KEY}" ]
 then 
-  echo "APPSCAN_APPID must be set"
+  echo "APPSCAN_SECRET must be set"
   exit -1
 fi
 
-if [ -z "${APPSCAN_SCAN_NAME}" ]
+if [ -z "${APPSCAN_APPID}" ]
 then 
-  echo "APPSCAN_SCAN_NAME must be set"
+  echo "APPSCAN_APPID must be set"
   exit -1
 fi
 
