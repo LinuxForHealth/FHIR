@@ -42,14 +42,10 @@ else
     then 
         echo 'SCANNERS Variable is not set "${SCANNERS}"'
     else
-        # Only run if scanner and workplace are set
-        # Quick conversion to an array
-        declare -a SCANNERS_ARRAY=($SCANNERS)
-
         pushd `pwd`
         cd ${WORKSPACE}
         echo "Starting the scans"
-        for SCANNER in ${SCANNERS_ARRAY}
+        for SCANNER in ${SCANNERS}
         do
             echo "Scanning -> ${SCANNER}"
             scan_it ${SCANNER}
