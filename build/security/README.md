@@ -18,7 +18,7 @@ Events execute the `Application Security Testing` workflow are:
 The [AppScan on Cloud](https://help.hcltechsw.com/appscan/ASoC/src_cli_linux_analysis.html#src_cli_linux_analysis__queue_analysis) enables the scanning of the IBM FHIR Server runtime bytecode. The automation wrapped around this analysis limits the surface area to IBM FHIR Server developed application code. The Implementation Guides are not scanned. The output is user generated, and the `irx` file is saved in the artifact output.
 
 ### Generating the Latest Report (team members only)
-The following steps under this section are designed to aid the team members in generating the security scan artifiacts and reports. A link to the current application is at [scan](https://cloud.appscan.com/AsoCUI/serviceui/main/myapps/oneapp/c4658cf4-e742-4410-99d4-d1c4084b856e/scans)
+The following steps under this section are designed to aid the team members in generating the security scan artifacts and reports. A link to the current application is at [scan](https://cloud.appscan.com/AsoCUI/serviceui/main/myapps/oneapp/c4658cf4-e742-4410-99d4-d1c4084b856e/scans)
 
 #### Generating the Default Report
 
