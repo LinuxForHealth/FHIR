@@ -28,8 +28,8 @@ else
     mkdir -p build/security/logs/tmp
     mkdir -p build/security/logs/output
 
-    mvn clean install -f fhir-examples/ -DskipTests 
-    mvn clean install -f fhir-parent/ -DskipTests 
+    mvn clean install -f fhir-examples/ -DskipTests -B -ntp
+    mvn clean install -f fhir-parent/ -DskipTests  -B -ntp
     docker build fhir-install -t ibmcom/ibm-fhir-server
     popd `pwd`
     echo "Finished the setup"
