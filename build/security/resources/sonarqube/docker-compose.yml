@@ -1,0 +1,44 @@
+# ----------------------------------------------------------------------------
+# (C) Copyright IBM Corp. 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+# ----------------------------------------------------------------------------
+
+version: '3.7'
+
+services:
+  sonarqube:
+    image: sonarqube:8.4-community
+    container_name: sonarqube
+    hostname: sonarqube
+    depends_on:
+      - db
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
+    environment:
+    - sonar.jdbc.username=sonar
+    - sonar.jdbc.password=change-password
+    - sonar.jdbc.url=jdbc:postgresql://db/sonar
+    - sonar.login=fhir-ops
+    - sonar.password=change-password
+    - sonar.telemetry.enable=false
+    volumes:
+      - type: bind
+        source: ./resources/sonarqube/logs
+        target: /opt/sonarqube/logs
+      - type: bind
+        source: ./resources/sonarqube/data
+        target: /opt/sonarqube/data
+  db:
+    image: postgres:12.3
+    container_name: sonarqube-db
+    hostname: sonarqube-db
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=change-password
+    volumes:
+      - type: bind
+        source: ./resources/db
+        target: /var/lib/postgresql/data
