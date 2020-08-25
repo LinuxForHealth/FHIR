@@ -1,4 +1,4 @@
-## IBM® FHIR® Server
+## IBM FHIR Server
 The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
 
 For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/Conformance.
