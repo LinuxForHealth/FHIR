@@ -16,9 +16,9 @@ const Content = () => (
       The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is available at <a href="https://ibm.github.io/FHIR/LICENSE">LICENSE</a>.
     </p>
     <p>
-      <a href="https://www.hl7.org/fhir/index.html">
-        FHIR&reg;
-      </a> is the registered trademark of HL7 and is used with the permission of HL7.
+      <a href="https://www.hl7.org/fhir/index.html">FHIR&reg;</a> is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
+      <br/>
+      IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on <a href="https://ibm.com/trademark">ibm.com/trademark</a>.
     </p>
   </>
 );
