@@ -1,7 +1,5 @@
-[![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
-
-## IBM FHIR Server
-The IBM FHIR Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
+## IBM® FHIR® Server
+The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
 
 For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/Conformance.
 
@@ -124,4 +122,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contributing your changes back to the
 The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is
 available at [LICENSE](LICENSE).
 
-FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
+IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark). 
