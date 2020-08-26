@@ -139,6 +139,12 @@ public class Main {
     // Skip NDJSON rows already processed. Assumes each row is an individual resource or transaction bundle
     private boolean incremental = false;
     
+    // Skip NDJSON rows for which we already have processed and recorded logical ids. Requires a lookup per line
+    private boolean incrementalExact = false;
+    
+    // optionally reload the same data after this seconds. -1 == do not recycle
+    private int recycleSeconds = -1;
+    
     /**
      * Parse command line arguments
      * @param args
@@ -206,6 +212,13 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --cos-scan-interval-ms");
                 }
                 break;
+            case "--recycle-seconds":
+                if (i < args.length + 1) {
+                    this.recycleSeconds = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --recycle-seconds");
+                }
+                break;
             case "--handler-pool-size":
                 if (i < args.length + 1) {
                     this.handlerPoolSize = Integer.parseInt(args[++i]);
@@ -250,6 +263,9 @@ public class Main {
                 break;
             case "--incremental":
                 this.incremental = true;
+                break;
+            case "--incremental-exact":
+                this.incrementalExact = true;
                 break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
@@ -563,6 +579,7 @@ public class Main {
      */
     protected void scanAndLoad() {
 
+        // Set up the shutdown hook to keep things orderly when asked to terminate
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
         
         cosClient = new CosClient(cosProperties);
@@ -571,7 +588,7 @@ public class Main {
         fhirClient = new FhirClient(new ClientPropertyAdapter(fhirClientProperties));
         fhirClient.init(this.tenantName);
         
-        // Set up our data access layer
+        // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
         DataAccess dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
         dataAccess.init();
         
@@ -585,7 +602,7 @@ public class Main {
         resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler
-        this.reader = new CosReader(cosClient, resource -> resourceHandler.process(resource), readerPoolSize, dataAccess, incremental);
+        this.reader = new CosReader(cosClient, resource -> resourceHandler.process(resource), readerPoolSize, dataAccess, incremental, recycleSeconds, incrementalExact);
         reader.init();
 
         // JVM won't exit until the threads are stopped via the

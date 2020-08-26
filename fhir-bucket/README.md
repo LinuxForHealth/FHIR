@@ -80,6 +80,11 @@ db.database=derby/bucketDB
 db.create=Y
 ```
 
+
+#### The postgres.properties file
+
+
+
 The name of the Derby database can be anything (without spaces) but must be contained within a folder called "derby".
 
 ### Schema Deployment
@@ -90,32 +95,40 @@ As a one-time activity, create the schema objects using the following command:
 #!/bin/bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
-CP="${JAR}:/path/to/db2/jcc-11.5.0.0.jar"
 
-java -classpath "${CP}"          \
-  com.ibm.fhir.bucket.app.Main   \
+java -jar "${JAR}"               \
   --db-type db2                  \
   --db-properties db2.properties \
   --create-schema
 ```
 
-Or alernatively, if using a local Derby instance:
+If using a local Derby instance:
 
 ```
 #!/bin/bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
-CP="${JAR}:/path/to/db2/jcc-11.5.0.0.jar"
 
-java -classpath "${CP}"            \
-  com.ibm.fhir.bucket.app.Main     \
+java -jar "${JAR}"                 \
   --db-type derby                  \
   --db-properties derby.properties \
   --create-schema
 ```
 
-This tracking database can be shared with FHIR, but for proper performance testing should be a separate instance. The standard schema for the tables is FHIRBUCKET.
+If using a local PostgreSQL instance:
 
+```
+#!/bin/bash
+
+JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
+
+java -jar "${JAR}"                    \
+  --db-type postgresql                \
+  --db-properties postgres.properties \
+  --create-schema
+```
+
+This tracking database can be shared with the instance used by FHIR, but for proper performance testing it should be on a separate host. The standard schema for the tables is FHIRBUCKET.
 
 
 ### Running
@@ -126,10 +139,8 @@ The following script can be used to run the bucket loader from a local build:
 #!/bin/bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
-CP="${JAR}:/path/to/db2/jcc-11.5.0.0.jar"
 
-java -classpath "${CP}"             \
-  com.ibm.fhir.bucket.app.Main      \
+java -jar "${JAR}"             \
   --db-type db2                     \
   --db-properties db2.properties    \
   --cos-properties cos.properties   \
@@ -150,6 +161,37 @@ To run using Derby, change the relevant arguments to:
 ...
 ```
 
+To run using PostgreSQL, change the relevant arguments to:
+
+```
+...
+  --db-type postgresql                 \
+  --db-properties postgres.properties  \
+...
+```
+
+| command-line options |
+| ------- |
+| `--incremental` </br> If the loader is stopped or fails before a bundle completes, the bundle will be reclaimed by another loader instance after the heartbeat timeout expires (60s). If the `--incremental` option is specified, the loader skips lines already processed in the NDJSON file. This is reasonably quick but is approximate, and may end up skipping rows due to threaded processing when the loader terminated. |
+| `--incremental-exact` </br> the FHIRBUCKET tracking database is checked for every line in the NDJSON to see if any resources have been recorded for it, and if so, processing will be skipped. |
+| `--db-type type` </br> where `type` is one of: db2, derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
+| `--db-properties properties-file` </br>  Connection properties file for the database |
+| `--cos-properties properties-file` </br>  Connection properties file for COS | 
+| `--fhir-properties properties-file` </br> Connection properties file for the FHIR server |
+| `--bucket cos-bucket-name` </br> The bucket name in COS |
+| `--tenant-name fhir-tenant-name` </br> The IBM FHIR Server tenant name|
+| `--file-type file-type` </br> One of: JSON, NDJSON. Used to limit the discovery scan to a particular type of file/entry |       
+| `--reader-pool-size pool-size` </br> The number of threads to use for processing entries in parallel |           
+| `--handler-pool-size pool-size` </br> The number of threads to use for making FHIR calls in parallel. For example, an NDJSON file may contain millions of records. The bucket loader can process these records in parallel|
+| `--connection-pool-size pool-size` </br> The maximum size of the database connection pool. Threads will block and wait if the current number of active connections exceeds this value |
+| `--recycle-seconds seconds` </br> Artificially force discovered entries to be reloaded some time after they have been loaded successfully. This permits the loader to be set up in a continuous mode of operation, where the resource bundles are loaded over and over again, generating new resources to fill the target system with lots of data. The processing times for each load is tracked, so this can be used to look for regression.
+| `--cos-scan-interval-ms millis` </br> The number of milliseconds to wait before scanning the COS bucket again to discover new entries |
+| `--path-prefix prefix` </br> Limit the discovery scan to keys with the given prefix. |
+| `--resource-pool-shutdown-timeout-seconds seconds` </br> how many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.
+| `--create-schema` </br> Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
+
+
+
 
 ### Internals
 
@@ -157,7 +199,13 @@ The purpose of fhir-bucket is to exercise the ingestion capability of the IBM FH
 
 This tracking database is used to allocate these discovered entries (resource bundles) to loaders with free capacity. Several loader instances (JVMs) can be run in parallel and will coordinate their work using the common tracking database.
 
-When an instance of the fhir-bucket loader starts, it registers itself by creating a new entry in the loader_instances table. It periodically updates the heartbeat_tstamp of this record to indicate its liveness. Periodically, loader instances will perform a liveness check, looking for any instances with an old heartbeat_tstamp. If the timestamp is considered too old, then the loader instance is considered to have failed. Any jobs it was running or had been assigned are cleared so that they can be picked up by another loader instance.
+When an instance of the fhir-bucket loader starts, it registers itself by creating a new entry in the loader_instances table. It periodically updates the heartbeat_tstamp of this record to publicize its liveness. Periodically, loader instances will perform a liveness check, looking for any other instances with an old heartbeat_tstamp. If the timestamp is considered too old, then the respective loader instance is considered to have failed. Any jobs it was running or had been assigned are cleared so that they can be picked up by another loader instance and hopefully completed successfully (see ClearStaleAllocations class).
+
+The COS scanner periodically scans COS to look for new items. It also checks each current item to see if the signature (size, modified time or etag hash) has changed. If a change is detected, the version number is incremented and any current allocation is cleared (recinded).
+
+The job allocation is performed by a thread in the `CosReader` class. This thread loops, asking the database to assign it new work when the loader has free capacity (see the AllocateJobs class). If the database assigns fewer jobs than the available capacity, this indicates we've run out of work to do so the loop will sleep for a short while before asking again so as not to overload the database.
+
+Each time a bundle is allocated to a loader for processing, a new record in RESOURCE_BUNDLE_LOADS is created. Any logical ids or errors generated during the processing of the bundle are recorded against the specific RESOURCE_BUNDLE_LOADS record. This permits tracking of multiple loads of the same bundle over time. The same bundle may be loaded multiple times if previous loads did not complete, or if recycling is enabled.
 
 Processing of files/entries from COS is performed with two thread pools. The first thread pool is used to parallelize the processing of individual files. This is useful when there are large numbers of files, e.g. one per patient.
 
@@ -165,9 +213,9 @@ The second thread pool is used to process resources read from a file/entry. This
 
 Limits are placed on the number of files/entries which can be allocated to a particular instance, as well as the number of resources which are currently inflight waiting to be processed. This is important to avoid unbounded memory growth. The goal is to keep the thread pool as busy as possible without consuming too much memory by reading and queueing too many resources (the assumption is that the fhir-bucket loader can read and validate resources more quickly than the FHIR server can process them).
 
-If the resource is a Bundle, then FHIR returns a bundle containing the newly assigned logical ids of every resource created from that bundle. Each of these logical ids is recorded in the fhir-bucket tracking database.
+If the resource is a Bundle, then FHIR returns a bundle containing the newly assigned logical ids of every resource created from that bundle. Each of these logical ids is recorded in the LOGICAL_RESOURCES table in the tracking database.
 
-If the resource file/entry is not a Bundle, then FHIR returns the newly assigned logical id in the Location header. This value is also stored in the fhir-bucket tracking database.
+If the resource file/entry is not a Bundle, then FHIR returns the newly assigned logical id in the Location header. This value is also stored in the LOGICAL_RESOURCES table in the tracking database.
 
 
 ### Metrics
@@ -181,14 +229,17 @@ The FHIRBUCKET schema tracks some useful statistics captured during the load run
 | loader_instances | Each time a loader starts up it is allocated a unique loader_instances record |
 | bucket_paths | The bucket name and item path up to the last / to avoid repeating the long path string for every item |
 | resource_bundles | Represents a JSON or NDJSON file found in COS |
+| resource_bundle_loads | Records each attempt to load a particular bundle |
+| resource_bundle_errors | records errors by line. Includes HTTP response if available |
 | resource_types | The FHIR model resource names |
 | logical_resources | Holds the logical id for every resource created by the FHIR server |
 
 See the com.ibm.fhir.bucket.persistence.FhirBucketSchema class for details (columns and relationships) on the above tables.
 
-The `resource_bundles` table contains timestamp fields marking the start and end of processing. This is not valid if a bundle entry has been processed more than once with the `--incremental` option. This is because it only records the most recent run. A resource_bundle_history table may be more appropriate and should be considered if incremental loading is important.
+The `resource_bundle_loads` table contains timestamp fields marking the start and end of processing. The end time is only updated if the bundle is completed before the loader is stopped. 
 
 Each `logical_resources` record contains a `created_tstamp` column which marks the time when the record was created in the FHIRBUCKET database.
+
 
 
 #### Db2 Analytic Queries

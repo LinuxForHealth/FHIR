@@ -48,6 +48,7 @@ public class SchemaConstants {
     public static final String BUCKET_NAME = "BUCKET_NAME";
     public static final String BUCKET_PATH = "BUCKET_PATH";
     public static final String SCAN_TSTAMP = "SCAN_TSTAMP"; // tstamp of the latest scan
+    public static final String VERSION = "VERSION";
 
     // The individual resource bundles with their SHA256 hash so
     // we can easily detect changes
@@ -68,6 +69,10 @@ public class SchemaConstants {
     public static final String HTTP_STATUS_TEXT = "HTTP_STATUS_TEXT";
     public static final String ROWS_PROCESSED = "ROWS_PROCESSED";
     public static final int HTTP_STATUS_TEXT_LEN = 64;
+    
+    // Tracking individual loads
+    public static final String RESOURCE_BUNDLE_LOADS = "RESOURCE_BUNDLE_LOADS";
+    public static final String RESOURCE_BUNDLE_LOAD_ID = "RESOURCE_BUNDLE_LOAD_ID";
     
     // The FHIR resource identities created mapped to the bundles
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";

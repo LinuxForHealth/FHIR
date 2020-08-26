@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
+import com.ibm.fhir.bucket.api.ResourceRef;
 import com.ibm.fhir.bucket.cos.CosClient;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -75,13 +76,24 @@ public class CosReader {
     private volatile boolean running = true;
     
     // Try to skip over rows we've already processed in a bundle
-    private boolean incremental;
+    private final boolean incremental;
+    
+    // Only process lines for which no resources have been recorded. More expensive.
+    private final boolean incrementalExact;
 
+    // Number of seconds before recycling completed bundles so we can keep loading on a continuous basis
+    private int recycleSeconds;
+    
     /**
      * Public constructor
      * @param client
+     * @param resourceHandler
+     * @param poolSize
+     * @param da
+     * @param incremental
+     * @param recycleSeconds
      */
-    public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da, boolean incremental) {
+    public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact) {
         this.client = client;
         this.resourceHandler = resourceHandler;
         pool = Executors.newFixedThreadPool(poolSize);
@@ -89,6 +101,8 @@ public class CosReader {
         this.maxInflight = 3 * poolSize;
         this.rescanThreshold = 2 * poolSize;
         this.incremental = incremental;
+        this.recycleSeconds = recycleSeconds;
+        this.incrementalExact = incrementalExact;
     }
     
     /**
@@ -206,7 +220,7 @@ public class CosReader {
     private int allocateJobs(int free) {
         logger.info("allocateJobs: free = " + free);
         List<BucketLoaderJob> jobList = new ArrayList<>();
-        dataAccess.allocateJobs(jobList, free);
+        dataAccess.allocateJobs(jobList, free, recycleSeconds);
         
         logger.info("Allocated job count: " + jobList.size());
         
@@ -303,7 +317,7 @@ public class CosReader {
         } catch (FHIRParserException x) {
             // record the error in the database
             ResourceBundleError error = new ResourceBundleError(lineNumber, "Parse error: " + x.getMessage());
-            dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+            dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
         } finally {
             job.fileProcessingComplete();
         }
@@ -317,7 +331,7 @@ public class CosReader {
     public void processNDJSON(final BucketLoaderJob job, final BufferedReader br) {
 
         int skipLines = 0;
-        if (this.incremental) {
+        if (this.incremental && !incrementalExact) {
             Integer maxLineNumber = getLastProcessedLineNumber(job);
             if (maxLineNumber != null) {
                 // line numbers start at 0
@@ -340,6 +354,13 @@ public class CosReader {
             }
             
             while ((line = br.readLine()) != null) {
+                // Skip this line if we can find logical ids have already been recorded for it
+                // (from a previous load run). This is version-specific, so if the version has
+                // changed, then we reload everything again.
+                if (incrementalExact && getLogicalIdsForLine(job, lineNumber).size() > 0) {
+                    continue;
+                }
+                
                 // note that we don't increment the job counter until we actually
                 // submit something to the process queue
                 StringReader lineReader = new StringReader(line);
@@ -351,7 +372,7 @@ public class CosReader {
                     
                     // Record the error in the database
                     ResourceBundleError error = new ResourceBundleError(lineNumber, "Parse error: " + x.getMessage());
-                    dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+                    dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
                 }
             }
         } catch (IOException x) {
@@ -384,12 +405,12 @@ public class CosReader {
                     .collect(Collectors.joining(", "));
             logger.finer("Validation warnings for input resource: [" + info + "]");
             ResourceBundleError error = new ResourceBundleError(lineNumber, info);
-            dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+            dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
             
         } catch (FHIRValidationException e) {
             logger.warning("Resource validation exception: " + e.getMessage());
             ResourceBundleError error = new ResourceBundleError(lineNumber, e.getMessage());
-            dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+            dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
         }
 
         if (result) {
@@ -401,7 +422,7 @@ public class CosReader {
             } catch (Exception x) {
                 result = false;
                 ResourceBundleError error = new ResourceBundleError(lineNumber, x.getMessage());
-                dataAccess.recordErrors(job.getResourceBundleId(), lineNumber, Collections.singletonList(error));
+                dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
             }
         }
         
@@ -439,8 +460,26 @@ public class CosReader {
         }
         return issues;
     }
-    
+
+    /**
+     * Get the last processed line for the bundle and version described by the
+     * {@link BucketLoaderJob} record
+     * @param job
+     * @return
+     */
     private Integer getLastProcessedLineNumber(BucketLoaderJob job) {
-        return dataAccess.getLastProcessedLineNumber(job.getResourceBundleId());
+        return dataAccess.getLastProcessedLineNumber(job.getResourceBundleId(), job.getVersion());
+    }
+
+    /**
+     * Find the set of logicalIds have been created for the given line
+     * of the bundle/version described in the given BucketLoaderJob. This
+     * can be useful 
+     * @param job
+     * @param lineNumber
+     * @return
+     */
+    private List<ResourceRef> getLogicalIdsForLine(BucketLoaderJob job, int lineNumber) {
+        return dataAccess.getResourceRefsForLine(job.getResourceBundleId(), job.getVersion(), lineNumber);
     }
 }

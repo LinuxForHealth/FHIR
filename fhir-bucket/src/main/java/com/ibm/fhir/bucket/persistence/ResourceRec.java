@@ -12,13 +12,13 @@ package com.ibm.fhir.bucket.persistence;
 public class ResourceRec {
     private final int resourceTypeId;
     private final String logicalId;
-    private final long resourceBundleId;
+    private final long resourceBundleLoadId;
     private final int lineNumber;
 
-    public ResourceRec(int resourceTypeId, String logicalId, long resourceBundleId, int lineNumber) {
+    public ResourceRec(int resourceTypeId, String logicalId, long resourceBundleLoadId, int lineNumber) {
         this.logicalId = logicalId;
         this.resourceTypeId = resourceTypeId;
-        this.resourceBundleId = resourceBundleId;
+        this.resourceBundleLoadId = resourceBundleLoadId;
         this.lineNumber = lineNumber;
     }
 
@@ -42,8 +42,8 @@ public class ResourceRec {
     /**
      * @return the resourceBundleId
      */
-    public long getResourceBundleId() {
-        return resourceBundleId;
+    public long getResourceBundleLoadId() {
+        return resourceBundleLoadId;
     }
 
 

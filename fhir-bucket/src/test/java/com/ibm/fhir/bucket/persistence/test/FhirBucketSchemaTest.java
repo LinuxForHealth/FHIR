@@ -33,6 +33,7 @@ import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
+import com.ibm.fhir.bucket.api.ResourceRef;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AddResourceBundleErrors;
@@ -40,6 +41,7 @@ import com.ibm.fhir.bucket.persistence.AllocateJobs;
 import com.ibm.fhir.bucket.persistence.ClearStaleAllocations;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.GetLastProcessedLineNumber;
+import com.ibm.fhir.bucket.persistence.GetResourceRefsForBundleLine;
 import com.ibm.fhir.bucket.persistence.MarkBundleDone;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResources;
@@ -173,13 +175,6 @@ public class FhirBucketSchemaTest {
                 MergeResourceTypes c6 = new MergeResourceTypes(resourceTypes);
                 adapter.runStatement(c6);
 
-                // Add some resource bundle errors
-                // int lineNumber, String errorText, Integer responseTimeMs, Integer httpStatusCode, String httpStatusText
-                List<ResourceBundleError> errors = new ArrayList<>();
-                errors.add(new ResourceBundleError(0, "error1", null, null, null));
-                errors.add(new ResourceBundleError(1, "error2", 60000, 400, "timeout"));
-                AddResourceBundleErrors c7 = new AddResourceBundleErrors(loaderInstanceId, id6.getResourceBundleId(), errors, 10);
-                adapter.runStatement(c7);
                 
             } catch (Throwable t) {
                 // mark the transaction for rollback
@@ -217,7 +212,7 @@ public class FhirBucketSchemaTest {
     }
     
     @Test(dependsOnMethods = { "readResourceTypesTest" })
-    public void mergeResourcesTest() {
+    public void resourceBundlesTest() {
         DerbyAdapter adapter = new DerbyAdapter(connectionPool);
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
@@ -225,32 +220,10 @@ public class FhirBucketSchemaTest {
                 AddBucketPath c1 = new AddBucketPath("bucket1", "/path/to/dir2/");
                 Long bucketPathId = adapter.runStatement(c1);
 
-                // Need a resouce bundle so we can create a logical_resource
+                // Test creation of resource bundles
                 AddResourceBundle c2 = new AddResourceBundle(bucketPathId, "patient1.json", 1024, FileType.JSON, "abcd123", new Date());
                 ResourceBundleData resourceBundleData = adapter.runStatement(c2);
-
-                // Need resource types so we can create a logical_resource
-                Map<String, Integer> resourceTypeMap = new HashMap<>();
-                List<ResourceTypeRec> resourceTypes = adapter.runStatement(new ResourceTypesReader());
-                resourceTypes.stream().forEach(rt -> resourceTypeMap.put(rt.getResourceType(), rt.getResourceTypeId()));
-
-                // Look up the correct resource type id for Patient
-                final int patientTypeId = resourceTypeMap.get("Patient");
-
-                // Add a few patient resources
-                List<ResourceRec> resources = new ArrayList<>();
-                for (int i=0; i<5; i++) {
-                    resources.add(new ResourceRec(patientTypeId, "patient-" + i, resourceBundleData.getResourceBundleId(), i));
-                }
-                adapter.runStatement(new MergeResources(this.loaderInstanceId, resources));
-                
-                RecordLogicalId c3 = new RecordLogicalId(loaderInstanceId, patientTypeId, "patient-5", resourceBundleData.getResourceBundleId(), 0, 0);
-                adapter.runStatement(c3);
-                
-                GetLastProcessedLineNumber c4 = new GetLastProcessedLineNumber(resourceBundleData.getResourceBundleId());
-                Integer lastLine = adapter.runStatement(c4);
-                assertNotNull(lastLine);
-                assertEquals(lastLine.intValue(), 4); // max line number from the ResourceRec loop above                
+                assertNotNull(resourceBundleData);
             } catch (Throwable t) {
                 // mark the transaction for rollback
                 tx.setRollbackOnly();
@@ -259,7 +232,7 @@ public class FhirBucketSchemaTest {
         }
     }
     
-    @Test(dependsOnMethods = { "mergeResourcesTest" })
+    @Test(dependsOnMethods = { "resourceBundlesTest" })
     public void allocateJobsTest() {
         DerbyAdapter adapter = new DerbyAdapter(connectionPool);
         try (ITransaction tx = transactionProvider.getTransaction()) {
@@ -280,8 +253,9 @@ public class FhirBucketSchemaTest {
                 assertEquals(jobList.size(), 1);
                 assertEquals(jobList.get(0).getObjectKey(), "/path/to/dir2/patient1.json");
 
-                // Remove any stale allocations. Give a fake loaderInstanceId
-                ClearStaleAllocations c4 = new ClearStaleAllocations(loaderInstanceId + 1, 0);
+                // Remove any stale allocations. Give a fake loaderInstanceId because
+                // we don't touch stuff that we own
+                ClearStaleAllocations c4 = new ClearStaleAllocations(loaderInstanceId + 1, 0, -1);
                 adapter.runStatement(c4);
 
                 // Now we should be able to see all 3 allocations be reassigned
@@ -290,8 +264,62 @@ public class FhirBucketSchemaTest {
                 adapter.runStatement(c5);
                 assertEquals(jobList.size(), 3);
                 
-                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleId(), 0, 1);
+                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleLoadId(), 0, 1);
                 adapter.runStatement(c6);
+
+                // recycle completed jobs immediately
+                ClearStaleAllocations c7 = new ClearStaleAllocations(loaderInstanceId + 1, 100000, 0);
+                adapter.runStatement(c7);
+
+                // Grab the job-list again. Should get 3
+                jobList.clear();
+                adapter.runStatement(c5);
+                assertEquals(jobList.size(), 3);
+                
+                // With a job, we have a resource_bundle_loads record, so we can create some resources
+                Map<String, Integer> resourceTypeMap = new HashMap<>();
+                List<ResourceTypeRec> resourceTypes = adapter.runStatement(new ResourceTypesReader());
+                resourceTypes.stream().forEach(rt -> resourceTypeMap.put(rt.getResourceType(), rt.getResourceTypeId()));
+                final int patientTypeId = resourceTypeMap.get("Patient");
+                BucketLoaderJob job = jobList.get(0);
+                List<ResourceRec> resources = new ArrayList<>();
+                final int LINE_COUNT = 5;
+                for (int i=0; i<LINE_COUNT; i++) {
+                    resources.add(new ResourceRec(patientTypeId, "patient-" + i, job.getResourceBundleLoadId(), i));
+                }
+                adapter.runStatement(new MergeResources(this.loaderInstanceId, resources));
+
+                // Single logical id upload
+                final int lineNumber = LINE_COUNT;
+                RecordLogicalId c8 = new RecordLogicalId(patientTypeId, "patient-5", job.getResourceBundleLoadId(), lineNumber, 0);
+                adapter.runStatement(c8);
+
+                // Check that the max line number for the given bundle
+                GetLastProcessedLineNumber c9 = new GetLastProcessedLineNumber(job.getResourceBundleId(), job.getVersion());
+                Integer lastLine = adapter.runStatement(c9);
+                assertNotNull(lastLine);
+                assertEquals(lastLine.intValue(), lineNumber);
+                
+                
+                // Add some resource bundle errors
+                // int lineNumber, String errorText, Integer responseTimeMs, Integer httpStatusCode, String httpStatusText
+                List<ResourceBundleError> errors = new ArrayList<>();
+                errors.add(new ResourceBundleError(0, "error1", null, null, null));
+                errors.add(new ResourceBundleError(1, "error2", 60000, 400, "timeout"));
+                AddResourceBundleErrors c10 = new AddResourceBundleErrors(job.getResourceBundleLoadId(), errors, 10);
+                adapter.runStatement(c10);
+                
+                // Fetch some ResourceRefs for a line we know we have loaded
+                GetResourceRefsForBundleLine c11 = new GetResourceRefsForBundleLine(job.getResourceBundleId(), job.getVersion(), lineNumber);
+                List<ResourceRef> refs = adapter.runStatement(c11);
+                assertNotNull(refs);
+                assertEquals(refs.size(), 1);
+                
+                // And an empty list
+                GetResourceRefsForBundleLine c12 = new GetResourceRefsForBundleLine(job.getResourceBundleId(), job.getVersion(), lineNumber+1);
+                refs = adapter.runStatement(c12);
+                assertNotNull(refs);
+                assertEquals(refs.size(), 0);
                 
             } catch (Throwable t) {
                 // mark the transaction for rollback
@@ -300,7 +328,6 @@ public class FhirBucketSchemaTest {
             }
         }
     }
-
     
     @AfterClass
     public void tearDown() throws Exception {

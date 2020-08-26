@@ -19,12 +19,14 @@ import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceIdValue;
+import com.ibm.fhir.bucket.api.ResourceRef;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
 import com.ibm.fhir.bucket.persistence.AddResourceBundleErrors;
 import com.ibm.fhir.bucket.persistence.AllocateJobs;
 import com.ibm.fhir.bucket.persistence.ClearStaleAllocations;
 import com.ibm.fhir.bucket.persistence.GetLastProcessedLineNumber;
+import com.ibm.fhir.bucket.persistence.GetResourceRefsForBundleLine;
 import com.ibm.fhir.bucket.persistence.LoaderInstanceHeartbeat;
 import com.ibm.fhir.bucket.persistence.MarkBundleDone;
 import com.ibm.fhir.bucket.persistence.RecordLogicalId;
@@ -157,12 +159,12 @@ public class DataAccess {
      * @param jobList
      * @param free
      */
-    public void allocateJobs(List<BucketLoaderJob> jobList, int free) {
+    public void allocateJobs(List<BucketLoaderJob> jobList, int free, int recycleSeconds) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 // First business of the day is to check for liveness and clear
                 // any allocations for instances we think are no longer active
-                ClearStaleAllocations liveness = new ClearStaleAllocations(loaderInstanceId, HEARTBEAT_TIMEOUT_MS);
+                ClearStaleAllocations liveness = new ClearStaleAllocations(loaderInstanceId, HEARTBEAT_TIMEOUT_MS, recycleSeconds);
                 dbAdapter.runStatement(liveness);
                 
                 AllocateJobs cmd = new AllocateJobs(schemaName, jobList, loaderInstanceId, free);
@@ -179,7 +181,7 @@ public class DataAccess {
      * @param simpleName
      * @param logicalId
      */
-    public void recordLogicalId(String resourceType, String logicalId, long resourceBundleId, int lineNumber, Integer responseTimeMs) {
+    public void recordLogicalId(String resourceType, String logicalId, long resourceBundleLoadId, int lineNumber, Integer responseTimeMs) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 Integer resourceTypeId = resourceTypeMap.get(resourceType);
@@ -188,7 +190,7 @@ public class DataAccess {
                     throw new IllegalStateException("resourceType not found: " + resourceType);
                 }
                 
-                RecordLogicalId cmd = new RecordLogicalId(this.loaderInstanceId, resourceTypeId, logicalId, resourceBundleId, lineNumber, responseTimeMs);
+                RecordLogicalId cmd = new RecordLogicalId(resourceTypeId, logicalId, resourceBundleLoadId, lineNumber, responseTimeMs);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
@@ -221,7 +223,7 @@ public class DataAccess {
             try {
                 // The file itself counts as one completion, so we have to subtract 1 to get the
                 // actual row count of the file contents
-                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleId(), job.getFailureCount(), job.getCompletedCount()-1);
+                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleLoadId(), job.getFailureCount(), job.getCompletedCount()-1);
                 dbAdapter.runStatement(c1);
             } catch (Exception x) {
                 tx.setRollbackOnly();
@@ -236,10 +238,10 @@ public class DataAccess {
      * @param lineNumber
      * @param idValues
      */
-    public void recordLogicalIds(long resourceBundleId, int lineNumber, List<ResourceIdValue> idValues, int batchSize) {
+    public void recordLogicalIds(long resourceBundleLoadId, int lineNumber, List<ResourceIdValue> idValues, int batchSize) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                RecordLogicalIdList cmd = new RecordLogicalIdList(this.loaderInstanceId, resourceBundleId, lineNumber, idValues, resourceTypeMap, batchSize);
+                RecordLogicalIdList cmd = new RecordLogicalIdList(resourceBundleLoadId, lineNumber, idValues, resourceTypeMap, batchSize);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
@@ -259,10 +261,10 @@ public class DataAccess {
      * @param errors
      * @param batchSize
      */
-    public void recordErrors(long resourceBundleId, int lineNumber, List<ResourceBundleError> errors) {
+    public void recordErrors(long resourceBundleLoadId, int lineNumber, List<ResourceBundleError> errors) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                AddResourceBundleErrors cmd = new AddResourceBundleErrors(this.loaderInstanceId, resourceBundleId, errors, errorBatchSize);
+                AddResourceBundleErrors cmd = new AddResourceBundleErrors(resourceBundleLoadId, errors, errorBatchSize);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
@@ -276,11 +278,32 @@ public class DataAccess {
      * This is calculated by looking for the max line_number value recorded for the bundle
      * in the logical_resources table.
      * @param resourceBundleId
+     * @param version
      */
-    public Integer getLastProcessedLineNumber(long resourceBundleId) {
+    public Integer getLastProcessedLineNumber(long resourceBundleId, int version) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                GetLastProcessedLineNumber cmd = new GetLastProcessedLineNumber(resourceBundleId);
+                GetLastProcessedLineNumber cmd = new GetLastProcessedLineNumber(resourceBundleId, version);
+                return dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Get the list of resourceType/logicalId resource references generated when processing
+     * the given lineNumber of the identified resource bundle and its version
+     * @param resourceBundleId
+     * @param version
+     * @param lineNumber
+     * @return
+     */
+    public List<ResourceRef> getResourceRefsForLine(long resourceBundleId, int version, int lineNumber) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                GetResourceRefsForBundleLine cmd = new GetResourceRefsForBundleLine(resourceBundleId, version, lineNumber);
                 return dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();

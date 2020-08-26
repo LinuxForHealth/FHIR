@@ -21,8 +21,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class MarkBundleDone implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(MarkBundleDone.class.getName());
 
-    // PK of the resource_bundle to update
-    private final long resourceBundleId;
+    // PK of the resource_bundle_loads to update
+    private final long resourceBundleLoadId;
     
     // How many records failed when processing this file/bundle
     private final int failureCount;
@@ -33,8 +33,8 @@ public class MarkBundleDone implements IDatabaseStatement {
      * Public constructor
      * @param loaderInstanceId
      */
-    public MarkBundleDone(long resourceBundleId, int failureCount, int rowsProcessed) {
-        this.resourceBundleId = resourceBundleId;
+    public MarkBundleDone(long resourceBundleLoadId, int failureCount, int rowsProcessed) {
+        this.resourceBundleLoadId = resourceBundleLoadId;
         this.failureCount = failureCount;
         this.rowsProcessed = rowsProcessed;
     }
@@ -44,21 +44,21 @@ public class MarkBundleDone implements IDatabaseStatement {
         
         final String currentTimestamp = translator.currentTimestampString();
         final String DML = ""
-                + "UPDATE resource_bundles "
+                + "UPDATE resource_bundle_loads "
                 + "   SET load_completed = " + currentTimestamp + ", "
                 + "       failure_count      = ?, "
                 + "       rows_processed     = ? "
-                + " WHERE resource_bundle_id = ? "
+                + " WHERE resource_bundle_load_id = ? "
                 + "   AND load_completed IS NULL ";
         try (PreparedStatement ps = c.prepareStatement(DML)) {
             ps.setInt(1, failureCount);
             ps.setInt(2, rowsProcessed);
-            ps.setLong(3, resourceBundleId);
+            ps.setLong(3, resourceBundleLoadId);
             ps.executeUpdate();
         } catch (SQLException x) {
             // log this, but don't propagate values in the exception
             logger.log(Level.SEVERE, "Error updating bundle done: " + DML + "; "
-                + resourceBundleId);
+                + resourceBundleLoadId);
             throw translator.translate(x);
         }
     }

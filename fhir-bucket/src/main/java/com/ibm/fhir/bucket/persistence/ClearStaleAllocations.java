@@ -28,13 +28,17 @@ public class ClearStaleAllocations implements IDatabaseStatement {
 
     // The number of MS before we consider a missed heartbeat
     private final long heartbeatTimeoutMs;
+    
+    // Number of seconds to wait before recycling a completed job
+    private final int recycleSeconds;
 
     /**
      * Public constructor
      */
-    public ClearStaleAllocations(long loaderInstanceId, long heartbeatTimeoutMs) {
+    public ClearStaleAllocations(long loaderInstanceId, long heartbeatTimeoutMs, int recycleSeconds) {
         this.loaderInstanceId = loaderInstanceId;
         this.heartbeatTimeoutMs = heartbeatTimeoutMs;
+        this.recycleSeconds = recycleSeconds;
     }
 
     @Override
@@ -72,16 +76,20 @@ public class ClearStaleAllocations implements IDatabaseStatement {
         final String UPD = ""
                 + "UPDATE resource_bundles "
                 + "   SET allocation_id = NULL, "
-                + "       loader_instance_id = NULL, "
-                + "       load_started = NULL "
+                + "       loader_instance_id = NULL "
                 + " WHERE resource_bundle_id IN ( "
-                + "     SELECT resource_bundle_id "
+                + "     SELECT rb.resource_bundle_id "
                 + "       FROM resource_bundles rb, "
-                + "            loader_instances li  "
+                + "            loader_instances li, "
+                + "            resource_bundle_loads bl "
                 + "      WHERE li.loader_instance_id = rb.loader_instance_id "
-                + "        AND rb.load_completed IS NULL "
+                + "        AND rb.allocation_id IS NOT NULL "
                 + "        AND li.loader_instance_id != ? "
                 + "        AND li.status = 'STOPPED' "
+                + "        AND bl.allocation_id = rb.allocation_id "
+                + "        AND bl.loader_instance_id = rb.loader_instance_id "
+                + "        AND bl.resource_bundle_id = rb.resource_bundle_id "
+                + "        AND bl.load_completed IS NULL "
                 + "     )";
         
         try (PreparedStatement ps = c.prepareStatement(UPD)) {
@@ -95,6 +103,41 @@ public class ClearStaleAllocations implements IDatabaseStatement {
             logger.log(Level.SEVERE, UPD, x);
             throw new DataAccessException("Clear allocation update failed");
         }
-        
-   }
+
+        // If recycling is enabled, make any matching bundles look as though
+        // they haven't yet been loaded. This occurs recycleSeconds after the
+        // previous load completed. We bump the version number here too, which
+        // will make incremental loads re-process everything, which is what we want
+        if (this.recycleSeconds >= 0) {
+            final String current = translator.currentTimestampString();
+            final String diff = translator.timestampDiff(current, "bl.load_completed", null);
+            final String RECYCLE = ""
+                    + "UPDATE resource_bundles "
+                    + "   SET loader_instance_id = NULL, " // deallocate so it gets picked up again
+                    + "       allocation_id = NULL, "
+                    + "       version = version + 1 "      // pretend it's a new version of the file
+                    + " WHERE resource_bundle_id IN ( "
+                    + "     SELECT rb.resource_bundle_id "
+                    + "       FROM resource_bundles rb, "
+                    + "            resource_bundle_loads bl "
+                    + "      WHERE bl.allocation_id = rb.allocation_id " // most recent allocation
+                    + "        AND bl.loader_instance_id = rb.loader_instance_id "
+                    + "        AND bl.resource_bundle_id = rb.resource_bundle_id "
+                    + "        AND bl.load_completed IS NOT NULL " // just in case someone changes the diff expression
+                    + "        AND " + diff + " >= ? "             // more than <?> seconds after the last load completed
+                    + "     )";
+            
+            try (PreparedStatement ps = c.prepareStatement(RECYCLE)) {
+                ps.setInt(1, recycleSeconds);
+                int rowsAffected = ps.executeUpdate();
+                
+                if (rowsAffected > 0 && logger.isLoggable(Level.FINE)) {
+                    logger.fine("Recycled bundles count: " + rowsAffected);
+                }
+            } catch (SQLException x) {
+                logger.log(Level.SEVERE, RECYCLE, x);
+                throw new DataAccessException("Recycle update failed");
+            }
+        }
+    }
 }

@@ -40,6 +40,6 @@ public class LogicalIdRecorder {
      */
     public void recordLogicalId(ResourceEntry entry, String logicalId, int responseTimeMs) {
         dataAccess.recordLogicalId(entry.getResource().getClass().getSimpleName(), logicalId,
-            entry.getJob().getResourceBundleId(), entry.getLineNumber(), responseTimeMs);
+            entry.getJob().getResourceBundleLoadId(), entry.getLineNumber(), responseTimeMs);
     }
 }

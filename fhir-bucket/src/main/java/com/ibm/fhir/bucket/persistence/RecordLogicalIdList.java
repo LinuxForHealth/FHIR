@@ -33,9 +33,7 @@ public class RecordLogicalIdList implements IDatabaseStatement {
     
     private final Map<String,Integer> resourceTypeMap;
     
-    private final long loaderInstanceId;
-    
-    private final long resourceBundleId;
+    private final long resourceBundleLoadId;
     
     private final int lineNumber;
     
@@ -45,10 +43,9 @@ public class RecordLogicalIdList implements IDatabaseStatement {
      * Public constructor
      * @param resourceType
      */
-    public RecordLogicalIdList(long loaderInstanceId, long resourceBundleId, int lineNumber, Collection<ResourceIdValue> resourceTypes, Map<String,Integer> resourceTypeMap,
+    public RecordLogicalIdList(long resourceBundleLoadId, int lineNumber, Collection<ResourceIdValue> resourceTypes, Map<String,Integer> resourceTypeMap,
         int batchSize) {
-        this.loaderInstanceId = loaderInstanceId;
-        this.resourceBundleId = resourceBundleId;
+        this.resourceBundleLoadId = resourceBundleLoadId;
         this.lineNumber = lineNumber;
         this.values = new ArrayList<>(resourceTypes);
         this.resourceTypeMap = resourceTypeMap;
@@ -64,8 +61,8 @@ public class RecordLogicalIdList implements IDatabaseStatement {
         final String currentTimestamp = translator.currentTimestampString();
         final String INS = 
                 "INSERT INTO logical_resources ("
-                + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
-                + "   VALUES (?, ?, ?, ?, ?, NULL, " + currentTimestamp + ")";
+                + "          resource_type_id, logical_id, resource_bundle_id, line_number, response_time_ms, created_tstamp) "
+                + "   VALUES (?, ?, ?, ?, NULL, " + currentTimestamp + ")";
 
         int batchCount = 0;
         try (PreparedStatement ps = c.prepareStatement(INS)) {
@@ -79,9 +76,8 @@ public class RecordLogicalIdList implements IDatabaseStatement {
                 // response because it doesn't make sense
                 ps.setInt(1, resourceTypeId);
                 ps.setString(2, rv.getLogicalId());
-                ps.setLong(3, resourceBundleId);
+                ps.setLong(3, resourceBundleLoadId);
                 ps.setInt(4, lineNumber);
-                ps.setLong(5, loaderInstanceId);
                 ps.addBatch();
                 
                 if (++batchCount == this.batchSize) {

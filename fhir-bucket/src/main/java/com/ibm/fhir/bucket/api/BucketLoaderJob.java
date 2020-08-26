@@ -14,6 +14,8 @@ import java.util.function.Consumer;
  */
 public class BucketLoaderJob {
 
+    private final long resourceBundleLoadId;
+    
     private final long resourceBundleId;
     
     private final String bucketName;
@@ -25,6 +27,8 @@ public class BucketLoaderJob {
     private final long objectSize;
     
     private final FileType fileType;
+    
+    private final int version;
 
     // true while the file is being processed
     private volatile boolean fileProcessing = true;
@@ -42,19 +46,25 @@ public class BucketLoaderJob {
     private Consumer<BucketLoaderJob> jobCompleteCallback;
     
     /**
+     * Public constructor
+     * @param resourceBundleLoadId
      * @param resourceBundleId
      * @param bucketName
      * @param bucketPath
      * @param objectName
      * @param objectSize
+     * @param ft
+     * @param version
      */
-    public BucketLoaderJob(long resourceBundleId, String bucketName, String bucketPath, String objectName, long objectSize, FileType ft) {
+    public BucketLoaderJob(long resourceBundleLoadId, long resourceBundleId, String bucketName, String bucketPath, String objectName, long objectSize, FileType ft, int version) {
+        this.resourceBundleLoadId = resourceBundleLoadId;
         this.resourceBundleId = resourceBundleId;
         this.bucketName = bucketName;
         this.bucketPath = bucketPath;
         this.objectName = objectName;
         this.objectSize = objectSize;
         this.fileType = ft;
+        this.version = version;
     }
 
     /**
@@ -67,7 +77,7 @@ public class BucketLoaderJob {
     
     @Override
     public String toString() {
-        return bucketName + ":" + getObjectKey() + ": " + failureCount + "/" + completedCount;
+        return bucketName + ":" + getObjectKey() + "[v" + version + "]: " + completedCount.get() + "/" + entryCount + " failed=" + failureCount.get();
     }
     
     public String getBucketName() {
@@ -175,5 +185,19 @@ public class BucketLoaderJob {
      */
     public int getEntryCount() {
         return this.entryCount;
+    }
+
+    /**
+     * @return the resourceBundleLoadId
+     */
+    public long getResourceBundleLoadId() {
+        return resourceBundleLoadId;
+    }
+
+    /**
+     * @return the version
+     */
+    public int getVersion() {
+        return version;
     }
 }

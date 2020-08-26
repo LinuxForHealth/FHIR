@@ -305,7 +305,7 @@ public class ResourceHandler {
      * @return
      */
     private void processResourceIdValues(ResourceEntry re, List<ResourceIdValue> idValues) {
-        dataAccess.recordLogicalIds(re.getJob().getResourceBundleId(), re.getLineNumber(), idValues, BATCH_SIZE);
+        dataAccess.recordLogicalIds(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), idValues, BATCH_SIZE);
     }
     /**
      * Parse the location to create a {@link ResourceIdValue} DTO object.
@@ -344,7 +344,7 @@ public class ResourceHandler {
             String resourceType = parts[6];
             String id = parts[7];
             logger.info("[" +re.toString() + "] new " + resourceType + "/" + id);
-            dataAccess.recordLogicalId(resourceType, id, re.getJob().getResourceBundleId(), re.getLineNumber(), responseTimeMs);
+            dataAccess.recordLogicalId(resourceType, id, re.getJob().getResourceBundleLoadId(), re.getLineNumber(), responseTimeMs);
             result = true;
         }
         
@@ -352,7 +352,7 @@ public class ResourceHandler {
     }
 
     /**
-     * Record the error
+     * Record the error in the database
      * @param re
      * @param response
      */
@@ -361,9 +361,7 @@ public class ResourceHandler {
         errors.add(new ResourceBundleError(re.getLineNumber(), response.getOperationalOutcomeText(), 
             response.getResponseTime(), response.getStatusCode(), response.getStatusMessage()));
         
-        
-        
-        dataAccess.recordErrors(re.getJob().getResourceBundleId(), re.getLineNumber(), errors);
+        dataAccess.recordErrors(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), errors);
     }
 
     /**

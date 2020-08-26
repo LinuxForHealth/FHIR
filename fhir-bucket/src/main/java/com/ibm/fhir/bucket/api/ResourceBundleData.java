@@ -9,7 +9,7 @@ package com.ibm.fhir.bucket.api;
 import java.util.Date;
 
 /**
- * A record in the RESOURCE_BUNDLES table
+ * A record from RESOURCE_BUNDLES
  */
 public class ResourceBundleData {
 
@@ -23,6 +23,8 @@ public class ResourceBundleData {
     
     private final Date lastModified;
     
+    private final int version;
+    
     // The tstamp for when this item was most recently updated in the bucket database
     private final Date scanTstamp;
     
@@ -34,13 +36,14 @@ public class ResourceBundleData {
      * @param objectSize
      */
     public ResourceBundleData(long resourceBundleId, long objectSize, FileType ft,
-        String eTag, Date lastModified, Date scanTstamp) {
+        String eTag, Date lastModified, Date scanTstamp, int version) {
         this.resourceBundleId = resourceBundleId;
         this.objectSize = objectSize;
         this.fileType = ft;
         this.eTag = eTag;
         this.lastModified = lastModified;
         this.scanTstamp = scanTstamp;
+        this.version = version;
     }
     
     /**
@@ -97,5 +100,12 @@ public class ResourceBundleData {
      */
     public Date getScanTstamp() {
         return scanTstamp;
+    }
+
+    /**
+     * @return the version
+     */
+    public int getVersion() {
+        return version;
     }
 }

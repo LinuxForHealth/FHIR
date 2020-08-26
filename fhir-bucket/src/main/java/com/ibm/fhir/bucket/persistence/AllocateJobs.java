@@ -73,18 +73,19 @@ public class AllocateJobs implements IDatabaseStatement {
         }
         
         // Mark the records we want to allocate using the unique allocationId we just obtained
+        // Note the ORDER BY in the inner select is important to avoid deadlocks when running
+        // concurrent loaders
         final String currentTimestamp = translator.currentTimestampString();
-        final String MARK = "UPDATE resource_bundles rb "
-                + " SET allocation_id = ?, "
-                + "     loader_instance_id = ?, "
-                + "     load_started =  " + currentTimestamp + " "
-                + "WHERE rb.resource_bundle_id IN ( "
+        final String MARK = ""
+                + " UPDATE resource_bundles rb "
+                + "    SET allocation_id = ?, "
+                + "        loader_instance_id = ? "
+                + "  WHERE rb.resource_bundle_id IN ( "
                 + "     SELECT resource_bundle_id "
                 + "       FROM resource_bundles "
                 + "      WHERE allocation_id IS NULL "
-                + "        AND load_completed IS NULL "
                 + "   ORDER BY resource_bundle_id "
-                + "FETCH FIRST ? ROWS ONLY)";
+                + "      FETCH FIRST ? ROWS ONLY)";
         
         try (PreparedStatement ps = c.prepareStatement(MARK)) {
             ps.setLong(1, allocationId);
@@ -96,26 +97,49 @@ public class AllocateJobs implements IDatabaseStatement {
             throw new DataAccessException("Mark allocated jobs failed");
         }
         
+
+        // Create new RESOURCE_BUNDLE_LOAD records for each of the bundles
+        // that have just been allocated
+        final String INS = ""
+                + " INSERT INTO resource_bundle_loads (resource_bundle_id, allocation_id, loader_instance_id, load_started, version) "
+                + "      SELECT rb.resource_bundle_id, rb.allocation_id, rb.loader_instance_id, " + currentTimestamp + ", rb.version "
+                + "        FROM resource_bundles rb "
+                + "       WHERE rb.allocation_id = ? " // allocation_id is assigned to us from a sequence, so no other loader will have it
+            ;
+        try (PreparedStatement ps = c.prepareStatement(INS)) {
+            ps.setLong(1, allocationId);
+            ps.executeUpdate();
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, INS, x);
+            throw new DataAccessException("Insert allocated jobs failed");
+        }
+        
         // Now fetch the records we just marked
-        final String FETCH = "SELECT rb.resource_bundle_id, bp.bucket_name, bp.bucket_path, rb.object_name, rb.object_size, "
-                + " rb.file_type "
-                + " FROM resource_bundles rb, "
-                + "      bucket_paths bp"
+        final String FETCH = ""
+                + "SELECT bl.resource_bundle_load_id, rb.resource_bundle_id, bp.bucket_name, bp.bucket_path, "
+                + "       rb.object_name, rb.object_size, rb.file_type, rb.version "
+                + "  FROM resource_bundles rb, "
+                + "       bucket_paths bp,"
+                + "       resource_bundle_loads bl "
                 + " WHERE rb.allocation_id = ? "
-                + "   AND bp.bucket_path_id = rb.bucket_path_id";
+                + "   AND bp.bucket_path_id = rb.bucket_path_id "
+                + "   AND bl.resource_bundle_id = rb.resource_bundle_id "
+                + "   AND bl.allocation_id = rb.allocation_id ";
         
         try (PreparedStatement ps = c.prepareStatement(FETCH)) {
             ps.setLong(1, allocationId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                long resourceBundleId = rs.getLong(1);
-                String bucketName = rs.getString(2);
-                String bucketPath = rs.getString(3);
-                String objectName = rs.getString(4);
-                long objectSize = rs.getLong(5);
-                String fileTypeValue = rs.getString(6);
-                jobList.add(new BucketLoaderJob(resourceBundleId, bucketName, bucketPath, objectName, objectSize,
-                    FileType.valueOf(fileTypeValue)));
+                long resourceBundleLoadId = rs.getLong(1);
+                long resourceBundleId = rs.getLong(2);
+                String bucketName = rs.getString(3);
+                String bucketPath = rs.getString(4);
+                String objectName = rs.getString(5);
+                long objectSize = rs.getLong(6);
+                String fileTypeValue = rs.getString(7);
+                int version = rs.getInt(8);
+                jobList.add(new BucketLoaderJob(resourceBundleLoadId, resourceBundleId, bucketName, bucketPath, objectName, objectSize,
+                    FileType.valueOf(fileTypeValue), version));
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, FETCH, x);

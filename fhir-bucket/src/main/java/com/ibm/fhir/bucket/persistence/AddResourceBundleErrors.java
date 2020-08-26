@@ -33,11 +33,8 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
     // The list of resource types we want to add
     private final List<ResourceBundleError> errors;
     
-    // The instance of the loader responsible for the error
-    private final long loaderInstanceId;
-    
     // The resource bundle where we hit the error
-    private final long resourceBundleId;
+    private final long resourceBundleLoadId;
     
     // The SQL batch size
     private final int batchSize;
@@ -46,10 +43,9 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
      * Public constructor
      * @param resourceType
      */
-    public AddResourceBundleErrors(long loaderInstanceId, long resourceBundleId, Collection<ResourceBundleError> errors,
+    public AddResourceBundleErrors(long resourceBundleLoadId, Collection<ResourceBundleError> errors,
         int batchSize) {
-        this.loaderInstanceId = loaderInstanceId;
-        this.resourceBundleId = resourceBundleId;
+        this.resourceBundleLoadId = resourceBundleLoadId;
         this.errors = new ArrayList<>(errors);
         this.batchSize = batchSize;
     }
@@ -63,9 +59,9 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
         final String currentTimestamp = translator.currentTimestampString();
         final String INS = 
                 "INSERT INTO resource_bundle_errors ("
-                + "          loader_instance_id, resource_bundle_id, line_number, error_tstamp, error_text, "
+                + "          resource_bundle_load_id, line_number, error_tstamp, error_text, "
                 + "          response_time_ms, http_status_code, http_status_text) "
-                + "   VALUES (?, ?, ?, " + currentTimestamp + ", ?, ?, ?, ?)";
+                + "   VALUES (?, ?, " + currentTimestamp + ", ?, ?, ?, ?)";
 
         int batchCount = 0;
         try (PreparedStatement ps = c.prepareStatement(INS)) {
@@ -73,13 +69,12 @@ public class AddResourceBundleErrors implements IDatabaseStatement {
  
                 // Note that for bundles we don't include a response time for each created logical
                 // response because it doesn't make sense
-                ps.setLong(1, loaderInstanceId);
-                ps.setLong(2, resourceBundleId);
-                ps.setInt(3, error.getLineNumber());
-                setField(ps, 4, error.getErrorText(), ERROR_TEXT_LEN);
-                setField(ps, 5, error.getResponseTimeMs());
-                setField(ps, 6, error.getHttpStatusCode());
-                setField(ps, 7, error.getHttpStatusText(), HTTP_STATUS_TEXT_LEN);
+                ps.setLong(1, resourceBundleLoadId);
+                ps.setInt(2, error.getLineNumber());
+                setField(ps, 3, error.getErrorText(), ERROR_TEXT_LEN);
+                setField(ps, 4, error.getResponseTimeMs());
+                setField(ps, 5, error.getHttpStatusCode());
+                setField(ps, 6, error.getHttpStatusText(), HTTP_STATUS_TEXT_LEN);
                 ps.addBatch();
                 
                 if (++batchCount == this.batchSize) {

@@ -33,11 +33,9 @@ public class RecordLogicalId implements IDatabaseStatement {
 
     // The newly assigned logical id of the resource
     private final String logicalId;
-    
-    private final long loaderInstanceId;
 
     // The bundle file from which the resource originated
-    private final long resourceBundleId;
+    private final long resourceBundleLoadId;
 
     // the line number of the resource (in an NDJSON file)
     private final int lineNumber;
@@ -50,11 +48,10 @@ public class RecordLogicalId implements IDatabaseStatement {
      * @param bucketId
      * @param objectName
      */
-    public RecordLogicalId(long loaderInstanceId, int resourceTypeId, String logicalId, long resourceBundleId, int lineNumber, Integer responseTimeMs) {
-        this.loaderInstanceId = loaderInstanceId;
+    public RecordLogicalId(int resourceTypeId, String logicalId, long resourceBundleLoadId, int lineNumber, Integer responseTimeMs) {
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
-        this.resourceBundleId = resourceBundleId;
+        this.resourceBundleLoadId = resourceBundleLoadId;
         this.lineNumber = lineNumber;
         this.responseTimeMs = responseTimeMs;
     }
@@ -69,25 +66,24 @@ public class RecordLogicalId implements IDatabaseStatement {
             // a statement fails
             dml = 
                     "INSERT INTO logical_resources ("
-                    + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
-                    + "   VALUES (?, ?, ?, ?, ?, ?, " + currentTimestamp + ") ON CONFLICT (resource_type_id, logical_id) DO NOTHING";
+                    + "          resource_type_id, logical_id, resource_bundle_load_id, line_number, response_time_ms, created_tstamp) "
+                    + "   VALUES (?, ?, ?, ?, ?, " + currentTimestamp + ") ON CONFLICT (resource_type_id, logical_id) DO NOTHING";
         } else {
             dml = 
                 "INSERT INTO logical_resources ("
-                + "          resource_type_id, logical_id, resource_bundle_id, line_number, loader_instance_id, response_time_ms, created_tstamp) "
-                + "   VALUES (?, ?, ?, ?, ?, ?, " + currentTimestamp + ")";
+                + "          resource_type_id, logical_id, resource_bundle_load_id, line_number, response_time_ms, created_tstamp) "
+                + "   VALUES (?, ?, ?, ?, ?, " + currentTimestamp + ")";
         }
         
         try (PreparedStatement ps = c.prepareStatement(dml)) {
             ps.setLong(1, resourceTypeId);
             ps.setString(2, logicalId);
-            ps.setLong(3, resourceBundleId);
+            ps.setLong(3, resourceBundleLoadId);
             ps.setInt(4, lineNumber);
-            ps.setLong(5, loaderInstanceId);
             if (this.responseTimeMs != null) {
-                ps.setInt(6, this.responseTimeMs);
+                ps.setInt(5, this.responseTimeMs);
             } else {
-                ps.setNull(6, Types.INTEGER);
+                ps.setNull(5, Types.INTEGER);
             }
             ps.executeUpdate();
         } catch (SQLException x) {
@@ -95,11 +91,11 @@ public class RecordLogicalId implements IDatabaseStatement {
                 // This resource has already been recorded, so we'll just warn in case something
                 // is going wrong
                 logger.warning("Duplicate resource logical id: " + resourceTypeId + "/" + logicalId 
-                    + " from " + resourceBundleId + "#" + lineNumber);
+                    + " from " + resourceBundleLoadId + "#" + lineNumber);
             } else {
                 // log this, but don't propagate values in the exception
                 logger.log(Level.SEVERE, "Error registering logical resource: " + dml + "; "
-                    + resourceTypeId + ", " + logicalId + ", " + resourceBundleId + ", " + lineNumber);
+                    + resourceTypeId + ", " + logicalId + ", " + resourceBundleLoadId + ", " + lineNumber);
                 throw translator.translate(x);
             }
         }
