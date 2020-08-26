@@ -41,6 +41,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     private String medicationKnowledge1002 = null;
     private String medicationKnowledge3001 = null;
 
+    public Boolean skip = Boolean.FALSE;
+
     @Override
     public List<String> getRequiredProfiles() {
         //@formatter:off
@@ -48,6 +50,11 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
             "http://hl7.org/fhir/us/Davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan|1.0.0",
             "http://hl7.org/fhir/us/Davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug|1.0.0");
         //@formatter:on
+    }
+
+    @Override
+    public void setCheck(Boolean check) {
+        this.check = check;
     }
 
     public void loadCoveragePlan1() throws Exception {

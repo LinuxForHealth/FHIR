@@ -41,7 +41,6 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     public static final String EXPRESSION_BUNDLE_IDS = "entry.resource.id";
 
     public Boolean check = Boolean.TRUE;
-    public Boolean skip = Boolean.FALSE;
 
     /*
      * Each Test asserts the required profiles, and subsequent BeforeClass checks if it's on the server.
@@ -51,9 +50,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     /*
      * set the check value, if true, it'll check the tests.
      */
-    public void setCheck(Boolean check) {
-        this.check = check;
-    }
+    public abstract void setCheck(Boolean check);
 
     /**
      * checks that the bundle contains resources with the given ids.
@@ -92,7 +89,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
             boolean v = listOfProfiles.contains(requiredProfile);
             if(!v) {
                 logger.warning("Profile not found marking as skip [" + requiredProfile + "]");
-                check = Boolean.FALSE;
+                setCheck(Boolean.FALSE);
             } else {
                 assertTrue(v);
             }

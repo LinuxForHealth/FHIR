@@ -58,6 +58,8 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     private String practitionerId = null;
     private String explanationOfBenefitId = null;
 
+    public Boolean skip = Boolean.FALSE;
+
     @Override
     public List<String> getRequiredProfiles() {
         //@formatter:off
@@ -72,6 +74,11 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-practitionerrole|0.1.0",
             "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-relatedperson|0.1.0");
         //@formatter:on
+    }
+
+    @Override
+    public void setCheck(Boolean check) {
+        this.check = check;
     }
 
     // Load Organization Resources
