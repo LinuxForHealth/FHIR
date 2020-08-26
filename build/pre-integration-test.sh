@@ -52,6 +52,10 @@ echo "Copying test artifacts to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/*
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
 
+echo "Copying profiles into the server"
+cp -pr ${WORKSPACE}/conformance/fhir-ig-davinci-pdex-formulary/target/fhir-ig-davinci-pdex-formulary-*.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
+cp -pr ${WORKSPACE}/conformance/fhir-ig-carin-bb/target/fhir-ig-carin-bb-*.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
+cp -pr ${WORKSPACE}/conformance/fhir-ig-us-core/target/fhir-ig-us-core-*.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
 
 # Start up the fhir server
 echo "

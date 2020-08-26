@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MedicationKnowledge xmlns="http://hl7.org/fhir">
+  <id value="cmsip9"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: cmsip9</p><p><b>meta</b>: </p><p><b>code</b>: doxepin HCl 5 % Topical Cream <span style="background: LightGoldenRodYellow">(Details : {RxNorm code '1000091' = 'doxepin HCl 5 % Topical Cream', given as 'doxepin HCl 5 % Topical Cream'})</span></p></div>
+  </text>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension">
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS"/>
+        <code value="generic"/>
+        <display value="Generic"/>
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension">
+    <valueBoolean value="false"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension">
+    <valueBoolean value="true"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension">
+    <valueBoolean value="true"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PlanID-extension">
+    <valueString value="40308VA0240008"/>
+  </extension>
+  <code>
+    <coding>
+      <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+      <code value="1000091"/>
+      <display value="doxepin HCl 5 % Topical Cream"/>
+    </coding>
+  </code>
+</MedicationKnowledge>
