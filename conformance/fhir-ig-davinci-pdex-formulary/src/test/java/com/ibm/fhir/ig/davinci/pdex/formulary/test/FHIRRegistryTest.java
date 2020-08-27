@@ -15,7 +15,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public class FHIRRegistryTest {
     @Test
     public void testRegistry() {
-        StructureDefinition definition = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/us/Davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan", StructureDefinition.class);
+        StructureDefinition definition = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan", StructureDefinition.class);
         Assert.assertNotNull(definition);
     }
 }
