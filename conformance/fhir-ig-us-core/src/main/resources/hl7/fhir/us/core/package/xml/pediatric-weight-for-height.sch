@@ -1,1 +1,1 @@
-C:\work\org.hl7.fhir.igs\hl7.fhir.us.core#3.1.0\generated_output\temp\pediatric-weight-for-height.sch
+C:\work\org.hl7.fhir.igs\US-Core\generated_output\temp\pediatric-weight-for-height.sch
