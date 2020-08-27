@@ -11,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -32,6 +33,9 @@ import com.ibm.fhir.model.test.TestUtil;
  * profile.
  */
 public class DavinciDrugFormularyTest extends ProfilesTestBase {
+    private static final String CLASSNAME = DavinciDrugFormularyTest.class.getName();
+    private static final Logger logger = Logger.getLogger(CLASSNAME);
+
     private String listCoveragePlan3001 = null;
     private String listCoveragePlan3002 = null;
     private String listCoveragePlan3004t = null;
@@ -41,7 +45,7 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     private String medicationKnowledge1002 = null;
     private String medicationKnowledge3001 = null;
 
-    public Boolean skip = Boolean.FALSE;
+    public Boolean skip = Boolean.TRUE;
 
     @Override
     public List<String> getRequiredProfiles() {
@@ -54,7 +58,11 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
 
     @Override
     public void setCheck(Boolean check) {
-        this.check = check;
+        this.skip = check;
+
+        if (!skip) {
+            logger.info("Skipping Tests");
+        }
     }
 
     public void loadCoveragePlan1() throws Exception {
@@ -214,7 +222,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     @Test
     public void testFindAllCoveragePlans() throws Exception {
         if (!skip) {
-            // GET [base]/List?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan
+            // GET
+            // [base]/List?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("_profile", "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan");
             parameters.searchParam("_count", "100");
@@ -233,7 +242,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     @Test
     public void testFindCoveragePlanByPlanId() throws Exception {
         if (!skip) {
-            // GET [base]/List?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan&identifier=myPlanID
+            // GET
+            // [base]/List?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan&identifier=myPlanID
             // Query for Find CoveragePlan by its PlanID has incorrect search code
             // https://jira.hl7.org/browse/FHIR-28362
             FHIRParameters parameters = new FHIRParameters();
@@ -252,7 +262,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     @Test
     public void testFindAllFormularyDrugsInACoveragePlan() throws Exception {
         if (!skip) {
-            // GET [base]/MedicationKnowledge?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug&DrugPlan=myPlanID
+            // GET
+            // [base]/MedicationKnowledge?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug&DrugPlan=myPlanID
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("_profile", "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug");
             parameters.searchParam("DrugPlan", "40308VA0240008");
@@ -289,7 +300,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     @Test
     public void testFindAFormularyDrugByCodeInACoveragePlan() throws Exception {
         if (!skip) {
-            // GET [base]/MedicationKnowledge?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug
+            // GET
+            // [base]/MedicationKnowledge?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug
             // &DrugPlan=myPlanID&code=myCode
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("_profile", "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug");
@@ -308,7 +320,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     @Test
     public void testFindAFormularyDrugByCodeAcrossAllCoveragePlans() throws Exception {
         if (!skip) {
-            // GET [base]/MedicationKnowledge?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug
+            // GET
+            // [base]/MedicationKnowledge?_profile=http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug
             // &code=myCode
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("_profile", "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug");

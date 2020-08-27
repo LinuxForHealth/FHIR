@@ -12,6 +12,8 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -40,8 +42,6 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     public static final String EXPRESSION_PROFILES = "rest.resource.supportedProfile";
     public static final String EXPRESSION_BUNDLE_IDS = "entry.resource.id";
 
-    public Boolean check = Boolean.TRUE;
-
     /*
      * Each Test asserts the required profiles, and subsequent BeforeClass checks if it's on the server.
      */
@@ -54,6 +54,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
 
     /**
      * checks that the bundle contains resources with the given ids.
+     *
      * @param bundle
      * @param ids
      * @throws FHIRPathException
@@ -63,7 +64,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         EvaluationContext evaluationContext = new EvaluationContext(bundle);
         Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_BUNDLE_IDS);
         Collection<String> listOfIds = tmpResults.stream().map(x -> x.toString()).collect(Collectors.toList());
-        for(String id : ids) {
+        for (String id : ids) {
             assertTrue(listOfIds.contains(id));
         }
     }
@@ -85,18 +86,22 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         // All the possible required profiles
         Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_PROFILES);
         Collection<String> listOfProfiles = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
-        for(String requiredProfile : getRequiredProfiles()) {
+
+        List<String> requiredProfiles = getRequiredProfiles();
+        Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> new Integer(0)));
+        for (String requiredProfile : requiredProfiles) {
             boolean v = listOfProfiles.contains(requiredProfile);
-            if(!v) {
+            if (!v) {
                 logger.warning("Profile not found marking as skip [" + requiredProfile + "]");
-                setCheck(Boolean.FALSE);
             } else {
-                assertTrue(v);
+                checks.put(requiredProfile, checks.get(requiredProfile).intValue() + 1);
             }
         }
 
-        if(!check) {
-            logger.info("Skipping Tests");
+        boolean skip = false;
+        for (Entry<String, Integer> entry : checks.entrySet()) {
+            skip = skip || entry.getValue() == 0;
         }
+        setCheck(skip);
     }
 }
