@@ -13,6 +13,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -47,6 +48,9 @@ import com.ibm.fhir.model.type.Reference;
  * Tests using http://hl7.org/fhir/us/carin-bb/2020Feb/Examples.html And the given profile.
  */
 public class CarinBlueButtonTest extends ProfilesTestBase {
+    private static final String CLASSNAME = CarinBlueButtonTest.class.getName();
+    private static final Logger logger = Logger.getLogger(CLASSNAME);
+
     private String coverageId = null;
     private String careTeamId = null;
     private String organizationId = null;
@@ -57,6 +61,8 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     private String practitionerRoleId = null;
     private String practitionerId = null;
     private String explanationOfBenefitId = null;
+
+    public Boolean skip = Boolean.TRUE;
 
     @Override
     public List<String> getRequiredProfiles() {
@@ -72,6 +78,15 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-practitionerrole|0.1.0",
             "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-relatedperson|0.1.0");
         //@formatter:on
+    }
+
+    @Override
+    public void setCheck(Boolean check) {
+        this.skip = check;
+
+        if (!skip) {
+            logger.info("Skipping Tests");
+        }
     }
 
     // Load Organization Resources
@@ -617,7 +632,8 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     @Test
     public void testComplicatedInclude() throws Exception {
         if (!skip) {
-            /* This example is per:
+            /*
+             * This example is per:
              * https://confluence.hl7.org/pages/viewpage.action?pageId=82911348&preview=/82911348/82911352/CARIN%20BB%
              * 20RESTful%20API%20Combined%20-%20FHIR-26702%20-%20FHIR-26693%200513%202020.docx RESTFUL API SHALL
              */
