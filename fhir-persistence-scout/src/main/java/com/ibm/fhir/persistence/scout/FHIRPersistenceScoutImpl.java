@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ import java.util.zip.GZIPOutputStream;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.datastax.oss.driver.api.core.CqlSessionBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -154,10 +156,9 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
      * @return
      * @throws FHIRPersistenceException
      */
-    protected String getDatabase(String dbName) throws FHIRPersistenceException {
+    protected CqlSession getDatabaseSession(String dbName) throws FHIRPersistenceException {
         // Connections can be tenant-specific, so find out what tenant we're associated with and use its persistence
         // configuration to obtain the appropriate CloudandClient instance (shared by multiple threads).
-        String tenantId = FHIRRequestContext.get().getTenantId();
         String dsId = FHIRRequestContext.get().getDataStoreId();
         
         String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
@@ -166,8 +167,6 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
             throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
         }
 
-        String url;
-        String apikey;
         try {
             // Get the datasource type (Derby, DB2, etc.).
             String type = dsPG.getStringProperty("type", null);
@@ -176,7 +175,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
             }
     
             // Confirm that this is a cloudant datasource configuration element
-            if (!"cloudant".equals(type)) {
+            if (!"cassandra".equals(type)) {
                 throw new IllegalStateException("Unsupported 'type' property within datasource property group: " + type);  
             }
     
@@ -186,21 +185,29 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
                 throw new IllegalStateException("Could not locate 'connectionProperties' property group within datasource property group: " + dsPropertyName);
             }
             
-            url = connectionProps.getStringProperty("url", null);
-            if (url == null) {
-                throw new IllegalStateException("Could not locate 'url' property within datasource connection properties for: " + dsPropertyName);
-            }
-            
-            apikey = connectionProps.getStringProperty("apiKey", null);
-            if (apikey == null) {
-                throw new IllegalStateException("Could not locate 'apikey' property within datasource connection properties for: " + dsPropertyName);
-            }
+            CassandraPropertyGroupAdapter adapter = new CassandraPropertyGroupAdapter(connectionProps);
+            return getDatabaseSession(adapter);
         }
         catch (Exception x) {
             throw new IllegalStateException(x);
         }
-               
-        return dbName;
+    }
+
+    /**
+     * Get the CqlSession for the Cassandra database matching the configuration defined
+     * by the properties adapter.
+     * @param adapter
+     * @return
+     */
+    private CqlSession getDatabaseSession(CassandraPropertyGroupAdapter adapter) {
+        CqlSessionBuilder builder = CqlSession.builder();
+        
+        for (ContactPoint cp: adapter.getContactPoints()) {
+            builder.addContactPoint(new InetSocketAddress(cp.getHost(), cp.getPort()));
+        }
+        builder.withLocalDatacenter(adapter.getLocalDatacenter());
+        
+        return builder.build();
     }
 
     @Override
