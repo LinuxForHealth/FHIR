@@ -20,6 +20,7 @@ find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname '*-ig-*.jar' -delete |
 find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-persistence-schema-*-cli.jar' -delete | true
 find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-swagger-generator-*-cli.jar' -delete | true
 find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-examples-*.jar' -delete | true
+find ${WORKSPACE}/build/security/logs/tmp -depth 1 -iname 'fhir-bulkimportexport-webapp-*-client.jar' -delete | true
 
 cd ${WORKSPACE}/build/security/logs/
 
