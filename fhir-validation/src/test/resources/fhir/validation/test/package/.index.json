@@ -144,6 +144,15 @@
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
+        },
+        {
+            "filename": "test-dummy-profile.json",
+            "resourceType": "StructureDefinition",
+            "id": "test-dummy-profile.json",
+            "url": "http://ibm.com/fhir/StructureDefinition/test-dummy-profile",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "Observation"
         }
     ]
 }
