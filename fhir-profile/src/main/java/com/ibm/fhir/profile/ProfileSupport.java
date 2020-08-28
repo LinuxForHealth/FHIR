@@ -275,6 +275,9 @@ public final class ProfileSupport {
     }
 
     public static boolean isApplicable(StructureDefinition profile, Class<?> type) {
+        if (profile == null || type == null) {
+            return false;
+        }
         return isApplicable(profile, ModelSupport.getTypeNames(type));
     }
 
