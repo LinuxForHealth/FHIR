@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.bucket.scanner;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +27,9 @@ import com.ibm.fhir.bucket.api.ResourceIdValue;
 import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.bucket.client.PostResource;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry.Response;
 import com.ibm.fhir.model.resource.Resource;
@@ -357,11 +362,36 @@ public class ResourceHandler {
      * @param response
      */
     protected void processBadRequest(ResourceEntry re, FhirServerResponse response) {
+        
+        if (logger.isLoggable(Level.FINE)) {
+            // dump the resource and full operational outcome to the log
+            logger.fine(re.getJob().getObjectKey() + "[" + re.getLineNumber() + "]: "
+                + resourceToString(re.getResource()));
+            logger.fine(re.getJob().getObjectKey() + "[" + re.getLineNumber() + "]: "
+                + response.getOperationalOutcomeText());
+        }
+        
         List<ResourceBundleError> errors = new ArrayList<>();
         errors.add(new ResourceBundleError(re.getLineNumber(), response.getOperationalOutcomeText(), 
             response.getResponseTime(), response.getStatusCode(), response.getStatusMessage()));
         
         dataAccess.recordErrors(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), errors);
+    }
+
+    /**
+     * Render the resource as a string (for logging)
+     * @param resource
+     * @return
+     */
+    private String resourceToString(Resource resource) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream(4096);
+        try {
+            FHIRGenerator.generator(Format.JSON, false).generate(resource, os);
+            return os.toString(StandardCharsets.UTF_8);
+        } catch (FHIRGeneratorException e) {
+            throw new IllegalStateException(e);
+        }
+
     }
 
     /**

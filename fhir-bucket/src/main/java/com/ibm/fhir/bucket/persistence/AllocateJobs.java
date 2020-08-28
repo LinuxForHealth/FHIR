@@ -84,7 +84,7 @@ public class AllocateJobs implements IDatabaseStatement {
                 + "     SELECT resource_bundle_id "
                 + "       FROM resource_bundles "
                 + "      WHERE allocation_id IS NULL "
-                + "   ORDER BY resource_bundle_id "
+                + "   ORDER BY last_modified, resource_bundle_id "
                 + "      FETCH FIRST ? ROWS ONLY)";
         
         try (PreparedStatement ps = c.prepareStatement(MARK)) {
@@ -114,7 +114,7 @@ public class AllocateJobs implements IDatabaseStatement {
             throw new DataAccessException("Insert allocated jobs failed");
         }
         
-        // Now fetch the records we just marked
+        // Now fetch the records we just marked. Order by just provides consistent ordering
         final String FETCH = ""
                 + "SELECT bl.resource_bundle_load_id, rb.resource_bundle_id, bp.bucket_name, bp.bucket_path, "
                 + "       rb.object_name, rb.object_size, rb.file_type, rb.version "
@@ -124,7 +124,8 @@ public class AllocateJobs implements IDatabaseStatement {
                 + " WHERE rb.allocation_id = ? "
                 + "   AND bp.bucket_path_id = rb.bucket_path_id "
                 + "   AND bl.resource_bundle_id = rb.resource_bundle_id "
-                + "   AND bl.allocation_id = rb.allocation_id ";
+                + "   AND bl.allocation_id = rb.allocation_id "
+                + "ORDER BY rb.last_modified, rb.resource_bundle_id ";
         
         try (PreparedStatement ps = c.prepareStatement(FETCH)) {
             ps.setLong(1, allocationId);

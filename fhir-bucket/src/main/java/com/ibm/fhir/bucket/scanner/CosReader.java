@@ -310,15 +310,16 @@ public class CosReader {
      * @param reader
      */
     private void processJSON(final BucketLoaderJob job, final Reader reader) {
-        // make sure we don't think the job is done before it really is
         final int lineNumber = 0;
         try {
-            process(job, FHIRParser.parser(Format.JSON).parse(reader), lineNumber);
+            process(job, FHIRParser.parser(Format.JSON).parse(reader), lineNumber, "");
         } catch (FHIRParserException x) {
             // record the error in the database
             ResourceBundleError error = new ResourceBundleError(lineNumber, "Parse error: " + x.getMessage());
             dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
         } finally {
+            // Note that the job done callback will only be triggered when both file processing is done
+            // AND all the work that was generated from the file is also finished.
             job.fileProcessingComplete();
         }
     }
@@ -365,7 +366,7 @@ public class CosReader {
                 // submit something to the process queue
                 StringReader lineReader = new StringReader(line);
                 try {
-                    success = process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++) && success;
+                    success = process(job, FHIRParser.parser(Format.JSON).parse(lineReader), lineNumber++, line) && success;
                 } catch (FHIRParserException x) {
                     // Something is wrong with this current line:
                     logger.log(Level.WARNING, line, x);
@@ -386,10 +387,12 @@ public class CosReader {
     
     /**
      * Process the resource parsed from the input stream
-     * @param r
+     * @param details of the job being processed
+     * @param resource parsed from the resource_bundle being processed
      * @param lineNumber the line number of this resource in the source
+     * @param line the original resource string, for logging if we need to
      */
-    protected boolean process(BucketLoaderJob job, Resource resource, int lineNumber) {
+    protected boolean process(BucketLoaderJob job, Resource resource, int lineNumber, String line) {
         boolean result = false;
         
         try {
@@ -423,6 +426,12 @@ public class CosReader {
                 result = false;
                 ResourceBundleError error = new ResourceBundleError(lineNumber, x.getMessage());
                 dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
+                
+                if (logger.isLoggable(Level.FINE)) {
+                    // write the full error and resource to the log file
+                    logger.fine(job.getObjectKey() + "[" + lineNumber + "]: " + line);
+                    logger.fine(x.getMessage());
+                }
             }
         }
         
