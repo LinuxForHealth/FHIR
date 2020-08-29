@@ -7,6 +7,7 @@
 package com.ibm.fhir.config.test;
 
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -23,6 +24,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 
 public class FHIRConfigHelperTest {
 
@@ -303,5 +305,49 @@ public class FHIRConfigHelperTest {
         assertTrue(tenants.contains("tenant2"));
         assertTrue(tenants.contains("tenant3"));
         assertTrue(tenants.contains("tenant5"));
+    }
+
+    /**
+     * Make sure we can can find the default definitions
+     */
+    @Test
+    public void testDefaultDatasourceLookup() throws Exception {
+        // Without a tenant set in the request context, we should be able to reach
+        // the default datastore configuration
+        final String datastoreId = "default";
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        assertNotNull(dsPG);
+        String type = dsPG.getStringProperty("type");
+        assertEquals("db2", type);
+    }
+
+    /**
+     * Make sure we can can find the datastore "not_default" defined for tenant1
+     */
+    @Test
+    public void testDatasourceLookup() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        final String datastoreId = "not_default";
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        assertNotNull(dsPG);
+        String type = dsPG.getStringProperty("type");
+        assertEquals("derby", type);
+    }
+
+    /**
+     * Make sure that for datasource lookups, we don't fall back
+     * to using "default" datasources for tenant-specific requests.
+     * A tenant must only be able to access data-sources it has
+     * explicitly configured. See issue 639.
+     */
+    @Test
+    public void testDatasourceNoFallback() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        final String datastoreId = "default";
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        assertNull(dsPG);
     }
 }

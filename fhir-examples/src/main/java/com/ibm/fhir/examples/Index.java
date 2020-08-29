@@ -74,12 +74,22 @@ public enum Index {
     /**
      * Implementation Guides examples in JSON
      */
-    PROFILES_JSON("/profiles-fhir-ig-carin-bb-json.txt"),
+    PROFILES_DAVINCI_PDEX_JSON("/profiles-fhir-ig-davinci-pdex-formulary-json.txt"),
 
     /**
      * Implementation Guides examples in XML
      */
-    PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt"),
+    PROFILES_DAVINCI_PDEX_XML("/profiles-fhir-ig-davinci-pdex-formulary-xml.txt"),
+
+    /**
+     * Implementation Guides examples in JSON
+     */
+    PROFILES_JSON("/profiles-fhir-ig-carin-bb-json.txt", "/profiles-fhir-ig-davinci-pdex-formulary-json.txt"),
+
+    /**
+     * Implementation Guides examples in XML
+     */
+    PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt", "/profiles-fhir-ig-davinci-pdex-formulary-xml.txt"),
 
     /**
      * Bulk Data Location examples in JSON

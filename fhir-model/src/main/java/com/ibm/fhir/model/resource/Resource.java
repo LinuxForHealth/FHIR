@@ -44,6 +44,7 @@ public abstract class Resource extends AbstractVisitable {
         implicitRules = builder.implicitRules;
         language = builder.language;
         ValidationSupport.checkId(id);
+        ValidationSupport.checkLanguageCode(language, "language");
     }
 
     /**
@@ -89,6 +90,10 @@ public abstract class Resource extends AbstractVisitable {
         return language;
     }
 
+    /**
+     * @return
+     *     true if the resource can be cast to the requested resourceType
+     */
     public <T extends Resource> boolean is(Class<T> resourceType) {
         return resourceType.isInstance(this);
     }

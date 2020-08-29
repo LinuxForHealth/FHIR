@@ -64,6 +64,10 @@ public abstract class Element extends AbstractVisitable {
         return extension;
     }
 
+    /**
+     * @return
+     *     true if the element can be cast to the requested elementType
+     */
     public <T extends Element> boolean is(Class<T> elementType) {
         return elementType.isInstance(this);
     }

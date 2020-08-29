@@ -117,24 +117,24 @@ public final class XMLSupport {
         StringWriter sw = new StringWriter();
         XMLStreamWriter writer = createStreamWriterDelegate(sw);
 
+        writeStartElement(reader, writer, depth);
         depth++;
-        writeStartElement(reader, writer);
 
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 requireNamespace(reader, XHTML_NS_URI);
+                writeStartElement(reader, writer, depth);
                 depth++;
-                writeStartElement(reader, writer);
                 break;
             case XMLStreamReader.SPACE:
             case XMLStreamReader.CHARACTERS:
                 writer.writeCharacters(reader.getTextCharacters(), reader.getTextStart(), reader.getTextLength());
                 break;
             case XMLStreamReader.END_ELEMENT:
-                writer.writeEndElement();
                 depth--;
+                writer.writeEndElement();
                 if ("div".equals(reader.getLocalName()) && depth == 0) {
                     writer.flush();
                     writer.close();
@@ -239,27 +239,23 @@ public final class XMLSupport {
         }
     }
 
-    private static void writeNamespaces(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeNamespaces(XMLStreamReader reader, XMLStreamWriter writer, int depth) throws XMLStreamException {
+        if (depth == 0) {
+            writer.writeDefaultNamespace(XHTML_NS_URI);
+        }
         for (int i = 0; i < reader.getNamespaceCount(); i++) {
+            if (XHTML_NS_URI.equals(reader.getNamespaceURI(i))) {
+                continue;
+            }
             writer.writeNamespace(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
         }
     }
 
-    private static void writeStartElement(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
-        String prefix = reader.getPrefix();
-        String namespaceURI = reader.getNamespaceURI();
+    private static void writeStartElement(XMLStreamReader reader, XMLStreamWriter writer, int depth) throws XMLStreamException {
         String localName = reader.getLocalName();
-        if (namespaceURI != null) {
-            if (prefix != null) {
-                writer.writeStartElement(prefix, localName, namespaceURI);
-            } else {
-                writer.setDefaultNamespace(namespaceURI);
-                writer.writeStartElement(namespaceURI, localName);
-            }
-        } else {
-            writer.writeStartElement(localName);
-        }
-        writeNamespaces(reader, writer);
+        writer.setDefaultNamespace(XHTML_NS_URI);
+        writer.writeStartElement(XHTML_NS_URI, localName);
+        writeNamespaces(reader, writer, depth);
         writeAttributes(reader, writer);
     }
 

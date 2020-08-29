@@ -123,9 +123,11 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to return at most 1000 records. If the client specifies a `_count` of over 1000, the page size is capped at 1000. If the client specifies a `_count` of 1000 or less, the server honors the client request.
+The `_count` parameter can be used to request up to 1000 records matching the search criteria.  An attempt to exceed this `_count` limit will not be honored and returned records will be capped at 1000.  Any associated `_include` records are not considered in the `_count` limit. 
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
+
+The `:missing` modifier is not supported for whole-system search.
 
 The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
 
@@ -151,7 +153,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 Due to performance implications, the `:exact` modifier should be used for String searches where possible.
 
-At present, modifiers cannot be used with chained parameters. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
+At present, the `:missing` modifier is not supported for whole-system search nor for chained parameter search. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
 
 The `:text` modifier is not supported in this version of the FHIR server and use of this modifier will results in an HTTP 400 error with an `OperationOutcome` that describes the failure.
 
@@ -231,7 +233,7 @@ The IBM FHIR Server does not consider the `Quantity.comparator` field as part of
 URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
 
 ### Searching on Special Positional Search
-Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants: 
+Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants:
 
 | Unit of Measure | Variant |
 |-----------------|---------|

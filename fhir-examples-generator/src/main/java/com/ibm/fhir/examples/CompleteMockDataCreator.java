@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,22 +30,31 @@ import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.CarePlan;
+import com.ibm.fhir.model.resource.ClaimResponse;
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.CoverageEligibilityResponse;
+import com.ibm.fhir.model.resource.ExplanationOfBenefit;
 import com.ibm.fhir.model.resource.FamilyMemberHistory;
+import com.ibm.fhir.model.resource.HealthcareService;
 import com.ibm.fhir.model.resource.InsurancePlan;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.MessageDefinition;
 import com.ibm.fhir.model.resource.MolecularSequence;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Questionnaire;
+import com.ibm.fhir.model.resource.RelatedPerson;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.RiskAssessment;
 import com.ibm.fhir.model.resource.SupplyDelivery;
 import com.ibm.fhir.model.resource.Task;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Age;
+import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -74,12 +84,14 @@ import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
 import com.ibm.fhir.model.type.code.TriggerType;
+import com.ibm.fhir.model.util.ValidationSupport;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 public class CompleteMockDataCreator extends DataCreatorBase {
     protected final PodamFactory podam;
+    private static final String ENGLISH_US = "en-US";
 
     public CompleteMockDataCreator() throws IOException {
         super();
@@ -186,8 +198,27 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     /////////////////
                     // Special values
                     /////////////////
+                    // Must be a valid BCP-47 code (Code)
+                    if ((builder instanceof Attachment.Builder && "language".equals(method.getName()))
+                            || (builder instanceof CodeSystem.Concept.Designation.Builder && "language".equals(method.getName()))
+                            || (builder instanceof Resource.Builder && "language".equals(method.getName()))
+                            || (builder instanceof ValueSet.Compose.Include.Concept.Designation.Builder && "language".equals(method.getName()))) {
+                        argument = Code.of(ENGLISH_US);
+                    }
+                    // Must contain a valid BCP-47 system and code (CodeableConcept)
+                    else if ((builder instanceof ClaimResponse.ProcessNote.Builder && "language".equals(method.getName()))
+                            || (builder instanceof ExplanationOfBenefit.ProcessNote.Builder && "language".equals(method.getName()))
+                            || (builder instanceof Patient.Communication.Builder && "language".equals(method.getName()))
+                            || (builder instanceof RelatedPerson.Communication.Builder && "language".equals(method.getName()))) {
+                        argument = CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build();
+                    }                    
+                    // Must contain a valid BCP-47 system and code (List<CodeableConcept>)
+                    else if ((builder instanceof HealthcareService.Builder && "communication".equals(method.getName()))
+                            || (builder instanceof Practitioner.Builder && "communication".equals(method.getName()))) {
+                        argument = Collections.singletonList(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build());
+                    }                    
                     // drt-1: There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.
-                    if (builder instanceof Duration.Builder && method.getName().equals("code")) {
+                    else if (builder instanceof Duration.Builder && method.getName().equals("code")) {
                         argument = Code.of("h");
                     }
                     else if (builder instanceof Duration.Builder && method.getName().equals("system")) {

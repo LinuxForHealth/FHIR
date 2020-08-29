@@ -21,7 +21,7 @@ public class IssueTypeToHttpStatusMapper {
      * Custom extension used by the IBM FHIR Server for marking which precondition has failed (if any)
      */
     private static final String EXTENSION_URL_HTTP_FAILED_PRECONDITION = "http://ibm.com/fhir/extension/http-failed-precondition";
-    
+
     /**
      * Custom extension used by the IBM FHIR Server for marking what it was that wasn't supported:
      * resource | interaction
@@ -38,7 +38,7 @@ public class IssueTypeToHttpStatusMapper {
         }
         return issueListToStatus(oo.getIssue());
     }
-    
+
     /**
      * @return an HTTP response status based on the first issue contained within the OperationOutcomeIssue list with a code;
      *         Response.Status.INTERNAL_SERVER_ERROR if it is null or empty
@@ -54,8 +54,8 @@ public class IssueTypeToHttpStatusMapper {
                             FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_HTTP_FAILED_PRECONDITION) != null) {
                         return Status.PRECONDITION_FAILED;
                     } else if (issueType == IssueType.ValueSet.NOT_SUPPORTED &&
-                            "interaction".equals(FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_SUPPORTED_DETAIL))) {
-                        return Status.BAD_REQUEST;
+                            "resource".equals(FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_SUPPORTED_DETAIL))) {
+                        return Status.NOT_FOUND;
                     }
                     return issueTypeToResponseCode(issueType);
                 }
@@ -63,7 +63,7 @@ public class IssueTypeToHttpStatusMapper {
         }
         return Status.INTERNAL_SERVER_ERROR;
     }
-    
+
     private static Status issueTypeToResponseCode(IssueType.ValueSet value) {
         switch (value) {
         case INFORMATIONAL:
@@ -74,6 +74,7 @@ public class IssueTypeToHttpStatusMapper {
         case THROTTLED:     // Consider HTTP 429?
             return Status.FORBIDDEN;
         case PROCESSING:
+        case NOT_SUPPORTED:
         case BUSINESS_RULE: // Consider HTTP 422?
         case CODE_INVALID:  // Consider HTTP 422?
         case EXTENSION:     // Consider HTTP 422?
@@ -96,7 +97,6 @@ public class IssueTypeToHttpStatusMapper {
         case UNKNOWN:
             return Status.UNAUTHORIZED;
         case NOT_FOUND:
-        case NOT_SUPPORTED:
             return Status.NOT_FOUND;
         case TOO_LONG:
             return Status.REQUEST_ENTITY_TOO_LARGE;

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MedicationKnowledge xmlns="http://hl7.org/fhir">
+  <id value="formularydrugV1002"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: formularydrugV1002</p><p><b>meta</b>: </p><p><b>code</b>: Percocet 5 MG / 325 MG Oral Tablet <span style="background: LightGoldenRodYellow">(Details : {RxNorm code '1049640' = 'Percocet 5 MG / 325 MG Oral Tablet', given as 'Percocet 5 MG / 325 MG Oral Tablet'})</span></p></div>
+  </text>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension">
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS"/>
+        <code value="brand"/>
+        <display value="Brand"/>
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension">
+    <valueBoolean value="false"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension">
+    <valueBoolean value="false"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension">
+    <valueBoolean value="false"/>
+  </extension>
+  <extension url="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PlanID-extension">
+    <valueString value="40308VA0240008"/>
+  </extension>
+  <code>
+    <coding>
+      <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+      <code value="1049640"/>
+      <display value="Percocet 5 MG / 325 MG Oral Tablet"/>
+    </coding>
+  </code>
+</MedicationKnowledge>

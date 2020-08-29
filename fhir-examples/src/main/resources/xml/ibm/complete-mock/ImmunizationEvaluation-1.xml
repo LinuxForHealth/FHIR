@@ -1,158 +1,158 @@
 <ImmunizationEvaluation xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="Zwc4JWGdwS"/>
-    <lastUpdated value="2020-03-12T00:11:54.018-04:00"/>
-    <source value="IiKjMZ7m4U"/>
-    <profile value="7wW6NXqg75"/>
+    <versionId value="ShvB4pFsKR"/>
+    <lastUpdated value="2020-08-11T16:26:58.268-05:00"/>
+    <source value="eeQqX4LZQ2"/>
+    <profile value="CksYpTcDtT"/>
     <security>
-      <system value="Q3s_3PaUwA"/>
-      <version value="FtNFZAJ1WH"/>
-      <code value="pos2HBNnSH"/>
-      <display value="2YHl6vrssT"/>
+      <system value="icqY8KiH4H"/>
+      <version value="PRjJhAmxA1"/>
+      <code value="4b1cg_cUaw"/>
+      <display value="PmIyCkf4a3"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="nPHhiQLS2a"/>
-      <version value="5auB7trhbn"/>
-      <code value="vzop180LZb"/>
-      <display value="mNgVbfMW__"/>
+      <system value="3o9ajaHaxJ"/>
+      <version value="Hs1hiFhyii"/>
+      <code value="QIVaucayVu"/>
+      <display value="ha0Tt1jaiZ"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="9qwdnL1ymN"/>
-  <language value="G4X1LRGl87"/>
+  <implicitRules value="5DybReXL9P"/>
+  <language value="en-US"/>
   <text>
-    <status value="empty"/>
+    <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <identifier>
-    <use value="old"/>
+    <use value="secondary"/>
     <type>
       <coding>
-        <system value="sKDsHWf9y7"/>
-        <version value="GeG74oD482"/>
-        <code value="Jv8thdB7Vz"/>
-        <display value="l1R4g6UUUb"/>
+        <system value="Lt8DvaFKPX"/>
+        <version value="aISbdhAoC0"/>
+        <code value="nnlU2fxcGS"/>
+        <display value="eP_HyhzwsR"/>
         <userSelected value="true"/>
       </coding>
-      <text value="sHe7L757A7"/>
+      <text value="eibfAL0J7w"/>
     </type>
-    <system value="kjKgGRNkjT"/>
-    <value value="4v4RpVtQVg"/>
+    <system value="GV3bTBHd_0"/>
+    <value value="zk0PV8yf3Z"/>
     <period>
-      <start value="2020-03-12T00:11:54.02-04:00"/>
-      <end value="2020-03-12T00:11:54.02-04:00"/>
+      <start value="2020-08-11T16:26:58.267-05:00"/>
+      <end value="2020-08-11T16:26:58.267-05:00"/>
     </period>
   </identifier>
   <status value="entered-in-error"/>
   <patient>
-    <reference value="Patient/_Mj8y4cRBF"/>
+    <reference value="Patient/OcXrtl5pL0"/>
     <type value="Patient"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="3DkENpuYbs"/>
+          <version value="PBB7X38sES"/>
+          <code value="GqDkkMlIEZ"/>
+          <display value="KPxn8dIo30"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="KX4WPR3g_m"/>
+      </type>
+      <system value="JYCX2xZO7U"/>
+      <value value="706ADE1a7b"/>
+      <period>
+        <start value="2020-08-11T16:26:58.264-05:00"/>
+        <end value="2020-08-11T16:26:58.265-05:00"/>
+      </period>
+    </identifier>
+    <display value="twgXR5HTO9"/>
+  </patient>
+  <date value="2020-08-11T16:26:58.268-05:00"/>
+  <authority>
+    <reference value="Organization/Y3LLZu4m56"/>
+    <type value="Organization"/>
     <identifier>
       <use value="temp"/>
       <type>
         <coding>
-          <system value="O9vL0wXGhu"/>
-          <version value="szHvJMDXd8"/>
-          <code value="L0DQE9F5IW"/>
-          <display value="xFWFJH9PVi"/>
+          <system value="YyfBKgRS8Z"/>
+          <version value="UwgPnF3xsV"/>
+          <code value="2FfXctIhPo"/>
+          <display value="JyZF6EAriG"/>
           <userSelected value="true"/>
         </coding>
-        <text value="vCIThosncU"/>
+        <text value="1T2KHzyrWD"/>
       </type>
-      <system value="M8Q_Gb_oVc"/>
-      <value value="EdoOiqDR2a"/>
+      <system value="yzjdCp8jbb"/>
+      <value value="c_iEpvOi3q"/>
       <period>
-        <start value="2020-03-12T00:11:54.019-04:00"/>
-        <end value="2020-03-12T00:11:54.019-04:00"/>
+        <start value="2020-08-11T16:26:58.266-05:00"/>
+        <end value="2020-08-11T16:26:58.266-05:00"/>
       </period>
     </identifier>
-    <display value="4WdbDypL8Z"/>
-  </patient>
-  <date value="2020-03-12T00:11:54.02-04:00"/>
-  <authority>
-    <reference value="Organization/THvRJDIB5t"/>
-    <type value="Organization"/>
-    <identifier>
-      <use value="official"/>
-      <type>
-        <coding>
-          <system value="ZTEbvqBHk2"/>
-          <version value="x8SKm8y_tB"/>
-          <code value="BmfMQ_X3wN"/>
-          <display value="puihFXxHV0"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="NIVm5mt_Ep"/>
-      </type>
-      <system value="HfaiKj9A8r"/>
-      <value value="qyoNoHxzFg"/>
-      <period>
-        <start value="2020-03-12T00:11:54.017-04:00"/>
-        <end value="2020-03-12T00:11:54.017-04:00"/>
-      </period>
-    </identifier>
-    <display value="wOTuYjMoRd"/>
+    <display value="hCrNYtQGvb"/>
   </authority>
   <targetDisease>
     <coding>
-      <system value="wkvAitGYGA"/>
-      <version value="GdyMhMuD9T"/>
-      <code value="JwGDrNj4X4"/>
-      <display value="8XAO9X0TMn"/>
+      <system value="YUG4vG5Qqq"/>
+      <version value="AXSgFZEEbC"/>
+      <code value="LNBAKhe8QN"/>
+      <display value="hlLdzxiUqG"/>
       <userSelected value="true"/>
     </coding>
-    <text value="f7UGhjlkxB"/>
+    <text value="Nbz26hsxwF"/>
   </targetDisease>
   <immunizationEvent>
-    <reference value="Immunization/8VjQCYQlCs"/>
+    <reference value="Immunization/hbW9YIaZ65"/>
     <type value="Immunization"/>
     <identifier>
-      <use value="usual"/>
+      <use value="old"/>
       <type>
         <coding>
-          <system value="qhO7gsSd87"/>
-          <version value="Mv8CzPIWxm"/>
-          <code value="iE9touOHD9"/>
-          <display value="KFySFyDjBq"/>
+          <system value="07hWIkKdzF"/>
+          <version value="I0Ll3r4SX9"/>
+          <code value="xFjNbtxm8A"/>
+          <display value="x_LZlmcpVS"/>
           <userSelected value="true"/>
         </coding>
-        <text value="vJzJLQ5cyS"/>
+        <text value="vLMj66TF2G"/>
       </type>
-      <system value="PZhCtAVs8c"/>
-      <value value="IyYyniTIPX"/>
+      <system value="eYFoyJsJOq"/>
+      <value value="3HFjMm5CXA"/>
       <period>
-        <start value="2020-03-12T00:11:54.021-04:00"/>
-        <end value="2020-03-12T00:11:54.021-04:00"/>
+        <start value="2020-08-11T16:26:58.27-05:00"/>
+        <end value="2020-08-11T16:26:58.27-05:00"/>
       </period>
     </identifier>
-    <display value="5lDOs63Pp7"/>
+    <display value="cz1MuwhX3K"/>
   </immunizationEvent>
   <doseStatus>
     <coding>
-      <system value="26hR_IDvG_"/>
-      <version value="AmylEqXweM"/>
-      <code value="6QQil8sDUH"/>
-      <display value="69wyze7u1W"/>
+      <system value="wrrzwwtu2M"/>
+      <version value="x5AN29cHP_"/>
+      <code value="tprSDxyBrJ"/>
+      <display value="d1c5EdxMPd"/>
       <userSelected value="true"/>
     </coding>
-    <text value="U9T6lIZ1pN"/>
+    <text value="zG1X1qmf0W"/>
   </doseStatus>
   <doseStatusReason>
     <coding>
-      <system value="sxef17eAhz"/>
-      <version value="IhCLl8CP8I"/>
-      <code value="HMZiq2PDDD"/>
-      <display value="zdmUugHxVd"/>
+      <system value="FNXjRcHqnl"/>
+      <version value="iRzqjjLTZj"/>
+      <code value="lKEcNiOhOn"/>
+      <display value="Rw_N9rz9c0"/>
       <userSelected value="true"/>
     </coding>
-    <text value="XOGvw52AC0"/>
+    <text value="BDOU0mvc17"/>
   </doseStatusReason>
-  <description value="w8Vs7JMvZB"/>
-  <series value="URIUuvOmqI"/>
-  <doseNumberPositiveInt value="652497344"/>
-  <seriesDosesPositiveInt value="1361352756"/>
+  <description value="jkMs_xGTNB"/>
+  <series value="MtYpsiyUMW"/>
+  <doseNumberPositiveInt value="735229274"/>
+  <seriesDosesPositiveInt value="725798162"/>
 </ImmunizationEvaluation>

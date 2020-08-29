@@ -1,7 +1,5 @@
-[![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
-
 ## IBM FHIR Server
-The IBM FHIR Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
+The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
 
 For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/Conformance.
 
@@ -63,6 +61,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements Profile validation|false|
 |fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange Profile validation|false|
 |fhir-ig-davinci-pdex-plan-net|A packaging of the DaVinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net Profile validation|false|
+|fhir-ig-davinci-pdex-formulary|A packaging of the DaVinci Payer Data Exchange (PDex) US Drug Formulary Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDex) US Drug Formulary validation|false|
 
 #### Server
 |Module|Description|Java API-stable|
@@ -124,4 +123,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contributing your changes back to the
 The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is
 available at [LICENSE](LICENSE).
 
-FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
+IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark). 

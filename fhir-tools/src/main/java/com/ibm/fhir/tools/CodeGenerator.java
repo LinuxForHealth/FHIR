@@ -117,6 +117,9 @@ public class CodeGenerator {
     private static final String URI_PATTERN = "\\S*";
     private static final String STRING_PATTERN = "[ \\r\\n\\t\\S]+";
 
+    private static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
+    private static final String UCUM_UNITS_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/ucum-units";
+
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
         this.structureDefinitionMap = structureDefinitionMap;
         this.codeSystemMap = codeSystemMap;
@@ -1132,6 +1135,32 @@ public class CodeGenerator {
                 }
             }
 
+            // Handle code/coding/codeableconcept fields with required (or maxValueSet) binding to syntax-based value set
+            for (JsonObject elementDefinition : elementDefinitions) {
+                String basePath = elementDefinition.getJsonObject("base").getString("path");
+                if (elementDefinition.getString("path").equals(basePath)) {
+                    String elementName = getElementName(elementDefinition, path);
+                    String fieldName = getFieldName(elementName);
+                    String fieldType = getFieldType(structureDefinition, elementDefinition, false);
+                    if ("Code".equals(fieldType) || "Coding".equals(fieldType) || "CodeableConcept".equals(fieldType)) {
+                        JsonObject binding = getBinding(elementDefinition);
+                        if (binding != null && binding.containsKey("valueSet") && binding.containsKey("strength")) {
+                            String valueSet = binding.getString("valueSet").split("\\|")[0];
+                            if (!"required".equals(binding.getString("strength")) || hasConcepts(valueSet)) {
+                                valueSet = getMaxValueSet(binding);
+                                valueSet = (valueSet != null) ? valueSet.split("\\|")[0] : null;
+                                valueSet = (valueSet != null && !hasConcepts(valueSet)) ? valueSet : null;
+                            }
+                            // If there is a required (or maxValueSet) binding to a syntax-based value set, then do the appropriate checking for that syntax-based value set
+                            String validationMethodName = getSyntaxBasedValueSetValidationMethod(valueSet, fieldType, isRepeating(elementDefinition));
+                            if (validationMethodName != null) {
+                                cb.invoke("ValidationSupport", validationMethodName, args(fieldName, quote(elementName)));
+                            }
+                        }
+                    }
+                }
+            }
+
             if ((!isResource(structureDefinition) &&
                     !isAbstract(structureDefinition) &&
                     !isStringSubtype(structureDefinition) &&
@@ -1219,6 +1248,23 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    /**
+     * Gets the name of the validationSupport method to use to validate the syntax-based value set.
+     * @param valueSet the value set
+     * @param fieldType the field type (e.g. Code, Coding, or CodeableConcept)
+     * @param isRepeating true if a list field, otherwise false
+     * @return the validationSupport method to use, or null
+     */
+    private String getSyntaxBasedValueSetValidationMethod(String valueSet, String fieldType, boolean isRepeating) {
+        String suffix = fieldType + (isRepeating ? "s" : "");
+        if (ALL_LANG_VALUE_SET_URL.equals(valueSet)) {
+            return "checkLanguage" + suffix;
+        } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
+            return "checkUcum" + suffix;
+        }
+        return null;
     }
 
     private List<String> getReferenceTypes(JsonObject elementDefinition) {
@@ -1853,6 +1899,9 @@ public class CodeGenerator {
     private void generateIsAsMethods(JsonObject structureDefinition, CodeBuilder cb) {
         String name = structureDefinition.getString("name");
         if ("Resource".equals(name)) {
+            cb.javadocStart()
+                .javadocReturn("true if the resource can be cast to the requested resourceType")
+                .javadocEnd();
             cb.method(mods("public"), "<T extends Resource> boolean", "is", params("Class<T> resourceType"))
                 ._return("resourceType.isInstance(this)")
             .end().newLine();
@@ -1865,6 +1914,9 @@ public class CodeGenerator {
             .end().newLine();
         }
         if ("Element".equals(name)) {
+            cb.javadocStart()
+                .javadocReturn("true if the element can be cast to the requested elementType")
+                .javadocEnd();
             cb.method(mods("public"), "<T extends Element> boolean", "is", params("Class<T> elementType"))
                 ._return("elementType.isInstance(this)")
             .end().newLine();

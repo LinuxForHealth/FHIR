@@ -32,9 +32,9 @@ import com.ibm.fhir.examples.ExamplesGenerator;
  * mvn clean package install -f fhir-examples-generator/pom.xml
  * </pre>
  * 
- * Run the following to create/update the classes in the fhir-model project: 
+ * Run the following to create/update the example JSON and XML files in the /src/test/resources/JSON directory of the fhir-examples-generator project: 
  * <pre> 
- * mvn com.ibm.fhir:fhir-examples-generator:generate-examples -f ./fhir-parent/pom.xml
+ * mvn com.ibm.fhir:fhir-examples-generator:generate-examples -f fhir-examples-generator/pom.xml
  * </pre>
  * 
  * @author PBastide
@@ -61,8 +61,8 @@ public class ExamplesPlugin extends AbstractMojo {
         String targetDir = baseDir + "/src/test/resources/JSON";
         String definitionsDir = baseDir + "/definitions";
 
-        // Only runs for the fhir-model project, short-circuits otherwise.
-        if (mavenProject.getArtifactId().contains("fhir-model")) {
+        // Only runs for the fhir-examples-generator project since that is where the definitions directory exists, short-circuits otherwise.
+        if (mavenProject.getArtifactId().contains("fhir-examples-generator")) {
 
             // Check the base directory
             if ((new File(definitionsDir)).exists()) {

@@ -26,10 +26,12 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
  */
 public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicNumber.json");
     }
 
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("number");
     }
@@ -131,7 +133,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
     public void testSearchNumber_decimal() throws Exception {
         // Targeted Value is 99.99
 
-        // Range: 98.5, 99.5 
+        // Range: 98.5, 99.5
         assertSearchDoesntReturnSavedResource("decimal", "99");
 
         // Range: 99.984985, 99.984995
@@ -320,7 +322,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
     public void testSearchNumber_Precision() throws Exception {
         // [parameter]=100
         // Value: 100
-        // Precision: 3 
+        // Precision: 3
         // Implied Range: [99.5 ... 100.5)
         // Target: 100.25
         assertSearchReturnsSavedResource("precision", "100");
@@ -349,27 +351,21 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("precision", "1.0e2");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
+    @Test
+    public void testSearchNumber_integer_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.integer:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.integer:missing", "true");
 
-    //    @Test
-    //    public void testSearchNumber_integer_chained_missing() throws Exception {
-    //        assertSearchReturnsComposition("subject:Basic.integer:missing", "false");
-    //        assertSearchDoesntReturnComposition("subject:Basic.integer:missing", "true");
-    //
-    //        assertSearchReturnsComposition("subject:Basic.missing-integer:missing", "true");
-    //        assertSearchDoesntReturnComposition("subject:Basic.missing-integer:missing", "false");
-    //    }
-    //
-    //    @Test
-    //    public void testSearchNumber_decimal_chained_missing() throws Exception {
-    //        assertSearchReturnsComposition("subject:Basic.decimal:missing", "false");
-    //        assertSearchDoesntReturnComposition("subject:Basic.decimal:missing", "true");
-    //
-    //        assertSearchReturnsComposition("subject:Basic.missing-decimal:missing", "true");
-    //        assertSearchDoesntReturnComposition("subject:Basic.missing-decimal:missing", "false");
-    //    }
+        assertSearchReturnsComposition("subject:Basic.missing-integer:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-integer:missing", "false");
+    }
+
+    @Test
+    public void testSearchNumber_decimal_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.decimal:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.decimal:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-decimal:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-decimal:missing", "false");
+    }
 }

@@ -2518,6 +2518,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
             precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
+            ValidationSupport.checkUcumCodeableConcept(unitOfMeasure, "unitOfMeasure");
             ValidationSupport.requireValueOrChildren(this);
         }
 

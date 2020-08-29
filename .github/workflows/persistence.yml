@@ -4,8 +4,8 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
-      - '.github/site.yml'
-      - '.github/release.yml'
+      - '.github/workflows/site.yml'
+      - '.github/workflows/release.yml'
 
 jobs:
   e2e-persistence:
@@ -24,11 +24,11 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Setup prerequisites
-      env: 
+      env:
         WORKSPACE: ${{ github.workspace }}
       run: bash build/persistence/bin/setup-prerequisites.sh ${{matrix.persistence}}
     - name: Server Integration Tests - Additional Persistence Layers
-      env: 
+      env:
         WORKSPACE: ${{ github.workspace }}
       run: |
         bash build/persistence/bin/pre-integration-test.sh ${{matrix.persistence}}
@@ -36,7 +36,7 @@ jobs:
         bash build/persistence/bin/post-integration-test.sh ${{matrix.persistence}}
     - name: Gather error logs
       if: failure()
-      env: 
+      env:
         WORKSPACE: ${{ github.workspace }}
       run: bash build/persistence/bin/gather-logs.sh ${{matrix.persistence}}
     - name: Upload logs
