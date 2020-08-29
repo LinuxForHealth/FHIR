@@ -42,7 +42,7 @@ The schema generates the following object types that require management:
 
 The IBM FHIR schema is managed in code and is applied to a target database using a JDBC connection. This simplifies development of Derby-based unit-tests, allows a common schema definition to be used across multiple database flavors, simplifies deployment in cloud scenarios, and because the data model dependencies are understood by the code, the schema creation process can be parallelized to reduce deployment times. In practice, however, we've found that the number of threads must be limited due to driving contention in the internal catalog tables (in DB2, for example). We have also found that some parallel object create operations cause internal database deadlocks (notably creating foreign key relationships). The implementation contains a retry loop, but may fail if the retry limit is exceeded. Note that these deadlocks are internal to Db2, not the more common kind typically caused by poor application code.
 
-The `FHIR_ADMIN` schema is used to manage meta-data related to the actual data schemas. A single database instance can be used to support multiple FHIR data schemas, as long as the FHIR_ADMIN schema structure doesn't change. At the time of writing, the IBM FHIR Server does not support more than one FHIR_ADMIN schema in a single database. If a use-case arises where this is required, it is simply a matter of identifying in code where FHIR_ADMIN is used as a constant and replacing instances with a configurable property, although an implementation may also want to consider protecting individual schemas from accidentally being managed by more than one FHIR_ADMIN schema. One possible use-case for this sharing is using a database instance for schema development work, although use of the Db2 docker container makes this moot.
+The `FHIR_ADMIN` schema is used to manage meta-data related to the actual data schemas. A single database instance can be used to support multiple FHIR data schemas, as long as the FHIR_ADMIN schema structure doesn't change. At the time of writing, the IBM FHIR Server does not support more than one FHIR_ADMIN schema in a single database. If a use-case arises where this is required, it is simply a matter of identifying in code where FHIR_ADMIN is used as a constant and replacing instances with a configurable property, although an implementation may also want to consider protecting individual schemas from accidentally being managed by more than one FHIR_ADMIN schema. One possible use-case for this sharing is using a database instance for schema development work.
 
 The `FHIR_ADMIN` schema also plays an important role in managing tenants in the Db2 multi-tenant implementation. See the [Db2 Multi-Tenant Schema Design](DB2MultiTenancy.md) for more details.
 
@@ -57,7 +57,7 @@ The following table highlights the main differences among the database implement
 | DB2        | An SPL stored procedure is used to implement the resource storage logic, reducing the number of application server to database round-trips, improving performance |
 | DB2        | Uses `FHIR_TS` tablespace for admin tables, and a tablespace per tenant |
 | DB2        | `FHIR_TS` is created using a small extent size for efficiency |
-| PostgreSQL | Based on the Derby implementation, but uses a stored procedure for the resource persistence logic, like DB2 |
+| PostgreSQL | Uses a function for the resource persistence logic |
 | PostgreSQL | TEXT type used instead of CLOB for large data values |
 | Derby      | Resource persistence is implemented at the DAO layer as a sequence of individual statements instead of one procedure call. At a functional level, the process is identical. Simplifies debugging and supports easier unit-test construction. |
 
@@ -139,8 +139,6 @@ NOTE: Schema changes must always be carefully considered and in an ideal world a
 The DDL for most objects (like tables) is specified once. Changes to the table structure are applied as alter statements and assigned an increasing version id. We use a simple version number tracking to identify which changes (deltas) need to be applied to a particular object.
 
 The schema update utility first reads the VERSION_HISTORY table, loading all records for the target schema (e.g. FHIRDATA). The utility only applies changes which have a version number greater than the currently recorded version. Once the DDL has been applied successfully, the version number is updated in VERSION_HISTORY. This makes the processed idempotent. Subsequent runs of the schema update utility only apply changes which have a greater version id value than the most recently stored value for each object.
-
-Enhancements to schema migration handling are tracked in [issue-1163](https://github.com/IBM/FHIR/issues/1163).
 
 
 ## TABLESPACES
