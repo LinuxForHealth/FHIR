@@ -2,12 +2,12 @@
 layout: post
 title: Bring your own Persistence Layer
 description: Lean how to build and test a persistence layer for the IBM FHIR Server
-date:   2020-02-10 14:55:00 -0400
+date:   2020-08-31 14:55:00 -0400
 permalink: /BringYourOwnPersistence/
 ---
 
 ## Overview
-The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2 and Apache Derby.
+The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2, PostgreSQL and Apache Derby.
 However, based on the modular design, its possible to add support for other relational databases and/or
 plug in any other persistence layer.
 
