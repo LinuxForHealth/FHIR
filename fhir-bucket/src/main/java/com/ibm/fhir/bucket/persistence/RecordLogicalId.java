@@ -8,16 +8,12 @@ package com.ibm.fhir.bucket.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
-import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 

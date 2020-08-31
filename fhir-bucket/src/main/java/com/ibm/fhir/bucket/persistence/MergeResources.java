@@ -26,16 +26,12 @@ public class MergeResources implements IDatabaseStatement {
 
     // The list of resource types we want to add
     private final List<ResourceRec> resources;
-
-    // the current instance id of this loader
-    private final long loaderInstanceId;
     
     /**
      * Public constructor
      * @param resourceType
      */
-    public MergeResources(long loaderInstanceId, Collection<ResourceRec> resources) {
-        this.loaderInstanceId = loaderInstanceId;
+    public MergeResources(Collection<ResourceRec> resources) {
         this.resources = new ArrayList<ResourceRec>(resources); // copy for safety
     }
 

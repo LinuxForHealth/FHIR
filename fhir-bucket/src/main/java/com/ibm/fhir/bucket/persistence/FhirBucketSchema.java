@@ -8,9 +8,6 @@ package com.ibm.fhir.bucket.persistence;
 
 import static com.ibm.fhir.bucket.persistence.SchemaConstants.*;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.bucket.app.Main;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -18,7 +15,6 @@ import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.Table;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Defines and manages the little schema used to coordinate multiple

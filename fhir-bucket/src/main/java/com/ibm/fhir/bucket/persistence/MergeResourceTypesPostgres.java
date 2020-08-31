@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data

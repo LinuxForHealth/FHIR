@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +18,6 @@ import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
-import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
@@ -35,6 +33,9 @@ public class AllocateJobs implements IDatabaseStatement {
     // The list of allocated jobs
     private final List<BucketLoaderJob> jobList;
     
+    // Limit allocations to the given file type
+    private final FileType fileType;
+    
     // The id of this loader instance being allocated the job
     private final long loaderInstanceId;
 
@@ -46,9 +47,10 @@ public class AllocateJobs implements IDatabaseStatement {
      * @param bucketName
      * @param bucketPath
      */
-    public AllocateJobs(String schemaName, List<BucketLoaderJob> jobList, long loaderInstanceId, int free) {
+    public AllocateJobs(String schemaName, List<BucketLoaderJob> jobList, FileType fileType, long loaderInstanceId, int free) {
         this.schemaName = schemaName;
         this.jobList = jobList;
+        this.fileType = fileType;
         this.loaderInstanceId = loaderInstanceId;
         this.free = free;
     }
@@ -84,19 +86,20 @@ public class AllocateJobs implements IDatabaseStatement {
                 + "     SELECT resource_bundle_id "
                 + "       FROM resource_bundles "
                 + "      WHERE allocation_id IS NULL "
+                + "        AND file_type = ? "
                 + "   ORDER BY last_modified, resource_bundle_id "
                 + "      FETCH FIRST ? ROWS ONLY)";
         
         try (PreparedStatement ps = c.prepareStatement(MARK)) {
             ps.setLong(1, allocationId);
             ps.setLong(2, loaderInstanceId);
-            ps.setInt(3, free);
+            ps.setString(3, fileType.name());
+            ps.setInt(4, free);
             ps.executeUpdate();
         } catch (SQLException x) {
             logger.log(Level.SEVERE, MARK, x);
             throw new DataAccessException("Mark allocated jobs failed");
         }
-        
 
         // Create new RESOURCE_BUNDLE_LOAD records for each of the bundles
         // that have just been allocated

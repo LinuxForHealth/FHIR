@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.CosItem;
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceIdValue;
@@ -159,7 +160,7 @@ public class DataAccess {
      * @param jobList
      * @param free
      */
-    public void allocateJobs(List<BucketLoaderJob> jobList, int free, int recycleSeconds) {
+    public void allocateJobs(List<BucketLoaderJob> jobList, FileType fileType, int free, int recycleSeconds) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 // First business of the day is to check for liveness and clear
@@ -167,7 +168,7 @@ public class DataAccess {
                 ClearStaleAllocations liveness = new ClearStaleAllocations(loaderInstanceId, HEARTBEAT_TIMEOUT_MS, recycleSeconds);
                 dbAdapter.runStatement(liveness);
                 
-                AllocateJobs cmd = new AllocateJobs(schemaName, jobList, loaderInstanceId, free);
+                AllocateJobs cmd = new AllocateJobs(schemaName, jobList, fileType, loaderInstanceId, free);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();

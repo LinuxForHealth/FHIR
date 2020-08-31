@@ -20,6 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -65,8 +66,7 @@ import com.ibm.fhir.task.core.service.TaskService;
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int DEFAULT_CONNECTION_POOL_SIZE = 10;
-    private static final int DEFAULT_READER_POOL_SIZE = 1;
-    private static final int DEFAULT_HANDLER_POOL_SIZE = 1;
+    private static final int DEFAULT_MAX_FHIR_CONCURRENT_REQUESTS = 40;
     private static final int DEFAULT_COS_SCAN_INTERVAL_MS = 300000; // 5 mins
     private static final String DEFAULT_SCHEMA_NAME = "FHIRBUCKET";
     private final Properties cosProperties = new Properties();
@@ -87,14 +87,21 @@ public class Main {
 
     // Database connection pool size
     private int connectionPoolSize = DEFAULT_CONNECTION_POOL_SIZE;
+
+    // How many JSON files can we process at the same time
+    private int maxConcurrentJsonFiles = 10;
     
-    private int readerPoolSize = DEFAULT_READER_POOL_SIZE;
-    
-    // The number of resources we can process in parallel
-    private int handlerPoolSize = DEFAULT_HANDLER_POOL_SIZE;
+    // How many NDJSON files can we process at the same time (typically 1)
+    private int maxConcurrentNdJsonFiles = 1;
+
+    // How many FHIR requests should be allowed concurrently
+    private int maxConcurrentFhirRequests = DEFAULT_MAX_FHIR_CONCURRENT_REQUESTS;
     
     // Just slightly over 2 minutes, which is just slightly longer than the FHIR default tx timeout
-    private int resourcePoolShutdownTimeoutSeconds = 130;
+    private int poolShutdownTimeoutSeconds = 130;
+    
+    // The thread-pool shared by the services for async processing
+    private ExecutorService commonPool;
     
     // Configured connection to IBM Cloud Object Storage (S3)
     private CosClient cosClient;
@@ -116,8 +123,11 @@ public class Main {
     // The COS scanner active object
     private CosScanner scanner;
     
-    // The COS loader active object
-    private CosReader reader;
+    // The COS reader handling JSON files
+    private CosReader jsonReader;
+    
+    // The COS reader handling NDJSON files (which are processed one at a time
+    private CosReader ndJsonReader;
     
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
@@ -219,18 +229,25 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --recycle-seconds");
                 }
                 break;
-            case "--handler-pool-size":
+            case "--max-concurrent-fhir-requests":
                 if (i < args.length + 1) {
-                    this.handlerPoolSize = Integer.parseInt(args[++i]);
+                    this.maxConcurrentFhirRequests = Integer.parseInt(args[++i]);
                 } else {
-                    throw new IllegalArgumentException("missing value for --handler-pool-size");
+                    throw new IllegalArgumentException("missing value for --max-concurrent-fhir-requests");
                 }
                 break;
-            case "--reader-pool-size":
+            case "--max-concurrent-json-files":
                 if (i < args.length + 1) {
-                    this.readerPoolSize = Integer.parseInt(args[++i]);
+                    this.maxConcurrentJsonFiles = Integer.parseInt(args[++i]);
                 } else {
-                    throw new IllegalArgumentException("missing value for --reader-pool-size");
+                    throw new IllegalArgumentException("missing value for --max-concurrent-json-files");
+                }
+                break;
+            case "--max-concurrent-ndjson-files":
+                if (i < args.length + 1) {
+                    this.maxConcurrentNdJsonFiles = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --max-concurrent-ndjson-files");
                 }
                 break;
             case "--connection-pool-size":
@@ -240,9 +257,9 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --connection-pool-size");
                 }
                 break;
-            case "--resource-pool-shutdown-timeout-seconds":
+            case "--pool-shutdown-timeout-seconds":
                 if (i < args.length + 1) {
-                    this.resourcePoolShutdownTimeoutSeconds = Integer.parseInt(args[++i]);
+                    this.poolShutdownTimeoutSeconds = Integer.parseInt(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --resource-pool-shutdown-timeout-seconds");
                 }
@@ -344,14 +361,6 @@ public class Main {
         if (!this.createSchema && fhirClientProperties.isEmpty()) {
             throw new IllegalArgumentException("No FHIR properties");
         }
-
-        // This is just a heuristic check...it really depends on the
-        // "occupancy" value...which depends on the proportion of time
-        // each thread is holding a connection. Note that some other
-        // threads may also use connections.
-        if (this.connectionPoolSize < this.readerPoolSize) {
-            logger.warning("Connection pool size too small for reader pool size - might cause connection waits");
-        }
     }
     
     /**
@@ -369,7 +378,7 @@ public class Main {
         
         File f = new File(logDir, "fhirbucket.log");
         LogFormatter.init(f.getPath());
-
+        
 
         switch (this.dbType) {
         case DB2:
@@ -382,6 +391,10 @@ public class Main {
             setupPostgresRepository();
             break;
         }        
+        
+        // We constrain the number of concurrent tasks which are inflight, so a breathable
+        // pool works nicely because it cannot grow unbounded
+        this.commonPool = Executors.newCachedThreadPool();
     }
 
     /**
@@ -551,13 +564,39 @@ public class Main {
         // First up, signal everything to stop. This is just a notification,
         // we don't block on any of these
         this.scanner.signalStop();
-        this.reader.signalStop();
+        
+        if (this.jsonReader != null) {
+            this.jsonReader.signalStop();
+        }
+        
+        if (this.ndJsonReader != null) {
+            this.ndJsonReader.signalStop();
+        }
+
         this.resourceHandler.signalStop();
         
+        
         this.scanner.waitForStop();
-        this.reader.waitForStop();
+        if (this.jsonReader != null) {
+            this.jsonReader.waitForStop();
+        }
+        
+        if (this.ndJsonReader != null) {
+            this.ndJsonReader.waitForStop();
+        }
         this.resourceHandler.waitForStop();
         this.fhirClient.shutdown();
+        
+        // Finally we can ask the common thread-pool to close up shop. Typically we
+        // should wait for at least as long as the FHIR server transaction timeout
+        // so that we don't lose any responses (and therefore fail to record the
+        // resource ids in our database.
+        this.commonPool.shutdown();
+        try {
+            this.commonPool.awaitTermination(this.poolShutdownTimeoutSeconds, TimeUnit.SECONDS);
+        } catch (InterruptedException x) {
+            logger.warning("Common thread-pool failed to terminate within " + poolShutdownTimeoutSeconds + "s");
+        }
         logger.info("All services stopped");
     }
 
@@ -598,12 +637,19 @@ public class Main {
         
         // Set up the handler to process resources as they are read from COS
         // Uses an internal pool to parallelize NDJSON work
-        this.resourceHandler = new ResourceHandler(this.handlerPoolSize, fhirClient, dataAccess, resourcePoolShutdownTimeoutSeconds);
+        this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, fhirClient, dataAccess);
         resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler
-        this.reader = new CosReader(cosClient, resource -> resourceHandler.process(resource), readerPoolSize, dataAccess, incremental, recycleSeconds, incrementalExact);
-        reader.init();
+        if (fileTypes.contains(FileType.JSON)) {
+            this.jsonReader = new CosReader(commonPool, FileType.JSON, cosClient, resource -> resourceHandler.process(resource), this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds, incrementalExact);
+            this.jsonReader.init();
+        }
+
+        if (fileTypes.contains(FileType.NDJSON)) {
+            this.jsonReader = new CosReader(commonPool, FileType.NDJSON, cosClient, resource -> resourceHandler.process(resource), this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds, incrementalExact);
+            this.jsonReader.init();
+        }
 
         // JVM won't exit until the threads are stopped via the
         // shutdown hook

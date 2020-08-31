@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -24,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.api.ResourceRef;
@@ -46,6 +46,9 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class CosReader {
     private static final Logger logger = Logger.getLogger(CosReader.class.getName());
     
+    // The type of file we are supposed to process
+    private final FileType fileType;
+    
     // Abstraction of our connection to cloud object storage
     private final CosClient client;
 
@@ -53,7 +56,7 @@ public class CosReader {
     private final Consumer<ResourceEntry> resourceHandler;
 
     // The pool used to parallelize loading
-    private ExecutorService pool;
+    private final ExecutorService pool;
     
     // Access to the data in the bucket schema
     private final DataAccess dataAccess;
@@ -86,6 +89,8 @@ public class CosReader {
     
     /**
      * Public constructor
+     * @param commonPool thread pool shared by the readers and request handler
+     * @param fileType the file type this read is responsible for processing
      * @param client
      * @param resourceHandler
      * @param poolSize
@@ -93,13 +98,14 @@ public class CosReader {
      * @param incremental
      * @param recycleSeconds
      */
-    public CosReader(CosClient client, Consumer<ResourceEntry> resourceHandler, int poolSize, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact) {
+    public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact) {
+        this.pool = commonPool;
+        this.fileType = fileType;
         this.client = client;
         this.resourceHandler = resourceHandler;
-        pool = Executors.newFixedThreadPool(poolSize);
         this.dataAccess = da;
-        this.maxInflight = 3 * poolSize;
-        this.rescanThreshold = 2 * poolSize;
+        this.maxInflight = maxInflight;
+        this.rescanThreshold = Math.max(1, maxInflight/2);
         this.incremental = incremental;
         this.recycleSeconds = recycleSeconds;
         this.incrementalExact = incrementalExact;
@@ -115,6 +121,8 @@ public class CosReader {
         }
         
         if (mainLoopThread != null) {
+            // interrupt it in case it's stuck doing IO
+            this.mainLoopThread.interrupt();
 
             // wake up the thread if it's currently waiting on a condition
             lock.lock();
@@ -123,9 +131,6 @@ public class CosReader {
             } finally {
                 lock.unlock();
             }
-            
-            // interrupt it in case it's stuck somewhere else
-            this.mainLoopThread.interrupt();
         }
     }
     
@@ -173,15 +178,13 @@ public class CosReader {
                 // Calculate the max number of jobs we can request to be allocated
                 // to this instance from the database. Need to be careful with
                 // possible contention here because we are holding the lock during
-                // the allocation database call. The alternative is to unlock, read,
-                // then lock a second time if the allocation is smaller than free.
-                // TODO...consider this change
+                // the allocation database call.
                 if (running) {
                     free = this.maxInflight - this.inflight;
                     if (free > 0) {
                         allocated = allocateJobs(free);
                         this.inflight += allocated;
-                        logger.info("Inflight job count: " + this.inflight);
+                        logger.info("Jobs inflight: " + this.inflight + ", just allocated: " + allocated);
                     }
                 }
             } catch (InterruptedException x) {
@@ -220,7 +223,7 @@ public class CosReader {
     private int allocateJobs(int free) {
         logger.info("allocateJobs: free = " + free);
         List<BucketLoaderJob> jobList = new ArrayList<>();
-        dataAccess.allocateJobs(jobList, free, recycleSeconds);
+        dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds);
         
         logger.info("Allocated job count: " + jobList.size());
         

@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 

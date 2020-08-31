@@ -238,7 +238,7 @@ public class FhirBucketSchemaTest {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 List<BucketLoaderJob> jobList = new ArrayList<>();
-                AllocateJobs c2 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, loaderInstanceId, 2);
+                AllocateJobs c2 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, FileType.JSON, loaderInstanceId, 2);
                 adapter.runStatement(c2);
                 
                 // check we got the jobs we expected
@@ -248,7 +248,7 @@ public class FhirBucketSchemaTest {
 
                 // Allocate the remaining job and check
                 jobList.clear();
-                AllocateJobs c3 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, loaderInstanceId, 2);
+                AllocateJobs c3 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, FileType.JSON, loaderInstanceId, 2);
                 adapter.runStatement(c3);
                 assertEquals(jobList.size(), 1);
                 assertEquals(jobList.get(0).getObjectKey(), "/path/to/dir2/patient1.json");
@@ -260,7 +260,7 @@ public class FhirBucketSchemaTest {
 
                 // Now we should be able to see all 3 allocations be reassigned
                 jobList.clear();
-                AllocateJobs c5 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, loaderInstanceId, 3);
+                AllocateJobs c5 = new AllocateJobs(DATA_SCHEMA_NAME, jobList, FileType.JSON, loaderInstanceId, 3);
                 adapter.runStatement(c5);
                 assertEquals(jobList.size(), 3);
                 
@@ -287,7 +287,7 @@ public class FhirBucketSchemaTest {
                 for (int i=0; i<LINE_COUNT; i++) {
                     resources.add(new ResourceRec(patientTypeId, "patient-" + i, job.getResourceBundleLoadId(), i));
                 }
-                adapter.runStatement(new MergeResources(this.loaderInstanceId, resources));
+                adapter.runStatement(new MergeResources(resources));
 
                 // Single logical id upload
                 final int lineNumber = LINE_COUNT;

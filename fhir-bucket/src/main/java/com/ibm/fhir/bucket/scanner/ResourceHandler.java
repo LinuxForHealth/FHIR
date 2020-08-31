@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -44,8 +42,8 @@ public class ResourceHandler {
     // Nanos in a millisecond
     private static final long NANOS_MS = 1000000;
 
-    // The number of resources we can process in parallel
-    private final int poolSize;
+    // The number of concurrent FHIR requests we allow
+    private final int maxConcurrentFhirRequests;
     
     // The thread pool
     private final ExecutorService pool;
@@ -66,19 +64,15 @@ public class ResourceHandler {
     // Access to the FHIR bucket persistence layer to record logical ids
     private final DataAccess dataAccess;
     
-    // How many seconds to wait for the pool to complete current work before we force termination
-    private final int poolShutdownTimeoutSeconds;
-    
     /**
      * Public constructor
      * @param poolSize
      */
-    public ResourceHandler(int poolSize, FhirClient fc, DataAccess dataAccess, int poolShutdownTimeoutSeconds) {
-        this.poolSize = poolSize;
+    public ResourceHandler(ExecutorService commonPool, int maxConcurrentFhirRequests, FhirClient fc, DataAccess dataAccess) {
+        this.maxConcurrentFhirRequests = maxConcurrentFhirRequests;
         this.fhirClient = fc;
-        this.pool = Executors.newFixedThreadPool(poolSize);
+        this.pool = commonPool;
         this.dataAccess = dataAccess;
-        this.poolShutdownTimeoutSeconds = poolShutdownTimeoutSeconds;
     }
 
     /**
@@ -86,7 +80,7 @@ public class ResourceHandler {
      */
     public void signalStop() {
         if (running) {
-            logger.info("Shutting down resource handler pool");
+            logger.info("Shutting down resource handler");
             this.running = false;
         }
         
@@ -97,10 +91,6 @@ public class ResourceHandler {
         } finally {
             lock.unlock();
         }
-        
-        // Tell the pool it can't accept any more work (which it shouldn't get
-        // anyway because the work producer should've been stopped first
-        this.pool.shutdown();
     }
     
     /**
@@ -108,19 +98,8 @@ public class ResourceHandler {
      */
     public void waitForStop() {
         signalStop();
-        logger.info("Waiting " + this.poolShutdownTimeoutSeconds + " seconds for existing FHIR requests to complete");
-
-        // Wait for processing to complete. This time ought to be longer than the
-        // FHIR transaction timeout and socket read timeout
-        try {
-            this.pool.awaitTermination(this.poolShutdownTimeoutSeconds, TimeUnit.SECONDS);
-        } catch (InterruptedException x) {
-            // Not much to do other than moan
-            logger.warning("Interrupted waiting for pool to shut down");
-            
-            // try to stop what is still running. Doesn't wait
-            this.pool.shutdownNow();
-        }
+        
+        // We don't own the pool, so we don't wait for it to shut down
     }
 
     /**
@@ -132,14 +111,9 @@ public class ResourceHandler {
     public boolean process(ResourceEntry entry) {
         boolean result = false;
 
-        // Throttle how many resources we allow to be inflight
-        // at any point in time...this helps to keep memory
-        // consumption reasonable, because we can read and parse
-        // more quickly than the FHIR server(s) can process
-        int maxInflight = 3 * poolSize;
         lock.lock();
         try {
-            while (running && inflight == maxInflight) {
+            while (running && inflight == maxConcurrentFhirRequests) {
                 capacityCondition.await();
             }
             
@@ -154,7 +128,7 @@ public class ResourceHandler {
             lock.unlock();
         }
 
-        // only submit to the queue if we have permission
+        // only submit to the pool if we have permission
         if (running && result) {
             // Add this so we can track when the job completes
             entry.getJob().addEntry();

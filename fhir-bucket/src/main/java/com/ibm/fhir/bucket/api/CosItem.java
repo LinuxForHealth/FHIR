@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.bucket.api;
 
-import java.time.Instant;
 import java.util.Date;
 
 /**

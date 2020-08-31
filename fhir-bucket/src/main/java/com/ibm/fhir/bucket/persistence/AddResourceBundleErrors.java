@@ -13,12 +13,10 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.ResourceBundleError;
-import com.ibm.fhir.bucket.api.ResourceIdValue;
 import static com.ibm.fhir.bucket.persistence.SchemaConstants.*;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;

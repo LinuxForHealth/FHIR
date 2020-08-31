@@ -140,16 +140,19 @@ The following script can be used to run the bucket loader from a local build:
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
 
-java -jar "${JAR}"             \
+java -jar "${JAR}"                  \
   --db-type db2                     \
   --db-properties db2.properties    \
   --cos-properties cos.properties   \
   --fhir-properties fhir.properties \
-  --bucket fhir-performance         \
-  --tenant-name performance         \
-  --file-type JSON                  \
-  --reader-pool-size 1              \
-  --handler-pool-size 10
+  --bucket example-bucket           \
+  --tenant-name example-tenant      \
+  --file-type NDJSON                \
+  --max-concurrent-fhir-requests 40 \
+  --max-concurrent-json-files 10    \
+  --max-concurrent-ndjson-files 1   \
+  --connection-pool-size 20         \
+  --incremental
 ```
 
 To run using Derby, change the relevant arguments to:
@@ -181,13 +184,14 @@ To run using PostgreSQL, change the relevant arguments to:
 | `--bucket cos-bucket-name` </br> The bucket name in COS |
 | `--tenant-name fhir-tenant-name` </br> The IBM FHIR Server tenant name|
 | `--file-type file-type` </br> One of: JSON, NDJSON. Used to limit the discovery scan to a particular type of file/entry |       
-| `--reader-pool-size pool-size` </br> The number of threads to use for processing entries in parallel |           
-| `--handler-pool-size pool-size` </br> The number of threads to use for making FHIR calls in parallel. For example, an NDJSON file may contain millions of records. The bucket loader can process these records in parallel|
+| `--max-concurrent-ndjson-files pool-size` </br> The maximum number of NDJSON files to read in parallel. Typically a small number, like the default which is 1. |
+| `--max-concurrent-json-files pool-size` </br> The maximum number of JSON files to read in parallel. Each JSON file translates to a single FHIR request, which may be a single resource, or a bundle with many resources. |
+| `--max-concurrent-fhir-requests pool-size` </br> The maximum number concurrent FHIR requests. For example, an NDJSON file may contain millions of records. Although a single NDJSON file is read sequentially, each resource (row) can be processed in parallel, up to this limit |
 | `--connection-pool-size pool-size` </br> The maximum size of the database connection pool. Threads will block and wait if the current number of active connections exceeds this value |
 | `--recycle-seconds seconds` </br> Artificially force discovered entries to be reloaded some time after they have been loaded successfully. This permits the loader to be set up in a continuous mode of operation, where the resource bundles are loaded over and over again, generating new resources to fill the target system with lots of data. The processing times for each load is tracked, so this can be used to look for regression.
 | `--cos-scan-interval-ms millis` </br> The number of milliseconds to wait before scanning the COS bucket again to discover new entries |
 | `--path-prefix prefix` </br> Limit the discovery scan to keys with the given prefix. |
-| `--resource-pool-shutdown-timeout-seconds seconds` </br> how many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.
+| `--pool-shutdown-timeout-seconds seconds` </br> How many seconds to wait for the resource pool to shutdown when the loader has been asked to terminate. This value should be slightly longer than the Liberty transaction timeout.
 | `--create-schema` </br> Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
 
 
