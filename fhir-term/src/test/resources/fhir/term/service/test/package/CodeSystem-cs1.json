@@ -4,17 +4,21 @@
     "url": "http://ibm.com/fhir/CodeSystem/cs1",
     "version": "1.0.0",
     "status": "active",
+    "caseSensitive": true,
     "hierarchyMeaning": "is-a",
     "content": "complete",
     "concept": [
         {
-            "code": "a"
+            "code": "a",
+            "display": "Concept a"
         },
         {
-            "code": "b"
+            "code": "b",
+            "display": "Concept b"
         },
         {
-            "code": "c"
+            "code": "c",
+            "display": "Concept c"
         }
     ]
 }
