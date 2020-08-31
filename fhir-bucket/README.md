@@ -32,7 +32,7 @@ The loader records the identities of the created resources. These identities can
 
 ```
 # the IBM COS API key or S3 access key.
-cos.api.key=MCnKzrs_JoQ0DZGKihvTYA6osHqetN_7K5wb2-g8_X5x
+cos.api.key=
 
 # the IBM COS service instance id or S3 secret key.
 cos.srvinstid=
