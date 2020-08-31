@@ -10,7 +10,7 @@ on:
       - '.github/**'
   schedule:
     # Runs on Saturday
-    - cron: '* * * * 6'
+    - cron: '1 1 * * 6'
 
 jobs:
   security-scan:
