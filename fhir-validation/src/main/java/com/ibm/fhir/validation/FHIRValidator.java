@@ -350,9 +350,8 @@ public class FHIRValidator {
                         issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), contextNode));
                         // Add any error details from the evaluation context as well
                         issues.addAll(evaluationContext.getErrorDetails());
-                    } else {
-                        issues.addAll(evaluationContext.getSupplementalWarnings());
                     }
+                    issues.addAll(evaluationContext.getSupplementalWarnings());
                     evaluationContext.clearIssues();
 
                     if (log.isLoggable(Level.FINER)) {
