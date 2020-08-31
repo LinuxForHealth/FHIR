@@ -80,7 +80,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
                 if (!StructureDefinitionKind.RESOURCE.equals(structureDefinition.getKind())) {
                     // the profile (or base definition) is not applicable to type: UnknownResourceType
-                    generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node.path());
+                    generateErrorDetail(evaluationContext, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node.path());
                     return SINGLETON_FALSE;
                 }
 
@@ -91,7 +91,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
 
             if (!ProfileSupport.isApplicable(structureDefinition, modelClass)) {
                 // the profile (or base definition) is not applicable to type: modelClass
-                generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: " + ModelSupport.getTypeName(modelClass), node.path());
+                generateErrorDetail(evaluationContext, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: " + ModelSupport.getTypeName(modelClass), node.path());
                 return SINGLETON_FALSE;
             }
 
@@ -116,7 +116,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), context);
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         // constraint validation failed
-                        generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), node.path());
+                        generateErrorDetail(evaluationContext, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), node.path());
 
                         // restore parent constraint reference
                         evaluationContext.setConstraint(parentConstraint);
@@ -132,7 +132,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             // restore parent constraint reference
             evaluationContext.setConstraint(parentConstraint);
         } else {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Conformance check was not performed: profile (or base definition) '" + url + "' is not supported", node.path());
+            generateSupplementalWarning(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Conformance check was not performed: profile (or base definition) '" + url + "' is not supported", node.path());
         }
 
         return SINGLETON_TRUE;

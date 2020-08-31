@@ -34,13 +34,13 @@ public abstract class FHIRPathAbstractFunction implements FHIRPathFunction {
         throw new UnsupportedOperationException("Function: '" + getName() + "' is not supported");
     }
 
-    protected void generateIssue(
+    protected void generateSupplementalWarning(
             EvaluationContext evaluationContext,
             IssueSeverity severity,
             IssueType code,
             String description,
             String expression) {
-        evaluationContext.getIssues().add(Issue.builder()
+        evaluationContext.getSupplementalWarnings().add(Issue.builder()
             .severity(severity)
             .code(code)
             .details(CodeableConcept.builder()
@@ -49,6 +49,21 @@ public abstract class FHIRPathAbstractFunction implements FHIRPathFunction {
             .expression(string(expression))
             .build());
     }
+
+    protected void generateErrorDetail(
+        EvaluationContext evaluationContext,
+        IssueType code,
+        String description,
+        String expression) {
+    evaluationContext.getErrorDetails().add(Issue.builder()
+        .severity(IssueSeverity.ERROR)
+        .code(code)
+        .details(CodeableConcept.builder()
+            .text(string(description))
+            .build())
+        .expression(string(expression))
+        .build());
+}
 
     @Override
     public boolean equals(Object obj) {

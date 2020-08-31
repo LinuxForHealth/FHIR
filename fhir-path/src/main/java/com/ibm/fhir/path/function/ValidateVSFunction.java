@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -77,7 +76,7 @@ public class ValidateVSFunction extends FHIRPathAbstractTermFunction {
                 service.validateCode(valueSet, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
                 service.validateCode(valueSet, codedElement.as(Coding.class), ValidationParameters.from(parameters));
         if (Boolean.FALSE.equals(outcome.getResult()) && outcome.getMessage() != null) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.CODE_INVALID, outcome.getMessage().getValue(), "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.CODE_INVALID, outcome.getMessage().getValue(), "%terminologies");
         }
         return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters()));
     }

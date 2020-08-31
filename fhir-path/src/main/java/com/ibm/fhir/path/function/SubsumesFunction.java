@@ -18,7 +18,6 @@ import java.util.List;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
-import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -63,7 +62,7 @@ public class SubsumesFunction extends FHIRPathAbstractTermFunction {
         ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
 
         if (outcome == null) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Subsumption cannot be tested", (arguments.size() == 1) ? getElementNode(context).path() : "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.NOT_SUPPORTED, "Subsumption cannot be tested", (arguments.size() == 1) ? getElementNode(context).path() : "%terminologies");
             return empty();
         }
 

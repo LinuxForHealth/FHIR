@@ -67,7 +67,7 @@ public class USCoreEthnicityExtensionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(extension, "conformsTo('http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')");
         System.out.println("result: " + result);
 
-        List<Issue> issues = evaluator.getEvaluationContext().getIssues();
+        List<Issue> issues = evaluator.getEvaluationContext().getSupplementalWarnings();
         issues.forEach(System.out::println);
 
         Assert.assertEquals(result, SINGLETON_TRUE);
@@ -109,10 +109,10 @@ public class USCoreEthnicityExtensionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(extension, "conformsTo('http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')");
         System.out.println("result: " + result);
 
-        List<Issue> issues = evaluator.getEvaluationContext().getIssues();
-        issues.forEach(System.out::println);
-
         Assert.assertEquals(result, SINGLETON_FALSE);
+
+        List<Issue> issues = evaluator.getEvaluationContext().getErrorDetails();
+        issues.forEach(System.out::println);
         Assert.assertEquals(issues.size(), 2);
     }
 

@@ -133,10 +133,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else {
-                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode.path());
+                generateSupplementalWarning(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode.path());
             }
         } else {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode.path());
+            generateSupplementalWarning(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode.path());
         }
 
         return SINGLETON_TRUE;
@@ -151,7 +151,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
         return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl) || UCUM_UNITS_VALUE_SET_URL.equals(valueSetUrl);
     }
-    
+
     /**
      * Validates the element against the syntax-based value set.
      * @param valueSet the value set
@@ -179,10 +179,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         } else {
             code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
         }
-        
+
         return validateCodeAgainstSyntaxBasedValuedSet(valueSet, code, coding, codeableConcept, evaluationContext, elementNode, strength);
     }
-    
+
     /**
      * Validates the Code, Coding, CodableConcept against the syntax based value set.
      * Only one of Code, Coding, or CodeableConept should be passed in.
@@ -226,10 +226,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             generateIssue(e.getMessage(), evaluationContext, elementNode, strength);
             return false;
         }
-        
+
         return true;
      }
-    
+
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version, Code code, com.ibm.fhir.model.type.String display, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = service.validateCode(valueSet, system, version, code, display);
         if (Boolean.FALSE.equals(outcome.getResult())) {
@@ -256,7 +256,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         }
         return true;
     }
-    
+
     /**
      * Adds an issue to the evaluation context.
      * @param outcome the validation outcome containing the message
@@ -269,7 +269,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             generateIssue(outcome.getMessage().getValue(), evaluationContext, elementNode, strength);
         }
     }
-    
+
     /**
      * Adds an issue to the evaluation context.
      * @param message the message
@@ -278,15 +278,18 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @param strength the binding strength
      */
     private void generateIssue(String message, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        IssueSeverity severity = ("extensible".equals(strength) || "preferred".equals(strength)) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-        generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, message, elementNode.path());
+        if ("extensible".equals(strength) || "preferred".equals(strength)) {
+            generateSupplementalWarning(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, message, elementNode.path());
+        } else {
+            generateErrorDetail(evaluationContext, IssueType.CODE_INVALID, message, elementNode.path());
+        }
     }
 
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
         if ("extensible".equals(strength) || "preferred".equals(strength)) {
             String prefix = evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "";
             String description = prefix + "The concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode.path());
+            generateSupplementalWarning(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode.path());
             return SINGLETON_TRUE;
         }
         return SINGLETON_FALSE;

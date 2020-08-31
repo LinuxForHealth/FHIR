@@ -1331,7 +1331,8 @@ public class FHIRPathEvaluator {
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
 
         private Constraint constraint;
-        private final List<Issue> issues = new ArrayList<>();
+        private final List<Issue> supplementalWarnings = new ArrayList<>();
+        private final List<Issue> errorDetails = new ArrayList<>();
 
         /**
          * Create an empty evaluation context, evaluating stand-alone expressions
@@ -1494,32 +1495,56 @@ public class FHIRPathEvaluator {
         }
 
         /**
-         * Get the list of supplemental issues that were generated during evaluation
+         * Get the list of supplemental warnings that were generated during evaluation
          *
-         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
+         * <p>Supplemental warnings are used to convey additional information about the evaluation to the client
          *
          * @return
-         *     the list of supplemental issues that were generated during evaluation
+         *     the list of supplemental warnings that were generated during evaluation
          */
-        public List<Issue> getIssues() {
-            return issues;
+        public List<Issue> getSupplementalWarnings() {
+            return supplementalWarnings;
         }
 
         /**
-         * Clear the list of supplemental issues that were generated during evaluation
+         * Get a list of issues containing additional error details that were generated during evaluation
+         *
+         * <p>Error detail is kept in-context until cleared; this is useful for reporting more meaningful errors
+         * in constraints that are further "up the stack".
+         *
+         * @return
+         *     a potentially-empty list of issues with error details that were generated during evaluation
+         */
+        public List<Issue> getErrorDetails() {
+            return errorDetails;
+        }
+
+        /**
+         * Clear the list of supplemental warnings and/or error details that were generated during evaluation
          */
         public void clearIssues() {
-            issues.clear();
+            supplementalWarnings.clear();
+            errorDetails.clear();
         }
 
         /**
-         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         * Indicates whether this evaluation context has supplemental warnings that were generated during evaluation
          *
          * @return
-         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         *     true if this evaluation context has supplemental warnings that were generated during evaluation, otherwise false
          */
-        public boolean hasIssues() {
-            return !issues.isEmpty();
+        public boolean hasSupplementalWarnings() {
+            return !supplementalWarnings.isEmpty();
+        }
+
+        /**
+         * Indicates whether this evaluation context has additional detail that is associated with a constraint failure
+         *
+         * @return
+         *     true if this evaluation context has error details that were generated during evaluation, otherwise false
+         */
+        public boolean hasErrorDetails() {
+            return !errorDetails.isEmpty();
         }
     }
 }

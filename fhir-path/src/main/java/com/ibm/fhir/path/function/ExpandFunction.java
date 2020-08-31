@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
@@ -83,7 +82,7 @@ public class ExpandFunction extends FHIRPathAbstractTermFunction {
         ValueSet valueSet = getResource(arguments, ValueSet.class);
         if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
             String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "ValueSet with url '" + url + "' is not expandable", "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.NOT_SUPPORTED, "ValueSet with url '" + url + "' is not expandable", "%terminologies");
             return empty();
         }
         Parameters parameters = getParameters(arguments);

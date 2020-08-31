@@ -23,7 +23,6 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -69,7 +68,7 @@ public class LookupFunction extends FHIRPathAbstractTermFunction {
         Parameters parameters = getParameters(arguments);
         LookupOutcome outcome = service.lookup(coding, LookupParameters.from(parameters));
         if (outcome == null) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Lookup cannot be performed", "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.NOT_SUPPORTED, "Lookup cannot be performed", "%terminologies");
             return empty();
         }
         return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters()));

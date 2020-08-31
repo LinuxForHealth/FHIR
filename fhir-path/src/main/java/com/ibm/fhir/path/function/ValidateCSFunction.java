@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
-import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -80,7 +79,7 @@ public class ValidateCSFunction extends FHIRPathAbstractTermFunction {
                 service.validateCode(codeSystem, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
                 service.validateCode(codeSystem, codedElement.as(Coding.class), ValidationParameters.from(parameters));
         if (Boolean.FALSE.equals(outcome.getResult()) && outcome.getMessage() != null) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.CODE_INVALID, outcome.getMessage().getValue(), "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.CODE_INVALID, outcome.getMessage().getValue(), "%terminologies");
         }
         return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters()));
     }
@@ -95,17 +94,17 @@ public class ValidateCSFunction extends FHIRPathAbstractTermFunction {
                     return true;
                 }
             }
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.CODE_INVALID, "CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version", "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.CODE_INVALID, "CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version", "%terminologies");
             return false;
         }
         // codedElement.is(Coding.class)
         Coding coding = codedElement.as(Coding.class);
         if (coding.getSystem() != null && codeSystem.getUrl() != null && !coding.getSystem().equals(codeSystem.getUrl())) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.CODE_INVALID, "Coding system does not match the specified CodeSystem url", "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.CODE_INVALID, "Coding system does not match the specified CodeSystem url", "%terminologies");
             return false;
         }
         if (coding.getVersion() != null && codeSystem.getVersion() != null && !coding.getVersion().equals(codeSystem.getVersion())) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.CODE_INVALID, "Coding version does not match the specified CodeSystem version", "%terminologies");
+            generateErrorDetail(evaluationContext, IssueType.CODE_INVALID, "Coding version does not match the specified CodeSystem version", "%terminologies");
             return false;
         }
         return true;

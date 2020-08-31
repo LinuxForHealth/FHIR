@@ -334,7 +334,8 @@ public class FHIRValidator {
                 Collection<FHIRPathNode> initialContext = singleton(node);
                 if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
                     initialContext = evaluator.evaluate(evaluationContext, constraint.location(), initialContext);
-                    issues.addAll(evaluationContext.getIssues());
+                    issues.addAll(evaluationContext.getSupplementalWarnings());
+                    // If we ever generate "constraints within constraint" with a non-base location, this could be an issue
                     evaluationContext.clearIssues();
                 }
 
@@ -344,12 +345,15 @@ public class FHIRValidator {
                     evaluationContext.setExternalConstant("rootResource", getRootResourceNode(contextNode));
                     evaluationContext.setExternalConstant("resource", getResourceNode(contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
-                    issues.addAll(evaluationContext.getIssues());
-                    evaluationContext.clearIssues();
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), contextNode));
+                        // Add any error details from the evaluation context as well
+                        issues.addAll(evaluationContext.getErrorDetails());
+                    } else {
+                        issues.addAll(evaluationContext.getSupplementalWarnings());
                     }
+                    evaluationContext.clearIssues();
 
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("    Evaluation result: " + result + ", Path: " + contextNode.path());

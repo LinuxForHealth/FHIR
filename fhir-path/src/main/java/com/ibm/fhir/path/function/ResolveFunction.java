@@ -100,7 +100,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
 
                 if (referenceReference != null && FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
-                    generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node.path());
+                    generateSupplementalWarning(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node.path());
                 }
 
                 result.add(FHIRPathResourceNode.resourceNode(type));
