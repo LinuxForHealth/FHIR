@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.persistence.scout.cql;
 
+import java.util.logging.Logger;
+import static com.ibm.fhir.persistence.scout.cql.SchemaConstants.*;
+
 import com.datastax.oss.driver.api.core.CqlSession;
 
 /**
@@ -19,34 +22,15 @@ import com.datastax.oss.driver.api.core.CqlSession;
  * in that case if we have data which isn't isolated by patient.
  */
 public class CreateSchema {
-    public static final String LOGICAL_RESOURCES = "logical_resources";
-    public static final String RESOURCE_HISTORY = "resource_history";
-    public static final String PAYLOAD_CHUNKS = "payload_chunks";
-    public static final String LAST_MODIFIED = "last_modified";
-    
-    // Resource type Parameter tables
-    public static final String PARAM_STR_VALUES = "param_str_values";
-    public static final String PARAM_STR_LOWER_VALUES = "param_str_lower_values";
-
-    // System Parameter tables
-    public static final String SYSTEM_STR_VALUES = "system_str_values";
-    public static final String SYSTEM_STR_LOWER_VALUES = "system_str_lower_values";
-
-    // Break binary data into bite-sized pieces when storing
-    public static final long chunkSize = 1024L * 1024;
-    
+    private static final Logger logger = Logger.getLogger(CreateSchema.class.getName());
+       
     final String keySpace;
-    final String replicationClass;
-    final int replicationFactor;
     
-    public CreateSchema(String keySpace, String replicationClass, int replicationFactor) {
+    public CreateSchema(String keySpace) {
         this.keySpace = keySpace;
-        this.replicationClass = replicationClass;
-        this.replicationFactor = replicationFactor;
     }
 
     public void run(CqlSession session) {
-        createKeyspace(session);
         useKeyspace(session);
         createLogicalResourcesTable(session);
         createPayloadChunksTable(session);
@@ -58,19 +42,29 @@ public class CreateSchema {
         // support for global system search
         createSystemStrValuesTable(session);
         createSystemStrLowerValuesTable(session);
+        
+        logger.info("Schema definition complete for keySpace '" + this.keySpace + "'");
     }
     
-    protected void createKeyspace(CqlSession session) {
+    /**
+     * Each tenant gets its own keyspace
+     * @param session
+     * @param replicationClass
+     * @param replicationFactor
+     */
+    public void createKeyspace(CqlSession session, String replicationClass, int replicationFactor) {
         final String cql = "CREATE KEYSPACE IF NOT EXISTS " + keySpace 
                 + " WITH REPLICATION = {"
                 + "'class':'" + replicationClass + "', "
-                + "'replication_factor':'" + replicationFactor + "}";
+                + "'replication_factor':" + replicationFactor + "}";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
     
     protected void useKeyspace(CqlSession session) {
         final String cql = "USE " + this.keySpace;
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -84,10 +78,11 @@ public class CreateSchema {
                 + "last_modified     timestamp, "
                 + "current_version         int, "
                 + "payload_id             text, "
-                + "parameter_block        blob  "
+                + "parameter_block        blob, "
                 + "PRIMARY KEY ((partition_id, resource_type_id), logical_id)"
-                + ");";
+                + ") WITH CLUSTERING ORDER BY (logical_id ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -105,10 +100,11 @@ public class CreateSchema {
                 + "partition_id text, "
                 + "payload_id   text, "
                 + "ordinal       int, "
-                + "chunk        blob  "
+                + "chunk        blob, "
                 + "PRIMARY KEY (partition_id, payload_id, ordinal)"
-                + ");";
+                + ") WITH CLUSTERING ORDER BY (payload_id ASC, ordinal ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
     
@@ -130,10 +126,11 @@ public class CreateSchema {
                 + "logical_id             text, "
                 + "version                 int, "
                 + "last_modified     timestamp, "
-                + "payload_id             text  "
+                + "payload_id             text, "
                 + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version, last_modified)"
-                + ");";
+                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, logical_id ASC, version ASC, last_modified ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -151,10 +148,11 @@ public class CreateSchema {
                 + "last_modified     timestamp, "
                 + "logical_id             text, "
                 + "version                 int, "
-                + "payload_id             text  "
+                + "payload_id             text, "
                 + "PRIMARY KEY (partition_id, resource_type_id, last_modified, logical_id, version)"
-                + ");";
+                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, last_modified ASC, logical_id ASC, version ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -170,10 +168,11 @@ public class CreateSchema {
                 + "parameter_name_id  int, "
                 + "str_value         text, "
                 + "logical_id        text, "
-                + "payload_id        text  "
+                + "payload_id        text, "
                 + "PRIMARY KEY ((partition_id, resource_type_id, parameter_name_id), str_value)"
-                + ");";
+                + ") WITH CLUSTERING ORDER BY (str_value ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -190,10 +189,11 @@ public class CreateSchema {
                 + "parameter_name_id   int, "
                 + "str_lower_value    text, "
                 + "logical_id         text, "
-                + "payload_id         text  "
+                + "payload_id         text, "
                 + "PRIMARY KEY ((partition_id, resource_type_id, parameter_name_id), str_lower_value, logical_id)"
-                + ");";
+                + ") WITH CLUSTERING ORDER BY (str_lower_value ASC, logical_id ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -212,10 +212,11 @@ public class CreateSchema {
                 + "str_value         text, "
                 + "resource_type_id   int, "
                 + "logical_id        text, "
-                + "payload_id        text  "
-                + "PRIMARY KEY (parameter_name_id), str_value, resource_type_id, logical_id)"
-                + ");";
+                + "payload_id        text, "
+                + "PRIMARY KEY ((parameter_name_id), str_value, resource_type_id, logical_id)"
+                + ") WITH CLUSTERING ORDER BY (str_value ASC, resource_type_id ASC, logical_id ASC)";
         
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 
@@ -234,10 +235,11 @@ public class CreateSchema {
                 + "str_lower_value   text, "
                 + "resource_type_id   int, "
                 + "logical_id        text, "
-                + "payload_id        text  "
-                + "PRIMARY KEY (parameter_name_id), str_lower_value, resource_type_id, logical_id)"
-                + ");";
+                + "payload_id        text, "
+                + "PRIMARY KEY ((parameter_name_id), str_lower_value, resource_type_id, logical_id)"
+                + ") WITH CLUSTERING ORDER BY (str_lower_value ASC, resource_type_id ASC, logical_id ASC)";
 
+        logger.info("Running: " + cql);
         session.execute(cql);
     }
 }
