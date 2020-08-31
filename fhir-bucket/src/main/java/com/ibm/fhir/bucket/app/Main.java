@@ -6,7 +6,6 @@
 package com.ibm.fhir.bucket.app;
 
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +41,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
-import com.ibm.fhir.database.utils.common.LogFormatter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
@@ -132,8 +130,6 @@ public class Main {
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
         
-    private String logDir = ".";
-
     // The tenant name
     private String tenantName;
 
@@ -375,10 +371,6 @@ public class Main {
             // use NDJSON if the user didn't provide their own choice
             this.fileTypes.add(FileType.NDJSON);
         }
-        
-        File f = new File(logDir, "fhirbucket.log");
-        LogFormatter.init(f.getPath());
-        
 
         switch (this.dbType) {
         case DB2:
