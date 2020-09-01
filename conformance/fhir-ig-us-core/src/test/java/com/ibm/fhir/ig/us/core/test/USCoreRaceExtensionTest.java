@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
+import static com.ibm.fhir.validation.util.FHIRValidationUtil.countInformation;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.countWarnings;
 
 import java.util.Collection;
@@ -211,6 +212,7 @@ public class USCoreRaceExtensionTest {
         issues.forEach(System.out::println);
 
         Assert.assertEquals(countWarnings(issues), 1);
-        Assert.assertEquals(countErrors(issues), 3);
+        Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countInformation(issues), 1);
     }
 }

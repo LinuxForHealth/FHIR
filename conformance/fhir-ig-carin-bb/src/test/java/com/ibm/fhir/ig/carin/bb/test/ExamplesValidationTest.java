@@ -20,7 +20,7 @@ public class ExamplesValidationTest {
         SerializationProcessor processor = new SerializationProcessor();
         driver.setProcessor(processor);
         driver.setValidator(new ValidationProcessor());
-        driver.processIndex(Index.PROFILES_CARRIN_BB_JSON);
+        driver.processIndex(Index.PROFILES_CARIN_BB_JSON);
     }
 
     @Test
@@ -29,6 +29,6 @@ public class ExamplesValidationTest {
         SerializationProcessor processor = new SerializationProcessor();
         driver.setProcessor(processor);
         driver.setValidator(new ValidationProcessor());
-        driver.processIndex(Index.PROFILES_CARRIN_BB_XML);
+        driver.processIndex(Index.PROFILES_CARIN_BB_XML);
     }
 }

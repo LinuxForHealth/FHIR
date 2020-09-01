@@ -80,7 +80,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
                 if (!StructureDefinitionKind.RESOURCE.equals(structureDefinition.getKind())) {
                     // the profile (or base definition) is not applicable to type: UnknownResourceType
-                    generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node.path());
+                    generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node.path());
                     return SINGLETON_FALSE;
                 }
 
@@ -91,7 +91,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
 
             if (!ProfileSupport.isApplicable(structureDefinition, modelClass)) {
                 // the profile (or base definition) is not applicable to type: modelClass
-                generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: " + ModelSupport.getTypeName(modelClass), node.path());
+                generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: " + ModelSupport.getTypeName(modelClass), node.path());
                 return SINGLETON_FALSE;
             }
 
@@ -116,7 +116,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), context);
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         // constraint validation failed
-                        generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), node.path());
+                        generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), node.path());
 
                         // restore parent constraint reference
                         evaluationContext.setConstraint(parentConstraint);
