@@ -325,8 +325,9 @@ java -jar ./fhir-persistence-schema-%VERSION%-cli.jar --to-file
 Note: the jar file is stored locally in `fhir-persistence-schema/target` or in the Artifactory repository for this project.
 
 2 - Connect to your instance and execute each of the following:
- * schema.sql:  `db2 -tvf schema.sql`
- * grants.sql:  `db2 -tvf grants.sql`
- * stored-procedures.sql:  `db2 -td@ -vf stored-procedures.sql`
+
+    - schema.sql:  `db2 -tvf schema.sql`
+    - grants.sql:  `db2 -tvf grants.sql`
+    - stored-procedures.sql:  `db2 -td@ -vf stored-procedures.sql`
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
