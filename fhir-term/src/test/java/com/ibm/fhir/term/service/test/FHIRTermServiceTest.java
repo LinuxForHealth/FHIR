@@ -284,6 +284,136 @@ public class FHIRTermServiceTest {
     }
 
     @Test
+    public void testValidateCode5() throws Exception {
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .version(string("1.0.0"))
+                .code(Code.of("a"))
+                .display(string("Concept a"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .display(string("Concept a"))
+                .build();
+
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs1");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode6() throws Exception {
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .version(string("1.0.0"))
+                .code(Code.of("a"))
+                .display(string("concept a"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("The display 'concept a' is incorrect for code 'a' from code system 'http://ibm.com/fhir/CodeSystem/cs1'"))
+                .display(string("Concept a"))
+                .build();
+
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs1");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode7() throws Exception {
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs2"))
+                .version(string("1.0.0"))
+                .code(Code.of("d"))
+                .display(string("concept d"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .display(string("Concept d"))
+                .build();
+
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs2");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode8() throws Exception {
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs2"))
+                .version(string("1.0.0"))
+                .code(Code.of("d"))
+                .display(string("CONCEPT D"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .display(string("Concept d"))
+                .build();
+
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs2");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode9() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .version(string("1.0.0"))
+                .code(Code.of("a"))
+                .display(string("Concept a"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .display(string("Concept a"))
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode10() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .version(string("1.0.0"))
+                .code(Code.of("a"))
+                .display(string("CONCEPT A"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("The display 'CONCEPT A' is incorrect for code 'a' from code system 'http://ibm.com/fhir/CodeSystem/cs1'"))
+                .display(string("Concept a"))
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
+
+        System.out.println(actual.toParameters());
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
     public void testTranslate1() throws Exception {
         ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
 
