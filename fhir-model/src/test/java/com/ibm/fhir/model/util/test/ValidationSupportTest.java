@@ -388,51 +388,51 @@ public class ValidationSupportTest {
     
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientValid1() {
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, false);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
         ValidationSupport.checkValueSetBinding(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("code")).build()).build(), "elementName", "valueSet", "system");
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, true);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, true);
     }
 
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientValid2() {
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, false);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
         ValidationSupport.checkValueSetBinding(CodeableConcept.builder().text(com.ibm.fhir.model.type.String.of("text")).build(), "elementName", "valueSet", "system", "code");
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, true);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, true);
     }
 
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientValid3() {
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, false);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
         ValidationSupport.checkValueSetBinding(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).build()).build(), "elementName", "valueSet", "system", "code");
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, true);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, true);
     }
 
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientValid4() {
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, false);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
         ValidationSupport.checkValueSetBinding(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("system")).code(Code.of("code")).build()).build(), "elementName", "valueSet", "system", "code");
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, true);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, true);
     }
 
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientNotValid1() {
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, false);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
         try {
             ValidationSupport.checkValueSetBinding(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("code")).build()).build(), "elementName", "valueSet", "system", "code");
             fail();
         } catch (IllegalStateException e) {
-            FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, true);
+            FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, true);
         }
     }
 
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientNotValid2() {
-        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, false);
+        FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
         try {
             ValidationSupport.checkValueSetBinding(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("system")).code(Code.of("invalidCode")).build()).build(), "elementName", "valueSet", "system", "code");
             fail();
         } catch (IllegalStateException e) {
-            FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, true);
+            FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, true);
         }
     }
 

@@ -466,7 +466,7 @@ public final class ValidationSupport {
      */
     public static void checkValueSetBinding(Element element, String elementName, String valueSet, String system, String... codes) {
         if (element != null) {
-            boolean advancedCodeableConceptValidation = FHIRModelConfig.getAdvancedCodeableConceptValidation();
+            boolean advancedCodeableConceptValidation = FHIRModelConfig.getExtendedCodeableConceptValidation();
             List<String> codeList = Arrays.asList(codes);
 
             if (element instanceof CodeableConcept) {
