@@ -25,7 +25,7 @@ jobs:
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
       shell: powershell
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+      run: mvn -B install --file fhir-parent/pom.xml --no-transfer-progress
     - name: Server Integration Tests
       shell: powershell
       run: |
