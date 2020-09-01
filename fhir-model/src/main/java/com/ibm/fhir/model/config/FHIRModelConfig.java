@@ -40,7 +40,9 @@ public final class FHIRModelConfig {
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "com.ibm.fhir.model.checkReferenceTypes";
 
     /**
-     * Used to determine whether CodeableConcepts that don't contain both system and code are checked during object construction
+     * Used to determine:
+     * 1. whether CodeableConcepts that don't contain both system and code are checked during object construction
+     * 2. whether syntax-based validation of UCUM and language codes is done during object construction
      */
     public static final String PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION = "com.ibm.fhir.model.advancedCodeableConcepValidation";
 

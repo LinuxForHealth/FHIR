@@ -408,6 +408,25 @@ public final class ValidationSupport {
     }
 
     /**
+     * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
+     * @deprecated use {@link #checkValueSetBinding(Element, String, String, String, String...)}
+     */
+    @Deprecated
+    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, String... codes) {
+        if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
+            List<String> codeList = Arrays.asList(codes);
+            for (Coding coding : codeableConcept.getCoding()) {
+                if (hasSystemAndCodeValues(coding) &&
+                        system.equals(coding.getSystem().getValue()) &&
+                        codeList.contains(coding.getCode().getValue())) {
+                    return;
+                }
+            }
+            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from value set: '%s'", elementName, valueSet));
+        }
+    }
+
+    /**
      * Check that the specified list of elements contain a code that is a member of the specified value set.
      * 
      * @param elements
