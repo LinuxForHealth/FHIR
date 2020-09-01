@@ -12,6 +12,7 @@ import static com.ibm.fhir.model.util.FHIRUtil.STRING_DATA_ABSENT_REASON_UNKNOWN
 import static com.ibm.fhir.term.util.CodeSystemSupport.findConcept;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
+import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 
 import java.util.ArrayList;
@@ -137,13 +138,13 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
                 Concept conceptA = findConcept(codeSystem, codeA);
                 if (conceptA != null) {
-                    Concept conceptB = findConcept(conceptA, codeB);
+                    Concept conceptB = findConcept(codeSystem, conceptA, codeB);
                     if (conceptB != null) {
                         return conceptA.equals(conceptB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
                     conceptB = findConcept(codeSystem, codeB);
                     if (conceptB != null) {
-                        conceptA = findConcept(conceptB, codeA);
+                        conceptA = findConcept(codeSystem, conceptB, codeA);
                         return (conceptA != null) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                     }
                 }
@@ -176,7 +177,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
         LookupOutcome outcome = lookup(codeSystem, coding.getCode());
-        return buildValidationOutcome(codeSystem, coding, (outcome != null), outcome);
+        return validateCode(codeSystem, coding, (outcome != null), outcome);
     }
 
     @Override
@@ -187,14 +188,14 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 return outcome;
             }
         }
-        return buildValidationOutcome(null, false, null);
+        return validateCode(null, false, null);
     }
 
     @Override
     public ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters) {
         boolean result = validateCode(getCodeSetMap(valueSet), coding);
         LookupOutcome outcome = result ? lookup(coding) : null;
-        return buildValidationOutcome(coding, result, outcome);
+        return validateCode(coding, result, outcome);
     }
 
     @Override
@@ -204,10 +205,10 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             boolean result = validateCode(codeSetMap, coding);
             if (result) {
                 LookupOutcome outcome = lookup(coding);
-                return buildValidationOutcome(coding, result, outcome);
+                return validateCode(coding, result, outcome);
             }
         }
-        return buildValidationOutcome(null, false, null);
+        return validateCode(null, false, null);
     }
 
     @Override
@@ -261,24 +262,30 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 .build();
     }
 
-    private ValidationOutcome buildValidationOutcome(Coding coding, boolean result, LookupOutcome outcome) {
-        return buildValidationOutcome(null, coding, result, outcome);
+    private ValidationOutcome validateCode(Coding coding, boolean result, LookupOutcome outcome) {
+        return validateCode(null, coding, result, outcome);
     }
 
-    private ValidationOutcome buildValidationOutcome(CodeSystem codeSystem, Coding coding, boolean result, LookupOutcome outcome) {
+    private ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, boolean result, LookupOutcome outcome) {
         String message = null;
         if (!result && coding != null && coding.getCode() != null) {
             message = String.format("Code '%s' is invalid", coding.getCode().getValue());
         }
-        if (result && outcome != null && coding != null && outcome.getDisplay() != null && coding.getDisplay() != null && !outcome.getDisplay().equals(coding.getDisplay())) {
+        if (result && outcome != null && coding != null && outcome.getDisplay() != null && coding.getDisplay() != null) {
             String system = null;
             if (coding.getSystem() != null) {
                 system = coding.getSystem().getValue();
             } else if (codeSystem != null && codeSystem.getUrl() != null) {
                 system = codeSystem.getUrl().getValue();
             }
-            message = String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system);
-            result = false;
+            boolean caseSensitive = (codeSystem != null) ? isCaseSensitive(codeSystem) : false;
+            if (codeSystem == null && system != null) {
+                String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+                String url = (version != null) ? system + "|" + version : system;
+                caseSensitive = isCaseSensitive(url);
+            }
+            result = caseSensitive ? outcome.getDisplay().equals(coding.getDisplay()) : outcome.getDisplay().getValue().equalsIgnoreCase(coding.getDisplay().getValue());
+            message = !result ? String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
         }
         return ValidationOutcome.builder()
                 .result(result ? Boolean.TRUE : Boolean.FALSE)
@@ -315,6 +322,15 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
      *     true if a codeSet is found and the provided code is a member of that codeSet, false otherwise
      */
     private boolean validateCode(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
+        if (code == null) {
+            return false;
+        }
+        if (system != null) {
+            String url = (version != null) ? system + "|" + version : system;
+            if (!isCaseSensitive(url)) {
+                code = code.toLowerCase();
+            }
+        }
         if (system != null && version != null) {
             Set<String> codeSet = codeSetMap.get(system + "|" + version);
             if (codeSet != null) {
@@ -336,7 +352,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             }
         } else {
             for (Set<String> codeSet : codeSetMap.values()) {
-                if (codeSet.contains(code)) {
+                if (codeSet.contains(code) || codeSet.contains(code.toLowerCase())) {
                     return true;
                 }
             }
@@ -365,6 +381,10 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 String version = (contains.getVersion() != null && contains.getVersion().getValue() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
                 String code = (contains.getCode() != null) ? contains.getCode().getValue() : null;
                 if (system != null && code != null) {
+                    String url = !VERSION_UNKNOWN.equals(version) ? system + "|" + version : system;
+                    if (!isCaseSensitive(url)) {
+                        code = code.toLowerCase();
+                    }
                     codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
                 }
             }
