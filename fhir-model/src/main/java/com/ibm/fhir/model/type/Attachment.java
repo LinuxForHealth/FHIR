@@ -71,7 +71,7 @@ public class Attachment extends Element {
         hash = builder.hash;
         title = builder.title;
         creation = builder.creation;
-        ValidationSupport.checkLanguageCode(language, "language");
+        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.requireValueOrChildren(this);
     }
 

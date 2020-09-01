@@ -31,6 +31,7 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
@@ -409,6 +410,90 @@ public class FHIRTermServiceTest {
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
 
         System.out.println(actual.toParameters());
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode11() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Coding coding = Coding.builder()
+                .code(Code.of("a"))
+                .display(string("CONCEPT A"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("Code 'a' is invalid"))
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode12() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .display(string("CONCEPT A"))
+                .build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode13() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Code code = Code.of("a");
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode14() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Code code = Code.of("x");
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("Code 'x' is invalid"))
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);
+
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testValidateCode15() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+
+        Code code = Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build();
+
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("Code 'null' is invalid"))
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);
 
         assertEquals(actual, expected);
     }

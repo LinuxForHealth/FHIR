@@ -11226,7 +11226,7 @@ public class ExplanationOfBenefit extends DomainResource {
             type = builder.type;
             text = builder.text;
             language = builder.language;
-            ValidationSupport.checkLanguageCodeableConcept(language, "language");
+            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
             ValidationSupport.requireValueOrChildren(this);
         }
 

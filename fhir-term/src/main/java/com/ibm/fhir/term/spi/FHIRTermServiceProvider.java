@@ -238,7 +238,39 @@ public interface FHIRTermServiceProvider {
     }
 
     /**
-     * Validate a code and display using the provided value set and validation parameters
+     * Validate a code using the provided value set and validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param code
+     *     the code
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    ValidationOutcome validateCode(ValueSet valueSet, Code code, ValidationParameters parameters);
+
+    /**
+     * Validate a code using the provided value set
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of validation
+     */
+    default ValidationOutcome validateCode(ValueSet valueSet, Code code) {
+        return validateCode(valueSet, code, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a code, system, version, and display using the provided value set and validation parameters
      *
      * @apiNote
      *     the implementation will expand the provided value set if needed
@@ -268,7 +300,7 @@ public interface FHIRTermServiceProvider {
     }
 
     /**
-     * Validate a code and display using the provided value set
+     * Validate a code, system, version, and display using the provided value set
      *
      * @apiNote
      *     the implementation will expand the provided value set if needed

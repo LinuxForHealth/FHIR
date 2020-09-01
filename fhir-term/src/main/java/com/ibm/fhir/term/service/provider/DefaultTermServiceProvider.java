@@ -192,6 +192,12 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
+    public ValidationOutcome validateCode(ValueSet valueSet, Code code, ValidationParameters parameters) {
+        boolean result = validateCode(getCodeSetMap(valueSet), code);
+        return validateCode(null, Coding.builder().code(code).build(), result, null);
+    }
+
+    @Override
     public ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters) {
         boolean result = validateCode(getCodeSetMap(valueSet), coding);
         LookupOutcome outcome = result ? lookup(coding) : null;
@@ -294,6 +300,18 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 .build();
     }
 
+    private boolean validateCode(Map<String, Set<String>> codeSetMap, Code code) {
+        String codeString = (code != null) ? code.getValue() : null;
+        if (codeString != null) {
+            for (Set<String> codeSet : codeSetMap.values()) {
+                if (codeSet.contains(codeString) || codeSet.contains(codeString.toLowerCase())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private boolean validateCode(Map<String, Set<String>> codeSetMap, Coding coding) {
         String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
         String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
@@ -304,6 +322,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     /**
      * Determine whether the provided code is in the codeSet associated with the provided system and version.
      *
+     * <p>If the system or code is null, return false. If the version is non-null, it is concatenated with the
+     * system to form a key into the codeSetMap. If not found, then the system is concatenated with the
+     * "VERSION_UNKNOWN" constant (in cases where the expanded value set did not have a version available during the
+     * expansion). If only the system is non-null, then the codeSetMap keys are checked for startsWith(system).
+     * 
      * <p>If the system and version are non-null, then they are concatenated to form a key into the codeSetMap. If
      * not found, then the system is concatenated with the "VERSION_UNKNOWN" constant (in cases where the expanded
      * value set did not have a version available during the expansion). If only the system is non-null, then the
@@ -313,7 +336,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
      * @param codeSetMap
      *     the code set map
      * @param system
-     *     the system of the focal coded element (can be null)
+     *     the system of the focal coded element
      * @param version
      *     the version of the focal coded element (can be null)
      * @param code
@@ -322,16 +345,14 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
      *     true if a codeSet is found and the provided code is a member of that codeSet, false otherwise
      */
     private boolean validateCode(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
-        if (code == null) {
+        if (system == null || code == null) {
             return false;
         }
-        if (system != null) {
-            String url = (version != null) ? system + "|" + version : system;
-            if (!isCaseSensitive(url)) {
-                code = code.toLowerCase();
-            }
+        String url = (version != null) ? system + "|" + version : system;
+        if (!isCaseSensitive(url)) {
+            code = code.toLowerCase();
         }
-        if (system != null && version != null) {
+        if (version != null) {
             Set<String> codeSet = codeSetMap.get(system + "|" + version);
             if (codeSet != null) {
                 if (codeSet.contains(code)) {
@@ -343,17 +364,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                     }
                 }
             }
-        } else if (system != null) {
+        } else {
             String prefix = system + "|";
             for (String key : codeSetMap.keySet()) {
                 if (key.startsWith(prefix)) {
                     return codeSetMap.get(key).contains(code);
-                }
-            }
-        } else {
-            for (Set<String> codeSet : codeSetMap.values()) {
-                if (codeSet.contains(code) || codeSet.contains(code.toLowerCase())) {
-                    return true;
                 }
             }
         }

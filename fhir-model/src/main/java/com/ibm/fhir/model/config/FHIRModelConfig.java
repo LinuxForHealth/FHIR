@@ -39,10 +39,16 @@ public final class FHIRModelConfig {
      */
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "com.ibm.fhir.model.checkReferenceTypes";
 
+    /**
+     * Used to determine whether CodeableConcepts that don't contain both system and code are checked during object construction
+     */
+    public static final String PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION = "com.ibm.fhir.model.advancedCodeableConcepValidation";
+
     private static final Format DEFAULT_TO_STRING_FORMAT = Format.JSON;
     private static final int DEFAULT_TO_STRING_INDENT_AMOUNT = 2;
     private static final boolean DEFAULT_TO_STRING_PRETTY_PRINTING = true;
     private static final boolean DEFAULT_CHECK_REFERENCE_TYPES = true;
+    private static final boolean DEFAULT_ADVANCED_CODEABLE_CONCEPT_VALIDATION = true;
 
     private static final Map<String, Object> properties = new ConcurrentHashMap<>();
    
@@ -78,6 +84,10 @@ public final class FHIRModelConfig {
     
     public static boolean getCheckReferenceTypes() {
         return getPropertyOrDefault(PROPERTY_CHECK_REFERENCE_TYPES, DEFAULT_CHECK_REFERENCE_TYPES, Boolean.class);
+    }
+   
+    public static boolean getAdvancedCodeableConceptValidation() {
+        return getPropertyOrDefault(PROPERTY_ADVANCED_CODEABLE_CONCEPT_VALIDATION, DEFAULT_ADVANCED_CODEABLE_CONCEPT_VALIDATION, Boolean.class);
     }
    
     public static void setProperty(String name, Object value) {

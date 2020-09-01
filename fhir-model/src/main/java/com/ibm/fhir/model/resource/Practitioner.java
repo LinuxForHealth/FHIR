@@ -89,7 +89,7 @@ public class Practitioner extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        ValidationSupport.checkLanguageCodeableConcepts(communication, "communication");
+        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.requireChildren(this);
     }
 

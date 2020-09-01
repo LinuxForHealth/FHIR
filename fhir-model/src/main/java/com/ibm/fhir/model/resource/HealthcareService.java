@@ -156,8 +156,8 @@ public class HealthcareService extends DomainResource {
         notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
-        ValidationSupport.checkLanguageCodeableConcepts(communication, "communication");
         ValidationSupport.requireChildren(this);
     }
 

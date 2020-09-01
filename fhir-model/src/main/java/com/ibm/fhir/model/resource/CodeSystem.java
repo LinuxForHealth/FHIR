@@ -2667,7 +2667,7 @@ public class CodeSystem extends DomainResource {
                 language = builder.language;
                 use = builder.use;
                 value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.checkLanguageCode(language, "language");
+                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
