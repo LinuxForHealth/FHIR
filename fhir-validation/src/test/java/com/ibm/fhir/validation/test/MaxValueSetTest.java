@@ -48,7 +48,7 @@ public class MaxValueSetTest {
      */
     @Test
     public void testConstraintGenerator() throws Exception {
-        
+
         // Tests the generation of constraints generated from bindings that include a MaxValueSet extension,
         // by using a Device profile and extensions created specifically for this test.
         //
@@ -72,7 +72,7 @@ public class MaxValueSetTest {
         // Choice: Yes; Optional: Yes; Repeatable: Yes
         //----[test-language-others-opt-extension]
         //-----------------------------------------------
-        
+
         StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-device", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(structureDefinition);
         List<Constraint> constraints = generator.generate();
@@ -89,7 +89,7 @@ public class MaxValueSetTest {
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
         assertEquals(constraints.get(1).expression(), "value.as(CodeableConcept).exists() and value.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and value.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')");
-        
+
         structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
@@ -118,26 +118,26 @@ public class MaxValueSetTest {
         constraints.forEach(constraint -> compile(constraint.expression()));
         assertEquals(constraints.get(1).expression(), "value.as(CodeableConcept).exists() and value.as(CodeableConcept).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')) and value.as(CodeableConcept).all(memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
     }
-    
+
     /**
      * Tests the validation of a maxValueSet.
      * @throws Exception an exception
      */
     @Test
     public void testValidator() throws Exception {
-        
+
         // No warnings/error
         Device device = buildDevice();
         List<Issue> issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
-        
+
         // Error for missing statusReason
         device = buildDevice().toBuilder().statusReason(Collections.emptyList()).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 1);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
-        
+
         // Warning and error for statusReason
         device = buildDevice().toBuilder().statusReason(Arrays.asList(
                 CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build(),
@@ -146,29 +146,29 @@ public class MaxValueSetTest {
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        
+
         // Warning for type
         device = buildDevice().toBuilder()
                 .type(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build()).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
-        
+
         // Error for type
         device = buildDevice().toBuilder()
                 .type(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build()).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
-        
+
         // Warning and error for specialization.systemType
         device = buildDevice().toBuilder().specialization(Arrays.asList(
                 Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build()).build(),
-                Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidSystem")).build()).build()).build())).build();                
+                Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidSystem")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        
+
         // Warning and error for safety
         device = buildDevice().toBuilder().safety(Arrays.asList(
                 CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build(),
@@ -177,7 +177,7 @@ public class MaxValueSetTest {
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        
+
         // Warning for test-language-primary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
@@ -191,9 +191,10 @@ public class MaxValueSetTest {
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
                 .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
-        assertEquals(FHIRValidationUtil.countErrors(issues), 3);
+        assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
-        
+        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
+
         // Warning for test-language-secondary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension")
@@ -207,9 +208,10 @@ public class MaxValueSetTest {
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension")
                 .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
-        assertEquals(FHIRValidationUtil.countErrors(issues), 3);
+        assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        
+        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
+
         // Warning for test-language-tertiary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension")
@@ -217,16 +219,17 @@ public class MaxValueSetTest {
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        
+
         // Error for test-language-tertiary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension")
                 .value(Code.of("invalidLanguage")).build())).build();
         issues = FHIRValidator.validator().validate(device);
-        assertEquals(FHIRValidationUtil.countErrors(issues), 3);
+        assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
+        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
     }
-    
+
     /**
      * Builds a device that will validate successfully.
      * @return a device

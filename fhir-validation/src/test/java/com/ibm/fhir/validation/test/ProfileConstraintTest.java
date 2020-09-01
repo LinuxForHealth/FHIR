@@ -8,6 +8,7 @@ package com.ibm.fhir.validation.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
+import static com.ibm.fhir.validation.util.FHIRValidationUtil.countInformation;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.countWarnings;
 import static org.testng.Assert.assertEquals;
 
@@ -65,7 +66,8 @@ public class ProfileConstraintTest {
                 .build();
 
         List<Issue> issues = FHIRValidator.validator().validate(coverage);
-        assertEquals(countErrors(issues), 2);
+        assertEquals(countErrors(issues), 1);
         assertEquals(countWarnings(issues), 1);
+        assertEquals(countInformation(issues), 1);
     }
 }
