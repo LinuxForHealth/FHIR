@@ -16,6 +16,7 @@ import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Identifier;
@@ -45,6 +46,12 @@ public class MinimalDataCreator extends DataCreatorBase {
             tag((Resource.Builder) builder, "ibm/minimal");
         }
         
+        if (builder instanceof CodeableConcept.Builder){
+            // we have a CodeableConcept type - add Coding with data-absent-reason extension due to validation rules
+            setDataAbsentReasonCoding((CodeableConcept.Builder) builder);
+            return builder;
+        }
+
         boolean empty = true;
         
         Method[] methods = builder.getClass().getDeclaredMethods();

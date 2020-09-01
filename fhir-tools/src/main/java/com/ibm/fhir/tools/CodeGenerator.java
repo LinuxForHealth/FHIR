@@ -1109,18 +1109,46 @@ public class CodeGenerator {
                 cb.invoke("ValidationSupport", "checkUri", args("url"));
             }
 
+            // Handle code/coding/codeableconcept/quantity/string/uri fields with required or maxValueSet binding
             for (JsonObject elementDefinition : elementDefinitions) {
-                String elementName = getElementName(elementDefinition, path);
-                String fieldName = getFieldName(elementName);
-                String fieldType = getFieldType(structureDefinition, elementDefinition);
-                if ("CodeableConcept".equals(fieldType) && hasRequiredBinding(elementDefinition)) {
-                    JsonObject binding = getBinding(elementDefinition);
-                    String valueSet = binding.getString("valueSet");
-                    String[] tokens = valueSet.split("\\|");
-                    valueSet = tokens[0];
-                    String system = getSystem(valueSet);
-                    List<JsonObject> concepts = getConcepts(valueSet);
-                    cb.invoke("ValidationSupport", "checkCodeableConcept", args(fieldName, quote(elementName), quote(valueSet), quote(system), concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                String basePath = elementDefinition.getJsonObject("base").getString("path");
+                if (elementDefinition.getString("path").equals(basePath)) {
+                    String elementName = getElementName(elementDefinition, path);
+                    String fieldName = getFieldName(elementName);
+                    String fieldType = getFieldType(structureDefinition, elementDefinition, false);
+                    if ("Code".equals(fieldType) || "Coding".equals(fieldType) || "CodeableConcept".equals(fieldType) ||
+                            "Quantity".equals(fieldType) || "String".equals(fieldType) || "Uri".equals(fieldType)) {
+                        JsonObject binding = getBinding(elementDefinition);
+                        if (binding != null && binding.containsKey("valueSet") && binding.containsKey("strength")) {
+                            String valueSet = binding.getString("valueSet").split("\\|")[0];
+                            if ("required".equals(binding.getString("strength"))) {
+                                // required binding, check if it should be validated
+                                String system = getSystem(valueSet);
+                                List<JsonObject> concepts = getConcepts(valueSet);
+                                if ((!concepts.isEmpty() && !"Code".equals(fieldType)) || isSyntaxValidatedValueSet(valueSet)) {
+                                    if (concepts.isEmpty()) {
+                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system)));
+                                    } else {
+                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system),
+                                            concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                                    }
+                                }
+                            } else if (getMaxValueSet(binding) != null) {
+                                // not a required binding, check maxValueSet binding
+                                valueSet = getMaxValueSet(binding).split("\\|")[0];
+                                String system = getSystem(valueSet);
+                                List<JsonObject> concepts = getConcepts(valueSet);
+                                if (!concepts.isEmpty() || isSyntaxValidatedValueSet(valueSet)) {
+                                    if (concepts.isEmpty()) {
+                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system)));
+                                    } else {
+                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system),
+                                            concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -1131,32 +1159,6 @@ public class CodeGenerator {
                     List<String> referenceTypes = getReferenceTypes(elementDefinition);
                     if (!referenceTypes.isEmpty()) {
                         cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
-                    }
-                }
-            }
-
-            // Handle code/coding/codeableconcept fields with required (or maxValueSet) binding to syntax-based value set
-            for (JsonObject elementDefinition : elementDefinitions) {
-                String basePath = elementDefinition.getJsonObject("base").getString("path");
-                if (elementDefinition.getString("path").equals(basePath)) {
-                    String elementName = getElementName(elementDefinition, path);
-                    String fieldName = getFieldName(elementName);
-                    String fieldType = getFieldType(structureDefinition, elementDefinition, false);
-                    if ("Code".equals(fieldType) || "Coding".equals(fieldType) || "CodeableConcept".equals(fieldType)) {
-                        JsonObject binding = getBinding(elementDefinition);
-                        if (binding != null && binding.containsKey("valueSet") && binding.containsKey("strength")) {
-                            String valueSet = binding.getString("valueSet").split("\\|")[0];
-                            if (!"required".equals(binding.getString("strength")) || hasConcepts(valueSet)) {
-                                valueSet = getMaxValueSet(binding);
-                                valueSet = (valueSet != null) ? valueSet.split("\\|")[0] : null;
-                                valueSet = (valueSet != null && !hasConcepts(valueSet)) ? valueSet : null;
-                            }
-                            // If there is a required (or maxValueSet) binding to a syntax-based value set, then do the appropriate checking for that syntax-based value set
-                            String validationMethodName = getSyntaxBasedValueSetValidationMethod(valueSet, fieldType, isRepeating(elementDefinition));
-                            if (validationMethodName != null) {
-                                cb.invoke("ValidationSupport", validationMethodName, args(fieldName, quote(elementName)));
-                            }
-                        }
                     }
                 }
             }
@@ -1251,20 +1253,15 @@ public class CodeGenerator {
     }
 
     /**
-     * Gets the name of the validationSupport method to use to validate the syntax-based value set.
+     * Determines whether or not the value set is validated by syntax.
      * @param valueSet the value set
-     * @param fieldType the field type (e.g. Code, Coding, or CodeableConcept)
-     * @param isRepeating true if a list field, otherwise false
-     * @return the validationSupport method to use, or null
+     * @return true if syntax-based validation, false if not
      */
-    private String getSyntaxBasedValueSetValidationMethod(String valueSet, String fieldType, boolean isRepeating) {
-        String suffix = fieldType + (isRepeating ? "s" : "");
-        if (ALL_LANG_VALUE_SET_URL.equals(valueSet)) {
-            return "checkLanguage" + suffix;
-        } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
-            return "checkUcum" + suffix;
+    private boolean isSyntaxValidatedValueSet(String valueSet) {
+        if (ALL_LANG_VALUE_SET_URL.equals(valueSet) || UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
+            return true;
         }
-        return null;
+        return false;
     }
 
     private List<String> getReferenceTypes(JsonObject elementDefinition) {

@@ -10,9 +10,11 @@
     </extension>
   </status>
   <type>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </type>
   <use>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -35,9 +37,11 @@
     </extension>
   </provider>
   <priority>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </priority>
   <insurance>
     <sequence>

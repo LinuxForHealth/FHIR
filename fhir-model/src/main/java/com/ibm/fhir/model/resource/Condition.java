@@ -174,8 +174,8 @@ public class Condition extends DomainResource {
         stage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stage, "stage"));
         evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkCodeableConcept(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
-        ValidationSupport.checkCodeableConcept(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
+        ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
+        ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");

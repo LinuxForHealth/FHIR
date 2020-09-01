@@ -27,6 +27,7 @@ import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.Task;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Age;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DataRequirement;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
@@ -55,6 +56,12 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
     }
 
     private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
+        if (builder instanceof Coding.Builder){
+            // we have a Coding type - treat as a primitive type (i.e. an edge node) due to validation rules
+            setDataAbsentReason((Coding.Builder) builder);
+            return builder;
+        }
+
         Method[] methods = builder.getClass().getDeclaredMethods();
         
         boolean empty = true;

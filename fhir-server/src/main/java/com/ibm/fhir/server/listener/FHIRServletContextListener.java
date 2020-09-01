@@ -23,6 +23,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 
 import java.util.List;
 import java.util.Properties;
@@ -171,6 +172,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
             FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
+
+            Boolean extendedCodeableConceptValidation = fhirConfig.getBooleanProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.TRUE);
+            FHIRModelConfig.setExtendedCodeableConceptValidation(extendedCodeableConceptValidation);
 
             // Transaction handling done inside the following method, so each database
             // we need to bootstrap can get its own transaction.

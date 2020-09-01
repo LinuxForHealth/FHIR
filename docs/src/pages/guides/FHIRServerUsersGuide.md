@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-05-13"
+lastupdated: "2020-09-01"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1407,6 +1407,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
+|`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1476,6 +1477,7 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|false|
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
+|`fhirServer/core/extendedCodeableConceptValidation`|true|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1535,6 +1537,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N|
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
+|`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|

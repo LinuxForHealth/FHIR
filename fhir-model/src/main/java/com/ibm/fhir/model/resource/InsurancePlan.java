@@ -3727,7 +3727,7 @@ public class InsurancePlan extends DomainResource {
                         applicability = builder.applicability;
                         qualifiers = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualifiers, "qualifiers"));
                         value = builder.value;
-                        ValidationSupport.checkCodeableConcept(applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
+                        ValidationSupport.checkValueSetBinding(applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
                         ValidationSupport.requireValueOrChildren(this);
                     }
 

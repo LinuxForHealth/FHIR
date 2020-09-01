@@ -1612,7 +1612,7 @@ public class Patient extends DomainResource {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
             preferred = builder.preferred;
-            ValidationSupport.checkLanguageCodeableConcept(language, "language");
+            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
             ValidationSupport.requireValueOrChildren(this);
         }
 

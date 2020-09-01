@@ -7,6 +7,7 @@
 package com.ibm.fhir.model.util;
 
 import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
 import java.io.StringReader;
 import java.util.Arrays;
@@ -35,7 +36,9 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.ucum.util.UCUMUtil;
 
 /**
@@ -45,6 +48,8 @@ import com.ibm.fhir.model.ucum.util.UCUMUtil;
  *          so that Builder.build() methods can throw the most appropriate exception without catching and wrapping
  */
 public final class ValidationSupport {
+    public static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
+    public static final String UCUM_UNITS_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/ucum-units";
     public static final String BCP_47_URN = "urn:ietf:bcp:47";
     public static final String UCUM_CODE_SYSTEM_URL = "http://unitsofmeasure.org";
     public static final String DATA_ABSENT_REASON_EXTENSION_URL = "http://hl7.org/fhir/StructureDefinition/data-absent-reason";
@@ -204,207 +209,6 @@ public final class ValidationSupport {
         }
     }
 
-    /**
-     * Checks that each language code in the list has a valid BCP-47 syntax.
-     * @param language the language code list
-     * @param elementName the element name
-     * @throws IllegalStateException if the passed language code list is not valid
-     */
-    public static void checkLanguageCodes(List<Code> languages, String elementName) {
-        if (languages != null) {
-            for (Code language : languages) {
-                checkLanguageCode(language, elementName);
-            }
-        }
-    }
-    
-    /**
-     * Checks that the language code has a valid BCP-47 syntax.
-     * @param language the language code
-     * @param elementName the element name
-     * @throws IllegalStateException if the passed language code is not valid
-     */
-    public static void checkLanguageCode(Code language, String elementName) {
-        if (language != null && language.getValue() != null) {
-            String languageValue = language.getValue();
-            try {
-                new Locale.Builder().setLanguageTag(languageValue).build();
-            }
-            catch (IllformedLocaleException e) {
-                throw new IllegalStateException(String.format("'%s' is not a valid language code", languageValue));
-            }
-        }
-    }
-
-    /**
-     * Checks that each language coding in the list has a valid BCP-47 syntax.
-     * @param language the language coding list
-     * @param elementName the element name
-     * @throws IllegalStateException if the passed language coding list is not valid
-     */
-    public static void checkLanguageCodings(List<Coding> languages, String elementName) {
-        if (languages != null) {
-            for (Coding language : languages) {
-                checkLanguageCoding(language, elementName);
-            }
-        }
-    }
-    
-    /**
-     * Checks that the language coding has a valid BCP-47 syntax.
-     * @param language the language coding
-     * @param elementName the element name
-     * @throws IllegalStateException if the passed language coding is not valid
-     */
-    public static void checkLanguageCoding(Coding language, String elementName) {
-        if (language != null) {
-            if (hasSystemAndCodeValues(language)) {
-                if (!BCP_47_URN.equals(language.getSystem().getValue())) {
-                    throw new IllegalStateException(String.format("Language system is not '%s'", BCP_47_URN));
-                }
-                checkLanguageCode(language.getCode(), elementName);
-            }
-        }
-    }
-
-    /**
-     * Checks that the language codeable concept has at least one coding with a valid BCP-47 syntax.
-     * @param language the language codeable concept
-     * @param elementName the element name
-     * @throws IllegalStateException if the passed language codeable concept is not valid
-     */
-    public static void checkLanguageCodeableConcepts(List<CodeableConcept> languages, String elementName) {
-        if (languages != null) {
-            for (CodeableConcept language : languages) {
-                checkLanguageCodeableConcept(language, elementName);
-            }
-        }
-    }
-
-    /**
-     * Checks that the language codeable concept has at least one coding with a valid BCP-47 syntax.
-     * @param language the language codeable concept
-     * @param elementName the element name
-     * @throws IllegalStateException if the passed language codeable concept is not valid
-     */
-    public static void checkLanguageCodeableConcept(CodeableConcept language, String elementName) {
-        if (language != null && !language.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(language)) {
-            for (Coding coding : language.getCoding()) {
-                if (hasSystemAndCodeValues(coding)) {
-                    try {
-                        checkLanguageCoding(coding, elementName);
-                        return;
-                    }
-                    catch (IllegalStateException e) {}
-                }
-            }
-            throw new IllegalStateException(String.format("'%s' does not contain a language system of '%s' and a valid language code", elementName, BCP_47_URN));
-        }
-    }
-        
-    /**
-     * Checks that each UCUM code in the list has a valid UCUM syntax.
-     * @param ucumCodes the UCUM code list
-     * @param elementName the element name
-     * @throws IllegalStateException if any code in the list is not valid
-     */
-    public static void checkUcumCodes(List<Code> ucumCodes, String elementName) {
-        if (ucumCodes != null) {
-            for (Code ucumCode : ucumCodes) {
-                checkUcumCode(ucumCode, elementName);
-            }
-        }
-    }
-    
-    /**
-     * Checks that the UCUM code has a valid UCUM syntax.
-     * @param ucumCode the UCUM code
-     * @param elementName the element name
-     * @throws IllegalStateException if the code is not valid
-     */
-    public static void checkUcumCode(Code ucumCode, String elementName) {
-        if (ucumCode != null) {
-            String ucumCodeValue = ucumCode.getValue();
-            if (!UCUMUtil.isValidUcum(ucumCodeValue)) {
-               throw new IllegalStateException(String.format("'%s' is not a valid UCUM code", ucumCodeValue));
-            }
-        }
-    }
-
-    /**
-     * Checks that each UCUM coding in the list has a valid UCUM syntax.
-     * @param ucumCodings the UCUM coding list
-     * @param elementName the element name
-     * @throws IllegalStateException if any coding in the list is not valid
-     */
-    public static void checkUcumCodings(List<Coding> ucumCodings, String elementName) {
-        if (ucumCodings != null) {
-            for (Coding ucumCoding : ucumCodings) {
-                checkUcumCoding(ucumCoding, elementName);
-            }
-        }
-    }
-    
-    /**
-     * Checks that the UCUM coding has a valid UCUM syntax.
-     * @param ucumCoding the UCUM coding
-     * @param elementName the element name
-     * @throws IllegalStateException if the coding is not valid
-     */
-    public static void checkUcumCoding(Coding ucumCoding, String elementName) {
-        if (ucumCoding != null) {
-            if (hasSystemAndCodeValues(ucumCoding)) {
-                if (!UCUM_CODE_SYSTEM_URL.equals(ucumCoding.getSystem().getValue())) {
-                    throw new IllegalStateException(String.format("UCUM system is not '%s'", UCUM_CODE_SYSTEM_URL));
-                } else {
-                    checkUcumCode(ucumCoding.getCode(), elementName);
-                }
-                return;
-            }
-            throw new IllegalStateException(String.format("Coding does not contain a UCUM system of '%s' and a valid UCUM code", UCUM_CODE_SYSTEM_URL));
-        }
-    }
-
-    /**
-     * Checks that each UCUM codeable concept in the list has at least one coding with a valid UCUM syntax.
-     * @param ucumCodeableConcepts the UCUM codeable concept list
-     * @param elementName the element name
-     * @throws IllegalStateException if andy codeable concept in the list is not valid
-     */
-    public static void checkUcumCodeableConcepts(List<CodeableConcept> ucumCodeableConcepts, String elementName) {
-        if (ucumCodeableConcepts != null) {
-            for (CodeableConcept ucumCodeableConcept : ucumCodeableConcepts) {
-                checkUcumCodeableConcept(ucumCodeableConcept, elementName);
-            }
-        }
-    }
-
-    /**
-     * Checks that the UCUM codeable concept has at least one coding with a valid UCUM syntax,
-     * or at least one coding with no system or code element specified, but containing a
-     * data-absent-reason extension.
-     * @param ucumCodeableConcept the UCUM codeable concept
-     * @param elementName the element name
-     * @throws IllegalStateException if the codeable concept is not valid
-     */
-    public static void checkUcumCodeableConcept(CodeableConcept ucumCodeableConcept, String elementName) {
-        if (ucumCodeableConcept != null) {
-            if (ucumCodeableConcept.getCoding() != null) {
-                for (Coding coding : ucumCodeableConcept.getCoding()) {
-                    if (hasSystemOrCodeElements(coding)) {
-                        try {
-                            checkUcumCoding(coding, elementName);
-                            return;
-                        } catch (IllegalStateException e) {}
-                    } else if (hasDataAbsentReasonExtension(coding)) {
-                        return;
-                    }
-                }
-            }
-            throw new IllegalStateException(String.format("'%s' does not contain a Coding with a UCUM system of '%s' and a valid UCUM code", elementName, UCUM_CODE_SYSTEM_URL));
-        }
-    }
-        
     /**
      * @throws IllegalStateException if the passed String is longer than the maximum string length
      */
@@ -605,7 +409,9 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
+     * @deprecated use {@link #checkValueSetBinding(Element, String, String, String, String...)}
      */
+    @Deprecated
     public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, String... codes) {
         if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
             List<String> codeList = Arrays.asList(codes);
@@ -620,6 +426,170 @@ public final class ValidationSupport {
         }
     }
 
+    /**
+     * Check that the specified list of elements contain a code that is a member of the specified value set.
+     * 
+     * @param elements
+     *     the list of elements for which to check codes
+     * @param elementName
+     *     the name of the element
+     * @param valueSet
+     *     the URL of the value set to check membership against
+     * @param system
+     *     the value set system
+     * @param codes
+     *     the value set codes
+     * @throws IllegalStateExeption if each element in the list does not include a code from the required value set
+     */
+    public static void checkValueSetBinding(List<? extends Element> elements, String elementName, String valueSet, String system, String... valueSetCodes) {
+        if (elements != null) {
+            for (Element element : elements) {
+                checkValueSetBinding(element, elementName, valueSet, system, valueSetCodes);
+            }
+        }
+    }
+
+    /**
+     * Check that the specified element contains a code that is a member of the specified value set.
+     * 
+     * @param element
+     *     the element for which to check codes
+     * @param elementName
+     *     the name of the element
+     * @param valueSet
+     *     the URL of the value set to check membership against
+     * @param system
+     *     the value set system
+     * @param codes
+     *     the value set codes
+     * @throws IllegalStateExeption if the element does not include a code from the required value set
+     */
+    public static void checkValueSetBinding(Element element, String elementName, String valueSet, String system, String... codes) {
+        if (element != null) {
+            boolean advancedCodeableConceptValidation = FHIRModelConfig.getExtendedCodeableConceptValidation();
+            List<String> codeList = Arrays.asList(codes);
+
+            if (element instanceof CodeableConcept) {
+                checkCodeableConcept((CodeableConcept)element, elementName, valueSet, system, codeList, advancedCodeableConceptValidation);
+            } else if (element instanceof Coding || element instanceof Quantity) {
+                checkCoding(element, elementName, valueSet, system, codeList, advancedCodeableConceptValidation);
+            } else if (element instanceof Code || element instanceof Uri || element instanceof com.ibm.fhir.model.type.String) {
+                checkCode(element, elementName, valueSet, codeList, advancedCodeableConceptValidation);
+            }
+        }
+    }
+
+    /**
+     * @throws IllegalStateExeption if the CodeableConcept element does not include a code from the required binding
+     */
+    private static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, List<String> codes, boolean advancedCodeableConceptValidation) {
+        if (advancedCodeableConceptValidation) {
+            if (codeableConcept.getCoding() != null) {
+                for (Coding coding : codeableConcept.getCoding()) {
+                    try {
+                        checkCoding(coding, elementName, valueSet, system, codes, advancedCodeableConceptValidation);
+                        return;
+                    } catch (IllegalStateException e) {}
+                }
+            }
+            throw new IllegalStateException(String.format("Element '%s': does not contain a Coding element with a valid system and code combination for value set: '%s'", elementName, valueSet));
+        } else if (!codes.isEmpty() && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
+            for (Coding coding : codeableConcept.getCoding()) {
+                if (hasSystemAndCodeValues(coding) &&
+                        system.equals(coding.getSystem().getValue()) &&
+                        codes.contains(coding.getCode().getValue())) {
+                    return;
+                }
+            }
+            throw new IllegalStateException(String.format("Element '%s': does not contain a Coding element with a valid system and code combination for value set: '%s'", elementName, valueSet));
+        }
+    }
+
+    /**
+     * @throws IllegalStateExeption if the Coding element does not include a code from the required binding
+     */
+    private static void checkCoding(Element element, String elementName, String valueSet, String system, List<String> codes, boolean advancedCodeableConceptValidation) {
+        if (advancedCodeableConceptValidation) {
+            if (!hasOnlyDataAbsentReasonExtension(element)) {
+                if (hasSystemAndCodeValues(element)) {
+                    String codingSystem = null;
+                    Code codingCode = null;
+                    if (element instanceof Coding) {
+                        codingSystem = element.as(Coding.class).getSystem().getValue();
+                        codingCode = element.as(Coding.class).getCode();
+                    } else if (element instanceof Quantity) {
+                        codingSystem = element.as(Quantity.class).getSystem().getValue();
+                        codingCode = element.as(Quantity.class).getCode();
+                    }
+                    if (isSyntaxValidatedValueSet(valueSet)) {
+                        checkSyntaxValidatedCode(codingCode.getValue(), codingSystem, elementName, valueSet, advancedCodeableConceptValidation);
+                    } else {
+                        if (!codingSystem.equals(system)) {
+                            throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, codingSystem, valueSet));
+                        } else {
+                            checkCode(codingCode, elementName, valueSet, codes, advancedCodeableConceptValidation);
+                        }
+                    }
+                } else {
+                    throw new IllegalStateException(String.format("Element '%s': does not contain a valid system and code combination for value set: '%s'", elementName, valueSet));
+                }
+            }
+        }
+    }
+
+    /**
+     * @throws IllegalStateExeption if the code element is not from the required binding
+     */
+    private static void checkCode(Element element, String elementName, String valueSet, List<String> codes, boolean advancedCodeableConceptValidation) {
+        if (advancedCodeableConceptValidation) {
+            if (!hasOnlyDataAbsentReasonExtension(element)) {
+                String codeValue = null;
+                if (element instanceof Code) {
+                    codeValue = ((Code)element).getValue();
+                } else if (element instanceof Uri) {
+                    codeValue = ((Uri)element).getValue();
+                } else if (element instanceof com.ibm.fhir.model.type.String) {
+                    codeValue = ((com.ibm.fhir.model.type.String)element).getValue();
+                }
+                if (codeValue != null) {
+                    if (isSyntaxValidatedValueSet(valueSet)) {
+                        checkSyntaxValidatedCode(codeValue, null, elementName, valueSet, advancedCodeableConceptValidation);
+                    } else if (!codes.contains(codeValue)) {
+                        throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, codeValue, valueSet));
+                    }
+                } else {
+                    throw new IllegalStateException(String.format("Element '%s': does not contan a valid code for value set '%s'", elementName, valueSet));
+                }
+            }
+        }
+    }
+
+    /**
+     * @throws IllegalStateExeption if the code element is not from the required binding
+     */
+    private static void checkSyntaxValidatedCode(String code, String system, String elementName, String valueSet, boolean advancedCodeableConceptValidation) {
+        if (advancedCodeableConceptValidation) {
+            if (ALL_LANG_VALUE_SET_URL.contentEquals(valueSet)) {
+                if (system != null && !BCP_47_URN.equals(system)) {
+                    throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, system, valueSet));
+                } else {
+                    try {
+                        // Syntax check only on code
+                        new Locale.Builder().setLanguageTag(code).build();
+                    } catch (IllformedLocaleException e) {
+                        throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, code, valueSet));
+                    }
+                }
+            } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
+                if (system != null && !UCUM_CODE_SYSTEM_URL.equals(system)) {
+                    throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, system, valueSet));
+                } else if (!UCUMUtil.isValidUcum(code)) {
+                    throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, code, valueSet));
+                }
+            }
+        }
+    }
+
     private static boolean hasCodingWithSystemAndCodeValues(CodeableConcept codeableConcept) {
         for (Coding coding : codeableConcept.getCoding()) {
             if (hasSystemAndCodeValues(coding)) {
@@ -629,15 +599,28 @@ public final class ValidationSupport {
         return false;
     }
 
-    private static boolean hasSystemAndCodeValues(Coding coding) {
-        return coding.getSystem() != null &&
-                coding.getSystem().getValue() != null &&
-                coding.getCode() != null &&
-                coding.getCode().getValue() != null;
+    private static boolean hasSystemAndCodeValues(Element element) {
+        if (element instanceof Coding) {
+            Coding coding = (Coding) element;
+            return coding.getSystem() != null &&
+                    coding.getSystem().getValue() != null &&
+                    coding.getCode() != null &&
+                    coding.getCode().getValue() != null;
+        } else if (element instanceof Quantity) {
+            Quantity quantity = (Quantity) element;
+            return quantity.getSystem() != null &&
+                    quantity.getSystem().getValue() != null &&
+                    quantity.getCode() != null &&
+                    quantity.getCode().getValue() != null;
+        }
+        return false;
     }
 
-    private static boolean hasSystemOrCodeElements(Coding coding) {
-        return coding.getSystem() != null || coding.getCode() != null;
+    private static boolean isSyntaxValidatedValueSet(String valueSet) {
+        if (ALL_LANG_VALUE_SET_URL.equals(valueSet) || UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -729,6 +712,24 @@ public final class ValidationSupport {
         }
     }
     
+    public static boolean hasOnlyDataAbsentReasonExtension(Element element) {
+        if (hasDataAbsentReasonExtension(element) &&
+                ((element.is(Code.class) && element.as(Code.class).getValue() == null) ||
+                 (element.is(FHIR_STRING) && element.as(FHIR_STRING).getValue() == null) ||
+                 (element.is(Uri.class) && element.as(Uri.class).getValue() == null) ||
+                 (element.is(Coding.class) && element.as(Coding.class).getSystem() == null && element.as(Coding.class).getCode() == null) ||
+                 (element.is(Quantity.class) && element.as(Quantity.class).getSystem() == null && element.as(Quantity.class).getCode() == null))) {
+            return true;
+        } else if (element.is(CodeableConcept.class) && element.as(CodeableConcept.class).getCoding() != null) {
+            for (Coding coding : element.as(CodeableConcept.class).getCoding()) {
+                if (hasOnlyDataAbsentReasonExtension(coding)) {
+                    return true;     
+                }
+            }
+        }
+        return false;
+    }
+
     private static boolean hasDataAbsentReasonExtension(Element element) {
         for (Extension extension : element.getExtension()) {
             if (DATA_ABSENT_REASON_EXTENSION_URL.equals(extension.getUrl())) {

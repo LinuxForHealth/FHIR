@@ -10,13 +10,17 @@
     </extension>
   </status>
   <scope>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </scope>
   <category>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </category>
 </Consent>

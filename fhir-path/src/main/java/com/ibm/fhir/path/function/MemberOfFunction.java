@@ -47,6 +47,10 @@ import com.ibm.fhir.term.spi.ValidationOutcome;
  *
  * <p>This implementation supports an optional second argument (binding strength). The binding strength
  * is used to determine whether or not to add a warning to the evaluation context if the membership check fails.
+ * 
+ * <p>In addition, if the optional argument is specified, this implementation will successfully validate a Code, Coding,
+ * Quantity, String, or Uri element in which the <a href="http://hl7.org/fhir/StructureDefinition/data-absent-reason">data-absent-reason</a>
+ * extension is specified and no value or code+system is specified. 
  */
 public class MemberOfFunction extends FHIRPathAbstractFunction {
     public static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
@@ -92,6 +96,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
         ValueSet valueSet = getValueSet(url);
         if (valueSet != null) {
+            
+            // Validate against data-absent-reason extension (only if using extended version of operation)
+            if (strength != null && ValidationSupport.hasOnlyDataAbsentReasonExtension(element)) {
+                return SINGLETON_TRUE;
+            }
+            
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
 
@@ -99,7 +109,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 if (element.is(Code.class)) {
                     Uri system = getSystem(evaluationContext.getTree(), elementNode);
                     Code code = element.as(Code.class);
-                    if (validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) {
+                    if ((system != null && validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) ||
+                            (system == null && validateCode(service, valueSet, code, evaluationContext, elementNode, strength))) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(Coding.class)) {
@@ -109,7 +120,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     }
                 } else if (element.is(CodeableConcept.class)) {
                     CodeableConcept codeableConcept = element.as(CodeableConcept.class);
-                    if (validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
+                    if (codeableConcept.getCoding() != null && validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(Quantity.class)) {
@@ -120,7 +131,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 } else {
                     // element.is(FHIR_STRING) || element.is(Uri.class)
                     Code code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
-                    if (validateCode(service, valueSet, null, null, code, null, evaluationContext, elementNode, strength)) {
+                    if (validateCode(service, valueSet, code, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 }
@@ -128,8 +139,11 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             } else if (isSyntaxBased(valueSet)) {
 
                 // Validate against syntax-based value set
-                if (validateAgainstSyntaxBasedValueSet(valueSet, evaluationContext, elementNode, strength)) {
+                try {
+                    ValidationSupport.checkValueSetBinding(elementNode.element(), elementNode.path(), valueSet.getUrl().getValue(), null);
                     return SINGLETON_TRUE;
+                } catch (IllegalStateException e) {
+                    generateIssue(e.getMessage(), evaluationContext, elementNode, strength);
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else {
@@ -152,84 +166,15 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl) || UCUM_UNITS_VALUE_SET_URL.equals(valueSetUrl);
     }
     
-    /**
-     * Validates the element against the syntax-based value set.
-     * @param valueSet the value set
-     * @param evaluationContext the evaluation context
-     * @param elementNode the element node to validate
-     * @param strength the binding strength
-     * @return true if validation was successful, otherwise false
-     */
-    private boolean validateAgainstSyntaxBasedValueSet(ValueSet valueSet, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        Element element = elementNode.element();
-        Code code = null;
-        Coding coding = null;
-        CodeableConcept codeableConcept = null;
-
-        // Determine the system/version/code or CodableConcept to validate
-        if (element.is(Code.class)) {
-            code = element.as(Code.class);
-        } else if (element.is(Coding.class)) {
-            coding = element.as(Coding.class);
-        } else if (element.is(CodeableConcept.class)) {
-            codeableConcept = element.as(CodeableConcept.class);
-        } else if (element.is(Quantity.class)) {
-            Quantity quantity = element.as(Quantity.class);
-            coding = Coding.builder().system(quantity.getSystem()).code(quantity.getCode()).build();
-        } else {
-            code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
-        }
-        
-        return validateCodeAgainstSyntaxBasedValuedSet(valueSet, code, coding, codeableConcept, evaluationContext, elementNode, strength);
-    }
-    
-    /**
-     * Validates the Code, Coding, CodableConcept against the syntax based value set.
-     * Only one of Code, Coding, or CodeableConept should be passed in.
-     * Issues will be added to evaluation context if validation is not successful.
-     * @param valueSet the value set
-     * @param code the code to validate
-     * @param coding the coding to validate
-     * @param codeableConcept the codeable concept to validate
-     * @param evaluationContext the evaluation context
-     * @param elementNode the element node to validate
-     * @param strength the binding strength
-     * @return true if validation was successful, otherwise false
-     */
-    private boolean validateCodeAgainstSyntaxBasedValuedSet(ValueSet valueSet, Code code, Coding coding, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
-
-        try {
-            // Validate against all-languages value set
-            if (ALL_LANG_VALUE_SET_URL.equals(valueSetUrl)) {
-                if (code != null) {
-                    ValidationSupport.checkLanguageCode(code, elementNode.path());
-                }
-                if (coding != null) {
-                    ValidationSupport.checkLanguageCoding(coding, elementNode.path());
-                }
-                if (codeableConcept != null) {
-                    ValidationSupport.checkLanguageCodeableConcept(codeableConcept, elementNode.path());
-                }
-            } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSetUrl)) {
-                if (code != null) {
-                    ValidationSupport.checkUcumCode(code, elementNode.path());
-                }
-                if (coding != null) {
-                    ValidationSupport.checkUcumCoding(coding, elementNode.path());
-                }
-                if (codeableConcept != null) {
-                    ValidationSupport.checkUcumCodeableConcept(codeableConcept, elementNode.path());
-                }
-            }
-        } catch (IllegalStateException e) {
-            generateIssue(e.getMessage(), evaluationContext, elementNode, strength);
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Code code, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        ValidationOutcome outcome = service.validateCode(valueSet, code);
+        if (Boolean.FALSE.equals(outcome.getResult())) {
+            generateIssue(outcome, evaluationContext, elementNode, strength);
             return false;
         }
-        
         return true;
-     }
-    
+    }
+
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version, Code code, com.ibm.fhir.model.type.String display, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = service.validateCode(valueSet, system, version, code, display);
         if (Boolean.FALSE.equals(outcome.getResult())) {

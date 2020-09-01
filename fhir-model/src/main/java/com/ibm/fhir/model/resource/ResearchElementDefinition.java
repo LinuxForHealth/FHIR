@@ -1870,7 +1870,7 @@ public class ResearchElementDefinition extends DomainResource {
             participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
             participantEffectiveTimeFromStart = builder.participantEffectiveTimeFromStart;
             participantEffectiveGroupMeasure = builder.participantEffectiveGroupMeasure;
-            ValidationSupport.checkUcumCodeableConcept(unitOfMeasure, "unitOfMeasure");
+            ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
             ValidationSupport.requireValueOrChildren(this);
         }
 

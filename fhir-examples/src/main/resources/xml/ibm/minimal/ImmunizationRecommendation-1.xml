@@ -16,9 +16,11 @@
   </date>
   <recommendation>
     <forecastStatus>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
+      <coding>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </coding>
     </forecastStatus>
   </recommendation>
 </ImmunizationRecommendation>
