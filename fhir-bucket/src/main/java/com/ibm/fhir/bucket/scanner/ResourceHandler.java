@@ -162,7 +162,9 @@ public class ResourceHandler {
         try {
             Resource resource = re.getResource();
             final String resourceType = resource.getClass().getSimpleName();
-            logger.info("Processing resource: " + resourceType);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Processing resource: " + resourceType);
+            }
             
             // Build a post request for the resource and send to FHIR
             long start = System.nanoTime();
@@ -322,7 +324,7 @@ public class ResourceHandler {
         if (parts.length == 10) {
             String resourceType = parts[6];
             String id = parts[7];
-            logger.info("[" +re.toString() + "] new " + resourceType + "/" + id);
+            logger.info("[" +re.toString() + "] new " + resourceType + "/" + id + " [took " + responseTimeMs + " ms]");
             dataAccess.recordLogicalId(resourceType, id, re.getJob().getResourceBundleLoadId(), re.getLineNumber(), responseTimeMs);
             result = true;
         }

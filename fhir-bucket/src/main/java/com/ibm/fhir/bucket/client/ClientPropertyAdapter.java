@@ -23,6 +23,7 @@ public class ClientPropertyAdapter {
     public static final String TRUSTSTORE_PASS = "truststore.pass";
     public static final String POOL_CONNECTIONS_MAX = "pool.connections.max";
     public static final String ENABLED_CIPHERS = "enabled.ciphers";
+    public static final String DISABLE_HOSTNAME_VERIFICATION = "disable.hostname.verification";
 
     // The properties being adapted
     private final Properties properties;
@@ -85,5 +86,9 @@ public class ClientPropertyAdapter {
     
     public String getFhirServerPass() {
         return properties.getProperty(FHIR_SERVER_PASS);
+    }
+    
+    public boolean isDisableHostnameVerification() {
+        return "true".equalsIgnoreCase(properties.getProperty(DISABLE_HOSTNAME_VERIFICATION, "false"));
     }
 }

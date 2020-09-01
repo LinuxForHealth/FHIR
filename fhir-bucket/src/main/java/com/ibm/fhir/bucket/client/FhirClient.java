@@ -24,6 +24,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
 import org.apache.http.Header;
@@ -43,6 +44,7 @@ import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.ConnectionKeepAliveStrategy;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -131,9 +133,16 @@ public class FhirClient {
             // sslContextBuilder.loadKeyMaterial(new File(keystoreFilename), keystorePass.toCharArray(), keyPass.toCharArray());
             sslContextBuilder.loadTrustMaterial(new File(propertyAdapter.getTruststore()), propertyAdapter.getTruststorePass().toCharArray());
             SSLContext sslContext = sslContextBuilder.build();
-        
-            SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslContext, new String[]{"TLSv1.2"}, enabledCiphers,
-                    SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+
+            // For dev/test setups, allow connections to a FHIR server using a hostname
+            // other than localhost
+            HostnameVerifier hnv;
+            if (propertyAdapter.isDisableHostnameVerification()) {
+                hnv = new NoopHostnameVerifier();
+            } else {
+                hnv = SSLConnectionSocketFactory.getDefaultHostnameVerifier();
+            }
+            SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslContext, new String[]{"TLSv1.2"}, enabledCiphers, hnv);
 
             Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
                     .register("http", PlainConnectionSocketFactory.getSocketFactory())
