@@ -88,6 +88,10 @@ public final class FHIRModelConfig {
         return getPropertyOrDefault(PROPERTY_CHECK_REFERENCE_TYPES, DEFAULT_CHECK_REFERENCE_TYPES, Boolean.class);
     }
    
+    public static void setExtendedCodeableConceptValidation(boolean extendedCodeableConceptValidation) {
+        setProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, extendedCodeableConceptValidation);
+    }
+    
     public static boolean getExtendedCodeableConceptValidation() {
         return getPropertyOrDefault(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, DEFAULT_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.class);
     }
