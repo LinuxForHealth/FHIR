@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.DomainResource;
@@ -344,12 +345,19 @@ public class FHIRValidator {
                     evaluationContext.setExternalConstant("rootResource", getRootResourceNode(contextNode));
                     evaluationContext.setExternalConstant("resource", getResourceNode(contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
-                    issues.addAll(evaluationContext.getIssues());
-                    evaluationContext.clearIssues();
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), contextNode));
+                        issues.addAll(evaluationContext.getIssues());
+                    } else {
+                        // To avoid including "supplemental issues" which relate to individual clauses of an 'or'
+                        // expression, we avoid emitting error issues when the overall constraint comes back "true"
+                        issues.addAll(evaluationContext.getIssues().stream()
+                                .filter(i -> i.getSeverity().getValueAsEnumConstant() != IssueSeverity.ValueSet.ERROR)
+                                .collect(Collectors.toList())
+                            );
                     }
+                    evaluationContext.clearIssues();
 
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("    Evaluation result: " + result + ", Path: " + contextNode.path());
