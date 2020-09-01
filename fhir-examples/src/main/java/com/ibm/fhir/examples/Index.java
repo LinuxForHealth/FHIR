@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,14 +14,22 @@ public enum Index {
     /**
      * All examples in all formats
      */
-    ALL("/spec-json.txt", "/ibm-json.txt", "/spec-xml.txt", "/ibm-xml.txt",
-        "/profiles-fhir-ig-carin-bb-json.txt", "/profiles-pdex-plan-net-json.txt", "/profiles-fhir-ig-carin-bb-xml.txt"),
+    ALL("/spec-json.txt",
+        "/spec-xml.txt",
+        "/ibm-json.txt",
+        "/ibm-xml.txt",
+        "/profiles-fhir-ig-carin-bb-json.txt",
+        "/profiles-fhir-ig-carin-bb-xml.txt",
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Both R4 spec and IBM generated examples
      */
-    ALL_JSON("/spec-json.txt", "/ibm-json.txt",
-             "/profiles-fhir-ig-carin-bb-json.txt", "/profiles-pdex-plan-net-json.txt"),
+    ALL_JSON("/spec-json.txt",
+             "/ibm-json.txt",
+             "/profiles-fhir-ig-us-core-json.txt",
+             "/profiles-fhir-ig-carin-bb-json.txt",
+             "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -64,9 +72,10 @@ public enum Index {
     IBM_XML("/ibm-xml.txt"),
 
     /**
-     * Implementation Guides examples in JSON
+     * Carin BB Implementation Guides examples in JSON
      */
     PROFILES_CARIN_BB_JSON("/profiles-fhir-ig-carin-bb-json.txt"),
+    PROFILES_CARIN_BB_XML("/profiles-fhir-ig-carin-bb-xml.txt"),
 
     /**
      * Implementation Guides examples in JSON
@@ -74,47 +83,33 @@ public enum Index {
     PROFILES_PDEX_PLAN_NET_JSON("/profiles-pdex-plan-net-json.txt"),
 
     /**
-     * Implementation Guides examples in XML
+     * US Core Examples in XML and JSON
      */
-    PROFILES_CARIN_BB_XML("/profiles-fhir-ig-carin-bb-xml.txt"),
-
-    /**
-     * Implementation Guides examples in JSON
-     */
-    PROFILES_DAVINCI_PDEX_JSON("/profiles-fhir-ig-davinci-pdex-formulary-json.txt"),
-
-    /**
-     * Implementation Guides examples in XML
-     */
-    PROFILES_DAVINCI_PDEX_XML("/profiles-fhir-ig-davinci-pdex-formulary-xml.txt"),
-
-    /**
-     * Implementation Guides examples in JSON
-     */
-<<<<<<< HEAD
     PROFILES_US_CORE_JSON("/profiles-fhir-ig-us-core-json.txt"),
-=======
-    ALL_PROFILES_JSON("/profiles-fhir-ig-carin-bb-json.txt", "/profiles-fhir-ig-davinci-pdex-formulary-json.txt", "/profiles-pdex-plan-net-json.txt"),
->>>>>>> master
-
-    /**
-     * Implementation Guides examples in XML
-     */
-<<<<<<< HEAD
     PROFILES_US_CORE_XML("/profiles-fhir-ig-us-core-xml.txt"),
 
     /**
+     * Davinci PDEX Formulary Implementation Guides examples in XML and JSON
+     */
+    PROFILES_DAVINCI_PDEX_FORMULARY_JSON("/profiles-fhir-ig-davinci-pdex-formulary-json.txt"),
+    PROFILES_DAVINCI_PDEX_FORMULARY_XML("/profiles-fhir-ig-davinci-pdex-formulary-xml.txt"),
+
+    /**
      * Implementation Guides examples in JSON
      */
-    PROFILES_JSON("/profiles-fhir-ig-carin-bb-json.txt", "/profiles-fhir-ig-davinci-pdex-formulary-json.txt", "/profiles-fhir-ig-us-core-json.txt"),
+    ALL_PROFILES_JSON(
+        "/profiles-fhir-ig-us-core-json.txt",
+        "/profiles-fhir-ig-carin-bb-json.txt",
+        "/profiles-fhir-ig-davinci-pdex-formulary-json.txt",
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Implementation Guides examples in XML
      */
-    PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt", "/profiles-fhir-ig-davinci-pdex-formulary-xml.txt", "/profiles-fhir-ig-us-core-xml.txt"),
-=======
-    ALL_PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt", "/profiles-fhir-ig-davinci-pdex-formulary-xml.txt"),
->>>>>>> master
+    ALL_PROFILES_XML(
+        "/profiles-fhir-ig-us-core-xml.txt",
+        "/profiles-fhir-ig-carin-bb-xml.txt",
+        "/profiles-fhir-ig-davinci-pdex-formulary-xml.txt"),
 
     /**
      * Bulk Data Location examples in JSON
