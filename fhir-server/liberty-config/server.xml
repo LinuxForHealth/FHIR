@@ -57,7 +57,7 @@
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
-        <application-bnd>
+        <application-bnd id="bind">
             <security-role id="users" name="FHIRUsers">
                 <group id="usersGroup" name="FHIRUsers"/>
             </security-role>
