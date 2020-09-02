@@ -8,7 +8,10 @@ package com.ibm.fhir.server.test.profiles;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,6 +27,9 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.test.TestUtil;
@@ -193,12 +199,24 @@ public class USCoreConditionTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis");
+            parameters.searchParam("category", "http://hl7.org/fhir/us/core/CodeSystem/condition-category|encounter-diagnosis");
             FHIRResponse response = client.search(Condition.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() == 0);
+
+            try (StringWriter writer = new StringWriter();) {
+                FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
+                assertTrue(bundle.getEntry().size() == 0, writer.toString());
+            } catch (FHIRGeneratorException e) {
+
+                e.printStackTrace();
+                fail("unable to generate the fhir resource to JSON");
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                fail("unable to generate the fhir resource to JSON (io problem) ");
+            }
         }
     }
 
