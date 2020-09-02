@@ -14,16 +14,27 @@ public enum Index {
     /**
      * All examples in all formats
      */
-    ALL("/spec-json.txt", "/ibm-json.txt", "/spec-xml.txt", "/ibm-xml.txt",
-        "/profiles-carin-bb-json.txt", "/profiles-carin-bb-xml.txt",
-        "/profiles-pdex-formulary-json.txt", "/profiles-pdex-formulary-xml.txt",
-        "/profiles-pdex-plan-net-json.txt"),
+    ALL("/spec-json.txt",
+        "/ibm-json.txt",
+        "/spec-xml.txt",
+        "/ibm-xml.txt",
+        "/profiles-carin-bb-json.txt",
+        "/profiles-carin-bb-xml.txt",
+        "/profiles-pdex-formulary-json.txt",
+        "/profiles-pdex-formulary-xml.txt",
+        "/profiles-pdex-plan-net-json.txt",
+        "/profiles-us-core-xml.txt",
+        "/profiles-us-core-json.txt"),
 
     /**
      * All JSON examples
      */
-    ALL_JSON("/spec-json.txt", "/ibm-json.txt",
-             "/profiles-carin-bb-json.txt", "/profiles-pdex-formulary-json.txt", "/profiles-pdex-plan-net-json.txt"),
+    ALL_JSON("/spec-json.txt",
+        "/ibm-json.txt",
+        "/profiles-carin-bb-json.txt",
+        "/profiles-us-core-json.txt",
+        "/profiles-pdex-formulary-json.txt",
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -91,14 +102,27 @@ public enum Index {
     PROFILES_PDEX_PLAN_NET_JSON("/profiles-pdex-plan-net-json.txt"),
 
     /**
+     * US Core Examples in XML and JSON
+     */
+    PROFILES_US_CORE_JSON("/profiles-us-core-json.txt"),
+    PROFILES_US_CORE_XML("/profiles-us-core-xml.txt"),
+
+    /**
      * Implementation Guides examples in JSON
      */
-    ALL_PROFILES_JSON("/profiles-carin-bb-json.txt", "/profiles-pdex-formulary-json.txt", "/profiles-pdex-plan-net-json.txt"),
+    ALL_PROFILES_JSON(
+        "/profiles-carin-bb-json.txt",
+        "/profiles-us-core-json.txt",
+        "/profiles-pdex-formulary-json.txt",
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Implementation Guides examples in XML
      */
-    ALL_PROFILES_XML("/profiles-carin-bb-xml.txt", "/profiles-pdex-formulary-xml.txt"),
+    ALL_PROFILES_XML(
+        "/profiles-carin-bb-xml.txt",
+        "/profiles-us-core-xml.txt",
+        "/profiles-pdex-formulary-xml.txt"),
 
     /**
      * Bulk Data Location examples in JSON
