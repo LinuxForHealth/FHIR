@@ -44,7 +44,7 @@ public final class FHIRModelConfig {
      * 1. whether CodeableConcepts that don't contain both system and code are checked during object construction
      * 2. whether syntax-based validation of UCUM and language codes is done during object construction
      */
-    public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "com.ibm.fhir.model.extendedCodeableConcepValidation";
+    public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "com.ibm.fhir.model.extendedCodeableConceptValidation";
 
     private static final Format DEFAULT_TO_STRING_FORMAT = Format.JSON;
     private static final int DEFAULT_TO_STRING_INDENT_AMOUNT = 2;
