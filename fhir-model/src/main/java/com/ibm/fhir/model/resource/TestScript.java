@@ -149,6 +149,34 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Test action assert response and response and responseCode SHALL be empty when direction equals request",
     expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'"
 )
+@Constraint(
+    id = "testScript-14",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
+@Constraint(
+    id = "testScript-15",
+    level = "Warning",
+    location = "origin.profile",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-origin-types",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-origin-types', 'extensible')"
+)
+@Constraint(
+    id = "testScript-16",
+    level = "Warning",
+    location = "destination.profile",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-destination-types",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-destination-types', 'extensible')"
+)
+@Constraint(
+    id = "testScript-17",
+    level = "Warning",
+    location = "setup.action.operation.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-operation-codes",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-operation-codes', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {
     @Summary

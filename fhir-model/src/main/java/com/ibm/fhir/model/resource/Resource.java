@@ -9,6 +9,7 @@ package com.ibm.fhir.model.resource;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.builder.AbstractBuilder;
 import com.ibm.fhir.model.type.Code;
@@ -21,6 +22,13 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
 /**
  * This is the base resource type for everything.
  */
+@Constraint(
+    id = "resource-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "language.exists() implies (language.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred'))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class Resource extends AbstractVisitable {
     @Summary

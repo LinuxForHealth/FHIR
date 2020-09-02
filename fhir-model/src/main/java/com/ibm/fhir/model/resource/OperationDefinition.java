@@ -75,6 +75,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "A targetProfile can only be specified for parameters of type Reference or Canonical",
     expression = "targetProfile.exists() implies (type = 'Reference' or type = 'canonical')"
 )
+@Constraint(
+    id = "operationDefinition-4",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationDefinition extends DomainResource {
     @Summary

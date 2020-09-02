@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -41,6 +42,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A sample to be used for analysis.
  */
+@Constraint(
+    id = "specimen-0",
+    level = "Warning",
+    location = "collection.fastingStatus",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v2-0916",
+    expression = "$this.as(CodeableConcept).memberOf('http://terminology.hl7.org/ValueSet/v2-0916', 'extensible')"
+)
+@Constraint(
+    id = "specimen-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v2-0493",
+    expression = "condition.exists() implies (condition.all(memberOf('http://terminology.hl7.org/ValueSet/v2-0493', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Specimen extends DomainResource {
     @Summary

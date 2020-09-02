@@ -26,7 +26,7 @@ public class ConformsToTest {
             Patient patient = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator().validate(patient);
             issues.forEach(System.out::println);
-            assertEquals(issues.size(), 1);
+            assertEquals(issues.size(), 2);
         }
     }
 }

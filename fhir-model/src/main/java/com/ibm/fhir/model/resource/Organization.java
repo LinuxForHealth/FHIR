@@ -62,6 +62,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "The telecom of an organization can never be of use 'home'",
     expression = "where(use = 'home').empty()"
 )
+@Constraint(
+    id = "organization-4",
+    level = "Warning",
+    location = "contact.purpose",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contactentity-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contactentity-type', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Organization extends DomainResource {
     @Summary

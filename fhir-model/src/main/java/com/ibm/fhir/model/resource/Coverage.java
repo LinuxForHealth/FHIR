@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,6 +45,34 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Financial instrument which may be used to reimburse or pay for health care products and services. Includes both 
  * insurance and self-payment.
  */
+@Constraint(
+    id = "coverage-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/coverage-type",
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/coverage-type', 'preferred'))"
+)
+@Constraint(
+    id = "coverage-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subscriber-relationship",
+    expression = "relationship.exists() implies (relationship.memberOf('http://hl7.org/fhir/ValueSet/subscriber-relationship', 'extensible'))"
+)
+@Constraint(
+    id = "coverage-2",
+    level = "Warning",
+    location = "class.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-class",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-class', 'extensible')"
+)
+@Constraint(
+    id = "coverage-3",
+    level = "Warning",
+    location = "costToBeneficiary.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-copay-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-copay-type', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Coverage extends DomainResource {
     @Summary

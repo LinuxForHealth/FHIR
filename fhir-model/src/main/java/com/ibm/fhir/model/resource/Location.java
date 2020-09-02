@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,6 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Details and position information for a physical place where services are provided and resources and participants may 
  * be stored, found, contained, or accommodated.
  */
+@Constraint(
+    id = "location-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0116",
+    expression = "operationalStatus.exists() implies (operationalStatus.memberOf('http://terminology.hl7.org/ValueSet/v2-0116', 'preferred'))"
+)
+@Constraint(
+    id = "location-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType",
+    expression = "type.exists() implies (type.all(memberOf('http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Location extends DomainResource {
     @Summary

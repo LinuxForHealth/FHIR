@@ -28,6 +28,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "If the Attachment has data, it SHALL have a contentType",
     expression = "data.empty() or contentType.exists()"
 )
+@Constraint(
+    id = "attachment-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "language.exists() implies (language.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred'))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Attachment extends Element {
     @Summary

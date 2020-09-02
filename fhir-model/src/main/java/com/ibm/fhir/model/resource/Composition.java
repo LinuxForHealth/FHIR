@@ -64,6 +64,27 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "A section can only have an emptyReason if it is empty",
     expression = "emptyReason.empty() or entry.empty()"
 )
+@Constraint(
+    id = "composition-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/doc-typecodes",
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/doc-typecodes', 'preferred')"
+)
+@Constraint(
+    id = "composition-4",
+    level = "Warning",
+    location = "section.orderedBy",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-order",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred')"
+)
+@Constraint(
+    id = "composition-5",
+    level = "Warning",
+    location = "section.emptyReason",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-empty-reason",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Composition extends DomainResource {
     @Summary

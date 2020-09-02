@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,6 +43,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
  * patient; e.g. Drug-drug interaction, Ineffective treatment frequency, Procedure-condition conflict, etc.
  */
+@Constraint(
+    id = "detectedIssue-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-category",
+    expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-category', 'preferred'))"
+)
+@Constraint(
+    id = "detectedIssue-1",
+    level = "Warning",
+    location = "mitigation.action",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action', 'preferred')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DetectedIssue extends DomainResource {
     @Summary

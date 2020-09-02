@@ -63,6 +63,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Max must be postive int or *",
     expression = "max='*' or (max.toInteger() > 0)"
 )
+@Constraint(
+    id = "messageDefinition-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageDefinition extends DomainResource {
     @Summary

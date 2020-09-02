@@ -109,6 +109,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Must have a contextType if you have a context",
     expression = "context.exists() implies contextType.exists()"
 )
+@Constraint(
+    id = "structureMap-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureMap extends DomainResource {
     @Summary

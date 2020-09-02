@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -46,6 +47,27 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust 
  * policies.
  */
+@Constraint(
+    id = "provenance-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
+    expression = "reason.exists() implies (reason.all(memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')))"
+)
+@Constraint(
+    id = "provenance-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/provenance-activity-type",
+    expression = "activity.exists() implies (activity.memberOf('http://hl7.org/fhir/ValueSet/provenance-activity-type', 'extensible'))"
+)
+@Constraint(
+    id = "provenance-2",
+    level = "Warning",
+    location = "agent.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/provenance-agent-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/provenance-agent-type', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Provenance extends DomainResource {
     @Summary

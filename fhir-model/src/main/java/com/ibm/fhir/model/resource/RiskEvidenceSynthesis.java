@@ -55,6 +55,62 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
+@Constraint(
+    id = "riskEvidenceSynthesis-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/synthesis-type",
+    expression = "synthesisType.exists() implies (synthesisType.memberOf('http://hl7.org/fhir/ValueSet/synthesis-type', 'extensible'))"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/study-type",
+    expression = "studyType.exists() implies (studyType.memberOf('http://hl7.org/fhir/ValueSet/study-type', 'extensible'))"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-4",
+    level = "Warning",
+    location = "riskEstimate.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/risk-estimate-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/risk-estimate-type', 'extensible')"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-5",
+    level = "Warning",
+    location = "riskEstimate.precisionEstimate.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/precision-estimate-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/precision-estimate-type', 'extensible')"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-6",
+    level = "Warning",
+    location = "certainty.rating",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-quality",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-quality', 'extensible')"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-7",
+    level = "Warning",
+    location = "certainty.certaintySubcomponent.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-type', 'extensible')"
+)
+@Constraint(
+    id = "riskEvidenceSynthesis-8",
+    level = "Warning",
+    location = "certainty.certaintySubcomponent.rating",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RiskEvidenceSynthesis extends DomainResource {
     @Summary

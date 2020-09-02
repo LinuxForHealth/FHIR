@@ -44,6 +44,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Either a path or a searchParam must be provided, but not both",
     expression = "path.exists() xor searchParam.exists()"
 )
+@Constraint(
+    id = "dataRequirement-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
+    expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DataRequirement extends Element {
     @Summary

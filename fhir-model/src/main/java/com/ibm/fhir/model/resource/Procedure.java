@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,6 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * An action that is or was performed on or for a patient. This can be a physical intervention like an operation, or less 
  * invasive like long term services, counseling, or hypnotherapy.
  */
+@Constraint(
+    id = "procedure-0",
+    level = "Warning",
+    location = "focalDevice.action",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/device-action",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/device-action', 'preferred')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Procedure extends DomainResource {
     @Summary

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,6 +42,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period 
  * of time.
  */
+@Constraint(
+    id = "practitionerRole-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
+    expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PractitionerRole extends DomainResource {
     @Summary

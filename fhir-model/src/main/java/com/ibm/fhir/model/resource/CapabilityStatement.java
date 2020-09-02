@@ -130,6 +130,27 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "If kind = requirements, implementation and software must be absent",
     expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
 )
+@Constraint(
+    id = "capabilityStatement-17",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
+@Constraint(
+    id = "capabilityStatement-18",
+    level = "Warning",
+    location = "rest.security.service",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/restful-security-service",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/restful-security-service', 'extensible')"
+)
+@Constraint(
+    id = "capabilityStatement-19",
+    level = "Warning",
+    location = "messaging.endpoint.protocol",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/message-transport",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/message-transport', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CapabilityStatement extends DomainResource {
     @Summary

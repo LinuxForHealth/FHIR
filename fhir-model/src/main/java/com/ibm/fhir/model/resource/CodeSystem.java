@@ -66,6 +66,27 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Within a code system definition, all the codes SHALL be unique",
     expression = "concept.code.combine($this.descendants().concept.code).isDistinct()"
 )
+@Constraint(
+    id = "codeSystem-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+)
+@Constraint(
+    id = "codeSystem-3",
+    level = "Warning",
+    location = "concept.designation.language",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')"
+)
+@Constraint(
+    id = "codeSystem-4",
+    level = "Warning",
+    location = "concept.designation.use",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/designation-use",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/designation-use', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CodeSystem extends DomainResource {
     @Summary

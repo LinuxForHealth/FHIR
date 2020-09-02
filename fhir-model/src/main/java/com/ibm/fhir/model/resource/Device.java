@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,6 +45,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A type of a manufactured item that is used in the provision of healthcare without being substantially changed through 
  * that activity. The device may be a medical or non-medical device.
  */
+@Constraint(
+    id = "device-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/device-status-reason",
+    expression = "statusReason.exists() implies (statusReason.all(memberOf('http://hl7.org/fhir/ValueSet/device-status-reason', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Device extends DomainResource {
     private final List<Identifier> identifier;

@@ -915,7 +915,7 @@ public class CodeGenerator {
             }
 
             if (!nested) {
-                generateConstraintAnnotations(structureDefinition, cb);
+                generateConstraintAnnotations(structureDefinition, cb, className);
                 generateBindingAnnotation(structureDefinition, cb, className, structureDefinition.getJsonObject("snapshot").getJsonArray("element").getJsonObject(0));
                 cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
             }
@@ -1412,8 +1412,8 @@ public class CodeGenerator {
         }
         return sb.toString();
     }
-
-    private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb) {
+    
+    private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb, String className) {
         String name = structureDefinition.getString("name");
 
         List<JsonObject> allConstraints = new ArrayList<>();
@@ -1457,8 +1457,10 @@ public class CodeGenerator {
             }
         });
 
+        String lastId = null;
         for (JsonObject constraint : allConstraints) {
             String key = constraint.getString("key");
+            lastId = key;
             String path = pathMap.get(key);
             String severity = constraint.getString("severity");
             String human = constraint.getString("human");
@@ -1475,6 +1477,154 @@ public class CodeGenerator {
             }
             cb.annotation("Constraint", valueMap);
         }
+                
+        // Generate constraint annotations from extensible and preferred bindings
+        generateVocabularyConstraints(structureDefinition, cb, className, lastId);
+    }
+    
+    /**
+     * Generates constraint annotations from extensible and preferred bindings.
+     * 
+     * @param structureDefinition
+     *            the structure definition
+     * @param cb
+     *            the code builder
+     * @param className
+     *            the class name
+     * @param lastId
+     *            the ID of the last constraint
+     */
+    private void generateVocabularyConstraints(JsonObject structureDefinition, CodeBuilder cb, String className, String lastId) {
+
+        // Collect elements that have an extensible or preferred binding
+        for (JsonObject elementDefinition : getElementDefinitions(structureDefinition).stream().filter(e -> !isProhibited(e)).filter(e -> hasExtensibleBinding(e)
+                || hasPreferredBinding(e)).collect(Collectors.toList())) {
+
+            String path = elementDefinition.getString("path");
+            String elementName = getElementNameWithoutPrefix(elementDefinition, path, className);
+            JsonObject binding = getBinding(elementDefinition);
+            String location = elementName.contains(".") ? elementName.replace(".div", ".`div`").replace("[x]", "") : "(base)";
+            String expressionElementName = "(base)".equals(location) ? elementName : "$this";
+
+            // Generate constraint for value set binding
+            String valueSet = binding.getString("valueSet", null);
+            if (valueSet != null) {
+                lastId = generateNextConstraintId(lastId, className);
+
+                String level = "Warning";
+                String description = (hasExtensibleBinding(elementDefinition) ? "SHALL, if possible, contain a code from value set "
+                        : "SHOULD contain a code from value set ") + valueSet;
+                String strength = binding.getString("strength");
+                String expression = generateVocabularyConstraintExpression(elementDefinition, expressionElementName, valueSet, strength);
+
+                Map<String, String> valueMap = new LinkedHashMap<>();
+                valueMap.put("id", quote(lastId));
+                valueMap.put("level", quote(level));
+                valueMap.put("location", quote(location));
+                valueMap.put("description", quote(description));
+                valueMap.put("expression", quote(expression));
+                cb.annotation("Constraint", valueMap);
+            }
+        }
+    }
+
+    /**
+     * Generates the FHIRPath expression for the constraint.
+     * 
+     * @param elementDefinition
+     *            the element definition
+     * @param elementName
+     *            the element name, or $this
+     * @param valueSet
+     *            the value set
+     * @param strength
+     *            the binding strength
+     * @return the FHIRPath expression
+     */
+    private String generateVocabularyConstraintExpression(JsonObject elementDefinition, String elementName, String valueSet, String strength) {
+        StringBuilder sb = new StringBuilder();
+
+        String choiceText = "";
+        if (isChoiceElement(elementDefinition)) {
+            List<String> choiceTypeNames = getChoiceTypeNames(elementDefinition);
+            if (!choiceTypeNames.isEmpty()) {
+                String typeName = choiceTypeNames.get(0);
+                choiceText = ".as(" + typeName + ")";
+            }
+        }
+
+        // Generate constraint to element that has focus
+        if ("$this".equals(elementName)) {
+            sb.append(elementName).append(choiceText).append(".memberOf('").append(valueSet).append("', '").append(strength).append("')");
+        }
+        // Generate constraint to context element
+        else {
+            sb.append(elementName).append(choiceText);
+
+            if (isOptional(elementDefinition)) {
+                sb.append(".exists() implies (");
+            } else {
+                sb.append(".exists() and ");
+            }
+
+            sb.append(elementName).append(choiceText);
+
+            if (isRepeating(elementDefinition)) {
+                sb.append(".all(");
+            } else {
+                sb.append(".");
+            }
+
+            sb.append("memberOf('").append(valueSet).append("', '").append(strength).append("')");
+
+            if (isRepeating(elementDefinition)) {
+                sb.append(")");
+            }
+
+            if (isOptional(elementDefinition)) {
+                sb.append(")");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Gets the next generated constraint ID.
+     * 
+     * @param lastId
+     *            the last ID
+     * @param className
+     *            the model class name
+     * @return the next generated constraint ID
+     */
+    private String generateNextConstraintId(String lastId, String className) {
+        String nextSuffix = "0";
+        if (lastId != null) {
+            lastId = lastId.substring(lastId.indexOf("-") + 1);
+            if (Character.isLetter(lastId.charAt(lastId.length() - 1))) {
+                lastId = lastId.substring(0, lastId.length() - 1);
+            }
+            int nextKeyInt = Integer.parseInt(lastId) + 1;
+            nextSuffix = String.valueOf(nextKeyInt);
+        }
+        return camelCase(className) + "-" + nextSuffix;
+    }
+
+    /**
+     * Determines if the structure definition contains any elements with an extensible or preferred binding.
+     * 
+     * @param structureDefinition
+     *            the structure definition
+     * @return true or false
+     */
+    private boolean hasExtensibleOrPreferredBindings(JsonObject structureDefinition) {
+        for (JsonObject elementDefinition : getElementDefinitions(structureDefinition)) {
+            if (hasExtensibleBinding(elementDefinition) || hasPreferredBinding(elementDefinition)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean hasConstraints(JsonObject structureDefinition) {
@@ -1485,7 +1635,7 @@ public class CodeGenerator {
         }
         return false;
     }
-
+    
     private void generateGetterMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
         cb.javadocStart();
@@ -1681,7 +1831,7 @@ public class CodeGenerator {
             imports.add("com.ibm.fhir.model.visitor.Visitor");
         }
 
-        if (hasConstraints(structureDefinition)) {
+        if (hasConstraints(structureDefinition) || hasExtensibleOrPreferredBindings(structureDefinition)) {
             imports.add("com.ibm.fhir.model.annotation.Constraint");
         }
 
@@ -3440,6 +3590,18 @@ public class CodeGenerator {
     private String getElementName(JsonObject elementDefinition, String path) {
         return elementDefinition.getString("path").replaceFirst(path + ".", "").replace("[x]", "");
     }
+    
+    /**
+     * Gets the element name without the prefix.
+     * @param elementName the element name
+     * @param path the path
+     * @param prefix the prefix to remove
+     * @return the element name without prefix, or $this if element name matches prefix
+     */
+    private String getElementNameWithoutPrefix(JsonObject elementDefinition, String path, String prefix) {
+        String elementName = getElementName(elementDefinition, path);
+        return elementName.equals(prefix) ? "$this" : (elementName.startsWith(prefix + ".") ? elementName.substring(prefix.length() + 1) : elementName);
+    }
 
     private String getEnumConstantName(String name, String value) {
         StringBuilder sb = new StringBuilder();
@@ -3709,6 +3871,32 @@ public class CodeGenerator {
         }
         return false;
     }
+    
+    /**
+     * Determines if the ElementDefinition contains an extensible binding.
+     * @param elementDefinition the element definition
+     * @return true or false
+     */
+    private boolean hasExtensibleBinding(JsonObject elementDefinition) {
+        JsonObject binding = getBinding(elementDefinition);
+        if (binding != null && binding.containsKey("strength")) {
+            return "extensible".equals(binding.getString("strength"));
+        }
+        return false;
+    }
+    
+    /**
+     * Determines if the ElementDefinition contains a preferred binding.
+     * @param elementDefinition the element definition
+     * @return true or false
+     */
+    private boolean hasPreferredBinding(JsonObject elementDefinition) {
+        JsonObject binding = getBinding(elementDefinition);
+        if (binding != null && binding.containsKey("strength")) {
+            return "preferred".equals(binding.getString("strength"));
+        }
+        return false;
+    }
 
     private boolean hasSubtypes(String type) {
         return "Resource".equals(type) ||
@@ -3898,6 +4086,10 @@ public class CodeGenerator {
 
     private boolean isRequired(JsonObject elementDefinition) {
         return getMin(elementDefinition) > 0;
+    }
+    
+    private boolean isOptional(JsonObject elementDefinition) {
+        return getMin(elementDefinition) == 0 && !isProhibited(elementDefinition);
     }
 
     private boolean isSummary(JsonObject elementDefinition) {

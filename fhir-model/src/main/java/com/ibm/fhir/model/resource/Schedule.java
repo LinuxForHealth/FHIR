@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -35,6 +36,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A container for slots of time that may be available for booking appointments.
  */
+@Constraint(
+    id = "schedule-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
+    expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Schedule extends DomainResource {
     @Summary

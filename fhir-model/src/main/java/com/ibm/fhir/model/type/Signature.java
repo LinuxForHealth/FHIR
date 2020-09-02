@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -27,6 +28,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * or some other signature acceptable to the domain. This other signature may be as simple as a graphical image 
  * representing a hand-written signature, or a signature ceremony Different signature approaches have different utilities.
  */
+@Constraint(
+    id = "signature-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/signature-type",
+    expression = "type.exists() and type.all(memberOf('http://hl7.org/fhir/ValueSet/signature-type', 'preferred'))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Signature extends Element {
     @Summary

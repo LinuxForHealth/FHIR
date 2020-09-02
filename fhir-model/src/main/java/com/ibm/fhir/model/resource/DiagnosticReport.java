@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,6 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * and some mix of atomic results, images, textual and coded interpretations, and formatted representation of diagnostic 
  * reports.
  */
+@Constraint(
+    id = "diagnosticReport-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/report-codes",
+    expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/report-codes', 'preferred')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DiagnosticReport extends DomainResource {
     @Summary

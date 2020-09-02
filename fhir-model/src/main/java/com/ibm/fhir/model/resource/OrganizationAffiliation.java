@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -36,6 +37,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of 
  * relationship/sub-division relationship.
  */
+@Constraint(
+    id = "organizationAffiliation-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
+    expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OrganizationAffiliation extends DomainResource {
     @Summary

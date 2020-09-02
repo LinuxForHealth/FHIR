@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,6 +42,62 @@ import com.ibm.fhir.model.visitor.Visitor;
  * An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or 
  * assessing the health status of a patient.
  */
+@Constraint(
+    id = "encounter-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
+    expression = "class.exists() and class.memberOf('http://terminology.hl7.org/ValueSet/v3-ActEncounterCode', 'extensible')"
+)
+@Constraint(
+    id = "encounter-1",
+    level = "Warning",
+    location = "classHistory.class",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
+    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActEncounterCode', 'extensible')"
+)
+@Constraint(
+    id = "encounter-2",
+    level = "Warning",
+    location = "participant.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')"
+)
+@Constraint(
+    id = "encounter-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-reason",
+    expression = "reasonCode.exists() implies (reasonCode.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-reason', 'preferred')))"
+)
+@Constraint(
+    id = "encounter-4",
+    level = "Warning",
+    location = "diagnosis.use",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')"
+)
+@Constraint(
+    id = "encounter-5",
+    level = "Warning",
+    location = "hospitalization.admitSource",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-admit-source",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-admit-source', 'preferred')"
+)
+@Constraint(
+    id = "encounter-6",
+    level = "Warning",
+    location = "hospitalization.specialCourtesy",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-special-courtesy",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-special-courtesy', 'preferred')"
+)
+@Constraint(
+    id = "encounter-7",
+    level = "Warning",
+    location = "hospitalization.specialArrangement",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-special-arrangements",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-special-arrangements', 'preferred')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Encounter extends DomainResource {
     @Summary

@@ -53,6 +53,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "One of documentType or reference SHALL be present",
     expression = "documentType.exists() or reference.exists()"
 )
+@Constraint(
+    id = "immunization-2",
+    level = "Warning",
+    location = "performer.function",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/immunization-function",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/immunization-function', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Immunization extends DomainResource {
     private final List<Identifier> identifier;

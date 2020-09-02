@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -24,6 +25,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to 
  * the content might not always be associated with version changes to the resource.
  */
+@Constraint(
+    id = "meta-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
+    expression = "security.exists() implies (security.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Meta extends Element {
     @Summary

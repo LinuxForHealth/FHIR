@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -40,6 +41,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A homogeneous material with a definite composition.
  */
+@Constraint(
+    id = "substance-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/substance-category",
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/substance-category', 'extensible')))"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Substance extends DomainResource {
     @Summary

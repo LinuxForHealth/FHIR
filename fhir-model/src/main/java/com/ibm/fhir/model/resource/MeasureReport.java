@@ -57,6 +57,20 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Stratifiers SHALL be either a single criteria or a set of criteria components",
     expression = "group.stratifier.stratum.all(value.exists() xor component.exists())"
 )
+@Constraint(
+    id = "measureReport-3",
+    level = "Warning",
+    location = "group.population.code",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')"
+)
+@Constraint(
+    id = "measureReport-4",
+    level = "Warning",
+    location = "group.stratifier.stratum.population.code",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')"
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {
     @Summary

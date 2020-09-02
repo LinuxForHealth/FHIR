@@ -33,6 +33,7 @@ import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
@@ -56,9 +57,9 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
     }
 
     private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
-        if (builder instanceof Coding.Builder){
-            // we have a Coding type - treat as a primitive type (i.e. an edge node) due to validation rules
-            setDataAbsentReason((Coding.Builder) builder);
+        if (builder instanceof Coding.Builder || builder instanceof Quantity.Builder){
+            // we have a Coding or Quantity type - treat as a primitive type (i.e. an edge node) due to validation rules
+            setDataAbsentReason((Element.Builder) builder);
             return builder;
         }
 
