@@ -163,8 +163,7 @@ public class USCoreConditionTest extends ProfilesTestBase {
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, conditionId2);
+            assertTrue(bundle.getEntry().size() == 0);
         }
     }
 
