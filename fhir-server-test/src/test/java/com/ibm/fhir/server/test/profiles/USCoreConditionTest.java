@@ -42,6 +42,7 @@ public class USCoreConditionTest extends ProfilesTestBase {
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     public Boolean skip = Boolean.TRUE;
+    public Boolean DEBUG = Boolean.FALSE;
 
     private String conditionId1 = null;
     private String conditionId2 = null;
@@ -207,7 +208,10 @@ public class USCoreConditionTest extends ProfilesTestBase {
 
             try (StringWriter writer = new StringWriter();) {
                 FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
-                assertTrue(bundle.getEntry().size() == 0, writer.toString());
+                if (DEBUG) {
+                    System.out.println(writer.toString());
+                }
+                assertTrue(bundle.getEntry().size() == 0);
             } catch (FHIRGeneratorException e) {
 
                 e.printStackTrace();
