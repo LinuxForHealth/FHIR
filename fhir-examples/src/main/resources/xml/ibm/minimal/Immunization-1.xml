@@ -10,9 +10,11 @@
     </extension>
   </status>
   <vaccineCode>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </vaccineCode>
   <patient>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

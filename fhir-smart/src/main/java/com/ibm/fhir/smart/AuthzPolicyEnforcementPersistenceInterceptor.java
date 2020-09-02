@@ -61,7 +61,9 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     @Override
     public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        // TODO: do we need to check READ permission on the prevFhirResource as well?
+        // First, check READ permission on the existing resource to ensure we don't write over something that
+        // the user doesn't have access to
+        enforce(event.getPrevFhirResource(), getPatientIdFromToken(jwt), Permission.READ, getScopesFromToken(jwt));
         enforce(event.getFhirResource(), getPatientIdFromToken(jwt), Permission.WRITE, getScopesFromToken(jwt));
     }
 
@@ -108,10 +110,13 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     }
 
     /**
-     * @param event
-     * @param contextIds
-     * @param collect
-     * @throws FHIRPersistenceInterceptorException
+     * Enforce the authorizations granted by the end user in the form of scope strings
+     *
+     * @param resource the resource to check
+     * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
+     * @param requiredPermission
+     * @param approvedScopes a list of SMART scopes associated with the request
+     * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
     private void enforce(Resource resource, List<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
             throws FHIRPersistenceInterceptorException {
@@ -128,7 +133,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.groupingBy(s -> s.getContextType()));
 
         if (approvedScopeMap.containsKey(ContextType.PATIENT)) {
-
             // If the target resource is the Patient resource which matches the in-context patient, allow it
             if (resource instanceof Patient && resource.getId() != null && contextIds.contains(resource.getId())) {
                 if (log.isLoggable(Level.FINE)) {
@@ -140,6 +144,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             // Else, see if the target resource belongs to the Patient compartment of the in-context patient
             try {
+                if (!CompartmentUtil.getCompartmentResourceTypes("Patient").contains(resourceType)) {
+                    // If the resource is not in the patient compartment, allow it
+                    // TODO: this may be overly broad...how do we appropriately scope user access to non-Patient resources?
+                    return;
+                }
+
                 List<String> inclusionCriteria = CompartmentUtil
                         .getCompartmentResourceTypeInclusionCriteria(CompartmentType.PATIENT.getValue(), resourceType);
 

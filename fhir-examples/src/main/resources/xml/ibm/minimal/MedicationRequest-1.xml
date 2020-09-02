@@ -15,9 +15,11 @@
     </extension>
   </intent>
   <medicationCodeableConcept>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </medicationCodeableConcept>
   <subject>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

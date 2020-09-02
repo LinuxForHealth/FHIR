@@ -276,6 +276,42 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
+     * Validate a code using the provided value set and validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param code
+     *     the code
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    @Override
+    public ValidationOutcome validateCode(ValueSet valueSet, Code code, ValidationParameters parameters) {
+        return provider.validateCode(valueSet, code, parameters);
+    }
+
+    /**
+     * Validate a code using the provided value set
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of validation
+     */
+    @Override
+    public ValidationOutcome validateCode(ValueSet valueSet, Code code) {
+        return provider.validateCode(valueSet, code);
+    }
+
+    /**
      * Validate a code and display using the provided value set and validation parameters
      *
      * @apiNote
