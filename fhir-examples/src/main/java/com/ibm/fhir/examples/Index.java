@@ -102,9 +102,13 @@ public enum Index {
     PROFILES_PDEX_PLAN_NET_JSON("/profiles-pdex-plan-net-json.txt"),
 
     /**
-     * US Core Examples in XML and JSON
+     * US Core Examples in JSON
      */
     PROFILES_US_CORE_JSON("/profiles-us-core-json.txt"),
+
+    /**
+     * US Core Examples in XML
+     */
     PROFILES_US_CORE_XML("/profiles-us-core-xml.txt"),
 
     /**
