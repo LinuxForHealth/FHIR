@@ -105,19 +105,25 @@ public class AuthzPolicyEnforcementTest {
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            event.setPrevFhirResource(patient);
             interceptor.beforeUpdate(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED) &&
+                    shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED) &&
+                    shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
         }
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            event.setPrevFhirResource(observation);
             interceptor.beforeUpdate(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED) &&
+                        shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED) &&
+                        shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
         }
     }
 
