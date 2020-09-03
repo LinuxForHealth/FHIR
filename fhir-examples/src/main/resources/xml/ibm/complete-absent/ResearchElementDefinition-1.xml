@@ -599,21 +599,9 @@
       </extension>
     </studyEffectiveDateTime>
     <studyEffectiveTimeFromStart>
-      <value>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </value>
-      <comparator>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </comparator>
-      <unit>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </unit>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
     </studyEffectiveTimeFromStart>
     <studyEffectiveGroupMeasure>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -631,21 +619,9 @@
       </extension>
     </participantEffectiveDateTime>
     <participantEffectiveTimeFromStart>
-      <value>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </value>
-      <comparator>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </comparator>
-      <unit>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </unit>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
     </participantEffectiveTimeFromStart>
     <participantEffectiveGroupMeasure>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

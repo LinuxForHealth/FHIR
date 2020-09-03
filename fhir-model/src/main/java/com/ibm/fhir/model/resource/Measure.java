@@ -62,6 +62,62 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Stratifier SHALL be either a single criteria or a set of criteria components",
     expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())"
 )
+@Constraint(
+    id = "measure-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
+    expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    generated = true
+)
+@Constraint(
+    id = "measure-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "measure-4",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-scoring",
+    expression = "scoring.exists() implies (scoring.memberOf('http://hl7.org/fhir/ValueSet/measure-scoring', 'extensible'))",
+    generated = true
+)
+@Constraint(
+    id = "measure-5",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/composite-measure-scoring",
+    expression = "compositeScoring.exists() implies (compositeScoring.memberOf('http://hl7.org/fhir/ValueSet/composite-measure-scoring', 'extensible'))",
+    generated = true
+)
+@Constraint(
+    id = "measure-6",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-type",
+    expression = "type.exists() implies (type.all(memberOf('http://hl7.org/fhir/ValueSet/measure-type', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "measure-7",
+    level = "Warning",
+    location = "group.population.code",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "measure-8",
+    level = "Warning",
+    location = "supplementalData.usage",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-data-usage",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-data-usage', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Measure extends DomainResource {
     @Summary

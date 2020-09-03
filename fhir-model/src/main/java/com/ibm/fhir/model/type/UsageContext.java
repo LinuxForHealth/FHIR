@@ -13,6 +13,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
@@ -24,6 +25,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * metadata can either be specific to the applicable population (e.g., age category, DRG) or the specific context of care 
  * (e.g., venue, care setting, provider of care).
  */
+@Constraint(
+    id = "usageContext-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/usage-context-type",
+    expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/usage-context-type', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class UsageContext extends Element {
     @Summary

@@ -74,6 +74,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "If the mode is 'other-map', a url must be provided",
     expression = "(mode = 'other-map') implies url.exists()"
 )
+@Constraint(
+    id = "conceptMap-4",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ConceptMap extends DomainResource {
     @Summary

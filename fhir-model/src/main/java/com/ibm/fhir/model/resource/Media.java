@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,6 +46,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A photo, video, or audio recording acquired or used in healthcare. The actual content may be inline or provided by 
  * direct reference.
  */
+@Constraint(
+    id = "media-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/media-type",
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/media-type', 'extensible'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Media extends DomainResource {
     @Summary

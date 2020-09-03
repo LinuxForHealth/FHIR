@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,6 +45,30 @@ import com.ibm.fhir.model.visitor.Visitor;
  * information about medications, devices, therapies and other interventional and investigative techniques. A 
  * ResearchStudy involves the gathering of information about human or animal subjects.
  */
+@Constraint(
+    id = "researchStudy-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/research-study-prim-purp-type",
+    expression = "primaryPurposeType.exists() implies (primaryPurposeType.memberOf('http://hl7.org/fhir/ValueSet/research-study-prim-purp-type', 'extensible'))",
+    generated = true
+)
+@Constraint(
+    id = "researchStudy-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "location.exists() implies (location.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "researchStudy-2",
+    level = "Warning",
+    location = "objective.type",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/research-study-objective-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/research-study-objective-type', 'preferred')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchStudy extends DomainResource {
     @Summary

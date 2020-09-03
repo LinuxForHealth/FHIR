@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,6 +44,22 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor 
  * has a formal responsibility in the care process.
  */
+@Constraint(
+    id = "relatedPerson-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype",
+    expression = "relationship.exists() implies (relationship.all(memberOf('http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype', 'preferred')))",
+    generated = true
+)
+@Constraint(
+    id = "relatedPerson-1",
+    level = "Warning",
+    location = "communication.language",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RelatedPerson extends DomainResource {
     @Summary

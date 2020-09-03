@@ -27,6 +27,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.  If value is present, it SHALL be positive.",
     expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (value.empty() or value.hasValue().not() or value > 0)"
 )
+@Constraint(
+    id = "age-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/age-units",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/age-units', 'extensible')",
+    generated = true
+)
 @Binding(
     bindingName = "AgeUnits",
     strength = BindingStrength.ValueSet.EXTENSIBLE,

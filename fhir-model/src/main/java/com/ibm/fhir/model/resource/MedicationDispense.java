@@ -52,6 +52,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "whenHandedOver cannot be before whenPrepared",
     expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared"
 )
+@Constraint(
+    id = "medicationDispense-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medicationdispense-category",
+    expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medicationdispense-category', 'preferred'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;

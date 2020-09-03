@@ -28,6 +28,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "SHALL have a contained resource if a local reference is provided",
     expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))"
 )
+@Constraint(
+    id = "reference-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/resource-types",
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/resource-types', 'extensible'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Reference extends Element {
     @Summary

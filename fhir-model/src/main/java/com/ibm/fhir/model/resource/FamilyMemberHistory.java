@@ -61,6 +61,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Can only have estimatedAge if age[x] is present",
     expression = "age.exists() or estimatedAge.empty()"
 )
+@Constraint(
+    id = "familyMemberHistory-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/administrative-gender",
+    expression = "sex.exists() implies (sex.memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'extensible'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FamilyMemberHistory extends DomainResource {
     @Summary

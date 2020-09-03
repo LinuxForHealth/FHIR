@@ -53,6 +53,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Nutrition Order SHALL contain either Oral Diet , Supplement, or Enteral Formula class",
     expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()"
 )
+@Constraint(
+    id = "nutritionOrder-2",
+    level = "Warning",
+    location = "enteralFormula.routeofAdministration",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/enteral-route",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/enteral-route', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NutritionOrder extends DomainResource {
     private final List<Identifier> identifier;

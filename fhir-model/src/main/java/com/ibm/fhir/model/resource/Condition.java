@@ -79,6 +79,22 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
     expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
 )
+@Constraint(
+    id = "condition-6",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/condition-category",
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/condition-category', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "condition-7",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/condition-severity",
+    expression = "severity.exists() implies (severity.memberOf('http://hl7.org/fhir/ValueSet/condition-severity', 'preferred'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Condition extends DomainResource {
     @Summary

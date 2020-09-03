@@ -1018,21 +1018,13 @@
             "binding": {
                 "extension": [
                     {
-                        "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
-                        "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
-                    },
-                    {
                         "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
-                        "valueString": "Language"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
-                        "valueBoolean": true
+                        "valueString": "FHIRDeviceStatusReason"
                     }
                 ],
                 "strength": "extensible",
-                "description": "A human language.",
-                "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                "description": "The availability status reason of the device.",
+                "valueSet": "http://hl7.org/fhir/ValueSet/device-status-reason"
             },
 			"mapping": [{
 				"identity": "w5",

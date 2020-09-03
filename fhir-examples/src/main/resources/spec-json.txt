@@ -1863,9 +1863,9 @@ OK         json/spec/plandefinition-opioidcds-07.json
 OK         json/spec/plandefinition-opioidcds-08.json
 OK         json/spec/plandefinition-opioidcds-10.json
 OK         json/spec/plandefinition-opioidcds-11.json
-OK         json/spec/plandefinition-options-example.json
+VALIDATION json/spec/plandefinition-options-example.json
 OK         json/spec/plandefinition-predecessor-example.json
-OK         json/spec/plandefinition-protocol-example.json
+VALIDATION json/spec/plandefinition-protocol-example.json
 PARSE      json/spec/plandefinition-questionnaire.json
 OK         json/spec/plandefinition-zika-virus-intervention.json
 OK         json/spec/population.profile.json
@@ -1954,7 +1954,7 @@ OK         json/spec/relatedperson-example-peter.json
 PARSE      json/spec/relatedperson-questionnaire.json
 VALIDATION json/spec/request.json
 OK         json/spec/requestgroup.profile.json
-OK         json/spec/requestgroup-example.json
+VALIDATION json/spec/requestgroup-example.json
 OK         json/spec/requestgroup-kdn5-example.json
 PARSE      json/spec/requestgroup-questionnaire.json
 OK         json/spec/researchdefinition.profile.json

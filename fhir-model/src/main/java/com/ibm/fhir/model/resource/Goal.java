@@ -55,6 +55,22 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Goal.target.measure is required if Goal.target.detail is populated",
     expression = "(detail.exists() and measure.exists()) or detail.exists().not()"
 )
+@Constraint(
+    id = "goal-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-achievement",
+    expression = "achievementStatus.exists() implies (achievementStatus.memberOf('http://hl7.org/fhir/ValueSet/goal-achievement', 'preferred'))",
+    generated = true
+)
+@Constraint(
+    id = "goal-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-priority",
+    expression = "priority.exists() implies (priority.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Goal extends DomainResource {
     private final List<Identifier> identifier;

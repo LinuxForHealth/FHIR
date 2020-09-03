@@ -155,6 +155,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Can only have multiple initial values for repeating items",
     expression = "repeats=true or initial.count() <= 1"
 )
+@Constraint(
+    id = "questionnaire-14",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Questionnaire extends DomainResource {
     @Summary

@@ -816,9 +816,9 @@ OK         xml/spec/plandefinition-opioidcds-07.xml
 OK         xml/spec/plandefinition-opioidcds-08.xml
 OK         xml/spec/plandefinition-opioidcds-10.xml
 OK         xml/spec/plandefinition-opioidcds-11.xml
-OK         xml/spec/plandefinition-options-example.xml
+VALIDATION xml/spec/plandefinition-options-example.xml
 OK         xml/spec/plandefinition-predecessor-example.xml
-OK         xml/spec/plandefinition-protocol-example.xml
+VALIDATION xml/spec/plandefinition-protocol-example.xml
 OK         xml/spec/plandefinition-zika-virus-intervention.xml
 OK         xml/spec/population.profile.xml
 OK         xml/spec/positiveint.profile.xml
@@ -894,7 +894,7 @@ OK         xml/spec/relatedperson-example-f002-ariadne.xml
 OK         xml/spec/relatedperson-example-newborn-mom.xml
 OK         xml/spec/relatedperson-example-peter.xml
 OK         xml/spec/requestgroup.profile.xml
-OK         xml/spec/requestgroup-example.xml
+VALIDATION xml/spec/requestgroup-example.xml
 OK         xml/spec/requestgroup-kdn5-example.xml
 OK         xml/spec/researchdefinition.profile.xml
 OK         xml/spec/researchdefinition-example.xml

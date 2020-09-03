@@ -172,6 +172,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "sliceIsConstraining can only appear if slicename is present",
     expression = "sliceIsConstraining.exists() implies sliceName.exists()"
 )
+@Constraint(
+    id = "elementDefinition-23",
+    level = "Warning",
+    location = "type.code",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ElementDefinition extends BackboneElement {
     @Summary

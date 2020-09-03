@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,6 +40,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a research study or other healthcare setting factors that requires additional monitoring, treatment, or 
  * hospitalization, or that results in death.
  */
+@Constraint(
+    id = "adverseEvent-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/adverse-event-category",
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/adverse-event-category', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AdverseEvent extends DomainResource {
     @Summary

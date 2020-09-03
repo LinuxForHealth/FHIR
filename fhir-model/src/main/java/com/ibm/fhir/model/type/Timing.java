@@ -95,6 +95,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "If there's a timeOfDay, there cannot be a when, or vice versa",
     expression = "timeOfDay.empty() or when.empty()"
 )
+@Constraint(
+    id = "timing-11",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/timing-abbreviation",
+    expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/timing-abbreviation', 'preferred'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Timing extends BackboneElement {
     @Summary

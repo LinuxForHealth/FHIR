@@ -30,6 +30,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "An expression or a reference must be provided",
     expression = "expression.exists() or reference.exists()"
 )
+@Constraint(
+    id = "expression-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/expression-language",
+    expression = "language.exists() and language.memberOf('http://hl7.org/fhir/ValueSet/expression-language', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Expression extends Element {
     @Summary

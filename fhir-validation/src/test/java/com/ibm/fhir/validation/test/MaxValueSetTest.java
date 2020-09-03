@@ -58,7 +58,7 @@ public class MaxValueSetTest {
         // Choice: No; Optional: No; Repeatable: No
         //-----[Device.specialization.systemType]
         // Choice: No; Optional: No; Repeatable: Yes
-        //-----[Device.statusReason]
+        //-----[Device.statusReason] (no MaxValueSet)
         // Choice: No; Optional: Yes; Repeatable: No
         //-----[Device.type]
         // Choice: No; Optional: Yes; Repeatable: Yes
@@ -78,7 +78,7 @@ public class MaxValueSetTest {
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 7);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(3).expression(), "statusReason.exists() and statusReason.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible')) and statusReason.all(memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
+        assertEquals(constraints.get(3).expression(), "statusReason.exists()");
         assertEquals(constraints.get(4).expression(), "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible') and type.memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
         assertEquals(constraints.get(5).expression(), "specialization.exists() implies (specialization.all(systemType.exists() and systemType.memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible') and systemType.memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
         assertEquals(constraints.get(6).expression(), "safety.exists() implies (safety.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible')) and safety.all(memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
@@ -138,13 +138,13 @@ public class MaxValueSetTest {
         assertEquals(FHIRValidationUtil.countErrors(issues), 1);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 0);
 
-        // Warning and error for statusReason
+        // Warning for statusReason
         device = buildDevice().toBuilder().statusReason(Arrays.asList(
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build(),
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of(ENGLISH_US)).build()).build()
+                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/device-status-reason")).code(Code.of("invalidCode")).build()).build(),
+                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("online")).build()).build()
                 )).build();
         issues = FHIRValidator.validator().validate(device);
-        assertEquals(FHIRValidationUtil.countErrors(issues), 2);
+        assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
 
         // Warning for type
@@ -227,7 +227,6 @@ public class MaxValueSetTest {
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
-        assertEquals(FHIRValidationUtil.countInformation(issues), 1);
     }
 
     /**
@@ -240,7 +239,7 @@ public class MaxValueSetTest {
             .meta(Meta.builder()
                 .profile(Canonical.of("http://ibm.com/fhir/StructureDefinition/test-device|0.1.0"))
                 .build())
-            .statusReason(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build())
+            .statusReason(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/device-status-reason")).code(Code.of("online")).build()).build())
             .specialization(Specialization.builder()
                     .systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build()).build())
             .extension(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
