@@ -34,7 +34,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
     public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
-    public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConcepValidation";
+    public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConceptValidation";
 
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
 
