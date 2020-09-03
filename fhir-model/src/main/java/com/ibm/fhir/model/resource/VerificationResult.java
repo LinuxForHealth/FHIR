@@ -45,42 +45,48 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-need",
-    expression = "need.exists() implies (need.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-need', 'preferred'))"
+    expression = "need.exists() implies (need.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-need', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "verificationResult-1",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-validation-type",
-    expression = "validationType.exists() implies (validationType.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-type', 'preferred'))"
+    expression = "validationType.exists() implies (validationType.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-type', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "verificationResult-2",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-failure-action",
-    expression = "failureAction.exists() implies (failureAction.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-failure-action', 'preferred'))"
+    expression = "failureAction.exists() implies (failureAction.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-failure-action', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "verificationResult-3",
     level = "Warning",
     location = "primarySource.validationStatus",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-validation-status",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-status', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-status', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "verificationResult-4",
     level = "Warning",
     location = "primarySource.canPushUpdates",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "verificationResult-5",
     level = "Warning",
     location = "primarySource.pushTypeAvailable",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-push-type-available",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-push-type-available', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-push-type-available', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class VerificationResult extends DomainResource {

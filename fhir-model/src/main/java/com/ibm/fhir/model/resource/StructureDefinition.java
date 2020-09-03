@@ -222,21 +222,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
-    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "structureDefinition-25",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/definition-use",
-    expression = "keyword.exists() implies (keyword.all(memberOf('http://hl7.org/fhir/ValueSet/definition-use', 'extensible')))"
+    expression = "keyword.exists() implies (keyword.all(memberOf('http://hl7.org/fhir/ValueSet/definition-use', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "structureDefinition-26",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
-    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')"
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {

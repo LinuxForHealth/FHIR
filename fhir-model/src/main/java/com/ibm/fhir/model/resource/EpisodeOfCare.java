@@ -44,7 +44,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "diagnosis.role",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EpisodeOfCare extends DomainResource {

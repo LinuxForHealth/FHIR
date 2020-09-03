@@ -61,21 +61,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/claim-type",
-    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')"
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "explanationOfBenefit-1",
     level = "Warning",
     location = "accident.type",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActIncidentCode",
-    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActIncidentCode', 'extensible')"
+    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActIncidentCode', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "explanationOfBenefit-2",
     level = "Warning",
     location = "processNote.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ExplanationOfBenefit extends DomainResource {

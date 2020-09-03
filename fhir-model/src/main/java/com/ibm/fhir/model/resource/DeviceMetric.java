@@ -47,14 +47,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/devicemetric-type",
-    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred')"
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "deviceMetric-1",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/devicemetric-type",
-    expression = "unit.exists() implies (unit.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred'))"
+    expression = "unit.exists() implies (unit.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceMetric extends DomainResource {

@@ -50,28 +50,32 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/coverage-type",
-    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/coverage-type', 'preferred'))"
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/coverage-type', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "coverage-1",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subscriber-relationship",
-    expression = "relationship.exists() implies (relationship.memberOf('http://hl7.org/fhir/ValueSet/subscriber-relationship', 'extensible'))"
+    expression = "relationship.exists() implies (relationship.memberOf('http://hl7.org/fhir/ValueSet/subscriber-relationship', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "coverage-2",
     level = "Warning",
     location = "class.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-class",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-class', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-class', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "coverage-3",
     level = "Warning",
     location = "costToBeneficiary.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-copay-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-copay-type', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-copay-type', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Coverage extends DomainResource {

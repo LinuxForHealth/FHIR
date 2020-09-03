@@ -154,28 +154,32 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
-    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "testScript-15",
     level = "Warning",
     location = "origin.profile",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-origin-types",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-origin-types', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-origin-types', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "testScript-16",
     level = "Warning",
     location = "destination.profile",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-destination-types",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-destination-types', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-destination-types', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "testScript-17",
     level = "Warning",
     location = "setup.action.operation.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-operation-codes",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-operation-codes', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-operation-codes', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {

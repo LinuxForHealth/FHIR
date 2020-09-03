@@ -86,49 +86,56 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-scope",
-    expression = "scope.exists() and scope.memberOf('http://hl7.org/fhir/ValueSet/consent-scope', 'extensible')"
+    expression = "scope.exists() and scope.memberOf('http://hl7.org/fhir/ValueSet/consent-scope', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "consent-7",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-category",
-    expression = "category.exists() and category.all(memberOf('http://hl7.org/fhir/ValueSet/consent-category', 'extensible'))"
+    expression = "category.exists() and category.all(memberOf('http://hl7.org/fhir/ValueSet/consent-category', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "consent-8",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-policy",
-    expression = "policyRule.exists() implies (policyRule.memberOf('http://hl7.org/fhir/ValueSet/consent-policy', 'extensible'))"
+    expression = "policyRule.exists() implies (policyRule.memberOf('http://hl7.org/fhir/ValueSet/consent-policy', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "consent-9",
     level = "Warning",
     location = "provision.actor.role",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-role-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-role-type', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-role-type', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "consent-10",
     level = "Warning",
     location = "provision.securityLabel",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "consent-11",
     level = "Warning",
     location = "provision.purpose",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
-    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')"
+    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "consent-12",
     level = "Warning",
     location = "provision.class",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-content-class",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Consent extends DomainResource {

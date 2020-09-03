@@ -32,7 +32,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/distance-units",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/distance-units', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/distance-units', 'extensible')",
+    generated = true
 )
 @Binding(
     bindingName = "DistanceUnits",

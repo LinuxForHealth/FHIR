@@ -61,21 +61,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/marital-status",
-    expression = "maritalStatus.exists() implies (maritalStatus.memberOf('http://hl7.org/fhir/ValueSet/marital-status', 'extensible'))"
+    expression = "maritalStatus.exists() implies (maritalStatus.memberOf('http://hl7.org/fhir/ValueSet/marital-status', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "patient-3",
     level = "Warning",
     location = "contact.relationship",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/patient-contactrelationship",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/patient-contactrelationship', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/patient-contactrelationship', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "patient-4",
     level = "Warning",
     location = "communication.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Patient extends DomainResource {

@@ -51,7 +51,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/report-codes",
-    expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/report-codes', 'preferred')"
+    expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/report-codes', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DiagnosticReport extends DomainResource {

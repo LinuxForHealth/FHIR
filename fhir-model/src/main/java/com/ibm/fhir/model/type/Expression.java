@@ -35,7 +35,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/expression-language",
-    expression = "language.exists() and language.memberOf('http://hl7.org/fhir/ValueSet/expression-language', 'extensible')"
+    expression = "language.exists() and language.memberOf('http://hl7.org/fhir/ValueSet/expression-language', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Expression extends Element {

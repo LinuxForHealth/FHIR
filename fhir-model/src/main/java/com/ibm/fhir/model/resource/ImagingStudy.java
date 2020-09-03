@@ -50,35 +50,40 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
-    expression = "modality.exists() implies (modality.all(memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html', 'extensible')))"
+    expression = "modality.exists() implies (modality.all(memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "imagingStudy-1",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://www.rsna.org/RadLex_Playbook.aspx",
-    expression = "procedureCode.exists() implies (procedureCode.all(memberOf('http://www.rsna.org/RadLex_Playbook.aspx', 'extensible')))"
+    expression = "procedureCode.exists() implies (procedureCode.all(memberOf('http://www.rsna.org/RadLex_Playbook.aspx', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "imagingStudy-2",
     level = "Warning",
     location = "series.modality",
     description = "SHALL, if possible, contain a code from value set http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
-    expression = "$this.memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html', 'extensible')"
+    expression = "$this.memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "imagingStudy-3",
     level = "Warning",
     location = "series.performer.function",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/series-performer-function",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/series-performer-function', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/series-performer-function', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "imagingStudy-4",
     level = "Warning",
     location = "series.instance.sopClass",
     description = "SHALL, if possible, contain a code from value set http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1",
-    expression = "$this.memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1', 'extensible')"
+    expression = "$this.memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImagingStudy extends DomainResource {

@@ -66,7 +66,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/administrative-gender",
-    expression = "sex.exists() implies (sex.memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'extensible'))"
+    expression = "sex.exists() implies (sex.memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'extensible'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FamilyMemberHistory extends DomainResource {

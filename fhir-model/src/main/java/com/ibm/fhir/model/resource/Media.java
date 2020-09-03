@@ -51,7 +51,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/media-type",
-    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/media-type', 'extensible'))"
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/media-type', 'extensible'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Media extends DomainResource {

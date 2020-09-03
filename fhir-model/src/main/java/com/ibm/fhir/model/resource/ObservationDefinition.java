@@ -49,21 +49,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "quantitativeDetails.customaryUnit",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/ucum-units",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "observationDefinition-1",
     level = "Warning",
     location = "quantitativeDetails.unit",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/ucum-units",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "observationDefinition-2",
     level = "Warning",
     location = "qualifiedInterval.context",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/referencerange-meaning",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ObservationDefinition extends DomainResource {

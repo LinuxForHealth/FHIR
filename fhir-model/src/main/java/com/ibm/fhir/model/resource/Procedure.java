@@ -51,7 +51,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "focalDevice.action",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/device-action",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/device-action', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/device-action', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Procedure extends DomainResource {

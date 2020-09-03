@@ -62,28 +62,32 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contract-legalstate",
-    expression = "legalState.exists() implies (legalState.memberOf('http://hl7.org/fhir/ValueSet/contract-legalstate', 'extensible'))"
+    expression = "legalState.exists() implies (legalState.memberOf('http://hl7.org/fhir/ValueSet/contract-legalstate', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "contract-1",
     level = "Warning",
     location = "term.offer.decision",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActConsentDirective",
-    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActConsentDirective', 'extensible')"
+    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActConsentDirective', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "contract-2",
     level = "Warning",
     location = "term.asset.relationship",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-content-class",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "contract-3",
     level = "Warning",
     location = "signer.type",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/contract-signer-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contract-signer-type', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contract-signer-type', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Contract extends DomainResource {

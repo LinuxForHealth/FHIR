@@ -51,14 +51,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0116",
-    expression = "operationalStatus.exists() implies (operationalStatus.memberOf('http://terminology.hl7.org/ValueSet/v2-0116', 'preferred'))"
+    expression = "operationalStatus.exists() implies (operationalStatus.memberOf('http://terminology.hl7.org/ValueSet/v2-0116', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "location-1",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType",
-    expression = "type.exists() implies (type.all(memberOf('http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType', 'extensible')))"
+    expression = "type.exists() implies (type.all(memberOf('http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType', 'extensible')))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Location extends DomainResource {

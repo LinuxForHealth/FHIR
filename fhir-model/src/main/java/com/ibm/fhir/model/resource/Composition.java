@@ -69,21 +69,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/doc-typecodes",
-    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/doc-typecodes', 'preferred')"
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/doc-typecodes', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "composition-4",
     level = "Warning",
     location = "section.orderedBy",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-order",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "composition-5",
     level = "Warning",
     location = "section.emptyReason",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-empty-reason",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Composition extends DomainResource {

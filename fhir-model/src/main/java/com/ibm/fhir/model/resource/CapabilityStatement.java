@@ -135,21 +135,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
-    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "capabilityStatement-18",
     level = "Warning",
     location = "rest.security.service",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/restful-security-service",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/restful-security-service', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/restful-security-service', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "capabilityStatement-19",
     level = "Warning",
     location = "messaging.endpoint.protocol",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/message-transport",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/message-transport', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/message-transport', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CapabilityStatement extends DomainResource {

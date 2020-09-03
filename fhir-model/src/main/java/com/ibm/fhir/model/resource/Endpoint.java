@@ -46,7 +46,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/endpoint-connection-type",
-    expression = "connectionType.exists() and connectionType.memberOf('http://hl7.org/fhir/ValueSet/endpoint-connection-type', 'extensible')"
+    expression = "connectionType.exists() and connectionType.memberOf('http://hl7.org/fhir/ValueSet/endpoint-connection-type', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Endpoint extends DomainResource {

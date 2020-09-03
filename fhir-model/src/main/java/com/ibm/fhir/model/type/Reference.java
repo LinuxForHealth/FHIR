@@ -33,7 +33,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/resource-types",
-    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/resource-types', 'extensible'))"
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/resource-types', 'extensible'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Reference extends Element {

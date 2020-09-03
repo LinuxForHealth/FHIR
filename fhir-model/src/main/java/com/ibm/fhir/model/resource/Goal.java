@@ -60,14 +60,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-achievement",
-    expression = "achievementStatus.exists() implies (achievementStatus.memberOf('http://hl7.org/fhir/ValueSet/goal-achievement', 'preferred'))"
+    expression = "achievementStatus.exists() implies (achievementStatus.memberOf('http://hl7.org/fhir/ValueSet/goal-achievement', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "goal-3",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-priority",
-    expression = "priority.exists() implies (priority.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred'))"
+    expression = "priority.exists() implies (priority.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Goal extends DomainResource {

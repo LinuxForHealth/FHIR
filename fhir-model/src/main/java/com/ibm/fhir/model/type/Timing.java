@@ -100,7 +100,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/timing-abbreviation",
-    expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/timing-abbreviation', 'preferred'))"
+    expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/timing-abbreviation', 'preferred'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Timing extends BackboneElement {

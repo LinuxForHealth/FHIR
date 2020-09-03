@@ -50,21 +50,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-doc-typecodes",
-    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/c80-doc-typecodes', 'preferred'))"
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/c80-doc-typecodes', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "documentReference-1",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
-    expression = "securityLabel.exists() implies (securityLabel.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))"
+    expression = "securityLabel.exists() implies (securityLabel.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "documentReference-2",
     level = "Warning",
     location = "content.format",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/formatcodes",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/formatcodes', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/formatcodes', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentReference extends DomainResource {

@@ -33,7 +33,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/signature-type",
-    expression = "type.exists() and type.all(memberOf('http://hl7.org/fhir/ValueSet/signature-type', 'preferred'))"
+    expression = "type.exists() and type.all(memberOf('http://hl7.org/fhir/ValueSet/signature-type', 'preferred'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Signature extends Element {

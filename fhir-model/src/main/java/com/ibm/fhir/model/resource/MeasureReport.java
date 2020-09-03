@@ -62,14 +62,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "group.population.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "measureReport-4",
     level = "Warning",
     location = "group.stratifier.stratum.population.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {

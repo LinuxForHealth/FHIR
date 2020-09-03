@@ -78,42 +78,48 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/observation-category",
-    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/observation-category', 'preferred')))"
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/observation-category', 'preferred')))",
+    generated = true
 )
 @Constraint(
     id = "observation-9",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/data-absent-reason",
-    expression = "dataAbsentReason.exists() implies (dataAbsentReason.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible'))"
+    expression = "dataAbsentReason.exists() implies (dataAbsentReason.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "observation-10",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/observation-interpretation",
-    expression = "interpretation.exists() implies (interpretation.all(memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')))"
+    expression = "interpretation.exists() implies (interpretation.all(memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "observation-11",
     level = "Warning",
     location = "referenceRange.type",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/referencerange-meaning",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "observation-12",
     level = "Warning",
     location = "component.dataAbsentReason",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/data-absent-reason",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "observation-13",
     level = "Warning",
     location = "component.interpretation",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/observation-interpretation",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Observation extends DomainResource {

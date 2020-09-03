@@ -48,14 +48,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-category",
-    expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-category', 'preferred'))"
+    expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-category', 'preferred'))",
+    generated = true
 )
 @Constraint(
     id = "detectedIssue-1",
     level = "Warning",
     location = "mitigation.action",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DetectedIssue extends DomainResource {

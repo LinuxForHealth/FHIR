@@ -61,70 +61,80 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
-    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-2",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/synthesis-type",
-    expression = "synthesisType.exists() implies (synthesisType.memberOf('http://hl7.org/fhir/ValueSet/synthesis-type', 'extensible'))"
+    expression = "synthesisType.exists() implies (synthesisType.memberOf('http://hl7.org/fhir/ValueSet/synthesis-type', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-3",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/study-type",
-    expression = "studyType.exists() implies (studyType.memberOf('http://hl7.org/fhir/ValueSet/study-type', 'extensible'))"
+    expression = "studyType.exists() implies (studyType.memberOf('http://hl7.org/fhir/ValueSet/study-type', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-4",
     level = "Warning",
     location = "resultsByExposure.variantState",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-5",
     level = "Warning",
     location = "effectEstimate.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/effect-estimate-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/effect-estimate-type', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/effect-estimate-type', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-6",
     level = "Warning",
     location = "effectEstimate.variantState",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-7",
     level = "Warning",
     location = "effectEstimate.precisionEstimate.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/precision-estimate-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/precision-estimate-type', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/precision-estimate-type', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-8",
     level = "Warning",
     location = "certainty.rating",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-quality",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-quality', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-quality', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-9",
     level = "Warning",
     location = "certainty.certaintySubcomponent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-type', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-type', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "effectEvidenceSynthesis-10",
     level = "Warning",
     location = "certainty.certaintySubcomponent.rating",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EffectEvidenceSynthesis extends DomainResource {

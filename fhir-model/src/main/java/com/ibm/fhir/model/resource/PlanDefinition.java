@@ -79,42 +79,48 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/plan-definition-type",
-    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/plan-definition-type', 'extensible'))"
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/plan-definition-type', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "planDefinition-2",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
-    expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))"
+    expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    generated = true
 )
 @Constraint(
     id = "planDefinition-3",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
-    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))"
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
 )
 @Constraint(
     id = "planDefinition-4",
     level = "Warning",
     location = "goal.priority",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-priority",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred')",
+    generated = true
 )
 @Constraint(
     id = "planDefinition-5",
     level = "Warning",
     location = "action.subject",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
-    expression = "$this.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible')"
+    expression = "$this.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible')",
+    generated = true
 )
 @Constraint(
     id = "planDefinition-6",
     level = "Warning",
     location = "action.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/action-type",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/action-type', 'extensible')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/action-type', 'extensible')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PlanDefinition extends DomainResource {

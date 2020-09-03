@@ -1523,6 +1523,7 @@ public class CodeGenerator {
                 valueMap.put("location", quote(location));
                 valueMap.put("description", quote(description));
                 valueMap.put("expression", quote(expression));
+                valueMap.put("generated", "true");
                 cb.annotation("Constraint", valueMap);
             }
         }

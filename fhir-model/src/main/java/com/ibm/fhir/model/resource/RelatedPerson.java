@@ -49,14 +49,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype",
-    expression = "relationship.exists() implies (relationship.all(memberOf('http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype', 'preferred')))"
+    expression = "relationship.exists() implies (relationship.all(memberOf('http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype', 'preferred')))",
+    generated = true
 )
 @Constraint(
     id = "relatedPerson-1",
     level = "Warning",
     location = "communication.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')"
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RelatedPerson extends DomainResource {

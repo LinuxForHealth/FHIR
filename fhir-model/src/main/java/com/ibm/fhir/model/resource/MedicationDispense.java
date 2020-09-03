@@ -57,7 +57,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medicationdispense-category",
-    expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medicationdispense-category', 'preferred'))"
+    expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medicationdispense-category', 'preferred'))",
+    generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationDispense extends DomainResource {
