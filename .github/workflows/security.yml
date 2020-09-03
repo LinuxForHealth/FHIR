@@ -16,7 +16,7 @@ jobs:
   security-scan:
     runs-on: ubuntu-latest
     # Check to see if it's scheduled or has a security label
-    if: "contains(github.event.pull_request.labels.*.name, 'security') || contains(github.event.schedule, '* * * * 6') "
+    if: "contains(github.event.pull_request.labels.*.name, 'security') || contains(github.event.schedule, '1 1 * * 6') "
     strategy:
       matrix:
         java: [ 'openjdk11' ]

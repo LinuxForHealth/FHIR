@@ -32,7 +32,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 
 /**
  * Only the file-system based path is tested by default;
- * manually set the constants and enable testWriteCOSviaHMAC to test the write to Cloug Object Storage
+ * manually set the constants and enable testWriteCOSviaHMAC to test the write to Cloud Object Storage
  */
 public class SparkParquetWriterTest {
     /**
@@ -65,27 +65,32 @@ public class SparkParquetWriterTest {
 
     @Test(enabled = true)
     public void testWriteFile() throws Exception {
-        try (SparkParquetWriter sparkParquetWriter = new SparkParquetWriter()) {
-            Patient patient = buildPatient();
+        // Intentionally checking to see if this is Windows, and SKIPPING it.
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            System.out.println("Skipping, as this is Windows");
+        }
+        else {
+            try (SparkParquetWriter sparkParquetWriter = new SparkParquetWriter()) {
+                Patient patient = buildPatient();
 
-            Path tmpDir = Files.createTempDirectory("SparkParquetWriterTest");
-            sparkParquetWriter.writeParquet(Collections.singletonList(patient), tmpDir.toString());
-            assertTrue(Files.exists(tmpDir));
+                Path tmpDir = Files.createTempDirectory("SparkParquetWriterTest");
+                sparkParquetWriter.writeParquet(Collections.singletonList(patient), tmpDir.toString());
+                assertTrue(Files.exists(tmpDir));
 
+                patient = patient.toBuilder()
+                        // add an extension
+                        .extension(Extension.builder()
+                            .url("http://examples.com/my-cool-extension")
+                            .value(string("test"))
+                            .build())
+                        // change deceased[x] from a boolean to a datetime
+                        .deceased(DateTime.now())
+                        .build();
+                sparkParquetWriter.writeParquet(Collections.singletonList(patient), tmpDir.toString());
+                assertTrue(Files.exists(tmpDir));
 
-            patient = patient.toBuilder()
-                    // add an extension
-                    .extension(Extension.builder()
-                        .url("http://examples.com/my-cool-extension")
-                        .value(string("test"))
-                        .build())
-                    // change deceased[x] from a boolean to a datetime
-                    .deceased(DateTime.now())
-                    .build();
-            sparkParquetWriter.writeParquet(Collections.singletonList(patient), tmpDir.toString());
-            assertTrue(Files.exists(tmpDir));
-
-            FileUtils.deleteDirectory(tmpDir.toFile());
+                FileUtils.deleteDirectory(tmpDir.toFile());
+            }
         }
     }
 

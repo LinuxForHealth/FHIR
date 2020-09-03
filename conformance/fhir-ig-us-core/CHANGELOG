@@ -1,5 +1,19 @@
-Changed constraint provenance-1 in StructureDefinition-us-core-provenance.json from: ($this.agent.who.resolve().is Practitioner or Device) implies exists() to: ($this.agent.who.resolve().is(Practitioner) or $this.agent.who.resolve().is(Device)) implies exists() to correct a FHIRPath syntax error
-    See: https://jira.hl7.org/browse/FHIR-27065 for more information
-
-Changed SearchParameter-us-core-procedure-date.json from Procedure.occurence to Procedure.performed
-    See: https://jira.hl7.org/browse/FHIR-27887 for more information
+# Version 2
+Source - http://hl7.org/fhir/us/core/STU3.1.1/
+- Removed 3.1.0 Artifacts
+- Updated to 3.1.1 Artifacts STU3.1.1
+- Moved the package.tgz's examples folder to the fhir-examples project
+- Changed the text-generated for the CapabilityStatements CapabilityStatement-us-core-client.json and CapabilityStatement-us-core-server.json
+    as the xhtml was invalid
+- Per https://github.com/IBM/FHIR/issues/1460 Relaxed required to extensible
+    - https://jira.hl7.org/browse/FHIR-27911 Change binding to UCUM from required to extensible + max binding UCUM
+    - Per https://chat.fhir.org/#narrow/stream/179252-IG-creation/topic/US.20Core.20QA.20Issue.20.233-.20nasty.20profiling.20error
+    - Changed Required to extensible for 
+        - "id": "Observation.component:FlowRate.value[x]",
+        - "id": "Observation.component:Concentration.code",
+- Modify MedicationRequest-uscore-mo2.json and MedicationRequest-uscore-mo2.xml to remove invalid XHTML
+   - Any <p> (or other block-level element) will implicitly close any open <p>.
+   - https://www.w3.org/TR/html401/struct/text.html#h-9.3.1
+   - The P element represents a paragraph. It cannot contain block-level elements (including P itself).
+   - Refer to https://jira.hl7.org/browse/FHIR-28409 Invalid XHTML in Examples MedicationRequest-uscore-mo2 XML/JSON
+- Modify DiagnosticReport-cardiology-report JSON and XML samples contain invalid hashes https://jira.hl7.org/browse/FHIR-28408

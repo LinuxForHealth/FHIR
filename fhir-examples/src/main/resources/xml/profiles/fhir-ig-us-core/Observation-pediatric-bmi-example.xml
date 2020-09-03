@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Observation xmlns="http://hl7.org/fhir">
+  <id value="pediatric-bmi-example"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><p><b>id</b>: pediatric-bmi-example</p><p><b>meta</b>: </p><p></p><p><b>category</b>: <span title="Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}">Vital Signs</span></p><p><b>code</b>: <span title="Codes: {http://loinc.org 59576-9}">BMI</span></p><p><b>subject</b>: <a href="Patient-child-example.html">Child Example. Generated Summary: id: child-example; Medical Record Number = 1032704 (USUAL); active; Child Example ; ph: 555-555-5555(HOME); gender: male; birthDate: 2016-01-15</a></p><p><b>encounter</b>: <span>GP Visit</span></p><p><b>effective</b>: May 4, 2019, 7:12:29 PM</p><p><b>value</b>: 65 %</p><p><b>note</b>: Annotation: CDC Males, 2-20 years Chart</p></div>
+  </text>
+  <status value="final"/>
+  <category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+      <code value="vital-signs"/>
+      <display value="Vital Signs"/>
+    </coding>
+    <text value="Vital Signs"/>
+  </category>
+  <code>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="59576-9"/>
+      <display value="Body mass index (BMI) [Percentile] Per age and sex"/>
+    </coding>
+    <text value="BMI"/>
+  </code>
+  <subject>
+    <reference value="Patient/child-example"/>
+    <display value="Child Example"/>
+  </subject>
+  <encounter>
+    <display value="GP Visit"/>
+  </encounter>
+  <effectiveDateTime value="2019-05-04T12:12:29-07:00"/>
+  <valueQuantity>
+    <value value="65"/>
+    <unit value="%"/>
+    <system value="http://unitsofmeasure.org"/>
+    <code value="%"/>
+  </valueQuantity>
+  <note>
+    <text value="CDC Males, 2-20 years Chart"/>
+  </note>
+</Observation>

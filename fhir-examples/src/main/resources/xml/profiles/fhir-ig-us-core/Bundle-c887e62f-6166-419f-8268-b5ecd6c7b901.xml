@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="c887e62f-6166-419f-8268-b5ecd6c7b901"/>
+  <meta>
+    <lastUpdated value="2019-07-09T18:49:01.235+00:00"/>
+  </meta>
+  <type value="searchset"/>
+  <total value="1"/>
+  <link>
+    <relation value="self"/>
+    <url value="http://example.org/fhir/AllergyIntolerance?_revinclude=Provenance%3Atarget&amp;patient=Examples"/>
+  </link>
+  <entry>
+    <fullUrl value="http://example.org/fhir/AllergyIntolerance/79613"/>
+    <resource>
+      <AllergyIntolerance>
+        <id value="79613"/>
+        <meta>
+          <versionId value="1"/>
+          <lastUpdated value="2019-07-09T15:26:23.217+00:00"/>
+          <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"/>
+        </meta>
+        <text>
+          <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><p><b>id</b>: 79613</p><p><b>meta</b>: </p><p><b>clinicalStatus</b>: <span title="Codes: {http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical active}">Active</span></p><p><b>verificationStatus</b>: <span title="Codes: {http://terminology.hl7.org/CodeSystem/allergyintolerance-verification confirmed}">Confirmed</span></p><p><b>category</b>: medication</p><p><b>criticality</b>: high</p><p><b>code</b>: <span title="Codes: {http://snomed.info/sct 762952008}">Peanuts</span></p><p><b>patient</b>: <a href="Patient-example.html">Generated Summary: id: example; Medical Record Number = 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>onset</b>: 2017-06-09</p><h3>Reactions</h3><table class="grid"><tr><td>-</td><td><b>Manifestation</b></td><td><b>Onset</b></td></tr><tr><td>*</td><td><span title="Codes: {http://snomed.info/sct 247472004}">Hives</span></td><td>2017-06-09</td></tr></table></div>
+        </text>
+        <clinicalStatus>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"/>
+            <code value="active"/>
+            <display value="Active"/>
+          </coding>
+        </clinicalStatus>
+        <verificationStatus>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"/>
+            <code value="confirmed"/>
+            <display value="Confirmed"/>
+          </coding>
+        </verificationStatus>
+        <category value="medication"/>
+        <criticality value="high"/>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="762952008"/>
+            <display value="Peanuts"/>
+          </coding>
+          <text value="Peanuts"/>
+        </code>
+        <patient>
+          <reference value="Patient/example"/>
+        </patient>
+        <onsetDateTime value="2017-06-09"/>
+        <reaction>
+          <manifestation>
+            <coding>
+              <system value="http://snomed.info/sct"/>
+              <code value="247472004"/>
+              <display value="Hives"/>
+            </coding>
+          </manifestation>
+          <onset value="2017-06-09"/>
+        </reaction>
+      </AllergyIntolerance>
+    </resource>
+    <search>
+      <mode value="match"/>
+    </search>
+  </entry>
+  <entry>
+    <fullUrl value="http://example.org/fhir/Provenance/79614"/>
+    <resource>
+      <Provenance>
+        <id value="79614"/>
+        <meta>
+          <versionId value="1"/>
+          <lastUpdated value="2019-07-09T15:26:23.217+00:00"/>
+          <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"/>
+        </meta>
+        <text>
+          <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><p><b>id</b>: 79614</p><p><b>meta</b>: </p><p><b>target</b>: <a href="AllergyIntolerance/79613">AllergyIntolerance/79613</a></p><p><b>recorded</b>: Jul 9, 2019, 3:26:23 PM</p><h3>Agents</h3><table class="grid"><tr><td>-</td><td><b>Type</b></td><td><b>Who</b></td><td><b>OnBehalfOf</b></td></tr><tr><td>*</td><td><span title="Codes: {http://terminology.hl7.org/CodeSystem/provenance-participant-type author}">Author</span></td><td><a href="Practitioner-practitioner-1.html">Generated Summary: id: practitioner-1; 9941339108, 25456; Ronald Bone </a></td><td><a href="Organization-saint-luke-w-endpoint.html">Generated Summary: id: saint-luke-w-endpoint; 1063494177, 00-0000000; active; name: Saint Luke's Hospital of Kansas City; ph: (816)932-2000(WORK), http://www.saintlukeshealthsystem.org/locations/saint-lukes-hospital-kansas-city(WORK)</a></td></tr></table></div>
+        </text>
+        <target>
+          <reference value="AllergyIntolerance/79613"/>
+        </target>
+        <recorded value="2019-07-09T15:26:23.217+00:00"/>
+        <agent>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/provenance-participant-type"/>
+              <code value="author"/>
+              <display value="Author"/>
+            </coding>
+          </type>
+          <who>
+            <reference value="Practitioner/practitioner-1"/>
+          </who>
+          <onBehalfOf>
+            <reference value="Organization/saint-luke-w-endpoint"/>
+          </onBehalfOf>
+        </agent>
+      </Provenance>
+    </resource>
+    <search>
+      <mode value="include"/>
+    </search>
+  </entry>
+</Bundle>

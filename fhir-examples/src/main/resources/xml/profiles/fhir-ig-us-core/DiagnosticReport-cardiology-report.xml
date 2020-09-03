@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DiagnosticReport xmlns="http://hl7.org/fhir">
+  <id value="cardiology-report"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><strong>Generated Narrative</strong></p>
+<p><strong>id:</strong> cardiology-report</p>
+<p><strong>meta:</strong></p>
+<p>  profile: <a href="http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note">http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note</a></p>
+<p><strong>status:</strong> final</p>
+<p><strong>category:</strong> Cardiology</p>
+<p><strong>code:</strong> Cardiovascular physiologic and EKG assessment panel</p>
+<p><strong>subject:</strong> <a href="Patient-example.html">Patient-example.html</a></p>
+<p><strong>effectiveDateTime:</strong> '2011-01-01T21:39:30.000Z'</p>
+<p><strong>presentedForm:</strong></p>
+<ul>
+<li>contentType: application/pdf
+url: <a href="http://example.org/pdfdownloads/cardiopanel-report-123.pdf">http://example.org/pdfdownloads/cardiopanel-report-123.pdf</a></li>
+</ul></div>
+  </text>
+  <status value="final"/>
+  <category>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="LP29708-2"/>
+      <display value="Cardiology"/>
+    </coding>
+    <text value="Cardiology"/>
+  </category>
+  <code>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="45033-8"/>
+      <display value="Cardiovascular physiologic and EKG assessment panel"/>
+    </coding>
+    <text value="Cardiovascular physiologic and EKG assessment panel"/>
+  </code>
+  <subject>
+    <reference value="Patient/example"/>
+  </subject>
+  <effectiveDateTime value="2011-01-01T21:39:30.000Z"/>
+  <presentedForm>
+    <contentType value="application/pdf"/>
+    <url value="http://example.org/pdfdownloads/cardiopanel-report-123.pdf"/>
+    <hash value="RVFILy4uQWdNRQo="/>
+  </presentedForm>
+</DiagnosticReport>
