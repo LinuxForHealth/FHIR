@@ -365,11 +365,10 @@ public class ResourceHandler {
         ByteArrayOutputStream os = new ByteArrayOutputStream(4096);
         try {
             FHIRGenerator.generator(Format.JSON, false).generate(resource, os);
-            return os.toString(StandardCharsets.UTF_8);
+            return new String(os.toByteArray(), StandardCharsets.UTF_8);
         } catch (FHIRGeneratorException e) {
             throw new IllegalStateException(e);
         }
-
     }
 
     /**
