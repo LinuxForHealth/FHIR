@@ -32,6 +32,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -86,6 +87,9 @@ public class CosReader {
 
     // Number of seconds before recycling completed bundles so we can keep loading on a continuous basis
     private int recycleSeconds;
+
+    // The cost of a bundle compared to a single resource
+    private final int bundleCostFactor;
     
     /**
      * Public constructor
@@ -98,7 +102,8 @@ public class CosReader {
      * @param incremental
      * @param recycleSeconds
      */
-    public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact) {
+    public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
+        int bundleCostFactor) {
         this.pool = commonPool;
         this.fileType = fileType;
         this.client = client;
@@ -109,6 +114,7 @@ public class CosReader {
         this.incremental = incremental;
         this.recycleSeconds = recycleSeconds;
         this.incrementalExact = incrementalExact;
+        this.bundleCostFactor = bundleCostFactor;
     }
     
     /**
@@ -184,7 +190,7 @@ public class CosReader {
                     if (free > 0) {
                         allocated = allocateJobs(free);
                         this.inflight += allocated;
-                        logger.info("Jobs inflight: " + this.inflight + ", just allocated: " + allocated);
+                        logger.info("Jobs inflight["  + fileType.name() + "] " + this.inflight + ", just allocated: " + allocated);
                     }
                 }
             } catch (InterruptedException x) {
@@ -221,11 +227,11 @@ public class CosReader {
      * @param free
      */
     private int allocateJobs(int free) {
-        logger.info("allocateJobs: free = " + free);
+        logger.info("allocateJobs[" + fileType.name() + "]: free = " + free);
         List<BucketLoaderJob> jobList = new ArrayList<>();
         dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds);
         
-        logger.info("Allocated job count: " + jobList.size());
+        logger.info("Allocated job count["  + fileType.name() + "]: " + jobList.size());
         
         // Tell each job to call us back when they are done
         jobList.stream().forEach(job -> job.registerCallback(jd -> markJobDone(jd)));
@@ -241,9 +247,8 @@ public class CosReader {
      * @param job
      */
     protected void markJobDone(final BucketLoaderJob job) {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("Marking job done: " + job.toString());
-        }
+        double elapsedSeconds = (job.getProcessingEndTime() - job.getProcessingStartTime()) / 1e9;
+        logger.info(String.format("Completed entry: %s [took %.3f secs]", job.toString(), elapsedSeconds));
         dataAccess.markJobDone(job);
     }
 
@@ -260,13 +265,13 @@ public class CosReader {
                 lock.lock();
                 try {
                     inflight--;
-                    logger.info("Job queued...inflight count now: " + inflight);
+                    logger.info("Job completed[" + fileType.name() + "] inflight count now: " + inflight);
                     
                     // Apply some hysteresis before we wake up the allocation
                     // thread. This is so we fetch larger allocations in fewer
                     // calls to the database
                     if (inflight < rescanThreshold) {
-                        logger.info("triggering job fetch");
+                        logger.info("triggering job fetch[" + fileType.name() + "]");
                         resourceLimit.signal();
                     }
                 } finally {
@@ -285,6 +290,7 @@ public class CosReader {
         // our process method for reading
         try {
             logger.info("Processing job: " + job.toString());
+            job.setProcessingStartTime(System.nanoTime());
             switch (job.getFileType()) {
             case NDJSON:
                 // Process the object using our NDJSON reader
@@ -324,6 +330,24 @@ public class CosReader {
             // Note that the job done callback will only be triggered when both file processing is done
             // AND all the work that was generated from the file is also finished.
             job.fileProcessingComplete();
+        }
+    }
+
+    /**
+     * What's the processing cost for this resource? We weight bundles with
+     * a heavier cost because typically they are much larger and take longer
+     * to process.
+     * @param r
+     * @return
+     */
+    private int costForResource(Resource r) {
+        // Bundles tend to be a lot larger, so we limit how many we try to
+        // process in parallel.
+        if (r.is(Bundle.class)) {
+            Bundle b = r.as(Bundle.class);
+            return this.bundleCostFactor * b.getEntry().size();
+        } else {
+            return 1;
         }
     }
     
@@ -409,7 +433,11 @@ public class CosReader {
                     .flatMap(details -> Stream.of(details.getText()))
                     .flatMap(text -> Stream.of(text.getValue()))
                     .collect(Collectors.joining(", "));
-            logger.finer("Validation warnings for input resource: [" + info + "]");
+            
+            if (logger.isLoggable(Level.FINER)) {
+                logger.finer("Validation warnings for input resource: [" + info + "]");
+            }
+            
             ResourceBundleError error = new ResourceBundleError(lineNumber, info);
             dataAccess.recordErrors(job.getResourceBundleLoadId(), lineNumber, Collections.singletonList(error));
             
@@ -424,7 +452,7 @@ public class CosReader {
                 // Note if we hit an exception before the entry is queued, the
                 // jobs entry count will not be incremented, so we don't need
                 // to worry about adding to the completion counter
-                resourceHandler.accept(new ResourceEntry(job, resource, lineNumber));
+                resourceHandler.accept(new ResourceEntry(job, resource, lineNumber, costForResource(resource)));
             } catch (Exception x) {
                 result = false;
                 ResourceBundleError error = new ResourceBundleError(lineNumber, x.getMessage());

@@ -27,26 +27,34 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class RecordLogicalIdList implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
-    // The list of resource types we want to add
-    private final List<ResourceIdValue> values;
-    
-    private final Map<String,Integer> resourceTypeMap;
-    
+    // the id of the resource_bundle_loads associated with the list of ids we're inserting
     private final long resourceBundleLoadId;
     
-    private final int lineNumber;
+    // The list of resource types we want to add
+    private final List<ResourceIdValue> values;
+
+    // Map to look up resource ids from resource type names
+    private final Map<String,Integer> resourceTypeMap;
     
+    // the line number of the file (probably 0, as it's likely to be a JSON bundle, not an NDJSON)
+    private final int lineNumber;
+
+    // How many values per batch execute
     private final int batchSize;
         
     /**
      * Public constructor
      * @param resourceType
      */
-    public RecordLogicalIdList(long resourceBundleLoadId, int lineNumber, Collection<ResourceIdValue> resourceTypes, Map<String,Integer> resourceTypeMap,
+    public RecordLogicalIdList(long resourceBundleLoadId, int lineNumber, Collection<ResourceIdValue> values, Map<String,Integer> resourceTypeMap,
         int batchSize) {
+        if (batchSize < 1) {
+            throw new IllegalArgumentException("batchSize must be >= 1, not " + batchSize);
+        }
+        
         this.resourceBundleLoadId = resourceBundleLoadId;
         this.lineNumber = lineNumber;
-        this.values = new ArrayList<>(resourceTypes);
+        this.values = new ArrayList<>(values);
         this.resourceTypeMap = resourceTypeMap;
         this.batchSize = batchSize;
     }
@@ -60,7 +68,7 @@ public class RecordLogicalIdList implements IDatabaseStatement {
         final String currentTimestamp = translator.currentTimestampString();
         final String INS = 
                 "INSERT INTO logical_resources ("
-                + "          resource_type_id, logical_id, resource_bundle_id, line_number, response_time_ms, created_tstamp) "
+                + "          resource_type_id, logical_id, resource_bundle_load_id, line_number, response_time_ms, created_tstamp) "
                 + "   VALUES (?, ?, ?, ?, NULL, " + currentTimestamp + ")";
 
         int batchCount = 0;
@@ -81,6 +89,7 @@ public class RecordLogicalIdList implements IDatabaseStatement {
                 
                 if (++batchCount == this.batchSize) {
                     ps.executeBatch();
+                    batchCount = 0;
                 }
             }
             

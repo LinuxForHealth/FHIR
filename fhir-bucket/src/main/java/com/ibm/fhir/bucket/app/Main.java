@@ -151,6 +151,9 @@ public class Main {
     // optionally reload the same data after this seconds. -1 == do not recycle
     private int recycleSeconds = -1;
     
+    // Assign a higher cost to processing bundles to reduce concurrency and avoid overload/timeouts
+    private int bundleCostFactor = 1;
+    
     /**
      * Parse command line arguments
      * @param args
@@ -258,6 +261,13 @@ public class Main {
                     this.poolShutdownTimeoutSeconds = Integer.parseInt(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --resource-pool-shutdown-timeout-seconds");
+                }
+                break;
+            case "--bundle-cost-factor":
+                if (i < args.length + 1) {
+                    this.bundleCostFactor = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --bundle-cost-factor");
                 }
                 break;
             case "--tenant-name":
@@ -402,6 +412,7 @@ public class Main {
         DerbyPropertyAdapter propertyAdapter = new DerbyPropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(new DerbyTranslator(), propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
+        this.connectionPool.setCloseOnAnyError();
         this.adapter = new DerbyAdapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
@@ -634,12 +645,18 @@ public class Main {
         
         // Set up the COS reader and wire it to the resourceHandler
         if (fileTypes.contains(FileType.JSON)) {
-            this.jsonReader = new CosReader(commonPool, FileType.JSON, cosClient, resource -> resourceHandler.process(resource), this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds, incrementalExact);
+            this.jsonReader = new CosReader(commonPool, FileType.JSON, cosClient, 
+                resource -> resourceHandler.process(resource), 
+                this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds, 
+                incrementalExact, this.bundleCostFactor);
             this.jsonReader.init();
         }
 
         if (fileTypes.contains(FileType.NDJSON)) {
-            this.jsonReader = new CosReader(commonPool, FileType.NDJSON, cosClient, resource -> resourceHandler.process(resource), this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds, incrementalExact);
+            this.jsonReader = new CosReader(commonPool, FileType.NDJSON, cosClient, 
+                resource -> resourceHandler.process(resource), 
+                this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds, 
+                incrementalExact, this.bundleCostFactor);
             this.jsonReader.init();
         }
 

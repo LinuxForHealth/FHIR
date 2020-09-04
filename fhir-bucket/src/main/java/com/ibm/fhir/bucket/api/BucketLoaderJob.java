@@ -45,6 +45,12 @@ public class BucketLoaderJob {
     // Callback when the last resource is processed
     private Consumer<BucketLoaderJob> jobCompleteCallback;
     
+    // nanoTime when the job was started
+    private long processingStartTime;
+    
+    // nanoTime when the job and all of its entries completed
+    private long processingEndTime;
+    
     /**
      * Public constructor
      * @param resourceBundleLoadId
@@ -136,10 +142,15 @@ public class BucketLoaderJob {
         if (!success) {
             failureCount.addAndGet(1);
         }
-        
-        if (completedCount.addAndGet(1) == this.entryCount && !this.fileProcessing && this.jobCompleteCallback != null) {
-            // job is done, so make the call
-            this.jobCompleteCallback.accept(this);
+
+        // If all the entries are done AND we've completed scanning the file
+        if (completedCount.addAndGet(1) == this.entryCount && !this.fileProcessing) {
+            this.processingEndTime = System.nanoTime();
+            
+            if (this.jobCompleteCallback != null) {
+                // job is done, so make the callback
+                this.jobCompleteCallback.accept(this);
+            }
         }
     }
     
@@ -153,9 +164,12 @@ public class BucketLoaderJob {
             
             // If we've also processed all the registered entries, then
             // we can make the call to signal to mark the job as done
-            if (completedCount.get() == this.entryCount && this.jobCompleteCallback != null) {
+            if (completedCount.get() == this.entryCount) {
                 // job is done, so make the call
-                this.jobCompleteCallback.accept(this);
+                this.processingEndTime = System.nanoTime();
+                if (this.jobCompleteCallback != null) {
+                    this.jobCompleteCallback.accept(this);
+                }
             }
             
         } else {
@@ -199,5 +213,26 @@ public class BucketLoaderJob {
      */
     public int getVersion() {
         return version;
+    }
+
+    /**
+     * @return the processingStartTime
+     */
+    public long getProcessingStartTime() {
+        return processingStartTime;
+    }
+
+    /**
+     * @param processingStartTime the processingStartTime to set
+     */
+    public void setProcessingStartTime(long processingStartTime) {
+        this.processingStartTime = processingStartTime;
+    }
+
+    /**
+     * @return the processingEndTime
+     */
+    public long getProcessingEndTime() {
+        return processingEndTime;
     }
 }

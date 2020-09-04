@@ -222,9 +222,7 @@ public class DataAccess {
     public void markJobDone(BucketLoaderJob job) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                // The file itself counts as one completion, so we have to subtract 1 to get the
-                // actual row count of the file contents
-                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleLoadId(), job.getFailureCount(), job.getCompletedCount()-1);
+                MarkBundleDone c1 = new MarkBundleDone(job.getResourceBundleLoadId(), job.getFailureCount(), job.getCompletedCount());
                 dbAdapter.runStatement(c1);
             } catch (Exception x) {
                 tx.setRollbackOnly();

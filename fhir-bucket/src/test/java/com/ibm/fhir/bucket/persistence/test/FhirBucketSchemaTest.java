@@ -33,6 +33,7 @@ import com.ibm.fhir.bucket.api.BucketLoaderJob;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
+import com.ibm.fhir.bucket.api.ResourceIdValue;
 import com.ibm.fhir.bucket.api.ResourceRef;
 import com.ibm.fhir.bucket.persistence.AddBucketPath;
 import com.ibm.fhir.bucket.persistence.AddResourceBundle;
@@ -46,6 +47,7 @@ import com.ibm.fhir.bucket.persistence.MarkBundleDone;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResources;
 import com.ibm.fhir.bucket.persistence.RecordLogicalId;
+import com.ibm.fhir.bucket.persistence.RecordLogicalIdList;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
@@ -320,7 +322,20 @@ public class FhirBucketSchemaTest {
                 refs = adapter.runStatement(c12);
                 assertNotNull(refs);
                 assertEquals(refs.size(), 0);
-                
+
+                // Test batch insert of resource id values
+                List<ResourceIdValue> resourceIdValues = new ArrayList<>();
+                resourceIdValues.add(new ResourceIdValue("Patient", "patient-123"));
+                resourceIdValues.add(new ResourceIdValue("Patient", "patient-124"));
+                RecordLogicalIdList c13 = new RecordLogicalIdList(job.getResourceBundleLoadId(), lastLine+1, resourceIdValues, resourceTypeMap, 10);
+                adapter.runStatement(c13);
+
+                // Make sure we can find both resources
+                GetResourceRefsForBundleLine c14 = new GetResourceRefsForBundleLine(job.getResourceBundleId(), job.getVersion(), lastLine+1);
+                refs = adapter.runStatement(c14);
+                assertNotNull(refs);
+                assertEquals(refs.size(), 2);
+
             } catch (Throwable t) {
                 // mark the transaction for rollback
                 tx.setRollbackOnly();

@@ -113,12 +113,13 @@ public class ResourceHandler {
 
         lock.lock();
         try {
-            while (running && inflight == maxConcurrentFhirRequests) {
+            while (running && inflight >= maxConcurrentFhirRequests) {
                 capacityCondition.await();
             }
             
             if (running) {
-                inflight++;
+                inflight += entry.getCost(); // Grab the capacity while we're locked
+                entry.getJob().addEntry(); // Add to row count so we can track when the job completes
                 result = true;
             }
         } catch (InterruptedException x) {
@@ -130,17 +131,17 @@ public class ResourceHandler {
 
         // only submit to the pool if we have permission
         if (running && result) {
-            // Add this so we can track when the job completes
-            entry.getJob().addEntry();
             pool.submit(() -> {
                 try {
                     processThr(entry);
                 } catch (Exception x) {
+                    // don't let exceptions propagate to the thread-pool
                     logger.log(Level.SEVERE, entry.toString(), x);
                 } finally {
                     lock.lock();
                     try {
-                        inflight--;
+                        // Free up the capacity consumed by this entry
+                        inflight -= entry.getCost();
                         capacityCondition.signalAll();
                     } finally {
                         lock.unlock();
@@ -201,6 +202,7 @@ public class ResourceHandler {
                 break;
             }
         } catch (Throwable x) {
+            // don't let any exceptions propagate into the thread pool
             logger.log(Level.SEVERE, re.toString(), x);
         } finally {
             // Signal the processing is complete for this entry

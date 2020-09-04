@@ -19,15 +19,19 @@ public class ResourceEntry {
         
     private final int lineNumber;
     
+    // Bundles have a higher cost than other resources types, so we run fewer in parallel
+    private final int cost;
+    
     /**
      * Public constructor
      * @param job
      * @param resource
      */
-    public ResourceEntry(BucketLoaderJob job, Resource resource, int lineNumber) {
+    public ResourceEntry(BucketLoaderJob job, Resource resource, int lineNumber, int cost) {
         this.job = job;
         this.resource = resource;
         this.lineNumber = lineNumber;
+        this.cost = cost;
     }
     
     @Override
@@ -54,5 +58,12 @@ public class ResourceEntry {
      */
     public int getLineNumber() {
         return lineNumber;
+    }
+
+    /**
+     * @return the cost
+     */
+    public int getCost() {
+        return cost;
     }
 }
