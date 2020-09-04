@@ -68,6 +68,7 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 /**
  * Tests the FHIR bucket schema
  */
+@Test(singleThreaded = true)
 public class FhirBucketSchemaTest {
     private static final Logger logger = Logger.getLogger(FhirBucketSchemaTest.class.getName());
     
