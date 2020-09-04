@@ -132,11 +132,12 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
 
     @Override
     public String timestampDiff(String left, String right, String alias) {
+        // diff is left - right, e.g. current - start time
         if (alias == null || alias.isEmpty()) {
-            return String.format("{fn timestampdiff(SQL_TSI_SECOND, %s, %s)}", left, right);
+            return String.format("EXTRACT(EPOCH FROM %s - %s)", left, right);
         }
         else {
-            return String.format("{fn timestampdiff(SQL_TSI_SECOND, %s, %s)} AS %s", left, right, alias);
+            return String.format("EXTRACT(EPOCH FROM %s - %s) AS %s", left, right, alias);
         }
     }
 
@@ -216,5 +217,10 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
         // PostgreSQL uses function-based syntax for sequences and FROM is not required
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "SELECT nextval('" + qname + "')";
+    }
+
+    @Override
+    public String currentTimestampString() {
+        return "CURRENT_TIMESTAMP";
     }
 }

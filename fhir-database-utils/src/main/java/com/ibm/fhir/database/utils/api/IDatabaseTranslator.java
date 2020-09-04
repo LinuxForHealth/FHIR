@@ -122,6 +122,12 @@ public interface IDatabaseTranslator {
      * @return
      */
     String timestampDiff(String left, String right, String alias);
+    
+    /**
+     * Get the "CURRENT TIMESTAMP" string for the database type
+     * @return
+     */
+    String currentTimestampString();
 
     /**
      * Craft the DDL for a CREATE SEQUENCE statement

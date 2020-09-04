@@ -489,7 +489,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createSchema(String schemaName){
+    public void createSchema(String schemaName) {
         try {
             String ddl = "CREATE SCHEMA " + schemaName;
             runStatement(ddl);

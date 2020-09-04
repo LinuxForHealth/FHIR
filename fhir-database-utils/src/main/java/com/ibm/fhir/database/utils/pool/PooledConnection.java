@@ -40,20 +40,26 @@ public class PooledConnection implements Connection {
     // The actual connection we're wrapping (decorating)
     private final Connection wrapped;
     
+    // Should we assume any exceptions are fatal and mark the connection for no reuse
+    private final boolean closeOnAnyError;
+    
     // We assume the connection is reusable until we hit a connection error
     private boolean reusable = true;
 
     // Track the open/close pairing
     private int openCount = 0;
+    
 
     /**
      * Public constructor
      * @param cp
      * @param wrappee
+     * @param closeOnAnyError
      */
-    public PooledConnection(PoolConnectionProvider cp, Connection wrappee) {
+    public PooledConnection(PoolConnectionProvider cp, Connection wrappee, boolean closeOnAnyError) {
         this.pool = cp;
         this.wrapped = wrappee;
+        this.closeOnAnyError = closeOnAnyError;
     }
 
     /**
@@ -122,6 +128,14 @@ public class PooledConnection implements Connection {
     public void commit() throws SQLException {
         throw new IllegalStateException("Use transaction commit, not connection commit");
     }
+    
+    /**
+     * Update the reusability status of this connection following an exception
+     * @param x
+     */
+    private void updateReusable(SQLException x) {
+        this.reusable = !this.closeOnAnyError && !pool.checkConnectionFailure(x);
+    }
 
     @Override
     public Array createArrayOf(String typeName, Object[] elements)
@@ -131,7 +145,7 @@ public class PooledConnection implements Connection {
             return wrapped.createArrayOf(typeName, elements);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -142,7 +156,7 @@ public class PooledConnection implements Connection {
             return wrapped.createBlob();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -153,7 +167,7 @@ public class PooledConnection implements Connection {
             return wrapped.createClob();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -164,7 +178,7 @@ public class PooledConnection implements Connection {
             return wrapped.createNClob();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -175,7 +189,7 @@ public class PooledConnection implements Connection {
             return wrapped.createSQLXML();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -186,7 +200,7 @@ public class PooledConnection implements Connection {
             return wrapped.createStatement();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -198,7 +212,7 @@ public class PooledConnection implements Connection {
             return wrapped.createStatement(resultSetType, resultSetConcurrency);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -211,7 +225,7 @@ public class PooledConnection implements Connection {
             return wrapped.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -223,7 +237,7 @@ public class PooledConnection implements Connection {
             return wrapped.createStruct(typeName, attributes);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -234,7 +248,7 @@ public class PooledConnection implements Connection {
             return wrapped.getAutoCommit();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -245,7 +259,7 @@ public class PooledConnection implements Connection {
             return wrapped.getCatalog();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -256,7 +270,7 @@ public class PooledConnection implements Connection {
             return wrapped.getClientInfo();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -267,7 +281,7 @@ public class PooledConnection implements Connection {
             return wrapped.getClientInfo(name);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -278,7 +292,7 @@ public class PooledConnection implements Connection {
             return wrapped.getHoldability();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -289,7 +303,7 @@ public class PooledConnection implements Connection {
             return wrapped.getMetaData();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -300,7 +314,7 @@ public class PooledConnection implements Connection {
             return wrapped.getTransactionIsolation();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -311,7 +325,7 @@ public class PooledConnection implements Connection {
             return wrapped.getTypeMap();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -322,7 +336,7 @@ public class PooledConnection implements Connection {
             return wrapped.getWarnings();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -333,7 +347,7 @@ public class PooledConnection implements Connection {
             return wrapped.isClosed();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -344,7 +358,7 @@ public class PooledConnection implements Connection {
             return wrapped.isReadOnly();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -355,7 +369,7 @@ public class PooledConnection implements Connection {
             return wrapped.isValid(timeout);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -366,7 +380,7 @@ public class PooledConnection implements Connection {
             return wrapped.nativeSQL(sql);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -377,7 +391,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareCall(sql);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -389,7 +403,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareCall(sql, resultSetType, resultSetConcurrency);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -402,7 +416,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -413,7 +427,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareStatement(sql);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -425,7 +439,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareStatement(sql, autoGeneratedKeys);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -437,7 +451,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareStatement(sql, columnIndexes);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -449,7 +463,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareStatement(sql, columnNames);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -461,7 +475,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareStatement(sql, resultSetType, resultSetConcurrency);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -474,7 +488,7 @@ public class PooledConnection implements Connection {
             return wrapped.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -485,7 +499,7 @@ public class PooledConnection implements Connection {
             wrapped.releaseSavepoint(savepoint);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -501,7 +515,7 @@ public class PooledConnection implements Connection {
             wrapped.rollback(savepoint);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -512,7 +526,7 @@ public class PooledConnection implements Connection {
             wrapped.setAutoCommit(autoCommit);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -523,7 +537,7 @@ public class PooledConnection implements Connection {
             wrapped.setCatalog(catalog);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -535,7 +549,7 @@ public class PooledConnection implements Connection {
             wrapped.setClientInfo(properties);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -547,7 +561,7 @@ public class PooledConnection implements Connection {
             wrapped.setClientInfo(name, value);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -558,7 +572,7 @@ public class PooledConnection implements Connection {
             wrapped.setHoldability(holdability);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -569,7 +583,7 @@ public class PooledConnection implements Connection {
             wrapped.setReadOnly(readOnly);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -580,7 +594,7 @@ public class PooledConnection implements Connection {
             return wrapped.setSavepoint();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -591,7 +605,7 @@ public class PooledConnection implements Connection {
             return wrapped.setSavepoint(name);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -602,7 +616,7 @@ public class PooledConnection implements Connection {
             wrapped.setTransactionIsolation(level);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -613,7 +627,7 @@ public class PooledConnection implements Connection {
             wrapped.setTypeMap(map);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -627,7 +641,7 @@ public class PooledConnection implements Connection {
                     return wrapped.isWrapperFor(iface);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -641,7 +655,7 @@ public class PooledConnection implements Connection {
                     return wrapped.unwrap(iface);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -656,7 +670,7 @@ public class PooledConnection implements Connection {
             wrapped.close();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -667,7 +681,7 @@ public class PooledConnection implements Connection {
             wrapped.setSchema(schema);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -678,7 +692,7 @@ public class PooledConnection implements Connection {
             return wrapped.getSchema();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -689,7 +703,7 @@ public class PooledConnection implements Connection {
             wrapped.abort(executor);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -700,7 +714,7 @@ public class PooledConnection implements Connection {
             wrapped.setNetworkTimeout(executor, milliseconds);
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }
@@ -711,7 +725,7 @@ public class PooledConnection implements Connection {
             return wrapped.getNetworkTimeout();
         }
         catch (SQLException x) {
-            this.reusable = !pool.checkConnectionFailure(x);
+            updateReusable(x);
             throw x;
         }
     }

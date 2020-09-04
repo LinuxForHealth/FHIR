@@ -23,6 +23,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
         <my.maven.jar.plugin>3.1.2</my.maven.jar.plugin>
+        <cassandra.client.version>4.8.0</cassandra.client.version>
+        <fdb.client.version>6.3.1</fdb.client.version>
+        <jedis.version>3.1.0</jedis.version>
+        <protobuf.version>3.12.4</protobuf.version>
         <fhir-model.index>MINIMAL_JSON</fhir-model.index>
         <fhir-validation.index>MINIMAL_JSON</fhir-validation.index>
         <fhir-search.index>MINIMAL_JSON</fhir-search.index>
@@ -75,6 +79,7 @@
         <module>../fhir-server-webapp</module>
         <module>../fhir-server-test</module>
         <module>../fhir-smart</module>
+        <module>../fhir-bucket</module>
         <module>../fhir-swagger-generator</module>
         <module>../fhir-openapi</module>
         <module>../fhir-install</module>
@@ -231,6 +236,16 @@
                 <version>2.6.7</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.12</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.4</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.9.4</version>
@@ -326,6 +341,42 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protoc</artifactId>
+                <version>${protobuf.version}</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-core</artifactId>
+                <version>${cassandra.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-query-builder</artifactId>
+                <version>${cassandra.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.oss</groupId>
+                <artifactId>java-driver-mapper-runtime</artifactId>
+                <version>${cassandra.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.foundationdb</groupId>
+                <artifactId>fdb-java</artifactId>
+                <version>${fdb.client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

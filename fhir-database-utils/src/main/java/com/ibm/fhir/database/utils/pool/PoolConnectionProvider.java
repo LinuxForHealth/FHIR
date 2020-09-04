@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -50,6 +51,9 @@ public class PoolConnectionProvider implements IConnectionProvider {
     // The maximum number of connections allowed to be active
     private final int maxPoolSize;
 
+    // Should we reuse connections after an exception, or close them instead of returning them to the pool
+    private boolean closeOnAnyError = false;
+
     /**
      * Public constructor
      * @param cp
@@ -58,6 +62,15 @@ public class PoolConnectionProvider implements IConnectionProvider {
     public PoolConnectionProvider(IConnectionProvider cp, int maxPoolSize) {
         this.connectionProvider = cp;
         this.maxPoolSize = maxPoolSize;
+    }
+
+    /**
+     * Configure the pool to close connections after an error instead of returning them
+     * to the pool. Exceptions related to connection errors will always mark the connection
+     * as no longer usable.
+     */
+    public void setCloseOnAnyError() {
+        this.closeOnAnyError = true;
     }
 
     @Override
@@ -74,9 +87,12 @@ public class PoolConnectionProvider implements IConnectionProvider {
         
         // No connection currently on this thread, so try to obtain the underlying
         // connection from the pool
+        long startTime = System.nanoTime();
         Connection c = null;
         lock.lock();
         try {
+            // log warning after 5 seconds waiting for a free connection
+            long logLongWaitTimeSeconds = 5;
             boolean assigned = false;
             while (!assigned) {
                 if (free.isEmpty()) {
@@ -85,9 +101,14 @@ public class PoolConnectionProvider implements IConnectionProvider {
                         assigned = true; // get connection outside of lock
                     }
                     else {
-                        // block until a connection frees up
+                        // block until a free connection is available
                         logger.info("Max connections allocated, waiting for connection to be freed");
-                        this.waitForConnectionCondition.await();
+                        if (!this.waitForConnectionCondition.await(logLongWaitTimeSeconds, TimeUnit.SECONDS)) {
+                            logger.warning("Long wait for free connection. Consider increasing pool size");
+                            if (logLongWaitTimeSeconds < 30) {
+                                logLongWaitTimeSeconds = 30; // increase the log interval after the first message
+                            }
+                        }
                     }
                 }
                 else {
@@ -126,10 +147,17 @@ public class PoolConnectionProvider implements IConnectionProvider {
                 throw x;
             }
         }
+        
+        long endTime = System.nanoTime();
+        double elapsed = (endTime-startTime) / 1e9;
+        if (elapsed > 1.0) {
+            // If it takes over a second to acquire a connection, warn about it
+            logger.warning(String.format("Get connection took %.3f seconds", elapsed));
+        }
 
         // Wrap the connection, and set it as active on this thread so we will always
         // use it until the current transaction is complete
-        result = new PooledConnection(this, c);
+        result = new PooledConnection(this, c, this.closeOnAnyError);
         result.incOpenCount();
         activeConnection.set(result);
         
@@ -170,13 +198,16 @@ public class PoolConnectionProvider implements IConnectionProvider {
             if (pc.getOpenCount() > 0) {
                 pc.close();
             }
+            
+            // remove this connection from thread-local
             this.activeConnection.remove();
             if (pc.getOpenCount() != 0) {
                 // Whoops. getConnection called again on the thread...possibly
                 // indicates the prior connection wasn't closed
                 logger.warning("PooledConnection open/close mismatch: " + pc.getOpenCount());
             }
-            
+
+            // Update the pool
             lock.lock();
             try {
                 if (pc.isReusable()) {
@@ -235,9 +266,8 @@ public class PoolConnectionProvider implements IConnectionProvider {
         else {
             // NOP. This just means that no SQL statements were executed
             // and so there's nothing to do. Not a problem.
-            logger.warning("No connection on this thread");
+            logger.warning("No work to commit; no connection was acquired on this thread");
         }
-        
     }
 
     @Override
