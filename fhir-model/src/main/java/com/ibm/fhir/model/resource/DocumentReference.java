@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,6 +45,30 @@ import com.ibm.fhir.model.visitor.Visitor;
  * be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal 
  * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
  */
+@Constraint(
+    id = "documentReference-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-doc-typecodes",
+    expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/c80-doc-typecodes', 'preferred'))",
+    generated = true
+)
+@Constraint(
+    id = "documentReference-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
+    expression = "securityLabel.exists() implies (securityLabel.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "documentReference-2",
+    level = "Warning",
+    location = "content.format",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/formatcodes",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/formatcodes', 'preferred')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentReference extends DomainResource {
     @Summary

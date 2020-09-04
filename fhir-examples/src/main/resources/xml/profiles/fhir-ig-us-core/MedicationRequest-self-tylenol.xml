@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<MedicationRequest xmlns="http://hl7.org/fhir">
+  <id value="self-tylenol"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><p><b>id</b>: self-tylenol</p><p><b>identifier</b>: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: plan</p><p><b>reported</b>: true</p><p><b>medication</b>: <span title="Codes: {http://www.nlm.nih.gov/research/umls/rxnorm 1187314}">Tylenol PM Pill</span></p><p><b>subject</b>: <a href="Patient-example.html">Amy V. Shaw. Generated Summary: id: example; Medical Record Number = 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>encounter</b>: <a href="Encounter-example-1.html">Office Visit. Generated Summary: id: example-1; status: finished; <span title="{http://terminology.hl7.org/CodeSystem/v3-ActCode AMB}">ambulatory</span>; <span title="Codes: {http://www.ama-assn.org/go/cpt 99201}">Office Visit</span>; period: Nov 1, 2015, 10:00:14 PM --&gt; Nov 1, 2015, 11:00:14 PM</a></p><p><b>authoredOn</b>: 2019-06-24</p><p><b>requester</b>: <a href="Patient-example.html">**self-prescribed**. Generated Summary: id: example; Medical Record Number = 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; ph: 555-555-5555(HOME), amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>dosageInstruction</b>: </p></div>
+  </text>
+  <identifier>
+    <use value="official"/>
+    <system value="http://acme.org/prescriptions"/>
+    <value value="12345689"/>
+  </identifier>
+  <status value="active"/>
+  <intent value="plan"/>
+<!--  reported by patient vs primary source by system  -->
+  <reportedBoolean value="true"/>
+  <medicationCodeableConcept>
+    <coding>
+      <system value="http://www.nlm.nih.gov/research/umls/rxnorm"/>
+      <code value="1187314"/>
+      <display value="Tylenol PM Pill"/>
+    </coding>
+    <text value="Tylenol PM Pill"/>
+  </medicationCodeableConcept>
+  <subject>
+  <!--  Linked to the resource patient who needs the medication  -->
+    <reference value="Patient/example"/>
+    <display value="Amy V. Shaw"/>
+  </subject>
+  <encounter>
+  <!--  Linked to a resource Encounter between patient and practitioner  -->
+    <reference value="Encounter/example-1"/>
+    <display value="Office Visit"/>
+  </encounter>
+  <authoredOn value="2019-06-24"/>
+  <requester>
+  <!--  self-prescribed by patient  -->
+    <reference value="Patient/example"/>
+    <display value="**self-prescribed**"/>
+  </requester>
+  <dosageInstruction>
+    <text value="Takes 1-2 tablets once daily at bedtime as needed for restless legs"/>
+  </dosageInstruction>
+</MedicationRequest>

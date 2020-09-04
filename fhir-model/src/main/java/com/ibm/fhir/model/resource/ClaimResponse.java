@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -51,6 +52,22 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * This resource provides the adjudication details from the processing of a Claim resource.
  */
+@Constraint(
+    id = "claimResponse-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/claim-type",
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "claimResponse-1",
+    level = "Warning",
+    location = "processNote.language",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClaimResponse extends DomainResource {
     private final List<Identifier> identifier;
@@ -5943,7 +5960,7 @@ public class ClaimResponse extends DomainResource {
             type = builder.type;
             text = ValidationSupport.requireNonNull(builder.text, "text");
             language = builder.language;
-            ValidationSupport.checkLanguageCodeableConcept(language, "language");
+            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
             ValidationSupport.requireValueOrChildren(this);
         }
 

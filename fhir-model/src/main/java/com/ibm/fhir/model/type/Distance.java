@@ -27,6 +27,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "There SHALL be a code if there is a value and it SHALL be an expression of length.  If system is present, it SHALL be UCUM.",
     expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum)"
 )
+@Constraint(
+    id = "distance-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/distance-units",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/distance-units', 'extensible')",
+    generated = true
+)
 @Binding(
     bindingName = "DistanceUnits",
     strength = BindingStrength.ValueSet.EXTENSIBLE,

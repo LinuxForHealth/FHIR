@@ -53,6 +53,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
+@Constraint(
+    id = "graphDefinition-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class GraphDefinition extends DomainResource {
     @Summary

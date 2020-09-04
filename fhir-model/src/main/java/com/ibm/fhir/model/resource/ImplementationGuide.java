@@ -73,6 +73,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "If a resource has a fhirVersion, it must be oe of the versions defined for the Implementation Guide",
     expression = "definition.resource.fhirVersion.all(%context.fhirVersion contains $this)"
 )
+@Constraint(
+    id = "implementationGuide-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImplementationGuide extends DomainResource {
     @Summary

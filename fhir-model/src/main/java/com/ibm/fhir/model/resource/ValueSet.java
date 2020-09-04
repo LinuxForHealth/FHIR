@@ -99,6 +99,30 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Must have a system if a code is present",
     expression = "code.empty() or system.exists()"
 )
+@Constraint(
+    id = "valueSet-11",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "valueSet-12",
+    level = "Warning",
+    location = "compose.include.concept.designation.language",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    generated = true
+)
+@Constraint(
+    id = "valueSet-13",
+    level = "Warning",
+    location = "compose.include.concept.designation.use",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/designation-use",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/designation-use', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ValueSet extends DomainResource {
     @Summary
@@ -2301,7 +2325,7 @@ public class ValueSet extends DomainResource {
                         language = builder.language;
                         use = builder.use;
                         value = ValidationSupport.requireNonNull(builder.value, "value");
-                        ValidationSupport.checkLanguageCode(language, "language");
+                        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                         ValidationSupport.requireValueOrChildren(this);
                     }
 

@@ -51,6 +51,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "The organization SHALL at least have a name or an idendtifier, and possibly more than one",
     expression = "(identifier.count() + name.count()) > 0"
 )
+@Constraint(
+    id = "insurancePlan-2",
+    level = "Warning",
+    location = "contact.purpose",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contactentity-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contactentity-type', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class InsurancePlan extends DomainResource {
     @Summary
@@ -3727,7 +3735,7 @@ public class InsurancePlan extends DomainResource {
                         applicability = builder.applicability;
                         qualifiers = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualifiers, "qualifiers"));
                         value = builder.value;
-                        ValidationSupport.checkCodeableConcept(applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
+                        ValidationSupport.checkValueSetBinding(applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
                         ValidationSupport.requireValueOrChildren(this);
                     }
 

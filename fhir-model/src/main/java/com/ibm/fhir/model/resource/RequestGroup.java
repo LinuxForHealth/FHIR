@@ -67,6 +67,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Must have resource or action but not both",
     expression = "resource.exists() != action.exists()"
 )
+@Constraint(
+    id = "requestGroup-2",
+    level = "Warning",
+    location = "action.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/action-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/action-type', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RequestGroup extends DomainResource {
     @Summary

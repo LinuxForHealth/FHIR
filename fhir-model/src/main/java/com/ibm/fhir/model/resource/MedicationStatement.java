@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -54,6 +55,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * memory, from a prescription bottle or from a list of medications the patient, clinician or other party maintains. 
  * Medication administration is more formal and is not missing detailed information.
  */
+@Constraint(
+    id = "medicationStatement-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medication-statement-category",
+    expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medication-statement-category', 'preferred'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationStatement extends DomainResource {
     @Summary

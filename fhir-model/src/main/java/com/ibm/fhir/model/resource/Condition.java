@@ -79,6 +79,22 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
     expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
 )
+@Constraint(
+    id = "condition-6",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/condition-category",
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/condition-category', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "condition-7",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/condition-severity",
+    expression = "severity.exists() implies (severity.memberOf('http://hl7.org/fhir/ValueSet/condition-severity', 'preferred'))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Condition extends DomainResource {
     @Summary
@@ -174,8 +190,8 @@ public class Condition extends DomainResource {
         stage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stage, "stage"));
         evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkCodeableConcept(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
-        ValidationSupport.checkCodeableConcept(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
+        ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
+        ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Observation xmlns="http://hl7.org/fhir">
+  <id value="ofc-percentile"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><p><b>id</b>: ofc-percentile</p><p><b>meta</b>: </p><p></p><p><b>category</b>: <span title="Codes: {http://terminology.hl7.org/CodeSystem/observation-category vital-signs}">Vital Signs</span></p><p><b>code</b>: <span title="Codes: {http://loinc.org 8289-1}">Head Occipital-frontal circumference Percentile</span></p><p><b>subject</b>: <a href="Patient-infant-example.html">Infant Example. Generated Summary: id: infant-example; Medical Record Number = 1032703 (USUAL); active; Infant Example ; ph: 555-555-5555(HOME); gender: male; birthDate: 2020-06-02</a></p><p><b>effective</b>: 2020-07-01</p><p><b>value</b>: 82 %</p><p><b>note</b>: Annotation: WHO Males, 0-2 years Chart</p></div>
+  </text>
+  <status value="final"/>
+  <category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+      <code value="vital-signs"/>
+      <display value="Vital Signs"/>
+    </coding>
+    <text value="Vital Signs"/>
+  </category>
+  <code>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="8289-1"/>
+      <display value="Head Occipital-frontal circumference Percentile"/>
+    </coding>
+    <text value="Head Occipital-frontal circumference Percentile"/>
+  </code>
+  <subject>
+    <reference value="Patient/infant-example"/>
+    <display value="Infant Example"/>
+  </subject>
+  <effectiveDateTime value="2020-07-01"/>
+  <valueQuantity>
+    <value value="82"/>
+    <unit value="%"/>
+    <system value="http://unitsofmeasure.org"/>
+    <code value="%"/>
+  </valueQuantity>
+  <note>
+    <text value="WHO Males, 0-2 years Chart"/>
+  </note>
+</Observation>

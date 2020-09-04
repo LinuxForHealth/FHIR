@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,6 +40,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a research study or other healthcare setting factors that requires additional monitoring, treatment, or 
  * hospitalization, or that results in death.
  */
+@Constraint(
+    id = "adverseEvent-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/adverse-event-category",
+    expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/adverse-event-category', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AdverseEvent extends DomainResource {
     @Summary
@@ -148,8 +157,8 @@ public class AdverseEvent extends DomainResource {
         subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectMedicalHistory, "subjectMedicalHistory"));
         referenceDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceDocument, "referenceDocument"));
         study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
-        ValidationSupport.checkCodeableConcept(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
-        ValidationSupport.checkCodeableConcept(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
+        ValidationSupport.checkValueSetBinding(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
+        ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(location, "location", "Location");

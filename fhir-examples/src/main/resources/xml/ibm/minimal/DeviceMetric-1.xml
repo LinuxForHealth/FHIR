@@ -5,9 +5,11 @@
     </tag>
   </meta>
   <type>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </type>
   <category>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

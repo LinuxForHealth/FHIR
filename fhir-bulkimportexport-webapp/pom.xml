@@ -238,6 +238,17 @@
                     <warName>${fhir.bulkjavabatch.war.name}</warName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Xms1G -Xmx2G</argLine>
+                    <systemPropertyVariables>
+                        <HADOOP_HOME>${project.basedir}/target/spark-data/</HADOOP_HOME>
+                        <spark.local.dir>${project.basedir}/target/spark-data/</spark.local.dir>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

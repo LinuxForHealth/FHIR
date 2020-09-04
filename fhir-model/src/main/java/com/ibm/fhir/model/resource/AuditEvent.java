@@ -53,6 +53,94 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Either a name or a query (NOT both)",
     expression = "name.empty() or query.empty()"
 )
+@Constraint(
+    id = "auditEvent-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-event-type",
+    expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/audit-event-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-event-sub-type",
+    expression = "subtype.exists() implies (subtype.all(memberOf('http://hl7.org/fhir/ValueSet/audit-event-sub-type', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-4",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
+    expression = "purposeOfEvent.exists() implies (purposeOfEvent.all(memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-5",
+    level = "Warning",
+    location = "agent.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/participation-role-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/participation-role-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-6",
+    level = "Warning",
+    location = "agent.media",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/dicm-405-mediatype",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/dicm-405-mediatype', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-7",
+    level = "Warning",
+    location = "agent.purposeOfUse",
+    description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
+    expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-8",
+    level = "Warning",
+    location = "source.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-source-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/audit-source-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-9",
+    level = "Warning",
+    location = "entity.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-entity-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/audit-entity-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-10",
+    level = "Warning",
+    location = "entity.role",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/object-role",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/object-role', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-11",
+    level = "Warning",
+    location = "entity.lifecycle",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/object-lifecycle-events",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/object-lifecycle-events', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "auditEvent-12",
+    level = "Warning",
+    location = "entity.securityLabel",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AuditEvent extends DomainResource {
     @Summary

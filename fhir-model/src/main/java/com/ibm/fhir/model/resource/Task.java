@@ -91,6 +91,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Last modified date must be greater than or equal to authored-on date.",
     expression = "lastModified.exists().not() or authoredOn.exists().not() or lastModified >= authoredOn"
 )
+@Constraint(
+    id = "task-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/performer-role",
+    expression = "performerType.exists() implies (performerType.all(memberOf('http://hl7.org/fhir/ValueSet/performer-role', 'preferred')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Task extends DomainResource {
     private final List<Identifier> identifier;

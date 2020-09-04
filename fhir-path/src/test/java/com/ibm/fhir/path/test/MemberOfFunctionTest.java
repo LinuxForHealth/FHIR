@@ -20,6 +20,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -520,6 +521,130 @@ public class MemberOfFunctionTest {
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
     
+    @Test
+    public void testMemberOfFunction44() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction45() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.builder().value("x").extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction46() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction47() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction48() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.builder().value("x").extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction49() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction50() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.builder().value("x").extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction51() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Coding coding = Coding.builder()
+                .extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build())
+                .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction52() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Coding coding = Coding.builder()
+                .extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build())
+                .code(Code.of("a"))
+                .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction53() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Quantity quantity = Quantity.builder()
+                .extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build())
+                .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction54() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Quantity quantity = Quantity.builder()
+                .extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build())
+                .code(Code.of("a"))
+                .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
     private Collection<FHIRPathNode> getChildren(FHIRPathNode node, String name) {
         return node.children().stream()
                 .filter(child -> name.equals(child.name()))

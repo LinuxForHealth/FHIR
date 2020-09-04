@@ -24,6 +24,8 @@ import com.ibm.fhir.model.resource.QuestionnaireResponse;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Narrative;
@@ -235,6 +237,16 @@ public abstract class DataCreatorBase {
                 .value(Code.of("unknown"))
                 .build();
         return builder.extension(e);
+    }
+
+    protected CodeableConcept.Builder setDataAbsentReasonCoding(CodeableConcept.Builder builder) {
+        Coding coding = Coding.builder()
+                .extension(Extension.builder()
+                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+                .value(Code.of("unknown"))
+                .build())
+                .build();
+        return builder.coding(coding);
     }
 
     protected String titleCase(String name) {

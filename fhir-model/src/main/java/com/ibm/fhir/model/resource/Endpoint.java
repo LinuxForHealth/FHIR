@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -40,6 +41,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.
  * b or a REST endpoint for another FHIR server. This may include any security context information.
  */
+@Constraint(
+    id = "endpoint-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/endpoint-connection-type",
+    expression = "connectionType.exists() and connectionType.memberOf('http://hl7.org/fhir/ValueSet/endpoint-connection-type', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Endpoint extends DomainResource {
     @Summary

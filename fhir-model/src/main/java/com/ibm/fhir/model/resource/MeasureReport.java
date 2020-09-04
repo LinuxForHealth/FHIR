@@ -57,6 +57,22 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Stratifiers SHALL be either a single criteria or a set of criteria components",
     expression = "group.stratifier.stratum.all(value.exists() xor component.exists())"
 )
+@Constraint(
+    id = "measureReport-3",
+    level = "Warning",
+    location = "group.population.code",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "measureReport-4",
+    level = "Warning",
+    location = "group.stratifier.stratum.population.code",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {
     @Summary
@@ -119,7 +135,7 @@ public class MeasureReport extends DomainResource {
         improvementNotation = builder.improvementNotation;
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
         evaluatedResource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluatedResource, "evaluatedResource"));
-        ValidationSupport.checkCodeableConcept(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+        ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
         ValidationSupport.checkReferenceType(reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
         ValidationSupport.requireChildren(this);

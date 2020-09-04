@@ -26,10 +26,10 @@ public class USCoreResourceProviderTest {
     @Test
     public void testUSCoreResourceProvider() {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
-        assertEquals(provider.getRegistryResources().size(), 145);
+        assertEquals(provider.getRegistryResources().size(), 147);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testValidateResources() throws Exception {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
 

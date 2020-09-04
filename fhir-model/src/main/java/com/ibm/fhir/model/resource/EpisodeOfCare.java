@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,6 +39,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * An association between a patient and an organization / healthcare provider(s) during which time encounters may occur. 
  * The managing organization assumes a level of responsibility for the patient during this time.
  */
+@Constraint(
+    id = "episodeOfCare-0",
+    level = "Warning",
+    location = "diagnosis.role",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EpisodeOfCare extends DomainResource {
     private final List<Identifier> identifier;

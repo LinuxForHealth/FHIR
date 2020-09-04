@@ -56,6 +56,86 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
     expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
 )
+@Constraint(
+    id = "effectEvidenceSynthesis-1",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-2",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/synthesis-type",
+    expression = "synthesisType.exists() implies (synthesisType.memberOf('http://hl7.org/fhir/ValueSet/synthesis-type', 'extensible'))",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-3",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/study-type",
+    expression = "studyType.exists() implies (studyType.memberOf('http://hl7.org/fhir/ValueSet/study-type', 'extensible'))",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-4",
+    level = "Warning",
+    location = "resultsByExposure.variantState",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-5",
+    level = "Warning",
+    location = "effectEstimate.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/effect-estimate-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/effect-estimate-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-6",
+    level = "Warning",
+    location = "effectEstimate.variantState",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-7",
+    level = "Warning",
+    location = "effectEstimate.precisionEstimate.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/precision-estimate-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/precision-estimate-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-8",
+    level = "Warning",
+    location = "certainty.rating",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-quality",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-quality', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-9",
+    level = "Warning",
+    location = "certainty.certaintySubcomponent.type",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-type",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-type', 'extensible')",
+    generated = true
+)
+@Constraint(
+    id = "effectEvidenceSynthesis-10",
+    level = "Warning",
+    location = "certainty.certaintySubcomponent.rating",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating', 'extensible')",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EffectEvidenceSynthesis extends DomainResource {
     @Summary
@@ -2518,7 +2598,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
             precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
-            ValidationSupport.checkUcumCodeableConcept(unitOfMeasure, "unitOfMeasure");
+            ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
             ValidationSupport.requireValueOrChildren(this);
         }
 

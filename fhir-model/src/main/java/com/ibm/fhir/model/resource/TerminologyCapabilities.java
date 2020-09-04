@@ -86,6 +86,14 @@ import com.ibm.fhir.model.visitor.Visitor;
     description = "If kind = requirements, implementation and software must be absent",
     expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
 )
+@Constraint(
+    id = "terminologyCapabilities-6",
+    level = "Warning",
+    location = "(base)",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
+    expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TerminologyCapabilities extends DomainResource {
     @Summary

@@ -15,9 +15,11 @@
     </extension>
   </patient>
   <targetDisease>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </targetDisease>
   <immunizationEvent>
     <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -25,8 +27,10 @@
     </extension>
   </immunizationEvent>
   <doseStatus>
-    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-      <valueCode value="unknown"/>
-    </extension>
+    <coding>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </coding>
   </doseStatus>
 </ImmunizationEvaluation>

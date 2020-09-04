@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,6 +43,14 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A person who is directly or indirectly involved in the provisioning of healthcare.
  */
+@Constraint(
+    id = "practitioner-0",
+    level = "Warning",
+    location = "(base)",
+    description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
+    expression = "communication.exists() implies (communication.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')))",
+    generated = true
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Practitioner extends DomainResource {
     @Summary
@@ -89,7 +98,7 @@ public class Practitioner extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        ValidationSupport.checkLanguageCodeableConcepts(communication, "communication");
+        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.requireChildren(this);
     }
 
