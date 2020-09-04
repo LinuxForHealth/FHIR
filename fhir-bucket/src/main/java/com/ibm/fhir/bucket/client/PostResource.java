@@ -39,12 +39,13 @@ public class PostResource implements FhirServerRequest<FhirServerResponse> {
             throw new IllegalStateException(e);
         }
 
-        String resourceType = getResourceType();
+        final String resourceType = getResourceType();
+        final String payload = new String(os.toByteArray(), StandardCharsets.UTF_8);
         if ("Bundle".equals(resourceType)) {
-            return client.post("", os.toString(StandardCharsets.UTF_8));
+            return client.post("", payload);
             
         } else {
-            return client.post(resourceType, os.toString(StandardCharsets.UTF_8));
+            return client.post(resourceType, payload);
         }
     }
     
