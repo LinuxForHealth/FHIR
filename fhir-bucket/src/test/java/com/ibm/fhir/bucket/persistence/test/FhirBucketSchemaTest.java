@@ -257,8 +257,9 @@ public class FhirBucketSchemaTest {
                 assertEquals(jobList.get(0).getObjectKey(), "/path/to/dir2/patient1.json");
 
                 // Remove any stale allocations. Give a fake loaderInstanceId because
-                // we don't touch stuff that we own
-                ClearStaleAllocations c4 = new ClearStaleAllocations(loaderInstanceId + 1, 0, -1);
+                // we don't touch stuff that we own. Make the timeout negative to force
+                // the timeout
+                ClearStaleAllocations c4 = new ClearStaleAllocations(loaderInstanceId + 1, -60000, -1);
                 adapter.runStatement(c4);
 
                 // Now we should be able to see all 3 allocations be reassigned
