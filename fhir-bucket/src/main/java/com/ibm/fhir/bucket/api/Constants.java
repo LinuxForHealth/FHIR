@@ -6,13 +6,11 @@
 package com.ibm.fhir.bucket.api;
 
 /**
- * Constants for BulkExportImport.
- *
+ * Constants for FHIR Bucket.
  */
 public class Constants {
 
     public static final String DEFAULT_FHIR_TENANT = "default";
-    public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
 
     // The minimal size (10M bytes) for COS multiple-parts upload.
     public static final int COS_PART_MINIMALSIZE = 10485760;

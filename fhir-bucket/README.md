@@ -92,7 +92,7 @@ The name of the Derby database can be anything (without spaces) but must be cont
 As a one-time activity, create the schema objects using the following command:
 
 ```
-#!/bin/bash
+#!/usr/bin/env bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
 
@@ -105,7 +105,7 @@ java -jar "${JAR}"               \
 If using a local Derby instance:
 
 ```
-#!/bin/bash
+#!/usr/bin/env bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
 
@@ -118,7 +118,7 @@ java -jar "${JAR}"                 \
 If using a local PostgreSQL instance:
 
 ```
-#!/bin/bash
+#!/usr/bin/env bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
 
@@ -136,7 +136,7 @@ This tracking database can be shared with the instance used by FHIR, but for pro
 The following script can be used to run the bucket loader from a local build:
 
 ```
-#!/bin/bash
+#!/usr/bin/env bash
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-4.4.0-SNAPSHOT-cli.jar"
 
@@ -306,3 +306,4 @@ SELECT loader_instance_id, substr(object_name, 1, 24) object_name, resource_type
  WHERE rt.resource_type_id = lr.resource_type_id
    AND lr.run_seconds > 0
 ;
+```

@@ -1,3 +1,8 @@
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
 SET CURRENT SCHEMA FHIRBUCKET;
 
 SELECT loader_instance_id, resource_count, resource_count / run_seconds AS resources_per_second

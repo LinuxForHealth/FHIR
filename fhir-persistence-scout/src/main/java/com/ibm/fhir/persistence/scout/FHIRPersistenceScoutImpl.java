@@ -88,7 +88,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * Scalable persistence layer, storing resources in Cassandra and the corresponding
  * indexes in Redis.
- * @author Robin Arnold
  */
 public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPersistenceScoutImpl.class.getName());
@@ -135,9 +134,6 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
         log.exiting(CLASSNAME, METHODNAME);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#isDeleteSupported()
-     */
     @Override
     public boolean isDeleteSupported() {
         return true;

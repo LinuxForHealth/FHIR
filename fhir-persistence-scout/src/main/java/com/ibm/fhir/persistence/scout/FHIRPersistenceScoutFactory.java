@@ -15,17 +15,12 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 
 /**
- * Factory for creating FHIRPersistence instances using Cloudant as the underlying
+ * Factory for creating FHIRPersistence instances using Cassandra as the underlying
  * datastore.
- * @author rarnold
- *
  */
 public class FHIRPersistenceScoutFactory implements FHIRPersistenceFactory {
     private static final Logger logger = Logger.getLogger(FHIRPersistenceScoutFactory.class.getName());
     
-    /* (non-Javadoc)
-     * @see com.ibm.watson.health.fhir.persistence.FHIRPersistenceFactory#getInstance()
-     */
     @Override
     public FHIRPersistence getInstance() throws FHIRPersistenceException {
         try {
