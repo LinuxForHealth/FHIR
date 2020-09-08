@@ -4,4 +4,4 @@ Text '2020-07-07T13:26:22.0314215+00:00' could not be parsed at index 26 [Patien
 
 - Modified the expression for provenance-1
 From ($this.agent.who.resolve().is Practitioner or Device) implies exists()
-To ($this.agent.who.resolve().is(Practitioner or Device)) implies exists()
+To (($this.agent.who.resolve() is Practitioner) or ($this.agent.who.resolve() is Device)) implies exists()
