@@ -5,7 +5,6 @@
  */
 package com.ibm.fhir.bucket.client;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -494,11 +493,10 @@ public class FhirClient {
         }
     }
     
-    private void dump(Reader rdr) throws IOException {
-        BufferedReader br = new BufferedReader(rdr);
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
+    /**
+     * @return the URL to the base of the FHIR server
+     */
+    public String getBaseUrl() {
+        return buildTargetPath(null);
     }
 }

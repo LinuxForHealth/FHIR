@@ -179,6 +179,10 @@ public class ResourceHandler {
                 if (response.getResource() != null) {
                     // Process the response bundle
                     success = processResponseResource(re, response.getResource());
+                    
+                    // Update the job with the response time for this entry (for local logging)
+                    int responseTimeMs = (int)((end - start) / NANOS_MS);
+                    re.getJob().setLastCallResponseTime(responseTimeMs);
                 } else if (locn != null) {
                     if (locn.startsWith("https://")) {
                         // the response was empty, so in this case we need to extract the id from
@@ -199,6 +203,10 @@ public class ResourceHandler {
                 logger.warning("FHIR request failed [" + re.toString() + "]: " + 
                         response.getStatusCode() + " " + response.getStatusMessage());
                 processBadRequest(re, response);
+                
+                // Still set the response time so we can see if it failed because the transaction took too long
+                int responseTimeMs = (int)((end - start) / NANOS_MS);
+                re.getJob().setLastCallResponseTime(responseTimeMs);
                 break;
             }
         } catch (Throwable x) {
@@ -263,6 +271,7 @@ public class ResourceHandler {
         // together so that we can make a single batch insert into the database
         // which is going to be a lot more efficient than individual inserts
         List<ResourceIdValue> idValues = new ArrayList<>();
+        re.getJob().addTotalResourceCount(bundle.getEntry().size());
         for (Bundle.Entry entry: bundle.getEntry()) {
             Response response = entry.getResponse();
             if (response != null) {
@@ -322,6 +331,7 @@ public class ResourceHandler {
         // the response was empty, so in this case we need to extract the id from
         // the location header, which means cracking the string into parts:
         // https://localhost:9443/fhir-server/api/v4/DiagnosticReport/173eed87a99-605de23b-266d-4b4d-b64f-31e769fda112/_history/1
+        re.getJob().addTotalResourceCount(1);
         String[] parts = location.split("/");
         if (parts.length == 10) {
             String resourceType = parts[6];

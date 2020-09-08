@@ -35,6 +35,7 @@ import com.ibm.fhir.bucket.persistence.RecordLogicalIdList;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
+import com.ibm.fhir.bucket.persistence.SelectRandomPatientIds;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -304,6 +305,22 @@ public class DataAccess {
             try {
                 GetResourceRefsForBundleLine cmd = new GetResourceRefsForBundleLine(resourceBundleId, version, lineNumber);
                 return dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * @param patientIds
+     * @param patientsPerBatch
+     */
+    public void selectRandomPatientIds(List<String> patientIds, int patientsPerBatch) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                SelectRandomPatientIds cmd = new SelectRandomPatientIds(patientIds, patientsPerBatch);
+                dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
                 throw x;

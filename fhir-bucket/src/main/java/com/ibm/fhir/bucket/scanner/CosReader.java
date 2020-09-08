@@ -89,7 +89,7 @@ public class CosReader {
     private int recycleSeconds;
 
     // The cost of a bundle compared to a single resource
-    private final int bundleCostFactor;
+    private final double bundleCostFactor;
     
     /**
      * Public constructor
@@ -103,7 +103,7 @@ public class CosReader {
      * @param recycleSeconds
      */
     public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
-        int bundleCostFactor) {
+        double bundleCostFactor) {
         this.pool = commonPool;
         this.fileType = fileType;
         this.client = client;
@@ -247,8 +247,20 @@ public class CosReader {
      * @param job
      */
     protected void markJobDone(final BucketLoaderJob job) {
+        // The number of seconds the whole job took to complete (including queue time)
         double elapsedSeconds = (job.getProcessingEndTime() - job.getProcessingStartTime()) / 1e9;
-        logger.info(String.format("Completed entry: %s [took %.3f secs]", job.toString(), elapsedSeconds));
+        
+        // The response time of the last call...which is useful if the request is one big bundle
+        double lastCallTime = job.getLastCallResponseTime() / 1e3;
+        
+        int resources = job.getTotalResourceCount();
+        double rps = Double.NaN;
+        if (lastCallTime > 0) {
+            rps = resources / lastCallTime;
+        }
+        
+        // Log some useful info so we can eyeball rate/progress in the logs
+        logger.info(String.format("Completed entry: %s [took %.3f secs, lastCall: %.3f secs, resources: %d, rate: %.1f resources/sec]", job.toString(), elapsedSeconds, lastCallTime, resources, rps));
         dataAccess.markJobDone(job);
     }
 
@@ -344,8 +356,10 @@ public class CosReader {
         // Bundles tend to be a lot larger, so we limit how many we try to
         // process in parallel.
         if (r.is(Bundle.class)) {
+            // Estimate a cost based on the number of entries in the bundle
+            // multiplied by the cost factor. Cost can never be < 1.
             Bundle b = r.as(Bundle.class);
-            return this.bundleCostFactor * b.getEntry().size();
+            return Math.max(1, (int)(this.bundleCostFactor * b.getEntry().size()));
         } else {
             return 1;
         }

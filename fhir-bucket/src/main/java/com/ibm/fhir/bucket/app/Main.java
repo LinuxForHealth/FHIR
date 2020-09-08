@@ -28,6 +28,8 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.bucket.interop.CmsPayerInterop;
+import com.ibm.fhir.bucket.interop.CmsPayerScenario;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
@@ -152,7 +154,12 @@ public class Main {
     private int recycleSeconds = -1;
     
     // Assign a higher cost to processing bundles to reduce concurrency and avoid overload/timeouts
-    private int bundleCostFactor = 1;
+    private double bundleCostFactor = 1.0;
+    
+    // How many payer scenario requests do we want to make at a time.
+    private int concurrentPayerRequests = 0;
+    
+    private CmsPayerInterop cmsPayerWorkload;
     
     /**
      * Parse command line arguments
@@ -256,6 +263,13 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --connection-pool-size");
                 }
                 break;
+            case "--concurrent-payer-requests":
+                if (i < args.length + 1) {
+                    this.concurrentPayerRequests = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --concurrent-payer-requests");
+                }
+                break;
             case "--pool-shutdown-timeout-seconds":
                 if (i < args.length + 1) {
                     this.poolShutdownTimeoutSeconds = Integer.parseInt(args[++i]);
@@ -265,7 +279,7 @@ public class Main {
                 break;
             case "--bundle-cost-factor":
                 if (i < args.length + 1) {
-                    this.bundleCostFactor = Integer.parseInt(args[++i]);
+                    this.bundleCostFactor = Double.parseDouble(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --bundle-cost-factor");
                 }
@@ -568,6 +582,10 @@ public class Main {
         // we don't block on any of these
         this.scanner.signalStop();
         
+        if (cmsPayerWorkload != null) {
+            cmsPayerWorkload.signalStop();
+        }
+        
         if (this.jsonReader != null) {
             this.jsonReader.signalStop();
         }
@@ -580,6 +598,11 @@ public class Main {
         
         
         this.scanner.waitForStop();
+        
+        if (cmsPayerWorkload != null) {
+            cmsPayerWorkload.waitForStop();
+        }
+
         if (this.jsonReader != null) {
             this.jsonReader.waitForStop();
         }
@@ -659,6 +682,14 @@ public class Main {
                 incrementalExact, this.bundleCostFactor);
             this.jsonReader.init();
         }
+        
+        if (this.concurrentPayerRequests > 0) {
+            // set up the CMS payer thread to add some read-load to the system
+            CmsPayerScenario scenario = new CmsPayerScenario(this.fhirClient);
+            cmsPayerWorkload = new CmsPayerInterop(dataAccess, scenario, concurrentPayerRequests, 50);
+            cmsPayerWorkload.init();
+        }
+
 
         // JVM won't exit until the threads are stopped via the
         // shutdown hook
