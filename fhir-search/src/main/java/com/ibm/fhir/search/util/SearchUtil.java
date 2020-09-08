@@ -502,6 +502,47 @@ public class SearchUtil {
         return result;
     }
 
+    /**
+     * Perform wildcard processing for inclusion search parameters by getting all valid search parameters for the
+     * specified join resource type. Search parameters must have a type of 'reference'.
+     * <p>
+     * If inclusion keyword is ' _include' and a target resource type is specified, search parameter must contain
+     * a matching type.
+     * <p>
+     * If inclusion keyword is '_revinclude', search parameter must have a target resource type matching the resource
+     * type being searched.
+     * 
+     * @param resourceType
+     *            the resource type being searched for
+     * @param joinResourceType
+     *            the resource type for which inclusion search parameters will be returned
+     * @param searchParameterTargetType
+     *            the target resource type for included resources
+     * @param inclusionKeyword
+     *            the inclusion type, either _include or _revinclude
+     * @return
+     *         the inclusion SearchParameters for type {@code resourceType} or empty map if none exist
+     * @throws Exception
+     */
+    private static Map<String, SearchParameter> getInclusionWildcardSearchParameters(String resourceType, String joinResourceType,
+        String searchParameterTargetType, String inclusionKeyword) throws Exception {
+        Map<String, SearchParameter> inclusionSearchParameters = new HashMap<>();
+
+        for (SearchParameter searchParameter : getApplicableSearchParameters(joinResourceType)) {
+            if (searchParameter.getType().getValue().equals("reference") &&
+                    ((SearchConstants.INCLUDE.equals(inclusionKeyword)
+                            && (searchParameterTargetType == null || isValidTargetType(searchParameterTargetType, searchParameter))) ||
+                    (SearchConstants.REVINCLUDE.equals(inclusionKeyword) && isValidTargetType(resourceType, searchParameter)))) {
+                // Valid search parameter of type reference - add to map
+                inclusionSearchParameters.put(searchParameter.getCode().getValue(), searchParameter);
+            } else if (inclusionSearchParameters.containsKey(searchParameter.getCode().getValue())) {
+                // Search parameter is not valid - remove if search parameter by same name is alread in map
+                inclusionSearchParameters.remove(searchParameter.getCode().getValue());
+            }
+        }
+
+        return inclusionSearchParameters;
+    }
 
     /**
      * skips the empty extracted search parameters
@@ -1373,17 +1414,25 @@ public class SearchUtil {
     }
 
     /**
-     * Parses _include and _revinclude search result parameters contained in the
-     * query string, and produces
-     * InclusionParameter objects to represent those parameters. The
-     * InclusionParameter objects are included in the
-     * appropriate collections encapsulated in the passed FHIRSearchContext.
+     * Parses _include and _revinclude search result parameters contained in the query string, and produces
+     * InclusionParameter objects to represent those parameters. The InclusionParameter objects are included
+     * in the appropriate collections encapsulated in the passed FHIRSearchContext.
      *
+     * @param resourceType
+     *     the search resource type
+     * @param context
+     *     the search context
+     * @param inclusionKeyword
+     *     the type of inclusion, either '_include' or '_revinclude'
+     * @param inclusionValues
+     *     the inclusion values, each containing joinResourceType, searchParameterName,
+     *     and optionally searchParameterTargetType, colon-delimited
+     * @param lenient
+     *     the validation level
      * @throws Exception
      */
-    private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context,
-            String inclusionKeyword, List<String> inclusionValues,
-            boolean lenient) throws Exception {
+    private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues,
+        boolean lenient) throws Exception {
 
         String[] inclusionValueParts;
         String joinResourceType;
@@ -1399,66 +1448,73 @@ public class SearchUtil {
             // Parse value into 3 parts: joinResourceType, searchParameterName, searchParameterTargetType
             inclusionValueParts = inclusionValue.split(":");
             if (inclusionValueParts.length < 2) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        "A value for _include or _revinclude must have at least 2 parts separated by a colon.");
+                throw SearchExceptionUtil.buildNewInvalidSearchException("A value for _include or _revinclude must have at least 2 parts separated by a colon.");
             }
-            joinResourceType          = inclusionValueParts[0];
-            searchParameterName       = inclusionValueParts[1];
+            joinResourceType = inclusionValueParts[0];
+            searchParameterName = inclusionValueParts[1];
             searchParameterTargetType = inclusionValueParts.length == 3 ? inclusionValueParts[2] : null;
 
-            // Ensure that the Inclusion Parameter being parsed is a valid search parameter of type 'reference'.
-            searchParm                = getSearchParameter(joinResourceType, searchParameterName);
-            if (searchParm == null) {
-                String msg = "Undefined Inclusion Parameter: " + inclusionValue;
-                if (lenient) {
-                    // TODO add this to the list of supplemental warnings?
-                    log.fine(msg);
-                    continue;
-                } else {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                }
-            }
-            if (!searchParm.getType().getValue().equals("reference")) {
-                throw SearchExceptionUtil
-                        .buildNewInvalidSearchException("Inclusion Parameter must be of type 'reference'. "
-                                + "The passed Inclusion Parameter is of type: " + searchParm.getType().getValue());
+            // For _include parameter, join resource type must match resource type being searched
+            if (SearchConstants.INCLUDE.equals(inclusionKeyword) && !joinResourceType.equals(resourceType.getSimpleName())) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        "The join resource type must match the resource type being searched.");
             }
 
-            if (inclusionKeyword.equals(SearchConstants.INCLUDE)) {
-                newInclusionParms =
-                        buildIncludeParameter(resourceType, joinResourceType, searchParm, searchParameterName,
-                                searchParameterTargetType);
-                context.getIncludeParameters().addAll(newInclusionParms);
+            // For _revinclude parameter, target resource type, if specified, must match resource type being searched
+            if (SearchConstants.REVINCLUDE.equals(inclusionKeyword) && searchParameterTargetType != null
+                    && !searchParameterTargetType.equals(resourceType.getSimpleName())) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException("The search parameter target type must match the resource type being searched.");
+            }
+
+            // Ensure that the Inclusion Parameter being parsed is a valid search parameter of type 'reference'.
+            Map<String, SearchParameter> searchParametersMap;
+            if (SearchConstants.WILDCARD.equals(searchParameterName)) {
+                searchParametersMap = getInclusionWildcardSearchParameters(resourceType.getSimpleName(), joinResourceType, searchParameterTargetType, inclusionKeyword);
             } else {
-                newInclusionParm =
-                        buildRevIncludeParameter(resourceType, joinResourceType, searchParm, searchParameterName,
-                                searchParameterTargetType);
-                context.getRevIncludeParameters().add(newInclusionParm);
+                searchParm = getSearchParameter(joinResourceType, searchParameterName);
+                if (searchParm == null) {
+                    String msg = "Undefined Inclusion Parameter: " + inclusionValue;
+                    if (lenient) {
+                        // TODO add this to the list of supplemental warnings?
+                        log.fine(msg);
+                        continue;
+                    } else {
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                }
+                if (!searchParm.getType().getValue().equals("reference")) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException("Inclusion Parameter must be of type 'reference'. "
+                            + "The passed Inclusion Parameter is of type: " + searchParm.getType().getValue());
+                }
+                searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
+            }
+            for (Map.Entry<String, SearchParameter> entry : searchParametersMap.entrySet()) {
+                if (inclusionKeyword.equals(SearchConstants.INCLUDE)) {
+                    newInclusionParms =
+                            buildIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
+                    context.getIncludeParameters().addAll(newInclusionParms);
+                } else {
+                    newInclusionParm =
+                            buildRevIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
+                    context.getRevIncludeParameters().add(newInclusionParm);
+                }
             }
         }
     }
 
     /**
      * Builds and returns a collection of InclusionParameter objects representing
-     * occurrences the _include search result
-     * parameter in the query string.
+     * occurrences of the _include search result parameter in the query string.
      *
      * @throws FHIRSearchException
      */
-    private static List<InclusionParameter> buildIncludeParameter(Class<?> resourceType, String joinResourceType,
-            SearchParameter searchParm,
-            String searchParameterName, String searchParameterTargetType) throws FHIRSearchException {
+    private static List<InclusionParameter> buildIncludeParameter(Class<?> resourceType, String joinResourceType, SearchParameter searchParm,
+        String searchParameterName, String searchParameterTargetType) throws FHIRSearchException {
 
         List<InclusionParameter> includeParms = new ArrayList<>();
 
-        if (!joinResourceType.equals(resourceType.getSimpleName())) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException(
-                    "The join resource type must match the resource type being searched.");
-        }
-
         // If no searchParameterTargetType was specified, create an InclusionParameter instance for each of the search
-        // parameter's
-        // defined target types.
+        // parameter's defined target types.
         if (searchParameterTargetType == null) {
             for (Code targetType : searchParm.getTarget()) {
                 searchParameterTargetType = targetType.getValue();
@@ -1478,25 +1534,17 @@ public class SearchUtil {
 
     /**
      * Builds and returns a collection of InclusionParameter objects representing
-     * occurrences the _revinclude search result parameter in the query string.
+     * occurrences of the _revinclude search result parameter in the query string.
      *
      * @throws FHIRSearchException
      */
-    private static InclusionParameter buildRevIncludeParameter(Class<?> resourceType, String joinResourceType,
-            SearchParameter searchParm,
-            String searchParameterName, String searchParameterTargetType) throws FHIRSearchException {
-
-        // If a target type is specified, it must refer back to the resourceType being searched.
-        if (searchParameterTargetType != null) {
-            if (!searchParameterTargetType.equals(resourceType.getSimpleName())) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        "The search parameter target type must match the resource type being searched.");
-            }
-        } else {
-            searchParameterTargetType = resourceType.getSimpleName();
-        }
+    private static InclusionParameter buildRevIncludeParameter(Class<?> resourceType, String joinResourceType, SearchParameter searchParm,
+        String searchParameterName, String searchParameterTargetType) throws FHIRSearchException {
 
         // Verify that the search parameter target type is correct
+        if (searchParameterTargetType == null) {
+            searchParameterTargetType = resourceType.getSimpleName();
+        }
         if (!isValidTargetType(searchParameterTargetType, searchParm)) {
             throw SearchExceptionUtil.buildNewInvalidSearchException(INVALID_TARGET_TYPE_EXCEPTION);
         }
