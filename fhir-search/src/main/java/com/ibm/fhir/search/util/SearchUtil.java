@@ -38,6 +38,7 @@ import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -529,15 +530,16 @@ public class SearchUtil {
         Map<String, SearchParameter> inclusionSearchParameters = new HashMap<>();
 
         for (SearchParameter searchParameter : getApplicableSearchParameters(joinResourceType)) {
-            if (searchParameter.getType().getValue().equals("reference") &&
+            if (SearchParamType.REFERENCE.equals(searchParameter.getType()) &&
                     ((SearchConstants.INCLUDE.equals(inclusionKeyword)
                             && (searchParameterTargetType == null || isValidTargetType(searchParameterTargetType, searchParameter))) ||
                     (SearchConstants.REVINCLUDE.equals(inclusionKeyword) && isValidTargetType(resourceType, searchParameter)))) {
                 // Valid search parameter of type reference - add to map
                 inclusionSearchParameters.put(searchParameter.getCode().getValue(), searchParameter);
             } else if (inclusionSearchParameters.containsKey(searchParameter.getCode().getValue())) {
-                // Search parameter is not valid - remove if search parameter by same name is alread in map
-                inclusionSearchParameters.remove(searchParameter.getCode().getValue());
+                // Invalid duplicate search parameter found for valid search parameter already in map. Log invalid search parameter and ignore.
+                log.fine("Invalid duplicate search parameter '" + searchParameter.getCode().getValue() + 
+                    "' found in wildcard inclusion processing. Invalid search parameter ignored.");
             }
         }
 
@@ -1414,7 +1416,7 @@ public class SearchUtil {
     }
 
     /**
-     * Parses _include and _revinclude search result parameters contained in the query string, and produces
+     * Parses _include and _revinclude search parameters contained in the query string, and produces
      * InclusionParameter objects to represent those parameters. The InclusionParameter objects are included
      * in the appropriate collections encapsulated in the passed FHIRSearchContext.
      *
@@ -1470,21 +1472,23 @@ public class SearchUtil {
             Map<String, SearchParameter> searchParametersMap;
             if (SearchConstants.WILDCARD.equals(searchParameterName)) {
                 searchParametersMap = getInclusionWildcardSearchParameters(resourceType.getSimpleName(), joinResourceType, searchParameterTargetType, inclusionKeyword);
+                if (searchParametersMap.isEmpty()) {
+                    log.fine("No valid inclusion parameters found for wildcard search.");
+                }
             } else {
                 searchParm = getSearchParameter(joinResourceType, searchParameterName);
                 if (searchParm == null) {
                     String msg = "Undefined Inclusion Parameter: " + inclusionValue;
                     if (lenient) {
-                        // TODO add this to the list of supplemental warnings?
                         log.fine(msg);
                         continue;
                     } else {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
                 }
-                if (!searchParm.getType().getValue().equals("reference")) {
+                if (!SearchParamType.REFERENCE.equals(searchParm.getType())) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException("Inclusion Parameter must be of type 'reference'. "
-                            + "The passed Inclusion Parameter is of type: " + searchParm.getType().getValue());
+                            + "The passed Inclusion Parameter is of type: '" + searchParm.getType().getValue() + "'");
                 }
                 searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
             }
