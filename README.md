@@ -60,6 +60,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-ig-us-core|A packaging of the US Core Implementation Guide for extending the IBM FHIR Server with US Core Profile validation|false|
 |fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements Profile validation|false|
 |fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange Profile validation|false|
+|fhir-ig-davinci-epdx|A packaging of the DaVinci Payer Data Exchange (PDEX) Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Profile validation|false|
 |fhir-ig-davinci-pdex-plan-net|A packaging of the DaVinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net Profile validation|false|
 |fhir-ig-davinci-pdex-formulary|A packaging of the DaVinci Payer Data Exchange (PDex) US Drug Formulary Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDex) US Drug Formulary validation|false|
 

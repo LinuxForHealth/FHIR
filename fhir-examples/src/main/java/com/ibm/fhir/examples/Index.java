@@ -23,6 +23,7 @@ public enum Index {
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-formulary-xml.txt",
         "/profiles-pdex-plan-net-json.txt",
+        "/profiles-epdx-json.txt",
         "/profiles-us-core-xml.txt",
         "/profiles-us-core-json.txt"),
 
@@ -34,7 +35,8 @@ public enum Index {
         "/profiles-carin-bb-json.txt",
         "/profiles-us-core-json.txt",
         "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt"),
+        "/profiles-pdex-plan-net-json.txt",
+        "/profiles-epdx-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -100,6 +102,11 @@ public enum Index {
      * Implementation Guides examples in JSON
      */
     PROFILES_PDEX_PLAN_NET_JSON("/profiles-pdex-plan-net-json.txt"),
+
+    /**
+     * Implementation Guides examples in JSON
+     */
+    PROFILES_EPDX_JSON("/profiles-epdx-json.txt"),
 
     /**
      * US Core Examples in JSON
