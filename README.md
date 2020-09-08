@@ -72,6 +72,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence|Interfaces, helpers, and tests for implementing a persistence layer or persistence interceptors for the IBM FHIR Server|false|
 |fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
+|fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
 |fhir-persistence-proxy|A custom XADataSource implementation for managing distributed transactions across multiple backends|false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
@@ -112,6 +113,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-openapi|A web application that provides a simplified OpenAPI 3.0 definition of the FHIR HTTP interface|false|
 |fhir-install|Packaging and installation scripts for creating the fhir-distribution zip and the corresponding IBM FHIR Server Docker image|false|
 |fhir-benchmark|Java Microbenchmark Harness (JMH) tests for measuring read/write/validation performance for the IBM FHIR Server and the HL7 FHIR Java Reference Implementation|false|
+|fhir-bucket|Scans cloud object storage buckets and uploads data using the FHIR REST API|false|
 
 ### Contributing to the IBM FHIR Server
 The IBM FHIR Server is under active development. To help develop the server, clone or download the project and build it using Maven.
