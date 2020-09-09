@@ -2,7 +2,7 @@
 layout: post
 title:  Creating the fhir-validation assembly
 description: Creating the fhir-validation assembly
-date:   2020-08-26 09:00:00 -0400
+date:   2020-09-08 09:00:00 -0400
 permalink: /CreateFHIRValidationAssembly/
 ---
 
@@ -82,6 +82,7 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
  
 - fhir-ig-carin-bb
 - fhir-ig-davinci-pdex
+- fhir-ig-davinci-hrex
 - fhir-ig-davinci-pdex-plan-net
 - fhir-ig-davinci-pdex-formulary
 - fhir-ig-mcode
@@ -92,7 +93,7 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
 If you chose to add the user defined profile, you must pass in the name of the dependency using a commandline parameter `-Dfhir-ig-user-defined=fhir-ig-example`.
   
  ``` 
- mvn clean package -f fhir-validation/ -Pfhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex,fhir-ig-davinci-pdex-plan-net,fhir-ig-davinci-pdex-formulary,fhir-ig-mcode,fhir-ig-us-core,fhir-ig-user-defined
+ mvn clean package -f fhir-validation/ -Pfhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex,fhir-ig-davinci-hrex,fhir-ig-davinci-pdex-plan-net,fhir-ig-davinci-pdex-formulary,fhir-ig-mcode,fhir-ig-us-core,fhir-ig-user-defined
  ```
  It'll create the following zip file - `fhir-validation/target/fhir-validation-distribution.zip` 
 
