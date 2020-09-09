@@ -66,6 +66,7 @@ public class SearchTest extends FHIRServerTestBase {
     private String observationId;
     private Boolean compartmentSearchSupported = null;
     private String practitionerId;
+    private String practitionerId2;
     private String allergyIntoleranceId;
     private String practitionerRoleId;
     private String provenanceId;
@@ -1011,6 +1012,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getTotal().getValue().equals(1));
         assertTrue(bundle.getEntry().isEmpty());
+        
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
@@ -1310,11 +1312,11 @@ public class SearchTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the practitioner's logical id value.
-        practitionerId = getLocationLogicalId(response);
+        practitionerId2 = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new practitioner and verify it.
         response = target.path("Practitioner/"
-                + practitionerId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                + practitionerId2).request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
                 .get();
@@ -1327,7 +1329,7 @@ public class SearchTest extends FHIRServerTestBase {
         }
 
         // use it for search
-        practitionerId = responsePractitioner.getId();
+        practitionerId2 = responsePractitioner.getId();
         TestUtil.assertResourceEquals(practitioner, responsePractitioner);
     }
 
@@ -1340,7 +1342,7 @@ public class SearchTest extends FHIRServerTestBase {
         allergyIntolerance = allergyIntolerance
             .toBuilder()
             .patient(Reference.builder().reference(string("Patient/" + patientId)).build())
-            .recorder(Reference.builder().reference(string("Practitioner/" + practitionerId)).build())
+            .recorder(Reference.builder().reference(string("Practitioner/" + practitionerId2)).build())
             .asserter(Reference.builder().reference(string("PractitionerRole/" + practitionerRoleId)).build())
             .build();
 
@@ -1459,11 +1461,11 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(practitionerRole);
         assertNotNull(provenance);
         assertEquals(patientId, patient.getId());
-        assertEquals(practitionerId, practitioner.getId());
+        assertEquals(practitionerId2, practitioner.getId());
         assertEquals(practitionerRoleId, practitionerRole.getId());
         assertEquals(provenanceId, provenance.getId());
         assertEquals("Patient/" + patientId, allergyIntolerance.getPatient().getReference().getValue());
-        assertEquals("Practitioner/" + practitionerId, allergyIntolerance.getRecorder().getReference().getValue());
+        assertEquals("Practitioner/" + practitionerId2, allergyIntolerance.getRecorder().getReference().getValue());
         assertEquals("PractitionerRole/" + practitionerRoleId, allergyIntolerance.getAsserter().getReference().getValue());
         for (Reference reference : provenance.getTarget()) {
             if (reference.getReference() != null) {
