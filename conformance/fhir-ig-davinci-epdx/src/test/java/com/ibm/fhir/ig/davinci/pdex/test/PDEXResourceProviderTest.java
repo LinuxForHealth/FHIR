@@ -9,13 +9,13 @@ package com.ibm.fhir.ig.davinci.pdex.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.pdex.EPDXResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.PDEXResourceProvider;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
-public class EPDXResourceProviderTest {
+public class PDEXResourceProviderTest {
     @Test
     public void testEpdxResourceProvider() {
-        FHIRRegistryResourceProvider provider = new EPDXResourceProvider();
+        FHIRRegistryResourceProvider provider = new PDEXResourceProvider();
         Assert.assertEquals(provider.getRegistryResources().size(), 14);
     }
 }
