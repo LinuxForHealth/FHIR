@@ -942,9 +942,14 @@ public class FHIRPathEvaluator {
                 FHIRPathNode leftNode = leftIterator.next();
                 FHIRPathNode rightNode = rightIterator.next();
 
-                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) && !leftNode.isComparableTo(rightNode)) {
+                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) &&
+                        !getTemporalValue(leftNode).precision().equals(getTemporalValue(rightNode).precision())) {
                     return false;
                 }
+                // TODO: change to this when we update to a newer version of the test file
+//                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) && !leftNode.isComparableTo(rightNode)) {
+//                    return false;
+//                }
             }
 
             return true;
