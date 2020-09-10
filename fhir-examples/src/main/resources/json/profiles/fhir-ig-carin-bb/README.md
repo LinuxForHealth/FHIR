@@ -1,4 +1,5 @@
-These examples are for Consumer-Directed Payer Data Exchange - Release 0.1.0. 
+These examples are for Consumer-Directed Payer Data Exchange - Release 0.1.3. 
 
-Link to the Source - http://hl7.org/fhir/us/carin-bb/2020Feb/Examples.html
-Retrieved on 15 MAY 2020
+Link to the Source - https://build.fhir.org/ig/HL7/carin-bb/Examples.html
+Retrieved on 10 SEP 2020
+https://github.com/HL7/carin-bb/commit/3044bdad4f5945dfd829df21d1f88214bf3b760e
