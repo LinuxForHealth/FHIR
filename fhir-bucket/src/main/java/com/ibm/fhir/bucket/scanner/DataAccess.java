@@ -35,10 +35,11 @@ import com.ibm.fhir.bucket.persistence.RecordLogicalIdList;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
-import com.ibm.fhir.bucket.persistence.SelectRandomPatientIds;
+import com.ibm.fhir.bucket.persistence.GetLogicalIds;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.model.resource.Patient;
 
 /**
  * The data access layer encapsulating interactions with the FHIR bucket schema
@@ -316,10 +317,11 @@ public class DataAccess {
      * @param patientIds
      * @param patientsPerBatch
      */
-    public void selectRandomPatientIds(List<String> patientIds, int patientsPerBatch) {
+    public void selectRandomPatientIds(List<String> patientIds, int maxPatients) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                SelectRandomPatientIds cmd = new SelectRandomPatientIds(patientIds, patientsPerBatch);
+                // Grab the list of patient logical ids
+                GetLogicalIds cmd = new GetLogicalIds(patientIds, Patient.class.getSimpleName(), maxPatients);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();

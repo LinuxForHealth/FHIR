@@ -686,7 +686,7 @@ public class Main {
         if (this.concurrentPayerRequests > 0) {
             // set up the CMS payer thread to add some read-load to the system
             CmsPayerScenario scenario = new CmsPayerScenario(this.fhirClient);
-            cmsPayerWorkload = new CmsPayerInterop(dataAccess, scenario, concurrentPayerRequests, 50);
+            cmsPayerWorkload = new CmsPayerInterop(dataAccess, scenario, concurrentPayerRequests, 500000);
             cmsPayerWorkload.init();
         }
 

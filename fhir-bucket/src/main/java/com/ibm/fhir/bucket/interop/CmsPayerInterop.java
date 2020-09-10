@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.bucket.interop;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -17,7 +18,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.scanner.DataAccess;
 
 /**
@@ -44,24 +44,28 @@ public class CmsPayerInterop {
     // The thread running the main loop
     private Thread thread;
     
-    private final int patientsPerBatch;
+    // How many patients should we load into the buffer
+    private final int patientBufferSize;
     
     // Access to the FHIRBATCH schema
     private final DataAccess dataAccess;
 
     // thread pool for processing requests
     private final ExecutorService pool = Executors.newCachedThreadPool();
+    
+    // for picking random patient ids
+    private final SecureRandom random = new SecureRandom();
 
     /**
      * Public constructor
      * @param client
      * @param maxConcurrentRequests
      */
-    public CmsPayerInterop(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientsPerBatch) {
+    public CmsPayerInterop(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientBufferSize) {
         this.dataAccess = dataAccess;
         this.patientScenario = patientScenario;
         this.maxConcurrentRequests = maxConcurrentRequests;
-        this.patientsPerBatch = patientsPerBatch;
+        this.patientBufferSize = patientBufferSize;
     }
     
 
@@ -118,48 +122,69 @@ public class CmsPayerInterop {
      * and will run until {@link #shutdown()}.
      */
     protected void mainLoop() {
+        
+        // How many samples have we taken from the current buffer?
+        int samples = 0;
         // The list of patientIds we process
-        List<String> patientIdBuffer = new ArrayList<>();
-        int bufferOffset = 0; // current index into the patientIds list
+        List<String> patientIdBuffer = new ArrayList<>(patientBufferSize);
         while (this.running) {
-            int freeCapacity = -1;
-            int remainingInBuffer = patientIdBuffer.size() - bufferOffset;
 
-            // Grab some patient ids and stick them into the buffer
-            if (remainingInBuffer == 0) {
-                patientIdBuffer.clear();
-                dataAccess.selectRandomPatientIds(patientIdBuffer, this.patientsPerBatch);
-                bufferOffset = 0;
-                remainingInBuffer = patientIdBuffer.size();
-            }
-
-            // calculate how many requests we want to submit from the buffer, based
-            // on the maxConcurrentRequests.
-            int batchSize = 0;
-            lock.lock();
             try {
-                while (running && runningRequests == maxConcurrentRequests) {
-                    capacityCondition.await(5, TimeUnit.SECONDS);
+                if (patientIdBuffer.isEmpty() || samples > patientIdBuffer.size()) {
+                    // Refill the buffer of patient ids. There might be more available now
+                    patientIdBuffer.clear();
+                    samples = 0;
+                    dataAccess.selectRandomPatientIds(patientIdBuffer, this.patientBufferSize);
                 }
-                
-                // Submit as many requests as we have available without exceeding 
-                // the max concurrent request capacity
-                freeCapacity = maxConcurrentRequests - runningRequests;
-                batchSize = Math.min(remainingInBuffer, freeCapacity);
-                runningRequests += batchSize;
-            } catch (InterruptedException x) {
-                if (running) {
-                    throw new IllegalStateException("Interrupted but still running. Use #shutdown() instead.");
+    
+                // calculate how many requests we want to submit from the buffer, based
+                // on the maxConcurrentRequests.
+                int batchSize = 0;
+                lock.lock();
+                try {
+                    while (running && runningRequests == maxConcurrentRequests) {
+                        capacityCondition.await(5, TimeUnit.SECONDS);
+                    }
+                    
+                    // Submit as many requests as we have available. If we have a small 
+                    // patient buffer, then patients are more likely to be picked more than once
+                    int freeCapacity = maxConcurrentRequests - runningRequests;
+                    batchSize = Math.min(patientIdBuffer.size(), freeCapacity);
+                    runningRequests += batchSize;
+                } catch (InterruptedException x) {
+                    if (running) {
+                        running = false; // force termination so we don't get stuck here
+                        throw new IllegalStateException("Interrupted but still running. Use #shutdown() instead.");
+                    }
+                } finally {
+                    lock.unlock();
                 }
-            } finally {
-                lock.unlock();
+    
+                // Submit a request for each allocated patient to the thread pool
+                for (int i=0; i<batchSize && running; i++) {
+                    // pick a random patient id in the buffer
+                    int bufferIndex = random.nextInt(patientIdBuffer.size());
+                    final String patientId = patientIdBuffer.get(bufferIndex);
+                    samples++; // track how many times we've sampled from the buffer
+                    pool.submit(() -> processPatientThr(patientId));
+                }
+            } catch (Exception x) {
+                // log and snooze a little before we try again
+                logger.severe("Error in main loop: " + x.getMessage());
+                safeSleep(60000);
             }
+        }
+    }
 
-            // Submit a request for each allocated patient to the thread pool
-            for (int i=0; i<batchSize && running; i++) {
-                final String patientId = patientIdBuffer.get(bufferOffset++);
-                pool.submit(() -> processPatientThr(patientId));
-            }
+    /**
+     * Sleep for the requested number of milliseconds
+     * @param millis
+     */
+    private void safeSleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException x) {
+            // NOP. Being woken up early, probably for exit
         }
     }
 

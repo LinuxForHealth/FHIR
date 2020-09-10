@@ -195,6 +195,13 @@ public class CosReader {
                 }
             } catch (InterruptedException x) {
                 // NOP
+            } catch (Exception x) {
+                // Probably database connection error, so we take a good long pause
+                // before trying again as these things are never fixed quickly
+                logger.severe("Error in main allocation loop. Sleeping before retry");
+                if (this.running) {
+                    safeSleep(60000L);
+                }
             } finally {
                 lock.unlock();
             }
@@ -203,20 +210,21 @@ public class CosReader {
                 // We have more capacity than work is currently available in the database,
                 // so take a nap before checking again
                 logger.fine("No work. Napping");
-                safeSleep(5000);
+                safeSleep(10000L);
             }
         }
     }
     
     /**
-     * Sleep this thread for the given milliseconds
+     * Sleep current thread for given number of milliseconds or until
+     * the thread is interrupted.
      * @param millis
      */
     protected void safeSleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException x) {
-            // NOP
+            // woken up early from sleep, probably shutting down, so this is a NOP
         }
     }
 

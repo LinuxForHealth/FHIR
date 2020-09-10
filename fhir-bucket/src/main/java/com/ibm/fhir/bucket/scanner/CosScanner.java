@@ -138,19 +138,25 @@ public class CosScanner {
         
         while (this.running) {
             long start = System.nanoTime();
-            heartbeat();
             
-            if (nextScanTime == -1 || start >= nextScanTime) {
-                scan();
+            try {
+                heartbeat();
                 
-                double elapsed = (System.nanoTime() - start) / 1e9;
-                logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
-                
-                // roughly schedule the next scan. If the configured scan interval is < 0
-                // then we use an automatic calculation which is 10x the amount of time
-                // it took to complete the previous scan
-                long delayMs = scanIntervalMs >= 0 ? scanIntervalMs : Math.max((long)(10L * 1000L * elapsed), MIN_AUTO_SCAN_DELAY);
-                nextScanTime = start + delayMs * NANO_MS;
+                if (nextScanTime == -1 || start >= nextScanTime) {
+                    scan();
+                    
+                    double elapsed = (System.nanoTime() - start) / 1e9;
+                    logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
+                    
+                    // roughly schedule the next scan. If the configured scan interval is < 0
+                    // then we use an automatic calculation which is 10x the amount of time
+                    // it took to complete the previous scan
+                    long delayMs = scanIntervalMs >= 0 ? scanIntervalMs : Math.max((long)(10L * 1000L * elapsed), MIN_AUTO_SCAN_DELAY);
+                    nextScanTime = start + delayMs * NANO_MS;
+                }
+            } catch (Exception x) {
+                // Just catch and log so we don't break the main loop
+                logger.severe("Error during COS scan: " + x.getMessage());
             }
             
             // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)
