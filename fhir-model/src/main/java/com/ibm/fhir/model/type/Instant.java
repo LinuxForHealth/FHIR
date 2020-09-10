@@ -23,10 +23,12 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An instant in time - known at least to the second
+ * Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds 
+ * specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored.
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Instant extends Element {
-    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern("XXX").toFormatter();
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd().appendPattern("XXX").toFormatter();
 
     private final ZonedDateTime value;
 
