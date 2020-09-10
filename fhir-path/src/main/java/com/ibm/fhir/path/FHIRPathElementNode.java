@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,40 +17,40 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
  */
 public class FHIRPathElementNode extends FHIRPathAbstractNode {
     protected final Element element;
-    
+
     protected FHIRPathElementNode(Builder builder) {
         super(builder);
         this.element = builder.element;
     }
-    
+
     /**
      * The element wrapped by this FHIRPathElementNode
-     * 
+     *
      * @return
      *     the element wrapped by this FHIRPathElementNode
      */
     public Element element() {
         return element;
     }
-    
+
     @Override
     public boolean isElementNode() {
         return true;
     }
-    
+
     /**
      * Indicates whether this FHIRPathElementNode is type compatible with {@link FHIRPathQuantityNode}
-     * 
+     *
      * @return
      *     true if this FHIRPathElementNode is type compatible with {@link FHIRPathQuantityNode}, otherwise false
      */
     public boolean isQuantityNode() {
         return false;
     }
-    
+
     /**
      * Cast this FHIRPathElementNode to a {@link FHIRPathQuantityNode}
-     * 
+     *
      * @return
      *     this FHIRPathElementNode as a {@link FHIRPathQuantityNode}
      * @throws
@@ -59,10 +59,10 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     public FHIRPathQuantityNode asQuantityNode() {
         return as(FHIRPathQuantityNode.class);
     }
-    
+
     /**
      * Static factory method for creating FHIRPathElementNode instances from an {@link Element}
-     * 
+     *
      * @param element
      *     the element
      * @return
@@ -71,10 +71,10 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     public static FHIRPathElementNode elementNode(Element element) {
         return FHIRPathElementNode.builder(element).build();
     }
-    
+
     /**
      * Static factory method for creating named FHIRPathElementNode instances from an {@link Element}
-     * 
+     *
      * @param name
      *     the name
      * @param element
@@ -85,7 +85,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     public static FHIRPathElementNode elementNode(String name, Element element) {
         return FHIRPathElementNode.builder(element).name(name).build();
     }
-    
+
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder(type, element);
@@ -94,10 +94,10 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         builder.children = children;
         return builder;
     }
-    
+
     /**
      * Static factory method for creating builder instances from an {@link Element}
-     * 
+     *
      * @param element
      *     the element
      * @return
@@ -106,39 +106,43 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     public static Builder builder(Element element) {
         return new Builder(FHIRPathType.from(element.getClass()), element);
     }
-    
+
     public static class Builder extends FHIRPathAbstractNode.Builder {
         protected final Element element;
-        
+
         protected Builder(FHIRPathType type, Element element) {
             super(type);
             this.element = element;
         }
-        
+
+        @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
-        
+
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
-        
+
+        @Override
         public Builder value(FHIRPathSystemValue value) {
             return (Builder) super.value(value);
         }
-        
+
+        @Override
         public Builder children(FHIRPathNode... children) {
             return (Builder) super.children(children);
         }
-        
+
+        @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
-        
+
         /**
          * Build a FHIRPathElementNode using this builder
-         * 
+         *
          * @return
          *     a new FHIRPathElementNode instance
          */
@@ -147,14 +151,14 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
             return new FHIRPathElementNode(this);
         }
     }
-    
+
     /**
-     * Indicates whether this FHIRPathElementNode is comparable to the parameter
-     * 
+     * Indicates whether this FHIRPathElementNode has a primitive value and is comparable to the parameter
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
-     *     true if the primitive value of this FHIRPathElementNode is comparable to the primitive value of the parameter, otherwise false
+     *     true if this FHIRPathElementNode has a primitive value and is comparable to the primitive value of the parameter, otherwise false
      */
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
@@ -168,10 +172,10 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         return false;
     }
-    
+
     /**
      * Compare the element wrapped by this FHIRPathElementNode to the parameter
-     * 
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
@@ -187,10 +191,10 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         return getValue().compareTo(other.getValue());
     }
-    
+
     /**
      * Indicates whether this FHIRPathElementNode is equal to the parameter
-     * 
+     *
      * @param obj
      *     the other {@link Object}
      * @return
@@ -211,7 +215,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         FHIRPathNode other = (FHIRPathNode) obj;
         if (hasValue()) {
             if (other instanceof FHIRPathSystemValue) {
-                return getValue().equals((FHIRPathSystemValue) other);
+                return getValue().equals(other);
             }
             if (other.hasValue()) {
                 return getValue().equals(other.getValue());
@@ -222,12 +226,12 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         return false;
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hashCode(element);
     }
-    
+
     @Override
     public String toString() {
         if (hasValue()) {
@@ -235,7 +239,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         return super.toString();
     }
-    
+
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

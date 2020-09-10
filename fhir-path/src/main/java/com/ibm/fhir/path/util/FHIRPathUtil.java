@@ -815,27 +815,6 @@ public final class FHIRPathUtil {
         return count;
     }
 
-    public static boolean isComparableTo(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
-        if (left.size() != right.size()) {
-            throw new IllegalArgumentException();
-        }
-
-        Iterator<FHIRPathNode> leftIterator = left.iterator();
-        Iterator<FHIRPathNode> rightIterator = right.iterator();
-
-        while (leftIterator.hasNext() && rightIterator.hasNext()) {
-            FHIRPathNode leftNode = leftIterator.next();
-            FHIRPathNode rightNode = rightIterator.next();
-
-            if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) &&
-                    !getTemporalValue(leftNode).precision().equals(getTemporalValue(rightNode).precision())) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public static boolean hasTemporalValue(FHIRPathNode node) {
         return (node instanceof FHIRPathTemporalValue) ||
                 (node.getValue() instanceof FHIRPathTemporalValue);

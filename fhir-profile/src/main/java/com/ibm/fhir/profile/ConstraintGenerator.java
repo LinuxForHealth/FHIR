@@ -41,6 +41,7 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DiscriminatorType;
+import com.ibm.fhir.model.type.code.SlicingRules;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
@@ -219,6 +220,21 @@ public class ConstraintGenerator {
                                     joiner.add(generateValueConstraint(dNode));
                                 } else if (hasVocabularyConstraint(dNode.elementDefinition)) {
                                     joiner.add(generateVocabularyConstraint(dNode.elementDefinition));
+                                } else {
+                                    log.fine("Discriminator has no value or vocabulary constraint");
+                                }
+                            } else {
+                                // no discriminator in the slice
+                                if (SlicingRules.CLOSED.equals(slicing.getRules())) {
+                                    // in the case of a closed slice with no discriminator
+                                    // we use the absence of the discriminator field to determine we're in this slice
+                                    String dPath = discriminator.getPath().getValue();
+                                    joiner.add(dPath + ".exists().not()");
+                                } else {
+                                    // setting false will cause the `implies` to short-circuit,
+                                    // effectively skipping the constraints on this slice
+                                    joiner.add("false");
+                                    log.fine("Slice for '" + id + "' is open and missing discriminator");
                                 }
                             }
                         }
