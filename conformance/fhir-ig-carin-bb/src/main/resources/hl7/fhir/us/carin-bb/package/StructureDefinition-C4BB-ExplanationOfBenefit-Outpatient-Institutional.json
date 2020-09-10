@@ -115,6 +115,18 @@
         "expression": "text.`div`.exists()",
         "xpath": "exists(f:text/h:div)",
         "source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+      }, {
+        "key": "EOB-inst-careTeam-practitioner",
+        "severity": "error",
+        "human": "Institutional EOB:  Careteam roles refer to a practitioner",
+        "expression": "careTeam.where(role.where(coding.where(code in ('attending' | 'primary' | 'referring' | 'supervising')).exists()).exists()).exists() implies \n careTeam.where(role.where(coding.where(code in ('attending' | 'primary' | 'referring' | 'supervising')).exists()).exists()).provider.all(resolve() is Practitioner)",
+        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+      }, {
+        "key": "EOB-inst-careTeam-organization",
+        "severity": "error",
+        "human": "Institutional EOB:  Careteam roles refer to an organization",
+        "expression": "careTeam.where(role.where(coding.where(code='performing').exists()).exists()).exists() implies \n careTeam.where(role.where(coding.where(code='performing').exists()).exists()).provider.all(resolve() is Organization)",
+        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
       }],
       "isModifier": false,
       "isSummary": false,
@@ -12824,7 +12836,20 @@
   "differential": {
     "element": [{
       "id": "ExplanationOfBenefit",
-      "path": "ExplanationOfBenefit"
+      "path": "ExplanationOfBenefit",
+      "constraint": [{
+          "key": "EOB-inst-careTeam-practitioner",
+          "severity": "error",
+          "human": "Institutional EOB:  Careteam roles refer to a practitioner",
+          "expression": "careTeam.where(role.where(coding.where(code in ('attending' | 'primary' | 'referring' | 'supervising')).exists()).exists()).exists() implies \n careTeam.where(role.where(coding.where(code in ('attending' | 'primary' | 'referring' | 'supervising')).exists()).exists()).provider.all(resolve() is Practitioner)",
+          "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+        }, {
+          "key": "EOB-inst-careTeam-organization",
+          "severity": "error",
+          "human": "Institutional EOB:  Careteam roles refer to an organization",
+          "expression": "careTeam.where(role.where(coding.where(code='performing').exists()).exists()).exists() implies \n careTeam.where(role.where(coding.where(code='performing').exists()).exists()).provider.all(resolve() is Organization)",
+          "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+        }]
     }, {
       "id": "ExplanationOfBenefit.type",
       "path": "ExplanationOfBenefit.type",
