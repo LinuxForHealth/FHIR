@@ -293,9 +293,9 @@ public class Capabilities extends FHIRResource {
                 .extension(Extension.builder()
                     .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
                     .extension(
-                        Extension.builder().url("token").value(Url.of(tokenURL)).build(),
-                        Extension.builder().url("authorize").value(Url.of(authURL)).build(),
-                        Extension.builder().url("register").value(Url.of(regURL)).build())
+                        Extension.builder().url("token").value(Uri.of(tokenURL)).build(),
+                        Extension.builder().url("authorize").value(Uri.of(authURL)).build(),
+                        Extension.builder().url("register").value(Uri.of(regURL)).build())
                     .build())
                 .build();
 
