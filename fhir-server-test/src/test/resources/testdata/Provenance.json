@@ -1,0 +1,40 @@
+{
+    "resourceType": "Provenance",
+    "meta": {
+        "tag": [
+            {
+                "code": "ibm/minimal"
+            }
+        ]
+    },
+    "target": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                    "valueCode": "unknown"
+                }
+            ]
+        }
+    ],
+    "_recorded": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ]
+    },
+    "agent": [
+        {
+            "who": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                        "valueCode": "unknown"
+                    }
+                ]
+            }
+        }
+    ]
+}

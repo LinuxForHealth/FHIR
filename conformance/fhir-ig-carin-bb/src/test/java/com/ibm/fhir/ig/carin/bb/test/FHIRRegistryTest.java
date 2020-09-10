@@ -15,7 +15,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public class FHIRRegistryTest {
     @Test
     public void testRegistry() {
-        StructureDefinition definition = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-coverage", StructureDefinition.class);
+        StructureDefinition definition = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage", StructureDefinition.class);
         Assert.assertNotNull(definition);
     }
 }

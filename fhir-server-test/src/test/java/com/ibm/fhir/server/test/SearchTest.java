@@ -32,6 +32,7 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Observation;
@@ -41,6 +42,8 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Person;
 import com.ibm.fhir.model.resource.Person.Link;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.resource.PractitionerRole;
+import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
@@ -63,6 +66,10 @@ public class SearchTest extends FHIRServerTestBase {
     private String observationId;
     private Boolean compartmentSearchSupported = null;
     private String practitionerId;
+    private String practitionerId2;
+    private String allergyIntoleranceId;
+    private String practitionerRoleId;
+    private String provenanceId;
     private Patient patient4DuplicationTest = null;
     // Some of the tests run with tenant1 and datastore study1;
     // The others run with the default tenant and the default datastore.
@@ -1005,6 +1012,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getTotal().getValue().equals(1));
         assertTrue(bundle.getEntry().isEmpty());
+        
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
@@ -1250,4 +1258,220 @@ public class SearchTest extends FHIRServerTestBase {
             assertTrue(bundle.getEntry().size() == patientSet.size());
         }
     }
+    
+    @Test(groups = { "server-search" })
+    public void testCreatePractitionerRole() throws Exception {
+        WebTarget target = getWebTarget();
+
+        PractitionerRole practitionerRole = TestUtil.readLocalResource("PractitionerRole.json");
+
+        Entity<PractitionerRole> entity =
+                Entity.entity(practitionerRole, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("PractitionerRole").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the practitioner role's logical id value.
+        practitionerRoleId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new practitioner role and verify it.
+        response = target.path("PractitionerRole/"
+                + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        PractitionerRole responsePractitionerRole =
+                response.readEntity(PractitionerRole.class);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(responsePractitionerRole);
+        }
+
+        // use it for search
+        practitionerRoleId = responsePractitionerRole.getId();
+        TestUtil.assertResourceEquals(practitionerRole, responsePractitionerRole);
+    }
+
+    @Test(groups = { "server-search" })
+    public void testCreatePractitionerForAllergyIntolerance() throws Exception {
+        WebTarget target = getWebTarget();
+
+        Practitioner practitioner = TestUtil.readLocalResource("Practitioner.json");
+
+        Entity<Practitioner> entity =
+                Entity.entity(practitioner, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Practitioner").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the practitioner's logical id value.
+        practitionerId2 = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new practitioner and verify it.
+        response = target.path("Practitioner/"
+                + practitionerId2).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Practitioner responsePractitioner =
+                response.readEntity(Practitioner.class);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(responsePractitioner);
+        }
+
+        // use it for search
+        practitionerId2 = responsePractitioner.getId();
+        TestUtil.assertResourceEquals(practitioner, responsePractitioner);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient", "testCreatePractitionerForAllergyIntolerance", "testCreatePractitionerRole" })
+    public void testCreateAllergyIntolerance() throws Exception {
+        WebTarget target = getWebTarget();
+
+        AllergyIntolerance allergyIntolerance = TestUtil.readLocalResource("AllergyIntolerance.json");
+
+        allergyIntolerance = allergyIntolerance
+            .toBuilder()
+            .patient(Reference.builder().reference(string("Patient/" + patientId)).build())
+            .recorder(Reference.builder().reference(string("Practitioner/" + practitionerId2)).build())
+            .asserter(Reference.builder().reference(string("PractitionerRole/" + practitionerRoleId)).build())
+            .build();
+
+        Entity<AllergyIntolerance> entity =
+                Entity.entity(allergyIntolerance, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("AllergyIntolerance").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the allergy intolerance's logical id value.
+        allergyIntoleranceId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new allergy intolerance and verify it.
+        response = target.path("AllergyIntolerance/"
+                + allergyIntoleranceId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        AllergyIntolerance responseAllergyIntolerance =
+                response.readEntity(AllergyIntolerance.class);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(responseAllergyIntolerance);
+        }
+
+        // use it for search
+        allergyIntoleranceId = responseAllergyIntolerance.getId();
+        TestUtil.assertResourceEquals(allergyIntolerance, responseAllergyIntolerance);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateAllergyIntolerance" })
+    public void testCreateProvenance() throws Exception {
+        WebTarget target = getWebTarget();
+
+        Provenance provenance = TestUtil.readLocalResource("Provenance.json");
+
+        provenance = provenance
+            .toBuilder()
+            .target(Reference.builder().reference(string("AllergyIntolerance/" + allergyIntoleranceId)).build())
+            .build();
+
+        Entity<Provenance> entity =
+                Entity.entity(provenance, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Provenance").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the allergy intolerance's logical id value.
+        provenanceId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new allergy intolerance and verify it.
+        response = target.path("Provenance/"
+                + provenanceId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Provenance responseProvenance =
+                response.readEntity(Provenance.class);
+
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(responseProvenance);
+        }
+
+        // use it for search
+        provenanceId = responseProvenance.getId();
+        TestUtil.assertResourceEquals(provenance, responseProvenance);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateAllergyIntolerance", "testCreateProvenance" })
+    public void testSearchAllergyIntoleranceWithWildcardMultipleIncludedAndProvenceRevIncluded() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("AllergyIntolerance")
+                .queryParam("patient", "Patient/" + patientId)
+                .queryParam("_include", "AllergyIntolerance:*:Patient", "AllergyIntolerance:*:Practitioner", "AllergyIntolerance:*:PractitionerRole")
+                .queryParam("_revinclude", "Provenance:*")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 5);
+        AllergyIntolerance allergyIntolerance = null;
+        Patient patient = null;
+        Practitioner practitioner = null;
+        PractitionerRole practitionerRole = null;
+        Provenance provenance = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null) {
+                if (entry.getResource() instanceof AllergyIntolerance) {
+                    allergyIntolerance = (AllergyIntolerance) entry.getResource();
+                } else if (entry.getResource() instanceof Patient) {
+                    patient = (Patient) entry.getResource();
+                } else if (entry.getResource() instanceof Practitioner) {
+                    practitioner = (Practitioner) entry.getResource();
+                } else if (entry.getResource() instanceof PractitionerRole) {
+                    practitionerRole = (PractitionerRole) entry.getResource();
+                } else if (entry.getResource() instanceof Provenance) {
+                    provenance = (Provenance) entry.getResource();
+                }
+            }
+        }
+        assertNotNull(allergyIntolerance);
+        assertNotNull(patient);
+        assertNotNull(practitioner);
+        assertNotNull(practitionerRole);
+        assertNotNull(provenance);
+        assertEquals(patientId, patient.getId());
+        assertEquals(practitionerId2, practitioner.getId());
+        assertEquals(practitionerRoleId, practitionerRole.getId());
+        assertEquals(provenanceId, provenance.getId());
+        assertEquals("Patient/" + patientId, allergyIntolerance.getPatient().getReference().getValue());
+        assertEquals("Practitioner/" + practitionerId2, allergyIntolerance.getRecorder().getReference().getValue());
+        assertEquals("PractitionerRole/" + practitionerRoleId, allergyIntolerance.getAsserter().getReference().getValue());
+        for (Reference reference : provenance.getTarget()) {
+            if (reference.getReference() != null) {
+                assertEquals("AllergyIntolerance/" + allergyIntoleranceId, reference.getReference().getValue());
+            }
+        }
+    }
+
 }

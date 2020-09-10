@@ -19,7 +19,6 @@ public enum Index {
         "/spec-xml.txt",
         "/ibm-xml.txt",
         "/profiles-carin-bb-json.txt",
-        "/profiles-carin-bb-xml.txt",
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-formulary-xml.txt",
         "/profiles-pdex-plan-net-json.txt",
@@ -82,11 +81,6 @@ public enum Index {
     PROFILES_CARIN_BB_JSON("/profiles-carin-bb-json.txt"),
 
     /**
-     * Implementation Guides examples in XML
-     */
-    PROFILES_CARIN_BB_XML("/profiles-carin-bb-xml.txt"),
-
-    /**
      * Implementation Guides examples in JSON
      */
     PROFILES_PDEX_FORMULARY_JSON("/profiles-pdex-formulary-json.txt"),
@@ -124,7 +118,6 @@ public enum Index {
      * Implementation Guides examples in XML
      */
     ALL_PROFILES_XML(
-        "/profiles-carin-bb-xml.txt",
         "/profiles-us-core-xml.txt",
         "/profiles-pdex-formulary-xml.txt"),
 

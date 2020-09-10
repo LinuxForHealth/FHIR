@@ -32,7 +32,6 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasSystemValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasTemporalValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isComparableTo;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
@@ -52,6 +51,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -797,6 +797,8 @@ public class FHIRPathEvaluator {
                     // For backwards compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
                     FHIRPathFunction memberOfFunction = FHIRPathFunction.registry().getFunction("memberOf");
                     result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));
+                } else if (left.isEmpty()) {
+                    result = empty();
                 } else if (right.containsAll(left)) {
                     result = SINGLETON_TRUE;
                 }
@@ -901,7 +903,7 @@ public class FHIRPathEvaluator {
                 return SINGLETON_FALSE;
             }
 
-            if (!isComparableTo(left, right)) {
+            if (!validateEqualityOperands(left, right)) {
                 indentLevel--;
                 return empty();
             }
@@ -926,6 +928,31 @@ public class FHIRPathEvaluator {
 
             indentLevel--;
             return result;
+        }
+
+        private boolean validateEqualityOperands(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
+            if (left.size() != right.size()) {
+                throw new IllegalArgumentException();
+            }
+
+            Iterator<FHIRPathNode> leftIterator = left.iterator();
+            Iterator<FHIRPathNode> rightIterator = right.iterator();
+
+            while (leftIterator.hasNext() && rightIterator.hasNext()) {
+                FHIRPathNode leftNode = leftIterator.next();
+                FHIRPathNode rightNode = rightIterator.next();
+
+                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) &&
+                        !getTemporalValue(leftNode).precision().equals(getTemporalValue(rightNode).precision())) {
+                    return false;
+                }
+                // TODO: change to this when we update to a newer version of the test file
+//                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) && !leftNode.isComparableTo(rightNode)) {
+//                    return false;
+//                }
+            }
+
+            return true;
         }
 
         @Override
@@ -1126,6 +1153,7 @@ public class FHIRPathEvaluator {
                     .collect(Collectors.toList());
 
             indentLevel--;
+
             return result;
         }
 

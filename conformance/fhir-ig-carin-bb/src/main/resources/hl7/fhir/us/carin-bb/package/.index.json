@@ -1,313 +1,616 @@
-
 {
-    "index-version": 1,
-    "files": [
-        {
-            "filename": "CodeSystem-CARIN-BB-Adjudication-Category.json",
-            "resourceType": "CodeSystem",
-            "id": "CARIN-BB-Adjudication-Category",
-            "url": "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-adjudicationcategory",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "CodeSystem-CARIN-BB-Claim-CareTeam-Role.json",
-            "resourceType": "CodeSystem",
-            "id": "CARIN-BB-Claim-CareTeam-Role",
-            "url": "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-claimcareteamrole",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "CodeSystem-CARIN-BB-Claim-Information-Category.json",
-            "resourceType": "CodeSystem",
-            "id": "CARIN-BB-Claim-Information-Category",
-            "url": "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-claiminformationcategory",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "CodeSystem-CARIN-BB-Claim-Type.json",
-            "resourceType": "CodeSystem",
-            "id": "CARIN-BB-Claim-Type",
-            "url": "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-claim-type",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "CodeSystem-CARIN-BB-Network-Contracting-Status.json",
-            "resourceType": "CodeSystem",
-            "id": "CARIN-BB-Network-Contracting-Status",
-            "url": "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-networkcontractingstatus",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "CodeSystem-CARIN-BB-Related-Claim-Relationship.json",
-            "resourceType": "CodeSystem",
-            "id": "CARIN-BB-Related-Claim-Relationship",
-            "url": "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-relatedclaimrelationship",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ImplementationGuide-hl7.fhir.us.carin-bb.json",
-            "resourceType": "ImplementationGuide",
-            "id": "hl7.fhir.us.carin-bb",
-            "url": "http://hl7.org/fhir/us/carin-bb/ImplementationGuide/hl7.fhir.us.carin-bb",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-Coverage.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-Coverage",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-coverage",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "Coverage"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-ExplanationOfBenefit-Inpatient-Facility.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-ExplanationOfBenefit-Inpatient-Facility",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-inpatient-facility",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "ExplanationOfBenefit"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-ExplanationOfBenefit-Outpatient-Facility.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-ExplanationOfBenefit-Outpatient-Facility",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-outpatient-facility",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "ExplanationOfBenefit"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-ExplanationOfBenefit-Pharmacy.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-ExplanationOfBenefit-Pharmacy",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-pharmacy",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "ExplanationOfBenefit"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-ExplanationOfBenefit-Professional-NonClinician.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-ExplanationOfBenefit-Professional-NonClinician",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-professional-nonclinician",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "ExplanationOfBenefit"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-ExplanationOfBenefit.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-ExplanationOfBenefit",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "ExplanationOfBenefit"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-Organization.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-Organization",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-organization",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "Organization"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-Patient.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-Patient",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "Patient"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-PractitionerRole.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-PractitionerRole",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-practitionerrole",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "PractitionerRole"
-        },
-        {
-            "filename": "StructureDefinition-CARIN-BB-RelatedPerson.json",
-            "resourceType": "StructureDefinition",
-            "id": "CARIN-BB-RelatedPerson",
-            "url": "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-relatedperson",
-            "version": "0.1.0",
-            "kind": "resource",
-            "type": "RelatedPerson"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Adjudication-Amount-Category.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Adjudication-Amount-Category",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-adjudicationamountcategory",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Adjudication-Benefit-Payment-Status-Category.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Adjudication-Benefit-Payment-Status-Category",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-adjudicationbenefitpaymentstatuscategory",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Adjudication-Category.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Adjudication-Category",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-adjudicationcategory",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Adjudication-Denial-Reason.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Adjudication-Denial-Reason",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-adjudicationdenialreason",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-CPT-HCPCS-ProcedureCodes.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-CPT-HCPCS-ProcedureCodes",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-cpt-hcpcs-procedurecodes",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Claim-CareTeam-Role.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Claim-CareTeam-Role",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-claimcareteamrole",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Claim-Information-Category.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Claim-Information-Category",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-claiminformationcategory",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Claim-Type.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Claim-Type",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-claim-type",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-DiagnosisType.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-DiagnosisType",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-diagnosistype",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-HCPCS-ModifierCodes.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-HCPCS-ModifierCodes",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-hcpcs-modifiercodes",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Identifier-Type.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Identifier-Type",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-identifier-type",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-MS-DRG.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-MS-DRG",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-ms-drg",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Network-Contracting-Status.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Network-Contracting-Status",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-networkcontractingstatus",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-PlaceOfService.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-PlaceOfService",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-placeofservice",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Related-Claim-Relationship.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Related-Claim-Relationship",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-relatedclaimrelationship",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-Revenue-Center.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-Revenue-Center",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-revenue-center",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-SNOMEDCT-ProcedureCodes.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-SNOMEDCT-ProcedureCodes",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-snomedct-procedurecodes",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-TOB-BillClassification.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-TOB-BillClassification",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-tob-billclassification",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-TOB-Frequency.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-TOB-Frequency",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-tob-frequency",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-TOB-TypeOfFacility.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-TOB-TypeOfFacility",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-tob-typeoffacility",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-CARIN-BB-TypeOfService.json",
-            "resourceType": "ValueSet",
-            "id": "CARIN-BB-TypeOfService",
-            "url": "http://hl7.org/fhir/us/carin/ValueSet/carin-bb-typeofservice",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-nubc-patientdischargestatus.json",
-            "resourceType": "ValueSet",
-            "id": "nubc-patientdischargestatus",
-            "url": "http://hl7.org/fhir/us/ValueSet/nubc-patientdischargestatus",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-nubc-pointoforiginforadmissionorvisit.json",
-            "resourceType": "ValueSet",
-            "id": "nubc-pointoforiginforadmissionorvisit",
-            "url": "http://hl7.org/fhir/us/ValueSet/nubc-pointoforiginforadmissionorvisit",
-            "version": "0.1.0"
-        },
-        {
-            "filename": "ValueSet-nubc-prioritytypeofadmissionorvisit.json",
-            "resourceType": "ValueSet",
-            "id": "nubc-prioritytypeofadmissionorvisit",
-            "url": "http://hl7.org/fhir/us/ValueSet/nubc-prioritytypeofadmissionorvisit",
-            "version": "0.1.0"
-        }
-    ]
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "ig-r4.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.carin-bb",
+      "url": "http://hl7.org/fhir/us/carin-bb/ImplementationGuide/hl7.fhir.us.carin-bb",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ImplementationGuide-hl7.fhir.us.carin-bb.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.carin-bb",
+      "url": "http://hl7.org/fhir/us/carin-bb/ImplementationGuide/hl7.fhir.us.carin-bb",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-Organization.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-Organization",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-ExplanationOfBenefit-Outpatient-Institutional.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-ExplanationOfBenefit-Outpatient-Institutional",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "ExplanationOfBenefit"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-Patient.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-Patient",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "Patient"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-ExplanationOfBenefit-Professional-NonClinician.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-ExplanationOfBenefit-Professional-NonClinician",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "ExplanationOfBenefit"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-Practitioner.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-Practitioner",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Practitioner",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "Practitioner"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-Coverage.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-Coverage",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "Coverage"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-ExplanationOfBenefit-Inpatient-Institutional.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-ExplanationOfBenefit-Inpatient-Institutional",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "ExplanationOfBenefit"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-ExplanationOfBenefit-Pharmacy.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-ExplanationOfBenefit-Pharmacy",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "ExplanationOfBenefit"
+    },
+    {
+      "filename": "StructureDefinition-C4BB-ExplanationOfBenefit.json",
+      "resourceType": "StructureDefinition",
+      "id": "C4BB-ExplanationOfBenefit",
+      "url": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit",
+      "version": "0.1.3",
+      "kind": "resource",
+      "type": "ExplanationOfBenefit"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-type.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-type",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-type",
+      "version": "0.1.3",
+      "type": "token"
+    },
+    {
+      "filename": "SearchParameter-practitionerrole-practitioner.json",
+      "resourceType": "SearchParameter",
+      "id": "practitionerrole-practitioner",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/practitionerrole-practitioner",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-coverage-payor.json",
+      "resourceType": "SearchParameter",
+      "id": "coverage-payor",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/coverage-payor",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-provider.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-provider",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-provider",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-insurer.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-insurer",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-insurer",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-care-team.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-care-team",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-care-team",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-identifier.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-identifier",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier",
+      "version": "0.1.3",
+      "type": "token"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-coverage.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-coverage",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-coverage",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-service-date.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-service-date",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date",
+      "version": "0.1.3",
+      "type": "date"
+    },
+    {
+      "filename": "CapabilityStatement-c4bb.json",
+      "resourceType": "CapabilityStatement",
+      "id": "c4bb",
+      "url": "http://hl7.org/fhir/us/carin-bb/CapabilityStatement/c4bb",
+      "version": "0.1.3",
+      "kind": "requirements"
+    },
+    {
+      "filename": "SearchParameter-explanationofbenefit-patient.json",
+      "resourceType": "SearchParameter",
+      "id": "explanationofbenefit-patient",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-patient",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-practitionerrole-organization.json",
+      "resourceType": "SearchParameter",
+      "id": "practitionerrole-organization",
+      "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/practitionerrole-organization",
+      "version": "0.1.3",
+      "type": "reference"
+    },
+    {
+      "filename": "ValueSet-CMSDRG.json",
+      "resourceType": "ValueSet",
+      "id": "CMSDRG",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/CMSDRG",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AMACPTCMSHCPCSProcedureCodes.json",
+      "resourceType": "ValueSet",
+      "id": "AMACPTCMSHCPCSProcedureCodes",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AMACPTCMSHCPCSProcedureCodes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-CMSPlaceofServiceCodes.json",
+      "resourceType": "ValueSet",
+      "id": "CMSPlaceofServiceCodes",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/CMSPlaceofServiceCodes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AHANUBCTypeOfBill.json",
+      "resourceType": "ValueSet",
+      "id": "AHANUBCTypeOfBill",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AHANUBCTypeOfBill",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-CMSRemittanceAdviceRemarkCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "CMSRemittanceAdviceRemarkCodes",
+      "url": "https://x12.org/codes/remittance-advice-remark-codes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-ClaimAdjudicationCategory.json",
+      "resourceType": "CodeSystem",
+      "id": "ClaimAdjudicationCategory",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/ClaimAdjudicationCategory",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-NCPDPBrandGenericCode.json",
+      "resourceType": "CodeSystem",
+      "id": "NCPDPBrandGenericCode",
+      "url": "http://www.ncpdp.org/BrandGenericCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-NCPDPRejectCode.json",
+      "resourceType": "CodeSystem",
+      "id": "NCPDPRejectCode",
+      "url": "http://ncpdp.org/RejectCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-CMSDRG.json",
+      "resourceType": "CodeSystem",
+      "id": "CMSDRG",
+      "url": "http://www.cms.gov/ms-drg",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-NCPDPCompoundCode.json",
+      "resourceType": "ValueSet",
+      "id": "NCPDPCompoundCode",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/NCPDPCompoundCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-ICD10CMCS.json",
+      "resourceType": "CodeSystem",
+      "id": "ICD10CMCS",
+      "url": "http://hl7.org/fhir/sid/icd-10-cm",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-CMSHCPCSCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "CMSHCPCSCodes",
+      "url": "http://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AHANUBCPointOfOriginForAdmissionOrVisit.json",
+      "resourceType": "CodeSystem",
+      "id": "AHANUBCPointOfOriginForAdmissionOrVisit",
+      "url": "http://www.nubc.org/PointOfOriginForAdmissionOrVisit",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBClaimPharmacyTeamRole.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBClaimPharmacyTeamRole",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBClaimPharmacyTeamRole",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AHANUBCPriorityTypeOfAdmissionOrVisit.json",
+      "resourceType": "CodeSystem",
+      "id": "AHANUBCPriorityTypeOfAdmissionOrVisit",
+      "url": "http://www.nubc.org/PriorityTypeOfAdmissionOrVisit",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBPayerClaimPaymentStatusCode.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBPayerClaimPaymentStatusCode",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBPayerClaimPaymentStatusCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-ICD10PCS.json",
+      "resourceType": "ValueSet",
+      "id": "ICD10PCS",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/ICD10PCS",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-NCPDPCompoundCode.json",
+      "resourceType": "CodeSystem",
+      "id": "NCPDPCompoundCode",
+      "url": "http://www.ncpdp.org/CompoundCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AHANUBCRevenueCodes.json",
+      "resourceType": "ValueSet",
+      "id": "AHANUBCRevenueCodes",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AHANUBCRevenueCodes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AHANUBCPresentOnAdmission.json",
+      "resourceType": "CodeSystem",
+      "id": "AHANUBCPresentOnAdmission",
+      "url": "http://www.nubc.org/PresentOnAdmission",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-NCPDPPrescriptionOriginCode.json",
+      "resourceType": "CodeSystem",
+      "id": "NCPDPPrescriptionOriginCode",
+      "url": "http://www.ncpdp.org/PrescriptionOriginCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AMACPTCMSHCPCSModifiers.json",
+      "resourceType": "ValueSet",
+      "id": "AMACPTCMSHCPCSModifiers",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AMACPTCMSHCPCSModifiers",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-NCPDPBrandGenericCode.json",
+      "resourceType": "ValueSet",
+      "id": "NCPDPBrandGenericCode",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/NCPDPBrandGenericCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AHANUBCTypeOfBill.json",
+      "resourceType": "CodeSystem",
+      "id": "AHANUBCTypeOfBill",
+      "url": "http://www.nubc.org/TypeOfBill",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-FDANDC.json",
+      "resourceType": "CodeSystem",
+      "id": "FDANDC",
+      "url": "http://hl7.org/fhir/sid/ndc",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-PatientIdentifierType.json",
+      "resourceType": "ValueSet",
+      "id": "PatientIdentifierType",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/PatientIdentifierType",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBClaimOutpatientInstitutionalDiagnosisType.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBClaimOutpatientInstitutionalDiagnosisType",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBClaimOutpatientInstitutionalDiagnosisType",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-C4BBPayerAdjudicationStatus.json",
+      "resourceType": "CodeSystem",
+      "id": "C4BBPayerAdjudicationStatus",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBPayerAdjudicationStatus",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AHANUBCPatientDischargeStatus.json",
+      "resourceType": "CodeSystem",
+      "id": "AHANUBCPatientDischargeStatus",
+      "url": "http://www.nubc.org/PatientDischargeStatus",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-NCPDPDispensedAsWrittenOrProductSelectionCode.json",
+      "resourceType": "CodeSystem",
+      "id": "NCPDPDispensedAsWrittenOrProductSelectionCode",
+      "url": "http://www.ncpdp.org/DispensedAsWrittenOrProductSelectionCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBClaimInpatientInstitutionalDiagnosisType.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBClaimInpatientInstitutionalDiagnosisType",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBClaimInpatientInstitutionalDiagnosisType",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-CMSPlaceofServiceCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "CMSPlaceofServiceCodes",
+      "url": "https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-X12ClaimAdjustmentReasonCodesCMSRemittanceAdviceRemarkCodes.json",
+      "resourceType": "ValueSet",
+      "id": "X12ClaimAdjustmentReasonCodesCMSRemittanceAdviceRemarkCodes",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/X12ClaimAdjustmentReasonCodesCMSRemittanceAdviceRemarkCodes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-ICD10CM.json",
+      "resourceType": "ValueSet",
+      "id": "ICD10CM",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/ICD10CM",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-C4BBClaimCareTeamRole.json",
+      "resourceType": "CodeSystem",
+      "id": "C4BBClaimCareTeamRole",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBClaimCareTeamRole",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-FDANDCOrCompound.json",
+      "resourceType": "ValueSet",
+      "id": "FDANDCOrCompound",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/FDANDCOrCompound",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBClaimProfessionalAndNonClinicianDiagnosisType.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBClaimProfessionalAndNonClinicianDiagnosisType",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBClaimProfessionalAndNonClinicianDiagnosisType",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-IdentifierTypeCS.json",
+      "resourceType": "CodeSystem",
+      "id": "IdentifierTypeCS",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/IdentifierTypeCS",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AHANUBCPatientDischargeStatus.json",
+      "resourceType": "ValueSet",
+      "id": "AHANUBCPatientDischargeStatus",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AHANUBCPatientDischargeStatus",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBPayerBenefitPaymentStatus.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBPayerBenefitPaymentStatus",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBPayerBenefitPaymentStatus",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AHANUBCRevenueCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "AHANUBCRevenueCodes",
+      "url": "http://www.nubc.org/RevenueCodes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBClaimInstitutionalCareTeamRole.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBClaimInstitutionalCareTeamRole",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBClaimInstitutionalCareTeamRole",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-C4BBCompoundLiteral.json",
+      "resourceType": "CodeSystem",
+      "id": "C4BBCompoundLiteral",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBCompoundLiteral",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AHANUBCPriorityTypeOfAdmissionOrVisit.json",
+      "resourceType": "ValueSet",
+      "id": "AHANUBCPriorityTypeOfAdmissionOrVisit",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AHANUBCPriorityTypeOfAdmissionOrVisit",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AHANUBCPresentOnAdmission.json",
+      "resourceType": "ValueSet",
+      "id": "AHANUBCPresentOnAdmission",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AHANUBCPresentOnAdmission",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-ClaimInformationCategory.json",
+      "resourceType": "CodeSystem",
+      "id": "ClaimInformationCategory",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/ClaimInformationCategory",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-NCPDPRejectCode.json",
+      "resourceType": "ValueSet",
+      "id": "NCPDPRejectCode",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/NCPDPRejectCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-NCPDPDispensedAsWrittenOrProductSelectionCode.json",
+      "resourceType": "ValueSet",
+      "id": "NCPDPDispensedAsWrittenOrProductSelectionCode",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/NCPDPDispensedAsWrittenOrProductSelectionCode",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-FDANDC.json",
+      "resourceType": "ValueSet",
+      "id": "FDANDC",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/FDANDC",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBAdjudication.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBAdjudication",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-C4BBClaimDiagnosisType.json",
+      "resourceType": "CodeSystem",
+      "id": "C4BBClaimDiagnosisType",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBClaimDiagnosisType",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-AMACPTCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "AMACPTCodes",
+      "url": "http://www.ama-assn.org/go/cpt",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBPayerProviderContractingStatus.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBPayerProviderContractingStatus",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBPayerProviderContractingStatus",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-C4BBClaimProfessionalAndNonClinicianCareTeamRole.json",
+      "resourceType": "ValueSet",
+      "id": "C4BBClaimProfessionalAndNonClinicianCareTeamRole",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBClaimProfessionalAndNonClinicianCareTeamRole",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-ICD10PCSCS.json",
+      "resourceType": "CodeSystem",
+      "id": "ICD10PCSCS",
+      "url": "http://www.nlm.nih.gov/research/umls/icd10pcs",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-C4BBAdjudication.json",
+      "resourceType": "CodeSystem",
+      "id": "C4BBAdjudication",
+      "url": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBAdjudication",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-AHANUBCPointOfOriginForAdmissionOrVisit.json",
+      "resourceType": "ValueSet",
+      "id": "AHANUBCPointOfOriginForAdmissionOrVisit",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/AHANUBCPointOfOriginForAdmissionOrVisit",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "CodeSystem-X12ClaimAdjustmentReasonCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "X12ClaimAdjustmentReasonCodes",
+      "url": "https://x12.org/codes/claim-adjustment-reason-codes",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-ClaimInformationCategory.json",
+      "resourceType": "ValueSet",
+      "id": "ClaimInformationCategory",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/ClaimInformationCategory",
+      "version": "0.1.3"
+    },
+    {
+      "filename": "ValueSet-NCPDPPrescriptionOriginCode.json",
+      "resourceType": "ValueSet",
+      "id": "NCPDPPrescriptionOriginCode",
+      "url": "http://hl7.org/fhir/us/carin-bb/ValueSet/NCPDPPrescriptionOriginCode",
+      "version": "0.1.3"
+    }
+  ]
 }
