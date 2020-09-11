@@ -59,6 +59,7 @@ import com.ibm.fhir.server.listener.FHIRServletContextListener;
  */
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
+    protected static final boolean NO_SKIP_VALIDATION = false; // do not skip validation
 
     public static final DateTimeFormatter HTTP_DATETIME_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")

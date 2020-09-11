@@ -32,10 +32,12 @@ public interface FHIRResourceHelpers {
      *            whether to create the resource if none exists
      * @param requestProperties
      *            additional request properties which supplement the HTTP headers associated with this request
+     * @param skipValidation
+     *            if true, do not validate the resource because it has already been validated
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties) throws Exception;
+    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties, boolean skipValidation) throws Exception;
 
     /**
      * Performs an update operation (a new version of the Resource will be stored).
@@ -50,10 +52,12 @@ public interface FHIRResourceHelpers {
      *            an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString
      *            an optional search query string to request a conditional update
+     * @param skipValidation
+     *            if true, do not validate the resource because it has already been validated
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties, boolean skipValidation) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -68,6 +72,8 @@ public interface FHIRResourceHelpers {
      *            an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString
      *            an optional search query string to request a conditional update
+     * @param skipValidation
+     *            if true, do not validate the resource because it has already been validated
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
