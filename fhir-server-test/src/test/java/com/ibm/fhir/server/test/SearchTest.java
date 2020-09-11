@@ -55,6 +55,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -1473,5 +1474,36 @@ public class SearchTest extends FHIRServerTestBase {
             }
         }
     }
-
+    
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testSearchAllergyIntoleranceWithWildcardMultipleIncludedAndProvenceRevIncluded" })
+    public void testSearchObservationWithSubjectIncludedReturnsExpectedModes() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Observation").queryParam("subject", "Patient/"
+                        + patientId).queryParam("_include", "Observation:subject")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+        boolean foundObs = true;
+        boolean foundPat = false;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null) {
+                if (entry.getResource() instanceof Observation) {
+                    assertNotNull(entry.getSearch());
+                    assertTrue(SearchEntryMode.MATCH.equals(entry.getSearch().getMode()));
+                    foundObs  = true;
+                } else if (entry.getResource() instanceof Patient) {
+                    assertTrue(SearchEntryMode.INCLUDE.equals(entry.getSearch().getMode()));
+                    foundPat = true;
+                }
+            }
+        }
+        assertTrue(foundObs);
+        assertTrue(foundPat);
+    }
 }

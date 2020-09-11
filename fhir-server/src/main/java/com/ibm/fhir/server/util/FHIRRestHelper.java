@@ -45,12 +45,14 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
@@ -59,6 +61,7 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
@@ -934,7 +937,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Resource> resources =
                     persistence.search(persistenceContext, resourceType).getResource();
 
-            bundle = createSearchBundle(resources, searchContext, type);
+            bundle = createSearchBundle(resourceType.getClass().getSimpleName(), resources, searchContext, type);
             if (requestUri != null) {
                 bundle = addLinks(searchContext, bundle, requestUri);
             }
@@ -2184,6 +2187,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     /**
      * Creates a bundle that will hold results for a search operation.
      *
+     * @param resourceType the type of the resource used to decide the SearchEntryMode
      * @param resources
      *            the list of resources to include in the bundle
      * @param searchContext
@@ -2193,7 +2197,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle
      * @throws Exception
      */
-    private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type)
+    private Bundle createSearchBundle(String resourceType, List<Resource> resources, FHIRSearchContext searchContext, String type)
         throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
@@ -2208,9 +2212,33 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (resource.getId() == null) {
                 throw new IllegalStateException("Returned resources must have an id.");
             }
+
+            // By default it's a MATCH, else if it's not a match it is of one of two types
+            // OUTCOME for operational outcomes embedded in the bundle
+            // INCLUDE for revinclude and include resources
+            SearchEntryMode mode = SearchEntryMode.MATCH;
+            String bundleEntryResourceType = resource.getClass().getSimpleName();
+            Search.Builder builder = Search.builder();
+            if (!resourceType.equals(bundleEntryResourceType)) {
+                if ("OperationOutcome".equals(bundleEntryResourceType)){
+                    mode = SearchEntryMode.OUTCOME;
+                } else {
+                    mode = SearchEntryMode.INCLUDE;
+                    // 1.0 is selected as it is not fuzzy
+                    builder.score(Decimal.of("1.0"));
+                }
+            } else {
+                // 1.0 is selected as it is not fuzzy
+                builder.score(Decimal.of("1.0"));
+            }
+
+            Search search = builder.mode(mode).build();
+
             Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri(type) + "/"
                     + resource.getClass().getSimpleName() + "/"
-                    + resource.getId())).resource(resource).build();
+                    + resource.getId())).resource(resource)
+                    .search(search)
+                    .build();
 
             bundleBuider.entry(entry);
         }
