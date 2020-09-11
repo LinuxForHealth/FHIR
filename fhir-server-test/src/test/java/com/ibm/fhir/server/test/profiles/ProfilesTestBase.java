@@ -6,9 +6,10 @@
 
 package com.ibm.fhir.server.test.profiles;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import javax.ws.rs.core.Response;
 
 import org.testng.annotations.BeforeClass;
 
@@ -38,6 +41,9 @@ import com.ibm.fhir.server.test.SearchAllTest;
 public abstract class ProfilesTestBase extends FHIRServerTestBase {
     private static final String CLASSNAME = ProfilesTestBase.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
+
+    public static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
+    public static final String PREFER_HEADER_NAME = "Prefer";
 
     public static final String EXPRESSION_PROFILES = "rest.resource.supportedProfile";
     public static final String EXPRESSION_BUNDLE_IDS = "entry.resource.id";
@@ -68,6 +74,18 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
             assertTrue(listOfIds.contains(id));
         }
     }
+    
+    public static void assertDoesNotContainsIds(Bundle bundle, String... ids) throws FHIRPathException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(bundle);
+        Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_BUNDLE_IDS);
+        Collection<String> listOfIds = tmpResults.stream().map(x -> x.toString()).collect(Collectors.toList());
+        boolean found = false;
+        for (String id : ids) {
+            found = found || listOfIds.contains(id);
+        }
+        assertFalse(found);
+    }
 
     public void assertSearchResponse(FHIRResponse response, int expectedStatusCode) throws Exception {
         assertNotNull(response);
@@ -76,6 +94,17 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
             SearchAllTest.generateOutput(operationOutcome);
         }
         assertEquals(expectedStatusCode, response.getStatus());
+    }
+    
+    public Bundle getEntityWithExtraWork(Response response, String method) throws Exception {
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        commonWork(responseBundle,method);
+        return responseBundle;
+    }
+    
+    public void commonWork(Bundle responseBundle, String method) throws Exception{
+        assertNotNull(responseBundle);
+        checkForIssuesWithValidation(responseBundle, true, false, false);
     }
 
     @BeforeClass
