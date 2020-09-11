@@ -73,7 +73,7 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
     }
 
     public void loadDocumentReference1() throws Exception {
-        String resource = "json/profiles/fhir-ig-us-core//DocumentReference-episode-summary.json";
+        String resource = "json/profiles/fhir-ig-us-core/DocumentReference-episode-summary.json";
         WebTarget target = getWebTarget();
 
         DocumentReference goal = TestUtil.readExampleResource(resource);
