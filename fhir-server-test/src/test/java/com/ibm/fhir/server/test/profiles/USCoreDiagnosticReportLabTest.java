@@ -78,7 +78,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
     }
 
     public void loadDiagnosticReport1() throws Exception {
-        String resource = "json/profiles/fhir-ig-us-core/Diagnosticreport-urinalysis.json";
+        String resource = "json/profiles/fhir-ig-us-core/DiagnosticReport-urinalysis.json";
         WebTarget target = getWebTarget();
 
         DiagnosticReport DiagnosticReport = TestUtil.readExampleResource(resource);
@@ -92,7 +92,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
     }
 
     public void loadDiagnosticReport2() throws Exception {
-        String resource = "json/profiles/fhir-ig-us-core/Diagnosticreport-metabolic-panel.json";
+        String resource = "json/profiles/fhir-ig-us-core/DiagnosticReport-metabolic-panel.json";
         WebTarget target = getWebTarget();
 
         DiagnosticReport DiagnosticReport = TestUtil.readExampleResource(resource);
@@ -106,7 +106,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
     }
 
     public void loadDiagnosticReport3() throws Exception {
-        String resource = "json/profiles/fhir-ig-us-core/Diagnosticreport-cbc.json";
+        String resource = "json/profiles/fhir-ig-us-core/DiagnosticReport-cbc.json";
         WebTarget target = getWebTarget();
 
         DiagnosticReport DiagnosticReport = TestUtil.readExampleResource(resource);
