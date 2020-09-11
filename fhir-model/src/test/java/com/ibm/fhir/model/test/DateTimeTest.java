@@ -252,7 +252,9 @@ public class DateTimeTest {
         Time.of(LocalTime.now());
         Time.of(LocalTime.MIDNIGHT);
         Time.of(LocalTime.now(ZoneId.of("UTC+2")));
+        Time.of(LocalTime.of(13,20,23,123456789));
         // Valid string values
+        Time.of("20:00:00.112000000");
         Time.of("20:00:00.112000");
         Time.of("20:00:00.112");
         Time.of("20:00:00");
@@ -260,22 +262,27 @@ public class DateTimeTest {
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithShortDateValue() throws Exception {
-        DateTime.of("20:00");
+        Time.of("20:00");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithShortDateValue2() throws Exception {
-        DateTime.of("20");
+        Time.of("20");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithShortDateValue3() throws Exception {
-        DateTime.of("8:00:00");
+        Time.of("8:00:00");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithIllegalChars() throws Exception {
-        DateTime.of("20:FF:00");
+        Time.of("20:FF:00");
+    }
+
+    @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
+    public void testTimeStringInputWithTooMuchPrecision() throws Exception {
+        Time.of("20:00:00.1234567890");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = NullPointerException.class)
@@ -292,4 +299,10 @@ public class DateTimeTest {
     public void testTimePrecise() throws Exception {
         assertTrue(Time.of("20:00:00.112000").getValue().isAfter(Time.of("20:00:00").getValue()));
     }
+
+    @Test(groups = { "time-tests" })
+    public void testTimeTruncation() throws Exception {
+        assertTrue(Time.of("20:00:00.112000").getValue().equals(Time.of("20:00:00.112000999").getValue()));
+    }
+
 }
