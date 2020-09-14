@@ -29,7 +29,8 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A date, date-time or partial date (e.g. just year or year + month). If hours and minutes are specified, a time zone 
  * SHALL be populated. The format is a union of the schema types gYear, gYearMonth, date and dateTime. Seconds must be 
  * provided due to schema type constraints but may be zero-filled and may be ignored. Dates SHALL be valid dates.
- * If seconds are specified, fractions of seconds may be specified up to nanosecond precision (9 digits). However, any 
+ * 
+ * <p>If seconds are specified, fractions of seconds may be specified up to nanosecond precision (9 digits). However, any 
  * fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond 
  * precision when stored.
  */

@@ -22,7 +22,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A time during the day, with no date specified
- * Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds 
+ * 
+ * <p>Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds 
  * specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored.
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
