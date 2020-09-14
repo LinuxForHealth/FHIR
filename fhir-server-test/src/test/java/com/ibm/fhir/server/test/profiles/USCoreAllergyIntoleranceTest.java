@@ -43,6 +43,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 
 /**
  * Tests the US Core 3.1.1 Profile with AllergyIntolerance and a related Provenance.
+ * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-provenance.html
  */
 public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
     private static final String CLASSNAME = USCoreAllergyIntoleranceTest.class.getName();
