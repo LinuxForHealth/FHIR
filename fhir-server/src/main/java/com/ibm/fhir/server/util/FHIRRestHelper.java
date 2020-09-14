@@ -937,7 +937,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Resource> resources =
                     persistence.search(persistenceContext, resourceType).getResource();
 
-            bundle = createSearchBundle(resourceType.getClass().getSimpleName(), resources, searchContext, type);
+            bundle = createSearchBundle(resourceType.getSimpleName(), resources, searchContext, type);
             if (requestUri != null) {
                 bundle = addLinks(searchContext, bundle, requestUri);
             }
