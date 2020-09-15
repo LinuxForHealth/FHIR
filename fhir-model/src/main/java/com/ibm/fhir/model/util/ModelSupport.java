@@ -899,6 +899,13 @@ public final class ModelSupport {
     }
 
     /**
+     * @return a copy of the passed LocalTime with the time truncated to {@code unit}
+     */
+    public static LocalTime truncateTime(LocalTime time, ChronoUnit unit) {
+        return time == null ? null : time.truncatedTo(unit);
+    }
+
+    /**
      * @return a copy of the passed TemporalAccessor with the time truncated to {@code unit}
      */
     public static TemporalAccessor truncateTime(TemporalAccessor ta, ChronoUnit unit) {

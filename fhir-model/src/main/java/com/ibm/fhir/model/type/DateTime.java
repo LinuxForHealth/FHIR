@@ -29,10 +29,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A date, date-time or partial date (e.g. just year or year + month). If hours and minutes are specified, a time zone 
  * SHALL be populated. The format is a union of the schema types gYear, gYearMonth, date and dateTime. Seconds must be 
  * provided due to schema type constraints but may be zero-filled and may be ignored. Dates SHALL be valid dates.
+ * 
+ * <p>If seconds are specified, fractions of seconds may be specified up to nanosecond precision (9 digits). However, any 
+ * fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond 
+ * precision when stored.
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DateTime extends Element {
-    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("yyyy").optionalStart().appendPattern("-MM").optionalStart().appendPattern("-dd").optionalStart().appendPattern("'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern("XXX").optionalEnd().optionalEnd().optionalEnd().toFormatter();
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("yyyy").optionalStart().appendPattern("-MM").optionalStart().appendPattern("-dd").optionalStart().appendPattern("'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd().appendPattern("XXX").optionalEnd().optionalEnd().optionalEnd().toFormatter();
 
     private final TemporalAccessor value;
 

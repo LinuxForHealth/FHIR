@@ -10,20 +10,25 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A time during the day, with no date specified
+ * 
+ * <p>Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds 
+ * specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored.
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Time extends Element {
-    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().toFormatter();
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss").optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd().toFormatter();
 
     private final LocalTime value;
 
@@ -31,7 +36,7 @@ public class Time extends Element {
 
     private Time(Builder builder) {
         super(builder);
-        value = builder.value;
+        value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
         ValidationSupport.requireValueOrChildren(this);
     }
 

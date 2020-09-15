@@ -885,7 +885,13 @@ public class CodeGenerator {
                 }
             }
 
-            cb.javadoc(Arrays.asList(getElementDefinition(structureDefinition, path).getString("definition").split(System.lineSeparator())));
+            List<String> javadocLines = new ArrayList<>(Arrays.asList(getElementDefinition(structureDefinition, path).getString("definition").split(System.lineSeparator())));
+            if (isDateTime(structureDefinition)) {
+                javadocLines.addAll(Arrays.asList("", "If seconds are specified, fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
+            } else if (isInstant(structureDefinition) || isTime(structureDefinition)) {
+                javadocLines.addAll(Arrays.asList("", "Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
+            }
+            cb.javadoc(javadocLines);
 
             String className = nested ? titleCase(path.substring(path.lastIndexOf(".") + 1)) : titleCase(structureDefinition.getString("name"));
             if (nested) {
@@ -922,7 +928,7 @@ public class CodeGenerator {
             cb._class(mods, className, _super);
 
             if (isDateTime(structureDefinition)) {
-                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
             }
 
             if (isDate(structureDefinition)) {
@@ -930,11 +936,11 @@ public class CodeGenerator {
             }
 
             if (isInstant(structureDefinition)) {
-                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
             }
 
             if (isTime(structureDefinition)) {
-                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().toFormatter()").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"HH:mm:ss\").optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd().toFormatter()").newLine();
             }
 
             if (isBoolean(structureDefinition)) {
@@ -1041,8 +1047,8 @@ public class CodeGenerator {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                                 cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
                             } else {
-                                // Instant and DateTime values require special handling
-                                if ((isInstant(structureDefinition) || isDateTime(structureDefinition))
+                                // Instant, DateTime, and Time values require special handling
+                                if ((isInstant(structureDefinition) || isDateTime(structureDefinition) || isTime(structureDefinition))
                                         && "value".equals(fieldName)) {
                                     cb.assign(fieldName, "ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS)");
                                 } else {
@@ -1944,6 +1950,8 @@ public class CodeGenerator {
 
         if (isTime(structureDefinition)) {
             imports.add("java.time.LocalTime");
+            imports.add("java.time.temporal.ChronoUnit");
+            imports.add("com.ibm.fhir.model.util.ModelSupport");
         }
 
         if (isDate(structureDefinition) || isDateTime(structureDefinition) || isInstant(structureDefinition) || isTime(structureDefinition)) {
