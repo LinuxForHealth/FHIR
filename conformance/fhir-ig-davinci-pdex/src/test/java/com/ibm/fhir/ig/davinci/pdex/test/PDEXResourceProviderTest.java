@@ -14,7 +14,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class PDEXResourceProviderTest {
     @Test
-    public void testEpdxResourceProvider() {
+    public void testPDEXResourceProvider() {
         FHIRRegistryResourceProvider provider = new PDEXResourceProvider();
         Assert.assertEquals(provider.getRegistryResources().size(), 14);
     }

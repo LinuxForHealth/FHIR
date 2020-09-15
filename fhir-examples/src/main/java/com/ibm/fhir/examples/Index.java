@@ -23,7 +23,7 @@ public enum Index {
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-formulary-xml.txt",
         "/profiles-pdex-plan-net-json.txt",
-        "/profiles-epdx-json.txt",
+        "/profiles-pdex-json.txt",
         "/profiles-hrex-json.txt",
         "/profiles-us-core-xml.txt",
         "/profiles-us-core-json.txt"),
@@ -37,7 +37,7 @@ public enum Index {
         "/profiles-us-core-json.txt",
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-plan-net-json.txt",
-        "/profiles-epdx-json.txt",
+        "/profiles-pdex-json.txt",
         "/profiles-hrex-json.txt"),
 
     /**
@@ -108,7 +108,7 @@ public enum Index {
     /**
      * Implementation Guides examples in JSON
      */
-    PROFILES_EPDX_JSON("/profiles-epdx-json.txt"),
+    PROFILES_pdex_JSON("/profiles-pdex-json.txt"),
 
     /**
      * Implementation Guides examples in JSON
@@ -134,7 +134,7 @@ public enum Index {
         "/profiles-pdex-formulary-json.txt",
         "/profiles-pdex-plan-net-json.txt",
         "/profiles-hrex-json.txt",
-        "/profiles-epdx-json.txt"),
+        "/profiles-pdex-json.txt"),
 
     /**
      * Implementation Guides examples in XML

@@ -14,7 +14,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class HREXResourceProviderTest {
     @Test
-    public void testEpdxResourceProvider() {
+    public void testHREXResourceProvider() {
         FHIRRegistryResourceProvider provider = new HREXResourceProvider();
         Assert.assertEquals(provider.getRegistryResources().size(), 19);
     }

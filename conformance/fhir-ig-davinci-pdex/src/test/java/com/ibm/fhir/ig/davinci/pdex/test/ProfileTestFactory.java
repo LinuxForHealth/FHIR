@@ -23,7 +23,7 @@ public class ProfileTestFactory {
     @Factory
     public Object[] createInstances() {
         List<Object> result = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(ExamplesUtil.indexReader(Index.PROFILES_EPDX_JSON))) {
+        try (BufferedReader br = new BufferedReader(ExamplesUtil.indexReader(Index.PROFILES_PDEX_JSON))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split("\\s+");

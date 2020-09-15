@@ -39,7 +39,7 @@ public class ProfileTest {
     @Test
     public void testUSCoreValidation() throws Exception {
         try (Reader r = ExamplesUtil.resourceReader(path)) {
-            System.out.println("Davinci EPDX Testing -> " + path);
+            System.out.println("Davinci PDEX Testing -> " + path);
             Resource resource = FHIRParser.parser(format).parse(r);
             List<Issue> issues = FHIRValidator.validator().validate(resource);
             issues.forEach(item -> {
