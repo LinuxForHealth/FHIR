@@ -108,7 +108,7 @@ public enum Index {
     /**
      * Implementation Guides examples in JSON
      */
-    PROFILES_pdex_JSON("/profiles-pdex-json.txt"),
+    PROFILES_PDEX_JSON("/profiles-pdex-json.txt"),
 
     /**
      * Implementation Guides examples in JSON
