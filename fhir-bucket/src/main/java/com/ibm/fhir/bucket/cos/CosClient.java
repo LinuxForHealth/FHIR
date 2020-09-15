@@ -7,6 +7,8 @@
 package com.ibm.fhir.bucket.cos;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +32,9 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
+import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
+import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
+import com.ibm.cloud.objectstorage.services.s3.model.PutObjectResult;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
@@ -41,6 +46,9 @@ import com.ibm.fhir.bucket.api.FileType;
  */
 public class CosClient {
     private static final Logger logger = Logger.getLogger(CosClient.class.getName());
+
+    // Switch on to write to the local filesystem instead of COS
+    private static final boolean DEBUG = false;
     
     // The client connection established by calling #connect()
     private AmazonS3 client;
@@ -49,6 +57,7 @@ public class CosClient {
     
     // Set to false to tell a scan to return early
     private volatile boolean running = true;
+    
     
     static {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
@@ -174,5 +183,41 @@ public class CosClient {
                 }
             }
         } while (running && result != null && result.isTruncated());
+    }
+
+    /**
+     * Write the payload to the given bundleName as key
+     * @param bundleName
+     * @param payload
+     */
+    public void write(String bucketName, String objectName, String payload) {
+        byte[] raw = payload.getBytes(StandardCharsets.UTF_8);
+        
+        ObjectMetadata omd = new ObjectMetadata();
+        omd.setContentLength(raw.length);
+        omd.setContentEncoding("application/json");
+        
+        logger.info("Writing to COS '" + bucketName + ":" + objectName + "', bytes: " + raw.length);
+
+        if (DEBUG) {
+            try (FileOutputStream fos = new FileOutputStream(objectName)) {
+                fos.write(raw);
+                fos.flush();
+            } catch (IOException x) {
+                logger.log(Level.SEVERE, "Writing " + objectName, x);
+            }
+        } else {
+            // Write the object to the target key (objectName) in the given bucket
+            InputStream inputStream = new ByteArrayInputStream(raw);
+            PutObjectResult result = client.putObject(new PutObjectRequest(bucketName, objectName, inputStream, omd));
+            if (result != null) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Wrote [" + bucketName + "]/" + objectName + ", ETag: " + result.getETag());
+                }
+            } else {
+                logger.warning("Writing failed for [" + bucketName + "]/" + objectName + ", bytes: " + raw.length);
+                throw new RuntimeException("Write to COS failed");
+            }
+        }
     }
 }

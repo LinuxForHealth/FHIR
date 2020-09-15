@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.BucketPath;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
@@ -91,6 +93,8 @@ public class CosReader {
     // The cost of a bundle compared to a single resource
     private final double bundleCostFactor;
     
+    private final List<BucketPath> bucketPaths;
+    
     /**
      * Public constructor
      * @param commonPool thread pool shared by the readers and request handler
@@ -103,7 +107,7 @@ public class CosReader {
      * @param recycleSeconds
      */
     public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
-        double bundleCostFactor) {
+        double bundleCostFactor, Collection<BucketPath> bucketPaths) {
         this.pool = commonPool;
         this.fileType = fileType;
         this.client = client;
@@ -115,6 +119,7 @@ public class CosReader {
         this.recycleSeconds = recycleSeconds;
         this.incrementalExact = incrementalExact;
         this.bundleCostFactor = bundleCostFactor;
+        this.bucketPaths = new ArrayList<>(bucketPaths);
     }
     
     /**
@@ -237,7 +242,7 @@ public class CosReader {
     private int allocateJobs(int free) {
         logger.info("allocateJobs[" + fileType.name() + "]: free = " + free);
         List<BucketLoaderJob> jobList = new ArrayList<>();
-        dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds);
+        dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds, this.bucketPaths);
         
         logger.info("Allocated job count["  + fileType.name() + "]: " + jobList.size());
         
@@ -267,9 +272,29 @@ public class CosReader {
             rps = resources / lastCallTime;
         }
         
-        // Log some useful info so we can eyeball rate/progress in the logs
-        logger.info(String.format("Completed entry: %s [took %.3f secs, lastCall: %.3f secs, resources: %d, rate: %.1f resources/sec]", job.toString(), elapsedSeconds, lastCallTime, resources, rps));
-        dataAccess.markJobDone(job);
+        try {
+            // Log some useful info so we can eyeball rate/progress in the logs
+            logger.info(String.format("Completed entry: %s [took %.3f secs, lastCall: %.3f secs, resources: %d, rate: %.1f resources/sec]", job.toString(), elapsedSeconds, lastCallTime, resources, rps));
+            dataAccess.markJobDone(job);
+        } finally {
+            // As this job is now finally complete, we can reduce our inflight count, freeing up capacity
+            // for new jobs to be allocated
+            lock.lock();
+            try {
+                inflight--;
+                logger.info("Job completed[" + fileType.name() + "] inflight count now: " + inflight);
+                
+                // Apply some hysteresis before we wake up the allocation
+                // thread. This is so we fetch larger allocations in fewer
+                // calls to the database
+                if (inflight < rescanThreshold) {
+                    logger.info("triggering job fetch[" + fileType.name() + "]");
+                    resourceLimit.signal();
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
     }
 
     /**
@@ -278,26 +303,7 @@ public class CosReader {
      */
     private void process(BucketLoaderJob job) {
         pool.submit(() -> {
-            try {
-                processThr(job);
-            } finally {
-                // free up capacity after the job completes
-                lock.lock();
-                try {
-                    inflight--;
-                    logger.info("Job completed[" + fileType.name() + "] inflight count now: " + inflight);
-                    
-                    // Apply some hysteresis before we wake up the allocation
-                    // thread. This is so we fetch larger allocations in fewer
-                    // calls to the database
-                    if (inflight < rescanThreshold) {
-                        logger.info("triggering job fetch[" + fileType.name() + "]");
-                        resourceLimit.signal();
-                    }
-                } finally {
-                    lock.unlock();
-                }
-            }
+            processThr(job);
         });
     }
 

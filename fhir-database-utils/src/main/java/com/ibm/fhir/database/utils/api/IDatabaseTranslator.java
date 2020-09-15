@@ -174,4 +174,12 @@ public interface IDatabaseTranslator {
      * @return the name of the "DUAL" table for the database, or null if not supported
      */
     String dualTableName();
+
+    /**
+     * Generate the DDL for dropping the named FK constraint from the given table
+     * @param qualifiedTableName such as schema.foo_tab
+     * @param constraintName the constraint name of the FK
+     * @return
+     */
+    String dropForeignKeyConstraint(String qualifiedTableName, String constraintName);
 }

@@ -186,4 +186,10 @@ public class DerbyTranslator implements IDatabaseTranslator {
     public String currentTimestampString() {
         return "CURRENT TIMESTAMP";
     }
+    
+    @Override
+    public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
+        // Same syntax as DB2
+        return "ALTER TABLE " + qualifiedTableName + " DROP FOREIGN KEY " + constraintName;
+    }
 }

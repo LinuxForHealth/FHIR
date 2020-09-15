@@ -223,4 +223,10 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public String currentTimestampString() {
         return "CURRENT_TIMESTAMP";
     }
+    
+    @Override
+    public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
+        // PostgreSQL syntax is not the same as DB2/Derby
+        return "ALTER TABLE " + qualifiedTableName + " DROP CONSTRAINT IF EXISTS " + constraintName;
+    }
 }

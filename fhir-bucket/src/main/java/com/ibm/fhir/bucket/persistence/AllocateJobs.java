@@ -10,11 +10,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.BucketPath;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -41,18 +43,22 @@ public class AllocateJobs implements IDatabaseStatement {
 
     // The number of jobs to allocate
     private final int free;
+    
+    // Limit job to matching bucket-path combinations
+    private final Collection<BucketPath> bucketPaths;
 
     /**
      * Public constructor
      * @param bucketName
      * @param bucketPath
      */
-    public AllocateJobs(String schemaName, List<BucketLoaderJob> jobList, FileType fileType, long loaderInstanceId, int free) {
+    public AllocateJobs(String schemaName, List<BucketLoaderJob> jobList, FileType fileType, long loaderInstanceId, int free, Collection<BucketPath> bucketPaths) {
         this.schemaName = schemaName;
         this.jobList = jobList;
         this.fileType = fileType;
         this.loaderInstanceId = loaderInstanceId;
         this.free = free;
+        this.bucketPaths = bucketPaths;
     }
 
     @Override
@@ -73,6 +79,21 @@ public class AllocateJobs implements IDatabaseStatement {
             logger.log(Level.SEVERE, NEXTVAL, x);
             throw new DataAccessException("Get next allocationId failed");
         }
+
+        // Build the bucket-path predicate if the user has specified any
+        StringBuilder bpBuilder = new StringBuilder();
+        for (@SuppressWarnings("unused") BucketPath bp: bucketPaths) {
+            if (bpBuilder.length() > 0) {
+                bpBuilder.append(" OR ");
+            }
+            
+            bpBuilder.append("bp.bucket_name = ? AND bp.bucket_path = ?");
+        }
+
+        String bucketPathPredicate = "";
+        if (bpBuilder.length() > 0) {
+            bucketPathPredicate = " AND (" + bpBuilder.toString() + ")";
+        }
         
         // Mark the records we want to allocate using the unique allocationId we just obtained
         // Note the ORDER BY in the inner select is important to avoid deadlocks when running
@@ -83,18 +104,29 @@ public class AllocateJobs implements IDatabaseStatement {
                 + "    SET allocation_id = ?, "
                 + "        loader_instance_id = ? "
                 + "  WHERE rb.resource_bundle_id IN ( "
-                + "     SELECT resource_bundle_id "
-                + "       FROM resource_bundles "
-                + "      WHERE allocation_id IS NULL "
-                + "        AND file_type = ? "
-                + "   ORDER BY last_modified, resource_bundle_id "
+                + "     SELECT rbInner.resource_bundle_id "
+                + "       FROM resource_bundles rbInner, "
+                + "            bucket_paths bp " // bp is the table alias referenced in the bucketPathPredicate built above
+                + "      WHERE rbInner.allocation_id IS NULL "
+                + "        AND rbInner.file_type = ? "
+                + "        AND bp.bucket_path_id = rbInner.bucket_path_id "
+                + bucketPathPredicate
+                + "   ORDER BY rbInner.last_modified, rbInner.resource_bundle_id "
                 + "      FETCH FIRST ? ROWS ONLY)";
         
         try (PreparedStatement ps = c.prepareStatement(MARK)) {
-            ps.setLong(1, allocationId);
-            ps.setLong(2, loaderInstanceId);
-            ps.setString(3, fileType.name());
-            ps.setInt(4, free);
+            int a = 1;
+            ps.setLong(a++, allocationId);
+            ps.setLong(a++, loaderInstanceId);
+            ps.setString(a++, fileType.name());
+
+            // Bind values for any bucket-path filters we've defined in the query
+            for (BucketPath bp: bucketPaths) {
+                ps.setString(a++, bp.getBucketName());
+                ps.setString(a++, bp.getPathPrefix());
+            }
+            
+            ps.setInt(a++, free);
             ps.executeUpdate();
         } catch (SQLException x) {
             logger.log(Level.SEVERE, MARK, x);

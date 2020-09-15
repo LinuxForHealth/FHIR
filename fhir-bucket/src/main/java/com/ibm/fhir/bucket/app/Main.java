@@ -24,7 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.bucket.api.BucketPath;
 import com.ibm.fhir.bucket.api.FileType;
+import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FhirClient;
 import com.ibm.fhir.bucket.cos.CosClient;
@@ -33,9 +35,11 @@ import com.ibm.fhir.bucket.interop.CmsPayerScenario;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
+import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.CosReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
+import com.ibm.fhir.bucket.scanner.FhirClientResourceProcessor;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -99,6 +103,9 @@ public class Main {
     
     // Just slightly over 2 minutes, which is just slightly longer than the FHIR default tx timeout
     private int poolShutdownTimeoutSeconds = 130;
+
+    // By default we want to periodically scan COS looking for new entries
+    private boolean runScanner = true;
     
     // The thread-pool shared by the services for async processing
     private ExecutorService commonPool;
@@ -159,7 +166,18 @@ public class Main {
     // How many payer scenario requests do we want to make at a time.
     private int concurrentPayerRequests = 0;
     
+    // Simple scenario to add some read load to a FHIR server
     private CmsPayerInterop cmsPayerWorkload;
+    
+    // Special operation to break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket and key prefix:
+    private String targetBucket;
+    private String targetPrefix;
+    
+    // The list of bucket-paths we limit reading from
+    private List<BucketPath> bucketPaths = new ArrayList<>();
+    
+    // How many resources should we pack into new bundles
+    private int maxResourcesPerBundle = 100;
     
     /**
      * Parse command line arguments
@@ -298,16 +316,60 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --path-prefix");
                 }
                 break;
+            case "--target-bucket":
+                if (i < args.length + 1) {
+                    this.targetBucket = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --target-bucket");
+                }
+                break;
+            case "--target-prefix":
+                if (i < args.length + 1) {
+                    this.targetPrefix = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --target-prefix");
+                }
+                break;
+            case "--bucket-path":
+                if (i < args.length + 1) {
+                    addBucketPath(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --bucket-path");
+                }
+                break;
+            case "--max-resources-per-bundle":
+                if (i < args.length + 1) {
+                    this.maxResourcesPerBundle = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --max-resources-per-bundle");
+                }
+                break;
             case "--incremental":
                 this.incremental = true;
                 break;
             case "--incremental-exact":
                 this.incrementalExact = true;
                 break;
+            case "--no-scan":
+                this.runScanner = false;
+                break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
             }
         }
+    }
+
+    /**
+     * Add the bucket-name/path-prefix pair to the list we use for filtering 
+     * @param arg bucket-path specified as <bucket-name>:<path-prefix>
+     */
+    private void addBucketPath(String arg) {
+        String[] values = arg.split(":");
+        if (values.length != 2) {
+            throw new IllegalArgumentException("Bad bucket path. Bucket paths must be specific as <bucket-name>:<path-prefix>");
+        }
+
+        this.bucketPaths.add(new BucketPath(values[0], values[1]));
     }
 
     /**
@@ -580,7 +642,9 @@ public class Main {
 
         // First up, signal everything to stop. This is just a notification,
         // we don't block on any of these
-        this.scanner.signalStop();
+        if (this.scanner != null) {
+            this.scanner.signalStop();
+        }
         
         if (cmsPayerWorkload != null) {
             cmsPayerWorkload.signalStop();
@@ -597,7 +661,9 @@ public class Main {
         this.resourceHandler.signalStop();
         
         
-        this.scanner.waitForStop();
+        if (this.scanner != null) {
+            this.scanner.waitForStop();
+        }
         
         if (cmsPayerWorkload != null) {
             cmsPayerWorkload.waitForStop();
@@ -611,7 +677,10 @@ public class Main {
             this.ndJsonReader.waitForStop();
         }
         this.resourceHandler.waitForStop();
-        this.fhirClient.shutdown();
+        
+        if (fhirClient != null) {
+            this.fhirClient.shutdown();
+        }
         
         // Finally we can ask the common thread-pool to close up shop. Typically we
         // should wait for at least as long as the FHIR server transaction timeout
@@ -648,22 +717,31 @@ public class Main {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
         
         cosClient = new CosClient(cosProperties);
-        
-        // Set up the client we use to send requests to the FHIR server
-        fhirClient = new FhirClient(new ClientPropertyAdapter(fhirClientProperties));
-        fhirClient.init(this.tenantName);
-        
+                
         // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
         DataAccess dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
         dataAccess.init();
         
         // Set up the scanner to look for new COS objects and register them in our database
-        this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
-        scanner.init();
+        if (this.runScanner) {
+            this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
+            scanner.init();
+        }
+
+        // Decide how we want to process resource bundles
+        IResourceEntryProcessor resourceEntryProcessor;
+        if (this.targetBucket != null && this.targetBucket.length() > 0) {
+            resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
+        } else {
+            // Set up the client we use to send requests to the FHIR server
+            fhirClient = new FhirClient(new ClientPropertyAdapter(fhirClientProperties));
+            fhirClient.init(this.tenantName);
+            resourceEntryProcessor = new FhirClientResourceProcessor(fhirClient, dataAccess);
+        }
         
         // Set up the handler to process resources as they are read from COS
         // Uses an internal pool to parallelize NDJSON work
-        this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, fhirClient, dataAccess);
+        this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
         resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler
@@ -671,7 +749,7 @@ public class Main {
             this.jsonReader = new CosReader(commonPool, FileType.JSON, cosClient, 
                 resource -> resourceHandler.process(resource), 
                 this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds, 
-                incrementalExact, this.bundleCostFactor);
+                incrementalExact, this.bundleCostFactor, bucketPaths);
             this.jsonReader.init();
         }
 
@@ -679,17 +757,18 @@ public class Main {
             this.jsonReader = new CosReader(commonPool, FileType.NDJSON, cosClient, 
                 resource -> resourceHandler.process(resource), 
                 this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds, 
-                incrementalExact, this.bundleCostFactor);
+                incrementalExact, this.bundleCostFactor, bucketPaths);
             this.jsonReader.init();
         }
-        
-        if (this.concurrentPayerRequests > 0) {
+
+        // Optionally apply a read-based workload to stress the FHIR server and database
+        // with random requests for resources
+        if (this.concurrentPayerRequests > 0 && fhirClient != null) {
             // set up the CMS payer thread to add some read-load to the system
             CmsPayerScenario scenario = new CmsPayerScenario(this.fhirClient);
             cmsPayerWorkload = new CmsPayerInterop(dataAccess, scenario, concurrentPayerRequests, 500000);
             cmsPayerWorkload.init();
         }
-
 
         // JVM won't exit until the threads are stopped via the
         // shutdown hook
