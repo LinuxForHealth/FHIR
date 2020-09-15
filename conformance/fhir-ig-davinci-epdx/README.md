@@ -1,4 +1,4 @@
-This profile HL7 FHIR® Da Vinci Payer Data exchange Implementation Guide 0.1.18 - CI Build.
+The contents in this module are from HL7 FHIR® Da Vinci Payer Data exchange Implementation Guide 0.1.18 - CI Build.
 
 COMMIT https://github.com/HL7/davinci-epdx/commit/a8420e6db30b9831618c36308dfff3f48949a72e
 
