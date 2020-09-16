@@ -55,6 +55,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -1431,55 +1432,6 @@ public class SearchTest extends FHIRServerTestBase {
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
                 .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() == 5);
-        AllergyIntolerance allergyIntolerance = null;
-        Patient patient = null;
-        Practitioner practitioner = null;
-        PractitionerRole practitionerRole = null;
-        Provenance provenance = null;
-        for (Bundle.Entry entry : bundle.getEntry()) {
-            if (entry.getResource() != null) {
-                if (entry.getResource() instanceof AllergyIntolerance) {
-                    allergyIntolerance = (AllergyIntolerance) entry.getResource();
-                } else if (entry.getResource() instanceof Patient) {
-                    patient = (Patient) entry.getResource();
-                } else if (entry.getResource() instanceof Practitioner) {
-                    practitioner = (Practitioner) entry.getResource();
-                } else if (entry.getResource() instanceof PractitionerRole) {
-                    practitionerRole = (PractitionerRole) entry.getResource();
-                } else if (entry.getResource() instanceof Provenance) {
-                    provenance = (Provenance) entry.getResource();
-                }
-            }
-        }
-        assertNotNull(allergyIntolerance);
-        assertNotNull(patient);
-        assertNotNull(practitioner);
-        assertNotNull(practitionerRole);
-        assertNotNull(provenance);
-        assertEquals(patientId, patient.getId());
-        assertEquals(practitionerId2, practitioner.getId());
-        assertEquals(practitionerRoleId, practitionerRole.getId());
-        assertEquals(provenanceId, provenance.getId());
-        assertEquals("Patient/" + patientId, allergyIntolerance.getPatient().getReference().getValue());
-        assertEquals("Practitioner/" + practitionerId2, allergyIntolerance.getRecorder().getReference().getValue());
-        assertEquals("PractitionerRole/" + practitionerRoleId, allergyIntolerance.getAsserter().getReference().getValue());
-        for (Reference reference : provenance.getTarget()) {
-            if (reference.getReference() != null) {
-                assertEquals("AllergyIntolerance/" + allergyIntoleranceId, reference.getReference().getValue());
-            }
-        }
-    }
-
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance", "testCreateProvenance" })
-    public void testSearchAllergyIntoleranceWithWildcardMultipleIncludedAndProvenceRevIncluded() {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("AllergyIntolerance").queryParam("patient", "Patient/"
-                        + patientId).queryParam("_include", "AllergyIntolerance:*:Patient", "AllergyIntolerance:*:Practitioner", "AllergyIntolerance:*:PractitionerRole").queryParam("_revinclude", "Provenance:*").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", tenantName).header("X-FHIR-DSID", dataStoreId).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
