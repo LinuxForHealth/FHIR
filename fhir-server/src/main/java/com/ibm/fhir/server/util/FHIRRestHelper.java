@@ -124,7 +124,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
-            Map<String, String> requestProperties, boolean skipValidation) throws Exception {
+            Map<String, String> requestProperties, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
@@ -191,7 +191,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Validate the input and, if valid, start collecting supplemental warnings
-            List<Issue> warnings = skipValidation ? new ArrayList<>() : new ArrayList<>(validateInput(resource));
+            List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(resource)) : new ArrayList<>();
 
             // For R4, resources may contain an id. For create, this should be ignored and
             // we no longer reject the request.
