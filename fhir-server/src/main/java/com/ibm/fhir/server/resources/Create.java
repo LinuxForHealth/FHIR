@@ -80,7 +80,7 @@ public class Create extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doCreate(type, resource, ifNoneExist, null, NO_SKIP_VALIDATION);
+            ior = helper.doCreate(type, resource, ifNoneExist, null);
 
             ResponseBuilder response =
                     Response.created(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

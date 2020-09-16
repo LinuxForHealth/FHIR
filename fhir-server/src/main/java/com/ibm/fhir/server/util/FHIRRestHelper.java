@@ -100,8 +100,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String LOCAL_REF_PREFIX = "urn:";
-    private static final boolean SKIP_VALIDATION = true; // constant for when we want to avoid repeating validation
-    private static final boolean NO_SKIP_VALIDATION = false; // do not skip validation
     
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
@@ -256,20 +254,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
             String searchQueryString, Map<String, String> requestProperties) throws Exception {
 
-        // Not called from bundle, so we never have to worry about skipping validation
-        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, NO_SKIP_VALIDATION);
+        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION);
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties, boolean skipValidation) throws Exception {
+            String searchQueryString, Map<String, String> requestProperties, boolean doValidation) throws Exception {
 
-        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, skipValidation);
+        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, doValidation);
     }
 
     private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
             Resource newResource, String ifMatchValue, String searchQueryString,
-            Map<String, String> requestProperties, boolean skipValidation) throws Exception {
+            Map<String, String> requestProperties, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -385,7 +382,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Validate the input and, if valid, start collecting supplemental warnings
-            List<Issue> warnings = skipValidation ? new ArrayList<>() : new ArrayList<>(validateInput(newResource));
+            List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(newResource)) : new ArrayList<>() ;
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
             boolean isDeleted = false;
@@ -1781,7 +1778,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             String ifNoneExist = request.getIfNoneExist() != null
                                     ? request.getIfNoneExist().getValue() : null;
                             FHIRRestOperationResponse ior =
-                                    doCreate(pathTokens[0], resource, ifNoneExist, null, SKIP_VALIDATION);
+                                    doCreate(pathTokens[0], resource, ifNoneExist, null, !DO_VALIDATION);
 
                             // Get the updated resource from FHIRRestOperationResponse which has the correct ID, meta
                             // etc.
@@ -1841,7 +1838,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             ifMatchBundleValue = request.getIfMatch().getValue();
                         }
                         FHIRRestOperationResponse ior =
-                                doUpdate(type, id, resource, ifMatchBundleValue, query, null, SKIP_VALIDATION);
+                                doUpdate(type, id, resource, ifMatchBundleValue, query, null, !DO_VALIDATION);
 
                         // Process and replace bundler Entry
                         Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(),

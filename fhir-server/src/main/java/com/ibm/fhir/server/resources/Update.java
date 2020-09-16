@@ -73,7 +73,7 @@ public class Update extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, null, NO_SKIP_VALIDATION);
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, null);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -132,7 +132,7 @@ public class Update extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, null, NO_SKIP_VALIDATION);
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, null);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
