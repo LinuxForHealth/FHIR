@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,10 +35,16 @@ public class DateTimeTest {
     public void testInstantWithValidStringInputs() throws Exception{
         // Without miscro-second
         Instant.of("2018-12-31T20:00:00-04:00");
+        // With nano-second
+        Instant.of("2018-12-31T20:00:00.112000000-04:00");
         // With micro-second
         Instant.of("2018-12-31T20:00:00.112000-04:00");
         // With short micro-second
         Instant.of("2018-12-31T20:00:00.112-04:00");
+        // With temporal nano-second
+        Instant.of(ZonedDateTime.of(2020,8,25,13,20,23,123456789,ZoneId.systemDefault()));
+        // With temporal micro-second
+        Instant.of(ZonedDateTime.of(2020,8,25,13,20,23,123456,ZoneId.systemDefault()));
     }
 
     @Test(groups = { "instant-tests" })
@@ -76,6 +82,11 @@ public class DateTimeTest {
         Instant.of("2018-aa-bbT20:00:00-04:00");
     }
 
+    @Test(groups = { "instant-tests" }, expectedExceptions = DateTimeParseException.class)
+    public void testInstantStringInputWithTooMuchPrecision() throws Exception {
+        Instant.of("2018-12-31T20:00:00.1234567890-04:00");
+    }
+
     @Test(groups = { "instant-tests" }, expectedExceptions = NullPointerException.class)
     public void testInstantStringInputWithNull() throws Exception {
         Instant.of((String)null);
@@ -90,6 +101,12 @@ public class DateTimeTest {
     public void testInstantPrecise() throws Exception {
         assertTrue(Instant.of("2018-12-31T20:00:00.112-04:00").getValue()
                 .isAfter(Instant.of(("2018-12-31T20:00:00.111-04:00")).getValue()));
+    }
+
+    @Test(groups = { "instant-tests" })
+    public void testInstantTruncation() throws Exception {
+        assertTrue(Instant.of("2018-12-31T20:00:00.112000-04:00").getValue()
+                .equals(Instant.of(("2018-12-31T20:00:00.112000999-04:00")).getValue()));
     }
 
     @Test(groups = { "date-tests" })
@@ -141,12 +158,14 @@ public class DateTimeTest {
         assertFalse(DateTime.now().isPartial());
         assertFalse(DateTime.now(ZoneOffset.UTC).isPartial());
         // Valid TemporalAccessor values
+        assertFalse(DateTime.of(ZonedDateTime.of(2020,8,25,13,20,23,123456789,ZoneId.systemDefault())).isPartial());
         assertFalse(DateTime.of(ZonedDateTime.now()).isPartial());
         assertFalse(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)).isPartial());
         assertTrue(DateTime.of(LocalDate.now()).isPartial());
         assertTrue(DateTime.of(YearMonth.now()).isPartial());
         assertTrue(DateTime.of(Year.now()).isPartial());
         // Valid string values
+        assertFalse(DateTime.of("2018-12-31T20:00:00.123456789-04:00").isPartial());
         assertFalse(DateTime.of("2018-12-31T20:00:00.112000-04:00").isPartial());
         assertFalse(DateTime.of("2018-12-31T20:00:00-04:00").isPartial());
         assertFalse(DateTime.of("2018-12-31T20:00:00.112-04:00").isPartial());
@@ -210,19 +229,32 @@ public class DateTimeTest {
         DateTime.of("18");
     }
 
+    @Test(groups = { "datetime-tests" }, expectedExceptions = DateTimeParseException.class)
+    public void testDateTimeStringInputWithTooMuchPrecision() throws Exception {
+        DateTime.of("2018-12-31T20:00:00.1234567890-04:00");
+    }
+
     @Test(groups = { "datetime-tests" })
     public void testDateTimePrecise() throws Exception {
         assertTrue(java.time.Instant.from(DateTime.of("2018-12-31T20:00:00.112-04:00").getValue())
                 .isAfter(java.time.Instant.from(DateTime.of("2018-12-31T20:00:00.111-04:00").getValue())));
     }
 
-    @Test(groups = { "time-tests" })
+    @Test(groups = { "datetime-tests" })
+    public void testDateTimeTruncation() throws Exception {
+        assertTrue(java.time.Instant.from(DateTime.of("2018-12-31T20:00:00.112000-04:00").getValue())
+                .equals(java.time.Instant.from(DateTime.of("2018-12-31T20:00:00.112000999-04:00").getValue())));
+    }
+
+     @Test(groups = { "time-tests" })
     public void testTimeWithValidInputs() throws Exception{
         // localTime
         Time.of(LocalTime.now());
         Time.of(LocalTime.MIDNIGHT);
         Time.of(LocalTime.now(ZoneId.of("UTC+2")));
+        Time.of(LocalTime.of(13,20,23,123456789));
         // Valid string values
+        Time.of("20:00:00.112000000");
         Time.of("20:00:00.112000");
         Time.of("20:00:00.112");
         Time.of("20:00:00");
@@ -230,22 +262,27 @@ public class DateTimeTest {
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithShortDateValue() throws Exception {
-        DateTime.of("20:00");
+        Time.of("20:00");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithShortDateValue2() throws Exception {
-        DateTime.of("20");
+        Time.of("20");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithShortDateValue3() throws Exception {
-        DateTime.of("8:00:00");
+        Time.of("8:00:00");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testTimeStringInputWithIllegalChars() throws Exception {
-        DateTime.of("20:FF:00");
+        Time.of("20:FF:00");
+    }
+
+    @Test(groups = { "time-tests" }, expectedExceptions = DateTimeParseException.class)
+    public void testTimeStringInputWithTooMuchPrecision() throws Exception {
+        Time.of("20:00:00.1234567890");
     }
 
     @Test(groups = { "time-tests" }, expectedExceptions = NullPointerException.class)
@@ -262,4 +299,10 @@ public class DateTimeTest {
     public void testTimePrecise() throws Exception {
         assertTrue(Time.of("20:00:00.112000").getValue().isAfter(Time.of("20:00:00").getValue()));
     }
+
+    @Test(groups = { "time-tests" })
+    public void testTimeTruncation() throws Exception {
+        assertTrue(Time.of("20:00:00.112000").getValue().equals(Time.of("20:00:00.112000999").getValue()));
+    }
+
 }
