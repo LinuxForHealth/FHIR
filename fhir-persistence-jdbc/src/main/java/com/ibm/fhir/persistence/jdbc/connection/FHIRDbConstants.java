@@ -14,9 +14,4 @@ package com.ibm.fhir.persistence.jdbc.connection;
  */
 public class FHIRDbConstants {
     public static final String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirProxyDataSource";
-    public static final String PROPERTY_DB_DRIVER = "dbDriverName";
-    public static final String PROPERTY_DB_URL = "dbUrl";
-    public static final String PROPERTY_DB_USER = "user";
-    public static final String PROPERTY_DB_PSWD = "password";
-    public static final String PROPERTY_SCHEMA_NAME = "schemaName";
 }
