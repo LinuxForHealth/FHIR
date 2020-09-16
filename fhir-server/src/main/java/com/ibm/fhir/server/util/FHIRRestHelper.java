@@ -100,7 +100,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String LOCAL_REF_PREFIX = "urn:";
-
+    
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
             .optionalStart()
@@ -124,7 +124,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
-            Map<String, String> requestProperties) throws Exception {
+            Map<String, String> requestProperties, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
@@ -191,7 +191,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Validate the input and, if valid, start collecting supplemental warnings
-            List<Issue> warnings = new ArrayList<>(validateInput(resource));
+            List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(resource)) : new ArrayList<>();
 
             // For R4, resources may contain an id. For create, this should be ignored and
             // we no longer reject the request.
@@ -254,19 +254,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
             String searchQueryString, Map<String, String> requestProperties) throws Exception {
 
-        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties);
+        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION);
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties) throws Exception {
+            String searchQueryString, Map<String, String> requestProperties, boolean doValidation) throws Exception {
 
-        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties);
+        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, doValidation);
     }
 
     private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
             Resource newResource, String ifMatchValue, String searchQueryString,
-            Map<String, String> requestProperties) throws Exception {
+            Map<String, String> requestProperties, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -382,7 +382,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Validate the input and, if valid, start collecting supplemental warnings
-            List<Issue> warnings = new ArrayList<>(validateInput(newResource));
+            List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(newResource)) : new ArrayList<>() ;
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
             boolean isDeleted = false;
@@ -1778,7 +1778,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             String ifNoneExist = request.getIfNoneExist() != null
                                     ? request.getIfNoneExist().getValue() : null;
                             FHIRRestOperationResponse ior =
-                                    doCreate(pathTokens[0], resource, ifNoneExist, null);
+                                    doCreate(pathTokens[0], resource, ifNoneExist, null, !DO_VALIDATION);
 
                             // Get the updated resource from FHIRRestOperationResponse which has the correct ID, meta
                             // etc.
@@ -1838,7 +1838,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             ifMatchBundleValue = request.getIfMatch().getValue();
                         }
                         FHIRRestOperationResponse ior =
-                                doUpdate(type, id, resource, ifMatchBundleValue, query, null);
+                                doUpdate(type, id, resource, ifMatchBundleValue, query, null, !DO_VALIDATION);
 
                         // Process and replace bundler Entry
                         Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(),

@@ -76,7 +76,7 @@ public class DocumentOperation extends AbstractOperation {
                     
                     if (persist) {
                         // FHIRResourceHelper resourceHelper = (FHIRResourceHelper) operationContext.getProperty(FHIROperationContext.PROPNAME_RESOURCE_HELPER;
-                        FHIRRestOperationResponse response = resourceHelper.doCreate("Bundle", bundle, null, null);
+                        FHIRRestOperationResponse response = resourceHelper.doCreate("Bundle", bundle, null, null, false);
                         // Use the responded bundle to create response to client.
                         bundle = (Bundle)response.getResource();
                         URI locationURI = response.getLocationURI();

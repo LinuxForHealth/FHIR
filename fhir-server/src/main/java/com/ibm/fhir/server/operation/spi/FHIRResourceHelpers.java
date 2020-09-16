@@ -20,9 +20,11 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
  * implementations.
  */
 public interface FHIRResourceHelpers {
+    // Useful constant for indicating the need to validate a resource
+    public static final boolean DO_VALIDATION = true;
 
     /**
-     * Performs the heavy lifting associated with a 'create' interaction.
+     * Performs the heavy lifting associated with a 'create' interaction. Validates the resource.
      *
      * @param type
      *            the resource type specified as part of the request URL
@@ -35,10 +37,30 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties) throws Exception;
+    default FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties) throws Exception {
+        return doCreate(type, resource, ifNoneExist, requestProperties, DO_VALIDATION);
+    }
 
     /**
-     * Performs an update operation (a new version of the Resource will be stored).
+     * Performs the heavy lifting associated with a 'create' interaction.
+     *
+     * @param type
+     *            the resource type specified as part of the request URL
+     * @param resource
+     *            the Resource to be stored.
+     * @param ifNoneExist
+     *            whether to create the resource if none exists
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
+     * @param doValidation
+     *            if true, validate the resource; if false, assume the resource has already been validated
+     * @return a FHIRRestOperationResponse object containing the results of the operation
+     * @throws Exception
+     */
+    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties, boolean doValidation) throws Exception;
+
+    /**
+     * Performs an update operation (a new version of the Resource will be stored). Validates the resource.
      *
      * @param type
      *            the type of the resource to be updated
@@ -53,7 +75,29 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
+    default FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
+        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION);
+    }
+
+    /**
+     * Performs an update operation (a new version of the Resource will be stored).
+     *
+     * @param type
+     *            the type of the resource to be updated
+     * @param id
+     *            the id of the Resource being updated
+     * @param newResource
+     *            the new resource to be stored
+     * @param ifMatchValue
+     *            an optional "If-Match" header value to request a version-aware update
+     * @param searchQueryString
+     *            an optional search query string to request a conditional update
+     * @param doValidation
+     *            if true, validate the resource; if false, assume the resource has already been validated
+     * @return a FHIRRestOperationResponse that contains the results of the operation
+     * @throws Exception
+     */
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties, boolean doValidation) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).

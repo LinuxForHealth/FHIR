@@ -46,7 +46,7 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Create extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Create.class.getName());
-
+    
     // The JWT of the current caller. Since this is a request scoped resource, the
     // JWT will be injected for each JAX-RS request. The injection is performed by
     // the mpJwt feature.

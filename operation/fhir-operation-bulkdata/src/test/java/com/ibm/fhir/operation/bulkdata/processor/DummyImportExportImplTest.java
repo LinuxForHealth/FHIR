@@ -226,13 +226,13 @@ public class DummyImportExportImplTest {
 
             @Override
             public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
-                    Map<String, String> requestProperties) throws Exception {
+                    Map<String, String> requestProperties, boolean skipValidation) throws Exception {
                 return null;
             }
 
             @Override
             public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-                    String searchQueryString, Map<String, String> requestProperties) throws Exception {
+                    String searchQueryString, Map<String, String> requestProperties, boolean skipValidation) throws Exception {
                 return null;
             }
 
