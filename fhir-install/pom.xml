@@ -32,31 +32,6 @@
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-ig-us-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-ig-carin-bb</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-ig-mcode</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-ig-davinci-pdex-plan-net</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-ig-davinci-pdex-formulary</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
         </dependency>
@@ -90,32 +65,6 @@
             <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>fhir-server-dist</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <finalName>fhir-server-distribution</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <attach>true</attach>
-                            <descriptors>
-                                <descriptor>src/main/assembly/distribution.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <profiles>
         <profile>
@@ -176,6 +125,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>aggregate-report</id>
             <dependencies>
@@ -319,7 +269,7 @@
                     <artifactId>fhir-operation-validate</artifactId>
                     <version>${project.version}</version>
                 </dependency>
-                
+
             </dependencies>
             <build>
                 <plugins>
@@ -356,5 +306,129 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>include-fhir-igs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-us-core</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-carin-bb</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-mcode</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-davinci-pdex-plan-net</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-davinci-pdex-formulary</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.1.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-fhir-igs</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>${project.groupId}</groupId>
+                                            <artifactId>fhir-ig-us-core</artifactId>
+                                            <version>${project.version}</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>${project.groupId}</groupId>
+                                            <artifactId>fhir-ig-carin-bb</artifactId>
+                                            <version>${project.version}</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>${project.groupId}</groupId>
+                                            <artifactId>fhir-ig-mcode</artifactId>
+                                            <version>${project.version}</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>${project.groupId}</groupId>
+                                            <artifactId>fhir-ig-davinci-pdex-plan-net</artifactId>
+                                            <version>${project.version}</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>${project.groupId}</groupId>
+                                            <artifactId>fhir-ig-davinci-pdex-formulary</artifactId>
+                                            <version>${project.version}</version>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <overWriteReleases>false</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                    <outputDirectory>${project.build.directory}/fhir-igs</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>fhir-server-distribution</id>
+            <activation>
+                <property>
+                    <name>!skipFhirServerDistribution</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>fhir-server-dist</id>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <finalName>fhir-server-distribution</finalName>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <attach>true</attach>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/distribution.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
+
 </project>
