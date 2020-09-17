@@ -20,6 +20,11 @@
             <outputDirectory></outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/fhir-igs</directory>
+            <outputDirectory>artifacts/servers/fhir-server/userlib</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
     </fileSets>
     <files>
         <file>
@@ -66,17 +71,6 @@
                   fhir-core was missing when it wasn't explicitly listed here -->
                 <include>${project.groupId}:fhir-core</include>
                 <include>${project.groupId}:fhir-config</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>artifacts/servers/fhir-server/userlib</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.groupId}:fhir-ig-*</include>
-                <!-- TODO: move operations to userlib -->
-                <!-- <include>${project.groupId}:fhir-operation-*</include> -->
             </includes>
         </dependencySet>
         <dependencySet>
