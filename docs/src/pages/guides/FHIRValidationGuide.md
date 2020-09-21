@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2020-01-18 09:25:00 -0400
+date:   2020-09-21 09:25:00 -0400
 permalink: /FHIRValidationGuide/
 ---
 
@@ -198,8 +198,8 @@ The IBM FHIR server has built-in support for the following:
 - US Core Implementation Guide (v3.1.1: STU3 Update) [http://hl7.org/fhir/us/core/STU3.1.1/](http://hl7.org/fhir/us/core/STU3.1.1/)
 - CARIN Blue Button Implementation Guide (v0.1.0: STU1 Ballot 1) [http://hl7.org/fhir/us/carin-bb/2020Feb/](http://hl7.org/fhir/us/carin-bb/2020Feb/)
 - HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0: STU 1) [http://hl7.org/fhir/us/mcode/STU1/](http://hl7.org/fhir/us/mcode/STU1/)
-- Da Vinci Health Record Exchange (HREX) Implementation Guide (0.2.0 - STU R1 - 2nd ballot) [http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html)
-- Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v0.1.18: CI Build) [http://build.fhir.org/ig/HL7/davinci-epdx/)
+- Da Vinci Health Record Exchange (HREX) Implementation Guide (0.2.0 - STU R1 - 2nd ballot) [http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html](http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html)
+- Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v0.1.18: CI Build) [http://build.fhir.org/ig/HL7/davinci-epdx/](http://build.fhir.org/ig/HL7/davinci-epdx)
 - Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v0.1.0: STU1 Ballot 1) [http://hl7.org/fhir/us/davinci-pdex-plan-net/2020Feb/index.html](http://hl7.org/fhir/us/davinci-pdex-plan-net/2020Feb/index.html)
 - Da Vinci Payer Data Exchange (PDex) US Drug Formulary STU 1 [http://hl7.org/fhir/us/davinci-drug-formulary/STU1/](http://hl7.org/fhir/us/davinci-drug-formulary/STU1/)
 
