@@ -6,43 +6,7 @@
 
 package com.ibm.fhir.schema.control;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANTS;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_HASH;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEYS;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEY_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_NAME;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +21,7 @@ import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.FunctionDef;
+import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
@@ -333,6 +298,11 @@ public class FhirSchemaGenerator {
         addCodeSystems(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
+        addLocalReferences(model);
+        addExternalSystems(model);
+        addExternalReferenceValues(model);
+        addExternalReferences(model);
+        addLogicalResourceCompartments(model);
 
         Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
@@ -493,6 +463,189 @@ public class FhirSchemaGenerator {
 
         return tbl;
     }
+
+    /**
+     * @param pdm the physical data model object we are building
+     * @return Table the table that was added to the PhysicalDataModel
+     */
+    public Table addLocalReferences(PhysicalDataModel pdm) {
+
+        // No primary key. LOCAL_REFERENCES is a mapping table representing multiple many-many relationships
+        // between resources. Both sides of the relationship (logical_resource_id and ref_logical_resource_id)
+        // are indexed to support different access patterns depending on where the join happens in the query
+        // execution plan
+        final String tableName = LOCAL_REFERENCES;
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     PARAMETER_NAME_ID,        false)
+                .addBigIntColumn(   LOGICAL_RESOURCE_ID,     false)
+                .addBigIntColumn(   REF_LOGICAL_RESOURCE_ID, false)
+                .addUniqueIndex(IDX + tableName + "_REFPNLR", REF_LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID)
+                .addUniqueIndex(IDX + tableName + "_", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, REF_LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_REF", schemaName, LOGICAL_RESOURCES, REF_LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+    
+    
+    /**
+     * Add the external_systems table to the physical data model
+     * @param pdm
+     * @return
+     */
+    public Table addExternalSystems(PhysicalDataModel pdm) {
+        /*
+         * CREATE TABLE external_systems (
+   external_system_id         BIGINT     NOT NULL,
+   external_system_name      VARCHAR(64) NOT NULL,
+   CONSTRAINT pk_external_system PRIMARY KEY (external_system_id)
+ );
+
+ CREATE UNIQUE INDEX unq_external_system_nm ON external_systems(external_system_name);
+         */
+        final String tableName = EXTERNAL_SYSTEMS;
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     EXTERNAL_SYSTEM_ID,       false)
+                .setIdentityColumn(EXTERNAL_SYSTEM_ID, Generated.ALWAYS)
+                .addVarcharColumn(EXTERNAL_SYSTEM_NAME, MAX_SEARCH_STRING_BYTES, false)
+                .addUniqueIndex(IDX + tableName + "_XSN", EXTERNAL_SYSTEM_NAME)
+                .addPrimaryKey(tableName + "_PK", EXTERNAL_SYSTEM_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * Table used to store normalized values for external reference strings. These
+     * strings can be quite long (urls) and may be referred to multiple times, so
+     * it makes sense we only store the value once, then use a BIGINT primary key
+     * to reference it
+     * @param pdm
+     * @return
+     */
+    public Table addExternalReferenceValues(PhysicalDataModel pdm) {
+        /*
+         */
+        final String tableName = EXTERNAL_REFERENCE_VALUES;
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(     EXTERNAL_REFERENCE_VALUE_ID,  false)
+                .setIdentityColumn(EXTERNAL_REFERENCE_VALUE_ID, Generated.ALWAYS)
+                .addVarcharColumn(EXTERNAL_REFERENCE_VALUE, MAX_SEARCH_STRING_BYTES, false)
+                .addUniqueIndex(IDX + tableName + "_XSN", EXTERNAL_REFERENCE_VALUE)
+                .addPrimaryKey(tableName + "_PK", EXTERNAL_REFERENCE_VALUE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * @param pdm the physical data model object we are building
+     * @return Table the table that was added to the PhysicalDataModel
+     */
+    public Table addExternalReferences(PhysicalDataModel pdm) {
+
+        // Mapping table, so no primary key
+        final String tableName = EXTERNAL_REFERENCES;
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(              PARAMETER_NAME_ID, false)
+                .addBigIntColumn(         LOGICAL_RESOURCE_ID, false)
+                .addIntColumn(             EXTERNAL_SYSTEM_ID, false)
+                .addBigIntColumn( EXTERNAL_REFERENCE_VALUE_ID, false)
+                .addIndex(IDX + tableName + "_LRSR", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID)
+                .addIndex(IDX + tableName + "_XSXRPN", EXTERNAL_SYSTEM_ID, EXTERNAL_REFERENCE_VALUE_ID, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_XS", schemaName, EXTERNAL_SYSTEMS, EXTERNAL_SYSTEM_ID)
+                .addForeignKeyConstraint(FK + tableName + "_XR", schemaName, EXTERNAL_REFERENCE_VALUES, EXTERNAL_REFERENCE_VALUE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+    
+    /**
+     * Adds the system level logical_resource_compartments table which identifies to
+     * which compartments a give resource belongs. A resource may belong to many
+     * compartments.
+     * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
+     */
+    public Table addLogicalResourceCompartments(PhysicalDataModel pdm) {
+
+        final String tableName = LOGICAL_RESOURCE_COMPARTMENTS;
+
+        // note COMPARTMENT_LOGICAL_RESOURCE_ID represents the compartment (e.g. the Patient)
+        // that this resource exists within. This compartment resource may be a ghost resource...i.e. one
+        // which has a record in LOGICAL_RESOURCES but currently does not have any resource
+        // versions because we haven't yet loaded the resource itself. The timestamp is included
+        // because it makes it very easy to find the most recent changes to resources associated with
+        // a given patient (for example).
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     COMPARTMENT_NAME_ID,      false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addTimestampColumn(LAST_UPDATED, false)
+                .addBigIntColumn(COMPARTMENT_LOGICAL_RESOURCE_ID, false)
+                .addUniqueIndex(IDX + tableName + "_LRNMLR", LOGICAL_RESOURCE_ID, COMPARTMENT_NAME_ID, COMPARTMENT_LOGICAL_RESOURCE_ID)
+                .addUniqueIndex(IDX + tableName + "_NMCOMPLULR", COMPARTMENT_NAME_ID, COMPARTMENT_LOGICAL_RESOURCE_ID, LAST_UPDATED, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_COMP", schemaName, LOGICAL_RESOURCES, COMPARTMENT_LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+
 
     /**
      * Add system-wide RESOURCE_STR_VALUES table to support _profile

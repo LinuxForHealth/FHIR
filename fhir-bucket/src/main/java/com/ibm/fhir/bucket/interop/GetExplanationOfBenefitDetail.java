@@ -100,23 +100,26 @@ public class GetExplanationOfBenefitDetail {
     
     protected void addGetsForEntry(Bundle.Builder bundleBuilder, ExplanationOfBenefit eob) {
 
-        // TODO null checks
         // Get the Claim for this ExplanationOfBenefit
-        Request.Builder requestBuilder = Request.builder();
-        requestBuilder.method(HTTPVerb.GET);
-        requestBuilder.url(Url.of(eob.getClaim().getReference().getValue()));
-        
-        Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
-        entryBuilder.request(requestBuilder.build());
-        bundleBuilder.entry(entryBuilder.build());
+        if (eob.getClaim() != null && eob.getClaim().getReference() != null) {
+            Request.Builder requestBuilder = Request.builder();
+            requestBuilder.method(HTTPVerb.GET);
+            requestBuilder.url(Url.of(eob.getClaim().getReference().getValue()));
+            
+            Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+            entryBuilder.request(requestBuilder.build());
+            bundleBuilder.entry(entryBuilder.build());
+        }
 
         // Get the Provider reference
-        requestBuilder = Request.builder();
-        requestBuilder.method(HTTPVerb.GET);
-        requestBuilder.url(Url.of(eob.getProvider().getReference().getValue()));
-        
-        entryBuilder = Bundle.Entry.builder();
-        entryBuilder.request(requestBuilder.build());
-        bundleBuilder.entry(entryBuilder.build());
+        if (eob.getProvider() != null && eob.getProvider().getReference() != null) {
+            Request.Builder requestBuilder = Request.builder();
+            requestBuilder.method(HTTPVerb.GET);
+            requestBuilder.url(Url.of(eob.getProvider().getReference().getValue()));
+            
+            Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+            entryBuilder.request(requestBuilder.build());
+            bundleBuilder.entry(entryBuilder.build());
+        }
     }
 }

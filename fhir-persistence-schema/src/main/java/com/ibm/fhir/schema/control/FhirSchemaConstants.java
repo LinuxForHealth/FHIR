@@ -117,5 +117,20 @@ public class FhirSchemaConstants {
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;
     public static final int PART_UPPER = 0;
-
+    
+    // Table for Normalization of References (Internal and External)
+    public static final String LOCAL_REFERENCES = "LOCAL_REFERENCES";
+    public static final String EXTERNAL_SYSTEMS = "EXTERNAL_SYSTEMS";
+    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
+    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
+    public static final String EXTERNAL_REFERENCES = "EXTERNAL_REFERENCES";
+    
+    public static final String EXTERNAL_REFERENCE_VALUES = "EXTERNAL_REFERENCE_VALUES";
+    public static final String EXTERNAL_REFERENCE_VALUE_ID = "EXTERNAL_REFERENCE_VALUE_ID";
+    public static final String EXTERNAL_REFERENCE_VALUE = "EXTERNAL_REFERENCE_VALUE";
+    public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
+    
+    public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
+    public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";
+    public static final String COMPARTMENT_NAME_ID = "COMPARTMENT_NAME_ID";
 }

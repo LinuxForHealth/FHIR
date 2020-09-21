@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,9 +62,19 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     }
 
     /**
-     * Construct a Derby database at the specified path and deploy the IBM FHIR Server schema.
+     * Initialize the database using the given file-system path and build tables
+     * for all the resource types
+     * @param dbPath
+     * @throws SQLException
      */
     public DerbyFhirDatabase(String dbPath) throws SQLException {
+        this(dbPath, null);
+    }
+
+    /**
+     * Construct a Derby database at the specified path and deploy the IBM FHIR Server schema.
+     */
+    public DerbyFhirDatabase(String dbPath,  Set<String> resourceTypeNames) throws SQLException {
         logger.info("Creating Derby database for FHIR: " + dbPath);
         derby = new DerbyMaster(dbPath);
         this.connectionPool = new PoolConnectionProvider(new DerbyConnectionProvider(derby, null), 200);
@@ -73,9 +84,15 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
 
         // Database objects for the admin schema (shared across multiple tenants in the same DB)
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
         PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+        if (resourceTypeNames == null) {
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+            gen.buildSchema(pdm);
+        } else {
+            // just build out a subset of tables
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, resourceTypeNames);
+            gen.buildSchema(pdm);
+        }
 
         // apply the model we've defined to the new Derby database
         VersionHistoryService vhs = createVersionHistoryService();
