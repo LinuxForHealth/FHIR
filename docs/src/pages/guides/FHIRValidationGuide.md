@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2020-09-21 09:25:00 -0400
+date:   2020-09-21 10:25:00 -0400
 permalink: /FHIRValidationGuide/
 ---
 
@@ -195,6 +195,13 @@ For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+P
 The IBM FHIR server has built-in support for the following:
 
 - Profiles defined in the base FHIR Specification (v4.0.1: R4 - Mixed Normative and STU) [http://hl7.org/fhir/profilelist.html](http://hl7.org/fhir/profilelist.html)
+
+### Optional profile support
+
+The IBM FHIR server has additional implementation guides available in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/IBM/FHIR/releases](releases).
+
+The latest version of the fhir-validation-distribution.zip artifact includes the following implementation guides:
+
 - US Core Implementation Guide (v3.1.1: STU3 Update) [http://hl7.org/fhir/us/core/STU3.1.1/](http://hl7.org/fhir/us/core/STU3.1.1/)
 - CARIN Blue Button Implementation Guide (v0.1.0: STU1 Ballot 1) [http://hl7.org/fhir/us/carin-bb/2020Feb/](http://hl7.org/fhir/us/carin-bb/2020Feb/)
 - HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0: STU 1) [http://hl7.org/fhir/us/mcode/STU1/](http://hl7.org/fhir/us/mcode/STU1/)
