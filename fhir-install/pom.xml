@@ -151,7 +151,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>aggregate-report</id>
             <dependencies>
@@ -295,7 +294,7 @@
                     <artifactId>fhir-operation-validate</artifactId>
                     <version>${project.version}</version>
                 </dependency>
-
+                
             </dependencies>
             <build>
                 <plugins>
@@ -356,6 +355,16 @@
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-davinci-hrex</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-davinci-pdex</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-ig-davinci-pdex-plan-net</artifactId>
                     <version>${project.version}</version>
                 </dependency>
@@ -367,5 +376,4 @@
             </dependencies>
         </profile>
     </profiles>
-
 </project>
