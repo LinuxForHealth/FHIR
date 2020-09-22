@@ -18,11 +18,13 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 
 /**
@@ -45,7 +47,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
                     .optionalStart()
                         .appendPattern(":ss")
                         .optionalStart()
-                            .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
                         .optionalEnd()
                     .optionalEnd()
                 .optionalEnd()
@@ -94,9 +96,11 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
      *     a new FHIRPathDateTimeValue instance
      */
     public static FHIRPathDateTimeValue dateTimeValue(String text) {
-        TemporalAccessor dateTime = text.contains("T") ?
+        TemporalAccessor dateTime = ModelSupport.truncateTime(
+            text.contains("T") ?
                 PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from) :
-                FHIRPathDateValue.PARSER_FORMATTER.parseBest(text, LocalDate::from, YearMonth::from, Year::from);
+                FHIRPathDateValue.PARSER_FORMATTER.parseBest(text, LocalDate::from, YearMonth::from, Year::from),
+            ChronoUnit.MICROS);
         ChronoField precision = getPrecision(dateTime, text);
         return FHIRPathDateTimeValue.builder(dateTime, precision).text(text).build();
     }
