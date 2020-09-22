@@ -229,4 +229,11 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
         // PostgreSQL syntax is not the same as DB2/Derby
         return "ALTER TABLE " + qualifiedTableName + " DROP CONSTRAINT IF EXISTS " + constraintName;
     }
+    
+    @Override
+    public String nextValue(String schemaName, String sequenceName) {
+        String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "nextval('" + qname + "')";
+    }
+
 }

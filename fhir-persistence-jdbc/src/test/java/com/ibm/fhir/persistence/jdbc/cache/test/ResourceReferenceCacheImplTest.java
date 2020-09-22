@@ -11,11 +11,13 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.persistence.jdbc.dao.impl.ExternalSystemNameRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ExternalResourceReferenceRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
 
 /**
@@ -26,24 +28,32 @@ public class ResourceReferenceCacheImplTest {
     @Test
     public void testExternalSystemNames() {
         // A cache with a limited size of 2
-        ResourceReferenceCacheImpl impl = new ResourceReferenceCacheImpl(2);
+        ResourceReferenceCacheImpl impl = new ResourceReferenceCacheImpl(2, 2);
         impl.addExternalSystemName("sys1", 1);
         impl.addExternalSystemName("sys2", 2);
         impl.addExternalSystemName("sys3", 3);
         
         // The following fetches will be served from the thread-local map because
         // we haven't yet called ResourceReferenceCacheImpl#updateSharedMaps()
-        List<String> names = new ArrayList<>();
-        names.add("sys1");
-        names.add("sys2");
-        List<ExternalSystemNameRec> result = impl.getExternalSystemNames(names);
-        assertNotNull(result);
-        assertEquals(2, result.size());
+        Set<String> names = new HashSet<>();
+        List<ExternalResourceReferenceRec> xrefs = new ArrayList<>();
+        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, "pat1", "sys1", "val1"));
+        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, "pat1", "sys2", "val2"));
+        
+        // Ask the cache to resolve the system/value strings
+        List<ExternalResourceReferenceRec> systemMisses = new ArrayList<>();
+        List<ExternalResourceReferenceRec> valueMisses = new ArrayList<>();
+        impl.resolveExternalReferences(xrefs, systemMisses, valueMisses);
+        
+        // check we only have misses for what we expected
+        assertEquals(0, systemMisses.size());
+        assertEquals(2, valueMisses.size());
 
-        ExternalSystemNameRec sys1 = result.get(0);
+        // Check that we have ids assigned for the system hits
+        ExternalResourceReferenceRec sys1 = xrefs.get(0);
         assertEquals("sys1", sys1.getExternalSystemName());
         assertEquals(1, sys1.getExternalSystemNameId());
-        ExternalSystemNameRec sys2 = result.get(1);
+        ExternalResourceReferenceRec sys2 = xrefs.get(1);
         assertEquals("sys2", sys2.getExternalSystemName());
         assertEquals(2, sys2.getExternalSystemNameId());
         
@@ -53,51 +63,41 @@ public class ResourceReferenceCacheImplTest {
         impl.updateSharedMaps();
         
         // Now try the fetch again...so we have to read from the shared cache.
-        // Should only find "sys2", not "sys1"
-        result = impl.getExternalSystemNames(names);
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        sys2 = result.get(0);
-        assertEquals("sys2", sys2.getExternalSystemName());
+        // Should only find "sys2", not "sys1". Reset our inputs first
+        sys1.setExternalSystemNameId(-1);
+        sys2.setExternalSystemNameId(-1);
+        systemMisses.clear();
+        valueMisses.clear();
+        impl.resolveExternalReferences(xrefs, systemMisses, valueMisses);
+
+        assertEquals(1, systemMisses.size());
+        assertEquals(2, valueMisses.size());
+
+        assertEquals(-1, sys1.getExternalSystemNameId());
         assertEquals(2, sys2.getExternalSystemNameId());
 
+        // check that sys1 was added to the system misses
+        sys1 = systemMisses.get(0);
+        assertEquals("sys1", sys1.getExternalSystemName());
+        
+
         // Make sure sys3 is also found
-        names.add("sys3");
-        result = impl.getExternalSystemNames(names);
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        sys2 = result.get(0);
-        assertEquals("sys2", sys2.getExternalSystemName());
+        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, "pat1", "sys3", "val3"));
+        sys1.setExternalSystemNameId(-1);
+        sys2.setExternalSystemNameId(-1);
+        systemMisses.clear();
+        valueMisses.clear();
+        impl.resolveExternalReferences(xrefs, systemMisses, valueMisses);
+        ExternalResourceReferenceRec sys3 = xrefs.get(2);
+
+        // should still be missing sys1
+        assertEquals(1, systemMisses.size());
+        assertEquals(3, valueMisses.size());
+
+        assertEquals(-1, sys1.getExternalSystemNameId());
         assertEquals(2, sys2.getExternalSystemNameId());
-        ExternalSystemNameRec sys3 = result.get(1);
+        
         assertEquals("sys3", sys3.getExternalSystemName());
         assertEquals(3, sys3.getExternalSystemNameId());
     }
-    
-    @Test
-    public void testExternalSystemNameLRU() {
-        // cache with an LRU size of 2
-        ResourceReferenceCacheImpl cache = new ResourceReferenceCacheImpl(2);
-        cache.addExternalSystemName("system1", 1);
-        cache.addExternalSystemName("system2", 2);
-        
-        assertEquals(1L, (long)cache.getExternalSystemNameId("system1"));
-        assertEquals(2L, (long)cache.getExternalSystemNameId("system2"));
-        cache.updateSharedMaps();
-        
-        // Access system 1 again so it is most recently used
-        assertEquals(1L, (long)cache.getExternalSystemNameId("system1"));
-
-        // Add a new system
-        cache.addExternalSystemName("system3", 3);
-        
-        // Update the shared map. This should push out system2
-        cache.updateSharedMaps();
-        assertEquals(1L, (long)cache.getExternalSystemNameId("system1"));
-        assertEquals(3L, (long)cache.getExternalSystemNameId("system3"));
-        
-        // evicted from the cache because we limited the size to 2
-        assertNull(cache.getExternalSystemNameId("system2"));
-    }
-
 }

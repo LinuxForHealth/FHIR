@@ -55,6 +55,15 @@ public interface IDatabaseTranslator {
     String selectSequenceNextValue(String schemaName, String sequenceName);
 
     /**
+     * Statement for getting the next value (for use in a select list or
+     * insert values)
+     * @param schemaName
+     * @param sequenceName
+     * @return
+     */
+    String nextValue(String schemaName, String sequenceName);
+    
+    /**
      * Check the exception to see if it is reporting a duplicate value constraint violation
      * @param x
      * @return

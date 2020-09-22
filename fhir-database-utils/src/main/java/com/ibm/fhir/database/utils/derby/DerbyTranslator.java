@@ -192,4 +192,10 @@ public class DerbyTranslator implements IDatabaseTranslator {
         // Same syntax as DB2
         return "ALTER TABLE " + qualifiedTableName + " DROP FOREIGN KEY " + constraintName;
     }
+    
+    @Override
+    public String nextValue(String schemaName, String sequenceName) {
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "NEXT VALUE FOR " + qname;
+    }
 }

@@ -7,8 +7,10 @@
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
 
@@ -23,17 +25,24 @@ public class ResourceReferenceCacheImpl implements IResourceReferenceCache {
     // of insertion to make sure we have correct LRU behavior when updating the shared cache
     private final ThreadLocal<LinkedHashMap<String, Integer>> externalSystemNames = new ThreadLocal<>();
     
+    private final ThreadLocal<LinkedHashMap<String, Long>> externalReferenceValues = new ThreadLocal<>();
+    
     // The lru cache shared at the server level
     private final LRUCache<String, Integer> sharedExternalSystemNames;
+    
+    // The lru cache shared at the server level
+    private final LRUCache<String, Long> sharedExternalReferenceValues;
+    
     
     /**
      * Public constructor
      * @param sharedExternalSystemNameCacheSize
      */
-    public ResourceReferenceCacheImpl(int sharedExternalSystemNameCacheSize) {
+    public ResourceReferenceCacheImpl(int sharedExternalSystemNameCacheSize, int sharedExternalReferenceValuesCacheSize) {
         
         // LRU cache for external system names
         sharedExternalSystemNames = new LRUCache<>(sharedExternalSystemNameCacheSize);
+        sharedExternalReferenceValues = new LRUCache<>(sharedExternalReferenceValuesCacheSize);
     }
 
     /**
@@ -42,15 +51,26 @@ public class ResourceReferenceCacheImpl implements IResourceReferenceCache {
      */
     public void updateSharedMaps() {
         
-        LinkedHashMap<String,Integer> map = externalSystemNames.get();
-        if (map != null) {
+        LinkedHashMap<String,Integer> sysMap = externalSystemNames.get();
+        if (sysMap != null) {
             synchronized(this.sharedExternalSystemNames) {
-                sharedExternalSystemNames.update(map);
+                sharedExternalSystemNames.update(sysMap);
             }
             
             // clear the thread-local cache
-            map.clear();
+            sysMap.clear();
         }
+        
+        LinkedHashMap<String,Long> valMap = externalReferenceValues.get();
+        if (valMap != null) {
+            synchronized(this.sharedExternalReferenceValues) {
+                sharedExternalReferenceValues.update(valMap);
+            }
+            
+            // clear the thread-local cache
+            valMap.clear();
+        }
+
     }
 
     /**
@@ -85,65 +105,84 @@ public class ResourceReferenceCacheImpl implements IResourceReferenceCache {
         return result;
     }
 
-    /**
-     * Bulk lookup of a list of system names. Cheaper locking than individual
-     * lookups when dealing with big lists
-     * @param names
-     * @return
-     */
-    public List<ExternalSystemNameRec> getExternalSystemNames(List<String> names) {
-        List<ExternalSystemNameRec> result = new ArrayList<>(names.size());
+    @Override
+    public void resolveExternalReferences(Collection<ExternalResourceReferenceRec> xrefs, 
+        List<ExternalResourceReferenceRec> systemMisses, List<ExternalResourceReferenceRec> valueMisses) {
+        // Make one pass over the collection and resolve as much as we can in one go. Anything
+        // we can't resolve gets put into the corresponding missing lists. Worst case is two passes, when
+        // there's nothing in the local cache and we have to then look up everything in the shared cache
 
         // See what we have currently in our thread-local cache
-        LinkedHashMap<String,Integer> map = externalSystemNames.get();
+        LinkedHashMap<String,Integer> sysMap = externalSystemNames.get();
+        LinkedHashMap<String,Long> valMap = externalReferenceValues.get();
 
-        List<String> foundKeys = new ArrayList<>(names.size()); // for updating LRU
-        List<String> needToFind; // for the names we haven't yet found
-        if (map != null) {
-            needToFind = new ArrayList<>(names.size());
-            for (String xsn: names) {
-                Integer id = map.get(xsn);
+        List<String> foundKeys = new ArrayList<>(xrefs.size()); // for updating LRU
+        List<ExternalResourceReferenceRec> needToFindSystems = new ArrayList<>(xrefs.size()); // for the ref systems we haven't yet found
+        List<ExternalResourceReferenceRec> needToFindValues = new ArrayList<>(xrefs.size()); // for the ref values we haven't yet found
+        for (ExternalResourceReferenceRec xr: xrefs) {
+            if (sysMap != null) {
+                Integer id = sysMap.get(xr.getExternalSystemName());
                 if (id != null) {
-                    foundKeys.add(xsn);
-                    result.add(new ExternalSystemNameRec(id, xsn));
+                    foundKeys.add(xr.getExternalSystemName());
+                    xr.setExternalSystemNameId(id);
                 } else {
-                    // not found, so add to the need to find list
-                    needToFind.add(xsn);
+                    // not found, so add to the cache miss list
+                    needToFindSystems.add(xr);
                 }
+            } else {
+                needToFindSystems.add(xr);
             }
-        } else {
-            // need to find all of them still
-            needToFind = names;
+            
+            // Now repeat for the value lookup
+            if (valMap != null) {
+                Long id = valMap.get(xr.getExternalRefValue());
+                if (id != null) {
+                    foundKeys.add(xr.getExternalRefValue());
+                    xr.setExternalRefValueId(id);
+                } else {
+                    // not found, so add to the cache miss list
+                    needToFindValues.add(xr);
+                }
+            } else {
+                needToFindValues.add(xr);
+            }
         }
 
         // If we still have keys to find, look them up in the shared cache (which we need to lock first)
-        if (needToFind.size() > 0) {
-            List<ExternalSystemNameRec> addToLocal = new ArrayList<>(needToFind.size());
+        if (needToFindSystems.size() > 0) {
             synchronized (this.sharedExternalSystemNames) {
-                for (String xsn: needToFind) {
-                    Integer id = sharedExternalSystemNames.get(xsn);
+                for (ExternalResourceReferenceRec xr: needToFindSystems) {
+                    Integer id = sharedExternalSystemNames.get(xr.getExternalSystemName());
                     if (id != null) {
-                        ExternalSystemNameRec rec = new ExternalSystemNameRec(id, xsn);
-                        foundKeys.add(xsn);
-                        result.add(rec);
-                        addToLocal.add(rec);
+                        xr.setExternalSystemNameId(id);
+                        
+                        // Update the local cache with this value
+                        addExternalSystemName(xr.getExternalSystemName(), id);
+                    } else {
+                        // cache miss so add this record to the miss list for further processing
+                        systemMisses.add(xr);
                     }
                 }
-                
-                // while we still have the lock, update the LRU
-                sharedExternalSystemNames.update(foundKeys);
-            }
-            
-            // update the local cache with anything we found in the shared cache
-            addToLocal.forEach(rec -> addExternalSystemName(rec.getExternalSystemName(), rec.getExternalSystemNameId()));
-        } else {
-            // we found everything, so update the LRU...which has to be done under a lock
-            synchronized (this.sharedExternalSystemNames) {
-                sharedExternalSystemNames.update(names);
             }
         }
-
-        return result;
+        
+        // Now do the same for reference values
+        if (needToFindValues.size() > 0) {
+            synchronized (this.sharedExternalReferenceValues) {
+                for (ExternalResourceReferenceRec xr: needToFindValues) {
+                    Long id = sharedExternalReferenceValues.get(xr.getExternalRefValue());
+                    if (id != null) {
+                        xr.setExternalRefValueId(id);
+                        
+                        // Update the local cache with this value
+                        addExternalRefValue(xr.getExternalRefValue(), id);
+                    } else {
+                        // cache miss so add this record to the miss list for further processing
+                        valueMisses.add(xr);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -164,17 +203,48 @@ public class ResourceReferenceCacheImpl implements IResourceReferenceCache {
         map.put(externalSystemName, id);
     }
 
+    /**
+     * Add the id to the local external reference value cache
+     * @param externalRefValue
+     * @param id
+     */
+    public void addExternalRefValue(String externalRefValue, long id) {
+        LinkedHashMap<String,Long> map = externalReferenceValues.get();
+        
+        if (map == null) {
+            map = new LinkedHashMap<>();
+            externalReferenceValues.set(map);
+        }
+
+        // add the id to the thread-local cache. The shared cache is updated
+        // only if a call is made to #updateSharedMaps()
+        map.put(externalRefValue, id);
+    }
+
     @Override
     public void reset() {
-        LinkedHashMap<String,Integer> map = externalSystemNames.get();
-        
-        if (map != null) {
-            map.clear();
+        LinkedHashMap<String,Integer> sysMap = externalSystemNames.get();
+
+        // Clear external system names
+        if (sysMap != null) {
+            sysMap.clear();
             externalSystemNames.set(null);
         }
         
         synchronized (this.sharedExternalSystemNames) {
             this.sharedExternalSystemNames.clear();
+        }
+
+        // Clear external reference values
+        LinkedHashMap<String,Long> valMap = externalReferenceValues.get();
+        
+        if (valMap != null) {
+            valMap.clear();
+            externalReferenceValues.set(null);
+        }
+        
+        synchronized (this.sharedExternalReferenceValues) {
+            this.sharedExternalReferenceValues.clear();
         }
     }
 }

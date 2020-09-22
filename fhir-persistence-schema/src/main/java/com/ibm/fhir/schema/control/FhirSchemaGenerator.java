@@ -298,6 +298,7 @@ public class FhirSchemaGenerator {
         addCodeSystems(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
+        addReferencesSequence(model);
         addLocalReferences(model);
         addExternalSystems(model);
         addExternalReferenceValues(model);
@@ -889,7 +890,7 @@ public class FhirSchemaGenerator {
         // fix for issue-1263. This will only be applied if the current version of the
         // the FHIR_REF_SEQUENCE is <= 2.
         BaseObject alter = new AlterSequenceStartWith(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0003.vid(), 
-            FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE);
+            FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE, 1);
         alter.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(alter);
         alter.addDependency(fhirRefSequence); // only alter after the sequence is initially created
@@ -898,5 +899,18 @@ public class FhirSchemaGenerator {
         // so that they are applied when this ALTER SEQUENCE is processed.
         sequencePrivileges.forEach(p -> p.addToObject(alter));
         pdm.addObject(alter);
+    }
+    
+    
+    /**
+     * Add the sequence used by the new local/external references data model
+     * @param pdm
+     */
+    protected void addReferencesSequence(PhysicalDataModel pdm) {
+        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REFERENCES_SEQUENCE, FhirSchemaVersion.V0006.vid(), FhirSchemaConstants.REFERENCES_SEQUENCE_START, FhirSchemaConstants.REFERENCES_SEQUENCE_CACHE, FhirSchemaConstants.REFERENCES_SEQUENCE_INCREMENT);
+        seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        procedureDependencies.add(seq);
+        sequencePrivileges.forEach(p -> p.addToObject(seq));
+        pdm.addObject(seq);
     }
 }

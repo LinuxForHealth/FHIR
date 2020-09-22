@@ -127,17 +127,17 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
             // Ensures we don't double up the generated derby db prepopulation.
             // Docs for the table are at https://db.apache.org/derby/docs/10.5/ref/rrefsistabs24269.html
             boolean process = true;
-            final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.execute();
-                ResultSet set = stmt.getResultSet();
-                if (set.next()) {
-                    int val = set.getInt("CNT");
-                    if (val > 0) {
-                        process = false;
-                    }
-                }
-            }
+//            final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
+//            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+//                stmt.execute();
+//                ResultSet set = stmt.getResultSet();
+//                if (set.next()) {
+//                    int val = set.getInt("CNT");
+//                    if (val > 0) {
+//                        process = false;
+//                    }
+//                }
+//            }
     
             if (process) {
                 PopulateResourceTypes populateResourceTypes =

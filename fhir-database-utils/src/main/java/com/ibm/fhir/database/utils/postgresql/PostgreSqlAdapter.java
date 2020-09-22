@@ -186,7 +186,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache, int incrementBy) {
         /* CREATE SEQUENCE fhir_sequence
          *     AS BIGINT
          *     START WITH 1000
@@ -194,7 +194,11 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
          *     NO CYCLE;
         */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
+                + " INCREMENT BY " + incrementBy
+                + " START WITH " + startWith 
+                + " CACHE " + cache 
+                + " NO CYCLE";
         runStatement(ddl);
     }
 

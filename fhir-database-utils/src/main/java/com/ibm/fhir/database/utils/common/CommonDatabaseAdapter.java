@@ -504,7 +504,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache, int incrementBy) {
         /*
          * Example syntax:
          * <CODE>CREATE SEQUENCE <sequence-name>
@@ -514,7 +514,11 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
          * NO CYCLE;</CODE>
          */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
+                + " INCREMENT BY " + incrementBy
+                + " START WITH " + startWith 
+                + " CACHE " + cache 
+                + " NO CYCLE";
         runStatement(ddl);
     }
 
@@ -531,7 +535,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
     }
     @Override
-    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy) {
         // make sure we never reduce the sequence value
         GetSequenceNextValueDAO dao = new GetSequenceNextValueDAO(schemaName, sequenceName);
         Long maxValue = runStatement(dao);
@@ -541,7 +545,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         
         // Note the keyword RESTART instead of START.
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "ALTER SEQUENCE " + qname + " RESTART WITH " + restartWith + " CACHE " + cache;
+        final String ddl = "ALTER SEQUENCE " + qname 
+                + " RESTART WITH " + restartWith 
+                + " INCREMENT BY " + incrementBy
+                + " CACHE " + cache;
         
         // so important, we log it
         logger.info(ddl);
