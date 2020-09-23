@@ -684,7 +684,11 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
-See the [Validation Guide - Built-in profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#built-in-profile-support) for a list of pre-packaged Implmentation Guide resources and see [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
+The IBM FHIR Server pre-packages all conformance resources from the core specification.
+
+See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implmentation Guide resources and how to load them into the IBM FHIR server.
+
+See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
 ## 4.5 “Update/Create” feature
 Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
