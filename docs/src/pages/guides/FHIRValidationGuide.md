@@ -198,7 +198,7 @@ The IBM FHIR server has built-in support for the following:
 
 ### Optional profile support
 
-The IBM FHIR server has additional implementation guides available in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/IBM/FHIR/releases](releases). To load an additional implemenation guide, copy the implementation guide's jar from the fhir-validation-distribution.zip artifact into the IBM FHIR server's userlib directory to make it available to the server during startup.
+The IBM FHIR server has additional implementation guides available in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/IBM/FHIR/releases](releases). To load an additional implemenation guide, copy the implementation guide's jar (e.g. `fhir-ig-us-core-VERSION.jar`) from the fhir-validation-distribution.zip artifact into the IBM FHIR server's userlib directory to make it available to the server during startup.
 
 The latest version of the fhir-validation-distribution.zip artifact includes the following implementation guides:
 

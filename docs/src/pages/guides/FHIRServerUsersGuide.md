@@ -684,7 +684,7 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
-See [Validation Guide - Built-in profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#built-in-profile-support) for a list of pre-packaged Implmentation Guide resources.
+The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
 See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implmentation Guide resources and how to load them into the IBM FHIR server.
 
