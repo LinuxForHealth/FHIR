@@ -45,7 +45,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 
 /**
- * Tests using http://hl7.org/fhir/us/carin-bb/2020Feb/Examples.html And the given profile.
+ * Tests using http://hl7.org/fhir/us/C4BB/2020Feb/Examples.html And the given profile.
  */
 public class CarinBlueButtonTest extends ProfilesTestBase {
     private static final String CLASSNAME = CarinBlueButtonTest.class.getName();
@@ -67,16 +67,17 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     @Override
     public List<String> getRequiredProfiles() {
         //@formatter:off
-        return Arrays.asList("http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-coverage|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-inpatient-facility|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-outpatient-facility|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-pharmacy|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-explanationofbenefit-professional-nonclinician|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-organization|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-practitionerrole|0.1.0",
-            "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-relatedperson|0.1.0");
+        return Arrays.asList(
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-coverage|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-explanationofbenefit|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-explanationofbenefit-inpatient-facility|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-explanationofbenefit-outpatient-facility|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-explanationofbenefit-pharmacy|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-explanationofbenefit-professional-nonclinician|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-patient|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-practitionerrole|0.1.3",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-relatedperson|0.1.3");
         //@formatter:on
     }
 
@@ -96,7 +97,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         Organization organization = TestUtil.readExampleResource(resource);
 
         // Add profile + extra fields required by profile.
-        Canonical profile = Canonical.of("http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-organization");
+        Canonical profile = Canonical.of("http://hl7.org/fhir/us/C4BB/StructureDefinition/C4BB-Organization");
         Meta meta = organization.getMeta().toBuilder().profile(profile).build();
 
         // @formatter:off
@@ -149,7 +150,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     }
 
     public void loadOrganizationOrg1() throws Exception {
-        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Org1.json";
+        String resource = "json/profiles/fhir-ig-C4BB/Organization-Org1.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -161,7 +162,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     }
 
     public void loadOrganizationOrg45() throws Exception {
-        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Org45.json";
+        String resource = "json/profiles/fhir-ig-C4BB/Organization-Org45.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -176,7 +177,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     // Load Coverage Resources
     public void loadCoverage() throws Exception {
         WebTarget target = getWebTarget();
-        Coverage coverage = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/Coverage-Coverage1.json");
+        Coverage coverage = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/Coverage-Coverage1.json");
 
         Reference org45ref = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
         coverage = coverage.toBuilder().payor(org45ref).build();
@@ -194,7 +195,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     // Load Patient Resources
     public void loadPatient() throws Exception {
         WebTarget target = getWebTarget();
-        Patient patient = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/Patient-Patient1.json");
+        Patient patient = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/Patient-Patient1.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -253,7 +254,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void loadExplanationOfBenefits() throws Exception {
         WebTarget target = getWebTarget();
 
-        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-EOB1.json");
+        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/ExplanationOfBenefit-EOB1.json");
         Entity<ExplanationOfBenefit> entity = Entity.entity(eob, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("ExplanationOfBenefit").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -272,7 +273,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         Reference organization = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
 
-        PractitionerRole practitionerRole = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/PractitionerRole-PractitionerRole1.json");
+        PractitionerRole practitionerRole = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/PractitionerRole-PractitionerRole1.json");
         practitionerRole = practitionerRole.toBuilder().location(location).organization(organization).practitioner(practitioner).build();
 
         WebTarget target = getWebTarget();
@@ -530,7 +531,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void testExplanationOfBenefitIdentifierNoSystem() throws Exception {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("identifier", "|4E93-BE91-EAC1977941A8");
+            parameters.searchParam("identifier", "|AW123412341234123412341234123412");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -544,7 +545,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void testExplanationOfBenefitIdentifierWithSystem() throws Exception {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("identifier", "http://www.bcbs.com/fhir/ns/NamingSystem/explanationOfBenefit-identifier|4E93-BE91-EAC1977941A8");
+            parameters.searchParam("identifier", "https://www.xxxplan.com/fhir/EOBIdentifier|AW123412341234123412341234123412");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -690,7 +691,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
              * patient
              */
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("type", "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-claim-type|inpatient-facility");
+            parameters.searchParam("type", "http://terminology.hl7.org/CodeSystem/claim-type|institutional");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
