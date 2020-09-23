@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,21 +126,18 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         try (Connection connection = getConnection()) {
 
             // Ensures we don't double up the generated derby db prepopulation.
-            // Docs for the table are at https://db.apache.org/derby/docs/10.5/ref/rrefsistabs24269.html
-            boolean process = true;
-//            final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
-//            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-//                stmt.execute();
-//                ResultSet set = stmt.getResultSet();
-//                if (set.next()) {
-//                    int val = set.getInt("CNT");
-//                    if (val > 0) {
-//                        process = false;
-//                    }
-//                }
-//            }
+            boolean populated;
+            final String sql = "SELECT 1 FROM PARAMETER_NAMES FETCH FIRST 1 ROWS ONLY";
+            try (Statement stmt = connection.createStatement()) {
+                ResultSet rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    populated = true;
+                } else {
+                    populated = false;
+                }
+            }
     
-            if (process) {
+            if (!populated) {
                 PopulateResourceTypes populateResourceTypes =
                         new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
                 populateResourceTypes.run(translator, connection);

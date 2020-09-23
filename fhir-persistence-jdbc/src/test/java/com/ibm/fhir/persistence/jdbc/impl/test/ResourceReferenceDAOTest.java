@@ -8,7 +8,6 @@ package com.ibm.fhir.persistence.jdbc.impl.test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +29,7 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ExternalResourceReferenceRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.LocalResourceReferenceRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
@@ -93,6 +93,9 @@ public class ResourceReferenceDAOTest {
 
     @AfterClass
     public void shutdown() throws SQLException, FHIRPersistenceException {
+        // If there are pending batch operations flushed here, the dao.close() will flush and
+        // start a transaction which will cause a problem when closing the connection. This
+        // would be an error in the way the test is written. Fix it there, not here.
         dao.close();
         cache.reset();
         connection.close();
@@ -114,13 +117,13 @@ public class ResourceReferenceDAOTest {
             ExternalResourceReferenceRec rec1 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys1", "value1");
             ExternalResourceReferenceRec rec2 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys1", "value2");
             ExternalResourceReferenceRec rec3 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys2", "value1");
-            ExternalResourceReferenceRec rec4 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys2", "value2");
+            ExternalResourceReferenceRec rec4 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat2", "sys2", "value2");
 
-            // rec1..4 are all patient pat1
+            // set the logical resource ids for each of the reference records we defined above
             rec1.setLogicalResourceId(lr1);
             rec2.setLogicalResourceId(lr1);
             rec3.setLogicalResourceId(lr1);
-            rec4.setLogicalResourceId(lr1);
+            rec4.setLogicalResourceId(lr2);
             
             List<ExternalResourceReferenceRec> xrefs = Arrays.asList(rec1, rec2, rec3, rec4);
             dao.addExternalReferences(xrefs);
@@ -135,5 +138,37 @@ public class ResourceReferenceDAOTest {
             }
             throw x;
         }
+    }
+
+    @Test(dependsOnMethods = "testExternal")
+    public void testLocal() throws Exception {
+        try {
+            Map<String, Integer> resourceNameMap = resourceDAO.readAllResourceTypeNames();
+            
+            final String resourceType = "Patient";
+            final int resourceTypeId = resourceNameMap.get(resourceType);
+            final int parameterNameId = parameterDAO.readParameterNameId("patient");
+            final long lr1 = dao.createGhostLogicalResource("Patient", "pat1"); // should already exist
+            final long lr2 = dao.createGhostLogicalResource("Patient", "pat2"); // and this too
+    
+            LocalResourceReferenceRec rec1 = new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "Patient", resourceTypeId, "pat2");
+            rec1.setLogicalResourceId(lr1);
+            rec1.setRefLogicalResourceId(lr2);
+            List<LocalResourceReferenceRec> lrefs = Arrays.asList(rec1);
+            dao.addLocalReferences(lrefs);
+            dao.flush();
+            connection.commit();
+
+        } catch (Exception x) {
+            // Log before cleanup throws another exception which could hide this issue
+            logger.log(Level.SEVERE, "testLocal", x);
+            try {
+                connection.rollback();
+            } catch (SQLException rbx) {
+                // NOP. Catch this so we don't hide the original exception.
+            }
+            throw x;
+        }
+        
     }
 }
