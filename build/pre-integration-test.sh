@@ -51,7 +51,7 @@ cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/s
 echo "Copying test artifacts to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/fhir-operation-*-tests.jar
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
-unzip ${WORKSPACE}/fhir-validation/target/fhir-validation-distribution.zip -d ${SIT}/wlp/usr/servers/fhir-server/userlib/
+unzip -j ${WORKSPACE}/fhir-validation/target/fhir-validation-distribution.zip -d ${SIT}/wlp/usr/servers/fhir-server/userlib/
 
 # Start up the fhir server
 echo "

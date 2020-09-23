@@ -17,7 +17,7 @@ rm -rf $USERLIB/* 2> /dev/null
 mkdir -p $USERLIB
 
 echo "Copying test artifacts to install location..."
-unzip ${WORKSPACE}/fhir-validation/target/fhir-validation-distribution.zip -d ${USERLIB}
+unzip -j ${WORKSPACE}/fhir-validation/target/fhir-validation-distribution.zip -d ${USERLIB}
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
 
 echo "Finished copying test operations."
