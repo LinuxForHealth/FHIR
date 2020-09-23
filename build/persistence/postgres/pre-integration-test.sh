@@ -54,7 +54,7 @@ copy_server_config(){
     mkdir -p $USERLIB
 
     echo "Copying test artifacts to install location..."
-    unzip -j ${WORKSPACE}/fhir-validation/target/fhir-validation-distribution.zip -d ${USERLIB}
+    find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
     cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
 }
