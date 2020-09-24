@@ -61,6 +61,7 @@ import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
+import com.ibm.fhir.search.reference.ReferenceParameterHandler;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
 
@@ -512,7 +513,7 @@ public class SearchUtil {
      * <p>
      * If inclusion keyword is '_revinclude', search parameter must have a target resource type matching the resource
      * type being searched.
-     * 
+     *
      * @param resourceType
      *            the resource type being searched for
      * @param joinResourceType
@@ -538,7 +539,7 @@ public class SearchUtil {
                 inclusionSearchParameters.put(searchParameter.getCode().getValue(), searchParameter);
             } else if (inclusionSearchParameters.containsKey(searchParameter.getCode().getValue())) {
                 // Invalid duplicate search parameter found for valid search parameter already in map. Log invalid search parameter and ignore.
-                log.fine("Invalid duplicate search parameter '" + searchParameter.getCode().getValue() + 
+                log.fine("Invalid duplicate search parameter '" + searchParameter.getCode().getValue() +
                     "' found in wildcard inclusion processing. Invalid search parameter ignored.");
             }
         }
@@ -804,13 +805,13 @@ public class SearchUtil {
      * Common logic from handling a single queryParameterValueString based on its type
      */
     private static List<QueryParameterValue> processQueryParameterValueString(Class<?> resourceType, SearchParameter searchParameter, Modifier modifier,
-            String queryParameterValueString) throws FHIRSearchException, Exception {
+        String queryParameterValueString) throws FHIRSearchException, Exception {
         String parameterCode = searchParameter.getCode().getValue();
         Type type = Type.fromValue(searchParameter.getType().getValue());
         List<QueryParameterValue> queryParameterValues;
         if (Modifier.MISSING.equals(modifier)) {
             // FHIR search considers booleans a special case of token for some reason...
-            queryParameterValues = parseQueryParameterValuesString(Type.TOKEN, queryParameterValueString);
+            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, queryParameterValueString, null);
         } else {
             if (Type.COMPOSITE == type) {
                 List<Component> components = searchParameter.getComponent();
@@ -823,16 +824,16 @@ public class SearchUtil {
                     SearchParameter referencedParam = getSearchParameter(resourceType, component.getDefinition());
                     compTypes.add(Type.fromValue(referencedParam.getType().getValue()));
                 }
-                queryParameterValues = parseCompositeQueryParameterValuesString(parameterCode, compTypes, queryParameterValueString);
+                queryParameterValues = parseCompositeQueryParameterValuesString(searchParameter, parameterCode, compTypes, queryParameterValueString);
             } else {
-                queryParameterValues = parseQueryParameterValuesString(type, queryParameterValueString);
+                queryParameterValues = parseQueryParameterValuesString(searchParameter, type, queryParameterValueString, null);
             }
         }
         return queryParameterValues;
     }
 
-    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(String compositeParamCode, List<Type> compTypes,
-            String queryParameterValuesString) throws FHIRSearchException {
+    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(SearchParameter searchParameter, String compositeParamCode,
+        List<Type> compTypes, String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND prevents it from splitting on ',' that are preceded by a '\'
@@ -844,7 +845,7 @@ public class SearchUtil {
             }
             QueryParameterValue parameterValue = new QueryParameterValue();
             for (int i = 0; i < compTypes.size(); i++) {
-                List<QueryParameterValue> values = parseQueryParameterValuesString(compTypes.get(i), componentValueStrings[i]);
+                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), componentValueStrings[i], null);
                 if (values.isEmpty()) {
                     throw new FHIRSearchException("Component values cannot be empty");
                 } else if (values.size() > 1) {
@@ -861,12 +862,13 @@ public class SearchUtil {
         return parameterValues;
     }
 
-    private static List<QueryParameterValue> parseQueryParameterValuesString(Type type,
-            String queryParameterValuesString) throws FHIRSearchException {
+    private static List<QueryParameterValue> parseQueryParameterValuesString(SearchParameter searchParameter, Type type,
+        String queryParameterValuesString, String modifierResourceTypeName) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND means it won't split on ',' that are preceded by a '\'
-        for (String v : queryParameterValuesString.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
+        String[] vals = queryParameterValuesString.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",");
+        for (String v : vals) {
             QueryParameterValue parameterValue = new QueryParameterValue();
             SearchConstants.Prefix prefix = null;
             switch (type) {
@@ -896,9 +898,12 @@ public class SearchUtil {
             case REFERENCE: {
                 // reference
                 // [parameter]=[url]
+                // [parameter]=[url|version] - canonical url
                 // [parameter]=[type]/[id]
                 // [parameter]=[id]
-                parameterValue.setValueString(unescapeSearchParm(v));
+                String valueString = unescapeSearchParm(v);
+                parameterValue.setValueString(valueString);
+                ReferenceParameterHandler.generateReferenceParameterValues(searchParameter, parameterValues, valueString, vals, modifierResourceTypeName);
                 break;
             }
             case QUANTITY: {
@@ -1062,7 +1067,6 @@ public class SearchUtil {
 
         FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
         context.getSearchParameters().addAll(parameters);
-
         return context;
     }
 
@@ -1179,7 +1183,7 @@ public class SearchUtil {
                     modifier = null;
                 }
 
-                HashSet<String> modifierResourceTypeName4ResourceTypes = new HashSet<String>();
+                HashSet<String> modifierResourceTypeName4ResourceTypes = new HashSet<>();
                 if (resourceType != null) {
                     searchParameter = getSearchParameter(resourceType, parameterName);
                     type = Type.fromValue(searchParameter.getType().getValue());
@@ -1367,7 +1371,6 @@ public class SearchUtil {
      *         criteria.
      */
     public static QueryParameter parseChainedInclusionCriteria(QueryParameter inclusionCriteriaParm) {
-
         QueryParameter rootParameter = null;
         QueryParameter chainedInclusionCriteria = null;
         String[] qualifiedInclusionCriteria;
@@ -1642,7 +1645,7 @@ public class SearchUtil {
      */
     public static Set<String> getSummaryTextElementNames(Class<?> resourceType) {
         // Align with other getSummaryxxx functions, we may need the input resourceType in the future
-        Set<String> summaryTextList = new HashSet<String>();
+        Set<String> summaryTextList = new HashSet<>();
         summaryTextList.add("text");
         return Collections.unmodifiableSet(summaryTextList);
     }

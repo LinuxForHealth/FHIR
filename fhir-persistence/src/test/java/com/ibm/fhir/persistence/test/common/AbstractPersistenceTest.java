@@ -68,7 +68,7 @@ public abstract class AbstractPersistenceTest {
     protected void shutdownPools() throws Exception {}
     
     // A hook for subclasses to debug locks in the case of a lock timeout in the current transaction
-    protected void debugLocks() {};
+    protected void debugLocks() {}
 
     // The following persistence context-related methods can be overridden in subclasses to
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
@@ -123,7 +123,7 @@ public abstract class AbstractPersistenceTest {
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        Map<String, List<String>> queryParms = new HashMap<>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
@@ -131,7 +131,7 @@ public abstract class AbstractPersistenceTest {
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        Map<String, List<String>> queryParms = new HashMap<>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
@@ -186,7 +186,7 @@ public abstract class AbstractPersistenceTest {
     }
 
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        Map<String, List<String>> queryParms = new HashMap<>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }

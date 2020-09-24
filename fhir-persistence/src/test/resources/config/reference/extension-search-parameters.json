@@ -219,7 +219,8 @@
             "type": "reference",
             "expression": "Basic.extension.where(url='http://example.org/Reference').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/Reference']/f:valueReference",
-            "xpathUsage": "normal"
+            "xpathUsage": "normal",
+            "target": ["Patient"]
         }
     },
     {
@@ -305,7 +306,8 @@
             "type": "reference",
             "expression": "Basic.extension.where(url='http://example.org/Reference-id').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/Reference-id']/f:valueReference",
-            "xpathUsage": "normal"
+            "xpathUsage": "normal",
+            "target": ["Patient"]
         }
     },
     {
@@ -322,7 +324,8 @@
             "type": "reference",
             "expression": "Basic.extension.where(url='http://example.org/Reference-relative').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/Reference-relative']/f:valueReference",
-            "xpathUsage": "normal"
+            "xpathUsage": "normal",
+            "target": ["Patient"]
         }
     },
     {
@@ -339,7 +342,8 @@
             "type": "reference",
             "expression": "Basic.extension.where(url='http://example.org/Reference-absolute').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/Reference-absolute']/f:valueReference",
-            "xpathUsage": "normal"
+            "xpathUsage": "normal",
+            "target": ["Patient"]
         }
     },
     {
@@ -356,7 +360,8 @@
             "type": "reference",
             "expression": "Basic.extension.where(url='http://example.org/Reference-display').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/Reference-display']/f:valueReference",
-            "xpathUsage": "normal"
+            "xpathUsage": "normal",
+            "target": ["Patient"]
         }
     },
     
@@ -374,7 +379,8 @@
             "type": "reference",
             "expression": "Basic.extension.where(url='http://example.org/missing-Reference').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/missing-Reference']/f:valueReference",
-            "xpathUsage": "normal"
+            "xpathUsage": "normal",
+            "target": ["Patient"]
         }
     },
     {
