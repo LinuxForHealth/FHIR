@@ -87,6 +87,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
@@ -167,13 +168,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // Logical identity string provider
     private final LogicalIdentityProvider logicalIdentityProvider = new TimestampPrefixedUUID();
 
+    // The shared cache, used by all requests for the same tenant/datasource
+    private final FHIRPersistenceJDBCCache cache;
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl() throws Exception {
+    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
+        
+        this.cache = cache;
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         if (fhirConfig == null) {
@@ -215,8 +220,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param cp
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
-        this(configProps, cp, new DefaultFHIRConfigProvider());
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRPersistenceJDBCCache cache) throws Exception {
+        this(configProps, cp, new DefaultFHIRConfigProvider(), cache);
     }
 
     /**
@@ -235,10 +240,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param configProvider adapter to provide access to FHIR configuration
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider) throws Exception {
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider, FHIRConfigProvider)";
         log.entering(CLASSNAME, METHODNAME);
 
+        this.cache = cache;
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
@@ -376,9 +382,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         if (this.trxSynchRegistry != null) {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry);
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache.getResourceReferenceCache());
         } else {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache.getResourceReferenceCache());
         }
     }
 
@@ -1054,7 +1060,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // This loop builds a Map where key=resourceId, and value=its proper position in the returned sorted collection.
         for(int i = 0; i < sortedIdList.size(); i++) {
             resourceId = sortedIdList.get(i);
-            idPositionMap.put(new Long(resourceId), new Integer(i));
+            idPositionMap.put(Long.valueOf(resourceId), Integer.valueOf(i));
         }
 
         resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList);

@@ -15,6 +15,10 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchTokenTest;
@@ -25,6 +29,8 @@ public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
     private Properties testProps;
 
     private PoolConnectionProvider connectionPool;
+    
+    private FHIRPersistenceJDBCCache cache;
 
     public JDBCSearchTokenTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
@@ -38,6 +44,8 @@ public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
+            IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+            cache = new FHIRPersistenceJDBCCacheImpl(rrc);
         }
     }
 
@@ -46,7 +54,7 @@ public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, this.cache);
     }
 
     @Override

@@ -22,9 +22,9 @@ public class ExternalResourceReferenceRec extends ResourceRefRec {
     private final String externalRefValue;
     private long externalRefValueId = -1;
 
-    public ExternalResourceReferenceRec(int parameterNameId, String resourceType, long resourceTypeId, String logicalId,
+    public ExternalResourceReferenceRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
         String externalSystemName, String externalRefValue) {
-        super(parameterNameId, resourceType, resourceTypeId, logicalId);
+        super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
         this.externalSystemName = externalSystemName;
         this.externalRefValue = externalRefValue;
     }

@@ -10,10 +10,16 @@ import java.sql.Connection;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.db2.Db2Translator;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 
@@ -33,19 +39,24 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry)
+    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
+        IResourceReferenceCache cache)
         throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
         
+        IResourceReferenceDAO rrd;
         switch (flavor.getType()) {
         case DB2:
-            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry);
+            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache);
+            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry, rrd);
             break;
         case DERBY:
-            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry);
+            rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, rrd);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry);
+            rrd = new ResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache);
+            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry, rrd);
             break;
         }
         return resourceDAO;
@@ -60,20 +71,25 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor) throws IllegalArgumentException, FHIRPersistenceException {
+    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, 
+        IResourceReferenceCache cache) throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
+        
+        IResourceReferenceDAO rrd;
         switch (flavor.getType()) {
         case DB2:
-            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor);
+            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache);
+            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, rrd);
             break;
         case DERBY:
-            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor);
+            rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, rrd);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor);
+            rrd = new ResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache);
+            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, rrd);
             break;
         }
         return resourceDAO;
     }
-
 }

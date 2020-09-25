@@ -50,6 +50,10 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -345,6 +349,9 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
         configure(configProvider);
+        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
+
         
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
@@ -365,7 +372,8 @@ public class Main {
                 this.tenantName,
                 this.tenantKey,
                 transactionProvider,
-                configProvider);
+                configProvider,
+                cache);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
@@ -424,7 +432,9 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
+            IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
+            persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
             // create a custom list of operations to apply in order to each resource
             DriverMetrics dm = new DriverMetrics();
@@ -434,7 +444,7 @@ public class Main {
             R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(persistence,
                     () -> createPersistenceContext(),
                     () -> createHistoryPersistenceContext(),
-                    operations, configProvider);
+                    operations, configProvider, cache);
 
             // The driver will iterate over all the JSON examples in the R4 specification, parse
             // the resource and call the processor.
@@ -474,6 +484,8 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
+        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -487,7 +499,8 @@ public class Main {
                 null,
                 null,
                 transactionProvider,
-                configProvider);
+                configProvider,
+                cache);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.
@@ -526,6 +539,8 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
+        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -539,7 +554,8 @@ public class Main {
                 null,
                 null,
                 transactionProvider,
-                configProvider);
+                configProvider,
+                cache);
 
         // The driver will iterate over all the JSON examples in the R4 specification, parse
         // the resource and call the processor.

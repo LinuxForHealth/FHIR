@@ -27,11 +27,14 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTypeCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -55,12 +58,12 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor) {
-        super(connection, schemaName, flavor);
+    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, IResourceReferenceDAO rrd) {
+        super(connection, schemaName, flavor, rrd);
     }
 
-    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(connection, schemaName, flavor, trxSynchRegistry);
+    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, IResourceReferenceDAO rrd) {
+        super(connection, schemaName, flavor, trxSynchRegistry, rrd);
     }
 
     /**
@@ -125,8 +128,9 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
                 // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                IResourceTypeCache resourceTypeCache = new ResourceTypeCacheAdapter(this);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
-                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
+                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao), getResourceReferenceDAO(), resourceTypeCache)) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }

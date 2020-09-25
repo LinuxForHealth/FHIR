@@ -37,8 +37,8 @@ public class ResourceReferenceCacheImplTest {
         // we haven't yet called ResourceReferenceCacheImpl#updateSharedMaps()
         Set<String> names = new HashSet<>();
         List<ExternalResourceReferenceRec> xrefs = new ArrayList<>();
-        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, "pat1", "sys1", "val1"));
-        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, "pat1", "sys2", "val2"));
+        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, 1L, "sys1", "val1"));
+        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, 1L, "sys2", "val2"));
         
         // Ask the cache to resolve the system/value strings
         List<ExternalResourceReferenceRec> systemMisses = new ArrayList<>();
@@ -82,7 +82,7 @@ public class ResourceReferenceCacheImplTest {
         
 
         // Make sure sys3 is also found
-        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, "pat1", "sys3", "val3"));
+        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, 1L, "sys3", "val3"));
         sys1.setExternalSystemNameId(-1);
         sys2.setExternalSystemNameId(-1);
         systemMisses.clear();

@@ -25,6 +25,7 @@ import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -46,7 +47,7 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  * close the provided Connection. That is up to the caller to manage.
  * Close does close any statements which are opened inside the class.
  */
-public class ResourceReferenceDAO implements AutoCloseable {
+public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ResourceReferenceDAO.class.getName());
     
     private final String schemaName;
@@ -103,10 +104,7 @@ public class ResourceReferenceDAO implements AutoCloseable {
         this.referencesSequenceDAO = new ReferencesSequenceDAO(c, schemaName, t);
     }
 
-    /**
-     * Execute any statements with pending batch entries
-     * @throws FHIRPersistenceException
-     */
+    @Override
     public void flush() throws FHIRPersistenceException {
         try {
             if (localReferencesBatchCount > 0) {
@@ -122,6 +120,11 @@ public class ResourceReferenceDAO implements AutoCloseable {
     @Override
     public void close() throws FHIRPersistenceException {
         flush();
+    }
+
+    @Override
+    public IResourceReferenceCache getResourceReferenceCache() {
+        return this.cache;
     }
 
     /**
@@ -256,13 +259,7 @@ public class ResourceReferenceDAO implements AutoCloseable {
         return result;
     }
 
-    
-    /**
-     * Delete current external references for a given resource type and logical id. Typically
-     * called when creating a new version of a resource or when re-indexing
-     * @param resourceTypeId
-     * @param logicalId
-     */
+    @Override
     public void deleteExternalReferences(int resourceTypeId, String logicalId) {
         final String DML = "DELETE FROM external_references "
                 + "WHERE logical_resource_id IN ( "
@@ -281,14 +278,8 @@ public class ResourceReferenceDAO implements AutoCloseable {
         }
 
     }
-    
-    /**
-     * Delete current local references for a given resource described by its
-     * logical_resource_id. Typically called when creating a new version of a
-     * resource or when re-indexing.
-     * @param resourceType
-     * @param logicalId
-     */
+
+    @Override
     public void deleteLocalReferences(long logicalResourceId) {
         final String DML = "DELETE FROM local_references WHERE logical_resource_id = ?";
         
@@ -302,10 +293,7 @@ public class ResourceReferenceDAO implements AutoCloseable {
         }
     }
 
-    /**
-     * Delete the membership this resource has with other compartments
-     * @param logicalResourceId
-     */
+    @Override
     public void deleteLogicalResourceCompartments(long logicalResourceId) {
         final String DML = "DELETE FROM logical_resource_compartments WHERE logical_resource_id = ?";
         
@@ -318,12 +306,8 @@ public class ResourceReferenceDAO implements AutoCloseable {
             throw translator.translate(x);
         }
     }
-        
-    /**
-     * Add the list of external references. Creates new external_system and external_reference_value
-     * records as necessary
-     * @param xrefs
-     */
+
+    @Override
     public void addExternalReferences(Collection<ExternalResourceReferenceRec> xrefs) {
         // We need to be efficient about how we manage the external_systems and 
         // external_reference_values normalized records. It's important to
@@ -555,7 +539,8 @@ public class ResourceReferenceDAO implements AutoCloseable {
         // TODO Final step...update the cache
         
     }
-    
+
+    @Override
     public void addLocalReferences(Collection<LocalResourceReferenceRec> lrefs) {
         try {
             if (localReferencesBatch == null) {
@@ -613,16 +598,8 @@ public class ResourceReferenceDAO implements AutoCloseable {
         }
     }
 
-    /**
-     * Create a new logical id record for a resource which is the target of a reference
-     * but which hasn't yet been loaded. This is simply a record in the global
-     * logical_resources table which doesn't point to a current resource version.
-     * TODO make sure the add_any_resource stored proc can handle this
-     * @param resourceType
-     * @param logicalId
-     * @return the logical_resource_id of the record (existing or new)
-     */
-    public long createGhostLogicalResource(String resourceType, String logicalId) {
+    @Override
+    public long createGhostLogicalResource(String resourceType, String logicalId) throws FHIRPersistenceException {
         long result;
         // need to achieve two things:
         //   1. idempotent create

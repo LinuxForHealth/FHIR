@@ -22,9 +22,9 @@ public class LocalResourceReferenceRec extends ResourceRefRec {
     private final String refLogicalId;
     private long refLogicalResourceId = -1;
 
-    public LocalResourceReferenceRec(int parameterNameId, String resourceType, long resourceTypeId, String logicalId,
+    public LocalResourceReferenceRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
         String refResourceType, int refResourceTypeId, String refLogicalId) {
-        super(parameterNameId, resourceType, resourceTypeId, logicalId);
+        super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
         this.refResourceType = refResourceType;
         this.refResourceTypeId = refResourceTypeId;
         this.refLogicalId = refLogicalId;

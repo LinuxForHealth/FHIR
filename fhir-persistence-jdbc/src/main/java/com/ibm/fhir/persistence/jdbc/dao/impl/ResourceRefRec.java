@@ -19,9 +19,8 @@ public class ResourceRefRec {
     private final String resourceType;
     private final long resourceTypeId;
     
-    // The logical id of this resource and its normalized database id (when we have it)
-    private final String logicalId;
-    private long logicalResourceId = -1;
+    // The logical resource id of the resource owning the references
+    private final long logicalResourceId;
 
     /**
      * Public constructor
@@ -30,11 +29,11 @@ public class ResourceRefRec {
      * @param resourceTypeId
      * @param logicalId
      */
-    public ResourceRefRec(int parameterNameId, String resourceType, long resourceTypeId, String logicalId) {
+    public ResourceRefRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId) {
         this.parameterNameId = parameterNameId;
         this.resourceType = resourceType;
         this.resourceTypeId = resourceTypeId;
-        this.logicalId = logicalId;
+        this.logicalResourceId = logicalResourceId;
     }
 
     /**
@@ -60,24 +59,9 @@ public class ResourceRefRec {
     }
 
     /**
-     * @return the logicalId
-     */
-    public String getLogicalId() {
-        return logicalId;
-    }
-
-    /**
      * @return the logicalResourceId
      */
     public long getLogicalResourceId() {
         return logicalResourceId;
     }
-
-    /**
-     * @param logicalResourceId the logicalResourceId to set
-     */
-    public void setLogicalResourceId(long logicalResourceId) {
-        this.logicalResourceId = logicalResourceId;
-    }
-
 }

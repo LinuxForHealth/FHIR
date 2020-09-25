@@ -88,7 +88,7 @@ public class ResourceReferenceDAOTest {
         FHIRDbFlavor flavor = new FHIRDbFlavorImpl(DbType.DERBY, false);
         parameterDAO = new ParameterDAOImpl(connection, schemaName, flavor);
         
-        resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor);
+        resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, dao);
     }
 
     @AfterClass
@@ -114,16 +114,10 @@ public class ResourceReferenceDAOTest {
             final long lr1 = dao.createGhostLogicalResource("Patient", "pat1");
             final long lr2 = dao.createGhostLogicalResource("Patient", "pat2");
     
-            ExternalResourceReferenceRec rec1 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys1", "value1");
-            ExternalResourceReferenceRec rec2 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys1", "value2");
-            ExternalResourceReferenceRec rec3 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "sys2", "value1");
-            ExternalResourceReferenceRec rec4 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat2", "sys2", "value2");
-
-            // set the logical resource ids for each of the reference records we defined above
-            rec1.setLogicalResourceId(lr1);
-            rec2.setLogicalResourceId(lr1);
-            rec3.setLogicalResourceId(lr1);
-            rec4.setLogicalResourceId(lr2);
+            ExternalResourceReferenceRec rec1 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys1", "value1");
+            ExternalResourceReferenceRec rec2 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys1", "value2");
+            ExternalResourceReferenceRec rec3 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys2", "value1");
+            ExternalResourceReferenceRec rec4 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr2, "sys2", "value2");
             
             List<ExternalResourceReferenceRec> xrefs = Arrays.asList(rec1, rec2, rec3, rec4);
             dao.addExternalReferences(xrefs);
@@ -151,8 +145,7 @@ public class ResourceReferenceDAOTest {
             final long lr1 = dao.createGhostLogicalResource("Patient", "pat1"); // should already exist
             final long lr2 = dao.createGhostLogicalResource("Patient", "pat2"); // and this too
     
-            LocalResourceReferenceRec rec1 = new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, "pat1", "Patient", resourceTypeId, "pat2");
-            rec1.setLogicalResourceId(lr1);
+            LocalResourceReferenceRec rec1 = new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "Patient", resourceTypeId, "pat2");
             rec1.setRefLogicalResourceId(lr2);
             List<LocalResourceReferenceRec> lrefs = Arrays.asList(rec1);
             dao.addLocalReferences(lrefs);

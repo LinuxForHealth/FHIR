@@ -12,6 +12,10 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchIdAndLastUpdatedTest;
@@ -20,6 +24,8 @@ public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedT
     private Properties testProps;
     
     private PoolConnectionProvider connectionPool;
+    
+    private FHIRPersistenceJDBCCache cache;
 
     public JDBCSearchIdLastUpdatedTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
@@ -33,6 +39,8 @@ public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedT
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
+            IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+            cache = new FHIRPersistenceJDBCCacheImpl(rrc);
         }
     }
 
@@ -41,7 +49,7 @@ public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedT
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool);
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
     }
     
     @Override
