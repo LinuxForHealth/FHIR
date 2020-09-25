@@ -1,0 +1,10 @@
+Version 1
+- Changed the precision of json/profiles/fhir-ig-davinci-epdx/Patient-1.json's 
+Text '2020-07-07T13:26:22.0314215+00:00' could not be parsed at index 26 [Patient.meta.lastUpdated] 
+
+- Modified the expression for provenance-1
+- https://jira.hl7.org/browse/FHIR-28451
+From ($this.agent.who.resolve().is Practitioner or Device) implies exists()
+To (($this.agent.who.resolve() is Practitioner) or ($this.agent.who.resolve() is Device)) implies exists()
+
+- changed epdx to pdex in the project 

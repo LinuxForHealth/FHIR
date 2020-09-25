@@ -163,7 +163,7 @@ Search parameters are handled like a single configuration properly; providing a 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
 ## 3.4 Persistence layer configuration
-The FHIR server is architected in a way that allows deployers to select the persistence layer implementation that fits their needs. Currently, the FHIR server includes a JDBC persistence layer which supports both Apache Derby and IBM Db2. Apache Derby is used for testing, whereas IBM Db2 is used in production environments.
+The IBM FHIR server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
 
 The FHIR server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
 
@@ -172,7 +172,7 @@ The FHIR server is delivered with a default configuration that is already config
 Before you can configure the FHIR server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use.
 
 ##### 3.4.1.1.1 Embedded Derby (default)
-If you are configuring the FHIR server to use a single embedded Derby database, then you can configure the FHIR server to create the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
+If you are configuring the FHIR server to use a single embedded Derby database, then you can configure it to create the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
 
     ```
     {
@@ -205,10 +205,25 @@ An executable `fhir-persistence-schema` jar can be downloaded from the project's
 
 For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/guides/DB2OnCloudSetup).
 
-#### 3.4.1.2 FHIR server configuration
-To configure the FHIR server to use the JDBC persistence layer, complete the following steps:
+##### 3.4.1.1.3 PostgreSQL
+If you configure the FHIR server to use a PostgreSQL database, you must:
 
-1.  First, modify the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` to specify the JDBC persistence factory, like this:
+1. create the database if it doesn't already exist
+
+2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, stored procedures, etc)
+
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
+
+
+##### 3.4.1.1.4 Other
+
+To enable the IBM FHIR Server to work with other relational database systems, see
+https://ibm.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-another-relational-database
+
+#### 3.4.1.2 FHIR server configuration
+The IBM FHIR Server persistence configuration is split between two files:  `fhir-server-config.json` and `server.xml`.
+
+1.  The value of the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` is used to instantiate a FHIRPersistence object. By default, the server is configured to use the FHIRPersistenceJDBCFactory:
     ```
     {
         "fhirServer": {
@@ -220,7 +235,7 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
     }
     ```
 
-2.  Next, modify the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` to specify the proxy datasource's JNDI name, like this:
+2.  When the FHIRPersistenceJDBCFactory is in use, the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` specifies the JNDI name of the target datasource. By default, the server uses a dataSourceJndiName of `jdbc/fhirProxyDataSource`:
     ```
     {
         "fhirServer": {
@@ -235,8 +250,9 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
             }
     }
     ```
+    The `jdbc/fhirProxyDataSource` datasource is defined in the server's `server.xml` config file and, by default, specifies the `FHIRProxyXADataSource` which supports "Liberty-managed" distributed transactions across disaparate datasources defined in the `fhir-server-config.json` config.
 
-3.  Next, modify the `fhirServer/persistence/datasources` property group to reflect the datastore(s) that you want to use. The following example defines the `default` datastore as an embedded derby database located in `wlp/usr/servers/fhir-server/derby/fhirDB`:
+3.  When the FHIRProxyXADataSource is in use, modify the `fhirServer/persistence/datasources` property group to reflect the datastore(s) that you want to use. The following example defines the `default` datastore as an embedded derby database located in `wlp/usr/servers/fhir-server/derby/fhirDB`:
     ```
     {
         "fhirServer":{
@@ -274,7 +290,7 @@ The next example defines the `default` datastore as a Db2 database accessible on
                             "user": "db2inst1",
                             "password": "********",
                             "databaseName": "FHIRDB",
-                            "currentSchema": "FHIR1",
+                            "currentSchema": "FHIRDATA",
                             "driverType": 4
                         }
                     }
@@ -668,7 +684,11 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
-See the [Validation Guide - Built-in profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#built-in-profile-support) for a list of pre-packaged Implmentation Guide resources and see [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
+The IBM FHIR Server pre-packages all conformance resources from the core specification.
+
+See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implmentation Guide resources and how to load them into the IBM FHIR server.
+
+See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
 ## 4.5 “Update/Create” feature
 Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.

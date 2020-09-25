@@ -19,7 +19,7 @@ required_build(){
 
     # build binaries
     mvn -B install --file fhir-examples --no-transfer-progress
-    mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+    mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress
 
     # Build dockerfile
     mvn -B dockerfile:build -f fhir-install --no-transfer-progress

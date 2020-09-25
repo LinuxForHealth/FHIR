@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
@@ -51,7 +52,7 @@ public class DateTimeHandler {
      * The date parameter format is yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm] (the standard
      * XML format). <br>
      * <br>
-     * 1 - Any degree of precision can be provided. <br>
+     * 1 - A maximum precision of nanoseconds (9 digits) can be provided. <br>
      * 2 - SHALL: Populated from LEFT to Right
      * 3 - SHALL: Minutes be present if an hour is present
      * 4 - SHOULD: provide a time zone if the time part is present
@@ -78,7 +79,7 @@ public class DateTimeHandler {
                                         .appendLiteral(':')
                                         .appendPattern("ss")
                                         .optionalStart()
-                                            .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                                            .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
                                         .optionalEnd()
                                     .optionalEnd()
                                 .optionalEnd()
@@ -325,32 +326,36 @@ public class DateTimeHandler {
     }
 
     /**
-     * parses the value into a set of bounds/value and adds to parameter value.
+     * Parses the value into a set of bounds/value and adds to parameter value.
+     * The value will be truncated to a microsecond precision after being parsed.
      * 
      * @param value
+     *     The date/time value to be parsed
      * @return
+     *     A <code>TemporalAccessor</code> object representing the parsed and truncated date/time value
      * @throws FHIRSearchException
      */
     public static TemporalAccessor parse(String value) throws FHIRSearchException {
         try {
-            return DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value,
-                    ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from);
+            return ModelSupport.truncateTime(DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from), ChronoUnit.MICROS);
         } catch (java.time.format.DateTimeParseException dtpe) {
             throw SearchExceptionUtil.buildNewDateTimeFormatException(dtpe);
         }
     }
 
     /**
-     * parses quiet the value into a set of bounds/value and adds to parameter
-     * value.
+     * Parses quiet the value into a set of bounds/value and adds to parameter value.
+     * The value will be truncated to a microsecond precision after being parsed.
      * 
      * @param value
+     *     The date/time value to be parsed
      * @return
+     *     A <code>TemporalAccessor</code> object representing the parsed and truncated date/time value,
+     *     or null if the value could not be parsed successfully
      */
     public static TemporalAccessor parseQuiet(String value) {
         try {
-            return DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value,
-                    ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from);
+            return ModelSupport.truncateTime(DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from), ChronoUnit.MICROS);
         } catch (java.time.format.DateTimeParseException dtpe) {
             logger.fine("Error parsing a quiet value " + dtpe.toString());
             return null;
