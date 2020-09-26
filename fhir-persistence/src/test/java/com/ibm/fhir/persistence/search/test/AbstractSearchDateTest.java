@@ -1585,7 +1585,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Period", "ap2018-10-28");
         assertSearchReturnsSavedResource("Period", "ap2018-10-29");
         assertSearchReturnsSavedResource("Period", "ap2018-10-30");
-        assertSearchDoesntReturnSavedResource("Period", "ap2019-01-01");
+        assertSearchDoesntReturnSavedResource("Period", "ap2020-01-01");
     }
     @Test
     public void testSearchDate_Period_AP_Hours() throws Exception {
