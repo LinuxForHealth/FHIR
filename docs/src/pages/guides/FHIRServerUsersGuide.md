@@ -1524,8 +1524,8 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
-|`fhirServer/security/basic/enabled`|boolean|true|
-|`fhirServer/security/cert/enabled`|boolean|true|
+|`fhirServer/security/basic/enabled`|boolean|false|
+|`fhirServer/security/cert/enabled`|boolean|false|
 |`fhirServer/security/oauth/enabled`|boolean|false|
 |`fhirServer/security/oauth/regUrl`|""|
 |`fhirServer/security/oauth/authUrl`|""|

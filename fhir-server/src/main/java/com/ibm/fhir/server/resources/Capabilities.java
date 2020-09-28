@@ -267,7 +267,7 @@ public class Capabilities extends FHIRResource {
                 .cors(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CORS, true)));
 
 
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_BASIC_ENABLED, true)) {
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_BASIC_ENABLED, false)) {
             securityBuilder.service(CodeableConcept.builder()
                 .coding(Coding.builder()
                     .code(Code.of("Basic"))
@@ -275,7 +275,7 @@ public class Capabilities extends FHIRResource {
                     .build())
                 .build());
         }
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CERT_ENABLED, true)) {
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CERT_ENABLED, false)) {
             securityBuilder.service(CodeableConcept.builder()
                 .coding(Coding.builder()
                     .code(Code.of("Certificates"))
