@@ -8,15 +8,26 @@
             "conditionalDeleteMaxNumber": 10,
             "serverRegistryResourceProviderEnabled": true
         },
-        "authFilter": {
-            "enabled": false,
-            "authorizedClientCertClientCN": "",
-            "authorizedClientCertIssuerOU": ""
-        },
-        "oauth": {
-            "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
-            "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
-            "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
+        "security": {
+            "cors": true,
+            "basic": {
+                "enabled": true
+            },
+            "certificates": {
+                "enabled": true,
+                "authFilter": {
+                    "enabled": false,
+                    "authorizedClientCertClientCN": "",
+                    "authorizedClientCertIssuerOU": ""
+                }
+            },
+            "smart": {
+                "enabled": false,
+                "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
+                "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
+                "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
+                "supportedScopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"]
+            }
         },
         "notifications": {
             "common": {

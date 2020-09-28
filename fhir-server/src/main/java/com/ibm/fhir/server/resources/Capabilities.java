@@ -7,9 +7,9 @@
 package com.ibm.fhir.server.resources;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CAPABILITY_STATEMENT_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_AUTHURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_REGURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_TOKENURL;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
@@ -264,44 +264,63 @@ public class Capabilities extends FHIRResource {
             log.log(Level.WARNING, "Unexpected error while reading server transaction mode setting", t);
         }
 
-        String actualHost = new URI(getRequestUri()).getHost();
+        CapabilityStatement.Rest.Security.Builder securityBuilder = CapabilityStatement.Rest.Security.builder()
+                .cors(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CORS, true)));
 
-        String regURLTemplate = null;
-        String authURLTemplate = null;
-        String tokenURLTemplate = null;
-        try {
-            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
-            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
-            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
+
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_BASIC_ENABLED, true)) {
+            securityBuilder.service(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("Basic"))
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
+                    .build())
+                .build());
         }
-        String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
-
-        String authURL = authURLTemplate.replaceAll("<host>", actualHost);
-
-        String regURL = regURLTemplate.replaceAll("<host>", actualHost);
-
-        CapabilityStatement.Rest.Security restSecurity = CapabilityStatement.Rest.Security.builder()
-                .service(CodeableConcept.builder()
-                    .coding(Coding.builder()
-                        .code(Code.of("SMART-on-FHIR"))
-                        .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
-                        .build())
-                    .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CERT_ENABLED, true)) {
+            securityBuilder.service(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("Certificates"))
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
                     .build())
-                .extension(Extension.builder()
-                    .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
-                    .extension(
-                        Extension.builder().url("token").value(Uri.of(tokenURL)).build(),
-                        Extension.builder().url("authorize").value(Uri.of(authURL)).build(),
-                        Extension.builder().url("register").value(Uri.of(regURL)).build())
+                .build());
+        }
+
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_SMART_ENABLED, false)) {
+            String actualHost = new URI(getRequestUri()).getHost();
+
+            String regURLTemplate = null;
+            String authURLTemplate = null;
+            String tokenURLTemplate = null;
+            try {
+                regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_REGURL, "");
+                authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_AUTHURL, "");
+                tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_TOKENURL, "");
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
+            }
+            String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
+            String authURL = authURLTemplate.replaceAll("<host>", actualHost);
+            String regURL = regURLTemplate.replaceAll("<host>", actualHost);
+
+            securityBuilder.service(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("SMART-on-FHIR"))
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
                     .build())
-                .build();
+                .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                .build())
+            .extension(Extension.builder()
+                .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
+                .extension(
+                    Extension.builder().url("token").value(Uri.of(tokenURL)).build(),
+                    Extension.builder().url("authorize").value(Uri.of(authURL)).build(),
+                    Extension.builder().url("register").value(Uri.of(regURL)).build())
+                .build());
+        }
 
         CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
                 .mode(RestfulCapabilityMode.SERVER)
-                .security(restSecurity)
+                .security(securityBuilder.build())
                 .resource(addSupportedProfilesToResources(resources))
                 .interaction(CapabilityStatement.Rest.Interaction.builder()
                     .code(transactionMode)

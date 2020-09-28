@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.Application;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
@@ -61,7 +63,9 @@ public class FHIRApplication extends Application {
                 classes.add(Search.class);
                 classes.add(Update.class);
                 classes.add(VRead.class);
-                classes.add(WellKnown.class);
+                if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_SMART_ENABLED, false)) {
+                    classes.add(WellKnown.class);
+                }
             }
             return classes;
         } finally {

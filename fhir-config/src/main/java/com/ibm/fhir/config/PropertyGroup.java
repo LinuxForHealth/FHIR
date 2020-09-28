@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,15 +24,15 @@ import com.ibm.fhir.core.FHIRUtilities;
  * resulting from loading the configuration, or it could be just a sub-structure within the overall config hierarchy, as
  * a property group can contain other property groups. Internally, there is a JsonObject which holds the actual group of
  * properties and this class provides a high-level API for accessing properties in a hierarchical manner.
- * 
+ *
  * @author padams
  *
  */
 public class PropertyGroup {
 
     /**
-     * This constant represents the separator character used within a hierarchical property name. 
-     * Example: 
+     * This constant represents the separator character used within a hierarchical property name.
+     * Example:
      * <code>fhir-server/server-core/truststoreLocation</code>
      */
     public static final String PATH_ELEMENT_SEPARATOR = "/";
@@ -43,18 +43,18 @@ public class PropertyGroup {
     public PropertyGroup(JsonObject jsonObj) {
         this.jsonObj = jsonObj;
     }
-    
+
     public JsonObject getJsonObj() {
         return jsonObj;
     }
-    
+
     protected void setJsonObj(JsonObject jsonObj) {
         this.jsonObj = jsonObj;
     }
 
     /**
      * Returns a PropertyGroup associated with the specified property.
-     * 
+     *
      * @param propertyName
      *            a hierarchical property name (e.g. "level1/level2/level3") that refers to a property group.
      * @return a PropertyGroup that holds the sub-structure associated with the specified property.
@@ -75,8 +75,9 @@ public class PropertyGroup {
     /**
      * Returns the value of the specified String property or null if it wasn't found.
      * If the value is encoded, then it will be decoded.
+     * 
      * @param propertyName the name of the property to retrieved
-     * @throws Exception 
+     * @throws Exception
      */
     public String getStringProperty(String propertyName) throws Exception {
         return getStringProperty(propertyName, null);
@@ -86,9 +87,9 @@ public class PropertyGroup {
      * Returns the value of the specified String property.  If not found, then
      * 'defaultValue' is returned instead.
      * If the value is encoded, then it will be decoded.
-     * 
+     *
      * @param propertyName the name of the property to retrieve
-     * @throws Exception 
+     * @throws Exception
      */
     public String getStringProperty(String propertyName, String defaultValue) throws Exception {
         String result = defaultValue;
@@ -102,7 +103,7 @@ public class PropertyGroup {
         }
         return result;
     }
-    
+
     /**
      * This is a convenience function that will retrieve an array property, then convert it
      * to a list of Strings by calling toString() on each array element.
@@ -116,7 +117,7 @@ public class PropertyGroup {
         if (array != null) {
             strings = new ArrayList<String>();
             for (int i = 0; i < array.length; i++) {
-                strings.add((String) array[i].toString());
+                strings.add(array[i].toString());
             }
         }
         return strings;
@@ -145,7 +146,7 @@ public class PropertyGroup {
             } else {
                 throw new IllegalArgumentException("Property '" + propertyName + "' must be of type int");
             }
-        } 
+        }
         return result;
     }
 
@@ -171,10 +172,10 @@ public class PropertyGroup {
             } else {
                 throw new IllegalArgumentException("Property '" + propertyName + "' must be of type double");
             }
-        } 
+        }
         return result;
     }
-    
+
     /**
      * Returns the value of the specified boolean property or null if it wasn't found.
      * @param propertyName the name of the property to retrieve
@@ -208,15 +209,16 @@ public class PropertyGroup {
         }
         return result;
     }
-    
+
     /**
      * Returns the value (as an array of Object) of the specified array property.
      * Each element of the returned array will be an instance of Boolean, Integer, Double, String
-     * or PropertyGroup, depending on the value type associated with the property within the 
+     * or PropertyGroup, depending on the value type associated with the property within the
      * underlying JsonObject.
+     * 
      * @param propertyName the name of the property to retrieve
-     * @return
-     * @throws Exception 
+     * @return an array of values from the specified array property or null if the property doesn't exist
+     * @throws Exception
      */
     public Object[] getArrayProperty(String propertyName) throws Exception {
         Object[] result = null;
@@ -230,11 +232,11 @@ public class PropertyGroup {
         }
         return result;
     }
-    
+
     /**
      * Returns the properties contained in the PropertyGroup in the form of a list of
      * PropertyEntry instances.   If no properties exist, then an empty list will be returned.
-     * @throws Exception 
+     * @throws Exception
      */
     public List<PropertyEntry> getProperties() throws Exception {
         List<PropertyEntry> results = new ArrayList<>();
@@ -243,10 +245,11 @@ public class PropertyGroup {
         }
         return results;
     }
-    
+
     /**
      * Returns the String representation of the PropertyGroup instance.
      */
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("PropertyGroup[");
@@ -259,7 +262,7 @@ public class PropertyGroup {
      * Converts the specified JsonValue into the appropriate java.lang.* type.
      * @param jsonValue the JsonValue instance to be converted
      * @return an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
-     * @throws Exception 
+     * @throws Exception
      */
     public static Object convertJsonValue(JsonValue jsonValue) throws Exception {
         Object result = null;
@@ -307,10 +310,10 @@ public class PropertyGroup {
         }
         return result;
     }
-    
+
     /**
      * Finds the specified property and returns it as a generic JsonValue.
-     * 
+     *
      * @param propertyName
      *            the possibly hierarchical property name.
      */
@@ -326,7 +329,7 @@ public class PropertyGroup {
 
     /**
      * Splits a potentially hierarchical property name into the individual path elements
-     * 
+     *
      * @param propertyName
      *            a hierarchical property name (e.g. "level1/level2/myProperty"
      * @return
@@ -337,21 +340,21 @@ public class PropertyGroup {
 
     /**
      * This function will find the JSON "sub object" rooted at "this.jsonObj" that is associated with the specified
-     * hierarchical property name. 
-     * <p>For example, consider the following JSON structure: 
+     * hierarchical property name.
+     * <p>For example, consider the following JSON structure:
      * <pre>
-     * { 
-     *     "level1":{ 
+     * {
+     *     "level1":{
      *         "level2":{
-     *             "myProperty":"myValue" 
-     *         } 
-     *     } 
-     * } 
-     * </pre> 
-     * If this function was invoked with a property name of "level1/level2/myProperty", 
+     *             "myProperty":"myValue"
+     *         }
+     *     }
+     * }
+     * </pre>
+     * If this function was invoked with a property name of "level1/level2/myProperty",
      * then the result will be the JsonObject associated with the "level2" field within the JSON
      * structure above.
-     * 
+     *
      * @param pathElements
      *            an array of path elements that make up the hierarchical property name (e.g. {"level1", "level2",
      *            "myProperty"})
@@ -372,19 +375,19 @@ public class PropertyGroup {
 
         return null;
     }
-    
+
     /**
      * This class represents a single property contained within a PropertyGroup.
      */
     public static class PropertyEntry {
         private String name;
         private Object value;
-        
+
         public PropertyEntry(String name, Object value) {
             this.name = name;
             this.value = value;
         }
-        
+
         public String getName() {
             return name;
         }

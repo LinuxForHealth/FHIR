@@ -6,13 +6,16 @@
 
 package com.ibm.fhir.server.resources;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_AUTHURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_REGURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_SCOPES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_TOKENURL;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,10 +88,15 @@ public class WellKnown extends FHIRResource {
         String regURLTemplate = null;
         String authURLTemplate = null;
         String tokenURLTemplate = null;
+        List<String> supportedScopes = null;
         try {
-            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
-            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
-            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
+            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_REGURL, "");
+            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_AUTHURL, "");
+            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_TOKENURL, "");
+            Object[] smartScopeObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_SMART_SCOPES);
+            if (smartScopeObjs != null) {
+                supportedScopes = Arrays.asList(Arrays.copyOf(smartScopeObjs, smartScopeObjs.length, String[].class));
+            }
         } catch (Exception e) {
             log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the response", e);
         }
@@ -105,15 +113,7 @@ public class WellKnown extends FHIRResource {
         return responseBuilder
                 .add("authorization_endpoint", authURL) // required
                 .add("token_endpoint", tokenURL) // required
-                .add("scopes_supported", Json.createArrayBuilder() // recommended
-                    .add("openid")
-                    .add("profile")
-                    .add("offline_access")
-                    // TODO
-//                    .add("launch")
-//                    .add("launch/patient")
-//                    .add("user/*.*")
-//                    .add("patient/*.*")
+                .add("scopes_supported", Json.createArrayBuilder(supportedScopes) // recommended
                     .build())
                 .add("response_types", Json.createArrayBuilder() // recommended
                     .add("code")
@@ -125,11 +125,11 @@ public class WellKnown extends FHIRResource {
                     .add("client-public")
                     .add("client-confidential-symmetric")
                     .add("permission-offline")
-                    // TODO
-//                    .add("context-standalone-patient")
+                    // TODO: make this configurable
+                    .add("context-standalone-patient")
+                    .add("permission-patient")
 //                    .add("context-standalone-encounter")
 //                    .add("permission-user")
-//                    .add("permission-patient")
                     .build())
 // management_endpoint: RECOMMENDED, URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.
 // introspection_endpoint : RECOMMENDED, URL to a server’s introspection endpoint that can be used to validate a token.

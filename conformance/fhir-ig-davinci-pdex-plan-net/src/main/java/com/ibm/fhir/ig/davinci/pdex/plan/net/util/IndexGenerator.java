@@ -23,7 +23,6 @@ import com.ibm.fhir.registry.util.Index.Entry;
 public class IndexGenerator {
     public static void main(String[] args) throws Exception {
         buildAndWriteIndex("hl7/fhir/us/davinci-pdex-plan-net");
-        buildAndWriteIndex("hl7/fhir/uv/vhdir");
     }
 
     private static void buildAndWriteIndex(String packagePath) throws IOException, FileNotFoundException {
