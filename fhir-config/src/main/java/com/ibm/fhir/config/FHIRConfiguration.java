@@ -43,11 +43,11 @@ public class FHIRConfiguration {
     public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";
     public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/cert/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_ENABLED = "fhirServer/security/oauth/enabled";
-    public static final String PROPERTY_SECURITY_SMART_ENABLED = "fhirServer/security/smart/enabled";
-    public static final String PROPERTY_SECURITY_SMART_REGURL = "fhirServer/security/smart/regUrl";
-    public static final String PROPERTY_SECURITY_SMART_AUTHURL = "fhirServer/security/smart/authUrl";
-    public static final String PROPERTY_SECURITY_SMART_TOKENURL = "fhirServer/security/smart/tokenUrl";
-    public static final String PROPERTY_SECURITY_SMART_SCOPES = "fhirServer/security/smart/scopes";
+    public static final String PROPERTY_SECURITY_OAUTH_REGURL = "fhirServer/security/smart/regUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_AUTHURL = "fhirServer/security/smart/authUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_TOKENURL = "fhirServer/security/smart/tokenUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_ENABLED = "fhirServer/security/oauth/smart/enabled";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/smart/scopes";
 
     public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/security/cert/authFilter/enabled";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/security/cert/authFilter/authorizedClientCertClientCN";

@@ -1449,9 +1449,14 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.4.2.3 Datastore configuration reference](#3423-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
 |`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
-|`fhirServer/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
+|`fhirServer/security/cert/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
+|`fhirServer/security/oauth/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
+|`fhirServer/security/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
+|`fhirServer/security/oauth/smart/scopes`|array|A list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
@@ -1519,9 +1524,14 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
-|`fhirServer/oauth/regUrl`|""|
-|`fhirServer/oauth/authUrl`|""|
-|`fhirServer/oauth/tokenUrl`|""|
+|`fhirServer/security/basic/enabled`|boolean|true|
+|`fhirServer/security/cert/enabled`|boolean|true|
+|`fhirServer/security/oauth/enabled`|boolean|false|
+|`fhirServer/security/oauth/regUrl`|""|
+|`fhirServer/security/oauth/authUrl`|""|
+|`fhirServer/security/oauth/tokenUrl`|""|
+|`fhirServer/security/oauth/smart/enabled`|boolean|false|
+|`fhirServer/security/oauth/smart/scopes`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
@@ -1579,9 +1589,13 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources`|Y|N|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
-|`fhirServer/oauth/regUrl`|N|N|
-|`fhirServer/oauth/authUrl`|N|N|
-|`fhirServer/oauth/tokenUrl`|N|N|
+|`fhirServer/security/basic/enabled`|N|N|
+|`fhirServer/security/cert/enabled`|N|N|
+|`fhirServer/security/oauth/regUrl`|N|N|
+|`fhirServer/security/oauth/authUrl`|N|N|
+|`fhirServer/security/oauth/tokenUrl`|N|N|
+|`fhirServer/security/oauth/smart/enabled`|N|N|
+|`fhirServer/security/oauth/smart/scopes`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
@@ -1683,8 +1697,11 @@ The precise steps required to configure certificate-based authentication for a c
 
 ## 5.3 OpenID Connect and OAuth 2.0
 The FHIR specification recommends the use of OpenID Connect and OAuth 2.0.
-The IBM FHIR Server supports these via Liberty's OpenID Connect support.
-The following sections are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
+The IBM FHIR Server supports these via either:
+* An external Authorization Server and/or Identity Provider like [IBM Cloud App ID](https://www.ibm.com/cloud/app-id) or [Keycloak](https://www.keycloak.org)
+* Liberty's own OpenID Connect and OAuth 2.0 support
+
+The following sections focus on the latter and are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
 
 ### 5.3.1 Configure Liberty as the OpenID Connect Provider
 Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oidcProvider.xml` config snippet on the installed FHIR Server from `<WLP_HOME>/usr/servers/fhir-server/configDropins/disabled/` to `<WLP_HOME>/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
@@ -1824,10 +1841,10 @@ If you are using Liberty as both the openIdConnect server and the openIdConnect 
 * `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
 
 ### 5.3.3 Advertise the OAuth endpoints via fhir-server-config
-To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints of the providers, specify the following values in the default fhir-server-config.json file:
-* `fhirServer/oauth/regUrl`
-* `fhirServer/oauth/authUrl`
-* `fhirServer/oauth/tokenUrl`
+To configure the FHIR Server to advertise the OpenID Connect and OAuth 2.0 endpoints of the providers, specify the following values in the default fhir-server-config.json file:
+* `fhirServer/security/oauth/regUrl`
+* `fhirServer/security/oauth/authUrl`
+* `fhirServer/security/oauth/tokenUrl`
 
 When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values to have the server automatically replace this text with the hostname used by requestors (see `fhirServer/core/originalRequestUriHeaderName`).
 

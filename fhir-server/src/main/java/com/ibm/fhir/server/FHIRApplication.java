@@ -63,7 +63,7 @@ public class FHIRApplication extends Application {
                 classes.add(Search.class);
                 classes.add(Update.class);
                 classes.add(VRead.class);
-                if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_SMART_ENABLED, false)) {
+                if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_SMART_ENABLED, false)) {
                     classes.add(WellKnown.class);
                 }
             }

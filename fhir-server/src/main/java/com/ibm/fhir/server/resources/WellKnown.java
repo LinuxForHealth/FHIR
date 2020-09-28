@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.server.resources;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_AUTHURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_REGURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_SCOPES;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_TOKENURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_AUTHURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REGURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_SMART_SCOPES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKENURL;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
@@ -90,10 +90,10 @@ public class WellKnown extends FHIRResource {
         String tokenURLTemplate = null;
         List<String> supportedScopes = null;
         try {
-            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_REGURL, "");
-            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_AUTHURL, "");
-            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_TOKENURL, "");
-            Object[] smartScopeObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_SMART_SCOPES);
+            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REGURL, "");
+            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTHURL, "");
+            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKENURL, "");
+            Object[] smartScopeObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_OAUTH_SMART_SCOPES);
             if (smartScopeObjs != null) {
                 supportedScopes = Arrays.asList(Arrays.copyOf(smartScopeObjs, smartScopeObjs.length, String[].class));
             }
@@ -107,33 +107,36 @@ public class WellKnown extends FHIRResource {
         JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
 
         if (regURL != null && !regURL.isEmpty()) {
-            responseBuilder.add("registration_endpoint", regURL);
+            responseBuilder.add("registration_endpoint", regURL); // recommended
         }
 
-        return responseBuilder
-                .add("authorization_endpoint", authURL) // required
-                .add("token_endpoint", tokenURL) // required
-                .add("scopes_supported", Json.createArrayBuilder(supportedScopes) // recommended
-                    .build())
-                .add("response_types", Json.createArrayBuilder() // recommended
-                    .add("code")
-                    .add("token")
-                    .add("id_token token")
-                    .build())
-                .add("capabilities", Json.createArrayBuilder() // required
-                    .add("launch-standalone")
-                    .add("client-public")
-                    .add("client-confidential-symmetric")
-                    .add("permission-offline")
-                    // TODO: make this configurable
-                    .add("context-standalone-patient")
-                    .add("permission-patient")
-//                    .add("context-standalone-encounter")
-//                    .add("permission-user")
-                    .build())
+        responseBuilder.add("authorization_endpoint", authURL); // required
+        responseBuilder.add("token_endpoint", tokenURL); // required
+
+        if (supportedScopes != null && !supportedScopes.isEmpty()) {
+            responseBuilder.add("scopes_supported", Json.createArrayBuilder(supportedScopes).build()); // recommended
+        }
+
+        responseBuilder.add("response_types", Json.createArrayBuilder() // recommended
+                .add("code")
+                .add("token")
+                .add("id_token token")
+                .build());
+        responseBuilder.add("capabilities", Json.createArrayBuilder() // required
+                .add("launch-standalone")
+                .add("client-public")
+                .add("client-confidential-symmetric")
+                .add("permission-offline")
+                // TODO: make this configurable
+                .add("context-standalone-patient")
+                .add("permission-patient")
+//                .add("context-standalone-encounter")
+//                .add("permission-user")
+                .build());
 // management_endpoint: RECOMMENDED, URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.
 // introspection_endpoint : RECOMMENDED, URL to a server’s introspection endpoint that can be used to validate a token.
 // revocation_endpoint : RECOMMENDED, URL to a server’s revoke endpoint that can be used to revoke a token.
-                .build();
+
+        return responseBuilder.build();
     }
 }

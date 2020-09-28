@@ -21,12 +21,15 @@
                     "authorizedClientCertIssuerOU": ""
                 }
             },
-            "smart": {
+            "oauth": {
                 "enabled": false,
                 "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
                 "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
                 "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
-                "supportedScopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"]
+                "smart": {
+                    "enabled": false,
+                    "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"]
+                }
             }
         },
         "notifications": {

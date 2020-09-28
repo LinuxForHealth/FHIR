@@ -7,9 +7,9 @@
 package com.ibm.fhir.server.resources;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CAPABILITY_STATEMENT_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_AUTHURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_REGURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_SMART_TOKENURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_AUTHURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REGURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKENURL;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
@@ -58,7 +58,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.ConditionalDeleteStatus;
 import com.ibm.fhir.model.type.code.ConditionalReadStatus;
@@ -285,16 +284,16 @@ public class Capabilities extends FHIRResource {
                 .build());
         }
 
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_SMART_ENABLED, false)) {
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false)) {
             String actualHost = new URI(getRequestUri()).getHost();
 
             String regURLTemplate = null;
             String authURLTemplate = null;
             String tokenURLTemplate = null;
             try {
-                regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_REGURL, "");
-                authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_AUTHURL, "");
-                tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_SMART_TOKENURL, "");
+                regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REGURL, "");
+                authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTHURL, "");
+                tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKENURL, "");
             } catch (Exception e) {
                 log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
             }
@@ -302,12 +301,13 @@ public class Capabilities extends FHIRResource {
             String authURL = authURLTemplate.replaceAll("<host>", actualHost);
             String regURL = regURLTemplate.replaceAll("<host>", actualHost);
 
+            Boolean smartEnabled = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false);
             securityBuilder.service(CodeableConcept.builder()
                 .coding(Coding.builder()
-                    .code(Code.of("SMART-on-FHIR"))
+                    .code(Code.of(smartEnabled ? "SMART-on-FHIR" : "OAuth"))
                     .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
                     .build())
-                .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                .text(smartEnabled ? string("OAuth") : string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
                 .build())
             .extension(Extension.builder()
                 .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
