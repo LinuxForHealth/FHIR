@@ -23,9 +23,11 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -56,7 +58,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
     private final Connection connection;
     
     // The cache used to track the ids of the normalized entities we're managing
-    private final IResourceReferenceCache cache;
+    private final ICommonTokenValuesCache cache;
     
     // The translator for the type of database we are connected to
     private final IDatabaseTranslator translator;
@@ -96,7 +98,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
      * Public constructor
      * @param c
      */
-    public ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, IResourceReferenceCache cache) {
+    public ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
         this.translator = t;
         this.connection = c;
         this.cache = cache;
@@ -123,7 +125,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
     }
 
     @Override
-    public IResourceReferenceCache getResourceReferenceCache() {
+    public ICommonTokenValuesCache getResourceReferenceCache() {
         return this.cache;
     }
 
@@ -308,34 +310,30 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
     }
 
     @Override
-    public void addExternalReferences(Collection<ExternalResourceReferenceRec> xrefs) {
-        // We need to be efficient about how we manage the external_systems and 
-        // external_reference_values normalized records. It's important to
-        // minimize the number of database round-trips.
+    public void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Grab the ids for all the code-systems, and upsert any misses
+        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
+        cache.resolveCodeSystems(xrefs, systemMisses);
+        upsertCodeSystems(systemMisses);
+
+        // Now that all the code-systems ids are known, we can search the cache
+        // for all the token values, upserting anything new
+        List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
+        cache.resolveTokenValues(xrefs, valueMisses);
+        upsertCommonTokenValues(valueMisses);
         
-        // Grab ids for what we have cached, then use the list of cached 
-        List<ExternalResourceReferenceRec> systemMisses = new ArrayList<>();
-        List<ExternalResourceReferenceRec> valueMisses = new ArrayList<>();
-        cache.resolveExternalReferences(xrefs, systemMisses, valueMisses);
-        
-        // create records for any system not yet in the database
-        mergeSystems(systemMisses);
-        
-        // create records for any value not yet in the database
-        mergeValues(valueMisses);
-        
-        // Now all the xrefs should have ids assigned so we can go ahead and insert them
+        // Now all the values should have ids assigned so we can go ahead and insert them
         // as a batch
-        final String insert = "INSERT INTO external_references ("
-                + "logical_resource_id, parameter_name_id, external_system_id, external_reference_value_id) "
-                + "VALUES (?, ?, ?, ?)";
+        final String tableName = resourceType + "_TOKEN_VALUES_MAP";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(insert)) {
             int count = 0;
-            for (ExternalResourceReferenceRec xr: xrefs) {
+            for (ResourceTokenValueRec xr: xrefs) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getParameterNameId());
-                ps.setInt(3, xr.getExternalSystemNameId());
-                ps.setLong(4, xr.getExternalRefValueId());
+                ps.setLong(2, xr.getCommonTokenValueId());
                 ps.addBatch();
                 if (++count == BATCH_SIZE) {
                     ps.executeBatch();
@@ -365,9 +363,9 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         WHERE s.external_system_name IS NULL;
      * @param systems
      */
-    public void mergeSystems(List<ExternalResourceReferenceRec> systems) {
+    public void upsertCodeSystems(List<ResourceTokenValueRec> systems) {
         // Unique list so we don't try and create the same name more than once
-        Set<String> systemNames = systems.stream().map(xr -> xr.getExternalSystemName()).collect(Collectors.toSet());
+        Set<String> systemNames = systems.stream().map(xr -> xr.getCodeSystemValue()).collect(Collectors.toSet());
         StringBuilder paramList = new StringBuilder();
         for (int i=0; i<systemNames.size(); i++) {
             if (paramList.length() > 0) {
@@ -378,13 +376,16 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
-        StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO external_systems (external_system_name) ");
-        insert.append("     SELECT v.name FROM ");
+        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+       StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
+        insert.append("     SELECT ");
+        insert.append(nextVal).append(", v.name ");
+        insert.append(" FROM ");
         insert.append("     (VALUES ").append(paramList).append(" ) AS v(name) ");
-        insert.append(" LEFT OUTER JOIN external_systems s ");
-        insert.append("              ON (s.external_system_name = v.name) ");
-        insert.append("      WHERE s.external_system_name IS NULL");
+        insert.append(" LEFT OUTER JOIN code_systems s ");
+        insert.append("              ON s.code_system_name = v.name ");
+        insert.append("           WHERE s.code_system_name IS NULL");
         
         // Note, we use PreparedStatement here on purpose. Partly because it's
         // secure coding best practice, but also because many resources will have the
@@ -414,7 +415,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         // which worked reliably across all our database platforms, we wouldn't need this
         // second query.
         StringBuilder select = new StringBuilder();
-        select.append("SELECT external_system_name, external_system_id FROM external_systems WHERE external_system_name IN (");
+        select.append("SELECT code_system_name, code_system_id FROM code_systems WHERE code_system_name IN (");
         select.append(inList);
         select.append(")");
         
@@ -437,61 +438,72 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         }
         
         // Now update the ids for all the matching systems in our list
-        for (ExternalResourceReferenceRec xr: systems) {
-            Integer id = idMap.get(xr.getExternalSystemName());
+        for (ResourceTokenValueRec xr: systems) {
+            Integer id = idMap.get(xr.getCodeSystemValue());
             if (id != null) {
-                xr.setExternalSystemNameId(id);
+                xr.setCodeSystemValueId(id);
+
+                // Add this value to the (thread-local) cache
+                cache.addCodeSystem(xr.getCodeSystemValue(), id);
             } else {
                 // Unlikely...but need to handle just in case
-                logger.severe("Record for external_system_name '" + xr.getExternalSystemName() + "' inserted but not found");
+                logger.severe("Record for code_system_name '" + xr.getCodeSystemValue() + "' inserted but not found");
                 throw new IllegalStateException("id deleted from database!");
             }
         }
-        
-        // TODO Final step...update the cache
     }
     
     /**
      * Add reference value records for each unique reference name in the given list
      * @param values
      */
-    public void mergeValues(List<ExternalResourceReferenceRec> values) {
+    public void upsertCommonTokenValues(List<ResourceTokenValueRec> values) {
         // Unique list so we don't try and create the same name more than once
-        Set<String> refNames = values.stream().map(xr -> xr.getExternalRefValue()).collect(Collectors.toSet());
+        Set<CommonTokenValue> tokenValues = values.stream().map(xr -> new CommonTokenValue(xr.getParameterNameId(), xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+
+        // Build a string of parameter values we use in the query to drive the insert statement.
+        // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
+        // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
+        StringBuilder inList = new StringBuilder(); // for the select query later
         StringBuilder paramList = new StringBuilder();
-        for (int i=0; i<refNames.size(); i++) {
+        for (int i=0; i<tokenValues.size(); i++) {
             if (paramList.length() > 0) {
                 paramList.append(", ");
             }
-            paramList.append("CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_SEARCH_STRING_BYTES + "))");
+            paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "))");
+            paramList.append(",CAST(? AS INT), CAST(? AS INT))");
+            
+            // also build the inList for the select statement later
+            if (inList.length() > 0) {
+                inList.append(",");
+            }
+            inList.append("(?,?,?)");
         }
         
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO external_reference_values (external_reference_value) ");
-        insert.append("     SELECT v.value FROM ");
-        insert.append("     (VALUES ").append(paramList).append(" ) AS v(value) ");
-        insert.append(" LEFT OUTER JOIN external_reference_values xrv ");
-        insert.append("              ON (xrv.external_reference_value = v.value) ");
-        insert.append("      WHERE xrv.external_reference_value IS NULL");
+        insert.append("INSERT INTO common_token_values (parameter_name_id, code_system_id, token_value) ");
+        insert.append("     SELECT v.parameter_name_id, v.code_system_id, v.token_value FROM ");
+        insert.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, parameter_name_id, code_system_id) ");
+        insert.append(" LEFT OUTER JOIN common_token_values ctv ");
+        insert.append("              ON ctv.token_value = v.token_value ");
+        insert.append("             AND ctv.code_system_id = v.code_system_id ");
+        insert.append("             AND ctv.parameter_name_id = v.parameter_name_id ");
+        insert.append("      WHERE ctv.token_value IS NULL");
         
         // Note, we use PreparedStatement here on purpose. Partly because it's
         // secure coding best practice, but also because many resources will have the
         // same number of parameters, and hopefully we'll therefore share a small subset
         // of statements for better performance. Although once the cache warms up, this
         // shouldn't be called at all.
-        StringBuilder inList = new StringBuilder(); // for the select query later
         try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
             // bind all the name values as parameters
             int a = 1;
-            for (String name: refNames) {
-                ps.setString(a++, name);
-                
-                if (inList.length() > 0) {
-                    inList.append(",");
-                }
-                inList.append("?");
+            for (CommonTokenValue tv: tokenValues) {
+                ps.setString(a++, tv.getTokenValue());
+                ps.setInt(a++, tv.getParameterNameId());
+                ps.setInt(a++, tv.getCodeSystemId());
             }
             
             ps.executeUpdate();
@@ -500,44 +512,56 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
             throw translator.translate(x);
         }
         
+        
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
         // second query.
+        // Derby doesn't support IN LISTS with multiple members, so we have to join against
+        // a VALUES again. No big deal...probably similar amount of work for the database
         StringBuilder select = new StringBuilder();
-        select.append("SELECT external_reference_value, external_reference_value_id FROM external_reference_values WHERE external_reference_value IN (");
-        select.append(inList);
-        select.append(")");
-
+        select.append("     SELECT ctv.parameter_name_id, ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
+        select.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, parameter_name_id, code_system_id) ");
+        select.append("       JOIN common_token_values ctv ");
+        select.append("              ON ctv.token_value = v.token_value ");
+        select.append("             AND ctv.code_system_id = v.code_system_id ");
+        select.append("             AND ctv.parameter_name_id = v.parameter_name_id ");
+        
         // Grab the ids
-        Map<String, Long> idMap = new HashMap<>();
+        Map<CommonTokenValue, Long> idMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
             int a = 1;
-            for (String name: refNames) {
-                ps.setString(a++, name);
+            for (CommonTokenValue tv: tokenValues) {
+                ps.setString(a++, tv.getTokenValue());
+                ps.setInt(a++, tv.getParameterNameId());
+                ps.setInt(a++, tv.getCodeSystemId());
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                idMap.put(rs.getString(1), rs.getLong(2));
+                // parameter_name_id, code_system_id, token_value
+                CommonTokenValue key = new CommonTokenValue(rs.getInt(1), rs.getInt(2), rs.getString(3));
+                idMap.put(key, rs.getLong(4));
             }
         } catch (SQLException x) {
             throw translator.translate(x);
         }
         
         // Now update the ids for all the matching systems in our list
-        for (ExternalResourceReferenceRec xr: values) {
-            Long id = idMap.get(xr.getExternalRefValue());
+        for (ResourceTokenValueRec xr: values) {
+            CommonTokenValue key = new CommonTokenValue(xr.getParameterNameId(), xr.getCodeSystemValueId(), xr.getTokenValue());
+            Long id = idMap.get(key);
             if (id != null) {
-                xr.setExternalRefValueId(id);
+                xr.setCommonTokenValueId(id);
+
+                // update the thread-local cache with this id. The values aren't committed to the shared cache
+                // until the transaction commits
+                cache.addTokenValue(key, id);
             } else {
                 // Unlikely...but need to handle just in case
-                logger.severe("Record for external_reference_value '" + xr.getExternalRefValue() + "' inserted but not found");
+                logger.severe("Record for external_reference_value '" + xr.getTokenValue() + "' inserted but not found");
                 throw new IllegalStateException("id deleted from database!");
             }
         }
-        
-        // TODO Final step...update the cache
-        
     }
 
     @Override

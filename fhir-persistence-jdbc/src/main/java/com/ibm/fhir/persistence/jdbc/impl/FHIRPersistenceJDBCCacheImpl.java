@@ -10,27 +10,27 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMET
 
 
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 
 /**
  * Aggregates the individual caches used for a tenant
  */
 public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
     
-    private final IResourceReferenceCache resourceReferenceCache;
+    private final ICommonTokenValuesCache resourceReferenceCache;
     
     /**
      * Public constructor
      * @param resourceReferenceCache
      */
-    public FHIRPersistenceJDBCCacheImpl(IResourceReferenceCache resourceReferenceCache) {
+    public FHIRPersistenceJDBCCacheImpl(ICommonTokenValuesCache resourceReferenceCache) {
         this.resourceReferenceCache = resourceReferenceCache;
     }
 
     /**
      * @return the resourceReferenceCache
      */
-    public IResourceReferenceCache getResourceReferenceCache() {
+    public ICommonTokenValuesCache getResourceReferenceCache() {
         return resourceReferenceCache;
     }
     

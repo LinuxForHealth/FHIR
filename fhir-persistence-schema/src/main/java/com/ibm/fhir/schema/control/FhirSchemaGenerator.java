@@ -93,6 +93,7 @@ public class FhirSchemaGenerator {
     private Table codeSystemsTable;
     private Table parameterNamesTable;
     private Table resourceTypesTable;
+    private Table commonTokenValuesTable;
 
     // A NOP marker used to ensure procedures are only applied after all the create
     // table statements are applied - to avoid DB2 catalog deadlocks
@@ -296,22 +297,23 @@ public class FhirSchemaGenerator {
         addFhirRefSequence(model);
         addParameterNames(model);
         addCodeSystems(model);
+        addCommonTokenValues(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
         addReferencesSequence(model);
         addLocalReferences(model);
-        addExternalSystems(model);
-        addExternalReferenceValues(model);
-        addExternalReferences(model);
         addLogicalResourceCompartments(model);
 
         Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
+        
+        // new normalized table for supporting token data (replaces TOKEN_VALUES)
+        Table globalTokenValuesMap = addResourceTokenValuesMap(model);
 
         // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing
         // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
-        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues);
+        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues, globalTokenValuesMap);
 
         // All the table objects and types should be ready now, so create our NOP
         // which is used as a single dependency for all procedures. This means
@@ -499,112 +501,7 @@ public class FhirSchemaGenerator {
 
         return tbl;
     }
-    
-    
-    /**
-     * Add the external_systems table to the physical data model
-     * @param pdm
-     * @return
-     */
-    public Table addExternalSystems(PhysicalDataModel pdm) {
-        /*
-         * CREATE TABLE external_systems (
-   external_system_id         BIGINT     NOT NULL,
-   external_system_name      VARCHAR(64) NOT NULL,
-   CONSTRAINT pk_external_system PRIMARY KEY (external_system_id)
- );
 
- CREATE UNIQUE INDEX unq_external_system_nm ON external_systems(external_system_name);
-         */
-        final String tableName = EXTERNAL_SYSTEMS;
-        Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
-                .addIntColumn(     EXTERNAL_SYSTEM_ID,       false)
-                .setIdentityColumn(EXTERNAL_SYSTEM_ID, Generated.ALWAYS)
-                .addVarcharColumn(EXTERNAL_SYSTEM_NAME, MAX_SEARCH_STRING_BYTES, false)
-                .addUniqueIndex(IDX + tableName + "_XSN", EXTERNAL_SYSTEM_NAME)
-                .addPrimaryKey(tableName + "_PK", EXTERNAL_SYSTEM_ID)
-                .setTablespace(fhirTablespace)
-                .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
-                .build(pdm);
-
-        // TODO should not need to add as a table and an object. Get the table to add itself?
-        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        pdm.addTable(tbl);
-        pdm.addObject(tbl);
-
-        return tbl;
-    }
-
-    /**
-     * Table used to store normalized values for external reference strings. These
-     * strings can be quite long (urls) and may be referred to multiple times, so
-     * it makes sense we only store the value once, then use a BIGINT primary key
-     * to reference it
-     * @param pdm
-     * @return
-     */
-    public Table addExternalReferenceValues(PhysicalDataModel pdm) {
-        /*
-         */
-        final String tableName = EXTERNAL_REFERENCE_VALUES;
-        Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
-                .addBigIntColumn(     EXTERNAL_REFERENCE_VALUE_ID,  false)
-                .setIdentityColumn(EXTERNAL_REFERENCE_VALUE_ID, Generated.ALWAYS)
-                .addVarcharColumn(EXTERNAL_REFERENCE_VALUE, MAX_SEARCH_STRING_BYTES, false)
-                .addUniqueIndex(IDX + tableName + "_XSN", EXTERNAL_REFERENCE_VALUE)
-                .addPrimaryKey(tableName + "_PK", EXTERNAL_REFERENCE_VALUE_ID)
-                .setTablespace(fhirTablespace)
-                .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
-                .build(pdm);
-
-        // TODO should not need to add as a table and an object. Get the table to add itself?
-        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        pdm.addTable(tbl);
-        pdm.addObject(tbl);
-
-        return tbl;
-    }
-
-    /**
-     * @param pdm the physical data model object we are building
-     * @return Table the table that was added to the PhysicalDataModel
-     */
-    public Table addExternalReferences(PhysicalDataModel pdm) {
-
-        // Mapping table, so no primary key
-        final String tableName = EXTERNAL_REFERENCES;
-        Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
-                .addIntColumn(              PARAMETER_NAME_ID, false)
-                .addBigIntColumn(         LOGICAL_RESOURCE_ID, false)
-                .addIntColumn(             EXTERNAL_SYSTEM_ID, false)
-                .addBigIntColumn( EXTERNAL_REFERENCE_VALUE_ID, false)
-                .addIndex(IDX + tableName + "_LRSR", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID)
-                .addIndex(IDX + tableName + "_XSXRPN", EXTERNAL_SYSTEM_ID, EXTERNAL_REFERENCE_VALUE_ID, PARAMETER_NAME_ID)
-                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
-                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
-                .addForeignKeyConstraint(FK + tableName + "_XS", schemaName, EXTERNAL_SYSTEMS, EXTERNAL_SYSTEM_ID)
-                .addForeignKeyConstraint(FK + tableName + "_XR", schemaName, EXTERNAL_REFERENCE_VALUES, EXTERNAL_REFERENCE_VALUE_ID)
-                .setTablespace(fhirTablespace)
-                .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
-                .build(pdm);
-
-        // TODO should not need to add as a table and an object. Get the table to add itself?
-        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        pdm.addTable(tbl);
-        pdm.addObject(tbl);
-
-        return tbl;
-    }
-    
     /**
      * Adds the system level logical_resource_compartments table which identifies to
      * which compartments a give resource belongs. A resource may belong to many
@@ -778,7 +675,7 @@ public class FhirSchemaGenerator {
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
             // Add additional dependencies the group doesn't yet know about
-            group.addDependencies(Arrays.asList(this.codeSystemsTable, this.parameterNamesTable, this.resourceTypesTable));
+            group.addDependencies(Arrays.asList(this.codeSystemsTable, this.parameterNamesTable, this.resourceTypesTable, this.commonTokenValuesTable));
 
             // Add all other dependencies that were explicitly passed
             group.addDependencies(Arrays.asList(dependency));
@@ -856,6 +753,89 @@ public class FhirSchemaGenerator {
         model.addTable(codeSystemsTable);
         model.addObject(codeSystemsTable);
 
+    }
+
+    /**
+     * Table used to store normalized values for tokens, shared by all the
+     * <RESOURCE_TYPE>_TOKEN_VALUES tables. Although this requires an additional
+     * join, it cuts down on space by avoiding repeating long strings (e.g. urls).
+     * This also helps to reduce the total sizes of the indexes, helping to improve
+     * cache hit rates for a given buffer cache size.
+     * Token values may or may not have an associated code system, in which case,
+     * it assigned a default system. This is why CODE_SYSTEM_ID is not nullable and 
+     * has a FK constraint. 
+     * 
+     * We never need to find all token values for a given code-system, so there's no need
+     * for a second index (CODE_SYSTEM_ID, TOKEN_VALUE). Do not add it.
+     * 
+     * Token values and their system will usually be (but not always) segmented by parameter.
+     * For efficiency reasons, we include parameter_name_id here, which means that we don't
+     * need to include it in the TOKEN_VALUES_MAP tables, resulting in fewer columns required
+     * to index in those tables. This assumes, of course, that many records in those tables
+     * will be sharing the same record in this table.
+     * 
+     * @param pdm
+     * @return the table definition
+     */
+    public void addCommonTokenValues(PhysicalDataModel pdm) {
+        final String tableName = COMMON_TOKEN_VALUES;
+        commonTokenValuesTable = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(     COMMON_TOKEN_VALUE_ID,                          false)
+                .setIdentityColumn(   COMMON_TOKEN_VALUE_ID, Generated.ALWAYS)
+                .addIntColumn(               CODE_SYSTEM_ID,                          false)
+                .addIntColumn(            PARAMETER_NAME_ID,                          false)
+                .addVarcharColumn(              TOKEN_VALUE, MAX_TOKEN_VALUE_BYTES,   false)
+                .addUniqueIndex(IDX + tableName + "_TVCP", TOKEN_VALUE, CODE_SYSTEM_ID, PARAMETER_NAME_ID)
+                .addPrimaryKey(tableName + "_PK", COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        commonTokenValuesTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(commonTokenValuesTable);
+        pdm.addObject(commonTokenValuesTable);
+    }
+
+    /**
+     * Add the system-wide TOKEN_VALUES_MAP table which is used for
+     * _tag and _security search properties in R4 (new table
+     * for issue #1366 V0006 schema change). Replaces the
+     * previous TOKEN_VALUES table.
+     * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
+     */
+    public Table addResourceTokenValuesMap(PhysicalDataModel pdm) {
+
+        final String tableName = TOKEN_VALUES_MAP;
+
+        // logical_resources (0|1) ---- (*) token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
     }
 
     /**

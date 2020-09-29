@@ -17,45 +17,49 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.persistence.jdbc.dao.impl.ExternalResourceReferenceRec;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 
 /**
- * unit test for {@link ResourceReferenceCacheImpl}
+ * unit test for {@link CommonTokenValuesCacheImpl}
  */
 public class ResourceReferenceCacheImplTest {
 
     @Test
     public void testExternalSystemNames() {
-        // A cache with a limited size of 2
-        ResourceReferenceCacheImpl impl = new ResourceReferenceCacheImpl(2, 2);
-        impl.addExternalSystemName("sys1", 1);
-        impl.addExternalSystemName("sys2", 2);
-        impl.addExternalSystemName("sys3", 3);
+        // A cache with a limited size of 3 code systems and 2 token values
+        // For this test to work, we have to make sure we can always resolve
+        // all the code systems, so don't make the cache size smaller than 3
+        CommonTokenValuesCacheImpl impl = new CommonTokenValuesCacheImpl(3, 2);
+        impl.addCodeSystem("sys1", 1);
+        impl.addCodeSystem("sys2", 2);
+        impl.addCodeSystem("sys3", 3);
         
         // The following fetches will be served from the thread-local map because
         // we haven't yet called ResourceReferenceCacheImpl#updateSharedMaps()
         Set<String> names = new HashSet<>();
-        List<ExternalResourceReferenceRec> xrefs = new ArrayList<>();
-        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, 1L, "sys1", "val1"));
-        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, 1L, "sys2", "val2"));
+        List<ResourceTokenValueRec> xrefs = new ArrayList<>();
+        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys1", "val1"));
+        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys2", "val2"));
         
         // Ask the cache to resolve the system/value strings
-        List<ExternalResourceReferenceRec> systemMisses = new ArrayList<>();
-        List<ExternalResourceReferenceRec> valueMisses = new ArrayList<>();
-        impl.resolveExternalReferences(xrefs, systemMisses, valueMisses);
+        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
+        impl.resolveCodeSystems(xrefs, systemMisses);
         
         // check we only have misses for what we expected
         assertEquals(0, systemMisses.size());
-        assertEquals(2, valueMisses.size());
 
         // Check that we have ids assigned for the system hits
-        ExternalResourceReferenceRec sys1 = xrefs.get(0);
-        assertEquals("sys1", sys1.getExternalSystemName());
-        assertEquals(1, sys1.getExternalSystemNameId());
-        ExternalResourceReferenceRec sys2 = xrefs.get(1);
-        assertEquals("sys2", sys2.getExternalSystemName());
-        assertEquals(2, sys2.getExternalSystemNameId());
+        ResourceTokenValueRec sys1 = xrefs.get(0);
+        assertEquals("sys1", sys1.getCodeSystemValue());
+        assertEquals(1, sys1.getCodeSystemValueId());
+        ResourceTokenValueRec sys2 = xrefs.get(1);
+        assertEquals("sys2", sys2.getCodeSystemValue());
+        assertEquals(2, sys2.getCodeSystemValueId());
+        
+        List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
+        impl.resolveTokenValues(xrefs, valueMisses);
+        assertEquals(2, valueMisses.size());        
         
         // Update the shared cache, which will also clear the thread-local map
         // Note that the cache size is only 2, put we added 3 key-values. Because
@@ -64,40 +68,38 @@ public class ResourceReferenceCacheImplTest {
         
         // Now try the fetch again...so we have to read from the shared cache.
         // Should only find "sys2", not "sys1". Reset our inputs first
-        sys1.setExternalSystemNameId(-1);
-        sys2.setExternalSystemNameId(-1);
+        sys1.setCodeSystemValueId(-1);
+        sys2.setCodeSystemValueId(-1);
         systemMisses.clear();
         valueMisses.clear();
-        impl.resolveExternalReferences(xrefs, systemMisses, valueMisses);
-
-        assertEquals(1, systemMisses.size());
+        
+        impl.resolveCodeSystems(xrefs, systemMisses);
+        assertEquals(0, systemMisses.size());
+        
+        impl.resolveTokenValues(xrefs, valueMisses);
         assertEquals(2, valueMisses.size());
 
-        assertEquals(-1, sys1.getExternalSystemNameId());
-        assertEquals(2, sys2.getExternalSystemNameId());
+        assertEquals(1, sys1.getCodeSystemValueId());
+        assertEquals(2, sys2.getCodeSystemValueId());
 
-        // check that sys1 was added to the system misses
-        sys1 = systemMisses.get(0);
-        assertEquals("sys1", sys1.getExternalSystemName());
-        
-
-        // Make sure sys3 is also found
-        xrefs.add(new ExternalResourceReferenceRec(1, "Patient", 1, 1L, "sys3", "val3"));
-        sys1.setExternalSystemNameId(-1);
-        sys2.setExternalSystemNameId(-1);
+        // Make sure sys3 is found
+        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys3", "val3"));
+        sys1.setCodeSystemValueId(-1);
+        sys2.setCodeSystemValueId(-1);
         systemMisses.clear();
         valueMisses.clear();
-        impl.resolveExternalReferences(xrefs, systemMisses, valueMisses);
-        ExternalResourceReferenceRec sys3 = xrefs.get(2);
+        
+        impl.resolveCodeSystems(xrefs, systemMisses);
+        impl.resolveTokenValues(xrefs, valueMisses);
+        ResourceTokenValueRec sys3 = xrefs.get(2);
 
-        // should still be missing sys1
-        assertEquals(1, systemMisses.size());
+        assertEquals(0, systemMisses.size());
         assertEquals(3, valueMisses.size());
 
-        assertEquals(-1, sys1.getExternalSystemNameId());
-        assertEquals(2, sys2.getExternalSystemNameId());
+        assertEquals(1, sys1.getCodeSystemValueId());
+        assertEquals(2, sys2.getCodeSystemValueId());
         
-        assertEquals("sys3", sys3.getExternalSystemName());
-        assertEquals(3, sys3.getExternalSystemNameId());
+        assertEquals("sys3", sys3.getCodeSystemValue());
+        assertEquals(3, sys3.getCodeSystemValueId());
     }
 }

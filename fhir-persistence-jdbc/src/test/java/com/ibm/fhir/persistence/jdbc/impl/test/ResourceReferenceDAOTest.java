@@ -28,11 +28,11 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ExternalResourceReferenceRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.LocalResourceReferenceRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
@@ -49,7 +49,7 @@ public class ResourceReferenceDAOTest {
     private Connection connection;
 
     // The cache used by the tests
-    private ResourceReferenceCacheImpl cache = new ResourceReferenceCacheImpl(10, 10);
+    private CommonTokenValuesCacheImpl cache = new CommonTokenValuesCacheImpl(10, 10);
     
     private ParameterDAO parameterDAO;
     
@@ -114,13 +114,13 @@ public class ResourceReferenceDAOTest {
             final long lr1 = dao.createGhostLogicalResource("Patient", "pat1");
             final long lr2 = dao.createGhostLogicalResource("Patient", "pat2");
     
-            ExternalResourceReferenceRec rec1 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys1", "value1");
-            ExternalResourceReferenceRec rec2 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys1", "value2");
-            ExternalResourceReferenceRec rec3 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys2", "value1");
-            ExternalResourceReferenceRec rec4 = new ExternalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr2, "sys2", "value2");
+            ResourceTokenValueRec rec1 = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys1", "value1");
+            ResourceTokenValueRec rec2 = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys1", "value2");
+            ResourceTokenValueRec rec3 = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, lr1, "sys2", "value1");
+            ResourceTokenValueRec rec4 = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, lr2, "sys2", "value2");
             
-            List<ExternalResourceReferenceRec> xrefs = Arrays.asList(rec1, rec2, rec3, rec4);
-            dao.addExternalReferences(xrefs);
+            List<ResourceTokenValueRec> xrefs = Arrays.asList(rec1, rec2, rec3, rec4);
+            dao.addCommonTokenValues("Patient", xrefs);
             connection.commit();
         } catch (Exception x) {
             // Log before cleanup throws another exception which could hide this issue

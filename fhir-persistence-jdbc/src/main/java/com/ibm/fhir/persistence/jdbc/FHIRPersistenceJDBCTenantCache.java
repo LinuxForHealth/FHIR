@@ -14,8 +14,8 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 
 /**
@@ -79,7 +79,7 @@ public class FHIRPersistenceJDBCTenantCache {
      * @return
      */
     protected FHIRPersistenceJDBCCache createCache(int sharedExternalSystemNameCacheSize, int sharedExternalReferenceValuesCacheSize) {
-        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(sharedExternalSystemNameCacheSize, sharedExternalReferenceValuesCacheSize);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(sharedExternalSystemNameCacheSize, sharedExternalReferenceValuesCacheSize);
         
         return new FHIRPersistenceJDBCCacheImpl(rrc);
     }

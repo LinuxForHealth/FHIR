@@ -15,7 +15,7 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
@@ -40,7 +40,7 @@ public class FHIRResourceDAOFactory {
      * @throws FHIRPersistenceException
      */
     public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
-        IResourceReferenceCache cache)
+        ICommonTokenValuesCache cache)
         throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
         
@@ -72,7 +72,7 @@ public class FHIRResourceDAOFactory {
      * @throws FHIRPersistenceException
      */
     public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, 
-        IResourceReferenceCache cache) throws IllegalArgumentException, FHIRPersistenceException {
+        ICommonTokenValuesCache cache) throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
         
         IResourceReferenceDAO rrd;

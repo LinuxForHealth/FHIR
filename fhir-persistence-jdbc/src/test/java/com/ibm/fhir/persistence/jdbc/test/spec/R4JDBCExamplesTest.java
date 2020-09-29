@@ -26,8 +26,8 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
@@ -57,7 +57,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(derbyConnectionProvider, 1);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
 
         List<ITestResourceOperation> operations = new ArrayList<>();

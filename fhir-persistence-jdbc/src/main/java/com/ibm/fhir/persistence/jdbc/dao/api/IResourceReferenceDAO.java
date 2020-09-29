@@ -9,7 +9,7 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 import java.util.Collection;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ExternalResourceReferenceRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.LocalResourceReferenceRec;
 
 /**
@@ -21,7 +21,7 @@ public interface IResourceReferenceDAO {
      * Get the cache used by the DAO
      * @return
      */
-    IResourceReferenceCache getResourceReferenceCache();
+    ICommonTokenValuesCache getResourceReferenceCache();
     
     /**
      * Execute any statements with pending batch entries
@@ -53,11 +53,12 @@ public interface IResourceReferenceDAO {
     void deleteLogicalResourceCompartments(long logicalResourceId);
 
     /**
-     * Add the list of external references. Creates new external_system and external_reference_value
-     * records as necessary
+     * Add TOKEN_VALUE_MAP records, creating any CODE_SYSTEMS and COMMON_TOKEN_VALUES
+     * as necessary
+     * @param resourceType
      * @param xrefs
      */
-    void addExternalReferences(Collection<ExternalResourceReferenceRec> xrefs);
+    void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs);
 
     /**
      * Add the local references (assumes the referenced records have been created

@@ -9,6 +9,8 @@ package com.ibm.fhir.schema.control;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_ALLERGIES_LIST;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_DRUG_ALLERGIES_LIST;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_MEDICATIONS_LIST;
@@ -50,6 +52,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_MAP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
@@ -163,6 +166,7 @@ public class FhirResourceTableGroup {
         addLatLngValues(group, tablePrefix);
         addQuantityValues(group, tablePrefix);
         addComposites(group, tablePrefix);
+        addTokenValuesMap(group, tablePrefix);
 
         // group all the tables under one object so that we can perform everything within one
         // transaction. This helps to eliminate deadlocks when adding the FK constraints due to
@@ -385,6 +389,36 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
         group.add(alterTable);
     }
+
+    /**
+     * New schema for issue #1366. Uses a map table to reduce cost of indexing repeated token values
+     * @param pdm
+     * @return
+     */
+    public void addTokenValuesMap(List<IDatabaseObject> group, String prefix) {
+
+        final String tableName = prefix + "_" + TOKEN_VALUES_MAP;
+
+        // logical_resources (0|1) ---- (*) token_values_map
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(model);
+
+        group.add(tbl);
+        model.addTable(tbl);
+    }
+
+    
 
     /**
      * <pre>

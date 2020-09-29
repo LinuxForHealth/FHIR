@@ -51,8 +51,8 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
@@ -349,7 +349,7 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
         configure(configProvider);
-        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
 
         
@@ -432,7 +432,7 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
             FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
@@ -484,7 +484,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
 
         // create a custom list of operations to apply in order to each resource
@@ -539,7 +539,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
 
         // create a custom list of operations to apply in order to each resource

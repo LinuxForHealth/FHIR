@@ -13,8 +13,8 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
@@ -39,7 +39,7 @@ public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedT
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            IResourceReferenceCache rrc = new ResourceReferenceCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(rrc);
         }
     }

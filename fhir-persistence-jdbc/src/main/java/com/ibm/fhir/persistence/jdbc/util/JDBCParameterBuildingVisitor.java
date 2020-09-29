@@ -52,6 +52,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
@@ -436,23 +437,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
-        if (!TOKEN.equals(searchParamType)) {
-            throw invalidComboException(searchParamType, identifier);
-        }
-        if (identifier != null && identifier.getValue() != null) {
-            TokenParmVal p = new TokenParmVal();
-            p.setName(searchParamCode);
-            if (identifier.getSystem() != null) {
-                p.setValueSystem(identifier.getSystem().getValue());
-            }
-            p.setValueCode(identifier.getValue().getValue());
-            result.add(p);
-        }
-        return false;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Money money) {
         if (!QUANTITY.equals(searchParamType)) {
             throw invalidComboException(searchParamType, money);
@@ -582,12 +566,32 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
+        if (!TOKEN.equals(searchParamType)) {
+            throw invalidComboException(searchParamType, identifier);
+        }
+        if (identifier != null && identifier.getValue() != null) {
+            TokenParmVal p = new TokenParmVal();
+            p.setName(searchParamCode);
+            if (identifier.getSystem() != null) {
+                p.setValueSystem(identifier.getSystem().getValue());
+            }
+            p.setValueCode(identifier.getValue().getValue());
+            result.add(p);
+        }
+        return false;
+    }
+
+    @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Reference reference) {
         if (!REFERENCE.equals(searchParamType)) {
             throw invalidComboException(searchParamType, reference);
         }
         if (reference.getReference() != null) {
-            StringParmVal p = new StringParmVal();
+            ReferenceParmVal p = new ReferenceParmVal();
+            // TODO. Decide where we need to determine external vs. local etc.
+            // TODO. Where is the system? Check some examples.
+            // StringParmVal p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(reference.getReference().getValue());
             result.add(p);

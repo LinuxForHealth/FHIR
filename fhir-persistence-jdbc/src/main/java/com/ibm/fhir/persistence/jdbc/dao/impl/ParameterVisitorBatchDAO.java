@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeCache;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
@@ -110,7 +110,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final IResourceReferenceDAO resourceReferenceDAO;
     
     // Collect a list of external resource references to process in one go
-    private final List<ExternalResourceReferenceRec> externalResourceReferences = new ArrayList<>();
+    private final List<ResourceTokenValueRec> externalResourceReferences = new ArrayList<>();
     
     // Collect a list of local resource references to process in one go
     private final List<LocalResourceReferenceRec> localResourceReferences = new ArrayList<>();
@@ -735,7 +735,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         
         if (rpv.isExternal()) {
             this.externalResourceReferences.add(
-                new ExternalResourceReferenceRec(parameterNameId, rpv.getResourceType(), resourceTypeId, this.logicalResourceId, 
+                new ResourceTokenValueRec(parameterNameId, rpv.getResourceType(), resourceTypeId, this.logicalResourceId, 
                     rpv.getSystem(), rpv.getValueString()));
         } else {
             String[] tokens = rpv.getValueString().split("/");

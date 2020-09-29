@@ -126,15 +126,16 @@ public class FhirSchemaConstants {
     
     // Table for Normalization of References (Internal and External)
     public static final String LOCAL_REFERENCES = "LOCAL_REFERENCES";
-    public static final String EXTERNAL_SYSTEMS = "EXTERNAL_SYSTEMS";
-    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
-    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
-    public static final String EXTERNAL_REFERENCES = "EXTERNAL_REFERENCES";
-    
-    public static final String EXTERNAL_REFERENCE_VALUES = "EXTERNAL_REFERENCE_VALUES";
-    public static final String EXTERNAL_REFERENCE_VALUE_ID = "EXTERNAL_REFERENCE_VALUE_ID";
-    public static final String EXTERNAL_REFERENCE_VALUE = "EXTERNAL_REFERENCE_VALUE";
     public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
+//    public static final String EXTERNAL_SYSTEMS = "EXTERNAL_SYSTEMS";
+//    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
+//    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
+//    public static final String EXTERNAL_REFERENCES = "EXTERNAL_REFERENCES";
+    
+    // For V0006 (issue #1366) token_values become normalized to improve storage efficiency
+    public static final String COMMON_TOKEN_VALUES = "COMMON_TOKEN_VALUES";
+    public static final String COMMON_TOKEN_VALUE_ID = "COMMON_TOKEN_VALUE_ID";
+    public static final String TOKEN_VALUES_MAP = "TOKEN_VALUES_MAP";
     
     public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
     public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";
