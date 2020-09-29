@@ -39,13 +39,23 @@ public class FHIRConfiguration {
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
 
     // Auth and security properties
-    public static final String PROPERTY_OAUTH_REGURL = "fhirServer/oauth/regUrl";
-    public static final String PROPERTY_OAUTH_AUTHURL = "fhirServer/oauth/authUrl";
-    public static final String PROPERTY_OAUTH_TOKENURL = "fhirServer/oauth/tokenUrl";
+    public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
+    public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";
+    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/cert/enabled";
+    public static final String PROPERTY_SECURITY_OAUTH_ENABLED = "fhirServer/security/oauth/enabled";
+    public static final String PROPERTY_SECURITY_OAUTH_REG_URL = "fhirServer/security/smart/regUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_AUTH_URL = "fhirServer/security/smart/authUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_TOKEN_URL = "fhirServer/security/smart/tokenUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_MANAGE_URL = "fhirServer/security/smart/manageUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_INTROSPECT_URL = "fhirServer/security/smart/introspectUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_REVOKE_URL = "fhirServer/security/smart/revokeUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_ENABLED = "fhirServer/security/oauth/smart/enabled";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/smart/scopes";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES = "fhirServer/security/smart/scopes";
 
-    public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/authFilter/enabled";
-    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/authFilter/authorizedClientCertClientCN";
-    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/authFilter/authorizedClientCertIssuerOU";
+    public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/security/cert/authFilter/enabled";
+    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/security/cert/authFilter/authorizedClientCertClientCN";
+    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/security/cert/authFilter/authorizedClientCertIssuerOU";
 
     // Audit config properties
     public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";

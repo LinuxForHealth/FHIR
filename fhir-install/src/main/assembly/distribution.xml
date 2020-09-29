@@ -74,9 +74,8 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
+                <!-- included as there are some transitive dependencies picked up during integration test builds. -->
                 <include>${project.groupId}:fhir-ig-*</include>
-                <!-- TODO: move operations to userlib -->
-                <!-- <include>${project.groupId}:fhir-operation-*</include> -->
             </includes>
         </dependencySet>
         <dependencySet>

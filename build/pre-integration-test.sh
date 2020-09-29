@@ -49,8 +49,9 @@ cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${SIT}/wlp/usr/servers/f
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 
 echo "Copying test artifacts to install location..."
-rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/*
+rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/fhir-operation-*-tests.jar
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
+find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${SIT}/wlp/usr/servers/fhir-server/userlib/ \;
 
 # Start up the fhir server
 echo "

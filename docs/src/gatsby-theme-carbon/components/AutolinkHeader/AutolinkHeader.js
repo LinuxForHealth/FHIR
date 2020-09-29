@@ -17,8 +17,9 @@ const AutolinkHeader = ({ is: Component, className, ...props }) => {
     (child) => (child.props ? child.props.children : child) // handle bold/italic words
   ).join('');
 
-  const id = `${slugify(string, { 
-    remove: '.',
+  const id = `${slugify(string, {
+    replacement: '-', 
+    strict: true,
     lower: true }
     )}`;
 

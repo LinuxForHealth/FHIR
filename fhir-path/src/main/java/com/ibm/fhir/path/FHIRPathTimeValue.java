@@ -13,10 +13,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 
 /**
@@ -30,7 +32,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
                 .optionalStart()
                     .appendPattern(":ss")
                     .optionalStart()
-                        .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
                     .optionalEnd()
                 .optionalEnd()
             .optionalEnd()
@@ -74,7 +76,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
      *     a new FHIRPathTimeValue instance
      */
     public static FHIRPathTimeValue timeValue(String text) {
-        LocalTime time = LocalTime.parse(text, PARSER_FORMATTER);
+        LocalTime time = ModelSupport.truncateTime(LocalTime.parse(text, PARSER_FORMATTER), ChronoUnit.MICROS);
         ChronoField precision = getPrecision(time, text);
         return FHIRPathTimeValue.builder(time, precision).text(text).build();
     }

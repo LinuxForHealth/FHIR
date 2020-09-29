@@ -6,13 +6,21 @@
 
 package com.ibm.fhir.server.resources;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_AUTH_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_INTROSPECT_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_MANAGE_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REG_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REVOKE_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_SMART_SCOPES;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKEN_URL;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,58 +90,77 @@ public class WellKnown extends FHIRResource {
     private JsonObject buildSmartConfig() throws Exception {
         String actualHost = new URI(getRequestUri()).getHost();
 
-        String regURLTemplate = null;
         String authURLTemplate = null;
         String tokenURLTemplate = null;
+        String regURLTemplate = null;
+        String manageURLTemplate = null;
+        String introspectURLTemplate = null;
+        String revokeURLTemplate = null;
+        List<String> supportedScopes = null;
+        List<String> capabilities = null;
+
         try {
-            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
-            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
-            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
+            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
+            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
+            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
+            manageURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
+            introspectURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
+            revokeURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
+            Object[] smartScopeObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_OAUTH_SMART_SCOPES);
+            Object[] capabilityObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES);
+            if (smartScopeObjs != null) {
+                supportedScopes = Arrays.asList(Arrays.copyOf(smartScopeObjs, smartScopeObjs.length, String[].class));
+            }
+            if (capabilityObjs != null) {
+                capabilities = Arrays.asList(Arrays.copyOf(capabilityObjs, capabilityObjs.length, String[].class));
+            } else {
+                // Set an empty list since capabilities is a required field
+                capabilities = new ArrayList<String>();
+            }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the response", e);
+            log.log(Level.SEVERE, "An error occurred while reading the OAuth/SMART properties", e);
         }
-        String regURL = regURLTemplate.replaceAll("<host>", actualHost);
         String authURL = authURLTemplate.replaceAll("<host>", actualHost);
         String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
+        String regURL = regURLTemplate.replaceAll("<host>", actualHost);
+        String manageURL = manageURLTemplate.replaceAll("<host>", actualHost);
+        String introspectURL = introspectURLTemplate.replaceAll("<host>", actualHost);
+        String revokeURL = revokeURLTemplate.replaceAll("<host>", actualHost);
 
         JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
 
+        responseBuilder.add("authorization_endpoint", authURL); // required
+        responseBuilder.add("token_endpoint", tokenURL); // required
+
         if (regURL != null && !regURL.isEmpty()) {
-            responseBuilder.add("registration_endpoint", regURL);
+            responseBuilder.add("registration_endpoint", regURL); // recommended
+        }
+        if (manageURL != null && !manageURL.isEmpty()) {
+            responseBuilder.add("management_endpoint", manageURL); // recommended
+        }
+        if (introspectURL != null && !introspectURL.isEmpty()) {
+            responseBuilder.add("introspection_endpoint", introspectURL); // recommended
+        }
+        if (revokeURL != null && !revokeURL.isEmpty()) {
+            responseBuilder.add("revocation_endpoint", revokeURL); // recommended
         }
 
-        return responseBuilder
-                .add("authorization_endpoint", authURL) // required
-                .add("token_endpoint", tokenURL) // required
-                .add("scopes_supported", Json.createArrayBuilder() // recommended
-                    .add("openid")
-                    .add("profile")
-                    .add("offline_access")
-                    // TODO
-//                    .add("launch")
-//                    .add("launch/patient")
-//                    .add("user/*.*")
-//                    .add("patient/*.*")
-                    .build())
-                .add("response_types", Json.createArrayBuilder() // recommended
-                    .add("code")
-                    .add("token")
-                    .add("id_token token")
-                    .build())
-                .add("capabilities", Json.createArrayBuilder() // required
-                    .add("launch-standalone")
-                    .add("client-public")
-                    .add("client-confidential-symmetric")
-                    .add("permission-offline")
-                    // TODO
-//                    .add("context-standalone-patient")
-//                    .add("context-standalone-encounter")
-//                    .add("permission-user")
-//                    .add("permission-patient")
-                    .build())
-// management_endpoint: RECOMMENDED, URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.
-// introspection_endpoint : RECOMMENDED, URL to a server’s introspection endpoint that can be used to validate a token.
-// revocation_endpoint : RECOMMENDED, URL to a server’s revoke endpoint that can be used to revoke a token.
-                .build();
+        if (supportedScopes != null && !supportedScopes.isEmpty()) {
+            responseBuilder.add("scopes_supported", Json.createArrayBuilder(supportedScopes).build()); // recommended
+        }
+
+        responseBuilder.add("response_types", Json.createArrayBuilder() // recommended
+                .add("code")
+                .add("token")
+                .add("id_token token")
+                .build());
+
+        responseBuilder.add("capabilities", Json.createArrayBuilder(capabilities).build()); // required
+
+// : RECOMMENDED, URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.
+//  : RECOMMENDED, URL to a server’s introspection endpoint that can be used to validate a token.
+//  : RECOMMENDED, URL to a server’s revoke endpoint that can be used to revoke a token.
+
+        return responseBuilder.build();
     }
 }
