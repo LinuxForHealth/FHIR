@@ -266,7 +266,7 @@ Note, if you are including some custom libraries or other libraries, you should 
     }
 ```
 
-10. Implement your business logic using the invoke Parameters.
+10. Implement your business logic using the invoke Parameters. Every request is secured by a user-group and has an associated tenant/user.
 
 | Method Parameter | How to use it |
 |------------|------------|
@@ -283,7 +283,7 @@ Note, if you are including some custom libraries or other libraries, you should 
 return FHIROperationUtil.getOutputParameters(operationOutcome);
 ```
 
-Note, every request is secured by a user-group and has an associated tenant/user.
+If you return a single Resource in the Parameters object, the result is the single resource, such as a single OperationOutcome returned without the response Parameters.
 
 # Tips and Tricks
 The following are some tips and tricks:
