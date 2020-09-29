@@ -99,6 +99,12 @@
     </dataSource>
 
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
+    
+    <cors domain="/"
+        allowedOrigins="*"
+        allowedMethods="GET, DELETE, POST, PUT, HEAD"
+        allowedHeaders="*"
+        maxAge="3600" />
 
     <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm">
