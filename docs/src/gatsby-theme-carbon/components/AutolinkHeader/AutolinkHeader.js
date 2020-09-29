@@ -1,4 +1,4 @@
-import React fr:om 'react';
+import React from 'react';
 import { Link20 as Link } from '@carbon/icons-react';
 import cx from 'classnames';
 import slugify from 'slugify';
