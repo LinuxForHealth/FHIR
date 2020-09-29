@@ -1490,6 +1490,6 @@ public class SearchTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(allergyIntolerance);
-        assertEquals(allergyIntolerance, allergyIntolerance.getId());
+        assertEquals(allergyIntoleranceId, allergyIntolerance.getId());
     }
 }
