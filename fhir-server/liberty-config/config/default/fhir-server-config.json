@@ -28,7 +28,15 @@
                 "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
                 "smart": {
                     "enabled": false,
-                    "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"]
+                    "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
+                    "capabilities": [
+                        "launch-standalone", 
+                        "client-public", 
+                        "client-confidential-symmetric", 
+                        "permission-offline",
+                        "context-standalone-patient",
+                        "permission-patient"
+                    ]
                 }
             }
         },

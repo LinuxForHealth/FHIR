@@ -1455,6 +1455,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/security/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/security/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/manageUrl`|string|The URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.|
+|`fhirServer/security/oauth/introspectUrl`|string|The URL of the server’s introspection endpoint that can be used to validate a token.|
+|`fhirServer/security/oauth/revokeUrl`|string|The URL to the server’s endpoint that can be used to revoke a token.|
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|A list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
@@ -1530,6 +1533,9 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/security/oauth/regUrl`|""|
 |`fhirServer/security/oauth/authUrl`|""|
 |`fhirServer/security/oauth/tokenUrl`|""|
+|`fhirServer/security/oauth/manageUrl`|""|
+|`fhirServer/security/oauth/introspectUrl`|""|
+|`fhirServer/security/oauth/revokeUrl`|""|
 |`fhirServer/security/oauth/smart/enabled`|boolean|false|
 |`fhirServer/security/oauth/smart/scopes`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
@@ -1594,6 +1600,9 @@ must restart the server for that change to take effect.
 |`fhirServer/security/oauth/regUrl`|N|N|
 |`fhirServer/security/oauth/authUrl`|N|N|
 |`fhirServer/security/oauth/tokenUrl`|N|N|
+|`fhirServer/security/oauth/manageUrl`|N|N|
+|`fhirServer/security/oauth/introspectUrl`|N|N|
+|`fhirServer/security/oauth/revokeUrl`|N|N|
 |`fhirServer/security/oauth/smart/enabled`|N|N|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
@@ -1841,8 +1850,7 @@ If you are using Liberty as both the openIdConnect server and the openIdConnect 
 * `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
 
 ### 5.3.3 Advertise the OAuth endpoints via fhir-server-config
-To configure the FHIR Server to advertise the OpenID Connect and OAuth 2.0 endpoints of the providers, specify the following values in the default fhir-server-config.json file:
-* `fhirServer/security/oauth/regUrl`
+To configure the FHIR Server to advertise the OpenID Connect and OAuth 2.0 endpoints of the providers, provide values for at least the following properties in the default fhir-server-config.json file:
 * `fhirServer/security/oauth/authUrl`
 * `fhirServer/security/oauth/tokenUrl`
 
@@ -1850,7 +1858,7 @@ When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeh
 
 These values will be used to populate the corresponding entries in both the server capability statement (`GET [base]/metadata`) and the smart-configuration (`GET [base]/.well-known/smart-configuration`).
 
-For example, the following excerpt from a CapabilityStatement shows sample OAuth-related URLs (token, authorize, and register) as values of the `valueUri` elements.
+For example, the following excerpt from a CapabilityStatement shows sample OAuth-related URLs (register, authorize, and token) values in the `valueUri` elements.
 ```
 …
 "rest": [
