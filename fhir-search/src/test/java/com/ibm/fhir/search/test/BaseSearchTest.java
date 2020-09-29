@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,6 @@ import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  *
- * @author paulbastide
  */
 public abstract class BaseSearchTest {
 
@@ -53,7 +52,6 @@ public abstract class BaseSearchTest {
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
-    @BeforeMethod
     @AfterMethod
     public void clearThreadLocal() {
         FHIRRequestContext.remove();
@@ -124,6 +122,5 @@ public abstract class BaseSearchTest {
         for (Class vl : valueTypes) {
             System.out.println(vl.getSimpleName());
         }
-
     }
 }
