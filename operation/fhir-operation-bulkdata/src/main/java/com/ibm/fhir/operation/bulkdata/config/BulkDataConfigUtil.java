@@ -21,7 +21,7 @@ import com.ibm.fhir.config.PropertyGroup;
 public class BulkDataConfigUtil {
     private static final String CLASSNAME = BulkDataConfigUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
-    
+
     public static final String APPLICATION_NAME = "applicationName";
     public static final String MODULE_NAME = "moduleName";
     public static final String JOB_XML_NAME = "jobXMLName";
@@ -42,6 +42,7 @@ public class BulkDataConfigUtil {
     public static final String BATCH_TRUSTSTORE_PASS = "batch-truststore-password";
 
     public static final String IMPLEMENTATION_TYPE = "implementation_type";
+    public static final String INCOMING_URL = "incomingUrl";
 
     private BulkDataConfigUtil() {
         // No Operation

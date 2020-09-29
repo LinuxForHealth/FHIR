@@ -54,9 +54,9 @@ public class ReferenceParameterHandler {
      */
     public static void generateReferenceParameterValues(SearchParameter parameter, List<QueryParameterValue> parameterValues, String valueString,
         String[] values, String modifierResourceTypeName) {
-        // The incomingUrl is taken from the Request Context.
+        // The incomingUrl is taken from the Request Context, else we inline a valid incomingUrl.
         String incomingUrl = FHIRRequestContext.get().getOriginalRequestUri();
-        String requestUriString = incomingUrl.split("\\?")[0];
+        String requestUriString = incomingUrl != null ? incomingUrl.split("\\?")[0] : "/v4/";
         int idx = requestUriString.lastIndexOf('/');
 
         String tmp = requestUriString.substring(0, idx);

@@ -44,6 +44,8 @@ public class JobParameter {
     private List<Input> inputs;
     private StorageDetail storageDetail;
 
+    private String incomingUrl;
+
     private String cosBucketName;
     private String cosOperationBucketNameOo;
     private String cosLocation;
@@ -189,6 +191,14 @@ public class JobParameter {
         this.storageDetail = storageDetail;
     }
 
+    public void setIncomingUrl(String incomingUrl) {
+        this.incomingUrl = incomingUrl;
+    }
+
+    public String getIncomingUrl() {
+        return this.incomingUrl;
+    }
+
     /**
      * Generates JSON from this object.
      */
@@ -287,7 +297,15 @@ public class JobParameter {
             if (parameter.getStorageDetails() != null) {
                 type = parameter.getStorageDetails().getType();
             }
+
+            if (parameter.getInputs() != null) {
+                generator.write("fhir.dataSourcesInfo", writeToBase64(parameter.getInputs()));
+            }
             generator.write("import.fhir.storagetype", type);
+
+            if (parameter.getIncomingUrl() != null) {
+                generator.write("incomingUrl", parameter.getIncomingUrl());
+            }
 
             generator.writeEnd();
         }
@@ -351,6 +369,8 @@ public class JobParameter {
         public Builder fhirStorageType(StorageDetail storageDetail);
 
         public Builder fhirExportFormat(String mediaType);
+
+        public Builder incomingUrl(String incomingUrl);
     }
 
     public static class Parser {
@@ -441,6 +461,11 @@ public class JobParameter {
                 String storageType = obj.getString("import.fhir.storagetype");
                 builder.fhirStorageType(new StorageDetail(storageType, Collections.emptyList()));
             }
+
+            if (obj.containsKey("incomingUrl")) {
+                String incomingUrl = obj.getString("incomingUrl");
+                builder.incomingUrl(incomingUrl);
+            }
         }
 
         /**
@@ -475,11 +500,11 @@ public class JobParameter {
 
     @Override
     public String toString() {
-        return "JobParameter [fhirResourceType=" + fhirResourceType + ", fhirSearchFromDate=" + fhirSearchFromDate
-                + ", fhirTenant=" + fhirTenant + ", fhirDataStoreId=" + fhirDataStoreId + ", fhirPatientGroupId="
-                + fhirPatientGroupId + ", fhirTypeFilters=" + fhirTypeFilters + ", cosBucketName=" + cosBucketName
-                + ", cosLocation=" + cosLocation + ", cosEndpointUrl=" + cosEndpointUrl + ", cosCredentialIbm="
-                + cosCredentialIbm + ", cosApiKey=" + cosApiKey + ", cosSrvInstId=" + cosSrvInstId
-                + ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";
+        return "JobParameter [fhirResourceType=" + fhirResourceType + ", fhirSearchFromDate=" + fhirSearchFromDate + ", fhirTenant=" + fhirTenant
+                + ", fhirDataStoreId=" + fhirDataStoreId + ", fhirPatientGroupId=" + fhirPatientGroupId + ", fhirTypeFilters=" + fhirTypeFilters
+                + ", fhirExportFormat=" + fhirExportFormat + ", inputs=" + inputs + ", storageDetail=" + storageDetail + ", incomingUrl=" + incomingUrl
+                + ", cosBucketName=" + cosBucketName + ", cosOperationBucketNameOo=" + cosOperationBucketNameOo + ", cosLocation=" + cosLocation
+                + ", cosEndpointUrl=" + cosEndpointUrl + ", cosCredentialIbm=" + cosCredentialIbm + ", cosApiKey=" + cosApiKey + ", cosSrvInstId="
+                + cosSrvInstId + ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";
     }
 }

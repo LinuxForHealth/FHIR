@@ -72,60 +72,64 @@ public class ChunkReader extends AbstractItemReader {
     boolean isDoDuplicationCheck = false;
 
     /**
-     * Fhir tenant id.
+     * FHIR tenant id.
      */
     @Inject
     @BatchProperty(name = Constants.FHIR_TENANT)
     protected String fhirTenant;
 
     /**
-     * Fhir data store id.
+     * FHIR data store id.
      */
     @Inject
     @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
     protected String fhirDatastoreId;
 
     /**
-     * Fhir resource type to process.
+     * FHIR resource type to process.
      */
     @Inject
     @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     protected String fhirResourceType;
 
     /**
-     * Fhir export format.
+     * FHIR export format.
      */
     @Inject
     @BatchProperty(name = Constants.EXPORT_FHIR_FORMAT)
     protected String fhirExportFormat;
 
     /**
-     * Fhir Search from date.
+     * FHIR Search from date.
      */
     @Inject
     @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_FROMDATE)
     String fhirSearchFromDate;
 
     /**
-     * Fhir search to date.
+     * FHIR search to date.
      */
     @Inject
     @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_TODATE)
     String fhirSearchToDate;
 
     /**
-     * Fhir search page size.
+     * FHIR search page size.
      */
     @Inject
     @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_PAGESIZE)
     String fhirSearchPageSize;
 
     /**
-     * Fhir export type filters.
+     * FHIR export type filters.
      */
     @Inject
     @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_TYPEFILTERS)
     String fhirTypeFilters;
+
+    @Inject
+    @BatchProperty(name = Constants.INCOMING_URL)
+    String incomingUrl;
 
     @Inject
     StepContext stepCtx;
@@ -165,18 +169,23 @@ public class ChunkReader extends AbstractItemReader {
                 if (!searchCriteria.isEmpty()) {
                     queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCriteria);
                 }
-                queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
+                queryParameters.put("_sort", Arrays.asList(Constants.FHIR_SEARCH_LASTUPDATED));
 
                 List<String> compartmentSearchCriterias = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria("Patient", resourceType.getSimpleName());
                 if (compartmentSearchCriterias.size() > 1) {
                     isDoDuplicationCheck = true;
                 }
 
+                FHIRRequestContext context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
+                // Don't try using FHIRConfigHelper before setting the context!
+                FHIRRequestContext.set(context);
+                context.setOriginalRequestUri(incomingUrl);
+
                 for (String compartmentSearchCriteria: compartmentSearchCriterias) {
                     HashMap<String, List<String>> queryTmpParameters = new HashMap<>();
                     queryTmpParameters.putAll(queryParameters);
 
-                    queryTmpParameters.put(compartmentSearchCriteria, Arrays.asList(new String[] {String.join(",", patientIds)}));
+                    queryTmpParameters.put(compartmentSearchCriteria, Arrays.asList(String.join(",", patientIds)));
                     searchContext = SearchUtil.parseQueryParameters(resourceType, queryTmpParameters);
 
                     do {
@@ -312,7 +321,7 @@ public class ChunkReader extends AbstractItemReader {
             queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
         }
 
-        queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
+        queryParameters.put("_sort", Arrays.asList(Constants.FHIR_SEARCH_LASTUPDATED));
         searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);

@@ -218,6 +218,12 @@ public class JobInstanceRequest {
             jobParameter.setCosOperationBucketNameOo(cosBucketNameOperationOutcome);
             return this;
         }
+
+        @Override
+        public Builder incomingUrl(String incomingUrl) {
+            jobParameter.setIncomingUrl(incomingUrl);
+            return this;
+        }
     }
 
     public static Builder builder() {
