@@ -1,4 +1,4 @@
-import React from 'react';
+import React fr:om 'react';
 import { Link20 as Link } from '@carbon/icons-react';
 import cx from 'classnames';
 import slugify from 'slugify';
@@ -17,8 +17,9 @@ const AutolinkHeader = ({ is: Component, className, ...props }) => {
     (child) => (child.props ? child.props.children : child) // handle bold/italic words
   ).join('');
 
-  const id = `${slugify(string, { 
-    remove: '.',
+  const id = `${slugify(string, {
+    replacement: '-', 
+    strict: true,
     lower: true }
     )}`;
 
