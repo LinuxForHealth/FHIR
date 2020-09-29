@@ -23,7 +23,7 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
 FROM openliberty/open-liberty:20.0.0.6-full-java8-openj9-ubi
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
-MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
+LABEL maintainer="lmsurpre@us.ibm.com"
 
 ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
 
