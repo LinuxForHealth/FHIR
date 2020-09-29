@@ -86,7 +86,6 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Reference-absolute", "Patient/123");
         assertSearchReturnsSavedResource("Reference-absolute", "123");
 
-        //
         assertSearchReturnsSavedResource("Reference-absolute:Patient", "123");
     }
 
