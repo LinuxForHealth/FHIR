@@ -149,7 +149,7 @@ public class MaxValueSetTest {
 
         // Warning for type
         device = buildDevice().toBuilder()
-                .type(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build()).build();
+                .type(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
@@ -163,7 +163,7 @@ public class MaxValueSetTest {
 
         // Warning and error for specialization.systemType
         device = buildDevice().toBuilder().specialization(Arrays.asList(
-                Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build()).build(),
+                Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build(),
                 Specialization.builder().systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidSystem")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
@@ -171,7 +171,7 @@ public class MaxValueSetTest {
 
         // Warning and error for safety
         device = buildDevice().toBuilder().safety(Arrays.asList(
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build(),
+                CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build(),
                 CodeableConcept.builder().coding(Coding.builder().system(Uri.of("invalidSystem")).code(Code.of(ENGLISH_US)).build()).build()
                 )).build();
         issues = FHIRValidator.validator().validate(device);
@@ -181,7 +181,7 @@ public class MaxValueSetTest {
         // Warning for test-language-primary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
-                .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build()).build())).build();
+                .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
@@ -198,7 +198,7 @@ public class MaxValueSetTest {
         // Warning for test-language-secondary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension")
-                .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build()).build())).build();
+                .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
@@ -215,7 +215,7 @@ public class MaxValueSetTest {
         // Warning for test-language-tertiary-extension
         device = buildDevice().toBuilder()
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension")
-                .value(Code.of("i-klingon")).build())).build();
+                .value(Code.of("tlh")).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 2);
