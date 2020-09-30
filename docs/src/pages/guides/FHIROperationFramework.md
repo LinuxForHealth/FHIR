@@ -190,7 +190,7 @@ Note, once the Operation is loaded it is available until the server is restarted
 There are a number of examples in the [IBM/FHIR repo](https://github.com/IBM/FHIR/tree/master/operation).
 
 ## Installation of an Operation
-The Operations are installed into the `userlib` folder of the IBM FHIR Server. Some solutions are installing the operation as a layer in a docker image, or mountaint it as a volume.
+The Operations are installed into the `userlib` folder of the IBM FHIR Server. Some solutions are installing the operation as a layer in a docker image, or mount it as a volume.
 
 ![install location](https://raw.githubusercontent.com/wiki/IBM/FHIR/operation/installation-location.png)
 
