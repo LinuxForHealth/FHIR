@@ -18,6 +18,14 @@ public class LanguageRegistryUtil {
     }
 
     /**
+     * Loads the class in the classloader in order to initialize static members in LanguageRegistry.
+     * Call this before using the class in order to avoid a slight performance hit on first use.
+     */
+    public static void init() {
+        LanguageRegistry.init();
+    }
+
+    /**
      * Determines if the tag is a valid language tag registered with BCP-47.
      * If the tag contains any extensions or private-use subtags, it is not considered valid.
      * 

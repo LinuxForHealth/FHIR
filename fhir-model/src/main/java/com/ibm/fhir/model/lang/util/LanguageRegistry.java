@@ -32,6 +32,14 @@ class LanguageRegistry {
     }
 
     /**
+     * Loads the class in the classloader in order to initialize static members.
+     * Call this before using the class in order to avoid a slight performance hit on first use.
+     */
+    static void init() {
+        // allows us to initialize this class during startup
+    }
+
+    /**
      * Determines if the language subtag exists.
      * 
      * @param subtag
