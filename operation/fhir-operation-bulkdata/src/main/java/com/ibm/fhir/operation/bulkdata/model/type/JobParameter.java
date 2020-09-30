@@ -500,11 +500,23 @@ public class JobParameter {
 
     @Override
     public String toString() {
-        return "JobParameter [fhirResourceType=" + fhirResourceType + ", fhirSearchFromDate=" + fhirSearchFromDate + ", fhirTenant=" + fhirTenant
-                + ", fhirDataStoreId=" + fhirDataStoreId + ", fhirPatientGroupId=" + fhirPatientGroupId + ", fhirTypeFilters=" + fhirTypeFilters
-                + ", fhirExportFormat=" + fhirExportFormat + ", inputs=" + inputs + ", storageDetail=" + storageDetail + ", incomingUrl=" + incomingUrl
-                + ", cosBucketName=" + cosBucketName + ", cosOperationBucketNameOo=" + cosOperationBucketNameOo + ", cosLocation=" + cosLocation
-                + ", cosEndpointUrl=" + cosEndpointUrl + ", cosCredentialIbm=" + cosCredentialIbm + ", cosApiKey=" + cosApiKey + ", cosSrvInstId="
-                + cosSrvInstId + ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";
+        return "JobParameter [fhirResourceType=" + fhirResourceType + 
+                ", fhirSearchFromDate=" + fhirSearchFromDate + 
+                ", fhirTenant=" + fhirTenant + 
+                ", fhirDataStoreId=" + fhirDataStoreId + 
+                ", fhirPatientGroupId=" + fhirPatientGroupId + 
+                ", fhirTypeFilters=" + fhirTypeFilters + 
+                ", fhirExportFormat=" + fhirExportFormat + 
+                ", inputs=" + inputs + 
+                ", storageDetail=" + storageDetail + 
+                ", incomingUrl=" + incomingUrl + 
+                ", cosBucketName=" + cosBucketName + 
+                ", cosOperationBucketNameOo=" + cosOperationBucketNameOo + 
+                ", cosLocation=" + cosLocation + 
+                ", cosEndpointUrl=" + cosEndpointUrl + 
+                ", cosCredentialIbm=" + cosCredentialIbm + 
+                ", cosApiKey=" + cosApiKey + 
+                ", cosSrvInstId=" + cosSrvInstId + 
+                ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";
     }
 }
