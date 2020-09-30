@@ -21,13 +21,17 @@ public class LocalResourceReferenceRec extends ResourceRefRec {
     // The local ref value and its normalized database id (when we have it)
     private final String refLogicalId;
     private long refLogicalResourceId = -1;
+    
+    // The version of the target reference...may be null
+    private final Integer refVersion;
 
     public LocalResourceReferenceRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
-        String refResourceType, int refResourceTypeId, String refLogicalId) {
+        String refResourceType, int refResourceTypeId, String refLogicalId, Integer refVersion) {
         super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
         this.refResourceType = refResourceType;
         this.refResourceTypeId = refResourceTypeId;
         this.refLogicalId = refLogicalId;
+        this.refVersion = refVersion;
     }
     
     /**
@@ -63,5 +67,12 @@ public class LocalResourceReferenceRec extends ResourceRefRec {
      */
     public String getRefLogicalId() {
         return refLogicalId;
+    }
+
+    /**
+     * @return the refVersion
+     */
+    public Integer getRefVersion() {
+        return refVersion;
     }
 }

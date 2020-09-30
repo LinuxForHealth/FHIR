@@ -53,6 +53,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
@@ -350,8 +351,7 @@ public class Main {
         TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
         configure(configProvider);
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
-
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
@@ -433,7 +433,7 @@ public class Main {
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
+            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
             // create a custom list of operations to apply in order to each resource
@@ -485,7 +485,7 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -540,7 +540,8 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(rrc);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();

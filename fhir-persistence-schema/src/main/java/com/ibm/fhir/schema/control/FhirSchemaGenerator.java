@@ -476,14 +476,15 @@ public class FhirSchemaGenerator {
         // No primary key. LOCAL_REFERENCES is a mapping table representing multiple many-many relationships
         // between resources. Both sides of the relationship (logical_resource_id and ref_logical_resource_id)
         // are indexed to support different access patterns depending on where the join happens in the query
-        // execution plan
+        // execution plan. Provides support for versioned references (when value of version_id is not null)
         final String tableName = LOCAL_REFERENCES;
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .setTenantColumnName(MT_ID)
-                .addIntColumn(     PARAMETER_NAME_ID,        false)
-                .addBigIntColumn(   LOGICAL_RESOURCE_ID,     false)
+                .addIntColumn(            PARAMETER_NAME_ID, false)
+                .addBigIntColumn(       LOGICAL_RESOURCE_ID, false)
                 .addBigIntColumn(   REF_LOGICAL_RESOURCE_ID, false)
+                .addIntColumn(                   VERSION_ID, true)
                 .addUniqueIndex(IDX + tableName + "_REFPNLR", REF_LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID)
                 .addUniqueIndex(IDX + tableName + "_", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, REF_LOGICAL_RESOURCE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)

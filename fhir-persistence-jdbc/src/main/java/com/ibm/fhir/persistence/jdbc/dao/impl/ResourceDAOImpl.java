@@ -34,12 +34,11 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -114,6 +113,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     private ResourceTypesCacheUpdater rtCacheUpdater = null;
     private TransactionSynchronizationRegistry trxSynchRegistry;
     private final IResourceReferenceDAO resourceReferenceDAO;
+    
+    private final FHIRPersistenceJDBCCache cache;
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
@@ -122,10 +123,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param flavor
      * @param trxSyncRegistry
      */
-    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, IResourceReferenceDAO rrd) {
+    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
         super(c, schemaName, flavor);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
+        this.cache = cache;
         this.resourceReferenceDAO = rrd;
     }
 
@@ -135,10 +137,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param schemaName
      * @param flavor
      */
-    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, IResourceReferenceDAO rrd) {
+    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
         super(c, schemaName, flavor);
         this.runningInTrx = false;
         this.trxSynchRegistry = null;
+        this.cache = cache;
         this.resourceReferenceDAO = rrd;
 
     }
@@ -535,9 +538,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
             long paramInsertStartTime = latestTime;
             if (parameters != null) {
-                IResourceTypeCache resourceTypeCacheAdapter = new ResourceTypeCacheAdapter(this);
+                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                        resource.getId(), 100, new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao), resourceReferenceDAO, resourceTypeCacheAdapter)) {
+                        resource.getId(), 100, identityCache, resourceReferenceDAO)) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
@@ -681,5 +684,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
+    }
+
+    /**
+     * Getter for access to the {@link FHIRPersistenceJDBCCache} from subclasses
+     * @return
+     */
+    protected FHIRPersistenceJDBCCache getCache() {
+        return this.cache;
     }
 }

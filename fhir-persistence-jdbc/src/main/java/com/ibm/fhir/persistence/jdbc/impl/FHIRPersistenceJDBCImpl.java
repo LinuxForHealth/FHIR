@@ -90,6 +90,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheUtil;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
@@ -177,7 +178,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
-        
+
+        // The cache holding ids (private to the current tenant).
         this.cache = cache;
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
@@ -189,6 +191,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         if (userTransaction != null) {
             this.trxSynchRegistry = getTrxSynchRegistry();
+            
+            // Connect the cache with the current transaction
+            trxSynchRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.cache));
         } else {
             this.trxSynchRegistry = null;
         }
@@ -200,12 +205,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
 
+
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
-        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
+        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
         this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction);
+        doCachePrefill();
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -262,6 +269,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
         this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
 
+        doCachePrefill();
+        // TODO connect the transactionAdapter to our cache so that we can handle tx events in a non-JEE world
+        
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -382,9 +392,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         if (this.trxSynchRegistry != null) {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache.getResourceReferenceCache());
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache);
         } else {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache.getResourceReferenceCache());
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
         }
     }
 
@@ -1645,6 +1655,26 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } else {
             log.fine("there are no datasource properties found for : [" + dsPropertyName + "]");
             throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
+        }
+    }
+
+    /**
+     * Prefill the caches
+     */
+    public void doCachePrefill() throws FHIRPersistenceException {
+        // Perform the cache prefill just once (for a given tenant). This isn't synchronous, so
+        // there's a chance for other threads to slip in before the prefill completes. Those threads
+        // just end up having cache-misses for the names they need.
+        // Note - this is done as the first thing in a transaction so there's no concern about reading
+        // uncommitted values.
+        if (cache.needToPrefill()) {
+            try (Connection connection = openConnection()) {
+                ResourceDAO resourceDao = makeResourceDAO(connection);
+                ParameterDAO parameterDao = makeParameterDAO(connection);
+                FHIRPersistenceJDBCCacheUtil.prefill(resourceDao, parameterDao, cache);
+            } catch (SQLException x) {
+                throw new FHIRPersistenceException("prefill cache failed", x);
+            }
         }
     }
 }

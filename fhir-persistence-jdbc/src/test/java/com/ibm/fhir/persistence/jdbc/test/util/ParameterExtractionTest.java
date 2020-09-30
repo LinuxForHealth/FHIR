@@ -60,6 +60,7 @@ import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
@@ -650,7 +651,7 @@ public class ParameterExtractionTest {
                  .accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_REF);
+        assertEquals(((ReferenceParmVal) params.get(0)).getValueString(), SAMPLE_REF);
     }
     
     @Test

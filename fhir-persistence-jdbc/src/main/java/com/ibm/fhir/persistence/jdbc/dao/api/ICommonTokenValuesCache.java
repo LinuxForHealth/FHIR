@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
@@ -49,6 +50,13 @@ public interface ICommonTokenValuesCache {
      */
      void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues, 
         List<ResourceTokenValueRec> system);
+     
+     /**
+      * Look up the id of the named codeSystem
+      * @param codeSystem
+      * @return the database identity of the code system, or null if no record was found
+      */
+     Integer getCodeSystemId(String codeSystem);
 
     /**
      * Add the id to the local cache
@@ -63,4 +71,17 @@ public interface ICommonTokenValuesCache {
       * @param id
       */
      public void addTokenValue(CommonTokenValue key, long id);
+
+    /**
+     * Clear any thread-local cache maps (probably because a transaction was rolled back)
+     */
+    void clearLocalMaps();
+
+    /**
+     * Add the contents of the given codeSystems map to the shared cache. It is assumed
+     * that all of these ids are already committed in the database, not newly inserted
+     * as part of the current transaction.
+     * @param codeSystems
+     */
+    void prefillCodeSystems(Map<String, Integer> codeSystems);
 }

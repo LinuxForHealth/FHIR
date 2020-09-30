@@ -23,11 +23,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -49,6 +46,10 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  */
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
+    
+    private static final String HISTORY = "_history";
+    private static final String HTTP = "http://";
+    private static final String HTTPS = "https://";
 
     // the connection to use for the inserts
     private final Connection connection;
@@ -100,23 +101,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final PreparedStatement resourceTokens;
     private int resourceTokenCount;
 
-    // For looking up parameter name ids
-    private final IParameterNameCache parameterNameCache;
-
-    // For looking up code system ids
-    private final ICodeSystemCache codeSystemCache;
-
     // DAO for handling the creation of records related to resource references (local and external)
     private final IResourceReferenceDAO resourceReferenceDAO;
     
-    // Collect a list of external resource references to process in one go
-    private final List<ResourceTokenValueRec> externalResourceReferences = new ArrayList<>();
+    // Collect a list of token values to process in one go
+    private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
     
     // Collect a list of local resource references to process in one go
     private final List<LocalResourceReferenceRec> localResourceReferences = new ArrayList<>();
 
-    // Cache for looking up resource type ids
-    private final IResourceTypeCache resourceTypeCache;
+    // The table prefix (resourceType)
+    private final String tablePrefix;
+    
+    // The common cache for all our identity lookup needs
+    private final JDBCIdentityCache identityCache;
 
     /**
      * Public constructor
@@ -124,7 +122,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      * @param resourceId
      */
     public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
-            IParameterNameCache pnc, ICodeSystemCache csc, IResourceReferenceDAO resourceReferenceDAO, IResourceTypeCache resourceTypeCache) throws SQLException {
+            JDBCIdentityCache identityCache, IResourceReferenceDAO resourceReferenceDAO) throws SQLException {
         if (batchSize < 1) {
             throw new IllegalArgumentException("batchSize must be >= 1");
         }
@@ -132,10 +130,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         this.connection = c;
         this.logicalResourceId = logicalResourceId;
         this.batchSize = batchSize;
-        this.parameterNameCache = pnc;
-        this.codeSystemCache = csc;
+        this.identityCache = identityCache;
         this.resourceReferenceDAO = resourceReferenceDAO;
-        this.resourceTypeCache = resourceTypeCache;
+        this.tablePrefix = tablePrefix;
 
         insertString = multitenant ?
                 "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
@@ -213,17 +210,16 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      * @return
      */
     protected int getParameterNameId(String parameterName) throws FHIRPersistenceException {
-        return parameterNameCache.readOrAddParameterNameId(parameterName);
-
+        return identityCache.getParameterNameId(parameterName);
     }
 
     /**
-     * Look up the code system
+     * Look up the code system. If it doesn't exist, add it to the database
      * @param codeSystem
      * @return
      */
     protected int getCodeSystemId(String codeSystem) throws FHIRPersistenceException {
-        return codeSystemCache.readOrAddCodeSystem(codeSystem);
+        return identityCache.getCodeSystemId(codeSystem);
     }
 
     @Override
@@ -688,6 +684,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 resourceTokens.executeBatch();
                 resourceTokenCount = 0;
             }
+            
         }
         catch (SQLException x) {
             SQLException batchException = x.getNextException();
@@ -698,6 +695,15 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             else {
                 throw x;
             }
+        }
+        
+        // Process any tokens and references we've collected along the way
+        if (!tokenValueRecs.isEmpty()) {
+            this.resourceReferenceDAO.addCommonTokenValues(this.tablePrefix, tokenValueRecs);
+        }
+        
+        if (!localResourceReferences.isEmpty()) {
+            this.resourceReferenceDAO.addLocalReferences(localResourceReferences);
         }
 
         closeStatement(strings);
@@ -730,25 +736,47 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     @Override
     public void visit(ReferenceParmVal rpv) throws FHIRPersistenceException {
-        int parameterNameId = getParameterNameId(rpv.getName());
-        int resourceTypeId = resourceTypeCache.getResourceTypeId(rpv.getResourceType());
+        final String valueString = rpv.getValueString();
+        if (valueString == null || valueString.isEmpty()) {
+            return;
+        }
         
-        if (rpv.isExternal()) {
-            this.externalResourceReferences.add(
-                new ResourceTokenValueRec(parameterNameId, rpv.getResourceType(), resourceTypeId, this.logicalResourceId, 
-                    rpv.getSystem(), rpv.getValueString()));
+        final String resourceType = this.tablePrefix;
+        int parameterNameId = getParameterNameId(rpv.getName());
+        Integer resourceTypeId = identityCache.getResourceTypeId(resourceType);
+        if (resourceTypeId == null) {
+            // resourceType is not sensitive, so it's OK to include in the exception message
+            throw new FHIRPersistenceException("Resource type not found in cache: '" + resourceType + "'");
+        }
+
+        if (valueString.startsWith(HTTP) || valueString.startsWith(HTTPS)) {
+            //  - absolute URL ==> http://some.system/a/fhir/resource/path
+            // stored as a token with the default system
+            this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
+        } else if (valueString.startsWith("#")) {
+            //  - Internal ==> #fragmentid1
+            // stored as a token value with the default system
+            this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
         } else {
-            String[] tokens = rpv.getValueString().split("/");
-            if (tokens.length != 2) {
-                logger.warning("ReferenceParmValue claims to be local but value string is not a valid reference: '" + rpv.getValueString() + "'");
-                throw new FHIRPersistenceException("Invalid local reference value");
+            //  - Relative ==> Patient/1234
+            //  - Relative ==> Patient/1234/_history/2
+            String[] tokens = valueString.split("/");
+            if (tokens.length > 1) {
+                String refResourceType = tokens[0];
+                String refLogicalId = tokens[1];
+                Integer refVersion = null;
+                if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
+                    // versioned reference
+                    refVersion = Integer.parseInt(tokens[3]);
+                }
+                int refResourceTypeId = identityCache.getResourceTypeId(refResourceType); 
+                this.localResourceReferences.add(
+                    new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, this.logicalResourceId, 
+                        refResourceType, refResourceTypeId, refLogicalId, refVersion));
+            } else {
+                // doesn't adhere to the intent of the FHIR spec, so we skip
+                logger.info("Skipping ReferenceParmValue '" + rpv.getName() + "' - value string is not a valid reference: '" + valueString + "'");
             }
-            String refResourceType = tokens[0];
-            String refLogicalId = tokens[1];
-            int refResourceTypeId = resourceTypeCache.getResourceTypeId(refResourceType); 
-            this.localResourceReferences.add(
-                new LocalResourceReferenceRec(parameterNameId, rpv.getResourceType(), resourceTypeId, this.logicalResourceId, 
-                    refResourceType, refResourceTypeId, refLogicalId));
         }
     }
 }

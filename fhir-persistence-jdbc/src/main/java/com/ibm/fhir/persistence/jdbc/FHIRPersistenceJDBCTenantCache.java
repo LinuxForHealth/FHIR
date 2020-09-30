@@ -15,7 +15,9 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 
 /**
@@ -80,8 +82,7 @@ public class FHIRPersistenceJDBCTenantCache {
      */
     protected FHIRPersistenceJDBCCache createCache(int sharedExternalSystemNameCacheSize, int sharedExternalReferenceValuesCacheSize) {
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(sharedExternalSystemNameCacheSize, sharedExternalReferenceValuesCacheSize);
-        
-        return new FHIRPersistenceJDBCCacheImpl(rrc);
+        return new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
     }
     
     /**

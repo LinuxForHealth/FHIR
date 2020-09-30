@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
@@ -74,12 +74,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
     }
 
-    /**
-     * Look up the given externalSystemName string in the cache. Looks in the thread-local
-     * cache first, falling back to the shared cache if it doesn't yet exist locally.
-     * @param codeSystem
-     * @return
-     */
+    @Override
     public Integer getCodeSystemId(String codeSystem) {
         // check the thread-local map first
         Integer result = null;
@@ -233,28 +228,40 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
     @Override
     public void reset() {
-        LinkedHashMap<String,Integer> sysMap = codeSystems.get();
+        codeSystems.remove();
+        commonTokenValues.remove();
 
-        // Clear code-system caches
-        if (sysMap != null) {
-            sysMap.clear();
-            codeSystems.set(null);
-        }
-        
+        // clear the shared caches too
         synchronized (this.codeSystemsCache) {
             this.codeSystemsCache.clear();
         }
 
-        // Clear the common token values caches
+        synchronized (this.tokenValuesCache) {
+            this.tokenValuesCache.clear();
+        }
+    }
+
+    @Override
+    public void clearLocalMaps() {
+        // clear the maps, but keep the maps in place because they'll be used again
+        // the next time this thread is picked from the pool
+        LinkedHashMap<String,Integer> sysMap = codeSystems.get();
+
+        if (sysMap != null) {
+            sysMap.clear();
+        }
+        
         LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
         
         if (valMap != null) {
             valMap.clear();
-            commonTokenValues.set(null);
         }
-        
-        synchronized (this.tokenValuesCache) {
-            this.tokenValuesCache.clear();
+    }
+
+    @Override
+    public void prefillCodeSystems(Map<String, Integer> codeSystems) {
+        synchronized(codeSystemsCache) {
+            codeSystemsCache.putAll(codeSystems);
         }
     }
 }

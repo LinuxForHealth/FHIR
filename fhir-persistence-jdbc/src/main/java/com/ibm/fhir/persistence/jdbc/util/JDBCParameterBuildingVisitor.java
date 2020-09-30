@@ -589,11 +589,20 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         if (reference.getReference() != null) {
             ReferenceParmVal p = new ReferenceParmVal();
-            // TODO. Decide where we need to determine external vs. local etc.
-            // TODO. Where is the system? Check some examples.
-            // StringParmVal p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(reference.getReference().getValue());
+            result.add(p);
+        }
+        
+        // Make sure we process the identifier if there is one.
+        Identifier identifier = reference.getIdentifier();
+        if (reference.getIdentifier() != null) {
+            TokenParmVal p = new TokenParmVal();
+            p.setName(searchParamCode);
+            if (identifier.getSystem() != null) {
+                p.setValueSystem(identifier.getSystem().getValue());
+            }
+            p.setValueCode(identifier.getValue().getValue());
             result.add(p);
         }
         return false;

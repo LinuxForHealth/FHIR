@@ -364,6 +364,10 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
      * @param systems
      */
     public void upsertCodeSystems(List<ResourceTokenValueRec> systems) {
+        if (systems.isEmpty()) {
+            return;
+        }
+        
         // Unique list so we don't try and create the same name more than once
         Set<String> systemNames = systems.stream().map(xr -> xr.getCodeSystemValue()).collect(Collectors.toSet());
         StringBuilder paramList = new StringBuilder();
@@ -458,6 +462,10 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
      * @param values
      */
     public void upsertCommonTokenValues(List<ResourceTokenValueRec> values) {
+        if (values.isEmpty()) {
+            return;
+        }
+        
         // Unique list so we don't try and create the same name more than once
         Set<CommonTokenValue> tokenValues = values.stream().map(xr -> new CommonTokenValue(xr.getParameterNameId(), xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
 

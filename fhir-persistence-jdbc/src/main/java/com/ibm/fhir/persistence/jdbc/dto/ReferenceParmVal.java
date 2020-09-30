@@ -22,13 +22,7 @@ public class ReferenceParmVal implements ExtractedParameterValue {
     
     // The reference value
     private String valueString;
-    
-    // The system (only for external references, null for local references)
-    private String system;
-    
-    // true if this reference is external, false if local
-    private boolean external;
-    
+        
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
 
@@ -87,33 +81,5 @@ public class ReferenceParmVal implements ExtractedParameterValue {
      */
     public void setBase(String base) {
         this.base = base;
-    }
-
-    /**
-     * @return the system
-     */
-    public String getSystem() {
-        return system;
-    }
-
-    /**
-     * @param system the system to set
-     */
-    public void setSystem(String system) {
-        this.system = system;
-    }
-
-    /**
-     * @return the external
-     */
-    public boolean isExternal() {
-        return external;
-    }
-
-    /**
-     * @param external the external to set
-     */
-    public void setExternal(boolean external) {
-        this.external = external;
     }
 }

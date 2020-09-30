@@ -15,6 +15,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
@@ -48,7 +49,7 @@ public class JDBCDeleteTest extends AbstractDeleteTest {
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-            cache = new FHIRPersistenceJDBCCacheImpl(rrc);
+            cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
     

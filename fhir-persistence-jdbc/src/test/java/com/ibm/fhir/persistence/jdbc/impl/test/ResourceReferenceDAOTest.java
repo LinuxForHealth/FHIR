@@ -24,12 +24,15 @@ import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.LocalResourceReferenceRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
@@ -49,7 +52,6 @@ public class ResourceReferenceDAOTest {
     private Connection connection;
 
     // The cache used by the tests
-    private CommonTokenValuesCacheImpl cache = new CommonTokenValuesCacheImpl(10, 10);
     
     private ParameterDAO parameterDAO;
     
@@ -79,16 +81,20 @@ public class ResourceReferenceDAOTest {
         DerbyMaster.dropDatabase(DB_NAME);
         derby = new DerbyFhirDatabase(DB_NAME, resourceTypeNames);
         
+        CommonTokenValuesCacheImpl tokenValuesCache = new CommonTokenValuesCacheImpl(10, 10);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), tokenValuesCache);
+        
         // Grab a connection which we use to initialize the DAO. This connetion is used
         // for the duration of the test
         connection = derby.getConnection();
-        dao = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache);
+        dao = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
 
         // Set up the DAO we need for access to some static config like resource types and parameter names
         FHIRDbFlavor flavor = new FHIRDbFlavorImpl(DbType.DERBY, false);
         parameterDAO = new ParameterDAOImpl(connection, schemaName, flavor);
         
-        resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, dao);
+        
+        resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, cache, dao);
     }
 
     @AfterClass
@@ -97,7 +103,6 @@ public class ResourceReferenceDAOTest {
         // start a transaction which will cause a problem when closing the connection. This
         // would be an error in the way the test is written. Fix it there, not here.
         dao.close();
-        cache.reset();
         connection.close();
         resourceTypeNames.clear();
     }
@@ -144,9 +149,46 @@ public class ResourceReferenceDAOTest {
             final int parameterNameId = parameterDAO.readParameterNameId("patient");
             final long lr1 = dao.createGhostLogicalResource("Patient", "pat1"); // should already exist
             final long lr2 = dao.createGhostLogicalResource("Patient", "pat2"); // and this too
-    
-            LocalResourceReferenceRec rec1 = new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "Patient", resourceTypeId, "pat2");
+            final Integer version = null;
+            
+            LocalResourceReferenceRec rec1 = new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "Patient", resourceTypeId, "pat2", version);
             rec1.setRefLogicalResourceId(lr2);
+            List<LocalResourceReferenceRec> lrefs = Arrays.asList(rec1);
+            dao.addLocalReferences(lrefs);
+            dao.flush();
+            connection.commit();
+
+        } catch (Exception x) {
+            // Log before cleanup throws another exception which could hide this issue
+            logger.log(Level.SEVERE, "testLocal", x);
+            try {
+                connection.rollback();
+            } catch (SQLException rbx) {
+                // NOP. Catch this so we don't hide the original exception.
+            }
+            throw x;
+        }
+        
+    }
+    
+    /**
+     * Test that we can store a versioned reference
+     * @throws Exception
+     */
+    @Test(dependsOnMethods = "testExternal")
+    public void testLocalWithVersion() throws Exception {
+        try {
+            Map<String, Integer> resourceNameMap = resourceDAO.readAllResourceTypeNames();
+            
+            final String resourceType = "Patient";
+            final int resourceTypeId = resourceNameMap.get(resourceType);
+            final int parameterNameId = parameterDAO.readParameterNameId("patient");
+            final long lr1 = dao.createGhostLogicalResource("Patient", "pat1"); // should already exist
+            final long lr3 = dao.createGhostLogicalResource("Patient", "pat3"); // should be added
+            final Integer version = Integer.valueOf(2);
+            
+            LocalResourceReferenceRec rec1 = new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, lr1, "Patient", resourceTypeId, "pat3", version);
+            rec1.setRefLogicalResourceId(lr3);
             List<LocalResourceReferenceRec> lrefs = Arrays.asList(rec1);
             dao.addLocalReferences(lrefs);
             dao.flush();
