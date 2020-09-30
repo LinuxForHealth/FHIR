@@ -1477,8 +1477,12 @@ public class SearchTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance", "testCreateProvenance" })
     public void testSearchWithRelativePatientId() {
         WebTarget target = getWebTarget();
-        Response response =
-                target.path("AllergyIntolerance").queryParam("patient", patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", tenantName).header("X-FHIR-DSID", dataStoreId).get();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("patient", patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
