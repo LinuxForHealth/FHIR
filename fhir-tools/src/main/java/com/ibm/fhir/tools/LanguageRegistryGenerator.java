@@ -50,6 +50,7 @@ public class LanguageRegistryGenerator {
      * Instantiates a LanguageTagGenerator.
      * 
      * @param languageSubTagRegistry
+     *            map of language registry entries
      */
     public LanguageRegistryGenerator(List<Map<String, String>> languageSubTagRegistry) {
         this.languageSubTagRegistry = languageSubTagRegistry;
@@ -57,6 +58,9 @@ public class LanguageRegistryGenerator {
 
     /**
      * Generates the Language Tag classes.
+     * 
+     * @param bathPath
+     *            the base path where to generate the classes
      */
     public void generate(String basePath) {
         String packageName = "com.ibm.fhir.model.lang.util";
@@ -70,6 +74,11 @@ public class LanguageRegistryGenerator {
 
     /**
      * Generate languages.
+     * 
+     * @param bathPath
+     *            the base path where to generate the classes
+     * @param packageName
+     *            the package name of the classes
      */
     private void generateLanguages(String basePath, String packageName) {
         CodeBuilder cb = new CodeBuilder();
@@ -94,6 +103,11 @@ public class LanguageRegistryGenerator {
 
     /**
      * Generate language extensions.
+     * 
+     * @param bathPath
+     *            the base path where to generate the class
+     * @param packageName
+     *            the package name of the class
      */
     private void generateExtLangs(String basePath, String packageName) {
         CodeBuilder cb = new CodeBuilder();
@@ -119,6 +133,11 @@ public class LanguageRegistryGenerator {
 
     /**
      * Generate scripts.
+     * 
+     * @param bathPath
+     *            the base path where to generate the class
+     * @param packageName
+     *            the package name of the class
      */
     private void generateScripts(String basePath, String packageName) {
         CodeBuilder cb = new CodeBuilder();
@@ -143,6 +162,11 @@ public class LanguageRegistryGenerator {
 
     /**
      * Generate regions.
+     * 
+     * @param bathPath
+     *            the base path where to generate the class
+     * @param packageName
+     *            the package name of the class
      */
     private void generateRegions(String basePath, String packageName) {
         CodeBuilder cb = new CodeBuilder();
@@ -152,7 +176,8 @@ public class LanguageRegistryGenerator {
             if (REGION.equals(entryMap.get(TYPE))) {
                 String subTag = entryMap.get(SUBTAG);
                 String deprecated = entryMap.get(DEPRECATED);
-                if (subTag != null && !PRIVATE_USE_REGION_SUBTAG_1.equalsIgnoreCase(subTag) && !PRIVATE_USE_REGION_SUBTAG_2.equalsIgnoreCase(subTag) && deprecated == null) {
+                if (subTag != null && !PRIVATE_USE_REGION_SUBTAG_1.equalsIgnoreCase(subTag) && !PRIVATE_USE_REGION_SUBTAG_2.equalsIgnoreCase(subTag)
+                        && deprecated == null) {
                     lines.add("r.add(" + CodeBuilder.quote(subTag.toLowerCase()) + ");");
                 }
             }
@@ -167,6 +192,11 @@ public class LanguageRegistryGenerator {
 
     /**
      * Generate variants.
+     * 
+     * @param bathPath
+     *            the base path where to generate the class
+     * @param packageName
+     *            the package name of the class
      */
     private void generateVariants(String basePath, String packageName) {
         CodeBuilder cb = new CodeBuilder();
@@ -201,7 +231,12 @@ public class LanguageRegistryGenerator {
     }
 
     /**
-     * Generate granfathered.
+     * Generate grandfathereds.
+     * 
+     * @param bathPath
+     *            the base path where to generate the class
+     * @param packageName
+     *            the package name of the class
      */
     private void generateGrandfathereds(String basePath, String packageName) {
         CodeBuilder cb = new CodeBuilder();
@@ -226,6 +261,15 @@ public class LanguageRegistryGenerator {
 
     /**
      * Write file.
+     * 
+     * @param cb
+     *            the code builder
+     * @param bathPath
+     *            the base path where to generate the classes
+     * @param packageName
+     *            the package name of the classes
+     * @param className
+     *            the class name
      */
     private void writeFile(CodeBuilder cb, String basePath, String packageName, String className) {
 

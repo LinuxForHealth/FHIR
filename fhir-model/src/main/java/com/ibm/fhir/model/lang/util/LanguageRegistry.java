@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Class that represents of the BCP-47 language registry, with all subtags in lowercase.
+ * Class that represents the BCP-47 language registry, with all subtags in lowercase.
  * Generated from "http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry".
  * Private and deprecated tags/subtags are not included.
  */
@@ -66,7 +66,7 @@ class LanguageRegistry {
      * 
      * @param subtag
      *            the extlang subtag (in lowercase)
-     * @return true or false
+     * @return the prefix tag (in lowercase)
      */
     static String getExtLangPrefix(String subtag) {
         return extLangs.get(subtag);
@@ -110,7 +110,7 @@ class LanguageRegistry {
      * 
      * @param subtag
      *            the variant subtag (in lowercase)
-     * @return true or false
+     * @return the list of prefix tags (in lowercase)
      */
     static List<String> getVariantPrefixes(String subtag) {
         return variants.get(subtag);
