@@ -53,10 +53,7 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Reference-relative", "https://example.com/Patient/123");
 
         assertSearchReturnsSavedResource("Reference-relative:Patient", "123");
-
-        // Originally the following test was set to not return a value, as we are now using 123 as a valid value, it
-        // does return the expected resource
-        assertSearchReturnsSavedResource("Reference-relative:Basic", "123");
+        assertSearchDoesntReturnSavedResource("Reference-relative:Basic", "123");
     }
 
     @Test

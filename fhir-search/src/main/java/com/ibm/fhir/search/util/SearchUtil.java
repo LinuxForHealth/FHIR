@@ -775,7 +775,7 @@ public class SearchUtil {
                     for (String queryParameterValueString : queryParameters.get(name)) {
                         QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
                         List<QueryParameterValue> queryParameterValues =
-                                processQueryParameterValueString(resourceType, searchParameter, modifier, queryParameterValueString);
+                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), queryParameterValueString);
                         parameter.getValues().addAll(queryParameterValues);
                         parameters.add(parameter);
                     }
@@ -805,13 +805,13 @@ public class SearchUtil {
      * Common logic from handling a single queryParameterValueString based on its type
      */
     private static List<QueryParameterValue> processQueryParameterValueString(Class<?> resourceType, SearchParameter searchParameter, Modifier modifier,
-        String queryParameterValueString) throws FHIRSearchException, Exception {
+        String modifierResourceTypeName, String queryParameterValueString) throws FHIRSearchException, Exception {
         String parameterCode = searchParameter.getCode().getValue();
         Type type = Type.fromValue(searchParameter.getType().getValue());
         List<QueryParameterValue> queryParameterValues;
         if (Modifier.MISSING.equals(modifier)) {
             // FHIR search considers booleans a special case of token for some reason...
-            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, queryParameterValueString, null);
+            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifierResourceTypeName, queryParameterValueString);
         } else {
             if (Type.COMPOSITE == type) {
                 List<Component> components = searchParameter.getComponent();
@@ -826,7 +826,7 @@ public class SearchUtil {
                 }
                 queryParameterValues = parseCompositeQueryParameterValuesString(searchParameter, parameterCode, compTypes, queryParameterValueString);
             } else {
-                queryParameterValues = parseQueryParameterValuesString(searchParameter, type, queryParameterValueString, null);
+                queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifierResourceTypeName, queryParameterValueString);
             }
         }
         return queryParameterValues;
@@ -863,7 +863,7 @@ public class SearchUtil {
     }
 
     private static List<QueryParameterValue> parseQueryParameterValuesString(SearchParameter searchParameter, Type type,
-        String queryParameterValuesString, String modifierResourceTypeName) throws FHIRSearchException {
+        String modifierResourceTypeName, String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND means it won't split on ',' that are preceded by a '\'
@@ -1183,7 +1183,7 @@ public class SearchUtil {
                     modifier = null;
                 }
 
-                HashSet<String> modifierResourceTypeName4ResourceTypes = new HashSet<>();
+                HashSet<String> modifierResourceTypeNameForResourceTypes = new HashSet<>();
                 if (resourceType != null) {
                     searchParameter = getSearchParameter(resourceType, parameterName);
                     type = Type.fromValue(searchParameter.getType().getValue());
@@ -1211,16 +1211,16 @@ public class SearchUtil {
 
                         if (modifierResourceTypeName == null && currentIndex < lastIndex) {
                             modifier                 = Modifier.TYPE;
-                            modifierResourceTypeName4ResourceTypes.add(targets.get(0).getValue());
+                            modifierResourceTypeNameForResourceTypes.add(targets.get(0).getValue());
                         }
                     }
                 }
 
 
-                if (modifierResourceTypeName4ResourceTypes.size() > 1) {
+                if (modifierResourceTypeNameForResourceTypes.size() > 1) {
                     String.format(DIFFERENT_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES, parameterName);
-                } else if (modifierResourceTypeName4ResourceTypes.size() == 1) {
-                    modifierResourceTypeName = modifierResourceTypeName4ResourceTypes.iterator().next();
+                } else if (modifierResourceTypeNameForResourceTypes.size() == 1) {
+                    modifierResourceTypeName = modifierResourceTypeNameForResourceTypes.iterator().next();
                 }
 
                 QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
@@ -1244,7 +1244,8 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<QueryParameterValue> valueList = processQueryParameterValueString(resourceType, searchParameter, modifier, valuesString);
+            List<QueryParameterValue> valueList =
+                    processQueryParameterValueString(resourceType, searchParameter, modifier, rootParameter.getModifierResourceTypeName(), valuesString);
             rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
@@ -1345,7 +1346,8 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<QueryParameterValue> valueList = processQueryParameterValueString(resourceType, searchParameter, modifier, valuesString);
+            List<QueryParameterValue> valueList =
+                    processQueryParameterValueString(resourceType, searchParameter, modifier, rootParameter.getModifierResourceTypeName(), valuesString);
             rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
