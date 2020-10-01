@@ -833,7 +833,7 @@ public class SearchUtil {
     }
 
     private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(SearchParameter searchParameter, String compositeParamCode,
-        List<Type> compTypes, String queryParameterValuesString) throws FHIRSearchException {
+            List<Type> compTypes, String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND prevents it from splitting on ',' that are preceded by a '\'
