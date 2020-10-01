@@ -6,11 +6,16 @@
 
 package com.ibm.fhir.config;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.text.StringSubstitutor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -53,7 +58,9 @@ public class ConfigurationService {
      *            an InputStream to the input JSON file
      */
     public static PropertyGroup loadConfiguration(InputStream is) throws Exception {
-        try (JsonReader reader = JSON_READER_FACTORY.createReader(is)) {
+        String templatedJson = IOUtils.toString(is, StandardCharsets.UTF_8);
+        String resolvedJson = StringSubstitutor.replace(templatedJson, System.getenv());
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(new StringReader(resolvedJson))) {
             JsonObject jsonObj = reader.readObject();
             reader.close();
             return instantiatePropertyGroup(jsonObj);
@@ -109,6 +116,7 @@ public class ConfigurationService {
     private static InputStream resolveFile(String filename) throws FileNotFoundException {
         // First, try to use the filename as-is.
         File f = new File(filename);
+
         if (f.exists()) {
             return new FileInputStream(f);
         }

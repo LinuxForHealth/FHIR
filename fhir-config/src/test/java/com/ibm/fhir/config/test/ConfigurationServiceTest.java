@@ -11,9 +11,17 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.testng.PowerMockObjectFactory;
+
+import org.testng.IObjectFactory;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.ConfigurationService;
@@ -21,7 +29,13 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.config.mock.MockPropertyGroup;
 
+@PrepareForTest(ConfigurationService.class)
 public class ConfigurationServiceTest {
+
+    @ObjectFactory
+    public IObjectFactory getObjectFactory() {
+        return new PowerMockObjectFactory();
+    }
 
     @AfterMethod
     public void cleanUp() {
@@ -65,6 +79,27 @@ public class ConfigurationServiceTest {
         assertNotNull(notificationProps.toString());
         assertFalse(notificationProps.toString().isEmpty());
     }
+
+    @Test
+    public void testLoadConfigurationWithEnvironmentVariables() throws Exception {
+        Map<String,String> env = new HashMap<>(System.getenv());
+        env.put("oauth.enabled", "true");
+        env.put("oauth.base.url", "http://localhost:9443");
+        env.put("oauth.url.path", "/oauth2/endpoint/provider/");
+        PowerMockito.mockStatic(System.class);
+        PowerMockito.when(System.getenv()).thenReturn(env);
+
+        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+        assertNotNull(pg);
+
+        // Validate retrieval of values based on environment variables.
+
+        PropertyGroup oauthProps = pg.getPropertyGroup("fhirServer/oauth");
+
+        assertEquals(true, oauthProps.getBooleanProperty("enabled").booleanValue());
+        assertEquals("http://localhost:9443/oauth2/endpoint/provider/reg", oauthProps.getStringProperty("regUrl"));
+    }
+
 
     @Test(expectedExceptions = { java.lang.IllegalArgumentException.class })
     public void testLoadConfigurationIllegalArg() throws Exception {
