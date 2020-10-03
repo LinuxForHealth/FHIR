@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -59,11 +60,27 @@ public class ConfigurationService {
      */
     public static PropertyGroup loadConfiguration(InputStream is) throws Exception {
         String templatedJson = IOUtils.toString(is, StandardCharsets.UTF_8);
-        String resolvedJson = StringSubstitutor.replace(templatedJson, System.getenv());
+        String resolvedJson = StringSubstitutor.replace(templatedJson, EnvironmentVariables.get());
         try (JsonReader reader = JSON_READER_FACTORY.createReader(new StringReader(resolvedJson))) {
             JsonObject jsonObj = reader.readObject();
             reader.close();
             return instantiatePropertyGroup(jsonObj);
+        }
+    }
+
+    /**
+     * Utility class that allows mocking system environment variables retrieval in test classes (as Mockito disallows
+     * mocking static methods of {@link System}).
+     */
+    public static class EnvironmentVariables {
+        /**
+         * Simple proxy method for {@link System#getenv()} that returns an unmodifiable string map view of the current
+         * system environment.
+         *
+         * @return the environment as a map of variable names to values
+         */
+        public static Map<String,String> get() {
+            return System.getenv();
         }
     }
 
@@ -116,7 +133,6 @@ public class ConfigurationService {
     private static InputStream resolveFile(String filename) throws FileNotFoundException {
         // First, try to use the filename as-is.
         File f = new File(filename);
-
         if (f.exists()) {
             return new FileInputStream(f);
         }

@@ -15,13 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.testng.PowerMockObjectFactory;
-
-import org.testng.IObjectFactory;
+import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.ConfigurationService;
@@ -29,13 +24,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.config.mock.MockPropertyGroup;
 
-@PrepareForTest(ConfigurationService.class)
 public class ConfigurationServiceTest {
-
-    @ObjectFactory
-    public IObjectFactory getObjectFactory() {
-        return new PowerMockObjectFactory();
-    }
 
     @AfterMethod
     public void cleanUp() {
@@ -82,12 +71,12 @@ public class ConfigurationServiceTest {
 
     @Test
     public void testLoadConfigurationWithEnvironmentVariables() throws Exception {
-        Map<String,String> env = new HashMap<>(System.getenv());
+        Map<String,String> env = new HashMap<>(ConfigurationService.EnvironmentVariables.get());
         env.put("oauth.enabled", "true");
         env.put("oauth.base.url", "http://localhost:9443");
         env.put("oauth.url.path", "/oauth2/endpoint/provider/");
-        PowerMockito.mockStatic(System.class);
-        PowerMockito.when(System.getenv()).thenReturn(env);
+        Mockito.mockStatic(ConfigurationService.EnvironmentVariables.class);
+        Mockito.when(ConfigurationService.EnvironmentVariables.get()).thenReturn(env);
 
         PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
         assertNotNull(pg);
