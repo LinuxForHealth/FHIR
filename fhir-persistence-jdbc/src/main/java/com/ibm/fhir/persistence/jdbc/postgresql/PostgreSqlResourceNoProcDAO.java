@@ -360,7 +360,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // replaces _token_values
                 deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
             }
         }

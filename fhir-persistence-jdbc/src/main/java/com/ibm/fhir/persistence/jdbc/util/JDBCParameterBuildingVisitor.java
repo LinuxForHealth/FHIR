@@ -286,13 +286,23 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(String elementName, int elementIndex, Uri uri) {
         if (uri.hasValue()) {
-            StringParmVal p = new StringParmVal();
             if (!URI.equals(searchParamType) && !REFERENCE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, uri);
             }
-            p.setName(searchParamCode);
-            p.setValueString(uri.getValue());
-            result.add(p);
+            
+            // For REFERENCE search parameters, we need to treat Uris as tokens,
+            // not strings.
+            if (REFERENCE.equals(this.searchParamType)) {
+                TokenParmVal p = new TokenParmVal();
+                p.setName(searchParamCode);
+                p.setValueCode(uri.getValue());
+                result.add(p);
+            } else {
+                StringParmVal p = new StringParmVal();
+                p.setName(searchParamCode);
+                p.setValueString(uri.getValue());
+                result.add(p);
+            }
         }
         return false;
     }

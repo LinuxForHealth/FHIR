@@ -135,7 +135,14 @@ public class FhirSchemaConstants {
     // For V0006 (issue #1366) token_values become normalized to improve storage efficiency
     public static final String COMMON_TOKEN_VALUES = "COMMON_TOKEN_VALUES";
     public static final String COMMON_TOKEN_VALUE_ID = "COMMON_TOKEN_VALUE_ID";
-    public static final String TOKEN_VALUES_MAP = "TOKEN_VALUES_MAP";
+    
+    // The table mapping a resource to its (shared) token values
+    public static final String RESOURCE_TOKEN_REFS = "RESOURCE_TOKEN_REFS";
+    public static final String REF_RESOURCE_TYPE_ID = "REF_RESOURCE_TYPE_ID";
+    public static final String REF_VERSION_ID = "REF_VERSION_ID";
+    
+    // View suffix to overlay the new common_token_values and resource_token_refs tables
+    public static final String TOKEN_VALUES_V = "TOKEN_VALUES_V";
     
     public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
     public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";

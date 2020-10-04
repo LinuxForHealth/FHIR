@@ -6,12 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCTenantCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 
 /**

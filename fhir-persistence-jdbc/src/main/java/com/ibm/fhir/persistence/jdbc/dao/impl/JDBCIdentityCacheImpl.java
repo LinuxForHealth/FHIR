@@ -10,6 +10,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
@@ -26,14 +27,14 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     private final ParameterDAO parameterDAO;
 
     // The DAO providing access to resource types
-    private final ResourceDAOImpl resourceDAO;
+    private final ResourceDAO resourceDAO;
 
     /**
      * Public constructor
      * @param cache
      * @param parameterDAO
      */
-    public JDBCIdentityCacheImpl(FHIRPersistenceJDBCCache cache, ResourceDAOImpl resourceDAO, ParameterDAO parameterDAO) {
+    public JDBCIdentityCacheImpl(FHIRPersistenceJDBCCache cache, ResourceDAO resourceDAO, ParameterDAO parameterDAO) {
         this.cache = cache;
         this.resourceDAO = resourceDAO;
         this.parameterDAO = parameterDAO;
@@ -63,7 +64,9 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
         if (result == null) {
             // cache miss, so hit the database
             result = parameterDAO.readOrAddCodeSystemId(codeSystemName);
-            cache.getResourceReferenceCache().addCodeSystem(codeSystemName, result);
+            if (result != null) {
+                cache.getResourceReferenceCache().addCodeSystem(codeSystemName, result);
+            }
         }
         return result;
     }

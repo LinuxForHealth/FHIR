@@ -17,8 +17,8 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
-import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
 
 /**
  * unit test for {@link CommonTokenValuesCacheImpl}

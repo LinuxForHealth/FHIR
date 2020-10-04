@@ -48,8 +48,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
     
     private static final String HISTORY = "_history";
-    private static final String HTTP = "http://";
-    private static final String HTTPS = "https://";
+    private static final String HTTP = "http:";
+    private static final String HTTPS = "https:";
+    private static final String URN = "urn:";
 
     // the connection to use for the inserts
     private final Connection connection;
@@ -101,15 +102,12 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final PreparedStatement resourceTokens;
     private int resourceTokenCount;
 
-    // DAO for handling the creation of records related to resource references (local and external)
+    // DAO for handling parameters stored as token values
     private final IResourceReferenceDAO resourceReferenceDAO;
     
     // Collect a list of token values to process in one go
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
     
-    // Collect a list of local resource references to process in one go
-    private final List<LocalResourceReferenceRec> localResourceReferences = new ArrayList<>();
-
     // The table prefix (resourceType)
     private final String tablePrefix;
     
@@ -385,9 +383,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String tokenValue = param.getValueCode();
         try {
             int parameterNameId = getParameterNameId(parameterName);
-            int codeSystemId = getCodeSystemId(codeSystem);
 
+            // TODO handle base (non-resource-specific) token values for issue #1366
             if (isBase(param)) {
+                int codeSystemId = getCodeSystemId(codeSystem);
+                
                 // store in the base (resource) table
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseTokenValue: " + parameterName + "[" + parameterNameId + "], "
@@ -408,16 +408,16 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             else {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], "
-                            + codeSystem + "[" + codeSystemId + "], " + tokenValue);
+                            + codeSystem + ", " + tokenValue);
                 }
-
-                setTokenParms(tokens, parameterNameId, codeSystemId, tokenValue);
-                tokens.addBatch();
-
-                if (++tokenCount == this.batchSize) {
-                    tokens.executeBatch();
-                    tokenCount = 0;
+                
+                // Add the new token value to the collection we're building...what's the resourceTypeId?
+                final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
+                if (tokenValue == null) {
+                    logger.info("tokenValue: " + parameterName + "[" + parameterNameId + "], "
+                            + codeSystem + ", " + tokenValue);
                 }
+                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue));
             }
         }
         catch (FHIRPersistenceDataAccessException x) {
@@ -701,10 +701,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         if (!tokenValueRecs.isEmpty()) {
             this.resourceReferenceDAO.addCommonTokenValues(this.tablePrefix, tokenValueRecs);
         }
-        
-        if (!localResourceReferences.isEmpty()) {
-            this.resourceReferenceDAO.addLocalReferences(localResourceReferences);
-        }
 
         closeStatement(strings);
         closeStatement(numbers);
@@ -749,8 +745,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             throw new FHIRPersistenceException("Resource type not found in cache: '" + resourceType + "'");
         }
 
-        if (valueString.startsWith(HTTP) || valueString.startsWith(HTTPS)) {
+        if (valueString.startsWith(HTTP) || valueString.startsWith(HTTPS) || valueString.startsWith(URN)) {
             //  - absolute URL ==> http://some.system/a/fhir/resource/path
+            //  - absolute URI ==> urn:uuid:53fefa32-1111-2222-3333-55ee120877b7
             // stored as a token with the default system
             this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
         } else if (valueString.startsWith("#")) {
@@ -769,10 +766,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     // versioned reference
                     refVersion = Integer.parseInt(tokens[3]);
                 }
-                int refResourceTypeId = identityCache.getResourceTypeId(refResourceType); 
-                this.localResourceReferences.add(
-                    new LocalResourceReferenceRec(parameterNameId, resourceType, resourceTypeId, this.logicalResourceId, 
-                        refResourceType, refResourceTypeId, refLogicalId, refVersion));
+
+                // Store a token value configured as a reference to another resource
+                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion));
+                
             } else {
                 // doesn't adhere to the intent of the FHIR spec, so we skip
                 logger.info("Skipping ReferenceParmValue '" + rpv.getName() + "' - value string is not a valid reference: '" + valueString + "'");

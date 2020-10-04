@@ -14,16 +14,17 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 
 /**
- * An interface to a cache of entities used for managing references between
- * resources (local or external).
+ * An interface for a cache of code system and related token values. The
+ * cache is specialized in that it supports some specific operations to
+ * process list of objects with minimal locking.
+ * 
+ * The code-systems cache can be pre-filled because it is reasonable to
+ * expect that it can be sized to accommodate every value. There are
+ * likely to be too many unique token-values to cache, so these need
+ * to be retrieved on-demand and managed as LRU.
  */
 public interface ICommonTokenValuesCache {
 
-    /**
-     * Clear the thread-local and shared caches
-     */
-    void reset();
-    
     /**
      * Take the records we've touched in the current thread and update the
      * shared LRU maps.
@@ -37,7 +38,7 @@ public interface ICommonTokenValuesCache {
      * @param xrefs
      * @param misses the objects we couldn't find in the cache
      */
-     void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues, 
+    void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues, 
         List<ResourceTokenValueRec> misses);
     
     /**
@@ -48,7 +49,7 @@ public interface ICommonTokenValuesCache {
      * @param commonTokenValues
      * @param misses the objects we couldn't find in the cache
      */
-     void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues, 
+    void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues, 
         List<ResourceTokenValueRec> system);
      
      /**
@@ -63,19 +64,24 @@ public interface ICommonTokenValuesCache {
      * @param externalSystemName
      * @param id
      */
-     void addCodeSystem(String codeSystem, int id);
+    void addCodeSystem(String codeSystem, int id);
 
      /**
       * Add the CommonTokenValue and id to the local cache
       * @param key
       * @param id
       */
-     public void addTokenValue(CommonTokenValue key, long id);
+    public void addTokenValue(CommonTokenValue key, long id);
 
     /**
      * Clear any thread-local cache maps (probably because a transaction was rolled back)
      */
     void clearLocalMaps();
+    
+    /**
+     * Clear the thread-local and shared caches (for test purposes)
+     */
+    void reset();
 
     /**
      * Add the contents of the given codeSystems map to the shared cache. It is assumed

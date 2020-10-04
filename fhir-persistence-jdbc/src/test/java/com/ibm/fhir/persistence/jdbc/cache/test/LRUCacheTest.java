@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.persistence.jdbc.dao.impl.LRUCache;
+import com.ibm.fhir.persistence.jdbc.cache.LRUCache;
 
 /**
  * Unit tests for {@link LRUCache}

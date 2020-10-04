@@ -20,13 +20,39 @@ public class ResourceTokenValueRec extends ResourceRefRec {
 
     // The external ref value and its normalized database id (when we have it)
     private final String tokenValue;
-    private long commonTokenValueId = -1;
+    private Long commonTokenValueId;
+    private final Integer refVersionId;
 
+    /**
+     * Public constructor
+     * @param parameterNameId
+     * @param resourceType
+     * @param resourceTypeId
+     * @param logicalResourceId
+     * @param externalSystemName
+     * @param externalRefValue
+     */
     public ResourceTokenValueRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
-        String externalSystemName, String externalRefValue) {
+        String codeSystem, String externalRefValue) {
+        this(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, externalRefValue, null);
+    }
+
+    /**
+     * Public constructor. For use to create a versioned resource reference
+     * @param parameterNameId
+     * @param resourceType
+     * @param resourceTypeId
+     * @param logicalResourceId
+     * @param externalSystemName
+     * @param externalRefValue
+     * @param refVersionId
+     */
+    public ResourceTokenValueRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
+        String externalSystemName, String externalRefValue, Integer refVersionId) {
         super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
         this.codeSystemValue = externalSystemName;
         this.tokenValue = externalRefValue;
+        this.refVersionId = refVersionId;
     }
 
     /**
@@ -58,16 +84,25 @@ public class ResourceTokenValueRec extends ResourceRefRec {
     }
 
     /**
-     * @return the commonTokenValueId
+     * @return the commonTokenValueId, can be null if the value has not been set
      */
-    public long getCommonTokenValueId() {
+    public Long getCommonTokenValueId() {
         return commonTokenValueId;
     }
 
     /**
-     * @param externalRefValueId the externalRefValueId to set
+     * Sets the database id for the commonTokenValue record.
+     * @param commontTokenValueId to set
      */
     public void setCommonTokenValueId(long commonTokenValueId) {
+        // because we're setting this, it can no longer be null
         this.commonTokenValueId = commonTokenValueId;
+    }
+
+    /**
+     * @return the refVersionId
+     */
+    public Integer getRefVersionId() {
+        return refVersionId;
     }
 }

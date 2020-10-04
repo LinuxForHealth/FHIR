@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -26,7 +27,8 @@ public class QuerySegmentAggregatorFactory {
      *
      */
     public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
-                                    ParameterDAO parameterDao, ResourceDAO resourceDao, FHIRSearchContext searchContext, QueryHints queryHints) {
+                                    ParameterDAO parameterDao, ResourceDAO resourceDao, FHIRSearchContext searchContext, QueryHints queryHints,
+                                    JDBCIdentityCache identityCache) {
         final String METHODNAME = "buildQuerySegmentAggregator";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -34,7 +36,7 @@ public class QuerySegmentAggregatorFactory {
         
         if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
             qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, 
-                                                      searchContext.getIncludeParameters(), searchContext.getRevIncludeParameters(), queryHints);
+                                                      searchContext.getIncludeParameters(), searchContext.getRevIncludeParameters(), queryHints, identityCache);
         }
         else if (searchContext.hasSortParameters()) {
             qsa = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, searchContext.getSortParameters(), queryHints);

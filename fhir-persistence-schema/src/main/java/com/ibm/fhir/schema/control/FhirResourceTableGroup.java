@@ -46,13 +46,15 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_MAP;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_V;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
@@ -80,6 +82,7 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
+import com.ibm.fhir.database.utils.model.View;
 
 /**
  * Utility to create all the tables associated with a particular resource type
@@ -109,6 +112,9 @@ public class FhirResourceTableGroup {
     private static final String COMP = "COMP";
     private static final String ROW_ID = "ROW_ID";
 
+    // suffix for the token view
+    private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
+    
     /**
      * The maximum number of components we can store in the X_COMPOSITES tables.
      * Per the current design, each component will add 6 columns to the table, so don't go too high.
@@ -166,7 +172,8 @@ public class FhirResourceTableGroup {
         addLatLngValues(group, tablePrefix);
         addQuantityValues(group, tablePrefix);
         addComposites(group, tablePrefix);
-        addTokenValuesMap(group, tablePrefix);
+        addResourceTokenRefs(group, tablePrefix);
+        addTokenValuesView(group, tablePrefix);
 
         // group all the tables under one object so that we can perform everything within one
         // transaction. This helps to eliminate deadlocks when adding the FK constraints due to
@@ -356,7 +363,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
      * @param group
      * @param prefix
      */
-    public void addTokenValues(List<IDatabaseObject> group, String prefix) {
+    public Table addTokenValues(List<IDatabaseObject> group, String prefix) {
         final String tableName = prefix + "_TOKEN_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
@@ -388,6 +395,8 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
         alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
         group.add(alterTable);
+        
+        return tbl;
     }
 
     /**
@@ -395,18 +404,21 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
      * @param pdm
      * @return
      */
-    public void addTokenValuesMap(List<IDatabaseObject> group, String prefix) {
+    public Table addResourceTokenRefs(List<IDatabaseObject> group, String prefix) {
 
-        final String tableName = prefix + "_" + TOKEN_VALUES_MAP;
+        final String tableName = prefix + "_" + RESOURCE_TOKEN_REFS;
 
-        // logical_resources (0|1) ---- (*) token_values_map
+        // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIntColumn(       PARAMETER_NAME_ID,    false)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
+                .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
                 .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -416,8 +428,45 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         group.add(tbl);
         model.addTable(tbl);
+        
+        return tbl;
     }
 
+    /**
+     * View created over common_token_values and resource_token_refs to hide the
+     * schema change (V0006 issue 1366) as much as possible from the search query
+     * generation. Search queries simply need to join against this view instead
+     * of the old {resourceType}_token_values table
+     * @param pdm
+     * @return
+     */
+    public void addTokenValuesView(List<IDatabaseObject> group, String prefix) {
+
+        final String viewName = prefix + "_" + TOKEN_VALUES_V;
+
+        // Find the two dependencies we need for this view
+        IDatabaseObject commonTokenValues = model.findTable(schemaName, COMMON_TOKEN_VALUES);
+        IDatabaseObject resourceTokenRefs = model.findTable(schemaName, prefix + "_" + RESOURCE_TOKEN_REFS);
+
+        // We join against the code_systems table because it gives us the code_system_name, which
+        // for reference strings is actually the resource type of the reference - this is useful
+        // for building chained reference queries, and is well worth the minor cost of an extra join
+        StringBuilder select = new StringBuilder();
+        select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+        select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+        select.append(resourceTokenRefs.getName()).append(" AS ref ");
+        select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
+        
+        View view = View.builder(schemaName, viewName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setSelectClause(select.toString())
+                .addPrivileges(resourceTablePrivileges)
+                .addDependency(commonTokenValues)
+                .addDependency(resourceTokenRefs)
+                .build();
+
+        group.add(view);
+    }
     
 
     /**

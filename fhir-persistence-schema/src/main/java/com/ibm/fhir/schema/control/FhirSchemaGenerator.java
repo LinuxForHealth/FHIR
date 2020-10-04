@@ -301,7 +301,6 @@ public class FhirSchemaGenerator {
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
         addReferencesSequence(model);
-        addLocalReferences(model);
         addLogicalResourceCompartments(model);
 
         Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
@@ -309,11 +308,11 @@ public class FhirSchemaGenerator {
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
         
         // new normalized table for supporting token data (replaces TOKEN_VALUES)
-        Table globalTokenValuesMap = addResourceTokenValuesMap(model);
+        Table globalResourceTokenRefs = addResourceTokenRefs(model);
 
         // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing
         // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
-        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues, globalTokenValuesMap);
+        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues, globalResourceTokenRefs);
 
         // All the table objects and types should be ready now, so create our NOP
         // which is used as a single dependency for all procedures. This means
@@ -461,42 +460,6 @@ public class FhirSchemaGenerator {
         // TODO should not need to add as a table and an object. Get the table to add itself?
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
-        pdm.addTable(tbl);
-        pdm.addObject(tbl);
-
-        return tbl;
-    }
-
-    /**
-     * @param pdm the physical data model object we are building
-     * @return Table the table that was added to the PhysicalDataModel
-     */
-    public Table addLocalReferences(PhysicalDataModel pdm) {
-
-        // No primary key. LOCAL_REFERENCES is a mapping table representing multiple many-many relationships
-        // between resources. Both sides of the relationship (logical_resource_id and ref_logical_resource_id)
-        // are indexed to support different access patterns depending on where the join happens in the query
-        // execution plan. Provides support for versioned references (when value of version_id is not null)
-        final String tableName = LOCAL_REFERENCES;
-        Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
-                .addIntColumn(            PARAMETER_NAME_ID, false)
-                .addBigIntColumn(       LOGICAL_RESOURCE_ID, false)
-                .addBigIntColumn(   REF_LOGICAL_RESOURCE_ID, false)
-                .addIntColumn(                   VERSION_ID, true)
-                .addUniqueIndex(IDX + tableName + "_REFPNLR", REF_LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID)
-                .addUniqueIndex(IDX + tableName + "_", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, REF_LOGICAL_RESOURCE_ID)
-                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
-                .addForeignKeyConstraint(FK + tableName + "_REF", schemaName, LOGICAL_RESOURCES, REF_LOGICAL_RESOURCE_ID)
-                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
-                .setTablespace(fhirTablespace)
-                .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
-                .build(pdm);
-
-        // TODO should not need to add as a table and an object. Get the table to add itself?
-        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
 
@@ -769,11 +732,14 @@ public class FhirSchemaGenerator {
      * We never need to find all token values for a given code-system, so there's no need
      * for a second index (CODE_SYSTEM_ID, TOKEN_VALUE). Do not add it.
      * 
-     * Token values and their system will usually be (but not always) segmented by parameter.
-     * For efficiency reasons, we include parameter_name_id here, which means that we don't
-     * need to include it in the TOKEN_VALUES_MAP tables, resulting in fewer columns required
-     * to index in those tables. This assumes, of course, that many records in those tables
-     * will be sharing the same record in this table.
+     * Because different parameter names may reference the same token value (e.g. 
+     * 'Observation.subject' and 'Claim.patient' are both patient references), the
+     * common token value is not distinguished by a parameter_name_id.
+     * 
+     * Where common token values are used to represent local relationships between two resources,
+     * the code_system encodes the resource type of the referenced resource and
+     * the token_value represents its logical_id. This approach simplifies query writing when
+     * following references.
      * 
      * @param pdm
      * @return the table definition
@@ -786,11 +752,9 @@ public class FhirSchemaGenerator {
                 .addBigIntColumn(     COMMON_TOKEN_VALUE_ID,                          false)
                 .setIdentityColumn(   COMMON_TOKEN_VALUE_ID, Generated.ALWAYS)
                 .addIntColumn(               CODE_SYSTEM_ID,                          false)
-                .addIntColumn(            PARAMETER_NAME_ID,                          false)
                 .addVarcharColumn(              TOKEN_VALUE, MAX_TOKEN_VALUE_BYTES,   false)
-                .addUniqueIndex(IDX + tableName + "_TVCP", TOKEN_VALUE, CODE_SYSTEM_ID, PARAMETER_NAME_ID)
+                .addUniqueIndex(IDX + tableName + "_TVCP", TOKEN_VALUE, CODE_SYSTEM_ID)
                 .addPrimaryKey(tableName + "_PK", COMMON_TOKEN_VALUE_ID)
-                .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
@@ -804,27 +768,31 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Add the system-wide TOKEN_VALUES_MAP table which is used for
+     * Add the system-wide RESOURCE_TOKEN_REFS table which is used for
      * _tag and _security search properties in R4 (new table
      * for issue #1366 V0006 schema change). Replaces the
-     * previous TOKEN_VALUES table.
+     * previous TOKEN_VALUES table. All token values are now
+     * normalized in the COMMON_TOKEN_VALUES table
      * @param pdm
      * @return Table the table that was added to the PhysicalDataModel
      */
-    public Table addResourceTokenValuesMap(PhysicalDataModel pdm) {
+    public Table addResourceTokenRefs(PhysicalDataModel pdm) {
 
-        final String tableName = TOKEN_VALUES_MAP;
+        final String tableName = RESOURCE_TOKEN_REFS;
 
-        // logical_resources (0|1) ---- (*) token_values
+        // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIntColumn(       PARAMETER_NAME_ID,    false)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
+                .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
                 .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)

@@ -35,7 +35,9 @@ import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.tenant.AddTenantDAO;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
+import com.ibm.fhir.database.utils.tenant.CreateOrReplaceViewDAO;
 import com.ibm.fhir.database.utils.tenant.DeleteTenantDAO;
+import com.ibm.fhir.database.utils.tenant.DropViewDAO;
 import com.ibm.fhir.database.utils.tenant.FindTenantIdDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO;
@@ -654,5 +656,25 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, indexName);
         final String ddl = "DROP INDEX " + qname;
         runStatement(ddl);
+    }
+    
+    @Override
+    public void dropView(String schemaName, String viewName) {
+        // don't propagate errors...we don't really care if the drop failed
+        DropViewDAO dao = new DropViewDAO(schemaName, viewName, false);
+        runStatement(dao);
+    }
+
+    @Override
+    public void createOrReplaceView(String schemaName, String viewName, String selectClause) {
+        CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause);
+        runStatement(dao);
+    }
+    
+    @Override 
+    public void createView(String schemaName, String viewName, String selectClause) {
+        // for databases (like Derby) without CREATE OR REPLACE support
+        CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause, false);
+        runStatement(dao);
     }
 }

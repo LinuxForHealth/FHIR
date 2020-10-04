@@ -27,6 +27,12 @@ public class TokenParmVal implements ExtractedParameterValue {
     public TokenParmVal() {
         super();
     }
+    
+    @Override
+    public String toString() {
+        // to aid debugging
+        return getResourceType() + "[" + getName() + ", " + getValueSystem() + ", " + getValueCode() + "]";
+    }
 
     public void setName(String name) {
         this.name = name;

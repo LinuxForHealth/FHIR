@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -324,16 +325,30 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         
         // Now all the values should have ids assigned so we can go ahead and insert them
         // as a batch
-        final String tableName = resourceType + "_TOKEN_VALUES_MAP";
+        final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
-                + "logical_resource_id, common_token_value_id) "
-                + "VALUES (?, ?)";
+                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
+                + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(insert)) {
             int count = 0;
             for (ResourceTokenValueRec xr: xrefs) {
-                ps.setLong(1, xr.getLogicalResourceId());
-                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.setInt(1, xr.getParameterNameId());
+                ps.setLong(2, xr.getLogicalResourceId());
+
+                // common token value can be null
+                if (xr.getCommonTokenValueId() != null) {
+                    ps.setLong(3, xr.getCommonTokenValueId());
+                } else {
+                    ps.setNull(3, Types.BIGINT);                    
+                }
+
+                // version can be null
+                if (xr.getRefVersionId() != null) {
+                    ps.setInt(4, xr.getRefVersionId());
+                } else {
+                    ps.setNull(4, Types.INTEGER);
+                }
                 ps.addBatch();
                 if (++count == BATCH_SIZE) {
                     ps.executeBatch();
@@ -462,16 +477,20 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
      * @param values
      */
     public void upsertCommonTokenValues(List<ResourceTokenValueRec> values) {
-        if (values.isEmpty()) {
+        
+        // Unique list so we don't try and create the same name more than once.
+        // Ignore any null token-values, because we don't want to (can't) store
+        // them in our common token values table.
+        Set<CommonTokenValue> tokenValues = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+        
+        if (tokenValues.isEmpty()) {
+            // nothing to do
             return;
         }
-        
-        // Unique list so we don't try and create the same name more than once
-        Set<CommonTokenValue> tokenValues = values.stream().map(xr -> new CommonTokenValue(xr.getParameterNameId(), xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
 
         // Build a string of parameter values we use in the query to drive the insert statement.
         // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
-        // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
+        // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
         StringBuilder inList = new StringBuilder(); // for the select query later
         StringBuilder paramList = new StringBuilder();
         for (int i=0; i<tokenValues.size(); i++) {
@@ -479,25 +498,24 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
                 paramList.append(", ");
             }
             paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "))");
-            paramList.append(",CAST(? AS INT), CAST(? AS INT))");
+            paramList.append(",CAST(? AS INT))");
             
             // also build the inList for the select statement later
             if (inList.length() > 0) {
                 inList.append(",");
             }
-            inList.append("(?,?,?)");
+            inList.append("(?,?)");
         }
         
-        // query is a negative outer join so we only pick the rows where
-        // the row "s" from the actual table doesn't exist.
+        // query is a negative outer join so we only pick the rows from v for which
+        // there is no row found in ctv.
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_token_values (parameter_name_id, code_system_id, token_value) ");
-        insert.append("     SELECT v.parameter_name_id, v.code_system_id, v.token_value FROM ");
-        insert.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, parameter_name_id, code_system_id) ");
+        insert.append("INSERT INTO common_token_values (code_system_id, token_value) ");
+        insert.append("     SELECT v.code_system_id, v.token_value FROM ");
+        insert.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
         insert.append(" LEFT OUTER JOIN common_token_values ctv ");
         insert.append("              ON ctv.token_value = v.token_value ");
         insert.append("             AND ctv.code_system_id = v.code_system_id ");
-        insert.append("             AND ctv.parameter_name_id = v.parameter_name_id ");
         insert.append("      WHERE ctv.token_value IS NULL");
         
         // Note, we use PreparedStatement here on purpose. Partly because it's
@@ -510,7 +528,6 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
             int a = 1;
             for (CommonTokenValue tv: tokenValues) {
                 ps.setString(a++, tv.getTokenValue());
-                ps.setInt(a++, tv.getParameterNameId());
                 ps.setInt(a++, tv.getCodeSystemId());
             }
             
@@ -527,12 +544,11 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         // Derby doesn't support IN LISTS with multiple members, so we have to join against
         // a VALUES again. No big deal...probably similar amount of work for the database
         StringBuilder select = new StringBuilder();
-        select.append("     SELECT ctv.parameter_name_id, ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
-        select.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, parameter_name_id, code_system_id) ");
+        select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
+        select.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
         select.append("       JOIN common_token_values ctv ");
         select.append("              ON ctv.token_value = v.token_value ");
         select.append("             AND ctv.code_system_id = v.code_system_id ");
-        select.append("             AND ctv.parameter_name_id = v.parameter_name_id ");
         
         // Grab the ids
         Map<CommonTokenValue, Long> idMap = new HashMap<>();
@@ -540,15 +556,14 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
             int a = 1;
             for (CommonTokenValue tv: tokenValues) {
                 ps.setString(a++, tv.getTokenValue());
-                ps.setInt(a++, tv.getParameterNameId());
                 ps.setInt(a++, tv.getCodeSystemId());
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                // parameter_name_id, code_system_id, token_value
-                CommonTokenValue key = new CommonTokenValue(rs.getInt(1), rs.getInt(2), rs.getString(3));
-                idMap.put(key, rs.getLong(4));
+                // code_system_id, token_value
+                CommonTokenValue key = new CommonTokenValue(rs.getInt(1), rs.getString(2));
+                idMap.put(key, rs.getLong(3));
             }
         } catch (SQLException x) {
             throw translator.translate(x);
@@ -556,18 +571,17 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         
         // Now update the ids for all the matching systems in our list
         for (ResourceTokenValueRec xr: values) {
-            CommonTokenValue key = new CommonTokenValue(xr.getParameterNameId(), xr.getCodeSystemValueId(), xr.getTokenValue());
-            Long id = idMap.get(key);
-            if (id != null) {
-                xr.setCommonTokenValueId(id);
-
-                // update the thread-local cache with this id. The values aren't committed to the shared cache
-                // until the transaction commits
-                cache.addTokenValue(key, id);
-            } else {
-                // Unlikely...but need to handle just in case
-                logger.severe("Record for external_reference_value '" + xr.getTokenValue() + "' inserted but not found");
-                throw new IllegalStateException("id deleted from database!");
+            // ignore entries with null tokenValue elements - we don't store them in common_token_values
+            if (xr.getTokenValue() != null) {
+                CommonTokenValue key = new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue());
+                Long id = idMap.get(key);
+                if (id != null) {
+                    xr.setCommonTokenValueId(id);
+    
+                    // update the thread-local cache with this id. The values aren't committed to the shared cache
+                    // until the transaction commits
+                    cache.addTokenValue(key, id);
+                }
             }
         }
     }

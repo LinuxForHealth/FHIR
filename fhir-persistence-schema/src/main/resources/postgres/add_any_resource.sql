@@ -127,19 +127,19 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites      WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values      WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values   WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values     WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values   WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values    WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
     END IF;
 

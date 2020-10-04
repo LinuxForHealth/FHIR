@@ -29,6 +29,7 @@ import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.tenant.CreateOrReplaceViewDAO;
 
 /**
  * A Derby database target
@@ -352,5 +353,16 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
+    }
+    
+    @Override
+    public void createOrReplaceView(String schemaName, String viewName, String selectClause) {
+        // Derby doesn't support CREATE OR REPLACE VIEW, so we have to try and drop the view first
+        try {
+            dropView(schemaName, viewName);
+        } catch (Exception x) {
+            // NOP
+        }
+        createView(schemaName, viewName, selectClause);
     }
 }

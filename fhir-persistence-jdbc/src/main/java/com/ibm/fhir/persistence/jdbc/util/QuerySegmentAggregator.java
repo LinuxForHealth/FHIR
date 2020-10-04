@@ -614,14 +614,16 @@ public class QuerySegmentAggregator {
         StringBuilder name = new StringBuilder(resourceType);
         switch (param.getType()) {
         case URI:
-        case REFERENCE:
         case STRING:
         case NUMBER:
         case QUANTITY:
         case DATE:
-        case TOKEN:
         case SPECIAL:
             name.append(abbr(param) + "_VALUES ");
+            break;
+        case REFERENCE:
+        case TOKEN:
+            name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
             break;
         case COMPOSITE:
             name.append("_COMPOSITES ");
@@ -630,10 +632,14 @@ public class QuerySegmentAggregator {
         return name.toString();
     }
 
+    /**
+     * Get the abbreviation used for composites 
+     * @param param
+     * @return
+     */
     public static String abbr(QueryParameter param) {
         switch (param.getType()) {
         case URI:
-        case REFERENCE:
         case STRING:
             return "_STR";
         case NUMBER:
@@ -642,6 +648,7 @@ public class QuerySegmentAggregator {
             return "_QUANTITY";
         case DATE:
             return "_DATE";
+        case REFERENCE:
         case TOKEN:
             return "_TOKEN";
         case SPECIAL:

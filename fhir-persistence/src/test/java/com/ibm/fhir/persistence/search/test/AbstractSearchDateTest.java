@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
 
@@ -26,6 +27,9 @@ import com.ibm.fhir.model.test.TestUtil;
  * - Date</a> Tests
  */
 public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
+    private static final String CLASSNAME = AbstractSearchDateTest.class.getName();
+    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    
     @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
@@ -631,11 +635,17 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     }
     @Test
     public void testSearchDate_date_chained() throws Exception {
-        // Date is specific - 2018-10-29
-        assertSearchReturnsComposition("subject:Basic.date", "2018-10-29");
-        assertSearchDoesntReturnComposition("subject:Basic.date", "2018-10-29T17:12:00-04:00");
-        assertSearchDoesntReturnComposition("subject:Basic.date", "2018-10-29T17:12:00");
-        assertSearchDoesntReturnComposition("subject:Basic.date", "2025-10-29");
+        final String METHOD = "testSearchDate_date_chained";
+        logger.entering(CLASSNAME, METHOD);
+        try {
+            // Date is specific - 2018-10-29
+            assertSearchReturnsComposition("subject:Basic.date", "2018-10-29");
+            assertSearchDoesntReturnComposition("subject:Basic.date", "2018-10-29T17:12:00-04:00");
+            assertSearchDoesntReturnComposition("subject:Basic.date", "2018-10-29T17:12:00");
+            assertSearchDoesntReturnComposition("subject:Basic.date", "2025-10-29");
+        } finally {
+            logger.exiting(CLASSNAME, METHOD);
+        }
     }
     @Test
     public void testSearchDate_date_revinclude() throws Exception {

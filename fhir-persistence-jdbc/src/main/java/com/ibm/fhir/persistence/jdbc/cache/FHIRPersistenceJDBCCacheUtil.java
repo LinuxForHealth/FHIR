@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.cache;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -15,9 +13,6 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.CommonTokenValuesCacheImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.NameIdCache;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCCacheImpl;
 
 /**
  * Utilities for operating on the FHIRPersistenceJDBCCache

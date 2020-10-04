@@ -523,4 +523,27 @@ public interface IDatabaseAdapter {
      * @param indexName
      */
     public void dropIndex(String schemaName, String indexName);
+    
+    /**
+     * Create the view as defined by the selectClause
+     * @param schemaName
+     * @param objectName
+     * @param selectClause
+     */
+    public void createView(String schemaName, String objectName, String selectClause);
+
+    /**
+     * Drop the view from the database
+     * @param schemaName
+     * @param objectName
+     */
+    public void dropView(String schemaName, String objectName);
+
+    /**
+     * Create or replace the view
+     * @param schemaName
+     * @param objectName
+     * @param selectClause
+     */
+    public void createOrReplaceView(String schemaName, String objectName, String selectClause);
 }

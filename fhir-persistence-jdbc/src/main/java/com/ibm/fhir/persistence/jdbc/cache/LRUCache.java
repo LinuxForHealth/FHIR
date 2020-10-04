@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.dao.impl;
+package com.ibm.fhir.persistence.jdbc.cache;
 
 import java.util.LinkedHashMap;
 import java.util.List;

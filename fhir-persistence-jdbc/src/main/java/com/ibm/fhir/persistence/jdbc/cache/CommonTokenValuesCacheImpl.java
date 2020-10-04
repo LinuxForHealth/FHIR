@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.dao.impl;
+package com.ibm.fhir.persistence.jdbc.cache;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 
 
@@ -163,7 +164,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         List<ResourceTokenValueRec> needToFindValues = new ArrayList<>(tokenValues.size()); // for the ref values we haven't yet found
         for (ResourceTokenValueRec tv: tokenValues) {
             if (valMap != null) {
-                CommonTokenValue key = new CommonTokenValue(tv.getParameterNameId(), tv.getCodeSystemValueId(), tv.getTokenValue());
+                CommonTokenValue key = new CommonTokenValue(tv.getCodeSystemValueId(), tv.getTokenValue());
                 Long id = valMap.get(key);
                 if (id != null) {
                     foundKeys.add(key);
@@ -181,7 +182,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         if (needToFindValues.size() > 0) {
             synchronized (this.tokenValuesCache) {
                 for (ResourceTokenValueRec tv: needToFindValues) {
-                    CommonTokenValue key = new CommonTokenValue(tv.getParameterNameId(), tv.getCodeSystemValueId(), tv.getTokenValue());
+                    CommonTokenValue key = new CommonTokenValue(tv.getCodeSystemValueId(), tv.getTokenValue());
                     Long id = tokenValuesCache.get(key);
                     if (id != null) {
                         tv.setCommonTokenValueId(id);

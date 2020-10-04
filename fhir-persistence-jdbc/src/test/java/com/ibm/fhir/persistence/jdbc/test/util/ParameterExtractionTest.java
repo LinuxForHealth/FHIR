@@ -288,7 +288,7 @@ public class ParameterExtractionTest {
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_URI);
         
         parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
         uri.accept(parameterBuilder);

@@ -101,8 +101,10 @@ import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -560,9 +562,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
+            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao);
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
-            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints());
+            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints(), identityCache);
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {
