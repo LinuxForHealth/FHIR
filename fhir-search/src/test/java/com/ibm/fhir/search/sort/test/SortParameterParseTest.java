@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.SearchConstants.Type;
@@ -218,6 +219,11 @@ public class SortParameterParseTest extends BaseSearchTest {
      */
     @Test
     public void testValidSortParmWithSearchParms() throws Exception {
+        FHIRRequestContext context = new FHIRRequestContext("default", "default");
+        FHIRRequestContext.set(context);
+        String originalRequestUri = "https://example.com/Patient/123";
+        context.setOriginalRequestUri(originalRequestUri);
+
         Map<String, List<String>> queryParameters = new HashMap<>();
         FHIRSearchContext searchContext;
         Class<Observation> resourceType = Observation.class;
@@ -247,9 +253,9 @@ public class SortParameterParseTest extends BaseSearchTest {
         QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
-        assertEquals(1, searchParm.getValues().size());
+        assertEquals(searchParm.getValues().size(), 2);
         QueryParameterValue parmValue = searchParm.getValues().get(0);
-        assertEquals(searchParmValue, parmValue.getValueString());
+        assertEquals("https://example.com/" + searchParmValue, parmValue.getValueString());
 
         String selfUri =
                 SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
@@ -263,6 +269,11 @@ public class SortParameterParseTest extends BaseSearchTest {
      */
     @Test
     public void testMultipleValidSortParmsWithSearchParms() throws Exception {
+        FHIRRequestContext context = new FHIRRequestContext("default", "default");
+        FHIRRequestContext.set(context);
+        String originalRequestUri = "https://example.com/Patient/123";
+        context.setOriginalRequestUri(originalRequestUri);
+
         Map<String, List<String>> queryParameters = new LinkedHashMap<>();
         FHIRSearchContext searchContext;
         Class<Observation> resourceType = Observation.class;
@@ -277,10 +288,8 @@ public class SortParameterParseTest extends BaseSearchTest {
         String searchParmValue = "Practioner/1";
 
         // Build up the QueryParameters
-        queryParameters.put("_sort",
-                Arrays.asList(sortParmCode1 + "," + sortParmCode2,
-                        directionDesc.value() + sortParmCode3 + "," + directionDesc.value() + sortParmCode4,
-                        sortParmCode5));
+        queryParameters.put("_sort", Arrays.asList(sortParmCode1 + "," + sortParmCode2, directionDesc.value() + sortParmCode3 + "," + directionDesc.value()
+                + sortParmCode4, sortParmCode5));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
 
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
@@ -320,11 +329,11 @@ public class SortParameterParseTest extends BaseSearchTest {
         QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
-        assertEquals(1, searchParm.getValues().size());
+        assertEquals(searchParm.getValues().size(), 2);
         QueryParameterValue parmValue = searchParm.getValues().get(0);
-        assertEquals(searchParmValue, parmValue.getValueString());
+        assertEquals("https://example.com/" + searchParmValue, parmValue.getValueString());
 
-        // Check the component parts and build up the QueryString parts 
+        // Check the component parts and build up the QueryString parts
         String selfUri =
                 SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertTrue(selfUri.contains("status"), selfUri + " does not contain expected status");
@@ -334,7 +343,6 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // The server adds the implicit sort direction and so we just look for the parameter instead of the full
         // queryString
-        assertTrue(selfUri.contains("patient"),
-                selfUri + " does not contain expected sort parameter 'patient'");
+        assertTrue(selfUri.contains("patient"), selfUri + " does not contain expected sort parameter 'patient'");
     }
 }

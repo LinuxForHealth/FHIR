@@ -20,6 +20,8 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
  */
 public class QueryParameterValue {
 
+    private boolean hidden = false;
+
     private Prefix prefix = null;
 
     private String valueString = null;
@@ -36,7 +38,7 @@ public class QueryParameterValue {
 
     // Used for composite search parameters
     private List<QueryParameter> component = new ArrayList<>();
-    
+
     // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
     private String delim = "";
 
@@ -127,6 +129,21 @@ public class QueryParameterValue {
     public void setComponent(Collection<QueryParameter> component) {
         this.component = new ArrayList<>(component);
     }
+
+    /**
+     * @return the hidden
+     */
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    /**
+     * @param b
+     */
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
     /**
      * Serialize the ParameterValue to a query parameter string
      */
@@ -168,7 +185,7 @@ public class QueryParameterValue {
 
     /**
      * simple build method to apply consistent usage of StringBuilder.
-     * 
+     *
      * @param outputBuilder
      * @param value
      */

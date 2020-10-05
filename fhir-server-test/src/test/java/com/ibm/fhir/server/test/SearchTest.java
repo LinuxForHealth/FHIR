@@ -1012,7 +1012,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getTotal().getValue().equals(1));
         assertTrue(bundle.getEntry().isEmpty());
-        
+
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
@@ -1125,7 +1125,7 @@ public class SearchTest extends FHIRServerTestBase {
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
-            List<Resource> lstRes = new ArrayList<Resource>();
+            List<Resource> lstRes = new ArrayList<>();
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
@@ -1133,7 +1133,7 @@ public class SearchTest extends FHIRServerTestBase {
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
-            HashSet<String> patientSet = new HashSet<String>();
+            HashSet<String> patientSet = new HashSet<>();
             for (Entry entry: bundle.getEntry()) {
                 patientSet.add(((Patient) entry.getResource()).getId());
             }
@@ -1165,7 +1165,7 @@ public class SearchTest extends FHIRServerTestBase {
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
-            List<Resource> lstRes = new ArrayList<Resource>();
+            List<Resource> lstRes = new ArrayList<>();
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
@@ -1173,7 +1173,7 @@ public class SearchTest extends FHIRServerTestBase {
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
-            HashSet<String> patientSet = new HashSet<String>();
+            HashSet<String> patientSet = new HashSet<>();
             for (Entry entry: bundle.getEntry()) {
                 patientSet.add(((Patient) entry.getResource()).getId());
             }
@@ -1204,7 +1204,7 @@ public class SearchTest extends FHIRServerTestBase {
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
-            List<Resource> lstRes = new ArrayList<Resource>();
+            List<Resource> lstRes = new ArrayList<>();
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
@@ -1212,7 +1212,7 @@ public class SearchTest extends FHIRServerTestBase {
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
-            HashSet<String> patientSet = new HashSet<String>();
+            HashSet<String> patientSet = new HashSet<>();
             for (Entry entry: bundle.getEntry()) {
                 patientSet.add(((Patient) entry.getResource()).getId());
             }
@@ -1243,7 +1243,7 @@ public class SearchTest extends FHIRServerTestBase {
         // Because we limit the page size to 1000, so we only do this check when firstRunNumber < 1000.
         if (firstRunNumber < 1000) {
             assertTrue(bundle.getEntry().size() == firstRunNumber + 1);
-            List<Resource> lstRes = new ArrayList<Resource>();
+            List<Resource> lstRes = new ArrayList<>();
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
@@ -1251,14 +1251,14 @@ public class SearchTest extends FHIRServerTestBase {
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
-            HashSet<String> patientSet = new HashSet<String>();
+            HashSet<String> patientSet = new HashSet<>();
             for (Entry entry: bundle.getEntry()) {
                 patientSet.add(((Patient) entry.getResource()).getId());
             }
             assertTrue(bundle.getEntry().size() == patientSet.size());
         }
     }
-    
+
     @Test(groups = { "server-search" })
     public void testCreatePractitionerRole() throws Exception {
         WebTarget target = getWebTarget();
@@ -1474,4 +1474,26 @@ public class SearchTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance", "testCreateProvenance" })
+    public void testSearchWithRelativePatientId() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("patient", patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        AllergyIntolerance allergyIntolerance = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof AllergyIntolerance) {
+                allergyIntolerance = (AllergyIntolerance) entry.getResource();
+            }
+        }
+        assertNotNull(allergyIntolerance);
+        assertEquals(allergyIntoleranceId, allergyIntolerance.getId());
+    }
 }

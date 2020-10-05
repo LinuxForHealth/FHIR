@@ -64,6 +64,7 @@ import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -528,9 +529,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             // Handle query parm representing this name/value pair construct:
             // <code>{name}:{Resource Type} = {resource-id}</code>
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                searchValue =
-                        queryParm.getModifierResourceTypeName() + "/"
-                                + SqlParameterEncoder.encode(value.getValueString());
+                if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
+                    // Not a Reference
+                    searchValue =
+                            queryParm.getModifierResourceTypeName() + "/"
+                                    + SqlParameterEncoder.encode(value.getValueString());
+                } else {
+                    // This is a Reference type.
+                    // As of versions greater than 4.4.0, we defer to the Search Layer to append the value.
+                    searchValue = SqlParameterEncoder.encode(value.getValueString());
+                }
             } else if (!isAbsoluteURL(searchValue)) {
                 SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getCode());
                 if (definition != null) {

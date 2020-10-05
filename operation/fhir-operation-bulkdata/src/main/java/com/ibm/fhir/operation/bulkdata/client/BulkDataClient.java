@@ -40,7 +40,6 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
@@ -184,6 +183,7 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
+        builder.incomingUrl(properties.get(BulkDataConfigUtil.INCOMING_URL));
 
         // Use AES to get a long RandomKey to use for the paths so that they cannot be guessed,
         // replacing '/' with '_' to avoid potential issues with the S3 API

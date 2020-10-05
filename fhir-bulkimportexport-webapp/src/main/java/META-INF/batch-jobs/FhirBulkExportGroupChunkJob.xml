@@ -16,6 +16,7 @@
                     <property name="fhir.search.patientgroupid" value="#{jobParameters['fhir.search.patientgroupid']}"/>
                     <property name="fhir.typeFilters" value="#{jobParameters['fhir.typeFilters']}"/>
                     <property name="fhir.exportFormat" value="#{jobParameters['fhir.exportFormat']}"/>
+                    <property name="incomingUrl" value="#{jobParameters['incomingUrl']}"/>
                 </properties>
             </reader>
             <writer ref="com.ibm.fhir.jbatch.bulkdata.export.system.ChunkWriter">
