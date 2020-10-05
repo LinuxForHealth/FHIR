@@ -151,7 +151,7 @@ import
 
 # The Specification in More Detail 
 
-Each Operation per [the specification](https://www.hl7.org/fhir/r4/operations.html#defining) as an [OperationDefinition](https://www.hl7.org/fhir/r4/operationdefinition.html) Resource.
+Each Operation per [the specification](https://www.hl7.org/fhir/r4/operations.html#defining) is an [OperationDefinition](https://www.hl7.org/fhir/r4/operationdefinition.html) Resource.
 
 The elements needed are: 
 - Unique Name of the Operation - `OperationDefinition.name`
