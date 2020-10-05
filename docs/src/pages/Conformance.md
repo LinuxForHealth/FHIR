@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-09-29 01:00:00 -0400
+date:   2020-10-05 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -231,6 +231,15 @@ The IBM FHIR Server does not consider the `Quantity.comparator` field as part of
 
 ### Searching on URI
 URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
+
+### Searching on Reference
+Reference searches on the IBM FHIR Server support search on:
+
+* a relative reference - `1` where it is reflexsively determined to be a subset of possible targets, such as `Patient/1`, `Group/1`
+* a logical reference - `Patient/1` where it is explicitly set
+* uri searches - where it is explicitly searched using a URI on the server, such as `reference=http://example.org/fhir/Patient/123`
+
+We recommend using logical reference where possible.
 
 ### Searching on Special Positional Search
 Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants:
