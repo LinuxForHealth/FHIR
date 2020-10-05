@@ -93,7 +93,7 @@
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
 
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource">
+    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" libraryRef="fhirSharedLib"/>
         <connectionManager/>
     </dataSource>
