@@ -158,7 +158,7 @@ The elements needed are:
   - For instance, `"name": "import"`
 - Code used to activate the Operation - `OperationDefinition.code`
   - For instance, `"code": "import"`
-  - The *code* is used in the CapabilitiesStatement.
+  - The *code* is used in the CapabilityStatement.
 - The Context - System, Type, Instance - `OperationDefinition.system`, `Operation.type`, `Operation.instance`
   - For instance, `"system": true`
 - Kind - always an `operation` - `OperationDefinition.kind`
