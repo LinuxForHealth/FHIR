@@ -1,17 +1,17 @@
 ---
 layout: default
 title: IBM FHIR Server - Extended Operations Framework
-date:  2020-09-29
+date:  2020-10-05
 ---
 
 # IBM FHIR Server - Extended Operations Framework
 
-The HL7 FHIR Specification describes a [light weight framework](https://www.hl7.org/fhir/r4/operations.html) of extended operations for the REST API.
+The HL7 FHIR Specification describes a [framework](https://www.hl7.org/fhir/r4/operations.html) of extended operations for the REST API.
 
 This framework defines REST endpoints at the Base Server (System), scoped to specific resources (Type) and scoped to specific instances. 
-- **System** - https://my-server.com/v4/$convert - Convert from one format to another
-- **Type** - https://my-server.com/v4/Patient/$export - Retrieve all the data from the Patient compartment
-- **Instance** - https://my-server.com/v4/Patient/1-2-3-4/$export - Retrieve a specific Patient data from the Patient compartment data
+- **System** - https://my-server.com/fhir-server/api/v4/$convert - Convert from one format to another
+- **Type** - https://my-server.com/fhir-server/api/v4/Patient/$export - Retrieve all the data from the Patient compartment
+- **Instance** - https://my-server.com/fhir-server/api/v4/Patient/1-2-3-4/$export - Retrieve a specific Patient data from the Patient compartment data
 
 A list of operations supported by the IBM FHIR Server is listed at https://ibm.github.io/FHIR/Conformance/#extended-operations
 
