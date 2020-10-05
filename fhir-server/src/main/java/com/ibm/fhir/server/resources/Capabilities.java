@@ -22,6 +22,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +92,8 @@ public class Capabilities extends FHIRResource {
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2020";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
+    private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
+    private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
 
     // Error Messages
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
@@ -368,7 +371,7 @@ public class Capabilities extends FHIRResource {
                           .id(buildInfo.getBuildId())
                           .build())
                 .rest(rest)
-                .instantiates(Canonical.of("http://www.hl7.org/fhir/bulk-data/CapabilityStatement-bulk-data.html"))
+                .instantiates(buildInstantiates())
                 .build();
 
         try {
@@ -380,6 +383,32 @@ public class Capabilities extends FHIRResource {
         return conformance;
     }
 
+    /**
+     * Builds the list of canonicals for the instantiates field based on the capability statements (except FHIR core)
+     * found in the FHIR registry.
+     * 
+     * @return list of canonicals
+     */
+    private List<Canonical> buildInstantiates() {
+        Collection<CapabilityStatement> registeredCapabilities = FHIRRegistry.getInstance().getResources(CapabilityStatement.class);
+
+        List<Canonical> instantiates = new ArrayList<>();
+        for (CapabilityStatement registeredCapability : registeredCapabilities) {
+            if (registeredCapability != null && registeredCapability.getUrl() != null) {
+                String url = registeredCapability.getUrl().getValue();
+                if (url != null && !BASE_CAPABILITY_URL.equals(url) && !BASE_2_CAPABILITY_URL.equals(url)) {
+                    String canonicalValue = url;
+                    if (registeredCapability.getVersion() != null && registeredCapability.getVersion().getValue() != null) {
+                        canonicalValue = canonicalValue + "|" + registeredCapability.getVersion().getValue();
+                    }
+                    instantiates.add(Canonical.builder().value(canonicalValue).build());
+                }
+            }
+        }
+
+        return instantiates;
+    }
+    
     private Extension buildOAuthURIsExtension(String authURL, String tokenURL, String regURL, String manageURL, String introspectURL, String revokeURL) {
          Extension.Builder builder = Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris");
 
