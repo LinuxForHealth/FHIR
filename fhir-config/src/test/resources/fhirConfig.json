@@ -38,6 +38,12 @@
                     "ssl.keystore.type":"PKCS12"
                 }
             }
+        },
+        "oauth": {
+            "enabled":"${oauth.enabled}",
+            "regUrl":"${oauth.base.url}${oauth.url.path}reg",
+            "authUrl":"${oauth.base.url}${oauth.url.path}auth",
+            "tokenUrl":"${oauth.base.url}${oauth.url.path}token"
         }
     }
 }
