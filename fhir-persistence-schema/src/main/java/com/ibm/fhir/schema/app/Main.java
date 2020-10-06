@@ -457,7 +457,10 @@ public class Main {
 
         // Build/update the tables as well as the stored procedures
         PhysicalDataModel pdm = new PhysicalDataModel();
-        buildCommonModel(pdm, updateFhirSchema, updateOauthSchema,updateJavaBatchSchema);
+        // Since this is a stored procedure, we need the model.
+        // We must pass in true to flag to the underlying layer that the
+        // Procedures need to be generated.
+        buildCommonModel(pdm, true, updateOauthSchema, updateJavaBatchSchema);
 
         // Now only apply the procedures in the model. Much faster than
         // going through the whole schema
