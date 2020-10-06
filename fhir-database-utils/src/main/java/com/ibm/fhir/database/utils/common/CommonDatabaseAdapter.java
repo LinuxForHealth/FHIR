@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -676,5 +677,18 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         // for databases (like Derby) without CREATE OR REPLACE support
         CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause, false);
         runStatement(dao);
+    }
+    
+    @Override
+    public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column) {
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        final String col = buildColumns(Collections.singletonList(column), null);
+        
+        final StringBuilder ddl = new StringBuilder();
+        ddl.append("ALTER TABLE ");
+        ddl.append(qname);
+        ddl.append(" ADD COLUMN ");
+        ddl.append(col);
+        runStatement(ddl.toString());
     }
 }

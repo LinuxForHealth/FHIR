@@ -10,16 +10,19 @@ import java.sql.Connection;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
+import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 
 /**
@@ -59,6 +62,37 @@ public class FHIRResourceDAOFactory {
             break;
         }
         return resourceDAO;
+    }
+
+    /**
+     * Instantiate a new instance of {@link ReindexResourceDAO} configured for the given database type
+     * @param connection
+     * @param schemaName
+     * @param flavor
+     * @param trxSynchRegistry
+     * @param cache
+     * @param parameterDao
+     * @return
+     */
+    public static ReindexResourceDAO getReindexResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
+        FHIRPersistenceJDBCCache cache, ParameterDAO parameterDao) {
+
+        IDatabaseTranslator translator = null;
+        
+        switch (flavor.getType()) {
+        case DB2:
+            translator = new Db2Translator();
+            break;
+        case DERBY:
+            translator = new DerbyTranslator();
+            break;
+        case POSTGRESQL:
+            translator = new PostgreSqlTranslator();
+            break;
+        }
+        
+        IResourceReferenceDAO rrd = new ResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache());
+        return new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
     }
 
     /**

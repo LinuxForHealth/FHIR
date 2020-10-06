@@ -19,7 +19,11 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
+import com.ibm.fhir.database.utils.model.AlterTableAddColumn;
 import com.ibm.fhir.database.utils.model.BaseObject;
+import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
+import com.ibm.fhir.database.utils.model.CreateIndex;
 import com.ibm.fhir.database.utils.model.FunctionDef;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
@@ -427,6 +431,48 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
+        
+        // For V0006 we also add a couple of new columns and an index to support
+        // reindexing of resources
+        List<ColumnBase> cols = new ColumnDefBuilder()
+                .addTimestampColumn(REINDEX_TSTAMP, true)
+                .addBigIntColumn(REINDEX_TXID, true)
+                .buildColumns();
+        AlterTableAddColumn addCols = new AlterTableAddColumn(schemaName, tableName, FhirSchemaVersion.V0006.vid(), cols);
+        addCols.addDependency(tbl); // table must be created before we try to alter it
+        pdm.addObject(addCols);
+
+        // Make sure we have an index on the REINDEX_TSTAMP column so that we can quickly
+        // identify which resources need to be reindexed
+        CreateIndex tsidx = CreateIndex.builder()
+                .setSchemaName(schemaName)
+                .setIndexName("IDX_" + LOGICAL_RESOURCES + "_RITS")
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setUnique(true)
+                .addColumn(REINDEX_TSTAMP)
+                .addColumn(LOGICAL_RESOURCE_ID)
+                .build();
+        tsidx.addDependency(addCols);
+        pdm.addObject(tsidx);
+
+        // Also add an index to allow quick retrieval of resources we've marked with
+        // a transaction id during the reindex process.
+        CreateIndex txidx = CreateIndex.builder()
+                .setSchemaName(schemaName)
+                .setIndexName("IDX_" + LOGICAL_RESOURCES + "_TXID")
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .addColumn(REINDEX_TXID)
+                .build();
+        txidx.addDependency(addCols);
+        pdm.addObject(txidx);
+
+        // Create a new sequence to use as a transaction id for our reindexing process
+        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQUENCE, FhirSchemaVersion.V0006.vid(), 1, 100, 1);
+        seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        procedureDependencies.add(seq);
+        sequencePrivileges.forEach(p -> p.addToObject(seq));
+        pdm.addObject(seq);
+
     }
 
     /**

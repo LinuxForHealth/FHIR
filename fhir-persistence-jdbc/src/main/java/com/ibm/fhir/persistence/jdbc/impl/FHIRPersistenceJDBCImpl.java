@@ -59,6 +59,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -104,8 +105,10 @@ import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -1678,6 +1681,78 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             } catch (SQLException x) {
                 throw new FHIRPersistenceException("prefill cache failed", x);
             }
+        }
+    }
+    
+    @Override
+    public boolean isReindexSupported() {
+        return true;
+    }
+
+    @Override
+    public OperationOutcome reindex(FHIRPersistenceContext context, java.time.Instant tstamp, int resourceCount)
+        throws FHIRPersistenceException {
+        final String METHODNAME = "reindex";
+        log.entering(CLASSNAME, METHODNAME);
+
+        // Reindex up to resourceCount resources which have not been indexed since the given tstamp
+        // Remember that all of this is happening within the context of one transaction, so we can
+        // only process a (relatively) limited set of resources
+        OperationOutcome.Builder result = OperationOutcome.builder();
+
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
+            ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
+            
+            // Obtain a list of resources we will reindex in this request/transaction. The logical_resources
+            // are locked at the beginning to prevent updates to the resource
+            // during the reindexing process. This locking occurs naturally, because we update the reindex_tstamp
+            // record on the logical_resources table. The records are locked in order of logical_resource_id, so
+            // we shouldn't hit a problem with deadlocks.
+            List<ResourceIndexRecord> resourceList = reindexDAO.getResourcesToReindex(tstamp, resourceCount);
+
+            for (ResourceIndexRecord rir: resourceList) {
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId());
+                }
+                
+                // Read the current resource
+                com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
+                if (existingResourceDTO != null) {
+                    List<String> elements = Collections.emptyList();
+                    Resource existingResource = this.convertResourceDTO(existingResourceDTO, Resource.class, elements);
+                    
+                    reindexDAO.setPersistenceContext(context);
+                    reindexDAO.updateParameters(rir.getResourceType(), this.extractSearchParameters(existingResource, existingResourceDTO), rir.getLogicalId(), rir.getLogicalResourceId());
+    
+                    // Use an OperationOutcome Issue to let the caller know that some work was performed
+                    final String diag = "Processed " + rir.getResourceType() + "/" + rir.getLogicalId();
+                    result.issue(Issue.builder().code(IssueType.INFORMATIONAL).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+                } else {
+                    // Reasonable to assume that this resource was deleted because we can't read it
+                    final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
+                    result.issue(Issue.builder().code(IssueType.NOT_FOUND).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+                }
+            }
+
+            return result.build();
+        }
+        catch(FHIRPersistenceFKVException e) {
+            log.log(Level.SEVERE, this.performCacheDiagnostics());
+            throw e;
+        }
+        catch(FHIRPersistenceException e) {
+            throw e;
+        }
+        catch(Throwable e) {
+            // don't chain the exception to avoid leaking secrets
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a reindex operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
         }
     }
 }

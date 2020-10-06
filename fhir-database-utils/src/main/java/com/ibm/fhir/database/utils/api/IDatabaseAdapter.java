@@ -76,6 +76,14 @@ public interface IDatabaseAdapter {
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
             PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName);
+    
+    /**
+     * Add a new column to an existing table
+     * @param schemaName
+     * @param tableName
+     * @param column
+     */
+    public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column);
 
     /**
      * Create ROW type used for passing values to stored procedures e.g.:

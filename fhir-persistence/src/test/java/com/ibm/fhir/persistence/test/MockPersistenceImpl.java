@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.test;
 
+import java.time.Instant;
+
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
@@ -66,6 +68,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public OperationOutcome reindex(FHIRPersistenceContext context, Instant tstamp, int resourceCount) throws FHIRPersistenceException {
         return null;
     }
 }
