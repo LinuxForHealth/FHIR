@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence;
 
+import java.util.UUID;
+
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -129,5 +131,14 @@ public interface FHIRPersistence {
      */
     default boolean isDeleteSupported() {
         return false;
+    }
+
+    /**
+     * Generates a logical identity.
+     * 
+     * @return logical identity
+     */
+    default String getLogicalId() {
+        return UUID.randomUUID().toString();
     }
 }

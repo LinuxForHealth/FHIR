@@ -115,12 +115,12 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
-import com.ibm.fhir.persistence.jdbc.util.LogicalIdentityProvider;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
@@ -289,7 +289,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // system-generated value. For the update-or-create scenario, see update().
             // Default version is 1 for a brand new FHIR Resource.
             int newVersionNumber = 1;
-            logicalId = logicalIdentityProvider.createNewIdentityValue();
+            logicalId = getLogicalId();
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
             }
@@ -1609,7 +1609,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .build());
     }
 
-
     @Override
     public String getSchemaForRequestContext(Connection connection) throws FHIRPersistenceDBConnectException {
         String datastoreId = FHIRRequestContext.get().getDataStoreId();
@@ -1640,5 +1639,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.fine("there are no datasource properties found for : [" + dsPropertyName + "]");
             throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
         }
+    }
+    
+    @Override
+    public String getLogicalId() {
+        return logicalIdentityProvider.createNewIdentityValue();
     }
 }
