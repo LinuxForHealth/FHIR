@@ -1327,23 +1327,65 @@ To enable export to parquet, an administrator must:
 One way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkimportexport-webapp pom.xml and rebuild the webapp to include them.
 
 ## 4.11 CADF audit logging service
-The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following:
+The CADF audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to the IBM Cloud Event Streams service. Each FHIR operation triggers a CADF audit log entry to be logged. The mapping of FHIR operation to CADF action is as follows:
 
-| FHIR Operation                 | CADF Action   |
-|--------------------------------| --------------|
-|`read,versionread,history,search,validate,meta` |    read       |
-|`create`                        |    create     |
-|`update`                        |    update     |
-|`delete`                        |    delete     |
-|`operation,bundle`              |    unknown    |
+| FHIR Operation                                      | CADF Action |
+|-----------------------------------------------------|-------------|
+|`history,metadata,read,search,validate,version read` |   read      |
+|`create`                                             |   create    |
+|`update`                                             |   update    |
+|`delete`                                             |   delete    |
+|`bundle,custom operation,patch`                      |   unknown   |
 
-Each FHIR create, update, delete, bundle or custom operation triggers 2 CADF events - begins with an event with "pending" outcome and ends with an event with "success" or "failure" outcome; All the other FHIR operations only trigger 1 CADF event with either "success" or "failure" outcome.
+### 4.11.1 CADF audit log entry
+The following table describes the contents of a CADF audit log entry as logged by the FHIR server:
 
-### 4.11.1 Enable CADF audit logging service
-Please refer to the properties names started wtih fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure CADF audit logging service.
+| CADF Audit Log Entry Field                           | Description |
+|------------------------------------------------------|-------------|
+|`action`                                              |Action that created the audit event. Possible values are "read", "update", "create", "delete", and "unknown".|
+|`eventTime`                                           |Audit event creation timestamp.|
+|`eventType`                                           |Audit event type. Value is always "activity".|
+|`id`                                                  |Globally unique identifier for the audit event.|
+|`outcome`                                             |Action outcome. Possible values are "success", "failure", "unknown", and "pending".|
+|`typeURI`                                             |TypeURI property of the CADF event entity. Value is always "http://schemas.dmtf.org/cloud/audit/1.0/event".|
+|`attachments`                                         |Note: Contains FHIR server-specific audit event data.|
+|`attachments:contentType`                             |FHIR server-specific audit event data content type. Value is always "application/json".|
+|`attachments:content`                                 |Note: Contents of this field (with its subfields) is encoded as Base64.
+|`attachments:content:request_unique_id`               |Globally unique identifier for the FHIR server request.|
+|`attachments:content:action`                          |FHIR action type. Possible values are "C" (create), "U" (update), "R" (read), "D" (delete), "P" (patch), and "O" (custom operation).|
+|`attachments:content:operation_name`                  |FHIR custom operation name.|
+|`attachments:content:start_time`                      |FHIR request start time.|
+|`attachments:content:end_time`                        |FHIR request end time.|
+|`attachments:content:api_parameters:request`          |FHIR request URL.|
+|`attachments:content:api_parameters:request_status`   |FHIR request HTTP status (e.g. 200).|
+|`attachments:content:data:resource_type`              |Resource type of FHIR resource that was created, updated, or deleted.|
+|`attachments:content:data:id`                         |Resource ID of FHIR resource that was created, updated, or deleted.|
+|`attachments:content:data:version`                    |Updated version of FHIR resource that was created, updated, or deleted.|
+|`attachments:content:batch:resources_read`            |FHIR resource count retrieved on a search request.|
+|`attachments:content:event_type`                      |FHIR event type. Possible values are "fhir-create", "fhir-update", "fhir-patch", "fhir-delete", "fhir-read", "fhir-version-read", "fhir-history", "fhir-search", "fhir-bundle", "fhir-validate", "fhir-metadata", "fhir-configdata", and "fhir-operation".|
+|`attachments:content:description`                     |FHIR event description.|
+|`attachments:content:client_cert_cn`                  |Value is determined by "IBM-App-cli-CN" HTTP header of the FHIR request.|
+|`attachments:content:client_cert_issuer_ou`           |Value is determined by "IBM-App-iss-OU" HTTP header of the FHIR request.|
+|`attachments:content:location`                        |IP address and hostname of the source of the FHIR request.|
+|`initiator:id`                                        |Value is always "TENANT_ID@fhir-server", where TENANT_ID is replaced with the tenant ID.|
+|`initiator:typeURI`                                   |Value is always "compute/machine".|
+|`initiator:host`                                      |IP address of FHIR server localhost.|
+|`initiator:credential:token`                          |Value is always "user-AUTH_USER", where AUTH_USER is replaced with the name of the authenticated user.|
+|`initiator:geolocation:city`                          |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`initiator:geolocation:state`                         |Value determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`initiator:geolocation:region`                        |Value determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+|`observer:id`                                         |Value is always "fhir-server".|
+|`observer:typeURI`                                    |Value is always "compute/node".|
+|`observer:name`                                       |Value is always "Fhir Audit".|
+|`observer:geolocation:city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`observer:geolocation:state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`observer:geolocation:region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
-### 4.11.2 Event Streams configuation of CADF audit logging service
-The CADF audit logging service gets event streams service credential from env variable EVENT_STREAMS_AUDIT_BINDING with values like this:
+### 4.11.2 Enable CADF audit logging service
+Please refer to the property names that start with fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
+
+### 4.11.3 Event Streams configuation of CADF audit logging service
+The CADF audit logging service gets the event streams service credential from environment variable EVENT_STREAMS_AUDIT_BINDING with values like this:
 
 ```
     {
@@ -1377,13 +1419,13 @@ And then in the YAML file for your Kubernetes deployment, specify the environmen
                     key: binding
                     name: binding-<event_streams_service_instance_name>
 ```
-please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instruction if need.
+Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instructions if needed.
 
-### 4.11.3 Query CADF events in COS
-[Waston studio stream flow]( https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source ) can be created to push those FHIR Audit CADF events from Event Streams service to COS bucket(e.g fhir-audit-dev0) in CSV format; Another option is to configure Event Streams(Kafka) S3 connect to push those CADF events to COS bucket(e.g, fhir-audit-dev0) but in raw CADF json format.
-A service instance of the [IBM Cloud SQL Query]( https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query ) service can be created to allow you to query those CADF audit events in COS with SQL queries, before you run sql query, you'd better create a COS bucket to store your query results, otherwise, the query results will be stored in a bucket which is automatically created by the SQL query service.
+### 4.11.4 Query CADF events in COS
+[Watson studio stream flow](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source) can be created to push those FHIR Audit CADF events from the Event Streams service to a COS bucket (e.g. fhir-audit-dev0) in CSV format. Another option is to configure Event Streams (Kafka) S3 connect to push those CADF events to a COS bucket (e.g. fhir-audit-dev0) but in raw CADF json format.
+A service instance of the [IBM Cloud SQL Query](https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query) service can be created to allow you to query those CADF audit events in COS with SQL queries. Before running an SQL query, it's recommended to first create a COS bucket to store your query results, otherwise the query results will be stored in a bucket which is automatically created by the SQL query service.
 
-Samples queries for CSV records expaned from the JSON CADF events:
+Sample queries for CSV records expanded from the JSON CADF events:
 
 ```
 select * from cos://us-south/fhir-audit-dev where EVENTTIME BETWEEN "2019-06-07" and "2019-06-08" and action="unknown" into cos://us-south/fhir-audit-dev-res stored as csv
@@ -1395,7 +1437,7 @@ select * from cos://us-south/fhir-audit-dev where EVENTTIME BETWEEN "2019-06-05"
 select * from cos://us-south/fhir-audit-dev where EVENTTIME BETWEEN "2019-06-05" and "2019-06-06" and ATTACHMENTS_CONTENT LIKE '%fhir-read%' into cos://us-south/fhir-audit-dev-res stored as csv
 ```
 
-Samples queries for the raw JSON CADF events:
+Sample queries for the raw JSON CADF events:
 
 ```
 select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETWEEN "2019-06-01" and "2019-06-08" and action="unknown" into cos://us-south/fhir-audit-dev0-res stored as json
