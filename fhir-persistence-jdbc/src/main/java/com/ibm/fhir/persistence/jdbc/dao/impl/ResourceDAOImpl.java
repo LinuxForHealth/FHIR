@@ -522,7 +522,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(8));
+            resource.setId(stmt.getLong(7));
 
             // Parameter time
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
