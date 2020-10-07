@@ -1176,6 +1176,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<OperationOutcome.Issue> issueList = new ArrayList<OperationOutcome.Issue>();
 
             List<Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
+            
+            List<String> localIdentifiers = new ArrayList<>();
 
             for (Bundle.Entry requestEntry : bundle.getEntry()) {
                 // Create a corresponding response entry and add it to the response bundle.
@@ -1201,6 +1203,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     if (request.getUrl() == null || request.getUrl().getValue() == null) {
                         String msg = "Bundle.Entry.request is missing the 'url' field";
                         throw buildRestException(msg, IssueType.REQUIRED);
+                    }
+
+                    // Verify that the fullUrl field is not a duplicate if it specifies a local reference
+                    // and if the request method is POST or PUT.
+                    if (request.getMethod().equals(HTTPVerb.POST) || request.getMethod().equals(HTTPVerb.PUT)) {
+                        String localIdentifier = retrieveLocalIdentifier(requestEntry);
+                        if (localIdentifier != null) {
+                            if (localIdentifiers.contains(localIdentifier)) {
+                                String msg = "Duplicate local identifier encountered in bundled request entry: " + localIdentifier;
+                                throw buildRestException(msg, IssueType.DUPLICATE);
+                            }
+                            localIdentifiers.add(localIdentifier);
+                        }
                     }
 
                     // Retrieve the resource from the request entry to prepare for some validations below.
@@ -1465,7 +1480,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Build a mapping of local identifiers to external identifiers for local reference resolution.
-            Map<String, String> localRefMap = buildLocalRefMap(requestBundle);
+            Map<String, String> localRefMap = buildLocalRefMap(requestBundle, responseBundle);
             
             // Process entries.
             responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.DELETE,
@@ -1536,11 +1551,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             for (int entryIndex=0; entryIndex<requestBundle.getEntry().size(); ++entryIndex) {
                 Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
                 Bundle.Entry.Request request = requestEntry.getRequest();
-                if (request.getMethod().equals(httpMethod)) {
+                Bundle.Entry responseEntry = responseBundle.getEntry().get(entryIndex);
+                Bundle.Entry.Response response = responseEntry.getResponse();
+                if (response.getStatus().equals(string(Integer.toString(SC_OK))) && request.getMethod().equals(httpMethod)) {
                     // Process request entry.
-                    Bundle.Entry responseEntry = responseBundle.getEntry().get(entryIndex);
                     Bundle.Entry.Builder responseEntryBuilder = responseEntry.toBuilder();
-                    Bundle.Entry.Response response = responseEntry.getResponse();
                     StringBuffer requestDescription = new StringBuffer();
                     long initialTime = System.currentTimeMillis();
                     
@@ -2028,25 +2043,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            
      * @return local reference map
      */
-    private Map<String, String> buildLocalRefMap(Bundle requestBundle) throws Exception {
+    private Map<String, String> buildLocalRefMap(Bundle requestBundle, Bundle responseBundle) throws Exception {
         Map<String, String> localRefMap = new HashMap<>();
 
-        for (Bundle.Entry requestEntry : requestBundle.getEntry()) {
+        for (int entryIndex=0; entryIndex<requestBundle.getEntry().size(); ++entryIndex) {
+            Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
             Bundle.Entry.Request request = requestEntry.getRequest();
-
-            // Only add mappings for POST and PUT requests.
-            if (request.getMethod().equals(HTTPVerb.POST) || request.getMethod().equals(HTTPVerb.PUT)) {
+            Bundle.Entry responseEntry = responseBundle.getEntry().get(entryIndex);
+            Bundle.Entry.Response response = responseEntry.getResponse();
+            
+            // Only add mappings for POST and PUT requests where response is OK.
+            if (response.getStatus().equals(string(Integer.toString(SC_OK))) &&
+                    (request.getMethod().equals(HTTPVerb.POST) || request.getMethod().equals(HTTPVerb.PUT))) {
 
                 // Retrieve the local identifier from the request entry (if present).
                 String localIdentifier = retrieveLocalIdentifier(requestEntry);
                 if (localIdentifier != null) {
                     
-                    // If identifier already exists, throw exception.
-                    if (localRefMap.get(localIdentifier) != null) {
-                        String msg = "Duplicate local identifier encountered in bundled request entry: " + localIdentifier;
-                        throw buildRestException(msg, IssueType.DUPLICATE);
-                    }
-
                     // Retrieve the resource from the request entry (if present).
                     Resource resource = requestEntry.getResource();
                     if (resource != null) {
