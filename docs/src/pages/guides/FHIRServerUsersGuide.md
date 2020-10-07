@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-09-01"
+lastupdated: "2020-10-07"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -906,7 +906,7 @@ Response resource:
 ## 4.8 Using local references within request bundles
 Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `Patient/12345`).
 
-In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been process (that is, before the new `Patient` resource is created).
+In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been processed (that is, before the new `Patient` resource is created).
 
 Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local reference_<sup id="a6">[6](#f6)</sup>. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
 
@@ -947,13 +947,18 @@ In order to reference a resource via a local reference, you must first define a 
 After you define a local identifier for the referenced resource, you can then define one or more references to that resource by using the local identifier instead of an external identifier. In the preceding example, you can see that the Observation's `subject.reference` field specifies the Patient's local identifier as specified in the `fullUrl` field of the Patient's request entry.
 
 ### 4.8.1 Processing rules
-There is one rule for the use of local references within a request bundle:  A local identifier must be defined via a request entry's `fullUrl` field before that local identifier can be used in a local reference.
+The following processing rules apply for the use of local references within a request bundle:
+1.  A local identifier must be defined via a request entry's `fullUrl` field in order for that local identifier to be used in a local reference.
+2.  Local references will only be recognized for local identifiers associated with requst entries with a request method of `POST` or `PUT`.
+3.  `POST` requests will be processed before `PUT` requests.
+4.  There is no order dependency within a request bundle for request entries defining local identifiers, and request entries which reference those local identifiers via local reference. The exception to this rule is for request entries which specify [conditional create](https://www.hl7.org/fhir/http.html#ccreate) or [conditional update](https://www.hl7.org/fhir/http.html#cond-update) requests.
+5.  If a request entry specifying a conditional create or update request defines a local identifier, that request entry must be processed before a request entry which references the local identifier in a local reference.
 
-In the example in [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. This example satisfies the rule because the FHIR server will process the POST request entries in the order in which they appear within the request bundle.
+In the example in [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. However, based on rule 4, it would still be a valid request bundle if the `Observation` request entry appeared before the `Patient` request entry, unless the `Patient` request entry specified a conditional create (rule 5).
 
-If, however, those entries were reversed, the FHIR server would return an error when processing the `Observation` request entry, because the `Patient` local identifier is not defined yet.
+If those entries were reversed, and the `Patient` request entry specified a conditional create, then the FHIR server would return an error when processing the `Observation` request entry, because the `Patient` local identifier would not be defined yet.
 
-The following example also satisfies the rule:
+The following examples also satisfy the local reference processing rules:
 
 #### 4.8.1.1 Example 2: Observation (PUT) appears before Patient (POST)
 ```
@@ -988,46 +993,87 @@ The following example also satisfies the rule:
 }
 ```
 
-The FHIR server first processes all POST requests found within a request bundle and then processes all PUT requests. So, the FHIR server will, in fact, process the `Patient` request entry (a POST) before it processes the `Observation` request entry (a PUT). Therefore, this would be considered a valid request bundle as well.
+In Example 2, if the `Patient` request entry was a conditional create request, this would still be a valid request bundle, because `POST` requests are processed before `PUT` requests (rule 3). This means the `Patient` request entry would be processed before the `Observation` request entry, and thus the `Patient` local identifier would be defined when the `Observation` request entry was processed.
 
-While processing a POST or PUT request entry within a request bundle, the FHIR server will detect the use of a local identifier within the entry's `fullUrl` field, and will establish a mapping between that local identifier and the corresponding external identifier that results from performing the POST or PUT operation.
+#### 4.8.1.2 Example 3: Encounter and Procedure circular references
+```
+{
+    "resourceType" : "Bundle",
+    "type" : "batch",
+    "entry" : [ {
+        "fullUrl" : "urn:Encounter_1",
+        "resource" : {
+            "resourceType" : "Encounter",
+            …
+            "reasonReference" : [ {
+                    "reference" : "urn:Procedure_1"
+            } ],
+            …
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Encounter"
+        }
+    }, {
+        "fullUrl" : "urn:Procedure_1",
+        "resource" : {
+            "resourceType" : "Procedure",
+            …
+            "encounter" : {
+                    "reference" : "urn:Encounter_1"
+            },
+            …
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Procedure"
+        }
+    } ]
+}
+```
 
-For example, in Example 1 from [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), the FHIR server detects the use of the local identifier in the `Patient` request entry (`urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69`) and -- after creating the new `Patient` resource -- establishes a mapping between the local identifier and the resulting external reference associated with the new `Patient` (for example, `Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b`).
+While processing a request bundle, but before processing individual request entries, the FHIR server will detect the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and will establish a mapping between that local identifier and the corresponding external identifier that will result from performing the `POST` or `PUT` operation. 
 
-Then when the FHIR server processes the POST request for the `Observation`, it detects the use of the local reference and substitutes the corresponding external reference for it before creating the new `Observation` resource. Here is an example of a response bundle for the request bundle depicted in Example 1 in which we can see that the Observation's `subject.reference` field now contains a proper external reference to the newly-created `Patient` resource:
+Using Example 3, the FHIR server detects the use of local identifiers in the `Encounter` request entry (`urn:Encounter_1`) and in the `Procedure` request entry (`urn:Procedure_1`), and establishes a mapping between the local identifiers and the external references to be associated with the new `Encounter` and `Procedure` resources (for example, `Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b` and `Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf`).
 
-#### 4.8.1.2 Example 3: Response bundle for Example 1
+Then when the FHIR server processes the POST requests for the `Encounter` and `Procedure` resources, it detects the use of the local references and substitutes the corresponding external references for them before creating the new resources. Here is an example of a response bundle for the request bundle depicted in Example 3 in which we can see that the Encounter's `reasonReference.reference` field now contains a proper external reference to the newly-created `Procedure` resource, and the Procedure's `encounter.reference` field now contains a proper external reference to the newly-created `Encounter` resource:
+
+#### 4.8.1.3 Example 4: Response bundle for Example 3
 ```
 {
     "resourceType" : "Bundle",
     "type" : "batch-response",
     "entry" : [ {
         "resource" : {
-            "resourceType" : "Patient",
+            "resourceType" : "Encounter",
             "id" : "1cc5d299-d2be-4f93-8745-a121232ffe5b",
+            …
+            "reasonReference" : [ {
+                    "reference" : "Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf"
+            } ],
             …
         },
         "response" : {
             "id" : "1cc5d299-d2be-4f93-8745-a121232ffe5b",
             "status" : "201",
-            "location" : "Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b/_history/1",
+            "location" : "Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b/_history/1",
             "etag" : "W/\"1\"",
             "lastModified" : "2017-03-01T20:56:59.540Z"
         }
     }, {
         "resource" : {
-            "resourceType" : "Observation",
+            "resourceType" : "Procedure",
             "id" : "22b21fcf-8d00-492d-9de0-e25ddd409eaf",
             …
-            "subject" : {
-                "reference" : "Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b"
+            "encounter" : {
+                "reference" : "Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b"
             },
             …
         },
         "response" : {
             "id" : "22b21fcf-8d00-492d-9de0-e25ddd409eaf",
             "status" : "201",
-            "location" : "Observation/22b21fcf-8d00-492d-9de0-e25ddd409eaf/_history/1",
+            "location" : "Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf/_history/1",
             "etag" : "W/\"1\"",
             "lastModified" : "2017-03-01T20:56:59.652Z"
         }
