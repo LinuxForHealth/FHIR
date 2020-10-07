@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,10 +64,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
+    // @formatter:off
     //                                                                                 0
-    //                                                                                 1 2 3 4 5 6 7 8
+    //                                                                                 1 2 3 4 5 6 7
+    // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
@@ -134,7 +135,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         this.runningInTrx = false;
         this.trxSynchRegistry = null;
     }
-    
+
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
@@ -514,14 +515,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated, UTC);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
-            stmt.setString(6, UUID.randomUUID().toString());
-            stmt.setInt(7, resource.getVersionId());
-            stmt.registerOutParameter(8, Types.BIGINT);
+            stmt.setInt(6, resource.getVersionId());
+            stmt.registerOutParameter(7, Types.BIGINT);
 
             stmt.execute();
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
-            
+
             resource.setId(stmt.getLong(8));
 
             // Parameter time
@@ -535,7 +535,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     }
                 }
             }
-            
+
 
             if (log.isLoggable(Level.FINE)) {
                 latestTime = System.nanoTime();
