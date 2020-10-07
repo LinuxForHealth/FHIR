@@ -206,6 +206,8 @@ For search parameters of type token, resource values are not indexed unless the 
 * `[parameter]=[system]|[code]`
 * `[parameter]=|[code]`
 
+The `:text`, `:not`, `:above`, `:below`, `:in`, `:not-in`, and `:of-type` modifiers are not supported in the IBM FHIR Server and use of this modifier results in an HTTP 400 error with an OperationOutcome that describes the failure.
+
 However, the `|[code]` variant currently behaves like the `[code]` option, matching code values irrespective of the system instead of matching only on elements with missing/null system values as defined in the spec.
 
 The IBM FHIR Server does not yet support searching a token value by codesystem, irrespective of the value (`|[system]|`).
