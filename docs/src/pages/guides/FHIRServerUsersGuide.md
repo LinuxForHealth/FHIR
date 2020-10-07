@@ -1338,7 +1338,7 @@ The CADF audit logging service pushes FHIR server audit events for FHIR operatio
 |`bundle,custom operation,patch`                      |   unknown   |
 
 ### 4.11.1 CADF audit log entry
-The following table describes the contents of a CADF audit log entry as logged by the FHIR server:
+The following table describes the JSON fields of the CADF audit log entries logged by the FHIR server:
 
 | CADF Audit Log Entry Field                           | Description |
 |------------------------------------------------------|-------------|
@@ -1349,37 +1349,37 @@ The following table describes the contents of a CADF audit log entry as logged b
 |`outcome`                                             |Action outcome. Possible values are "success", "failure", "unknown", and "pending".|
 |`typeURI`                                             |TypeURI property of the CADF event entity. Value is always "http://schemas.dmtf.org/cloud/audit/1.0/event".|
 |`attachments`                                         |Note: Contains FHIR server-specific audit event data.|
-|`attachments:contentType`                             |FHIR server-specific audit event data content type. Value is always "application/json".|
-|`attachments:content`                                 |Note: Contents of this field (with its subfields) is encoded as Base64.
-|`attachments:content:request_unique_id`               |Globally unique identifier for the FHIR server request.|
-|`attachments:content:action`                          |FHIR action type. Possible values are "C" (create), "U" (update), "R" (read), "D" (delete), "P" (patch), and "O" (custom operation).|
-|`attachments:content:operation_name`                  |FHIR custom operation name.|
-|`attachments:content:start_time`                      |FHIR request start time.|
-|`attachments:content:end_time`                        |FHIR request end time.|
-|`attachments:content:api_parameters:request`          |FHIR request URL.|
-|`attachments:content:api_parameters:request_status`   |FHIR request HTTP status (e.g. 200).|
-|`attachments:content:data:resource_type`              |Resource type of FHIR resource that was created, updated, or deleted.|
-|`attachments:content:data:id`                         |Resource ID of FHIR resource that was created, updated, or deleted.|
-|`attachments:content:data:version`                    |Updated version of FHIR resource that was created, updated, or deleted.|
-|`attachments:content:batch:resources_read`            |FHIR resource count retrieved on a search request.|
-|`attachments:content:event_type`                      |FHIR event type. Possible values are "fhir-create", "fhir-update", "fhir-patch", "fhir-delete", "fhir-read", "fhir-version-read", "fhir-history", "fhir-search", "fhir-bundle", "fhir-validate", "fhir-metadata", "fhir-configdata", and "fhir-operation".|
-|`attachments:content:description`                     |FHIR event description.|
-|`attachments:content:client_cert_cn`                  |Value is determined by "IBM-App-cli-CN" HTTP header of the FHIR request.|
-|`attachments:content:client_cert_issuer_ou`           |Value is determined by "IBM-App-iss-OU" HTTP header of the FHIR request.|
-|`attachments:content:location`                        |IP address and hostname of the source of the FHIR request.|
-|`initiator:id`                                        |Value is always "TENANT_ID@fhir-server", where TENANT_ID is replaced with the tenant ID.|
-|`initiator:typeURI`                                   |Value is always "compute/machine".|
-|`initiator:host`                                      |IP address of FHIR server localhost.|
-|`initiator:credential:token`                          |Value is always "user-AUTH_USER", where AUTH_USER is replaced with the name of the authenticated user.|
-|`initiator:geolocation:city`                          |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
-|`initiator:geolocation:state`                         |Value determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
-|`initiator:geolocation:region`                        |Value determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
-|`observer:id`                                         |Value is always "fhir-server".|
-|`observer:typeURI`                                    |Value is always "compute/node".|
-|`observer:name`                                       |Value is always "Fhir Audit".|
-|`observer:geolocation:city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
-|`observer:geolocation:state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
-|`observer:geolocation:region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+|`attachments/contentType`                             |FHIR server-specific audit event data content type. Value is always "application/json".|
+|`attachments/content`                                 |Note: Contents of this field (with its subfields) is encoded as Base64.
+|`attachments/content/request_unique_id`               |Globally unique identifier for the FHIR server request.|
+|`attachments/content/action`                          |FHIR action type. Possible values are "C" (create), "U" (update), "R" (read), "D" (delete), "P" (patch), and "O" (custom operation).|
+|`attachments/content/operation_name`                  |FHIR custom operation name.|
+|`attachments/content/start_time`                      |FHIR request start time.|
+|`attachments/content/end_time`                        |FHIR request end time.|
+|`attachments/content/api_parameters/request`          |FHIR request URL.|
+|`attachments/content/api_parameters/request_status`   |FHIR request HTTP status (e.g. 200).|
+|`attachments/content/data/resource_type`              |Resource type of FHIR resource that was created, updated, or deleted.|
+|`attachments/content/data/id`                         |Resource ID of FHIR resource that was created, updated, or deleted.|
+|`attachments/content/data/version`                    |Updated version of FHIR resource that was created, updated, or deleted.|
+|`attachments/content/batch/resources_read`            |FHIR resource count retrieved on a search request.|
+|`attachments/content/event_type`                      |FHIR event type. Possible values are "fhir-create", "fhir-update", "fhir-patch", "fhir-delete", "fhir-read", "fhir-version-read", "fhir-history", "fhir-search", "fhir-bundle", "fhir-validate", "fhir-metadata", and "fhir-operation".|
+|`attachments/content/description`                     |FHIR event type description. Possible values are "FHIR Create request", "FHIR Update request", "FHIR Patch request", "FHIR Delete request", "FHIR Read request", "FHIR VersionRead request", "FHIR History request", "FHIR Search request", "FHIR Bundle request", "FHIR Validate request", "FHIR Metadata request", and "FHIR Operation request".|
+|`attachments/content/client_cert_cn`                  |Value is determined by "IBM-App-cli-CN" HTTP header of the FHIR request.|
+|`attachments/content/client_cert_issuer_ou`           |Value is determined by "IBM-App-iss-OU" HTTP header of the FHIR request.|
+|`attachments/content/location`                        |IP address and hostname of the source of the FHIR request.|
+|`initiator/id`                                        |Value is always "TENANT_ID@fhir-server", where TENANT_ID is replaced with the tenant ID.|
+|`initiator/typeURI`                                   |Value is always "compute/machine".|
+|`initiator/host`                                      |IP address of FHIR server localhost.|
+|`initiator/credential/token`                          |Value is always "user-AUTH_USER", where AUTH_USER is replaced with the name of the authenticated user.|
+|`initiator/geolocation/city`                          |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`initiator/geolocation/state`                         |Value determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`initiator/geolocation/region`                        |Value determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+|`observer/id`                                         |Value is always "fhir-server".|
+|`observer/typeURI`                                    |Value is always "compute/node".|
+|`observer/name`                                       |Value is always "Fhir Audit".|
+|`observer/geolocation/city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
 ### 4.11.2 Enable CADF audit logging service
 Please refer to the property names that start with fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
