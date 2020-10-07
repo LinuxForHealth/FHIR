@@ -155,7 +155,7 @@ Due to performance implications, the `:exact` modifier should be used for String
 
 At present, the `:missing` modifier is not supported for whole-system search nor for chained parameter search. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
 
-The `:text` modifier is not supported in this version of the FHIR server and use of this modifier will results in an HTTP 400 error with an `OperationOutcome` that describes the failure.
+The :text, :not, :above, :below, :in, :not-in, and :of-type modifiers are not supported in this version of the IBM FHIR server and use of this modifier will results in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
