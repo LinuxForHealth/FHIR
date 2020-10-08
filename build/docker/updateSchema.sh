@@ -13,3 +13,7 @@ cd ${DIR}
 java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --update-schema \
   --pool-size 20
+
+# Updates the Grants
+java -jar schema/fhir-persistence-schema-*-cli.jar \
+  --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 20
