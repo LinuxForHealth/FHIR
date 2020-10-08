@@ -527,7 +527,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             // Handle query parm representing this name/value pair construct:
             // <code>{name}:{Resource Type} = {resource-id}</code>
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                System.out.println(queryParm.getType());
                 if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
                     // Not a Reference
                     searchValue =
