@@ -32,10 +32,10 @@ public class CanonicalUrlHandlerImpl implements ParameterValueHandler {
         // At some point we'll want to care about versions of references.
         // split on the pound sign then.
         int idxOfPipe = valueString.indexOf('|');
-        String tmp = valueString;
         if (idxOfPipe > 0) {
-            tmp = valueString.substring(0, idxOfPipe);
+            String tmp = valueString.substring(0, idxOfPipe);
+            System.out.println(tmp);
+            handler.processParameter(incoming, targets, parameterValues, tmp, values);
         }
-        handler.processParameter(incoming, targets, parameterValues, tmp, values);
     }
 }

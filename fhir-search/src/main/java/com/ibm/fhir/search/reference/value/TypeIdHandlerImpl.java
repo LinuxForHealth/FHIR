@@ -6,6 +6,8 @@
 package com.ibm.fhir.search.reference.value;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
@@ -15,9 +17,14 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * -> http://server/Patient/1
  */
 public class TypeIdHandlerImpl implements ParameterValueHandler {
+
+    private static final String REGEX = "^([A-z][a-z]{2,36}/[A-Za-z0-9\\-\\.]{1,64})$";
+    private static final Pattern PATTERN = Pattern.compile(REGEX);
+
     @Override
     public void processParameter(String incoming, List<String> targets, List<QueryParameterValue> parameterValues, String valueString, List<String> values) {
-        if (!valueString.contains(":") && valueString.contains("/")) {
+        Matcher matcher = PATTERN.matcher(valueString);
+        if (matcher.find()) {
             String requestUriString = incoming.split("\\?")[0];
             String tmpValueUrl = requestUriString + "/" + valueString;
             if (!values.contains(tmpValueUrl)) {

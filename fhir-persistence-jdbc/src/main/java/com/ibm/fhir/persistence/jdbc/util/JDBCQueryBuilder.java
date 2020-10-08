@@ -48,8 +48,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
-import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -529,6 +527,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             // Handle query parm representing this name/value pair construct:
             // <code>{name}:{Resource Type} = {resource-id}</code>
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
+                System.out.println(queryParm.getType());
                 if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
                     // Not a Reference
                     searchValue =
@@ -538,21 +537,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     // This is a Reference type.
                     // As of versions greater than 4.4.0, we defer to the Search Layer to append the value.
                     searchValue = SqlParameterEncoder.encode(value.getValueString());
-                }
-            } else if (!isAbsoluteURL(searchValue)) {
-                SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getCode());
-                if (definition != null) {
-                    List<? extends Code> targets = definition.getTarget();
-                    if (targets.size() == 1) {
-                        Code target = targets.get(0);
-                        String targetResourceTypeName = target.getValue();
-                        if (!searchValue.startsWith(targetResourceTypeName + "/")) {
-                            searchValue = targetResourceTypeName + "/" + searchValue;
-                        }
-                    }
-                } else {
-                    log.finer("Couldn't find search parameter named '" + queryParm.getCode() + "' for resource of type "
-                            + resourceType);
                 }
             }
 

@@ -22,7 +22,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  */
 public class UrlHandlerImpl implements ParameterValueHandler {
 
-    private static final String REGEX = "/[A-z][a-z]{2,10}/[A-Za-z0-9\\-\\.]{1,64}$";
+    private static final String REGEX = "/([A-z][a-z]{2,36}/[A-Za-z0-9\\-\\.]{1,64})$";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     @Override
@@ -33,9 +33,8 @@ public class UrlHandlerImpl implements ParameterValueHandler {
 
             Matcher matcher = PATTERN.matcher(path);
             if (matcher.find()) {
-                String typeId = matcher.group().substring(1);
-
                 // For instance, Patient/1
+                String typeId = matcher.group().substring(1);
                 if (!values.contains(typeId)) {
                     QueryParameterValue parameterValue = new QueryParameterValue();
                     parameterValue.setValueString(typeId);
@@ -43,7 +42,9 @@ public class UrlHandlerImpl implements ParameterValueHandler {
                     parameterValues.add(parameterValue);
                     values.add(typeId);
                 }
+                System.out.println(values);
 
+                // For instance, 1
                 int lastIndex = typeId.lastIndexOf('/');
                 String id = typeId.substring(lastIndex + 1);
                 if (!values.contains(id)) {
@@ -53,6 +54,7 @@ public class UrlHandlerImpl implements ParameterValueHandler {
                     parameterValues.add(parameterValue);
                     values.add(id);
                 }
+                System.out.println(values);
             }
         } catch (MalformedURLException e) {
             // We're not a URL, skip processing.

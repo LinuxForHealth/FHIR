@@ -81,8 +81,8 @@ public class ReferenceParameterHandler {
         // Process through each of the Handlers, the intent here is to have stateless processing for each case.
         List<String> valuesList = new ArrayList<>();
         valuesList.addAll(Arrays.asList(values));
-        handlers.stream().forEach(handler -> {
+        for (ParameterValueHandler handler : handlers) {
             handler.processParameter(output, targets, parameterValues, valueString, valuesList);
-        });
+        }
     }
 }
