@@ -329,7 +329,9 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
         final String pname = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
-        final String ddl = "DROP PROCEDURE " + pname;
+        // As the procedure names are mutated, we don't want to be in the situation where the signature change, and we
+        // can't drop.
+        final String ddl = "DROP SPECIFIC PROCEDURE " + pname;
         try {
             runStatement(ddl);
         }
@@ -365,7 +367,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String detachedName = DataDefinitionUtil.getQualifiedName(schemaName, intoTableName);
         final String ddl = "ALTER TABLE " + qname + " DETACH PARTITION " + partitionName + " INTO " + detachedName;
-        
+
         try {
             runStatement(ddl);
         } catch (DataAccessException x) {
@@ -402,7 +404,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Only process tables which are partitioned
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
         loadPartitionInfoMap(partitionInfoMap, schemaName);
-        
+
         for (Table t : tables) {
             PartitionInfo pi = partitionInfoMap.get(t.getObjectName());
             if (pi == null) {
@@ -427,12 +429,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             }
         }
     }
-    
+
     /**
      * Get the name of the table created when the given tenant's partition is
      * dropped (to deprovision a tenant). This is just the table name prefixed with
      * DRP_n_ where n is the tenantId.
-     * 
+     *
      * @param tenantId
      * @return
      */
@@ -539,12 +541,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // SET INTEGRITY FOR child OFF;
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "SET INTEGRITY FOR " + qname + " OFF";
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
-        
+
     }
 
     /* (non-Javadoc)
@@ -555,7 +557,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "SET INTEGRITY FOR " + qname + " ALL IMMEDIATE UNCHECKED";
-        
+
         // so important, we log it
         logger.info(ddl);
 
