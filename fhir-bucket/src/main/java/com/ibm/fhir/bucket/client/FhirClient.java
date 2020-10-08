@@ -290,9 +290,11 @@ public class FhirClient {
                 logger.fine(msg.toString());
             }
 
-            // If we are posting a bundle, then we need to parse the response entity
-            boolean isBundle = url.isEmpty();
-            return buildResponse(response, startTime, isBundle);
+            // If we are posting a bundle or calling a custom operation, 
+            // then we need to parse the response entity. This is a little
+            // crude, but works OK here
+            boolean processResponseEntity = url.isEmpty() || url.startsWith("$");
+            return buildResponse(response, startTime, processResponseEntity);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);

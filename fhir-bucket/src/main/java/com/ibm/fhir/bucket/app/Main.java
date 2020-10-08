@@ -35,6 +35,7 @@ import com.ibm.fhir.bucket.interop.CmsPayerScenario;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
+import com.ibm.fhir.bucket.reindex.DriveReindexOperation;
 import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.CosReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
@@ -178,6 +179,17 @@ public class Main {
     
     // How many resources should we pack into new bundles
     private int maxResourcesPerBundle = 100;
+    
+    private DriveReindexOperation driveReindexOperation;
+
+    // the _tstamp parameter if we are executing $reindex custom operation calls. Disabled when null
+    private String reindexTstampParam;
+
+    // the _resourceCount parameter if we are executing $reindex custom operation calls
+    private int reindexResourceCount = 10;
+    
+    // How many reindex calls should we run in parallel
+    private int reindexConcurrentRequests = 1;
     
     /**
      * Parse command line arguments
@@ -352,6 +364,27 @@ public class Main {
                 break;
             case "--no-scan":
                 this.runScanner = false;
+                break;
+            case "--reindex-tstamp":
+                if (i < args.length + 1) {
+                    this.reindexTstampParam = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --reindex-tstamp");
+                }
+                break;
+            case "--reindex-resource-count":
+                if (i < args.length + 1) {
+                    this.reindexResourceCount = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --reindex-resource-count");
+                }
+                break;
+            case "--reindex-concurrent-requests":
+                if (i < args.length + 1) {
+                    this.reindexConcurrentRequests = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --reindex-concurrent-requests");
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
@@ -641,9 +674,14 @@ public class Main {
         logger.info("Stopping all services");
 
         // First up, signal everything to stop. This is just a notification,
-        // we don't block on any of these
+        // we don't block on any of these. Probably would be cleaner using
+        // futures here
         if (this.scanner != null) {
             this.scanner.signalStop();
+        }
+        
+        if (driveReindexOperation != null) {
+            driveReindexOperation.signalStop();
         }
         
         if (cmsPayerWorkload != null) {
@@ -663,6 +701,10 @@ public class Main {
         
         if (this.scanner != null) {
             this.scanner.waitForStop();
+        }
+        
+        if (driveReindexOperation != null) {
+            driveReindexOperation.waitForStop();
         }
         
         if (cmsPayerWorkload != null) {
@@ -768,6 +810,12 @@ public class Main {
             CmsPayerScenario scenario = new CmsPayerScenario(this.fhirClient);
             cmsPayerWorkload = new CmsPayerInterop(dataAccess, scenario, concurrentPayerRequests, 500000);
             cmsPayerWorkload.init();
+        }
+        
+        // Optionally start the $reindex loops
+        if (this.reindexTstampParam != null) {
+            this.driveReindexOperation = new DriveReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            this.driveReindexOperation.init();
         }
 
         // JVM won't exit until the threads are stopped via the

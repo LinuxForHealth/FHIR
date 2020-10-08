@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
@@ -83,8 +84,11 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         // no need to close
         Connection connection = getConnection();
 
+        // logger.info("Current schema: " + connection.getSchema());
+
         // Get the next sequence value we'll use to mark the resources we want to process
-        final String selectNextValue = translator.selectSequenceNextValue(getSchemaName(), "REINDEX_SEQUENCE");
+        // final String selectNextValue = "VALUES(NEXT VALUE FOR reindex_seq)";
+        final String selectNextValue = translator.selectSequenceNextValue(getSchemaName(), "reindex_seq");
         long reindexTxId;
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(selectNextValue);
@@ -94,6 +98,9 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 // not gonna happen
                 throw new IllegalStateException("No value from sequence");
             }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, selectNextValue, x);
+            throw x;
         }
 
         // The clever bit. Mark the next batch of resources we want to process by
@@ -109,7 +116,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 + "     FROM logical_resources lr "
                 + "    WHERE reindex_tstamp < ? "
                 + "       OR reindex_tstamp IS NULL "
-                + " ORDER BY reindex_tstamp NULLS FIRST, "
+                + " ORDER BY reindex_tstamp, "
                 + "          logical_resource_id "
                 + " FETCH FIRST ? ROWS ONLY) ";
         

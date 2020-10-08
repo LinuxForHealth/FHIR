@@ -446,6 +446,8 @@ public class FhirSchemaGenerator {
         // identify which resources need to be reindexed
         CreateIndex tsidx = CreateIndex.builder()
                 .setSchemaName(schemaName)
+                .setTableName(tableName)
+                .setTenantColumnName(MT_ID)
                 .setIndexName("IDX_" + LOGICAL_RESOURCES + "_RITS")
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .setUnique(true)
@@ -459,6 +461,8 @@ public class FhirSchemaGenerator {
         // a transaction id during the reindex process.
         CreateIndex txidx = CreateIndex.builder()
                 .setSchemaName(schemaName)
+                .setTableName(tableName)
+                .setTenantColumnName(MT_ID)
                 .setIndexName("IDX_" + LOGICAL_RESOURCES + "_TXID")
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .addColumn(REINDEX_TXID)
@@ -467,12 +471,10 @@ public class FhirSchemaGenerator {
         pdm.addObject(txidx);
 
         // Create a new sequence to use as a transaction id for our reindexing process
-        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQUENCE, FhirSchemaVersion.V0006.vid(), 1, 100, 1);
+        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQ, FhirSchemaVersion.V0001.vid(), 1, 100, 1);
         seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        procedureDependencies.add(seq);
         sequencePrivileges.forEach(p -> p.addToObject(seq));
         pdm.addObject(seq);
-
     }
 
     /**
@@ -902,7 +904,7 @@ public class FhirSchemaGenerator {
      * @param pdm
      */
     protected void addReferencesSequence(PhysicalDataModel pdm) {
-        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REFERENCES_SEQUENCE, FhirSchemaVersion.V0006.vid(), FhirSchemaConstants.REFERENCES_SEQUENCE_START, FhirSchemaConstants.REFERENCES_SEQUENCE_CACHE, FhirSchemaConstants.REFERENCES_SEQUENCE_INCREMENT);
+        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REFERENCES_SEQUENCE, FhirSchemaVersion.V0001.vid(), FhirSchemaConstants.REFERENCES_SEQUENCE_START, FhirSchemaConstants.REFERENCES_SEQUENCE_CACHE, FhirSchemaConstants.REFERENCES_SEQUENCE_INCREMENT);
         seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(seq);
         sequencePrivileges.forEach(p -> p.addToObject(seq));

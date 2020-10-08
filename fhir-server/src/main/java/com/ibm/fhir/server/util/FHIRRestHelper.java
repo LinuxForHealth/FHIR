@@ -14,6 +14,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.net.URI;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
@@ -2483,5 +2484,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri(resourceTypeName));
         operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
         operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_PROPERTIES, requestProperties);
+    }
+
+    @Override
+    public OperationOutcome doReindex(FHIROperationContext operationContext, Instant tstamp, int resourceCount) throws Exception {
+        
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
+        try {
+            FHIRPersistenceContext persistenceContext = null;
+            return persistence.reindex(persistenceContext, tstamp, resourceCount);
+        } finally {
+            txn.end();
+        }
     }
 }

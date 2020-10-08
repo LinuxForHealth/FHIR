@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.cache;
 
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
@@ -17,6 +18,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
  * Aggregates and manages the individual caches used for a tenant
  */
 public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
+    private static final Logger logger = Logger.getLogger(FHIRPersistenceJDBCCacheImpl.class.getName());
 
     private final INameIdCache<Integer> resourceTypeCache;
     
@@ -60,6 +62,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
     
     @Override
     public void transactionCommitted() {
+        logger.fine("Transaction committed - updating cache shared maps");
         resourceTypeCache.updateSharedMaps();
         parameterNameCache.updateSharedMaps();
         resourceReferenceCache.updateSharedMaps();
@@ -67,6 +70,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
 
     @Override
     public void transactionRolledBack() {
+        logger.fine("Transaction rolled back - clearing local maps");
         resourceTypeCache.clearLocalMaps();
         parameterNameCache.clearLocalMaps();
         resourceReferenceCache.clearLocalMaps();

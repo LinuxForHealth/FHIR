@@ -16,12 +16,22 @@
 	"system": true,
 	"type": false,
 	"instance": false,
-	"parameter": [{
-		"name": "return",
-		"use": "out",
-		"min": 1,
-		"max": "1",
-		"documentation": "If the operation outcome does not list any issues, there are no resources left requiring reindex.",
-		"type": "OperationOutcome"
-	}]
+        "parameter": [
+          {
+            "name": "_resourceCount",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.",
+            "type": "integer"
+          },
+          {
+            "name": "_tstamp",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.",
+            "type": "string"
+          }
+        ]
 }

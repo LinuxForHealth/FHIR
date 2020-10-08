@@ -25,6 +25,8 @@ public class CreateIndex extends BaseObject {
     
     // The name of the tenant column when used for multi-tenant databases
     private final String tenantColumnName;
+    
+    private final String tableName;
 
     /**
      * Protected constructor. Use the Builder to create instance.
@@ -32,8 +34,9 @@ public class CreateIndex extends BaseObject {
      * @param indexName
      * @param version
      */
-    protected CreateIndex(String schemaName, String indexName, int version, IndexDef indexDef, String tenantColumnName) {
-        super(schemaName, indexName, DatabaseObjectType.INDEX, version);
+    protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName) {
+        super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
+        this.tableName = tableName;
         this.indexDef = indexDef;
         this.tenantColumnName = tenantColumnName;
     }
@@ -45,11 +48,35 @@ public class CreateIndex extends BaseObject {
     public static Builder builder() {
         return new Builder();
     }
+
+    /**
+     * Get the name of the table this index is built on
+     * @return
+     */
+    public String getTableName() {
+        return this.tableName;
+    }
+    
+    @Override
+    public String getTypeNameVersion() {
+        // for cases where this CreateIndex object is defined standalone (as opposed to
+        // being defined inside a Table definition), we need to make sure it gets a
+        // unique name for the task collector. Note that the index name needs to be
+        // unique, so we don't need to qualify with the table name.
+        StringBuilder result = new StringBuilder();
+        result.append(getObjectType().name());
+        result.append(":");
+        result.append(getQualifiedName());
+        result.append(":");
+        result.append(this.version);
+        return result.toString();
+    }
+
     
     @Override
     public void apply(IDatabaseAdapter target) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getObjectName(), tenantColumnName, target);
+        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -110,6 +137,9 @@ public class CreateIndex extends BaseObject {
         
         // Is this a unique index?
         private boolean unique;
+        
+        // Special case to handle a previous defect where indexes were tracked using tableName in version_history
+        private String versionTrackingName;
 
         
         /**
@@ -135,6 +165,11 @@ public class CreateIndex extends BaseObject {
          */
         public Builder setIndexName(String indexName) {
             this.indexName = indexName;
+            return this;
+        }
+        
+        public Builder setVersionTrackingName(String name) {
+            this.versionTrackingName = name;
             return this;
         }
         
@@ -173,7 +208,12 @@ public class CreateIndex extends BaseObject {
             if (this.indexCols.isEmpty()) {
                 throw new IllegalStateException("no index columns defined for index '" + indexName + "'");
             }
-            return new CreateIndex(schemaName, tableName, version,
+            
+            String versionTrackingName = this.versionTrackingName;
+            if (versionTrackingName == null) {
+                versionTrackingName = this.indexName;
+            }
+            return new CreateIndex(schemaName, versionTrackingName, tableName, version,
                 new IndexDef(indexName, indexCols, unique), tenantColumnName);
         }
         

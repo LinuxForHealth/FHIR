@@ -52,7 +52,7 @@ public class FhirSchemaConstants {
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
     public static final String REINDEX_TSTAMP = "REINDEX_TSTAMP";
     public static final String REINDEX_TXID = "REINDEX_TXID";
-    public static final String REINDEX_SEQUENCE = "REINDEX_SEQUENCE";
+    public static final String REINDEX_SEQ = "REINDEX_SEQ";
 
     // R4 Logical Resource Tags and Security are modeled as token values
     public static final String TOKEN_VALUES = "TOKEN_VALUES";

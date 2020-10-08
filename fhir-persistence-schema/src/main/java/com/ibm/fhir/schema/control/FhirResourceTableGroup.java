@@ -276,6 +276,7 @@ public class FhirResourceTableGroup {
                 .setTenantColumnName(MT_ID)
                 .setSchemaName(schemaName)
                 .setTableName(tableName)
+                .setVersionTrackingName(tableName) // cover up a defect in how we name this index in VERSION_HISTORY
                 .setIndexName(IDX + tableName + "_LUPD")
                 .setUnique(false)
                 .setVersion(FhirSchemaVersion.V0005.vid())

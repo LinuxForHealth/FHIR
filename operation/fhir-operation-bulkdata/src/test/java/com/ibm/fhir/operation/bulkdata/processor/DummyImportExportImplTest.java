@@ -25,6 +25,7 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
@@ -295,6 +296,12 @@ public class DummyImportExportImplTest {
 
             @Override
             public FHIRPersistenceTransaction getTransaction() throws Exception {
+                return null;
+            }
+
+            @Override
+            public OperationOutcome doReindex(FHIROperationContext operationContext, java.time.Instant tstamp, int resourceCount) throws Exception {
+                // TODO Auto-generated method stub
                 return null;
             }
         };

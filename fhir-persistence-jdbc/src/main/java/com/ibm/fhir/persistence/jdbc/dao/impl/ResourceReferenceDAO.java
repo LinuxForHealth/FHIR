@@ -390,7 +390,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
             if (paramList.length() > 0) {
                 paramList.append(", ");
             }
-            paramList.append("CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_SEARCH_STRING_BYTES + "))");
+            paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_SEARCH_STRING_BYTES + ")))");
         }
         
         // query is a negative outer join so we only pick the rows where
