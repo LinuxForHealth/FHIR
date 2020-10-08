@@ -724,7 +724,7 @@ public class Main {
             try {
                 GetTenantList rtListGetter = new GetTenantList(adminSchemaName);
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
-                
+
                 System.out.println(TenantInfo.getHeader());
                 tenants.forEach(t -> System.out.println(t.toString()));
             } catch (DataAccessException x) {
@@ -793,13 +793,13 @@ public class Main {
             }
         }
     }
-    
+
     protected TenantInfo getTenantInfo() {
         TenantInfo result;
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             throw new IllegalStateException("Not a multi-tenant database");
         }
-        
+
         Db2Adapter adapter = new Db2Adapter(connectionPool);
 
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -807,7 +807,7 @@ public class Main {
             try {
                 GetTenantInfo command = new GetTenantInfo(adminSchemaName, tenantName);
                 result = adapter.runStatement(command);
-                
+
                 if (result == null) {
                     logger.info("Use --list-tenants to display the current tenants");
                     throw new IllegalArgumentException("Tenant '" + tenantName + "' not found in admin schema " + adminSchemaName);
@@ -851,10 +851,10 @@ public class Main {
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             throw new IllegalStateException("Not a multi-tenant database");
         }
-        
+
         TenantInfo result = getTenantInfo();
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        
+
 
         logger.info("Marking tenant for drop: " + tenantName);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -880,31 +880,31 @@ public class Main {
      * (due to how Db2 handles detaching partitions). This is further complicated by
      * referential integrity constraints in the schema. See:
      *  - https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.partition.doc/doc/t0021576.html
-     * 
+     *
      * The workaround described in the above link is:
      *   // Change the RI constraint to informational:
      *   1. ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
-     *   
+     *
      *   2. ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
-     *   
+     *
      *   3. SET INTEGRITY FOR child OFF;
-     *   
+     *
      *   // Change the RI constraint back to enforced:
      *   4. ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
-     *   
+     *
      *   5. SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
      *   6.   Assuming that the CHILD table does not have any dependencies on partition P0,
      *   7.   and that no updates on the CHILD table are permitted until this UOW is complete,
      *        no RI violation is possible during this UOW.
-     *   
+     *
      *   COMMIT WORK;
-     *   
+     *
      *   Unfortunately, #7 above essentially requires that all writes cease until the
      *   UOW is completed and the integrity is enabled again on all the child (leaf)
      *   tables. Of course, this could be relaxed if the application is trusted not
      *   to mess up the referential integrity...which we know to be true for the
      *   FHIR server persistence layer.
-     *   
+     *
      *   If the risk is deemed too high, tenant removal should be performed in a
      *   maintenance window.
      */
@@ -925,28 +925,28 @@ public class Main {
 
         // Detach the tenant partition from each of the data tables
         detachTenantPartitions(pdm, tenantInfo);
-        
+
         // this may not complete successfully because Db2 runs the detach as an async
         // process. Just need to run --drop-detached to clean up.
         dropDetachedPartitionTables(pdm, tenantInfo);
 
     }
-    
+
     /**
      * Drop any tables which have previously been detached. The detach process is asynchronous,
      * so this is a sort of garbage collection, sweeping up cruft left in the database.
      */
     protected void dropDetachedPartitionTables() {
 
-        TenantInfo tenantInfo = getTenantInfo();        
-         
+        TenantInfo tenantInfo = getTenantInfo();
+
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
         dropDetachedPartitionTables(pdm, tenantInfo);
     }
-    
+
     /**
      * Drop any tables which have previously been detached. Once all tables have been
      * dropped, we go on to drop the tablespace. If the tablespace drop is successful,
@@ -968,7 +968,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
         // We can drop the tenant's tablespace only after all the table drops have been committed
         logger.info("Dropping tablespace for tenant " + tenantInfo.getTenantId() + "/" + tenantName);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -993,9 +993,9 @@ public class Main {
                 tx.setRollbackOnly();
                 throw x;
             }
-        }        
+        }
     }
-    
+
     /**
      * Temporarily suspend RI so that tables which are the subject of foreign
      * key relationships can have their partitions dropped. A bit frustrating
@@ -1010,25 +1010,25 @@ public class Main {
      */
     protected void detachTenantPartitions(PhysicalDataModel pdm, TenantInfo tenantInfo) {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        
+
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 // collect the set of all child tables with FK relationships to
                 // partitioned tables
                 Set<Table> childTables = new HashSet<>();
-                
+
                 // ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
                 pdm.visit(new DisableForeignKey(adapter, childTables));
-                
+
                 // ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
                 pdm.detachTenantPartitions(adapter, tenantInfo.getTenantSchema(), tenantInfo.getTenantId());
-                
+
                 // SET INTEGRITY FOR child OFF;
                 childTables.forEach(t -> adapter.setIntegrityOff(t.getSchemaName(), t.getObjectName()));
- 
+
                 // ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
                 pdm.visit(new EnableForeignKey(adapter));
-                
+
                 // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
                 childTables.forEach(t -> adapter.setIntegrityUnchecked(t.getSchemaName(), t.getObjectName()));
             } catch (DataAccessException x) {
@@ -1037,7 +1037,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
     }
 
     /**
