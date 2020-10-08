@@ -22,7 +22,6 @@ import com.ibm.fhir.search.reference.value.TypeIdHandlerImpl;
 import com.ibm.fhir.search.reference.value.UrlHandlerImpl;
 
 public class ReferenceTypeTest {
-
     @Test
     public void testIdHandler() {
         String incoming = "https://localhost:9443/fhir-server/api/v4";
@@ -114,9 +113,8 @@ public class ReferenceTypeTest {
         List<String> checkList = parameterValues.stream().map(m -> m.getValueString()).collect(Collectors.toList());
 
         // There is only one, as the valueString is the visible value, and this is the hidden.
-        assertEquals(parameterValues.size(), 2);
+        assertEquals(parameterValues.size(), 1);
         assertTrue(checkList.contains("Patient/example"));
-        assertTrue(checkList.contains("example"));
         assertTrue(parameterValues.get(0).isHidden());
     }
 
@@ -135,7 +133,7 @@ public class ReferenceTypeTest {
         // There is only one, as the valueString is the visible value, and this is the hidden.
         assertEquals(parameterValues.size(), 2);
         assertTrue(checkList.contains("Patient/example"));
-        assertTrue(checkList.contains("example"));
+        assertTrue(checkList.contains("https://localhost:9443/fhir-server/api/v4/Patient/example"));
         assertTrue(parameterValues.get(0).isHidden());
     }
 }
