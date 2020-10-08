@@ -255,7 +255,8 @@ public abstract class BaseObject implements IDatabaseObject {
      */
     @Override
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
-        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
+        // Only for Procedures do we skip the Version History Service check, and apply.
+        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version) || getObjectType().equals(DatabaseObjectType.PROCEDURE)) {
             logger.fine("Applying change [v" + version + "]: " + this.getTypeNameVersion());
 
             // Apply this change to the target database
@@ -321,10 +322,7 @@ public abstract class BaseObject implements IDatabaseObject {
         }
         group.add(p);
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(java.util.function.Consumer)
-     */
+
     @Override
     public void visit(Consumer<IDatabaseObject> c) {
         c.accept(this);
