@@ -15,6 +15,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * The supported cases are:
  * Patient/1
  * -> http://server/Patient/1
+ * -> 1 (only when there is one target)
  */
 public class TypeIdHandlerImpl implements ParameterValueHandler {
 
@@ -28,6 +29,15 @@ public class TypeIdHandlerImpl implements ParameterValueHandler {
             String requestUriString = incoming.split("\\?")[0];
             String tmpValueUrl = requestUriString + "/" + valueString;
             if (!values.contains(tmpValueUrl)) {
+                QueryParameterValue parameterValue = new QueryParameterValue();
+                parameterValue.setValueString(tmpValueUrl);
+                parameterValue.setHidden(true);
+                parameterValues.add(parameterValue);
+                values.add(tmpValueUrl);
+            }
+
+            tmpValueUrl = valueString.split("/")[1];
+            if (targets.size() == 1) {
                 QueryParameterValue parameterValue = new QueryParameterValue();
                 parameterValue.setValueString(tmpValueUrl);
                 parameterValue.setHidden(true);

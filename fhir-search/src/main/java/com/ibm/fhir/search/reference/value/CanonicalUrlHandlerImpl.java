@@ -34,7 +34,11 @@ public class CanonicalUrlHandlerImpl implements ParameterValueHandler {
         int idxOfPipe = valueString.indexOf('|');
         if (idxOfPipe > 0) {
             String tmp = valueString.substring(0, idxOfPipe);
-            System.out.println(tmp);
+            QueryParameterValue parameterValue = new QueryParameterValue();
+            parameterValue.setValueString(tmp);
+            parameterValue.setHidden(true);
+            parameterValues.add(parameterValue);
+            values.add(tmp);
             handler.processParameter(incoming, targets, parameterValues, tmp, values);
         }
     }

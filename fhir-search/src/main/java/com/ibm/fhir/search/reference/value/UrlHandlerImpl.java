@@ -18,7 +18,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * http://server/Patient/1
  * -> http://server/Patient/1
  * -> Patient/1
- * -> 1
+ * -> 1 (only when there is one target)
  */
 public class UrlHandlerImpl implements ParameterValueHandler {
 
@@ -42,19 +42,20 @@ public class UrlHandlerImpl implements ParameterValueHandler {
                     parameterValues.add(parameterValue);
                     values.add(typeId);
                 }
-                System.out.println(values);
 
                 // For instance, 1
                 int lastIndex = typeId.lastIndexOf('/');
                 String id = typeId.substring(lastIndex + 1);
-                if (!values.contains(id)) {
+
+                // Only if there is one possible target do we strip down to 1
+                // otherwise problematic and inaccurate results may be returned
+                if (!values.contains(id) && targets.size() == 1) {
                     QueryParameterValue parameterValue = new QueryParameterValue();
                     parameterValue.setValueString(id);
                     parameterValue.setHidden(true);
                     parameterValues.add(parameterValue);
                     values.add(id);
                 }
-                System.out.println(values);
             }
         } catch (MalformedURLException e) {
             // We're not a URL, skip processing.
