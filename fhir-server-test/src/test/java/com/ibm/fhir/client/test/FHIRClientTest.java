@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,6 +36,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Patient.Contact;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -50,6 +51,7 @@ import com.ibm.fhir.model.util.JsonSupport;
 public class FHIRClientTest extends FHIRClientTestBase {
     private static final String MIMETYPE_JSON = FHIRMediaType.APPLICATION_FHIR_JSON;
     private static final String MIMETYPE_XML = FHIRMediaType.APPLICATION_FHIR_XML;
+    private static final String BULKDATA_URI = "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data|1.0.0";
     
     private Patient createdPatient = null;
     private Patient updatedPatient = null;
@@ -98,6 +100,15 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
+        assertNotNull(conf.getInstantiates());
+        boolean foundBulkdata = false;
+        for (Canonical instantiate : conf.getInstantiates()) {
+            if (BULKDATA_URI.equals(instantiate.getValue())); {
+                foundBulkdata = true;
+                break;
+            }
+        }
+        assertTrue(foundBulkdata);
     }
 
     @Test
@@ -115,6 +126,15 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
+        assertNotNull(conf.getInstantiates());
+        boolean foundBulkdata = false;
+        for (Canonical instantiate : conf.getInstantiates()) {
+            if (BULKDATA_URI.equals(instantiate.getValue())); {
+                foundBulkdata = true;
+                break;
+            }
+        }
+        assertTrue(foundBulkdata);
     }
 
     @Test
