@@ -19,7 +19,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  */
 public class TypeIdHandlerImpl implements ParameterValueHandler {
 
-    private static final String REGEX = "^([A-z][a-z]{2,36}/[A-Za-z0-9\\-\\.]{1,64})$";
+    private static final String REGEX = "^([A-z][a-z]{2,64}/[A-Za-z0-9\\-\\.]{1,64})$";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     @Override
