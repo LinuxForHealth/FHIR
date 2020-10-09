@@ -396,6 +396,7 @@ public class Capabilities extends FHIRResource {
         for (CapabilityStatement registeredCapability : registeredCapabilities) {
             if (registeredCapability != null && registeredCapability.getUrl() != null) {
                 String url = registeredCapability.getUrl().getValue();
+                // BASE_CAPABILITY_URL and BASE_2_CAPABILITY_URL come from the core spec and shouldn't be advertised
                 if (url != null && !BASE_CAPABILITY_URL.equals(url) && !BASE_2_CAPABILITY_URL.equals(url)) {
                     String canonicalValue = url;
                     if (registeredCapability.getVersion() != null && registeredCapability.getVersion().getValue() != null) {
