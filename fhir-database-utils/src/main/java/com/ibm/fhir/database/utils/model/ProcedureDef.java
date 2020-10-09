@@ -38,6 +38,7 @@ public class ProcedureDef extends BaseObject {
         // Serialize the execution of the procedure, to try and avoid the
         // horrible deadlocks we keep getting
         synchronized (this) {
+            target.dropProcedure(getSchemaName(), getObjectName());
             target.createOrReplaceProcedure(getSchemaName(), getObjectName(), supplier);
         }
     }
