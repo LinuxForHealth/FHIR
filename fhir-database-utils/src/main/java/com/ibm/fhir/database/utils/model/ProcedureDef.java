@@ -48,7 +48,8 @@ public class ProcedureDef extends BaseObject {
             logger.warning("Found '" + migrations.size() + "' migration steps, but performing 'create or replace' instead");
         }
 
-        // Procedures are applied with "Create or replace", so just do a regular apply
+        // Procedures are applied with "Create or replace", however if the signature changes
+        // we need to drop and then apply.
         drop(target);
         apply(target);
     }
@@ -63,17 +64,11 @@ public class ProcedureDef extends BaseObject {
         target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visit(DataModelVisitor v) {
         v.visited(this);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visitReverse(DataModelVisitor v) {
         v.visited(this);

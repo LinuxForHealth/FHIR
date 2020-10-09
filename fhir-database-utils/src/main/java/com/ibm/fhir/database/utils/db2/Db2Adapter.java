@@ -6,6 +6,10 @@
 
 package com.ibm.fhir.database.utils.db2;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,6 +48,8 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
  */
 public class Db2Adapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(Db2Adapter.class.getName());
+
+    private final String DROP_SPECIFIC = "SELECT SPECIFICNAME FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ?";
 
     /**
      * Public constructor
@@ -326,16 +332,37 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         runStatement(ddlString);
     }
 
+
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
-        final String pname = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
-        // As the procedure names are mutated, we don't want to be in the situation where the signature change, and we
-        // can't drop.
-        final String ddl = "DROP SPECIFIC PROCEDURE " + pname;
-        try {
-            runStatement(ddl);
-        } catch (UndefinedNameException x) {
-            logger.warning(ddl + "; PROCEDURE not found");
+        List<String> existingStoredProcedures = new ArrayList<>();
+        try (Connection c = connectionProvider.getConnection()) {
+            try (PreparedStatement p = c.prepareStatement(DROP_SPECIFIC)) {
+                p.setString(1, schemaName);
+                p.setString(2, procedureName);
+                if (p.execute()) {
+                    // Closes with PreparedStatement
+                    ResultSet rs = p.getResultSet();
+                    while (rs.next()) {
+                        existingStoredProcedures.add(rs.getString(1));
+                    }
+                }
+            }
+        } catch (SQLException x) {
+            throw getTranslator().translate(x);
+        }
+
+        // As the procedure signatures are mutated, we don't want to be in the situation where the signature change, and
+        // we can't drop.
+
+        for (String existingStoredProcedure : existingStoredProcedures) {
+            final String pname = DataDefinitionUtil.getQualifiedName(schemaName, existingStoredProcedure);
+            final String ddl = "DROP SPECIFIC PROCEDURE " + pname;
+            try {
+                runStatement(ddl);
+            } catch (UndefinedNameException x) {
+                logger.warning(ddl + "; PROCEDURE not found");
+            }
         }
     }
 
