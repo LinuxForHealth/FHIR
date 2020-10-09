@@ -336,20 +336,22 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
         List<String> existingStoredProcedures = new ArrayList<>();
-        try (Connection c = connectionProvider.getConnection()) {
-            try (PreparedStatement p = c.prepareStatement(DROP_SPECIFIC)) {
-                p.setString(1, schemaName);
-                p.setString(2, procedureName);
-                if (p.execute()) {
-                    // Closes with PreparedStatement
-                    ResultSet rs = p.getResultSet();
-                    while (rs.next()) {
-                        existingStoredProcedures.add(rs.getString(1));
+        if (connectionProvider != null) {
+            try (Connection c = connectionProvider.getConnection()) {
+                try (PreparedStatement p = c.prepareStatement(DROP_SPECIFIC)) {
+                    p.setString(1, schemaName);
+                    p.setString(2, procedureName);
+                    if (p.execute()) {
+                        // Closes with PreparedStatement
+                        ResultSet rs = p.getResultSet();
+                        while (rs.next()) {
+                            existingStoredProcedures.add(rs.getString(1));
+                        }
                     }
                 }
+            } catch (SQLException x) {
+                throw getTranslator().translate(x);
             }
-        } catch (SQLException x) {
-            throw getTranslator().translate(x);
         }
 
         // As the procedure signatures are mutated, we don't want to be in the situation where the signature change, and
