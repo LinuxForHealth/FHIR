@@ -49,6 +49,7 @@ public class ProcedureDef extends BaseObject {
         }
 
         // Procedures are applied with "Create or replace", so just do a regular apply
+        drop(target);
         apply(target);
     }
 
