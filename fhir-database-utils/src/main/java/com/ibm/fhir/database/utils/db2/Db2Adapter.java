@@ -331,11 +331,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String pname = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         // As the procedure names are mutated, we don't want to be in the situation where the signature change, and we
         // can't drop.
-        final String ddl = "DROP PROCEDURE " + pname;
+        final String ddl = "DROP SPECIFIC PROCEDURE " + pname;
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
+        } catch (UndefinedNameException x) {
             logger.warning(ddl + "; PROCEDURE not found");
         }
     }
