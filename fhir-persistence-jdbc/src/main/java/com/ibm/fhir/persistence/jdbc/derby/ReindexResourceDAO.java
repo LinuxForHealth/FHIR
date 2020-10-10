@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.derby;
 
 
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,6 +41,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 public class ReindexResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(ReindexResourceDAO.class.getName());
     private static final String CLASSNAME = ReindexResourceDAO.class.getSimpleName();
+    private static final SecureRandom random = new SecureRandom();
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
@@ -103,47 +105,101 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             throw x;
         }
 
-        // The clever bit. Mark the next batch of resources we want to process by
-        // updating the REINDEX_TXID field with the new value we just acquired
         // TODO when we put the DELETED flag into logical_resources we can filter out
         // here instead of failing the read later
-        final String MARK = ""
-                + "   UPDATE logical_resources  "
-                + "      SET reindex_txid = ?,  "
-                + "          reindex_tstamp = ? "
-                + "    WHERE logical_resource_id IN ( "
-                + "   SELECT lr.logical_resource_id "
-                + "     FROM logical_resources lr "
-                + "    WHERE reindex_tstamp < ? "
-                + "       OR reindex_tstamp IS NULL "
-                + " ORDER BY reindex_tstamp, "
-                + "          logical_resource_id "
-                + " FETCH FIRST ? ROWS ONLY) ";
-        
-        try (PreparedStatement stmt = connection.prepareStatement(MARK)) {
-            stmt.setLong(1, reindexTxId);
-            stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
-            stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
-            stmt.setInt(4, resourceCount);
-            stmt.executeUpdate();
-        }
-        
-        // Now grab what we just marked. There's a supporting index, 
-        // so this will be quick. Order doesn't matter because the
-        // logical resource record is already locked thanks to the previous
-        // update statement
-        final String SELECT = ""
-                + "  SELECT rt.resource_type, lr.logical_id, lr.logical_resource_id "
-                + "    FROM logical_resources lr, "
-                + "         resource_types rt "
-                + "   WHERE rt.resource_type_id = lr.resource_type_id "
-                + "     AND lr.reindex_txid = ?";
-        
-        try (PreparedStatement ps = connection.prepareStatement(SELECT)) {
-            ps.setLong(1, reindexTxId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(new ResourceIndexRecord(rs.getString(1), rs.getString(2), rs.getLong(3)));
+        // Mark the next batch of resources we want to process by
+        // updating the REINDEX_TXID field with the new value we just acquired
+        // To avoid contention, we need different threads to mark (update) different
+        // sets of resources. This is because the lock from the update persists for
+        // the entire transaction, which could be a few seconds. Although it's probably
+        // feasible to to in a (complex) query, making this a couple of steps is a
+        // lot simpler.
+        int rowsMarked = 0;
+        List<Long> logicalResourceIds = new ArrayList<>();
+        do {
+            rowsMarked = 0;
+            logicalResourceIds.clear();
+            
+            // How many rows in total should we fetch.
+            int fetchCount = 100 * resourceCount;
+            final String FETCH = ""
+                    + "   SELECT lr.logical_resource_id "
+                    + "     FROM logical_resources lr "
+                    + "    WHERE reindex_tstamp < ? "
+                    + "       OR reindex_tstamp IS NULL "
+                    + " ORDER BY reindex_tstamp, "
+                    + "          logical_resource_id "
+                    + " FETCH FIRST ? ROWS ONLY";
+            try (PreparedStatement stmt = connection.prepareStatement(FETCH)) {
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                stmt.setInt(2, fetchCount);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    logicalResourceIds.add(rs.getLong(1));
+                }
+            }
+            
+            // pick the random start point in the logicalResourceIds list. This spreads out locking
+            // and reduces contention
+            if (logicalResourceIds.size() > 0) {
+                int blockCount = 1 + (logicalResourceIds.size()-1) / resourceCount;
+                int blockNbr = random.nextInt(blockCount);
+                int fromIndex = blockNbr * resourceCount;
+                int toIndex = Math.min(fromIndex + resourceCount, logicalResourceIds.size());
+                
+                List<Long> block = logicalResourceIds.subList(fromIndex, toIndex);
+    
+                // Build a query to mark the randomly selected block of resource ids with our
+                // txid value. Note that if another thread has done the same for this block,
+                // this thread will block, and then not mark anything in this pass, hence 
+                // the do...while to repeat the select and get a new list of ids
+                if (block.size() > 0) {
+                    boolean first = true;
+                    final StringBuilder mark = new StringBuilder();
+                    mark.append("   UPDATE logical_resources  ");
+                    mark.append("      SET reindex_txid = ?,  ");
+                    mark.append("          reindex_tstamp = ? ");
+                    mark.append("    WHERE (reindex_tstamp < ? ");
+                    mark.append("       OR reindex_tstamp IS NULL) ");
+                    mark.append("      AND logical_resource_id IN (");
+                    for (Long resourceId: block) {
+                        if (first) {
+                            first = false;
+                        } else {
+                            mark.append(",");
+                        }
+                        mark.append(resourceId);
+                    }
+                    mark.append(")");
+                    
+                    try (PreparedStatement stmt = connection.prepareStatement(mark.toString())) {
+                        stmt.setLong(1, reindexTxId);
+                        stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+                        stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
+                        rowsMarked = stmt.executeUpdate();
+                    }
+                }
+            }
+        } while (rowsMarked == 0 && logicalResourceIds.size() > 0);
+ 
+        if (logicalResourceIds.size() > 0) {
+            // Now grab what we just marked. There's a supporting index, 
+            // so this will be quick. Order doesn't matter because the
+            // logical resource record is already locked thanks to the previous
+            // update statement
+            final String SELECT = ""
+                    + "  SELECT rt.resource_type, lr.logical_id, lr.logical_resource_id "
+                    + "    FROM logical_resources lr, "
+                    + "         resource_types rt "
+                    + "   WHERE rt.resource_type_id = lr.resource_type_id "
+                    + "     AND lr.reindex_txid = ?";
+            
+            try (PreparedStatement ps = connection.prepareStatement(SELECT)) {
+                ps.setLong(1, reindexTxId);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    result.add(new ResourceIndexRecord(rs.getString(1), rs.getString(2), rs.getLong(3)));
+                }
             }
         }
         return result;

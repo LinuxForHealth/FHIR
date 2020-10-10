@@ -50,6 +50,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -1754,15 +1755,27 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             return result.build();
-        }
-        catch(FHIRPersistenceFKVException e) {
-            log.log(Level.SEVERE, this.performCacheDiagnostics());
+        } catch(FHIRPersistenceFKVException e) {
+            getTransaction().setRollbackOnly();
             throw e;
-        }
-        catch(FHIRPersistenceException e) {
+        } catch(FHIRPersistenceException e) {
+            getTransaction().setRollbackOnly();
             throw e;
-        }
-        catch(Throwable e) {
+        } catch (DataAccessException dax) {
+            getTransaction().setRollbackOnly();
+            
+            // It's possible this is a deadlock exception, in which case it could be considered retryable
+            if (dax.isTransactionRetryable()) {
+                log.log(Level.SEVERE, "retryable error", dax);
+                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
+                fpx.setTransactionRetryable(true);
+                throw fpx;
+            } else {
+                log.log(Level.SEVERE, "non-retryable error", dax);
+                throw new FHIRPersistenceException("Data access error while performing a reindex operation.");
+            }
+        } catch(Throwable e) {
+            getTransaction().setRollbackOnly();
             // don't chain the exception to avoid leaking secrets
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a reindex operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);

@@ -75,6 +75,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.provider.util.FHIRUrlParser;
 import com.ibm.fhir.search.SearchConstants;
@@ -2488,14 +2489,31 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public OperationOutcome doReindex(FHIROperationContext operationContext, Instant tstamp, int resourceCount) throws Exception {
-        
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-        txn.begin();
-        try {
-            FHIRPersistenceContext persistenceContext = null;
-            return persistence.reindex(persistenceContext, tstamp, resourceCount);
-        } finally {
-            txn.end();
-        }
+        OperationOutcome result = null;
+        // handle some retries in case of deadlock exceptions
+        final int TX_ATTEMPTS = 5;
+        int attempt = 1;
+        do {
+            FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+            txn.begin();
+            try {
+                FHIRPersistenceContext persistenceContext = null;
+                result = persistence.reindex(persistenceContext, tstamp, resourceCount);
+            } catch (FHIRPersistenceDataAccessException x) {
+                if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
+                    log.info("attempt #" + attempt + " failed, retrying transaction with resourceCount=1");
+                    
+                    // clamp the resourceCount to 1 to greatly reduce the probability of another deadlock
+                    resourceCount = 1;
+                } else {
+                    throw x;
+                }
+            } finally {
+                txn.end();
+            }
+        } while (result == null && attempt++ < TX_ATTEMPTS);
+
+        // can never be null, because we only get here if the transaction was successful
+        return result;
     }
 }

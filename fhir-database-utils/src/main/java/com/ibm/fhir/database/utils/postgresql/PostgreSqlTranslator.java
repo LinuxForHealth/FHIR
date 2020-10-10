@@ -70,7 +70,7 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     @Override
     public boolean isDeadlock(SQLException x) {
         final String sqlState = x.getSQLState();
-        return "40XL1".equals(sqlState) || "40XL2".equals(sqlState);
+        return "40P01".equals(sqlState);
     }
 
     @Override

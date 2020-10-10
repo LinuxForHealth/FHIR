@@ -24,6 +24,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
+import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
 
 /**
  * Factory for constructing ResourceDAO implementations specific to a
@@ -57,7 +58,7 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
             break;
         case POSTGRESQL:
-            rrd = new ResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new PostgresResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
             resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
             break;
         }
@@ -78,20 +79,23 @@ public class FHIRResourceDAOFactory {
         FHIRPersistenceJDBCCache cache, ParameterDAO parameterDao) {
 
         IDatabaseTranslator translator = null;
+        IResourceReferenceDAO rrd = null;
         
         switch (flavor.getType()) {
         case DB2:
             translator = new Db2Translator();
+            rrd = new ResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache());
             break;
         case DERBY:
             translator = new DerbyTranslator();
+            rrd = new ResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache());
             break;
         case POSTGRESQL:
             translator = new PostgreSqlTranslator();
+            rrd = new PostgresResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache());
             break;
         }
         
-        IResourceReferenceDAO rrd = new ResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache());
         return new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
     }
 
@@ -119,7 +123,7 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
-            rrd = new ResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new PostgresResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
             resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         }

@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
+import java.util.logging.Logger;
+
 import javax.transaction.Status;
 import javax.transaction.Synchronization;
 
@@ -19,6 +21,7 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
  * visible to other threads/transactions (the 'I' in ACID).
  */
 public class CacheTransactionSync implements Synchronization {
+    private static final Logger logger = Logger.getLogger(CacheTransactionSync.class.getName());
 
     // The cache delegate to call when we receive an event
     private final FHIRPersistenceJDBCCache cache;
@@ -42,6 +45,7 @@ public class CacheTransactionSync implements Synchronization {
             cache.transactionCommitted();
         } else {
             // probably a rollback, so throw away everything
+            logger.info("Transaction failed - afterCompletion(status = " + status + ")");
             cache.transactionRolledBack();
         }
     }

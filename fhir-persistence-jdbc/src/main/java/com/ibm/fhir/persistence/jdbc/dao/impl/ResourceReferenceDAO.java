@@ -107,6 +107,22 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         this.referencesSequenceDAO = new ReferencesSequenceDAO(c, schemaName, t);
     }
 
+    /**
+     * Getter for the {@link IDatabaseTranslator} held by this DAO
+     * @return
+     */
+    protected IDatabaseTranslator getTranslator() {
+        return this.translator;
+    }
+
+    /**
+     * Getter for the {@link Connection} held by this DAO
+     * @return
+     */
+    protected Connection getConnection() {
+        return this.connection;
+    }
+
     @Override
     public void flush() throws FHIRPersistenceException {
         try {
@@ -509,34 +525,8 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         
         // query is a negative outer join so we only pick the rows from v for which
         // there is no row found in ctv.
-        StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_token_values (code_system_id, token_value) ");
-        insert.append("     SELECT v.code_system_id, v.token_value FROM ");
-        insert.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
-        insert.append(" LEFT OUTER JOIN common_token_values ctv ");
-        insert.append("              ON ctv.token_value = v.token_value ");
-        insert.append("             AND ctv.code_system_id = v.code_system_id ");
-        insert.append("      WHERE ctv.token_value IS NULL");
-        
-        // Note, we use PreparedStatement here on purpose. Partly because it's
-        // secure coding best practice, but also because many resources will have the
-        // same number of parameters, and hopefully we'll therefore share a small subset
-        // of statements for better performance. Although once the cache warms up, this
-        // shouldn't be called at all.
-        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
-            // bind all the name values as parameters
-            int a = 1;
-            for (CommonTokenValue tv: tokenValues) {
-                ps.setString(a++, tv.getTokenValue());
-                ps.setInt(a++, tv.getCodeSystemId());
-            }
-            
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
-            throw translator.translate(x);
-        }
-        
+        final String paramListStr = paramList.toString();
+        doCommonTokenValuesUpsert(paramListStr, tokenValues);
         
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
@@ -545,7 +535,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         // a VALUES again. No big deal...probably similar amount of work for the database
         StringBuilder select = new StringBuilder();
         select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
-        select.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
+        select.append("     (VALUES ").append(paramListStr).append(" ) AS v(token_value, code_system_id) ");
         select.append("       JOIN common_token_values ctv ");
         select.append("              ON ctv.token_value = v.token_value ");
         select.append("             AND ctv.code_system_id = v.code_system_id ");
@@ -583,6 +573,45 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
                     cache.addTokenValue(key, id);
                 }
             }
+        }
+    }
+
+    /**
+     * Execute the insert (upsert) into the common_token_values table for the
+     * given collection of values. Note, this insert from negative outer join
+     * requires the database concurrency implementation to be correct. This does
+     * not work for Postgres, hence Postgres gets its own implementation of this
+     * method
+     * @param paramList
+     * @param tokenValues
+     */
+    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO common_token_values (token_value, code_system_id) ");
+        insert.append("     SELECT v.token_value, v.code_system_id FROM ");
+        insert.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
+        insert.append(" LEFT OUTER JOIN common_token_values ctv ");
+        insert.append("              ON ctv.token_value = v.token_value ");
+        insert.append("             AND ctv.code_system_id = v.code_system_id ");
+        insert.append("      WHERE ctv.token_value IS NULL ");
+        
+        // Note, we use PreparedStatement here on purpose. Partly because it's
+        // secure coding best practice, but also because many resources will have the
+        // same number of parameters, and hopefully we'll therefore share a small subset
+        // of statements for better performance. Although once the cache warms up, this
+        // shouldn't be called at all.
+        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+            // bind all the name values as parameters
+            int a = 1;
+            for (CommonTokenValue tv: tokenValues) {
+                ps.setString(a++, tv.getTokenValue());
+                ps.setInt(a++, tv.getCodeSystemId());
+            }
+            
+            ps.executeUpdate();
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert.toString(), x);
+            throw translator.translate(x);
         }
     }
 

@@ -88,9 +88,26 @@ public class DriveReindexOperation {
         if (!running) {
             throw new IllegalStateException("Already shutdown");
         }
-        
-        for (int i=0; i<this.maxConcurrentRequests; i++) {
+
+        // Add the call threads
+        for (int i=0; i<this.maxConcurrentRequests && this.running; i++) {
             pool.execute(() -> callReindexOperation());
+            
+            // Slow down the ramp-up so we don't hit a new server with
+            // hundreds of requests in one go
+            safeSleep(1000);
+        }
+    }
+
+    /**
+     * Sleep for the given number of ms, or until interrupted
+     * @param ms
+     */
+    protected void safeSleep(long ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException x) {
+            // NOP
         }
     }
 
