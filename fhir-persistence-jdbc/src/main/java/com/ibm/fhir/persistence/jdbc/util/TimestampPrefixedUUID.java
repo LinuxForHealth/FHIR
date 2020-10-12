@@ -8,6 +8,8 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import java.util.UUID;
 
+import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
+
 /**
  * Provides identity strings using random UUID for uniqueness but
  * prefixed with an encoded time string to improve database locality
