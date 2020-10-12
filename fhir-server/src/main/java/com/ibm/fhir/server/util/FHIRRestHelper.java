@@ -98,6 +98,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String LOCAL_REF_PREFIX = "urn:";
+    private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
+    private static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));
+    private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
+    private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
     
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
@@ -325,7 +329,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // if no id provided, then generate an id for the input resource
                     if (newResource.getId() == null) {
-                        id = persistence.getLogicalId();
+                        id = persistence.generateResourceId();
                         newResource = newResource.toBuilder().id(id).build();
                     } else {
                         id = newResource.getId();
@@ -1235,7 +1239,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                 } else {
                                     OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                                     response = Bundle.Entry.Response.builder()
-                                                .status(string(Integer.toString(SC_BAD_REQUEST)))
+                                                .status(SC_BAD_REQUEST_STRING)
                                                 .build();
                                     responseEntry = Bundle.Entry.builder()
                                                 .response(response)
@@ -1244,7 +1248,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                 }
                             } else {
                                 response = Bundle.Entry.Response.builder()
-                                            .status(string(Integer.toString(SC_OK)))
+                                            .status(SC_OK_STRING)
                                             .build();
                                 Bundle.Entry.Builder responseEntryBuilder = Bundle.Entry.builder().response(response);
                                 // Only add hints/warnings if the return preference was "OperationOutcome"
@@ -1258,7 +1262,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         }
                     }
                     response =
-                            Bundle.Entry.Response.builder().status(string(Integer.toString(SC_OK))).build();
+                            Bundle.Entry.Response.builder().status(SC_OK_STRING).build();
                     responseEntry = Bundle.Entry.builder().response(response).build();
                 } catch (FHIROperationException e) {
                     if (log.isLoggable(Level.FINE)) {
@@ -1269,7 +1273,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         issueList.addAll(e.getIssues());
                     } else {
                         response = Bundle.Entry.Response.builder()
-                                .status(string(Integer.toString(SC_BAD_REQUEST)))
+                                .status(SC_BAD_REQUEST_STRING)
                                 .build();
                         responseEntry = Bundle.Entry.builder()
                                 .response(response)
@@ -1547,13 +1551,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         try {
             // Visit each of the request entries, processing those with the specified request method.
             // Use hashmap to store both the index and the accordingly updated response bundle entry.
-            HashMap<Integer, Bundle.Entry> responseIndexAndEntries = new HashMap<Integer, Bundle.Entry>();
+            Map<Integer, Bundle.Entry> responseIndexAndEntries = new HashMap<Integer, Bundle.Entry>();
             for (int entryIndex=0; entryIndex<requestBundle.getEntry().size(); ++entryIndex) {
                 Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
                 Bundle.Entry.Request request = requestEntry.getRequest();
                 Bundle.Entry responseEntry = responseBundle.getEntry().get(entryIndex);
                 Bundle.Entry.Response response = responseEntry.getResponse();
-                if (response.getStatus().equals(string(Integer.toString(SC_OK))) && request.getMethod().equals(httpMethod)) {
+                if (response.getStatus().equals(SC_OK_STRING) && request.getMethod().equals(httpMethod)) {
                     // Process request entry.
                     Bundle.Entry.Builder responseEntryBuilder = responseEntry.toBuilder();
                     StringBuffer requestDescription = new StringBuffer();
@@ -1566,8 +1570,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             log.finer("Processing bundle request entry " + entryIndex + "; method="
                                     + request.getMethod().getValue() + ", url="
                                     + request.getUrl().getValue());
-                            log.finer("--> path: " + requestURL.getPath());
-                            log.finer("--> query: " + requestURL.getQuery());
+                            log.finer("--> path: '" + requestURL.getPath() + "'");
+                            log.finer("--> query: '" + requestURL.getQuery() + "'");
                         }
 
                         // Log our initial info message for this request.
@@ -1605,7 +1609,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         }
                         
                         Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
-                        responseBuilder.status(string(Integer.toString(SC_NOT_FOUND)));
+                        responseBuilder.status(SC_NOT_FOUND_STRING);
                         responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
                         logBundleRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
                     } catch (FHIRPersistenceResourceDeletedException e) {
@@ -1615,7 +1619,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         }
                         
                         Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
-                        responseBuilder.status(string(Integer.toString(SC_GONE)));
+                        responseBuilder.status(SC_GONE_STRING);
                         responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
                         logBundleRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
                     } catch (FHIROperationException e) {
@@ -1667,7 +1671,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryForGet(Bundle.Entry responseEntry, HashMap<Integer, Bundle.Entry> responseIndexAndEntries, Integer entryIndex,
+    private void processEntryForGet(Bundle.Entry responseEntry, Map<Integer, Bundle.Entry> responseIndexAndEntries, Integer entryIndex,
         FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime) throws Exception {
         
         String[] pathTokens = requestURL.getPathTokens();
@@ -1730,7 +1734,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         Bundle.Entry.Builder responseEntryBuilder = responseEntry.toBuilder();
         Bundle.Entry.Response response = responseEntry.getResponse();
         Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
-        responseBuilder.status(string(Integer.toString(SC_OK)));
+        responseBuilder.status(SC_OK_STRING);
         logBundleRequestCompletedMsg(requestDescription, initialTime, SC_OK);
 
         responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(resource).response(responseBuilder.build()).build());
@@ -1759,7 +1763,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryForPost(Bundle.Entry requestEntry, Bundle.Entry responseEntry, HashMap<Integer, Bundle.Entry> responseIndexAndEntries,
+    private void processEntryForPost(Bundle.Entry requestEntry, Bundle.Entry responseEntry, Map<Integer, Bundle.Entry> responseIndexAndEntries,
         Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
         throws Exception {
         
@@ -1807,7 +1811,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Save the results of the operation in the bundle response field.
-            responseBuilder.status(string(Integer.toString(SC_OK)));
+            responseBuilder.status(SC_OK_STRING);
             responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(result).response(responseBuilder.build()).build());
             logBundleRequestCompletedMsg(requestDescription, initialTime, SC_OK);
 
@@ -1816,7 +1820,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Bundle searchResults = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, null, null);
 
             // Save the results of the operation in the bundle response field.
-            responseBuilder.status(string(Integer.toString(SC_OK)));
+            responseBuilder.status(SC_OK_STRING);
             responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(searchResults).response(responseBuilder.build()).build());
             logBundleRequestCompletedMsg(requestDescription, initialTime, SC_OK);
             
@@ -1895,7 +1899,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryForPut(Bundle.Entry requestEntry, Bundle.Entry responseEntry, HashMap<Integer, Bundle.Entry> responseIndexAndEntries,
+    private void processEntryForPut(Bundle.Entry requestEntry, Bundle.Entry responseEntry, Map<Integer, Bundle.Entry> responseIndexAndEntries,
         Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
         throws Exception {
         
@@ -1967,7 +1971,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryForDelete(Bundle.Entry responseEntry, HashMap<Integer, Bundle.Entry> responseIndexAndEntries, Integer entryIndex,
+    private void processEntryForDelete(Bundle.Entry responseEntry, Map<Integer, Bundle.Entry> responseIndexAndEntries, Integer entryIndex,
         FHIRUrlParser requestURL, String requestDescription, long initialTime) throws Exception {
         
         String[] pathTokens = requestURL.getPathTokens();
@@ -2005,7 +2009,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return
      */
     private Bundle reconstructResponseBundle(Bundle responseBundle,
-        HashMap<Integer, Bundle.Entry> responseIndexAndEntries) {
+        Map<Integer, Bundle.Entry> responseIndexAndEntries) {
         // Re-construct the responseBundle
         List<Bundle.Entry> responseEntries = new ArrayList<Bundle.Entry>();
         for (int i = 0; i < responseBundle.getEntry().size(); i++) {
@@ -2053,7 +2057,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Bundle.Entry.Response response = responseEntry.getResponse();
             
             // Only add mappings for POST and PUT requests where response is OK.
-            if (response.getStatus().equals(string(Integer.toString(SC_OK))) &&
+            if (response.getStatus().equals(SC_OK_STRING) &&
                     (request.getMethod().equals(HTTPVerb.POST) || request.getMethod().equals(HTTPVerb.PUT))) {
 
                 // Retrieve the local identifier from the request entry (if present).
@@ -2073,7 +2077,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         if (request.getMethod().equals(HTTPVerb.POST) && pathTokens.length == 1 && !pathTokens[0].startsWith("$") &&
                                 (request.getIfNoneExist() == null || request.getIfNoneExist().getValue() == null || request.getIfNoneExist().getValue().isEmpty())) {
                             // Generate external identifier and add mapping.
-                            String externalIdentifier = ModelSupport.getTypeName(resource.getClass()) + "/" + persistence.getLogicalId();
+                            String externalIdentifier = ModelSupport.getTypeName(resource.getClass()) + "/" + persistence.generateResourceId();
                             addLocalRefMapping(localRefMap, localIdentifier, externalIdentifier, null);
                         } else if (request.getMethod().equals(HTTPVerb.PUT) && resource.getId() != null) {
                             // Add mapping.

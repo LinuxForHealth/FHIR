@@ -68,4 +68,9 @@ public class MockPersistenceImpl implements FHIRPersistence {
     public OperationOutcome getHealth() throws FHIRPersistenceException {
         return null;
     }
+
+    @Override
+    public String generateResourceId() {
+        return null;
+    }
 }

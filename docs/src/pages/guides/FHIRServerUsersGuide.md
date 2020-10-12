@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-10-07"
+lastupdated: "2020-10-12"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1032,7 +1032,7 @@ In Example 2, if the `Patient` request entry was a conditional create request, t
 }
 ```
 
-While processing a request bundle, but before processing individual request entries, the FHIR server will detect the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and will establish a mapping between that local identifier and the corresponding external identifier that will result from performing the `POST` or `PUT` operation. 
+While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation. 
 
 Using Example 3, the FHIR server detects the use of local identifiers in the `Encounter` request entry (`urn:Encounter_1`) and in the `Procedure` request entry (`urn:Procedure_1`), and establishes a mapping between the local identifiers and the external references to be associated with the new `Encounter` and `Procedure` resources (for example, `Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b` and `Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf`).
 

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
@@ -46,11 +47,23 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -74,15 +87,39 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -117,15 +154,39 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry2, bundleEntry).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry2, bundleEntry)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -160,17 +221,49 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Encounter encounter = Encounter.builder().status(EncounterStatus.FINISHED).clazz(Coding.builder().code(Code.of("AMB")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Encounter")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(encounter).request(bundleEntryRequest).build();
+        Encounter encounter = Encounter.builder()
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Encounter"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("Patient/1")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().fullUrl(Uri.of("urn:2")).resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("Patient/1"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -207,15 +300,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).ifNoneExist(com.ibm.fhir.model.type.String.of("_id=1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .ifNoneExist(string("_id=1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -251,15 +369,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).ifNoneExist(com.ibm.fhir.model.type.String.of("_id=1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .ifNoneExist(string("_id=1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry2, bundleEntry).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry2, bundleEntry)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -299,35 +442,106 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Encounter encounter = Encounter.builder().status(EncounterStatus.FINISHED).clazz(Coding.builder().code(Code.of("AMB")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build(),
-                    Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:5")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Encounter")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(encounter).request(bundleEntryRequest).build();
-        
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED)
-                .subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:3")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:5")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().fullUrl(Uri.of("urn:2")).resource(procedure).request(bundleEntryRequest2).build();
-        
-        Patient patient = Patient.builder().generalPractitioner(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:4")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).build();
-        Bundle.Entry bundleEntry3 = Bundle.Entry.builder().fullUrl(Uri.of("urn:3")).resource(patient).request(bundleEntryRequest3).build();
-        
-        Practitioner practitioner = Practitioner.builder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Practitioner")).build();
-        Bundle.Entry bundleEntry4 = Bundle.Entry.builder().fullUrl(Uri.of("urn:4")).resource(practitioner).request(bundleEntryRequest4).build();
-        
-        Condition condition = Condition.builder().subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:3")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build())
-                .evidence(Condition.Evidence.builder().detail(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build()).build())
+        Encounter encounter = Encounter.builder()
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build(),
+                    Reference.builder()
+                    .reference(string("urn:5"))
+                    .build())
                 .build();
-        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Condition")).build();
-        Bundle.Entry bundleEntry5 = Bundle.Entry.builder().fullUrl(Uri.of("urn:5")).resource(condition).request(bundleEntryRequest5).build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Encounter"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:5"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
+        
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                    .reference(string("urn:4"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry3 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:3"))
+                .resource(patient)
+                .request(bundleEntryRequest3)
+                .build();
+        
+        Practitioner practitioner = Practitioner.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Practitioner"))
+                .build();
+        Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:4"))
+                .resource(practitioner)
+                .request(bundleEntryRequest4)
+                .build();
+        
+        Condition condition = Condition.builder()
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .evidence(Condition.Evidence.builder()
+                    .detail(Reference.builder()
+                        .reference(string("urn:2"))
+                        .build())
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Condition"))
+                .build();
+        Bundle.Entry bundleEntry5 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:5"))
+                .resource(condition)
+                .request(bundleEntryRequest5)
+                .build();
+        
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -382,15 +596,39 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -424,11 +662,23 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -452,15 +702,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -495,15 +770,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry2, bundleEntry).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry2, bundleEntry)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -538,17 +838,51 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Encounter encounter = Encounter.builder().id("1").status(EncounterStatus.FINISHED).clazz(Coding.builder().code(Code.of("AMB")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Encounter/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(encounter).request(bundleEntryRequest).build();
+        Encounter encounter = Encounter.builder()
+                .id("1")
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Encounter/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("Patient/1")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().fullUrl(Uri.of("urn:2")).resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("Patient/1"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -585,15 +919,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient?_id=1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient?_id=1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -628,15 +987,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient?_id=1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient?_id=1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -671,15 +1055,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient?_id=1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient?_id=1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry2, bundleEntry).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry2, bundleEntry)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -719,35 +1128,111 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Encounter encounter = Encounter.builder().id("1").status(EncounterStatus.FINISHED).clazz(Coding.builder().code(Code.of("AMB")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build(),
-                    Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:5")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Encounter/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(encounter).request(bundleEntryRequest).build();
-        
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED)
-                .subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:3")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:5")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().fullUrl(Uri.of("urn:2")).resource(procedure).request(bundleEntryRequest2).build();
-        
-        Patient patient = Patient.builder().id("3").generalPractitioner(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:4")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Patient/3")).build();
-        Bundle.Entry bundleEntry3 = Bundle.Entry.builder().fullUrl(Uri.of("urn:3")).resource(patient).request(bundleEntryRequest3).build();
-        
-        Practitioner practitioner = Practitioner.builder().id("4").active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Practitioner/4")).build();
-        Bundle.Entry bundleEntry4 = Bundle.Entry.builder().fullUrl(Uri.of("urn:4")).resource(practitioner).request(bundleEntryRequest4).build();
-        
-        Condition condition = Condition.builder().id("5").subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:3")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build())
-                .evidence(Condition.Evidence.builder().detail(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build()).build())
+        Encounter encounter = Encounter.builder()
+                .id("1")
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build(),
+                    Reference.builder()
+                    .reference(string("urn:5"))
+                    .build())
                 .build();
-        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Condition/5")).build();
-        Bundle.Entry bundleEntry5 = Bundle.Entry.builder().fullUrl(Uri.of("urn:5")).resource(condition).request(bundleEntryRequest5).build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Encounter/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:5"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
+        
+        Patient patient = Patient.builder()
+                .id("3")
+                .generalPractitioner(Reference.builder()
+                    .reference(string("urn:4"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/3"))
+                .build();
+        Bundle.Entry bundleEntry3 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:3"))
+                .resource(patient)
+                .request(bundleEntryRequest3)
+                .build();
+        
+        Practitioner practitioner = Practitioner.builder()
+                .id("4")
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Practitioner/4"))
+                .build();
+        Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:4"))
+                .resource(practitioner)
+                .request(bundleEntryRequest4)
+                .build();
+        
+        Condition condition = Condition.builder()
+                .id("5")
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .evidence(Condition.Evidence.builder()
+                    .detail(Reference.builder()
+                        .reference(string("urn:2"))
+                        .build())
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Condition/5"))
+                .build();
+        Bundle.Entry bundleEntry5 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:5"))
+                .resource(condition)
+                .request(bundleEntryRequest5)
+                .build();
+        
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -802,15 +1287,40 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Patient patient = Patient.builder().id("1").build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(patient).request(bundleEntryRequest).build();
+        Patient patient = Patient.builder()
+                .id("1")
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Procedure/2")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Procedure/2"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -845,17 +1355,51 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Encounter encounter = Encounter.builder().id("1").status(EncounterStatus.FINISHED).clazz(Coding.builder().code(Code.of("AMB")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Encounter/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(encounter).request(bundleEntryRequest).build();
+        Encounter encounter = Encounter.builder()
+                .id("1")
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Encounter/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
         
-        Procedure procedure = Procedure.builder().id("2").status(ProcedureStatus.COMPLETED).subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("Patient/1")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().fullUrl(Uri.of("urn:2")).resource(procedure).request(bundleEntryRequest2).build();
+        Procedure procedure = Procedure.builder()
+                .id("2")
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("Patient/1"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2).build();
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -897,42 +1441,136 @@ public class FHIRRestHelperTest {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
         
-        Encounter encounter = Encounter.builder().id("1").status(EncounterStatus.FINISHED).clazz(Coding.builder().code(Code.of("AMB")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build(),
-                    Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:5")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Encounter/1")).build();
-        Bundle.Entry bundleEntry = Bundle.Entry.builder().fullUrl(Uri.of("urn:1")).resource(encounter).request(bundleEntryRequest).build();
-        
-        Procedure procedure = Procedure.builder().status(ProcedureStatus.COMPLETED)
-                .subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:3")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build())
-                .reasonReference(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:5")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Procedure")).build();
-        Bundle.Entry bundleEntry2 = Bundle.Entry.builder().fullUrl(Uri.of("urn:2")).resource(procedure).request(bundleEntryRequest2).build();
-        
-        Patient patient = Patient.builder().generalPractitioner(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:4")).build())
-                .managingOrganization(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:6")).build()).build();
-        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Patient")).build();
-        Bundle.Entry bundleEntry3 = Bundle.Entry.builder().fullUrl(Uri.of("urn:3")).resource(patient).request(bundleEntryRequest3).build();
-        
-        Practitioner practitioner = Practitioner.builder().id("4").active(com.ibm.fhir.model.type.Boolean.TRUE)
-                .qualification(Qualification.builder().code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("MD")).system(Uri.of("test")).build()).build())
-                    .issuer(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:6")).build()).build()).build();
-        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Practitioner/4")).build();
-        Bundle.Entry bundleEntry4 = Bundle.Entry.builder().fullUrl(Uri.of("urn:4")).resource(practitioner).request(bundleEntryRequest4).build();
-        
-        Condition condition = Condition.builder().subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:3")).build())
-                .encounter(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:1")).build())
-                .evidence(Condition.Evidence.builder().detail(Reference.builder().reference(com.ibm.fhir.model.type.String.of("urn:2")).build()).build())
+        Encounter encounter = Encounter.builder()
+                .id("1")
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:2"))
+                    .build(),
+                    Reference.builder()
+                    .reference(string("urn:5"))
+                    .build())
                 .build();
-        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder().method(HTTPVerb.POST).url(Uri.of("Condition")).build();
-        Bundle.Entry bundleEntry5 = Bundle.Entry.builder().fullUrl(Uri.of("urn:5")).resource(condition).request(bundleEntryRequest5).build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Encounter/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
         
-        Organization organization = Organization.builder().id("6").name(com.ibm.fhir.model.type.String.of("test")).build();
-        Bundle.Entry.Request bundleEntryRequest6 = Bundle.Entry.Request.builder().method(HTTPVerb.PUT).url(Uri.of("Organization/6")).build();
-        Bundle.Entry bundleEntry6 = Bundle.Entry.builder().fullUrl(Uri.of("urn:6")).resource(organization).request(bundleEntryRequest6).build();
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("urn:5"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
         
-        Bundle requestBundle = Bundle.builder().id("bundle1").type(BundleType.TRANSACTION).entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5, bundleEntry6).build();
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                    .reference(string("urn:4"))
+                    .build())
+                .managingOrganization(Reference.builder()
+                    .reference(string("urn:6"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry3 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:3"))
+                .resource(patient)
+                .request(bundleEntryRequest3)
+                .build();
+        
+        Practitioner practitioner = Practitioner.builder()
+                .id("4")
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .qualification(Qualification.builder()
+                    .code(CodeableConcept.builder()
+                        .coding(Coding.builder()
+                            .code(Code.of("MD"))
+                            .system(Uri.of("test"))
+                            .build())
+                        .build())
+                    .issuer(Reference.builder()
+                        .reference(string("urn:6"))
+                        .build())
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Practitioner/4"))
+                .build();
+        Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:4"))
+                .resource(practitioner)
+                .request(bundleEntryRequest4)
+                .build();
+        
+        Condition condition = Condition.builder()
+                .subject(Reference.builder()
+                    .reference(string("urn:3"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("urn:1"))
+                    .build())
+                .evidence(Condition.Evidence.builder()
+                    .detail(Reference.builder()
+                        .reference(string("urn:2"))
+                        .build())
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Condition"))
+                .build();
+        Bundle.Entry bundleEntry5 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:5"))
+                .resource(condition)
+                .request(bundleEntryRequest5)
+                .build();
+        
+        Organization organization = Organization.builder()
+                .id("6")
+                .name(string("test"))
+                .build();
+        Bundle.Entry.Request bundleEntryRequest6 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Organization/6"))
+                .build();
+        Bundle.Entry bundleEntry6 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:6"))
+                .resource(organization)
+                .request(bundleEntryRequest6)
+                .build();
+        
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5, bundleEntry6)
+                .build();
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");

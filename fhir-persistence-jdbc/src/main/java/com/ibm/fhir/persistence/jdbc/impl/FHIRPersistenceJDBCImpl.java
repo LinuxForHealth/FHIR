@@ -289,7 +289,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // system-generated value. For the update-or-create scenario, see update().
             // Default version is 1 for a brand new FHIR Resource.
             int newVersionNumber = 1;
-            logicalId = getLogicalId();
+            logicalId = generateResourceId();
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
             }
@@ -1642,7 +1642,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
     
     @Override
-    public String getLogicalId() {
+    public String generateResourceId() {
         return logicalIdentityProvider.createNewIdentityValue();
     }
 }
