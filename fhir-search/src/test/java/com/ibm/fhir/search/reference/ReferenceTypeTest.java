@@ -22,7 +22,6 @@ import com.ibm.fhir.search.reference.value.TypeIdHandlerImpl;
 import com.ibm.fhir.search.reference.value.UrlHandlerImpl;
 
 public class ReferenceTypeTest {
-
     @Test
     public void testIdHandler() {
         String incoming = "https://localhost:9443/fhir-server/api/v4";
@@ -74,6 +73,42 @@ public class ReferenceTypeTest {
     }
 
     @Test
+    public void testTypeIdHandlerWithHistory() {
+        String incoming = "https://localhost:9443/fhir-server/api/v4";
+        List<String> targets = Arrays.asList("Patient", "Group");
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        String valueString = "Patient/example/_history/1";
+        TypeIdHandlerImpl impl = new TypeIdHandlerImpl();
+        impl.processParameter(incoming, targets, parameterValues, valueString, values);
+        List<String> checkList = parameterValues.stream().map(m -> m.getValueString()).collect(Collectors.toList());
+
+        // There is only one, as the valueString is the visible value, and this is the hidden.
+        assertEquals(parameterValues.size(), 1);
+        assertTrue(checkList.contains("https://localhost:9443/fhir-server/api/v4/Patient/example/_history/1"));
+        assertTrue(parameterValues.get(0).isHidden());
+    }
+
+    @Test
+    public void testTypeIdHandlerWithHistorySingleTarget() {
+        String incoming = "https://localhost:9443/fhir-server/api/v4";
+        List<String> targets = Arrays.asList("Patient");
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        String valueString = "Patient/example/_history/1";
+        TypeIdHandlerImpl impl = new TypeIdHandlerImpl();
+        impl.processParameter(incoming, targets, parameterValues, valueString, values);
+        List<String> checkList = parameterValues.stream().map(m -> m.getValueString()).collect(Collectors.toList());
+
+        assertEquals(parameterValues.size(), 2);
+        assertTrue(checkList.contains("https://localhost:9443/fhir-server/api/v4/Patient/example/_history/1"));
+        assertTrue(checkList.contains("example/_history/1"));
+        assertTrue(parameterValues.get(0).isHidden());
+    }
+
+    @Test
     public void testUrlHandlerNoOpWithId() {
         String incoming = "https://localhost:9443/fhir-server/api/v4";
         List<String> targets = Arrays.asList("Patient", "Group");
@@ -114,10 +149,45 @@ public class ReferenceTypeTest {
         List<String> checkList = parameterValues.stream().map(m -> m.getValueString()).collect(Collectors.toList());
 
         // There is only one, as the valueString is the visible value, and this is the hidden.
-        assertEquals(parameterValues.size(), 2);
+        assertEquals(parameterValues.size(), 1);
         assertTrue(checkList.contains("Patient/example"));
-        assertTrue(checkList.contains("example"));
         assertTrue(parameterValues.get(0).isHidden());
+    }
+
+    @Test
+    public void testUrlHandlerForVersionHistory() {
+        String incoming = "https://localhost:9443/fhir-server/api/v4";
+        List<String> targets = Arrays.asList("Patient", "Group");
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        String valueString = "https://localhost:9443/fhir-server/api/v4/Patient/example/_history/1";
+        UrlHandlerImpl impl = new UrlHandlerImpl();
+        impl.processParameter(incoming, targets, parameterValues, valueString, values);
+        List<String> checkList = parameterValues.stream().map(m -> m.getValueString()).collect(Collectors.toList());
+
+        // There is only one, as the valueString is the visible value, and this is the hidden.
+        assertEquals(parameterValues.size(), 1);
+        assertTrue(checkList.contains("Patient/example/_history/1"));
+        assertTrue(parameterValues.get(0).isHidden());
+    }
+
+    @Test
+    public void testUrlHandlerForVersionHistoryWithSingleTarget() {
+        String incoming = "https://localhost:9443/fhir-server/api/v4";
+        List<String> targets = Arrays.asList("Patient");
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+
+        String valueString = "https://localhost:9443/fhir-server/api/v4/Patient/example/_history/1";
+        UrlHandlerImpl impl = new UrlHandlerImpl();
+        impl.processParameter(incoming, targets, parameterValues, valueString, values);
+        List<String> checkList = parameterValues.stream().map(m -> m.getValueString()).collect(Collectors.toList());
+
+        // There is only one, as the valueString is the visible value, and this is the hidden.
+        assertEquals(parameterValues.size(), 2);
+        assertTrue(checkList.contains("Patient/example/_history/1"));
+        assertTrue(checkList.contains("example/_history/1"));
     }
 
     @Test
@@ -135,7 +205,7 @@ public class ReferenceTypeTest {
         // There is only one, as the valueString is the visible value, and this is the hidden.
         assertEquals(parameterValues.size(), 2);
         assertTrue(checkList.contains("Patient/example"));
-        assertTrue(checkList.contains("example"));
+        assertTrue(checkList.contains("https://localhost:9443/fhir-server/api/v4/Patient/example"));
         assertTrue(parameterValues.get(0).isHidden());
     }
 }
