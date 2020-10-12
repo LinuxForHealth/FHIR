@@ -35,7 +35,7 @@ public class UrlHandlerImpl implements ParameterValueHandler {
             if (matcher.find()) {
                 // For instance, Patient/1
                 String typeId;
-                if (matcher.groupCount() == 1) {
+                if (matcher.group(2) == null) {
                     typeId = matcher.group(1);
                 } else {
                     typeId = matcher.group(1) + matcher.group(2);
