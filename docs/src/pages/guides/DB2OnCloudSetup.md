@@ -18,8 +18,8 @@ This document guides a developer or administrator through the steps necessary to
 
 1. Choose [Db2](https://cloud.ibm.com/catalog/services/db2).
 
-1. Select the Pricing Plan:
-    - The IBM FHIR Server recommends the *Standard* plan for a production workload, development and experiments.
+1. Select the Pricing Plan
+    - The IBM FHIR Server does not support using the *Lite* plan.
 
 1. Create `Create`
 
@@ -27,7 +27,7 @@ Your instance is now creating or created.
 
 ### **Scale the instance**
 
-If you chose the Standard plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time.
+Depending on the plan you choose, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time.
 
 Note:
 1. The scaling of the instance requires a service restart.
