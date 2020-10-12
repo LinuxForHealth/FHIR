@@ -12,26 +12,33 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
  */
 public class ResourceIndexRecord {
 
-    // The resource type of the resource to reindex
-    private final String resourceType;
-    
-    // The resource's logical identifier
-    private final String logicalId;
-
     // The LOGICAL_RESOURCES.LOGICAL_RESOURCE_ID database id
     private final long logicalResourceId;
     
-    public ResourceIndexRecord(String resourceType, String logicalId, long logicalResourceId) {
-        this.resourceType = resourceType;
-        this.logicalId = logicalId;
+    // The resource type of the resource to reindex
+    private final int resourceTypeId;
+    
+    // The resource's logical identifier
+    private final String logicalId;
+    
+    // The resource type, which gets set after we identify the resourceTypeId
+    private String resourceType;
+    
+    // support for optimistic locking pattern
+    private final long transactionId;
+    
+    public ResourceIndexRecord(long logicalResourceId, int resourceTypeId, String logicalId, long transactionId) {
         this.logicalResourceId = logicalResourceId;
+        this.resourceTypeId = resourceTypeId;
+        this.logicalId = logicalId;
+        this.transactionId = transactionId;
     }
 
     /**
-     * @return the resourceType
+     * @return the resourceTypeId
      */
-    public String getResourceType() {
-        return resourceType;
+    public int getResourceTypeId() {
+        return resourceTypeId;
     }
 
     /**
@@ -46,5 +53,26 @@ public class ResourceIndexRecord {
      */
     public long getLogicalResourceId() {
         return logicalResourceId;
+    }
+
+    /**
+     * @return the resourceType
+     */
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    /**
+     * @param resourceType the resourceType to set
+     */
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    /**
+     * @return the transactionId
+     */
+    public long getTransactionId() {
+        return transactionId;
     }
 }

@@ -22,7 +22,7 @@ public class IndexDef {
     private final String indexName;
     
     // The list of columns comprising the index
-    private final List<String> indexColumns = new ArrayList<>();
+    private final List<OrderedColumnDef> indexColumns = new ArrayList<>();
     
     // Is this a unique index?
     private final boolean unique;
@@ -32,10 +32,10 @@ public class IndexDef {
     
     @Override
     public String toString() {
-        return this.indexName + "(" + indexColumns.stream().collect(Collectors.joining(",")) + ")";
+        return this.indexName + "(" + indexColumns.stream().map(c -> c.toString()).collect(Collectors.joining(",")) + ")";
     }
     
-    public IndexDef(String indexName, Collection<String> indexColumns, boolean unique) {
+    public IndexDef(String indexName, Collection<OrderedColumnDef> indexColumns, boolean unique) {
         this.indexName = indexName;
         this.unique = unique;
         this.indexColumns.addAll(indexColumns);
@@ -48,7 +48,7 @@ public class IndexDef {
      * @param indexColumns
      * @param includeColumns
      */
-    public IndexDef(String indexName, Collection<String> indexColumns, Collection<String> includeColumns) {
+    public IndexDef(String indexName, Collection<OrderedColumnDef> indexColumns, Collection<String> includeColumns) {
         this.indexName = indexName;
         this.unique = true;
         this.indexColumns.addAll(indexColumns);

@@ -241,12 +241,13 @@ public interface FHIRResourceHelpers {
     public FHIRPersistenceTransaction getTransaction() throws Exception;
 
     /**
-     * Invoke the FHIR persistence reindex operation
+     * Invoke the FHIR persistence reindex operation for a randomly chosen resource which was
+     * last reindexed before the given date
      * @param operationContext
+     * @param operationOutcomeResult
      * @param tstamp
-     * @param resourceCount
-     * @return
+     * @return number of resources reindexed (0 if no resources were found to reindex)
      * @throws Exception
      */
-    public OperationOutcome doReindex(FHIROperationContext operationContext, Instant tstamp, int resourceCount) throws Exception;
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp) throws Exception;
 }

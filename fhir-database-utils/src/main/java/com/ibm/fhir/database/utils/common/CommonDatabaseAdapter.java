@@ -31,6 +31,7 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Tenant;
@@ -170,7 +171,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns, List<String> includeColumns) {
+        List<OrderedColumnDef> indexColumns, List<String> includeColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
@@ -178,7 +179,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+        List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
@@ -186,7 +187,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+        List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
@@ -199,14 +200,14 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param columns
      * @return
      */
-    protected List<String> prefixTenantColumn(String tenantColumnName, List<String> columns) {
-        List<String> result;
+    protected List<OrderedColumnDef> prefixTenantColumn(String tenantColumnName, List<OrderedColumnDef> columns) {
+        List<OrderedColumnDef> result;
         if (tenantColumnName == null) {
             result = columns; // no change
         }
         else {
             result = new ArrayList<>(columns.size() + 1);
-            result.add(tenantColumnName);
+            result.add(new OrderedColumnDef(tenantColumnName, null, null));
             result.addAll(columns);
         }
 

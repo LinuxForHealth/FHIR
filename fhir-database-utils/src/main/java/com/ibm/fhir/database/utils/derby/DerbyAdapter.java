@@ -27,9 +27,9 @@ import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
-import com.ibm.fhir.database.utils.tenant.CreateOrReplaceViewDAO;
 
 /**
  * A Derby database target
@@ -87,7 +87,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
             List<String> includeColumns) {
 
         // Derby doesn't support include columns, so we just have to create a normal index
@@ -283,7 +283,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    protected List<String> prefixTenantColumn(String tenantColumnName, List<String> columns) {
+    protected List<OrderedColumnDef> prefixTenantColumn(String tenantColumnName, List<OrderedColumnDef> columns) {
         // No tenant support, so simply return the columns list unchanged, without prefixing
         // the tenanteColumnName
         return columns;

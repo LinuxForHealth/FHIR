@@ -252,12 +252,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             try {
                 // insert the system-wide logical resource record.
-                final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id) VALUES (?, ?, ?)";
+                final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
                     stmt.setInt(2, v_resource_type_id);
                     stmt.setString(3, p_logical_id);
+                    stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP));
                     stmt.executeUpdate();
                 }
             } catch (SQLException e) {

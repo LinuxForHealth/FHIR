@@ -30,6 +30,7 @@ import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.ProcedureDef;
@@ -435,40 +436,27 @@ public class FhirSchemaGenerator {
         // For V0006 we also add a couple of new columns and an index to support
         // reindexing of resources
         List<ColumnBase> cols = new ColumnDefBuilder()
-                .addTimestampColumn(REINDEX_TSTAMP, true)
-                .addBigIntColumn(REINDEX_TXID, true)
+                .addTimestampColumn(REINDEX_TSTAMP, false, "'1970-01-01 00:00:00'")
+                .addBigIntColumn(REINDEX_TXID, false, "0")
                 .buildColumns();
         AlterTableAddColumn addCols = new AlterTableAddColumn(schemaName, tableName, FhirSchemaVersion.V0006.vid(), cols);
         addCols.addDependency(tbl); // table must be created before we try to alter it
         pdm.addObject(addCols);
 
         // Make sure we have an index on the REINDEX_TSTAMP column so that we can quickly
-        // identify which resources need to be reindexed
+        // identify which resources need to be reindexed. For the reindex resource selection
+        // query, it's essential that we collate the reindex_tstamp with NULLS FIRST
         CreateIndex tsidx = CreateIndex.builder()
                 .setSchemaName(schemaName)
                 .setTableName(tableName)
                 .setTenantColumnName(MT_ID)
                 .setIndexName("IDX_" + LOGICAL_RESOURCES + "_RITS")
                 .setVersion(FhirSchemaVersion.V0006.vid())
-                .setUnique(true)
-                .addColumn(REINDEX_TSTAMP)
-                .addColumn(LOGICAL_RESOURCE_ID)
+                .addColumn(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null)
                 .build();
         tsidx.addDependency(addCols);
         pdm.addObject(tsidx);
 
-        // Also add an index to allow quick retrieval of resources we've marked with
-        // a transaction id during the reindex process.
-        CreateIndex txidx = CreateIndex.builder()
-                .setSchemaName(schemaName)
-                .setTableName(tableName)
-                .setTenantColumnName(MT_ID)
-                .setIndexName("IDX_" + LOGICAL_RESOURCES + "_TXID")
-                .setVersion(FhirSchemaVersion.V0006.vid())
-                .addColumn(REINDEX_TXID)
-                .build();
-        txidx.addDependency(addCols);
-        pdm.addObject(txidx);
 
         // Create a new sequence to use as a transaction id for our reindexing process
         Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQ, FhirSchemaVersion.V0001.vid(), 1, 100, 1);

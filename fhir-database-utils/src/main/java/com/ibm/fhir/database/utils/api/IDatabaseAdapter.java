@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -145,7 +146,7 @@ public interface IDatabaseAdapter {
      * @param includeColumns
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<String> indexColumns, List<String> includeColumns);
+            List<OrderedColumnDef> indexColumns, List<String> includeColumns);
 
     /**
      *
@@ -156,7 +157,7 @@ public interface IDatabaseAdapter {
      * @param indexColumns
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<String> indexColumns);
+            List<OrderedColumnDef> indexColumns);
 
     /**
      *
@@ -167,7 +168,7 @@ public interface IDatabaseAdapter {
      * @param indexColumns
      */
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<String> indexColumns);
+            List<OrderedColumnDef> indexColumns);
 
     /**
      *

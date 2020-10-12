@@ -149,11 +149,11 @@ public interface FHIRPersistence {
      * database, but larger values risk exceeding the transaction timeout. Values around 100
      * are a good starting point for most systems.
      * @param context the FHIRPersistenceContext instance associated with the current request.
+     * @param operationOutcomeResult accumulate issues in this {@link Builder}
      * @param tstamp reindex any resources with an index_tstamp less than this.
-     * @param resourceCount the number of resources to process in this request.
-     * @return An OperationOutcome with a list of 0 or more OperationalOutcomeIssue indicating which resources were reindexed.
+     * @return count of the number of resources reindexed by this call (0 or 1)
      * @throws FHIRPersistenceException
      */
-    OperationOutcome reindex(FHIRPersistenceContext context, Instant tstamp, int resourceCount)
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp)
             throws FHIRPersistenceException;
 }

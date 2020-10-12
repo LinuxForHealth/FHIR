@@ -95,7 +95,7 @@ public class DriveReindexOperation {
             
             // Slow down the ramp-up so we don't hit a new server with
             // hundreds of requests in one go
-            safeSleep(1000);
+            safeSleep(1500);
         }
     }
 

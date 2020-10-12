@@ -72,7 +72,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public OperationOutcome reindex(FHIRPersistenceContext context, Instant tstamp, int resourceCount) throws FHIRPersistenceException {
-        return null;
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, Instant tstamp) throws FHIRPersistenceException {
+        return 0;
     }
 }

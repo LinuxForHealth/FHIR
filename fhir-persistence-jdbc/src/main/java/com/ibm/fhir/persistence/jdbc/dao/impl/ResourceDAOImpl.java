@@ -57,6 +57,8 @@ import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     private static final Logger log = Logger.getLogger(ResourceDAOImpl.class.getName());
     private static final String CLASSNAME = ResourceDAOImpl.class.getName();
+    public static final String DEFAULT_VALUE_REINDEX_TSTAMP = "1970-01-01 00:00:00";
+
 
     // Read the current version of the resource
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +

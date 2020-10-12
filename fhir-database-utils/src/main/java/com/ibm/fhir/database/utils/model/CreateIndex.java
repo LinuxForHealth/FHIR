@@ -133,7 +133,7 @@ public class CreateIndex extends BaseObject {
         private int version;
         
         // The list of columns to index
-        private final List<String> indexCols = new ArrayList<>();
+        private final List<OrderedColumnDef> indexCols = new ArrayList<>();
         
         // Is this a unique index?
         private boolean unique;
@@ -196,7 +196,20 @@ public class CreateIndex extends BaseObject {
          * @return
          */
         public Builder addColumn(String column) {
-            this.indexCols.add(column);
+            this.indexCols.add(new OrderedColumnDef(column, null, null));
+            return this;
+        }
+
+        /**
+         * Add the named column to the index, with specific order and null value
+         * collation rules
+         * @param column
+         * @param direction
+         * @param nullOrder
+         * @return
+         */
+        public Builder addColumn(String column, OrderedColumnDef.Direction direction, OrderedColumnDef.NullOrder nullOrder) {
+            this.indexCols.add(new OrderedColumnDef(column, direction, nullOrder));
             return this;
         }
 

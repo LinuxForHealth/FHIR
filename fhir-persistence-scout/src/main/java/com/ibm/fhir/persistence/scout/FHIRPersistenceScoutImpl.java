@@ -465,9 +465,8 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public OperationOutcome reindex(FHIRPersistenceContext context, java.time.Instant tstamp, int resourceCount) throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        return null;
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp) throws FHIRPersistenceException {
+        return 0;
     }
 
 }

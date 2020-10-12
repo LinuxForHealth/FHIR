@@ -246,7 +246,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
             }
 
             // insert the system-wide logical resource record.
-            final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id) VALUES (?, ?, ?) "
+            final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp) VALUES (?, ?, ?, ?) "
                     + " ON CONFLICT DO NOTHING"
                     + " RETURNING logical_resource_id";
             try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
@@ -254,6 +254,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
                 stmt.setLong(1, v_logical_resource_id);
                 stmt.setInt(2, v_resource_type_id);
                 stmt.setString(3, p_logical_id);
+                stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP));
                 stmt.execute();
                 
                 ResultSet rs = stmt.getResultSet();

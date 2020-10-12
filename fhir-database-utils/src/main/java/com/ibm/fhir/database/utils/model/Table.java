@@ -453,10 +453,18 @@ public class Table extends BaseObject {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
-
-            // Make sure all the given column names are valid for this table
-            checkColumns(columns);
-            indexes.put(indexName, new IndexDef(indexName, Arrays.asList(columns), false));
+            
+            if (columns.length > 0) {
+                // Make sure all the given column names are valid for this table
+                checkColumns(columns);
+                
+                List<OrderedColumnDef> columnDefs = new ArrayList<>(columns.length);
+                for (String c: columns) {
+                    columnDefs.add(new OrderedColumnDef(c, null, null));
+                }
+                
+                indexes.put(indexName, new IndexDef(indexName, columnDefs, false));
+            }
             return this;
         }
 
@@ -470,8 +478,17 @@ public class Table extends BaseObject {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
-            checkColumns(columns);
-            indexes.put(indexName, new IndexDef(indexName, Arrays.asList(columns), true));
+            
+            if (columns.length > 0) {
+                // Make sure all the given column names are valid for this table
+                checkColumns(columns);
+                
+                List<OrderedColumnDef> columnDefs = new ArrayList<>(columns.length);
+                for (String c: columns) {
+                    columnDefs.add(new OrderedColumnDef(c, null, null));
+                }
+                indexes.put(indexName, new IndexDef(indexName, columnDefs, true));
+            }
             return this;
         }
 
@@ -486,9 +503,19 @@ public class Table extends BaseObject {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
-            checkColumns(indexColumns);
-            checkColumns(includeColumns);
-            indexes.put(indexName, new IndexDef(indexName, indexColumns, includeColumns));
+
+            if (indexColumns.size() > 0) {
+                // Make sure all the given column names are valid for this table
+                checkColumns(indexColumns);
+                checkColumns(includeColumns);
+                
+                List<OrderedColumnDef> columnDefs = new ArrayList<>(indexColumns.size());
+                for (String c: indexColumns) {
+                    columnDefs.add(new OrderedColumnDef(c, null, null));
+                }
+            
+                indexes.put(indexName, new IndexDef(indexName, columnDefs, includeColumns));
+            }
             return this;
         }
 
@@ -629,7 +656,7 @@ public class Table extends BaseObject {
                 ColumnBase column;
                 switch (cd.getColumnType()) {
                 case BIGINT:
-                    column = new BigIntColumn(cd.getName(), cd.isNullable());
+                    column = new BigIntColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
                     break;
                 case INT:
                     column = new IntColumn(cd.getName(), cd.isNullable());
@@ -641,7 +668,7 @@ public class Table extends BaseObject {
                     column = new DoubleColumn(cd.getName(), cd.isNullable());
                     break;
                 case TIMESTAMP:
-                    column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision());
+                    column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision(), cd.getDefaultVal());
                     break;
                 case VARCHAR:
                     if (cd.getSize() > Integer.MAX_VALUE) {

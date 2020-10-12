@@ -300,9 +300,8 @@ public class DummyImportExportImplTest {
             }
 
             @Override
-            public OperationOutcome doReindex(FHIROperationContext operationContext, java.time.Instant tstamp, int resourceCount) throws Exception {
-                // TODO Auto-generated method stub
-                return null;
+            public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder oob, java.time.Instant tstamp) throws Exception {
+                return 0;
             }
         };
     }

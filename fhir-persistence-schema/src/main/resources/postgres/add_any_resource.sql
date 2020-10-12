@@ -57,8 +57,8 @@ BEGIN
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
     -- is easy to handle, just turn around and read it
-    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id)
-         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id) ON CONFLICT DO NOTHING;
+    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp)
+         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01') ON CONFLICT DO NOTHING;
        
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock

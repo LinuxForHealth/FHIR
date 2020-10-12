@@ -2488,8 +2488,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public OperationOutcome doReindex(FHIROperationContext operationContext, Instant tstamp, int resourceCount) throws Exception {
-        OperationOutcome result = null;
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp) throws Exception {
+        int result = 0;
         // handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
         int attempt = 1;
@@ -2498,22 +2498,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, tstamp, resourceCount);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp);
+                attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
-                    log.info("attempt #" + attempt + " failed, retrying transaction with resourceCount=1");
-                    
-                    // clamp the resourceCount to 1 to greatly reduce the probability of another deadlock
-                    resourceCount = 1;
+                    log.info("attempt #" + attempt + " failed, retrying transaction");
                 } else {
                     throw x;
                 }
             } finally {
                 txn.end();
             }
-        } while (result == null && attempt++ < TX_ATTEMPTS);
-
-        // can never be null, because we only get here if the transaction was successful
+        } while (attempt++ < TX_ATTEMPTS);
+        
         return result;
     }
 }

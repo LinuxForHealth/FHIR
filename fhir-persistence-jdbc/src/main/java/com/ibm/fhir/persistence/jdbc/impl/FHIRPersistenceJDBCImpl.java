@@ -1687,13 +1687,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public OperationOutcome reindex(FHIRPersistenceContext context, java.time.Instant tstamp, int resourceCount)
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp)
         throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
         
+        int result = 0;
+        
         if (log.isLoggable(Level.FINE)) {
-            log.fine("reindex _tstamp=" + tstamp.toString() + ", _resourceCount=" + resourceCount);
+            log.fine("reindex _tstamp=" + tstamp.toString());
         }
         
         if (tstamp.isAfter(java.time.Instant.now())) {
@@ -1702,33 +1704,29 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             throw new FHIRPersistenceException("Reindex _tstamp cannot be in the future");
         }
 
-        // Reindex up to resourceCount resources which have not been indexed since the given tstamp
-        // Remember that all of this is happening within the context of one transaction, so we can
-        // only process a (relatively) limited set of resources
-        OperationOutcome.Builder result = OperationOutcome.builder();
-
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
-            // Obtain a list of resources we will reindex in this request/transaction. The logical_resources
-            // are locked at the beginning to prevent updates to the resource
-            // during the reindexing process. This locking occurs naturally, because we update the reindex_tstamp
-            // record on the logical_resources table. The records are locked in order of logical_resource_id, so
-            // we shouldn't hit a problem with deadlocks.
+            // Obtain a resource we will reindex in this request/transaction. The record is locked as part
+            // of its selection, so we avoid a lot of (but not all) deadlock issues
             long start = System.nanoTime();
-            List<ResourceIndexRecord> resourceList = reindexDAO.getResourcesToReindex(tstamp, resourceCount);
+            ResourceIndexRecord rir = reindexDAO.getResourceToReindex(tstamp);
             long end = System.nanoTime();
             
             if (log.isLoggable(Level.FINER)) {
                 double elapsed = (end-start)/1e6;
-                log.finer(String.format("Identified %d resources for reindexing in %.3f ms ", resourceList.size(), elapsed));
+                log.finer(String.format("Selected %d resource for reindexing in %.3f ms ", rir != null ? 1 : 0, elapsed));
             }
 
-            for (ResourceIndexRecord rir: resourceList) {
-                // This is important so we log it as info
-                log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId());
+            if (rir != null) {
+                // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
+                // there's nothing left to do
+                result = 1;
                 
+                // This is important so we log it as info
+                log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    
                 // Read the current resource
                 com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
                 if (existingResourceDTO != null) {
@@ -1740,21 +1738,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     
                     // Use an OperationOutcome Issue to let the caller know that some work was performed
                     final String diag = "Processed " + rir.getResourceType() + "/" + rir.getLogicalId();
-                    result.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+                    operationOutcomeResult.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
                 } else {
                     // Reasonable to assume that this resource was deleted because we can't read it
                     final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
-                    result.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+                    operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
                 }                
             }
             
-            if (resourceList.isEmpty()) {
-                // must have at least one issue
-                final String diag = "Reindex complete";
-                result.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
-            }
-
-            return result.build();
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
             throw e;
@@ -1772,7 +1763,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 throw fpx;
             } else {
                 log.log(Level.SEVERE, "non-retryable error", dax);
-                throw new FHIRPersistenceException("Data access error while performing a reindex operation.");
+                throw new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
             }
         } catch(Throwable e) {
             getTransaction().setRollbackOnly();
@@ -1784,5 +1775,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
+        
+        return result;
     }
 }

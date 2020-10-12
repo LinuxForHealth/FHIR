@@ -24,6 +24,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -101,7 +102,21 @@ public class ReindexOperation extends AbstractOperation {
             }
             
             // Delegate the heavy lifting to the helper
-            OperationOutcome operationOutcome = resourceHelper.doReindex(operationContext, tstamp, resourceCount);
+            OperationOutcome.Builder result = OperationOutcome.builder();
+            int totalProcessed = 0;
+            int processed = 1;
+            for (int i=0; i<resourceCount && processed > 0; i++) {
+                processed = resourceHelper.doReindex(operationContext, result, tstamp);
+                totalProcessed += processed;
+            }
+            
+            if (totalProcessed == 0) {
+                // must have at least one issue for a valid OperationOutcome resource
+                final String diag = "Reindex complete";
+                result.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+            }
+
+            OperationOutcome operationOutcome = result.build();
             checkOperationOutcome(operationOutcome);
             return FHIROperationUtil.getOutputParameters(operationOutcome);
         } catch (FHIROperationException e) {
