@@ -19,7 +19,7 @@ This document guides a developer or administrator through the steps necessary to
 1. Choose [Db2](https://cloud.ibm.com/catalog/services/db2).
 
 1. Select the Pricing Plan:
-    - The IBM FHIR Server recommends the Flex plan for a production workload, development and experiments.
+    - The IBM FHIR Server recommends the *Standard* plan for a production workload, development and experiments.
 
 1. Create `Create`
 
@@ -27,7 +27,7 @@ Your instance is now creating or created.
 
 ### **Scale the instance**
 
-If you chose the Flex plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time.
+If you chose the Standard plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time.
 
 Note:
 1. The scaling of the instance requires a service restart.
@@ -49,18 +49,18 @@ The administrator is `BLUADMIN` but you need to create a credential.
 
     ``` json
     {
-        "hostname": "dashdb-txn-flex-***********.services.dal.bluemix.net",
+        "hostname": "dashdb-txn-***-***********.services.dal.bluemix.net",
         "password": "bluadmin-password-very-secret",
-        "https_url": "https://dashdb-txn-flex-************.services.dal.bluemix.net:8443",
+        "https_url": "https://dashdb-txn-***-************.services.dal.bluemix.net:8443",
         "port": 50000,
-        "ssldsn": "DATABASE=BLUDB;HOSTNAME=dashdb-txn-flex-************.services.dal.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=bluadmin;PWD=bluadmin-password-very-secret;Security=SSL;",
-        "host": "dashdb-txn-flex-************.services.dal.bluemix.net",
-        "jdbcurl": "jdbc:db2://dashdb-txn-flex-************.services.dal.bluemix.net:50000/BLUDB",
-        "uri": "db2://bluadmin:bluadmin-password-very-secret@dashdb-txn-flex-************.services.dal.bluemix.net:50000/BLUDB",
+        "ssldsn": "DATABASE=BLUDB;HOSTNAME=dashdb-txn-***-************.services.dal.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=bluadmin;PWD=bluadmin-password-very-secret;Security=SSL;",
+        "host": "dashdb-txn-***-************.services.dal.bluemix.net",
+        "jdbcurl": "jdbc:db2://dashdb-txn-***-************.services.dal.bluemix.net:50000/BLUDB",
+        "uri": "db2://bluadmin:bluadmin-password-very-secret@dashdb-txn-***-************.services.dal.bluemix.net:50000/BLUDB",
         "db": "BLUDB",
-        "dsn": "DATABASE=BLUDB;HOSTNAME=dashdb-txn-flex-************.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=bluadmin;PWD=bluadmin-password-very-secret;",
+        "dsn": "DATABASE=BLUDB;HOSTNAME=dashdb-txn-***-************.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=bluadmin;PWD=bluadmin-password-very-secret;",
         "username": "bluadmin",
-        "ssljdbcurl": "jdbc:db2://dashdb-txn-flex-************.services.dal.bluemix.net:50001/BLUDB:sslConnection=true;"
+        "ssljdbcurl": "jdbc:db2://dashdb-txn-***-************.services.dal.bluemix.net:50001/BLUDB:sslConnection=true;"
     }
     ```
 
@@ -176,7 +176,7 @@ Now that you've created the database and credentials, use the `fhir-persistence-
 
 2. create a properties file named db2.properties with the db2 connection info from IBM Cloud; for example:
     ```
-    db.host=dashdb-txn-flex-***********.services.dal.bluemix.net
+    db.host=dashdb-txn-***-***********.services.dal.bluemix.net
     db.port=50001
     db.database=BLUDB
     user=bluadmin
@@ -214,7 +214,7 @@ The IBM FHIR Server uses a proxy datasource mechanism, allowing new datasources 
                     },
                     "type": "db2",
                     "connectionProperties": {
-                        "serverName": "dashdb-txn-flex-************.services.dal.bluemix.net",
+                        "serverName": "dashdb-txn-***-************.services.dal.bluemix.net",
                         "portNumber": 50001,
                         "databaseName": "BLUDB",
                         "apiKey": "<API-KEY>",
@@ -273,7 +273,7 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
-            serverName="dashdb-txn-flex-************.services.dal.bluemix.net"
+            serverName="dashdb-txn-***-************.services.dal.bluemix.net"
             portNumber="50001"
             apiKey="<API-KEY>"
             securityMechanism="15"
