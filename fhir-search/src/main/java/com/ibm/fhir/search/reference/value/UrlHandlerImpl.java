@@ -19,6 +19,11 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * -> http://server/Patient/1
  * -> Patient/1
  * -> 1 (only when there is one target)
+ *
+ * vread
+ * -> http://server/Patient/1/_history/1
+ * -> Patient/1/_history/1
+ * -> 1 (only when there is one target)
  */
 public class UrlHandlerImpl implements ParameterValueHandler {
 

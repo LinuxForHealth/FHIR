@@ -16,10 +16,15 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * Patient/1
  * -> http://server/Patient/1
  * -> 1 (only when there is one target)
+ *
+ * vread
+ * Patient/1/_history/1
+ * -> http://server/Patient/1/_history/1
+ * -> 1 (only when there is one target)
  */
 public class TypeIdHandlerImpl implements ParameterValueHandler {
 
-    private static final String REGEX = "^([A-z][a-z]{2,64}/[A-Za-z0-9\\-\\.]{1,64})$";
+    private static final String REGEX = "^([A-z][a-z]{2,36}/[A-Za-z0-9\\-\\.]{1,64})(/_history/[A-Za-z0-9\\-\\.]{1,64})?$";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     @Override
@@ -36,8 +41,8 @@ public class TypeIdHandlerImpl implements ParameterValueHandler {
                 values.add(tmpValueUrl);
             }
 
-            tmpValueUrl = valueString.split("/")[1];
             if (targets.size() == 1) {
+                tmpValueUrl = valueString.substring(valueString.indexOf('/') + 1);
                 QueryParameterValue parameterValue = new QueryParameterValue();
                 parameterValue.setValueString(tmpValueUrl);
                 parameterValue.setHidden(true);
