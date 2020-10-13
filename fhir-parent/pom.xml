@@ -10,7 +10,7 @@
     <name>IBM FHIR Server</name>
 
     <properties>
-        <liberty.version>20.0.0.6</liberty.version>
+        <liberty.version>20.0.0.9</liberty.version>
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.0.0</db2.version>
         <postgresql.version>42.2.12</postgresql.version>
@@ -590,7 +590,8 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <!-- 3.0.1 is the highest version we support as 3.1.0 changes the ability to aggregate multi-module projects.  It's not possible--> 
+                    <!-- 3.0.1 is the highest version we support as 3.1.0 
+                        changes the ability to aggregate multi-module projects. It's not possible -->
                     <version>3.0.1</version>
                     <configuration>
                         <!-- speed up the build -->
@@ -607,7 +608,8 @@
                         <maxmemory>2g</maxmemory>
                         <!-- doclint is none, otherwise build breaks -->
                         <doclint>none</doclint>
-                        <additionalparam>-Xdoclint:none -Djava.awt.headless=true</additionalparam>
+                        <additionalparam>-Xdoclint:none
+                            -Djava.awt.headless=true</additionalparam>
                         <detectLinks>true</detectLinks>
                         <docletArtifact>
                             <groupId>nl.talsmasoftware</groupId>
@@ -921,7 +923,8 @@
                             <source>8</source>
                             <verbose>true</verbose>
                             <doclint>none</doclint>
-                            <additionalparam>-Xdoclint:none -Djava.awt.headless=true</additionalparam>
+                            <additionalparam>-Xdoclint:none
+                                -Djava.awt.headless=true</additionalparam>
                             <minmemory>2g</minmemory>
                             <maxmemory>2g</maxmemory>
                             <nohelp>true</nohelp>
@@ -979,7 +982,8 @@
                     <maxmemory>2g</maxmemory>
                     <!-- doclint is none, otherwise build breaks -->
                     <doclint>none</doclint>
-                    <additionalparam>-Xdoclint:none -Djava.awt.headless=true</additionalparam>
+                    <additionalparam>-Xdoclint:none
+                        -Djava.awt.headless=true</additionalparam>
                     <detectLinks>true</detectLinks>
                     <docletArtifact>
                         <groupId>nl.talsmasoftware</groupId>
