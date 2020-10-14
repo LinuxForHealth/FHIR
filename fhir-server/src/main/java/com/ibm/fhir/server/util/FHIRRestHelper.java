@@ -17,9 +17,13 @@ import java.net.URI;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1181,7 +1185,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             List<Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
             
-            List<String> localIdentifiers = new ArrayList<>();
+            Set<String> localIdentifiers = new HashSet<>();
 
             for (Bundle.Entry requestEntry : bundle.getEntry()) {
                 // Create a corresponding response entry and add it to the response bundle.
@@ -1549,10 +1553,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {"httpMethod", httpMethod });
         
         try {
-            // Visit each of the request entries, processing those with the specified request method.
+            // First, obtain a list of request entry indices for the entries that we'll process.
+            // This list will contain the indices associated with only the entries for the specified http method.
+            List<Integer> entryIndices =
+                    getBundleRequestIndicesForMethod(requestBundle, responseBundle, httpMethod);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Bundle request indices to be processed: " + entryIndices.toString());
+            }
+
+            // Next, for PUT and DELETE requests, we need to sort the indices by the request url path value.
+            if (httpMethod.equals(HTTPVerb.PUT) || httpMethod.equals(HTTPVerb.DELETE)) {
+                sortBundleRequestEntries(requestBundle, entryIndices);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("Sorted bundle request indices to be processed: "
+                            + entryIndices.toString());
+                }
+            }
+            
+            // Now visit each of the request entries using the list of indices obtained above.
             // Use hashmap to store both the index and the accordingly updated response bundle entry.
             Map<Integer, Bundle.Entry> responseIndexAndEntries = new HashMap<Integer, Bundle.Entry>();
-            for (int entryIndex=0; entryIndex<requestBundle.getEntry().size(); ++entryIndex) {
+            for (Integer entryIndex : entryIndices) {
                 Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
                 Bundle.Entry.Request request = requestEntry.getRequest();
                 Bundle.Entry responseEntry = responseBundle.getEntry().get(entryIndex);
@@ -2021,6 +2042,98 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         responseBundle = responseBundle.toBuilder().entry(responseEntries).build();
         return responseBundle;
+    }
+
+    /**
+     * Returns a list of Integers that provide the indices of the bundle entries associated with the specified http
+     * method.
+     *
+     * @param requestBundle
+     *            the request bundle
+     * @param httpMethod
+     *            the http method to look for
+     * @return
+     */
+    private List<Integer> getBundleRequestIndicesForMethod(Bundle requestBundle,
+        Bundle responseBundle, HTTPVerb httpMethod) {
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < requestBundle.getEntry().size(); i++) {
+            Bundle.Entry requestEntry = requestBundle.getEntry().get(i);
+            Bundle.Entry.Request request = requestEntry.getRequest();
+
+            Bundle.Entry responseEntry = responseBundle.getEntry().get(i);
+            Bundle.Entry.Response response = responseEntry.getResponse();
+
+            // If the response status is SC_OK which means the request passed the validation,
+            // and this request entry's http method is the one we're looking for,
+            // then record the index in our list.
+            // (please notice that status can not be null since R4, So we set the response status as SC_OK
+            // after the resource validation. )
+            if (response.getStatus().equals(SC_OK_STRING)
+                    && request.getMethod().equals(httpMethod)) {
+                indices.add(Integer.valueOf(i));
+            }
+        }
+        return indices;
+    }
+
+    /**
+     * This function sorts the request entries in the specified bundle, based on the path part of the entry's 'url'
+     * field.
+     *
+     * @param bundle
+     *            the bundle containing the request entries to be sorted.
+     * @return an array of Integer which provides the "sorted" ordering of request entry index values.
+     */
+    private void sortBundleRequestEntries(Bundle bundle, List<Integer> indices) {
+        // Sort the list of indices based on the contents of their entries in the bundle.
+        Collections.sort(indices, new BundleEntryComparator(bundle.getEntry()));
+    }
+
+    private static class BundleEntryComparator implements Comparator<Integer> {
+        private List<Bundle.Entry> entries;
+
+        public BundleEntryComparator(List<Bundle.Entry> entries) {
+            this.entries = entries;
+        }
+
+        @Override
+        public int compare(Integer indexA, Integer indexB) {
+            Bundle.Entry a = entries.get(indexA);
+            Bundle.Entry b = entries.get(indexB);
+            String pathA = getUrlPath(a);
+            String pathB = getUrlPath(b);
+
+            log.fine("Comparing request entry URL paths: " + pathA + ", " + pathB);
+            if (pathA != null && pathB != null) {
+                return pathA.compareTo(pathB);
+            } else if (pathA != null) {
+                return 1;
+            } else if (pathB != null) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+    
+    /**
+     * Returns the specified BundleEntry's path component of the 'url' field.
+     *
+     * @param entry
+     *            the bundle entry
+     * @return the bundle entry's 'url' field's path component
+     */
+    private static String getUrlPath(Bundle.Entry entry) {
+        String path = null;
+        Bundle.Entry.Request request = entry.getRequest();
+        if (request != null) {
+            if (request.getUrl() != null && request.getUrl().getValue() != null) {
+                FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
+                path = requestURL.getPath();
+            }
+        }
+
+        return path;
     }
 
     /**

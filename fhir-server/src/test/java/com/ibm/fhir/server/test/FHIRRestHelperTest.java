@@ -1048,7 +1048,8 @@ public class FHIRRestHelperTest {
 
     /**
      * Test transaction bundle put with backwards conditional local reference dependency and id not set.
-     * Procedure has local reference to Patient, which has a conditional update, but Procedure is first in bundle.
+     * Condition has local reference to Patient, which has a conditional update, but Condition gets sorted
+     * to first in bundle, so local reference not resolved.
      */
     @Test
     public void testTransactionBundlePutWithBackwardsConditionalDependencyAndIdNotSet() throws Exception {
@@ -1068,26 +1069,25 @@ public class FHIRRestHelperTest {
                 .request(bundleEntryRequest)
                 .build();
         
-        Procedure procedure = Procedure.builder()
+        Condition condition = Condition.builder()
                 .id("2")
-                .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
                     .reference(string("urn:1"))
                     .build())
-                .build();
+               .build();
         Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
                 .method(HTTPVerb.PUT)
-                .url(Uri.of("Procedure/2"))
+                .url(Uri.of("Condition/2"))
                 .build();
         Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
-                .resource(procedure)
+                .resource(condition)
                 .request(bundleEntryRequest2)
                 .build();
         
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
-                .entry(bundleEntry2, bundleEntry)
+                .entry(bundleEntry, bundleEntry2)
                 .build();
 
         // Process bundle
@@ -1103,12 +1103,12 @@ public class FHIRRestHelperTest {
             if (response.getLocation().getValue().startsWith("Patient")) {
                 assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
                 assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
-            } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/2/_history/2", response.getLocation().getValue());
+            } else if (response.getLocation().getValue().startsWith("Condition")) {
+                assertEquals("Condition/2/_history/2", response.getLocation().getValue());
                 assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
-                Procedure returnedProcedure = (Procedure) entry.getResource();
+                Condition returnedCondition = (Condition) entry.getResource();
                 // local references to conditional updates not found if backward dependency and id not set 
-                assertEquals("urn:1", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals("urn:1", returnedCondition.getSubject().getReference().getValue());
             } else {
                 fail();
             }
