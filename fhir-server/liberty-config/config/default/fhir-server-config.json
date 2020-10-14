@@ -30,6 +30,7 @@
                     "enabled": false,
                     "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
                     "capabilities": [
+                        "sso-openid-connect",
                         "launch-standalone", 
                         "client-public", 
                         "client-confidential-symmetric", 
