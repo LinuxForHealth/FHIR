@@ -1,0 +1,144 @@
+{
+	"resourceType": "Bundle",
+	"id": "searchParams",
+	"meta": {
+		"lastUpdated": "2020-07-30T22:37:54.724+11:00"
+	},
+	"type": "collection",
+	"entry": [{
+		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-multiple-birth-count",
+		"resource": {
+			"resourceType": "SearchParameter",
+			"id": "Patient-multiple-birth-count",
+			"url": "http://hl7.org/fhir/SearchParameter/Patient-multiple-birth-count",
+			"version": "4.0.0",
+			"name": "multiple-birth-count",
+			"status": "draft",
+			"experimental": false,
+			"date": "2018-12-27T22:37:54+11:00",
+			"publisher": "IBM FHIR Server Test",
+			"contact": [{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/fhir"
+				}]
+			},
+			{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/fhir"
+				}]
+			}],
+			"description": "The multiple birth count has been provided and satisfies this search value",
+			"code": "multiple-birth-count",
+			"base": ["Patient"],
+			"type": "number",
+			"expression": "(Patient.multipleBirth as integer)",
+			"xpath": "f:Patient/f:multipleBirthInteger",
+			"xpathUsage": "normal",
+			"multipleOr": true,
+			"multipleAnd": true,
+			"modifier": ["missing"],
+			"comparator": ["eq",
+			"ne",
+			"gt",
+			"ge",
+			"lt",
+			"le",
+			"sa",
+			"eb",
+			"ap"],
+			"_comparator": [{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			},
+			{
+				"extension": [{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}]
+			}]
+		}
+	},
+	{
+		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-multiple-birth-count-basic",
+		"resource": {
+			"resourceType": "SearchParameter",
+			"id": "Patient-multiple-birth-count-basic",
+			"url": "http://hl7.org/fhir/SearchParameter/Patient-multiple-birth-count-basic",
+			"version": "4.0.0",
+			"name": "multiple-birth-count-basic",
+			"status": "draft",
+			"experimental": false,
+			"date": "2018-12-27T22:37:54+11:00",
+			"publisher": "IBM FHIR Server Test",
+			"contact": [{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/fhir"
+				}]
+			},
+			{
+				"telecom": [{
+					"system": "url",
+					"value": "http://ibm.com/fhir"
+				}]
+			}],
+			"description": "The multiple birth count has been provided and satisfies this search value",
+			"code": "multiple-birth-count-basic",
+			"base": ["Patient"],
+			"type": "number",
+			"expression": "(Patient.multipleBirth as integer)",
+			"xpath": "f:Patient/f:multipleBirthInteger",
+			"xpathUsage": "normal",
+			"multipleOr": false,
+			"multipleAnd": false,
+			"modifier": ["type"],
+			"comparator": ["gt"]
+		}
+	}]
+}

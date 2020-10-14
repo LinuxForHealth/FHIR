@@ -38,6 +38,8 @@ import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchComparator;
+import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -47,6 +49,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
@@ -771,14 +774,21 @@ public class SearchUtil {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                         }
                     }
-
-                    for (String queryParameterValueString : queryParameters.get(name)) {
+                    
+                    // Build list of processed query parameters
+                    List<QueryParameter> curParameterList = new ArrayList<>();
+                    for (String paramValueString : params) {
                         QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
                         List<QueryParameterValue> queryParameterValues =
-                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), queryParameterValueString);
+                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), paramValueString);
                         parameter.getValues().addAll(queryParameterValues);
+                        curParameterList.add(parameter);
                         parameters.add(parameter);
                     }
+                    
+                    // Check search restrictions based on the SearchParameter
+                    checkSearchParameterRestrictions(parameterCode, searchParameter, curParameterList);
+                    
                 } // end else
             } catch (FHIRSearchException se) {
                 // There's a number of places that throw within this try block. In all cases we want the same behavior:
@@ -800,7 +810,89 @@ public class SearchUtil {
         context.setSearchParameters(parameters);
         return context;
     }
+    
+    /**
+     * Checks the query parameters (with the same parameter code) against any search restrictions specified
+     * in the SearchParameter resource for that parameter code.
+     * 
+     * @param parameterCode
+     *            the parameter code
+     * @param searchParameter
+     *            the SearchParameter resource
+     * @param queryParameters
+     *            the query parameters to check
+     * @throws FHIRSearchException
+     *             if a search restriction is found that is not followed
+     */
+    private static void checkSearchParameterRestrictions(String parameterCode, SearchParameter searchParameter, List<QueryParameter> queryParameters)
+        throws FHIRSearchException {
 
+        boolean allowMultipleAnd =
+                searchParameter.getMultipleAnd() == null || !searchParameter.getMultipleAnd().hasValue() || searchParameter.getMultipleAnd().getValue();
+        boolean allowMultipleOr =
+                searchParameter.getMultipleOr() == null || !searchParameter.getMultipleOr().hasValue() || searchParameter.getMultipleOr().getValue();
+        List<SearchComparator> comparators = searchParameter.getComparator();
+        List<SearchModifierCode> modifiers = searchParameter.getModifier();
+
+        // Check multipleAnd
+        if (!allowMultipleAnd && queryParameters.size() > 1) {
+            String msg =
+                    "Search parameter '" + parameterCode + "' does not allow multiple parameters";
+            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+        }
+
+        for (QueryParameter queryParameter : queryParameters) {
+
+            // Check multipleOr
+            if (!allowMultipleOr && queryParameter.getValues().size() > 1) {
+                String msg =
+                        "Search parameter '" + parameterCode + "' does not allow multiple values";
+                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+            }
+
+            // Check modifier
+            Modifier modifier = queryParameter.getModifier();
+            if (modifier != null && modifiers != null && !modifiers.isEmpty()) {
+                // Special handling of "type" modifier
+                if (modifier == Modifier.TYPE) {
+                    if (!modifiers.contains(SearchModifierCode.TYPE)) {
+                        String msg =
+                                "Search parameter '" + parameterCode + "' does not allow modifier '" + queryParameter.getModifierResourceTypeName() + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                } else {
+                    if (!modifiers.contains(SearchModifierCode.of(modifier.value()))) {
+                        String msg =
+                                "Search parameter '" + parameterCode + "' does not allow modifier '" + modifier.value() + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                }
+            }
+
+            // Check comparator
+            for (QueryParameterValue queryParameterValue : queryParameter.getValues()) {
+                Prefix prefix = queryParameterValue.getPrefix();
+                if (prefix != null && comparators != null && !comparators.isEmpty()) {
+                    // Check if prefix is found in list of valid comparators as an enum,
+                    // since the SearchComparators in the SearchParameter may contain extensions
+                    boolean foundMatch = false; 
+                    SearchComparator prefixAsComparator = SearchComparator.of(prefix.value());
+                    for (SearchComparator comparator : comparators) {
+                        if (comparator.getValueAsEnumConstant() == prefixAsComparator.getValueAsEnumConstant()) {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+                    if (!foundMatch) {
+                        String msg =
+                                "Search parameter '" + parameterCode + "' does not allow comparator '" + prefix.value() + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                }
+            }
+        }
+    }
+   
     /**
      * Common logic from handling a single queryParameterValueString based on its type
      */
