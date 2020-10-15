@@ -28,7 +28,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
@@ -40,7 +40,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
+    <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
             throws FHIRPersistenceException;
 
     /**
@@ -54,7 +54,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
+    <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
             throws FHIRPersistenceException;
 
     /**
@@ -67,7 +67,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException;
 
     /**
      * Deletes the specified FHIR Resource from the datastore.
@@ -79,7 +79,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public default <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+    default <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 
@@ -93,7 +93,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException;
+    <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException;
 
     /**
      * Performs a search on the specified target resource type using the specified search parameters.
@@ -104,30 +104,30 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
+    MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
 
     /**
      * Returns true iff the persistence layer implementation supports transactions.
      */
-    public boolean isTransactional();
+    boolean isTransactional();
 
     /**
      * Returns an OperationOutcome indicating the current status of the persistence store / backend
      * @return An OperationOutcome with a list of 0 or more OperationalOutcomeIssue indicating the status of the underlying datastore
      * @throws FHIRPersistenceException
      */
-    public OperationOutcome getHealth() throws FHIRPersistenceException;
+    OperationOutcome getHealth() throws FHIRPersistenceException;
 
     /**
      * Returns a FHIRPersistenceTransaction object associated with the persistence layer implementation in use.
      * This can then be used to control transactional boundaries.
      */
-    public FHIRPersistenceTransaction getTransaction();
+    FHIRPersistenceTransaction getTransaction();
 
     /**
      * Returns true iff the persistence layer implementation supports the "delete" operation.
      */
-    public default boolean isDeleteSupported() {
+    default boolean isDeleteSupported() {
         return false;
     }
 
@@ -136,5 +136,5 @@ public interface FHIRPersistence {
      * 
      * @return resource ID
      */
-    public String generateResourceId();
+    String generateResourceId();
 }

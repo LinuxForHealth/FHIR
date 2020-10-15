@@ -17,9 +17,13 @@ import java.net.URI;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -151,7 +155,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Check to see if we're supposed to perform a conditional 'create'.
             if (ifNoneExist != null && !ifNoneExist.isEmpty()) {
-                log.fine("Performing conditional create with search criteria: " + ifNoneExist);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Performing conditional create with search criteria: " + ifNoneExist);
+                }
                 Bundle responseBundle = null;
 
                 // Perform the search using the "If-None-Exist" header value.
@@ -170,7 +176,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Check the search results to determine whether or not to perform the create operation.
                 int resultCount = responseBundle.getEntry().size();
-                log.fine("Conditional create search yielded " + resultCount + " results.");
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Conditional create search yielded " + resultCount + " results.");
+                }
 
                 if (resultCount == 0) {
                     // Do nothing and fall through to process the 'create' request.
@@ -183,7 +191,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     ior.setResource(matchedResource);
                     ior.setOperationOutcome(FHIRUtil.buildOperationOutcome("Found a single match; check the Location header",
                             IssueType.INFORMATIONAL, IssueSeverity.INFORMATION));
-                    log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
+                    }
                     return ior;
                 } else {
                     String msg =
@@ -1181,7 +1191,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             List<Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
             
-            List<String> localIdentifiers = new ArrayList<>();
+            Set<String> localIdentifiers = new HashSet<>();
 
             for (Bundle.Entry requestEntry : bundle.getEntry()) {
                 // Create a corresponding response entry and add it to the response bundle.
@@ -1360,7 +1370,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private void performVersionAwareUpdateCheck(Resource currentResource, String ifMatchValue)
             throws FHIROperationException {
         if (ifMatchValue != null) {
-            log.fine("Performing a version aware update. ETag value =  " + ifMatchValue);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Performing a version aware update. ETag value =  " + ifMatchValue);
+            }
 
             String ifMatchVersion = getVersionIdFromETagValue(ifMatchValue);
 
@@ -1371,7 +1383,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + ifMatchValue, IssueType.PROCESSING);
             }
 
-            log.fine("Version id from ETag value specified in request: " + ifMatchVersion);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Version id from ETag value specified in request: " + ifMatchVersion);
+            }
 
             // Retrieve the version #'s from the current and updated resources.
             String currentVersion = null;
@@ -1471,7 +1485,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Generate a request correlation id for this request bundle.
         bundleRequestCorrelationId = UUID.randomUUID().toString();
-        log.fine("Processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
+        }
 
         try {
             // If we're working on a 'transaction' type interaction, then start a new transaction now
@@ -1479,8 +1495,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 bundleTransactionCorrelationId = bundleRequestCorrelationId;
                 txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
-                log.fine("Started new transaction for transaction bundle, txn-correlation-id="
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Started new transaction for transaction bundle, txn-correlation-id="
                         + bundleTransactionCorrelationId);
+                }
             }
 
             // Build a mapping of local identifiers to external identifiers for local reference resolution.
@@ -1498,16 +1516,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Commit transaction if started
             if (txn != null) {
-                log.fine("Committing transaction for transaction bundle, txn-correlation-id="
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Committing transaction for transaction bundle, txn-correlation-id="
                         + bundleTransactionCorrelationId);
+                }
                 txn.commit();
                 txn = null;
             }
             return responseBundle;
 
         } finally {
-            log.fine("Finished processing request bundle, request-correlation-id="
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Finished processing request bundle, request-correlation-id="
                     + bundleRequestCorrelationId);
+            }
 
             // Clear both correlation id fields since we're done processing the bundle.
             bundleRequestCorrelationId = null;
@@ -1549,10 +1571,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {"httpMethod", httpMethod });
         
         try {
-            // Visit each of the request entries, processing those with the specified request method.
+            // First, obtain a list of request entry indices for the entries that we'll process.
+            // This list will contain the indices associated with only the entries for the specified http method.
+            List<Integer> entryIndices =
+                    getBundleRequestIndicesForMethod(requestBundle, responseBundle, httpMethod);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Bundle request indices to be processed: " + entryIndices.toString());
+            }
+
+            // Next, for PUT and DELETE requests, we need to sort the indices by the request url path value.
+            if (httpMethod.equals(HTTPVerb.PUT) || httpMethod.equals(HTTPVerb.DELETE)) {
+                sortBundleRequestEntries(requestBundle, entryIndices);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("Sorted bundle request indices to be processed: "
+                            + entryIndices.toString());
+                }
+            }
+            
+            // Now visit each of the request entries using the list of indices obtained above.
             // Use hashmap to store both the index and the accordingly updated response bundle entry.
             Map<Integer, Bundle.Entry> responseIndexAndEntries = new HashMap<Integer, Bundle.Entry>();
-            for (int entryIndex=0; entryIndex<requestBundle.getEntry().size(); ++entryIndex) {
+            for (Integer entryIndex : entryIndices) {
                 Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
                 Bundle.Entry.Request request = requestEntry.getRequest();
                 Bundle.Entry responseEntry = responseBundle.getEntry().get(entryIndex);
@@ -2024,6 +2063,100 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
+     * Returns a list of Integers that provide the indices of the bundle entries associated with the specified http
+     * method.
+     *
+     * @param requestBundle
+     *            the request bundle
+     * @param httpMethod
+     *            the http method to look for
+     * @return
+     */
+    private List<Integer> getBundleRequestIndicesForMethod(Bundle requestBundle,
+        Bundle responseBundle, HTTPVerb httpMethod) {
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 0; i < requestBundle.getEntry().size(); i++) {
+            Bundle.Entry requestEntry = requestBundle.getEntry().get(i);
+            Bundle.Entry.Request request = requestEntry.getRequest();
+
+            Bundle.Entry responseEntry = responseBundle.getEntry().get(i);
+            Bundle.Entry.Response response = responseEntry.getResponse();
+
+            // If the response status is SC_OK which means the request passed the validation,
+            // and this request entry's http method is the one we're looking for,
+            // then record the index in our list.
+            // (please notice that status can not be null since R4, So we set the response status as SC_OK
+            // after the resource validation. )
+            if (response.getStatus().equals(SC_OK_STRING)
+                    && request.getMethod().equals(httpMethod)) {
+                indices.add(Integer.valueOf(i));
+            }
+        }
+        return indices;
+    }
+
+    /**
+     * This function sorts the request entries in the specified bundle, based on the path part of the entry's 'url'
+     * field.
+     *
+     * @param bundle
+     *            the bundle containing the request entries to be sorted.
+     * @return an array of Integer which provides the "sorted" ordering of request entry index values.
+     */
+    private void sortBundleRequestEntries(Bundle bundle, List<Integer> indices) {
+        // Sort the list of indices based on the contents of their entries in the bundle.
+        Collections.sort(indices, new BundleEntryComparator(bundle.getEntry()));
+    }
+
+    private static class BundleEntryComparator implements Comparator<Integer> {
+        private List<Bundle.Entry> entries;
+
+        public BundleEntryComparator(List<Bundle.Entry> entries) {
+            this.entries = entries;
+        }
+
+        @Override
+        public int compare(Integer indexA, Integer indexB) {
+            Bundle.Entry a = entries.get(indexA);
+            Bundle.Entry b = entries.get(indexB);
+            String pathA = getUrlPath(a);
+            String pathB = getUrlPath(b);
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Comparing request entry URL paths: " + pathA + ", " + pathB);
+            }
+            if (pathA != null && pathB != null) {
+                return pathA.compareTo(pathB);
+            } else if (pathA != null) {
+                return 1;
+            } else if (pathB != null) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+    
+    /**
+     * Returns the specified BundleEntry's path component of the 'url' field.
+     *
+     * @param entry
+     *            the bundle entry
+     * @return the bundle entry's 'url' field's path component
+     */
+    private static String getUrlPath(Bundle.Entry entry) {
+        String path = null;
+        Bundle.Entry.Request request = entry.getRequest();
+        if (request != null) {
+            if (request.getUrl() != null && request.getUrl().getValue() != null) {
+                FHIRUrlParser requestURL = new FHIRUrlParser(request.getUrl().getValue());
+                path = requestURL.getPath();
+            }
+        }
+
+        return path;
+    }
+
+    /**
      * This function converts the specified query string (a String) into an equivalent MultivaluedMap<String,String>
      * containing the query parameters defined in the query string.
      *
@@ -2112,7 +2245,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 externalIdentifier = ModelSupport.getTypeName(resource.getClass()) + "/" + resource.getId();
             }
             localRefMap.put(localIdentifier, externalIdentifier);
-            log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
+            }
         }
     }
 
@@ -2130,7 +2265,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String fullUrl = requestEntry.getFullUrl().getValue();
             if (fullUrl != null && fullUrl.startsWith(LOCAL_REF_PREFIX)) {
                 localIdentifier = fullUrl;
-                log.finer("Request entry contains local identifier: " + localIdentifier);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("Request entry contains local identifier: " + localIdentifier);
+                }
             }
         }
         return localIdentifier;
