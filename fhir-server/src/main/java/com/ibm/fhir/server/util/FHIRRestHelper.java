@@ -155,7 +155,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Check to see if we're supposed to perform a conditional 'create'.
             if (ifNoneExist != null && !ifNoneExist.isEmpty()) {
-                log.fine("Performing conditional create with search criteria: " + ifNoneExist);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Performing conditional create with search criteria: " + ifNoneExist);
+                }
                 Bundle responseBundle = null;
 
                 // Perform the search using the "If-None-Exist" header value.
@@ -174,7 +176,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Check the search results to determine whether or not to perform the create operation.
                 int resultCount = responseBundle.getEntry().size();
-                log.fine("Conditional create search yielded " + resultCount + " results.");
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Conditional create search yielded " + resultCount + " results.");
+                }
 
                 if (resultCount == 0) {
                     // Do nothing and fall through to process the 'create' request.
@@ -187,7 +191,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     ior.setResource(matchedResource);
                     ior.setOperationOutcome(FHIRUtil.buildOperationOutcome("Found a single match; check the Location header",
                             IssueType.INFORMATIONAL, IssueSeverity.INFORMATION));
-                    log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
+                    }
                     return ior;
                 } else {
                     String msg =
@@ -1364,7 +1370,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private void performVersionAwareUpdateCheck(Resource currentResource, String ifMatchValue)
             throws FHIROperationException {
         if (ifMatchValue != null) {
-            log.fine("Performing a version aware update. ETag value =  " + ifMatchValue);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Performing a version aware update. ETag value =  " + ifMatchValue);
+            }
 
             String ifMatchVersion = getVersionIdFromETagValue(ifMatchValue);
 
@@ -1375,7 +1383,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + ifMatchValue, IssueType.PROCESSING);
             }
 
-            log.fine("Version id from ETag value specified in request: " + ifMatchVersion);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Version id from ETag value specified in request: " + ifMatchVersion);
+            }
 
             // Retrieve the version #'s from the current and updated resources.
             String currentVersion = null;
@@ -1475,7 +1485,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Generate a request correlation id for this request bundle.
         bundleRequestCorrelationId = UUID.randomUUID().toString();
-        log.fine("Processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Processing request bundle, request-correlation-id=" + bundleRequestCorrelationId);
+        }
 
         try {
             // If we're working on a 'transaction' type interaction, then start a new transaction now
@@ -1483,8 +1495,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 bundleTransactionCorrelationId = bundleRequestCorrelationId;
                 txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
-                log.fine("Started new transaction for transaction bundle, txn-correlation-id="
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Started new transaction for transaction bundle, txn-correlation-id="
                         + bundleTransactionCorrelationId);
+                }
             }
 
             // Build a mapping of local identifiers to external identifiers for local reference resolution.
@@ -1502,16 +1516,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Commit transaction if started
             if (txn != null) {
-                log.fine("Committing transaction for transaction bundle, txn-correlation-id="
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Committing transaction for transaction bundle, txn-correlation-id="
                         + bundleTransactionCorrelationId);
+                }
                 txn.commit();
                 txn = null;
             }
             return responseBundle;
 
         } finally {
-            log.fine("Finished processing request bundle, request-correlation-id="
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Finished processing request bundle, request-correlation-id="
                     + bundleRequestCorrelationId);
+            }
 
             // Clear both correlation id fields since we're done processing the bundle.
             bundleRequestCorrelationId = null;
@@ -2104,7 +2122,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String pathA = getUrlPath(a);
             String pathB = getUrlPath(b);
 
-            log.fine("Comparing request entry URL paths: " + pathA + ", " + pathB);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Comparing request entry URL paths: " + pathA + ", " + pathB);
+            }
             if (pathA != null && pathB != null) {
                 return pathA.compareTo(pathB);
             } else if (pathA != null) {
@@ -2225,7 +2245,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 externalIdentifier = ModelSupport.getTypeName(resource.getClass()) + "/" + resource.getId();
             }
             localRefMap.put(localIdentifier, externalIdentifier);
-            log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
+            }
         }
     }
 
@@ -2243,7 +2265,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String fullUrl = requestEntry.getFullUrl().getValue();
             if (fullUrl != null && fullUrl.startsWith(LOCAL_REF_PREFIX)) {
                 localIdentifier = fullUrl;
-                log.finer("Request entry contains local identifier: " + localIdentifier);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("Request entry contains local identifier: " + localIdentifier);
+                }
             }
         }
         return localIdentifier;
