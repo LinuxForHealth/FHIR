@@ -1,9 +1,41 @@
 {
 	"__comment": "FHIR Server configuration",
 	"fhirServer": {
-        "_comment": "Just hiding this property because 'include-all' should be the default",
-		"_searchParameterFilter": {
-			"*": "*"
+		"resources": {
+			"includeOmittedResourceTypes": true,
+			"ExplanationOfBenefit": {
+				"interactions": ["read",
+				"vread",
+				"history",
+				"search"],
+				"searchIncludes": ["ExplanationOfBenefit:patient",
+				"ExplanationOfBenefit:provider",
+				"ExplanationOfBenefit:care-team",
+				"ExplanationOfBenefit:coverage",
+				"ExplanationOfBenefit:insurer"],
+				"searchRevIncludes": [],
+				"searchParameters": {
+					"_id": {
+						"url": "http://hl7.org/fhir/SearchParameter/Resource-id"
+					},
+					"patient": {
+						"url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-patient",
+						"required": true
+					},
+					"_lastUpdated": {
+						"url": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated"
+					},
+					"type": {
+						"url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-type"
+					},
+					"identifier": {
+						"url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier"
+					},
+					"service-date": {
+						"url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date"
+					}
+				}
+			}
 		}
 	}
 }

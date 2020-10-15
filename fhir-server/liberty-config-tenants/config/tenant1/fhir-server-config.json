@@ -1,13 +1,34 @@
 {
 	"__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
 	"fhirServer": {
-		"searchParameterFilter": {
-			"Observation": ["subject",
-			"patient",
-			"value-quantity",
-			"component-value-quantity"],
-			"Resource": ["_id"],
-			"*": ["*"]
+		"resources": {
+			"includeOmittedResourceTypes": true,
+			"Observation": {
+				"searchParameters": {
+					"_id": {
+						"url": "http://hl7.org/fhir/SearchParameter/Resource-id"
+					},
+					"subject": {
+						"url": "http://hl7.org/fhir/SearchParameter/Observation-subject"
+					},
+					"patient": {
+                        "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-patient"
+					},
+					"value-quantity": {
+						"url": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity"
+					},
+					"component-value-quantity": {
+						"url": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
+					}
+				}
+			},
+			"Resource": {
+				"searchParameters": {
+					"_id": {
+						"url": "http://hl7.org/fhir/SearchParameter/Resource-id"
+					}
+				}
+			}
 		},
 		"persistence": {
 			"datasources": {
