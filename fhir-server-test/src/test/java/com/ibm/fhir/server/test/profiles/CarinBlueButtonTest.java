@@ -68,16 +68,16 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public List<String> getRequiredProfiles() {
         //@formatter:off
         return Arrays.asList(
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-PractitionerRole|0.1.3",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-RelatedPerson|0.1.3");
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-PractitionerRole|0.1.6",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-RelatedPerson|0.1.6");
         //@formatter:on
     }
 
