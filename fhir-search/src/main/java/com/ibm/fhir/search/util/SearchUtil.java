@@ -301,7 +301,7 @@ public class SearchUtil {
      */
     private static Map<String, List<String>> getFilterRules() throws Exception {
         Map<String, List<String>> result = new HashMap<>();
-        boolean includeOmittedRsrcTypes = true;
+        boolean supportOmittedRsrcTypes = true;
         
         // Retrieve the "resources" config property group.
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
@@ -311,9 +311,9 @@ public class SearchUtil {
                 for (PropertyEntry rsrcsEntry : rsrcsEntries) {
                     
                     // Check special property for including omitted resource types
-                    if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INCLUDE_OMITTED.equals(rsrcsEntry.getName())) {
+                    if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
                         if (rsrcsEntry.getValue() instanceof Boolean) {
-                            includeOmittedRsrcTypes = (Boolean) rsrcsEntry.getValue();
+                            supportOmittedRsrcTypes = (Boolean) rsrcsEntry.getValue();
                         }
                         else {
                             throw SearchExceptionUtil.buildNewIllegalStateException();
@@ -353,7 +353,7 @@ public class SearchUtil {
             }
         }
 
-        if (includeOmittedRsrcTypes) {
+        if (supportOmittedRsrcTypes) {
             // All other resource types include all search parameters
             result.put(SearchConstants.WILDCARD, Collections.singletonList(SearchConstants.WILDCARD));
         }

@@ -2,7 +2,7 @@
 	"__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
 	"fhirServer": {
 		"resources": {
-			"includeOmittedResourceTypes": true,
+			"open": true,
 			"Observation": {
 				"searchParameters": {
 					"_id": {

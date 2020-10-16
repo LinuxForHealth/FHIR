@@ -2,7 +2,7 @@
 	"__comment": "FHIR Server configuration",
 	"fhirServer": {
 		"resources": {
-			"includeOmittedResourceTypes": true,
+			"open": true,
 			"ExplanationOfBenefit": {
 				"interactions": ["read",
 				"vread",
