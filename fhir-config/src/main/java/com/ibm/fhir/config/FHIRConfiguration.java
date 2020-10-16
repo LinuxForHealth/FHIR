@@ -36,8 +36,13 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
     public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConceptValidation";
 
-    public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
-
+    // Resources properties
+    public static final String PROPERTY_RESOURCES = "fhirServer/resources";
+    public static final String PROPERTY_FIELD_RESOURCES_OPEN = "open";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS = "searchParameters";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL = "url";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_REQUIRED = "required";
+    
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
     public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";

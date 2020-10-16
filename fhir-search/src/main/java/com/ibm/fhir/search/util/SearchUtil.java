@@ -38,6 +38,8 @@ import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchComparator;
+import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -47,6 +49,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
@@ -255,9 +258,9 @@ public class SearchUtil {
             String resourceType, Collection<SearchParameter> unfilteredSearchParameters) {
         List<SearchParameter> results = new ArrayList<>();
 
-        // First, retrieve the filter rule (list of SP names to be included) for the specified resource type.
+        // First, retrieve the filter rule (list of SP urls to be included) for the specified resource type.
         // We know that the SearchParameters in the unfiltered list are all associated with this resource type,
-        // so we can use this same "name list" for each Search Parameter in the unfiltered list.
+        // so we can use this same "url list" for each Search Parameter in the unfiltered list.
         List<String> includedSPs = filterRules.get(resourceType);
 
         if (includedSPs == null) {
@@ -268,7 +271,7 @@ public class SearchUtil {
         // If we found a non-empty list of search parameter names to filter on,
         // then do the filtering. Otherwise, we're just going to return an empty list.
         if (includedSPs != null && !includedSPs.isEmpty()) {
-            // If "*" is contained in the included SP names, then we can just return the unfiltered list
+            // If "*" is contained in the included SP urls, then we can just return the unfiltered list
             // now, since everything in the list will be included anyway.
             if (includedSPs.contains(SearchConstants.WILDCARD_FILTER)) {
                 return unfilteredSearchParameters;
@@ -279,11 +282,10 @@ public class SearchUtil {
             else {
                 for (SearchParameter sp : unfilteredSearchParameters) {
 
-                    String name = sp.getCode().getValue();
-                    if (includedSPs.contains(name)) {
+                    String url = sp.getUrl().getValue();
+                    if (includedSPs.contains(url)) {
                         results.add(sp);
                     }
-
                 }
             }
         }
@@ -293,51 +295,72 @@ public class SearchUtil {
 
     /**
      * Retrieves the search parameter filtering rules for the current tenant.
-     *
-     * @throws Exception
+     * @return map of resource types to allowed search parameters URLs,
+     * and may include '*' for resource type or search parameter URL.
+     * @throws Exception an exception
      */
-    @SuppressWarnings("unchecked")
     private static Map<String, List<String>> getFilterRules() throws Exception {
         Map<String, List<String>> result = new HashMap<>();
-
-        // Retrieve the "searchParameterFilter" config property group.
-        PropertyGroup spFilter = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_SEARCH_PARAMETER_FILTER);
-        List<PropertyEntry> ruleEntries = null;
-        if (spFilter != null) {
-            ruleEntries = spFilter.getProperties();
-        }
-
-        // If we have a non-empty set of filter rules, then walk through them and populate our map.
-        if (ruleEntries != null && !ruleEntries.isEmpty()) {
-            for (PropertyEntry ruleEntry : ruleEntries) {
-                String resourceType = ruleEntry.getName();
-
-                // Make sure the value is a List<String>.
-                if (ruleEntry.getValue() instanceof List<?>) {
-                    for (Object listMember : (List<?>) ruleEntry.getValue()) {
-                        if (!(listMember instanceof String)) {
+        boolean supportOmittedRsrcTypes = true;
+        
+        // Retrieve the "resources" config property group.
+        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        if (rsrcsGroup != null) {
+            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();            
+            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+                    
+                    // Check special property for including omitted resource types
+                    if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
+                        if (rsrcsEntry.getValue() instanceof Boolean) {
+                            supportOmittedRsrcTypes = (Boolean) rsrcsEntry.getValue();
+                        }
+                        else {
                             throw SearchExceptionUtil.buildNewIllegalStateException();
                         }
                     }
-
-                    // Add the rule entry to our map, keyed by resource type.
-                    List<String> stringList = (List<String>) ruleEntry.getValue();
-                    result.put(resourceType, stringList);
-                } else {
-                    throw SearchExceptionUtil.buildNewIllegalStateException();
+                    else {
+                        String resourceType = rsrcsEntry.getName();
+                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                        if (resourceTypeGroup != null) {
+                            List<String> searchParameterUrls = new ArrayList<>();
+    
+                            // Get search parameters
+                            PropertyGroup spGroup = resourceTypeGroup.getPropertyGroup(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS);
+                            if (spGroup != null) {
+                                List<PropertyEntry> spEntries = spGroup.getProperties();            
+                                if (spEntries != null && !spEntries.isEmpty()) {
+                                    for (PropertyEntry spEntry : spEntries) {
+                                        
+                                        PropertyGroup spValueGroup = (PropertyGroup) spEntry.getValue();
+                                        if (spValueGroup != null) {
+                                            String url = spValueGroup.getStringProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL);
+                                            if (url == null) {
+                                                throw SearchExceptionUtil.buildNewIllegalStateException();
+                                            }
+                                            searchParameterUrls.add(url);
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+                                searchParameterUrls.add(SearchConstants.WILDCARD);
+                            }
+                            result.put(resourceType, searchParameterUrls);
+                        }
+                    }
                 }
             }
-        } else {
-            // The current tenant doesn't have any filter rules defined, so
-            // we'll just fabricate one that includes all search parameters:
-            // <pre>{ "*": ["*"] }</pre>
-            List<String> list = new ArrayList<>();
-            list.add(SearchConstants.WILDCARD);
-            result.put(SearchConstants.WILDCARD, list);
         }
+
+        if (supportOmittedRsrcTypes) {
+            // All other resource types include all search parameters
+            result.put(SearchConstants.WILDCARD, Collections.singletonList(SearchConstants.WILDCARD));
+        }
+        
         return result;
     }
-
+    
     /**
      * Returns the SearchParameter map (keyed by resource type) for the specified
      * tenant-id, or null if there are no SearchParameters for the tenant.
@@ -771,14 +794,21 @@ public class SearchUtil {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                         }
                     }
-
-                    for (String queryParameterValueString : queryParameters.get(name)) {
+                    
+                    // Build list of processed query parameters
+                    List<QueryParameter> curParameterList = new ArrayList<>();
+                    for (String paramValueString : params) {
                         QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
                         List<QueryParameterValue> queryParameterValues =
-                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), queryParameterValueString);
+                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), paramValueString);
                         parameter.getValues().addAll(queryParameterValues);
+                        curParameterList.add(parameter);
                         parameters.add(parameter);
                     }
+                    
+                    // Check search restrictions based on the SearchParameter
+                    checkSearchParameterRestrictions(parameterCode, searchParameter, curParameterList);
+                    
                 } // end else
             } catch (FHIRSearchException se) {
                 // There's a number of places that throw within this try block. In all cases we want the same behavior:
@@ -800,7 +830,89 @@ public class SearchUtil {
         context.setSearchParameters(parameters);
         return context;
     }
+    
+    /**
+     * Checks the query parameters (with the same parameter code) against any search restrictions specified
+     * in the SearchParameter resource for that parameter code.
+     * 
+     * @param parameterCode
+     *            the parameter code
+     * @param searchParameter
+     *            the SearchParameter resource
+     * @param queryParameters
+     *            the query parameters to check
+     * @throws FHIRSearchException
+     *             if a search restriction is found that is not followed
+     */
+    private static void checkSearchParameterRestrictions(String parameterCode, SearchParameter searchParameter, List<QueryParameter> queryParameters)
+        throws FHIRSearchException {
 
+        boolean allowMultipleAnd =
+                searchParameter.getMultipleAnd() == null || !searchParameter.getMultipleAnd().hasValue() || searchParameter.getMultipleAnd().getValue();
+        boolean allowMultipleOr =
+                searchParameter.getMultipleOr() == null || !searchParameter.getMultipleOr().hasValue() || searchParameter.getMultipleOr().getValue();
+        List<SearchComparator> comparators = searchParameter.getComparator();
+        List<SearchModifierCode> modifiers = searchParameter.getModifier();
+
+        // Check multipleAnd
+        if (!allowMultipleAnd && queryParameters.size() > 1) {
+            String msg =
+                    "Search parameter '" + parameterCode + "' does not allow multiple parameters";
+            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+        }
+
+        for (QueryParameter queryParameter : queryParameters) {
+
+            // Check multipleOr
+            if (!allowMultipleOr && queryParameter.getValues().size() > 1) {
+                String msg =
+                        "Search parameter '" + parameterCode + "' does not allow multiple values";
+                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+            }
+
+            // Check modifier
+            Modifier modifier = queryParameter.getModifier();
+            if (modifier != null && modifiers != null && !modifiers.isEmpty()) {
+                // Special handling of "type" modifier
+                if (modifier == Modifier.TYPE) {
+                    if (!modifiers.contains(SearchModifierCode.TYPE)) {
+                        String msg =
+                                "Search parameter '" + parameterCode + "' does not allow modifier '" + queryParameter.getModifierResourceTypeName() + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                } else {
+                    if (!modifiers.contains(SearchModifierCode.of(modifier.value()))) {
+                        String msg =
+                                "Search parameter '" + parameterCode + "' does not allow modifier '" + modifier.value() + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                }
+            }
+
+            // Check comparator
+            for (QueryParameterValue queryParameterValue : queryParameter.getValues()) {
+                Prefix prefix = queryParameterValue.getPrefix();
+                if (prefix != null && comparators != null && !comparators.isEmpty()) {
+                    // Check if prefix is found in list of valid comparators as an enum,
+                    // since the SearchComparators in the SearchParameter may contain extensions
+                    boolean foundMatch = false; 
+                    SearchComparator prefixAsComparator = SearchComparator.of(prefix.value());
+                    for (SearchComparator comparator : comparators) {
+                        if (comparator.getValueAsEnumConstant() == prefixAsComparator.getValueAsEnumConstant()) {
+                            foundMatch = true;
+                            break;
+                        }
+                    }
+                    if (!foundMatch) {
+                        String msg =
+                                "Search parameter '" + parameterCode + "' does not allow comparator '" + prefix.value() + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                }
+            }
+        }
+    }
+   
     /**
      * Common logic from handling a single queryParameterValueString based on its type
      */
