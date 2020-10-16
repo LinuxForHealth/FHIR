@@ -1032,7 +1032,7 @@ In Example 2, if the `Patient` request entry was a conditional create request, t
 }
 ```
 
-While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation. 
+While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation.
 
 Using Example 3, the FHIR server detects the use of local identifiers in the `Encounter` request entry (`urn:Encounter_1`) and in the `Procedure` request entry (`urn:Procedure_1`), and establishes a mapping between the local identifiers and the external references to be associated with the new `Encounter` and `Procedure` resources (for example, `Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b` and `Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf`).
 
@@ -1547,7 +1547,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/introspectUrl`|string|The URL of the server’s introspection endpoint that can be used to validate a token.|
 |`fhirServer/security/oauth/revokeUrl`|string|The URL to the server’s endpoint that can be used to revoke a token.|
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
-|`fhirServer/security/oauth/smart/scopes`|array|A list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
+|`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
+|`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
@@ -1626,6 +1627,7 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/security/oauth/revokeUrl`|""|
 |`fhirServer/security/oauth/smart/enabled`|boolean|false|
 |`fhirServer/security/oauth/smart/scopes`|array|null|
+|`fhirServer/security/oauth/smart/capabilities`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
@@ -1693,6 +1695,7 @@ must restart the server for that change to take effect.
 |`fhirServer/security/oauth/revokeUrl`|N|N|
 |`fhirServer/security/oauth/smart/enabled`|N|N|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|
+|`fhirServer/security/oauth/smart/capabilities`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
