@@ -19,13 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import com.ibm.fhir.audit.logging.api.AuditLogEventType;
 import com.ibm.fhir.audit.logging.api.AuditLogService;
 import com.ibm.fhir.audit.logging.api.AuditLogServiceFactory;
 import com.ibm.fhir.audit.logging.beans.ApiParameters;
 import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
+import com.ibm.fhir.audit.logging.beans.AuditLogEventType;
 import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.ConfigData;
 import com.ibm.fhir.audit.logging.beans.Context;
 import com.ibm.fhir.audit.logging.beans.Data;
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -371,26 +370,6 @@ public class RestAuditLogger {
 
         auditLogSvc.logEntry(entry);
         log.exiting(CLASSNAME, METHODNAME);
-    }
-
-    /**
-     * Logs an Audit Log Entry for FHIR server configuration data.
-     * @param configData - The configuration data to be saved in the audit log.
-     * @throws Exception
-     */
-    public static void logConfig(String configData) throws Exception {
-        final String METHODNAME = "logConfig";
-        log.entering(CLASSNAME, METHODNAME);
-
-        AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_CONFIGDATA);
-        entry.setConfigData(ConfigData.builder().serverStartupParameters(configData).build());
-        entry.setDescription("FHIR ConfigData request");
-
-        auditLogSvc.logEntry(entry);
-
-        log.exiting(METHODNAME, METHODNAME);
-
     }
 
     /**

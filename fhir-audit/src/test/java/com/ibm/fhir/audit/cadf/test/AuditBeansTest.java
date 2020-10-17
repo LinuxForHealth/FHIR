@@ -18,10 +18,9 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.audit.logging.beans.ApiParameters;
 import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
 import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.ConfigData;
 import com.ibm.fhir.audit.logging.beans.Context;
 import com.ibm.fhir.audit.logging.beans.Data;
-import com.ibm.fhir.audit.logging.beans.impl.context.FHIRContext;
+import com.ibm.fhir.audit.logging.beans.FHIRContext;
 import com.ibm.fhir.exception.FHIRException;
 
 public class AuditBeansTest {
@@ -51,32 +50,6 @@ public class AuditBeansTest {
     }
 
     @Test
-    public void testConfigData() throws FHIRException, IOException {
-        ConfigData data = ConfigData.builder().build();
-        String jsonString = ConfigData.Writer.generate(data);
-        ByteArrayInputStream bais = new ByteArrayInputStream(jsonString.getBytes());
-        data = ConfigData.Parser.parse(bais);
-        assertNotNull(data);
-        assertNull(data.getServerStartupParms());
-
-        data.setServerStartupParms("test");
-        jsonString = ConfigData.Writer.generate(data);
-        bais       = new ByteArrayInputStream(jsonString.getBytes());
-        data       = ConfigData.Parser.parse(bais);
-        assertNotNull(data);
-        assertNotNull(data.getServerStartupParms());
-
-        data       = ConfigData.builder().serverStartupParameters("test12345").build();
-        jsonString = ConfigData.Writer.generate(data);
-        bais       = new ByteArrayInputStream(jsonString.getBytes());
-        data       = ConfigData.Parser.parse(bais);
-        assertNotNull(data);
-        assertNotNull(data.getServerStartupParms());
-
-        assertEquals(data.getServerStartupParms(), "test12345");
-    }
-
-    @Test
     public void testApiParametersFull() throws IOException, FHIRException {
         ApiParameters parameters = ApiParameters.builder().request("request").status(200).build();
         assertNotNull(parameters);
@@ -84,7 +57,7 @@ public class AuditBeansTest {
         assertNotNull(parameters.getStatus());
 
         assertEquals(parameters.getRequest(), "request");
-        assertEquals(parameters.getStatus().intValue(), 200);
+        assertEquals(parameters.getStatus(), Integer.getInteger("200"));
 
         String jsonString = ApiParameters.Writer.generate(parameters);
         ByteArrayInputStream bais = new ByteArrayInputStream(jsonString.getBytes());
@@ -95,7 +68,7 @@ public class AuditBeansTest {
         assertNotNull(parameters.getStatus());
 
         assertEquals(parameters.getRequest(), "request");
-        assertEquals(parameters.getStatus().intValue(), 200);
+        assertEquals(parameters.getStatus(), Integer.getInteger("200"));
     }
 
     @Test
@@ -258,10 +231,6 @@ public class AuditBeansTest {
         assertNotNull(logEntry.getTenantId());
         assertEquals(logEntry.getTenantId(), "tenantId");
 
-        ConfigData cData = ConfigData.builder().serverStartupParameters("test9").build();
-        logEntry.setConfigData(cData);
-        assertEquals(logEntry.getConfigData().getServerStartupParms(), "test9");
-
         logEntry.setClientCertCn("clientCertCn");
         assertEquals(logEntry.getClientCertCn(), "clientCertCn");
 
@@ -304,15 +273,10 @@ public class AuditBeansTest {
     }
 
     @Test(expectedExceptions = { FHIRException.class })
-    public void testConfigDataForcedException() throws FHIRException {
-        ConfigData.Parser.parse(AuditTestUtil.generateExceptionStream());
-    }
-
-    @Test(expectedExceptions = { FHIRException.class })
     public void testApiParametersForcedException() throws FHIRException {
         ApiParameters.Parser.parse(AuditTestUtil.generateExceptionStream());
     }
-    
+
     @Test(expectedExceptions = { FHIRException.class })
     public void testFHIRContextForcedException() throws FHIRException {
         FHIRContext.FHIRParser.parse(AuditTestUtil.generateExceptionStream());
@@ -322,10 +286,10 @@ public class AuditBeansTest {
     public void testFHIRContext() throws IOException, FHIRException {
         FHIRContext emptyContext = FHIRContext.fhirBuilder().build();
         assertNotNull(emptyContext);
-        
+
         FHIRContext ctx = new FHIRContext(emptyContext);
         assertNotNull(ctx);
-        
+
         ApiParameters apiParameters = ApiParameters.builder().request("request").status(200).build();
         FHIRContext.FHIRBuilder builder = FHIRContext.fhirBuilder();
         builder.apiParameters(apiParameters);

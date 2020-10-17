@@ -14,15 +14,15 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.kafka.Environment;
-import com.ibm.fhir.audit.kafka.EventStreamsCredentials;
+import com.ibm.fhir.audit.logging.api.impl.kafka.EventStreamsCredentials;
+import com.ibm.fhir.audit.logging.api.impl.kafka.environment.IBMEventStreams;
 import com.ibm.fhir.exception.FHIRException;
 
 public class EnvironmentTest {
 
     @Test
     public void testEnvironment() throws FHIRException, IOException {
-        Environment e = new Environment(); 
+        IBMEventStreams e = new IBMEventStreams(); 
         assertNotNull(e); 
         
         String[] kafkaBrokerSasls = new String[1];
@@ -44,10 +44,10 @@ public class EnvironmentTest {
         assertEquals(esc.getKafkaBrokersSasl().length, 1);
         assertEquals(esc.getKafkaBrokersSasl()[0], "test");
 
-        esc = Environment.getEventStreamsCredentials();
+        esc = IBMEventStreams.getEventStreamsCredentials();
         assertNull(esc);
         
-        esc = Environment.parseEventStreamsCredentials("{}{\n" + 
+        esc = IBMEventStreams.parseEventStreamsCredentials("{}{\n" + 
                 "    \"api_key\": \"apiKey\",\n" + 
                 "    \"password\": \"password\",\n" + 
                 "    \"user\": \"user\",\n" + 
@@ -57,7 +57,7 @@ public class EnvironmentTest {
                 "}");
         assertNotNull(esc);
         
-        esc = Environment.parseEventStreamsCredentials("{\n" + 
+        esc = IBMEventStreams.parseEventStreamsCredentials("{\n" + 
                 "    \"api_key\": \"apiKey\",\n" + 
                 "    \"password\": \"password\",\n" + 
                 "    \"user\": \"user\",\n" + 
@@ -68,7 +68,7 @@ public class EnvironmentTest {
         assertNotNull(esc);
         
         // Invalid
-        esc = Environment.parseEventStreamsCredentials("" + 
+        esc = IBMEventStreams.parseEventStreamsCredentials("" + 
                 "    \"api_key\": \"apiKey\",\n" + 
                 "        \"test\"\n" + 
                 "    ]\n" + 
