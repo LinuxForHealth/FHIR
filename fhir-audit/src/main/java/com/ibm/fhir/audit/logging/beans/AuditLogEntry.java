@@ -51,9 +51,6 @@ public class AuditLogEntry {
     @SerializedName("context")
     private Context context;
 
-    @SerializedName("config_data")
-    private ConfigData configData;
-
     public AuditLogEntry(String componentId, String eventType, String timestamp, String componentIp, String tenantId) {
         super();
         this.setComponentId(componentId);
@@ -133,14 +130,6 @@ public class AuditLogEntry {
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-    public ConfigData getConfigData() {
-        return configData;
-    }
-
-    public void setConfigData(ConfigData configData) {
-        this.configData = configData;
     }
 
     public String getClientCertCn() {

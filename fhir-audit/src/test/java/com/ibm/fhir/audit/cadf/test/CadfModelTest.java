@@ -20,22 +20,22 @@ import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.CadfAttachment;
-import com.ibm.fhir.audit.cadf.model.CadfCredential;
-import com.ibm.fhir.audit.cadf.model.CadfEndpoint;
-import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.cadf.model.CadfGeolocation;
-import com.ibm.fhir.audit.cadf.model.CadfMapItem;
-import com.ibm.fhir.audit.cadf.model.CadfMeasurement;
-import com.ibm.fhir.audit.cadf.model.CadfMetric;
-import com.ibm.fhir.audit.cadf.model.CadfReason;
-import com.ibm.fhir.audit.cadf.model.CadfReporterStep;
-import com.ibm.fhir.audit.cadf.model.CadfResource;
-import com.ibm.fhir.audit.cadf.model.enums.Action;
-import com.ibm.fhir.audit.cadf.model.enums.EventType;
-import com.ibm.fhir.audit.cadf.model.enums.Outcome;
-import com.ibm.fhir.audit.cadf.model.enums.ReporterRole;
-import com.ibm.fhir.audit.cadf.model.enums.ResourceType;
+import com.ibm.fhir.audit.model.cadf.CadfAttachment;
+import com.ibm.fhir.audit.model.cadf.CadfCredential;
+import com.ibm.fhir.audit.model.cadf.CadfEndpoint;
+import com.ibm.fhir.audit.model.cadf.CadfEvent;
+import com.ibm.fhir.audit.model.cadf.CadfGeolocation;
+import com.ibm.fhir.audit.model.cadf.CadfMapItem;
+import com.ibm.fhir.audit.model.cadf.CadfMeasurement;
+import com.ibm.fhir.audit.model.cadf.CadfMetric;
+import com.ibm.fhir.audit.model.cadf.CadfReason;
+import com.ibm.fhir.audit.model.cadf.CadfReporterStep;
+import com.ibm.fhir.audit.model.cadf.CadfResource;
+import com.ibm.fhir.audit.model.cadf.enums.Action;
+import com.ibm.fhir.audit.model.cadf.enums.Outcome;
+import com.ibm.fhir.audit.model.cadf.enums.ReporterRole;
+import com.ibm.fhir.audit.model.cadf.enums.ResourceType;
+import com.ibm.fhir.audit.model.common.EventType;
 import com.ibm.fhir.exception.FHIRException;
 
 public class CadfModelTest {

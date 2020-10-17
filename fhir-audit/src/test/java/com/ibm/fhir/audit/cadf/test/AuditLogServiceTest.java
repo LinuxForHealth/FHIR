@@ -12,7 +12,7 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.audit.logging.api.AuditLogServiceFactory;
-import com.ibm.fhir.audit.logging.impl.DisabledAuditLogService;
+import com.ibm.fhir.audit.logging.api.impl.NoOpService;
 
 public class AuditLogServiceTest {
     @Test
@@ -23,7 +23,7 @@ public class AuditLogServiceTest {
     
     @Test
     public void testDisabledAuditLogService() throws Exception {
-        DisabledAuditLogService svc = new DisabledAuditLogService();
+        NoOpService svc = new NoOpService();
         svc.initialize(null);
         svc.isEnabled();
         svc.logEntry(null);

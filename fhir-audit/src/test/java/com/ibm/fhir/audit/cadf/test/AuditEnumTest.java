@@ -11,10 +11,10 @@ import static org.testng.Assert.assertNotEquals;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.enums.Action;
-import com.ibm.fhir.audit.cadf.model.enums.ReporterRole;
-import com.ibm.fhir.audit.cadf.model.enums.ResourceType;
-import com.ibm.fhir.audit.logging.api.AuditLogEventType;
+import com.ibm.fhir.audit.logging.beans.AuditLogEventType;
+import com.ibm.fhir.audit.model.cadf.enums.Action;
+import com.ibm.fhir.audit.model.cadf.enums.ReporterRole;
+import com.ibm.fhir.audit.model.cadf.enums.ResourceType;
 
 public class AuditEnumTest {
 

@@ -15,15 +15,15 @@ import java.util.Date;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.kafka.Environment;
-import com.ibm.fhir.audit.kafka.EventStreamsCredentials;
+import com.ibm.fhir.audit.logging.api.impl.WhcAuditCadfLogService;
+import com.ibm.fhir.audit.logging.api.impl.kafka.EventStreamsCredentials;
+import com.ibm.fhir.audit.logging.api.impl.kafka.environment.IBMEventStreams;
 import com.ibm.fhir.audit.logging.beans.ApiParameters;
 import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
 import com.ibm.fhir.audit.logging.beans.Batch;
 import com.ibm.fhir.audit.logging.beans.Context;
 import com.ibm.fhir.audit.logging.beans.Data;
-import com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService;
+import com.ibm.fhir.audit.model.cadf.CadfEvent;
 import com.ibm.fhir.config.ConfigurationService;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
@@ -174,7 +174,7 @@ public class AuditCadfTest {
             esBinding = EventStreamsCredentials.Parser.parse(eventStreamBinding);
             assertNotNull(esBinding);
 
-            String bootstrapServers = Environment.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
+            String bootstrapServers = IBMEventStreams.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
             String apiKey = esBinding.getApiKey();
 
             assertNotNull(bootstrapServers);
