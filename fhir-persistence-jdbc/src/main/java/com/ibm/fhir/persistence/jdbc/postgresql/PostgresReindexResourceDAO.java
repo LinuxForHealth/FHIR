@@ -71,7 +71,9 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
 
         // For Postgres, we can leverage SKIP LOCKED which is specifically designed for this
         // sort of thing, where we want to pull work from a "queue" without being blocked
-        // by existing locks.
+        // by existing locks. The ORDER BY is included to persuade[force] Postgres to always
+        // use the index instead of switching to a full tablescan when the distribution stats
+        // confuse the optimizer.
         final String UPDATE = ""
             + "   UPDATE logical_resources "
             + "      SET reindex_tstamp = ?,"
@@ -80,6 +82,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "       SELECT lr.logical_resource_id "
             + "         FROM logical_resources lr "
             + "        WHERE lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
             ;

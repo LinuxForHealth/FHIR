@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,7 +42,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -60,7 +60,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -85,7 +85,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -102,7 +102,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -125,7 +125,7 @@ public class FhirSchemaServiceTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 

@@ -358,6 +358,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
                 // delete composites first, or else the foreign keys there restrict deletes on referenced tables
                 deleteFromParameterTable(conn, tablePrefix + "_composites", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);

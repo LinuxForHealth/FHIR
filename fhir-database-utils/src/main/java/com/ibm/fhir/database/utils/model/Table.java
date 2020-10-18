@@ -281,14 +281,24 @@ public class Table extends BaseObject {
             columns.add(cd);
             return this;
         }
-
+        
         public Builder addBigIntColumn(String columnName, boolean nullable) {
+            addBigIntColumn(columnName, nullable, null);
+            return this;
+        }
+
+        public Builder addBigIntColumn(String columnName, boolean nullable, String defaultValue) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
 
             cd.setNullable(nullable);
+            
+            if (defaultValue != null) {
+                cd.setDefaultVal(defaultValue);
+            }
+            
             cd.setColumnType(ColumnType.BIGINT);
             columns.add(cd);
             return this;
@@ -307,12 +317,21 @@ public class Table extends BaseObject {
         }
 
         public Builder addTimestampColumn(String columnName, boolean nullable) {
+            addTimestampColumn(columnName, nullable, null);
+            return this;
+        }
+
+        public Builder addTimestampColumn(String columnName, boolean nullable, String defaultValue) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
 
             cd.setNullable(nullable);
+            
+            if (defaultValue != null) {
+                cd.setDefaultVal(defaultValue);
+            }
             cd.setColumnType(ColumnType.TIMESTAMP);
             columns.add(cd);
             return this;
@@ -465,6 +484,12 @@ public class Table extends BaseObject {
                 
                 indexes.put(indexName, new IndexDef(indexName, columnDefs, false));
             }
+            return this;
+        }
+        
+        public Builder addIndex(String indexName, OrderedColumnDef... columns) {
+            List<OrderedColumnDef> columnList = Arrays.asList(columns);
+            indexes.put(indexName, new IndexDef(indexName, columnList, false));
             return this;
         }
 

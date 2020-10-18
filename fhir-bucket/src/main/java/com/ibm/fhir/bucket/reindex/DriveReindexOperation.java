@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,9 +34,15 @@ public class DriveReindexOperation {
     
     // the maximum number of requests we permit
     private final int maxConcurrentRequests;
-    
-    private volatile boolean running = true;
 
+    // flag to indicate if we should be running
+    private volatile boolean running = true;
+    
+    private volatile boolean active = false;
+
+    // count of how many threads are currently running
+    private AtomicInteger currentlyRunning = new AtomicInteger();
+    
     // thread pool for processing requests
     private final ExecutorService pool = Executors.newCachedThreadPool();
 
@@ -45,6 +52,8 @@ public class DriveReindexOperation {
     
     // The serialized Parameters resource sent with each POST
     private final String requestBody;
+    
+    private Thread monitorThread;
     
     /**
      * Public constructor
@@ -88,14 +97,54 @@ public class DriveReindexOperation {
         if (!running) {
             throw new IllegalStateException("Already shutdown");
         }
+        
+        // Initiate the monitorThread. This will fill the pool
+        // with worker threads, and monitor for completion or failure
+        logger.info("Starting monitor thread");
+        this.monitorThread = new Thread(() -> monitorLoop());
+        this.monitorThread.start();
+    }
 
-        // Add the call threads
-        for (int i=0; i<this.maxConcurrentRequests && this.running; i++) {
-            pool.execute(() -> callReindexOperation());
-            
-            // Slow down the ramp-up so we don't hit a new server with
-            // hundreds of requests in one go
-            safeSleep(1500);
+    /**
+     * The main monitor loop. 
+     */
+    public void monitorLoop() {
+        while (this.running) {
+            if (!this.active) {
+                // See if we can make one successful request before filling the pool
+                // with hundreds of parallel requests
+                int currentThreadCount = this.currentlyRunning.get();
+                if (currentThreadCount == 0) {
+                    // Nothing currently running, so make one test call to verify things are working
+                    logger.info("monitor probe - checking reindex operation");
+                    if (callOnce() && this.running) {
+                        // should be OK now to fill the pool with workers
+                        logger.info("Test probe successful - filling worker pool");
+                        this.active = true;
+                        
+                        for (int i=0; i<this.maxConcurrentRequests && this.running && this.active; i++) {
+                            this.currentlyRunning.addAndGet(1);
+                            pool.execute(() -> callReindexOperation());
+                            
+                            // Slow down the ramp-up so we don't hit a new server with
+                            // hundreds of requests in one go
+                            safeSleep(1000);
+                        }
+                    } else if (this.running) {
+                        // call failed, so wait a bit before we try again
+                        safeSleep(5000);
+                    }
+                } else {
+                    // need to wait for all the existing threads to die off before we try to restart. This
+                    // could take a while because we have a long tx timeout in Liberty.
+                    logger.info("Waiting for current threads to complete before restart: " + currentThreadCount);
+                    safeSleep(5000);
+                }
+                
+            } else { // active
+                // worker threads are active, so sleep for a bit before we check again
+                safeSleep(5000);
+            }
         }
     }
 
@@ -134,6 +183,14 @@ public class DriveReindexOperation {
         } catch (InterruptedException x) {
             logger.warning("Wait for pool shutdown interrupted");
         }
+        
+        try {
+            // break any sleep inside the monitorThread
+            this.monitorThread.interrupt();
+            this.monitorThread.join();
+        } catch (InterruptedException x) {
+            logger.warning("Interrupted waiting for monitorThread completion");
+        }
     }
 
     /**
@@ -141,37 +198,53 @@ public class DriveReindexOperation {
      * indicates all the work is complete.
      */
     private void callReindexOperation() {
-        while (this.running) {
-            // tell the FHIR Server to reindex a number of resources
-            long start = System.nanoTime();
-            FhirServerResponse response = fhirClient.post(url, requestBody);
-            long end = System.nanoTime();
-            
-            double elapsed = (end - start) / 1e9;
-            logger.info(String.format("called $reindex: %d %s [took %5.3f s]", response.getStatusCode(), response.getStatusMessage(), elapsed));
-            
-            if (response.getStatusCode() == HttpStatus.SC_OK) {
-                Resource result = response.getResource();
-                if (result != null) {
-                    if (result.is(OperationOutcome.class)) {
-                        // check the result to see if we should stop running
-                        checkResult((OperationOutcome)result);
-                    } else {
-                        logger.severe("FHIR Server reindex response is not an OperationOutcome: " + response.getStatusCode() + " " + response.getStatusMessage());
-                        logger.severe("Actual response: " + FhirClientUtil.resourceToString(result));
-                        this.running = false;
-                    }
-                } else {
-                    // this would be a bit weird
-                    logger.severe("FHIR Server reindex operation returned no OperationOutcome: " + response.getStatusCode() + " " + response.getStatusMessage());
-                    this.running = false;
-                }
-            } else {
-                // Stop as soon as we hit an error
-                logger.severe("FHIR Server reindex operation returned an error: " + response.getStatusCode() + " " + response.getStatusMessage());
-                this.running = false;
+        while (this.running && this.active) {
+            boolean ok = callOnce();
+            if (!ok) {
+                // stop everything on the first failure
+                this.active = false;
             }
         }
+        
+        this.currentlyRunning.decrementAndGet();
+    }
+    
+    /**
+     * Make one call to the FHIR server $reindex operation
+     * @return true if the call was successful (200 OK)
+     */
+    private boolean callOnce() {
+        boolean result = false;
+        
+        // tell the FHIR Server to reindex a number of resources
+        long start = System.nanoTime();
+        FhirServerResponse response = fhirClient.post(url, requestBody);
+        long end = System.nanoTime();
+        
+        double elapsed = (end - start) / 1e9;
+        logger.info(String.format("called $reindex: %d %s [took %5.3f s]", response.getStatusCode(), response.getStatusMessage(), elapsed));
+        
+        if (response.getStatusCode() == HttpStatus.SC_OK) {
+            Resource resource = response.getResource();
+            if (resource != null) {
+                if (resource.is(OperationOutcome.class)) {
+                    // check the result to see if we should stop running
+                    checkResult((OperationOutcome)resource);
+                    result = true;
+                } else {
+                    logger.severe("FHIR Server reindex response is not an OperationOutcome: " + response.getStatusCode() + " " + response.getStatusMessage());
+                    logger.severe("Actual response: " + FhirClientUtil.resourceToString(resource));
+                }
+            } else {
+                // this would be a bit weird
+                logger.severe("FHIR Server reindex operation returned no OperationOutcome: " + response.getStatusCode() + " " + response.getStatusMessage());
+            }
+        } else {
+            // Stop as soon as we hit an error
+            logger.severe("FHIR Server reindex operation returned an error: " + response.getStatusCode() + " " + response.getStatusMessage());
+        }
+        
+        return result;
     }
 
     /**

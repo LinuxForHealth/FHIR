@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
  * Index creation definition for creating new indexes after the table has been defined
@@ -48,6 +49,15 @@ public class CreateIndex extends BaseObject {
     public static Builder builder() {
         return new Builder();
     }
+    
+    /**
+     * Build a CreateIndexStatement from this CreateIndex object
+     * @return
+     */
+    public CreateIndexStatement createStatement() {
+        return indexDef.createStatement(getSchemaName(), this.tableName, this.tenantColumnName);
+    }
+    
 
     /**
      * Get the name of the table this index is built on

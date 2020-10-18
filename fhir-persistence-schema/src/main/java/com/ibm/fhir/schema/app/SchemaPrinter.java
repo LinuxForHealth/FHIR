@@ -88,7 +88,8 @@ public class SchemaPrinter {
     private static final String DELIMITER = ";";
     private static final String STORED_PROCEDURE_DELIMITER = "@";
 
-    private boolean toFile = false;
+    private final boolean toFile;
+    private final boolean multitenant;
     private File schemaFile = new File("schema.sql");
     private File spFile = new File("stored-procedures.sql");
     private File grantFile = new File("grants.sql");
@@ -104,9 +105,10 @@ public class SchemaPrinter {
     /**
      *  constructor that switches behavior toFile our output stream. 
      */
-    public SchemaPrinter(boolean toFile) throws FileNotFoundException {
+    public SchemaPrinter(boolean toFile, boolean multitenant) throws FileNotFoundException {
 
         this.toFile = toFile;
+        this.multitenant = multitenant;
 
         if (this.toFile) {
             out = new PrintStream(new FileOutputStream(schemaFile));
@@ -163,7 +165,7 @@ public class SchemaPrinter {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, multitenant);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -192,7 +194,7 @@ public class SchemaPrinter {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, multitenant);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -257,6 +259,7 @@ public class SchemaPrinter {
 
     public static void main(String[] args) {
         boolean outputToFile = false;
+        boolean multitenant = false;
         String outputFile = "";
 
         // If there are files
@@ -266,13 +269,16 @@ public class SchemaPrinter {
             case "--to-file":
                 outputToFile = true;
                 break;
+            case "--multitenant":
+                multitenant = true;
+                break;
             default:
-                throw new IllegalArgumentException("Please use the --output");
+                throw new IllegalArgumentException("Invalid argument: " + arg);
             }
         }
 
         try {
-            SchemaPrinter printer = new SchemaPrinter(outputToFile);
+            SchemaPrinter printer = new SchemaPrinter(outputToFile, multitenant);
             printer.process();
             printer.print();
             printer.processApplyGrants();

@@ -364,10 +364,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 // delete composites first, or else the foreign keys there restrict deletes on referenced tables
                 deleteFromParameterTable(conn, tablePrefix + "_composites", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id); // still used for composites
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // replaces _token_values
+                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // non-composite token values
                 deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
             }
         }

@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.common.AddColumn;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
@@ -49,6 +51,9 @@ public class FhirSchemaGenerator {
 
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
+
+    /// Build the multitenant variant of the schema
+    private final boolean multitenant;
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
@@ -125,8 +130,8 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName) {
-        this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.ValueSet.values())
+    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
+        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
                 .map(FHIRResourceType.ValueSet::value)
                 .collect(Collectors.toSet()));
     }
@@ -137,9 +142,10 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, Set<String> resourceTypes) {
+    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
+        this.multitenant = multitenant;
 
         // The FHIR user (e.g. "FHIRSERVER") will need these privileges to be granted to it. Note that
         // we use the group identified by FHIR_USER_GRANT_GROUP here - these privileges can be applied
@@ -413,18 +419,44 @@ public class FhirSchemaGenerator {
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
+        
+        final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
+                .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP") // new column for V0006
+                .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
+                .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == FhirSchemaVersion.V0001.vid()) {
+                        // Add statements to migrate from version V0001 to V0006 of this object
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                                .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP")
+                                .addBigIntColumn(REINDEX_TXID, false, "0")
+                                .buildColumns();
+
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(1)));
+                        
+                        // Add the new index on REINDEX_TSTAMP. This index is special because it's the
+                        // first index in our schema to use DESC.
+                        final String mtId = this.multitenant ? MT_ID : null;
+                        List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null));
+                        statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, mtId, indexCols));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -434,35 +466,35 @@ public class FhirSchemaGenerator {
         pdm.addObject(tbl);
         
         // For V0006 we also add a couple of new columns and an index to support
-        // reindexing of resources
-        List<ColumnBase> cols = new ColumnDefBuilder()
-                .addTimestampColumn(REINDEX_TSTAMP, false, "'1970-01-01 00:00:00'")
-                .addBigIntColumn(REINDEX_TXID, false, "0")
-                .buildColumns();
-        AlterTableAddColumn addCols = new AlterTableAddColumn(schemaName, tableName, FhirSchemaVersion.V0006.vid(), cols);
-        addCols.addDependency(tbl); // table must be created before we try to alter it
-        pdm.addObject(addCols);
+        // reindexing of resources. Note CURRENT_TIMESTAMP works for Derby, Postgres and Db2.
+//        List<ColumnBase> cols = new ColumnDefBuilder()
+//                .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP")
+//                .addBigIntColumn(REINDEX_TXID, false, "0")
+//                .buildColumns();
+//        AlterTableAddColumn addCols = new AlterTableAddColumn(schemaName, tableName, FhirSchemaVersion.V0006.vid(), cols);
+//        addCols.addDependency(tbl); // table must be created before we try to alter it
+//        pdm.addObject(addCols);
 
         // Make sure we have an index on the REINDEX_TSTAMP column so that we can quickly
         // identify which resources need to be reindexed. For the reindex resource selection
         // query, it's essential that we collate the reindex_tstamp with NULLS FIRST
-        CreateIndex tsidx = CreateIndex.builder()
-                .setSchemaName(schemaName)
-                .setTableName(tableName)
-                .setTenantColumnName(MT_ID)
-                .setIndexName("IDX_" + LOGICAL_RESOURCES + "_RITS")
-                .setVersion(FhirSchemaVersion.V0006.vid())
-                .addColumn(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null)
-                .build();
-        tsidx.addDependency(addCols);
-        pdm.addObject(tsidx);
+//        CreateIndex tsidx = CreateIndex.builder()
+//                .setSchemaName(schemaName)
+//                .setTableName(tableName)
+//                .setTenantColumnName(MT_ID)
+//                .setIndexName("IDX_" + LOGICAL_RESOURCES + "_RITS")
+//                .setVersion(FhirSchemaVersion.V0006.vid())
+//                .addColumn(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null)
+//                .build();
+//        tsidx.addDependency(addCols);
+//        pdm.addObject(tsidx);
 
 
         // Create a new sequence to use as a transaction id for our reindexing process
-        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQ, FhirSchemaVersion.V0001.vid(), 1, 100, 1);
-        seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        sequencePrivileges.forEach(p -> p.addToObject(seq));
-        pdm.addObject(seq);
+//        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQ, FhirSchemaVersion.V0001.vid(), 1, 100, 1);
+//        seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+//        sequencePrivileges.forEach(p -> p.addToObject(seq));
+//        pdm.addObject(seq);
     }
 
     /**

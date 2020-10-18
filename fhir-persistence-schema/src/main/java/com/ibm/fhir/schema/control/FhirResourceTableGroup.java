@@ -47,6 +47,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
@@ -78,6 +79,7 @@ import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -413,6 +415,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .setTenantColumnName(MT_ID)
+                .addBigIntColumn(               ROW_ID,    false)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
@@ -422,6 +425,8 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addPrimaryKey(PK + tableName, ROW_ID)
+                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
@@ -816,6 +821,25 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                         FK + tableName + _TOKEN,
                         FK + tableName + _QUANTITY,
                         FK + tableName + _LATLNG));
+            } else if (priorVersion == FhirSchemaVersion.V0005.vid()) {
+                // Make the change for V0006 (issue 1366 token values refactor). Clear out unused indexes
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_PTTR"));
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_PTQR"));
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTT"));
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTQ"));
+                
+                // Add one new index to support access with {logical_resource_id, parameter_name_id}
+                CreateIndex compIdx = CreateIndex.builder()
+                        .setSchemaName(schemaName)
+                        .setTableName(tableName)
+                        .setTenantColumnName(MT_ID)
+                        .setIndexName("IDX_" + tableName + "_LRPN")
+                        .setVersion(FhirSchemaVersion.V0006.vid())
+                        .addColumn(LOGICAL_RESOURCE_ID)
+                        .addColumn(PARAMETER_NAME_ID)
+                        .build();
+
+                statements.add(compIdx.createStatement());
             }
             return statements;
         });

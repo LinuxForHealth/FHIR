@@ -191,4 +191,10 @@ public interface IDatabaseTranslator {
      * @return
      */
     String dropForeignKeyConstraint(String qualifiedTableName, String constraintName);
+    
+    /**
+     * Does this database use the schema prefix when defining indexes
+     * @return
+     */
+    default boolean isIndexUseSchemaPrefix() { return true; }
 }

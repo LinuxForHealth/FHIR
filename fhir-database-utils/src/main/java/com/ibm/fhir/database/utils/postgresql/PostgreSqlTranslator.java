@@ -66,6 +66,13 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public boolean isLockTimeout(SQLException x) {
         return false;
     }
+    
+    @Override
+    public boolean isIndexUseSchemaPrefix() { 
+        // For Postgres, the index always shares the same schema as the table to which
+        // it belongs
+        return false;
+    }
 
     @Override
     public boolean isDeadlock(SQLException x) {

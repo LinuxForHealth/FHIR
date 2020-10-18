@@ -227,7 +227,7 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
             gen.buildSchema(pdm);
             switch (dbType) {
             case DB2:
@@ -517,6 +517,15 @@ public class Main {
             }
         }
     }
+    
+    /**
+     * Do we want to build the multitenant variant of the schema (currently only supported
+     * by DB2)
+     * @return
+     */
+    protected boolean isMultitenant() {
+        return MULTITENANT_FEATURE_ENABLED.contains(this.dbType);
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     // The following methods are related to Multi-Tenant only.
@@ -526,7 +535,7 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+        if (!isMultitenant()) {
             return;
         }
 
@@ -672,7 +681,7 @@ public class Main {
         }
 
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -916,7 +925,7 @@ public class Main {
         TenantInfo tenantInfo = freezeTenant();
 
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -937,7 +946,7 @@ public class Main {
 
         TenantInfo tenantInfo = getTenantInfo();        
          
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 

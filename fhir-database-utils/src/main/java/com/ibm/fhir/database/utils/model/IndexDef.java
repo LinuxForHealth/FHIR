@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
  * Definition of an index on a table
@@ -87,5 +88,16 @@ public class IndexDef {
      */
     public void drop(String schemaName, IDatabaseAdapter target) {
         target.dropIndex(schemaName, indexName);
+    }
+
+    /**
+     * Create a statement which can be used to create vendor-specific DDL
+     * @param schemaName
+     * @param tableName
+     * @param tenantColumnName
+     * @return
+     */
+    public CreateIndexStatement createStatement(String schemaName, String tableName, String tenantColumnName) {
+        return new CreateIndexStatement(schemaName, indexName, tableName, tenantColumnName, indexColumns);
     }
 }

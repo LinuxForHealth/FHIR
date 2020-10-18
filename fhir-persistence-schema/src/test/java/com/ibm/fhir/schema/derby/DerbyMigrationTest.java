@@ -144,14 +144,14 @@ public class DerbyMigrationTest {
         // 4. Assert they match
         List<String> migrated_ddl = inferDDL(dbPath);
         System.out.println(FhirSchemaVersion.V0001.name() + " migrated: " + migrated_ddl);
-        System.out.println(FhirSchemaVersion.V0004.name() + "   latest: " + latest_ddl);
+        System.out.println(FhirSchemaVersion.V0006.name() + "   latest: " + latest_ddl);
         assertEquals(latest_ddl, migrated_ddl);
     }
 
     private void createOrUpgradeSchema(DerbyMaster db, IConnectionProvider pool, VersionHistoryService vhs, Set<String> resourceTypes) throws SQLException {
 
 
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, resourceTypes);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false, resourceTypes);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 

@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
@@ -20,6 +22,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * JdbcTarget for the database
  */
 public class JdbcTarget implements IDatabaseTarget {
+    private static final Logger logger = Logger.getLogger(JdbcTarget.class.getName());
     
     private final Connection connection;
     
@@ -33,6 +36,10 @@ public class JdbcTarget implements IDatabaseTarget {
 
     @Override
     public void runStatement(IDatabaseTranslator translator, String ddl) {
+        if (logger.isLoggable(Level.FINEST)) {
+            logger.finest(ddl);
+        }
+        
         // Execute the DDL (no parameters)
         try (Statement s = connection.createStatement()) {
             s.executeUpdate(ddl);
@@ -44,6 +51,10 @@ public class JdbcTarget implements IDatabaseTarget {
 
     @Override
     public void runStatementWithInt(IDatabaseTranslator translator, String sql, int value) {
+        if (logger.isLoggable(Level.FINEST)) {
+            logger.finest(sql + "; value = " + value);
+        }
+        
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, value);
             ps.executeUpdate(sql);

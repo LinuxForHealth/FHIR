@@ -87,11 +87,11 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         // Database objects for the admin schema (shared across multiple tenants in the same DB)
         PhysicalDataModel pdm = new PhysicalDataModel();
         if (resourceTypeNames == null) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
             gen.buildSchema(pdm);
         } else {
             // just build out a subset of tables
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, resourceTypeNames);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false, resourceTypeNames);
             gen.buildSchema(pdm);
         }
 
@@ -203,6 +203,10 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     @Override
     public Connection getConnection() throws SQLException {
         Connection result = derby.getConnection();
+        
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Setting current schema: " + SCHEMA_NAME);
+        }
         result.setSchema(SCHEMA_NAME);
         return result;
     }

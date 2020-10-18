@@ -25,6 +25,14 @@ public class ColumnDefBuilder {
         }
     }
 
+    /**
+     * Factory function to create a new instance of this builder
+     * @return
+     */
+    public static ColumnDefBuilder builder() {
+        return new ColumnDefBuilder();
+    }
+
     public ColumnDefBuilder addIntColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
         checkColumnAlreadyExists(cd, columnName);
