@@ -15,7 +15,8 @@
                     "ExplanationOfBenefit:provider",
                     "ExplanationOfBenefit:care-team",
                     "ExplanationOfBenefit:coverage",
-                    "ExplanationOfBenefit:insurer"
+                    "ExplanationOfBenefit:insurer",
+                    "ExplanationOfBenefit:*"
                 ],
                 "searchRevIncludes": [],
                 "searchParameters": {
@@ -26,6 +27,14 @@
                     "identifier": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier",
                     "service-date": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date"
                 }
+            },
+            "Patient": {
+                "searchIncludes": ["Patient:general-practitioner"],
+                "searchRevIncludes": ["MedicationRequest:intended-performer"]
+            },
+            "Resource": {
+                "searchIncludes": ["MedicationRequest:patient"],
+                "searchRevIncludes": ["Provenance:target"]
             }
         }
     }

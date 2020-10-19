@@ -17,7 +17,12 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.model.resource.ExplanationOfBenefit;
+import com.ibm.fhir.model.resource.MedicationRequest;
+import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Person;
+import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -27,6 +32,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class SearchParameterRestrictionTest extends BaseSearchTest {
 
+    private static final String DEFAULT_TENANT_ID = "default";
     private static final String TENANT_ID = "tenant7";
     
     @Override
@@ -124,5 +130,124 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
         SearchUtil.parseQueryParameters(Patient.class, queryParameters);
     }
+        
+    @Test
+    public void testIncludeAllowedByDefault() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(DEFAULT_TENANT_ID));
 
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("Person:organization"));
+        
+        SearchUtil.parseQueryParameters(Person.class, queryParameters);
+    }
+    
+    @Test
+    public void testIncludeAllowed() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
+        
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+    
+    @Test
+    public void testIncludeWildcardAllowed() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:*"));
+        
+        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+    }
+    
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testIncludeWildcardNotAllowed() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("Patient:*"));
+        
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+        
+    @Test
+    public void testIncludeAllowedByBaseResource() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("MedicationRequest:patient"));
+        
+        SearchUtil.parseQueryParameters(MedicationRequest.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testIncludeDisallowed() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("Patient:organization"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testIncludeDisallowedByBaseResource() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("Person:organization"));
+
+        SearchUtil.parseQueryParameters(Person.class, queryParameters);
+    }
+
+    @Test
+    public void testRevIncludeAllowedByDefault() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(DEFAULT_TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("Person:organization"));
+        
+        SearchUtil.parseQueryParameters(Organization.class, queryParameters);
+    }
+    
+    @Test
+    public void testRevIncludeAllowed() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
+        
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+        
+    @Test
+    public void testRevIncludeAllowedByBaseResource() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("Provenance:target"));
+        
+        SearchUtil.parseQueryParameters(Person.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testRevIncludeDisallowed() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:requester"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testRevIncludeDisallowedByBaseResource() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
+
+        SearchUtil.parseQueryParameters(RelatedPerson.class, queryParameters);
+    }
 }

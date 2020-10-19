@@ -1494,8 +1494,8 @@ public class SearchUtil {
             if (parmNames[i].indexOf(SearchConstants.COLON_DELIMITER) != -1) {
                 qualifiedInclusionCriteria = parmNames[i].split(SearchConstants.COLON_DELIMITER_STR);
                 chainedInclusionCriteria   =
-                        new QueryParameter(Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
-                                inclusionCriteriaParm.getValues());
+                        new QueryParameter(Type.REFERENCE, qualifiedInclusionCriteria[0], null,
+                                resourceType, inclusionCriteriaParm.getValues());
             } else {
                 chainedInclusionCriteria =
                         new QueryParameter(Type.REFERENCE, parmNames[i], null, resourceType);
@@ -1558,7 +1558,10 @@ public class SearchUtil {
 
         SearchParameter searchParm;
         InclusionParameter newInclusionParm;
-        List<InclusionParameter> newInclusionParms;
+        List<InclusionParameter> newInclusionParms = null;
+
+        List<String> allowedIncludes = getSearchIncludeRestrictions(resourceType.getSimpleName());
+        List<String> allowedRevIncludes = getSearchRevIncludeRestrictions(resourceType.getSimpleName());
 
         for (String inclusionValue : inclusionValues) {
 
@@ -1571,16 +1574,33 @@ public class SearchUtil {
             searchParameterName = inclusionValueParts[1];
             searchParameterTargetType = inclusionValueParts.length == 3 ? inclusionValueParts[2] : null;
 
-            // For _include parameter, join resource type must match resource type being searched
-            if (SearchConstants.INCLUDE.equals(inclusionKeyword) && !joinResourceType.equals(resourceType.getSimpleName())) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        "The join resource type must match the resource type being searched.");
+            if (SearchConstants.INCLUDE.equals(inclusionKeyword)) {
+
+                // For _include parameter, join resource type must match resource type being searched
+                if (!joinResourceType.equals(resourceType.getSimpleName())) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                            "The join resource type must match the resource type being searched.");
+                }
+
+                // Check allowed _include values
+                if (allowedIncludes != null && !allowedIncludes.contains(inclusionValue)) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException("'" + inclusionValue
+                            + "' is not a valid _include parameter value for resource type '" + resourceType.getSimpleName() + "'");
+                }
             }
 
-            // For _revinclude parameter, target resource type, if specified, must match resource type being searched
-            if (SearchConstants.REVINCLUDE.equals(inclusionKeyword) && searchParameterTargetType != null
-                    && !searchParameterTargetType.equals(resourceType.getSimpleName())) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException("The search parameter target type must match the resource type being searched.");
+            if (SearchConstants.REVINCLUDE.equals(inclusionKeyword)) {
+
+                // For _revinclude parameter, target resource type, if specified, must match resource type being searched
+                if (searchParameterTargetType != null && !searchParameterTargetType.equals(resourceType.getSimpleName())) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException("The search parameter target type must match the resource type being searched.");
+                }
+
+                // Check allowed _revinclude values
+                if (allowedRevIncludes != null && !allowedRevIncludes.contains(inclusionValue)) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException("'" + inclusionValue
+                            + "' is not a valid _revinclude parameter value for resource type '" + resourceType.getSimpleName() + "'");
+                }
             }
 
             // Ensure that the Inclusion Parameter being parsed is a valid search parameter of type 'reference'.
@@ -1612,6 +1632,7 @@ public class SearchUtil {
                     newInclusionParms =
                             buildIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
                     context.getIncludeParameters().addAll(newInclusionParms);
+
                 } else {
                     newInclusionParm =
                             buildRevIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
@@ -1619,6 +1640,96 @@ public class SearchUtil {
                 }
             }
         }
+    }
+
+    /**
+     * Retrieves the search include restrictions.
+     *
+     * @param resourceType
+     *            the resource type
+     * @return list of allowed search _include values, or null if no restrictions
+     * @throws Exception
+     *             an exception
+     */
+    private static List<String> getSearchIncludeRestrictions(String resourceType) throws Exception {
+
+        // Retrieve the "resources" config property group.
+        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        if (rsrcsGroup != null) {
+            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
+            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
+
+                // Try find search includes property for matching resource type
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+                    if (resourceType.equals(rsrcsEntry.getName())) {
+                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                        if (resourceTypeGroup != null) {
+                            return resourceTypeGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
+                        }
+                    }
+                }
+
+                // Otherwise, try find search includes property for "Resource" resource type
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+
+                    // Check if matching resource type
+                    if (SearchConstants.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
+                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                        if (resourceTypeGroup != null) {
+                            return resourceTypeGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieves the search revinclude restrictions.
+     *
+     * @param resourceType
+     *            the resource type
+     * @return list of allowed search _revinclude values, or null if no restrictions
+     * @throws Exception
+     *             an exception
+     */
+    private static List<String> getSearchRevIncludeRestrictions(String resourceType) throws Exception {
+
+        // Retrieve the "resources" config property group.
+        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        if (rsrcsGroup != null) {
+            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
+            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
+
+                // Try find search revincludes property for matching resource type
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+                    if (resourceType.equals(rsrcsEntry.getName())) {
+                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                        if (resourceTypeGroup != null) {
+                            return resourceTypeGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES);
+                        }
+                    }
+                }
+
+                // Otherwise, try find search revincludes property for "Resource" resource type
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+
+                    // Check if matching resource type
+                    if (SearchConstants.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
+                        PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                        if (resourceTypeGroup != null) {
+                            return resourceTypeGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return null;
     }
 
     /**
