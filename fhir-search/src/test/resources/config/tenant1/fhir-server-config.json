@@ -1,41 +1,41 @@
 {
-	"__comment": "FHIR Server configuration",
-	"fhirServer": {
-		"resources": {
-			"open": true,
-			"Device": {
-				"searchParameters": {
-					"patient": {
-						"url": "http://hl7.org/fhir/SearchParameter/Device-patient"
-					},
-					"organization": {
-						"url": "http://hl7.org/fhir/SearchParameter/Device-organization"
-					}
-				}
-			},
-			"Observation": {
-				"searchParameters": {
-					"code": {
-						"url": "http://hl7.org/fhir/SearchParameter/clinical-code"
-					}
-				}
-			},
-			"Patient": {
-				"searchParameters": {
-					"active": {
-						"url": "http://hl7.org/fhir/SearchParameter/Patient-active"
-					},
-					"address": {
-						"url": "http://hl7.org/fhir/SearchParameter/individual-address"
-					},
-					"birthdate": {
-						"url": "http://hl7.org/fhir/SearchParameter/individual-birthdate"
-					},
-					"name": {
-						"url": "http://hl7.org/fhir/SearchParameter/Patient-name"
-					}
-				}
-			}
-		}
-	}
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "resources": {
+            "open": true,
+            "Device": {
+                "searchParameters": {
+                    "patient": {
+                        "url": "http://hl7.org/fhir/SearchParameter/Device-patient"
+                    },
+                    "organization": {
+                        "url": "http://hl7.org/fhir/SearchParameter/Device-organization"
+                    }
+                }
+            },
+            "Observation": {
+                "searchParameters": {
+                    "code": {
+                        "url": "http://hl7.org/fhir/SearchParameter/clinical-code"
+                    }
+                }
+            },
+            "Patient": {
+                "searchParameters": {
+                    "active": {
+                        "url": "http://hl7.org/fhir/SearchParameter/Patient-active"
+                    },
+                    "address": {
+                        "url": "http://hl7.org/fhir/SearchParameter/individual-address"
+                    },
+                    "birthdate": {
+                        "url": "http://hl7.org/fhir/SearchParameter/individual-birthdate"
+                    },
+                    "name": {
+                        "url": "http://hl7.org/fhir/SearchParameter/Patient-name"
+                    }
+                }
+            }
+        }
+    }
 }
