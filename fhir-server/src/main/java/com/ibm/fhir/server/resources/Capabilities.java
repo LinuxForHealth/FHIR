@@ -98,6 +98,7 @@ public class Capabilities extends FHIRResource {
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
+    private static final List<ResourceType.ValueSet> ALL_RESOURCE_TYPES = Arrays.asList(ResourceType.ValueSet.values());
 
     // Error Messages
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
@@ -221,11 +222,7 @@ public class Capabilities extends FHIRResource {
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
-        boolean supportOmittedRsrcTypes = true;
-        if (rsrcsGroup != null) {
-            supportOmittedRsrcTypes = rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true);
-        }
-        List<ResourceType.ValueSet> resourceTypes = getSupportedResourceTypes(supportOmittedRsrcTypes);
+        List<ResourceType.ValueSet> resourceTypes = getSupportedResourceTypes(rsrcsGroup);
 
         for (ResourceType.ValueSet resourceType : resourceTypes) {
             String resourceTypeName = resourceType.value();
@@ -410,7 +407,13 @@ public class Capabilities extends FHIRResource {
         return conformance;
     }
 
-    private List<Rest.Resource.Interaction> buildInteractions(List<String> interactionConfig) throws FHIRPersistenceException {
+    /**
+     * @param interactionConfig a list of strings that represent the RESTful interactions to support for this resource type
+     *                          (create, read, vread, update, patch, delete, history, and/or search)
+     * @return a list of Rest.Resource.Interaction objects to include in the CapabilityStatement
+     * @throws FHIRPersistenceException
+     */
+    private List<Rest.Resource.Interaction> buildInteractions(List<String> interactionConfig) throws Exception {
         if (interactionConfig == null) return null;
 
         List<Rest.Resource.Interaction> interactions = new ArrayList<>();
@@ -431,23 +434,27 @@ public class Capabilities extends FHIRResource {
         return interactions;
     }
 
-    private List<ResourceType.ValueSet> getSupportedResourceTypes(boolean supportOmittedRsrcTypes) throws Exception {
+    /**
+     * @param rsrcsGroup the "resources" propertyGroup from the server configuration
+     * @return a list of resource types to support
+     * @throws Exception
+     */
+    private List<ResourceType.ValueSet> getSupportedResourceTypes(PropertyGroup rsrcsGroup) throws Exception {
+        if (rsrcsGroup == null) {
+            return ALL_RESOURCE_TYPES;
+        }
+
         List<ResourceType.ValueSet> resourceTypes = new ArrayList<>();
-
-        if (supportOmittedRsrcTypes) {
-            resourceTypes = Arrays.asList(ResourceType.ValueSet.values());
+        if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
+            resourceTypes = ALL_RESOURCE_TYPES;
         } else {
-            // Retrieve the "resources" config property group.
-            PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-            if (rsrcsGroup != null) {
-                List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
-                if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
+            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
+                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
 
-                        // Check special property for including omitted resource types
-                        if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
-                            resourceTypes.add(ResourceType.ValueSet.from(rsrcsEntry.getName()));
-                        }
+                    // Ensure we skip over the special property "open" and process only the others
+                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
+                        resourceTypes.add(ResourceType.ValueSet.from(rsrcsEntry.getName()));
                     }
                 }
             }
