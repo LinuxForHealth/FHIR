@@ -34,7 +34,6 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
-import com.ibm.fhir.model.resource.PractitionerRole;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -58,7 +57,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     private String organizationOrg45Id = null;
     private String locationId = null;
     private String patientId = null;
-    private String practitionerRoleId = null;
     private String practitionerId = null;
     private String explanationOfBenefitId = null;
 
@@ -140,7 +138,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Organization").request().post(entity, Response.class);
 
-        System.out.println(response.readEntity(String.class));
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         organizationId = getLocationLogicalId(response);
         response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
@@ -148,7 +145,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     }
 
     public void loadOrganizationOrg1() throws Exception {
-        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Org1.json";
+        String resource = "json/profiles/fhir-ig-carin-bb/Organization-OrganizationProvider1.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -160,7 +157,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     }
 
     public void loadOrganizationOrg45() throws Exception {
-        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Org45.json";
+        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Payer1.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -263,27 +260,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    // Load PractitionerRole Resources
-    public void loadPractitionerRole() throws Exception {
-        Reference location = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Location/" + locationId)).build();
-
-        Reference practitioner = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Practitioner/" + practitionerId)).build();
-
-        Reference organization = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
-
-        PractitionerRole practitionerRole = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/PractitionerRole-PractitionerRole1.json");
-        practitionerRole = practitionerRole.toBuilder().location(location).organization(organization).practitioner(practitioner).build();
-
-        WebTarget target = getWebTarget();
-        Entity<PractitionerRole> entityPractitionerRole = Entity.entity(practitionerRole, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("PractitionerRole").request().post(entityPractitionerRole, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-
-        practitionerRoleId = getLocationLogicalId(response);
-        response = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
     // Load Resources
     @BeforeClass
     public void loadResources() throws Exception {
@@ -293,7 +269,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             loadOrganizationOrg1();
             loadOrganizationOrg45();
             loadProvider();
-            loadPractitionerRole();
             loadCoverage();
             loadPatient();
             loadCareteam();
@@ -362,13 +337,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    // Delete PractitionerRole Resources
-    public void deletePractitionerRole() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
     @AfterClass
     public void deleteResources() throws Exception {
         if (!skip) {
@@ -376,7 +344,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             deleteOrganization();
             deleteOrganizationOrg1();
             deleteOrganizationOrg45();
-            deletePractitionerRole();
             deleteCoverage();
             deletePatient();
             deleteProvider();
@@ -412,56 +379,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() >= 1);
             assertContainsIds(bundle, practitionerId);
-        }
-    }
-
-    @Test
-    public void testPractitionerRoleIdIncludeOrg() throws Exception {
-        if (!skip) {
-            // A common call -> GET [base]/PractitionerRole?_id=[id]
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("_id", practitionerRoleId);
-            parameters.searchParam("_include", "PractitionerRole:organization");
-            FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, practitionerRoleId, organizationOrg45Id);
-        }
-    }
-
-    @Test
-    public void testPractitionerRoleIdIncludePractitioner() throws Exception {
-        if (!skip) {
-            // A common call -> GET [base]/PractitionerRole?_id=[id]
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("_id", practitionerRoleId);
-            parameters.searchParam("_include", "PractitionerRole:practitioner");
-            FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, practitionerRoleId, practitionerId);
-        }
-    }
-
-    @Test
-    public void testPractitionerRoleIdIncludeOrgAndPractitioner() throws Exception {
-        if (!skip) {
-            // A common call -> GET [base]/PractitionerRole?_id=[id]
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("_id", practitionerRoleId);
-            parameters.searchParam("_include", "PractitionerRole:organization");
-            // From US Core (2nd indirect profile being tested)
-            parameters.searchParam("_include", "PractitionerRole:practitioner");
-            FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, practitionerRoleId, organizationOrg45Id, practitionerId);
         }
     }
 
@@ -643,9 +560,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             parameters.searchParam("_include", "ExplanationOfBenefit:provider");
             parameters.searchParam("_include", "ExplanationOfBenefit:care-team");
             parameters.searchParam("_include", "ExplanationOfBenefit:coverage");
-            // https://github.com/IBM/FHIR/issues/1158
-            // parameters.searchParam("_include:iterate", "PractitionerRole:practitioner");
-            // parameters.searchParam("_include:iterate", "PractitionerRole:organization");
             // parameters.searchParam("_include:iterate", "Coverage:payor");
 
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
