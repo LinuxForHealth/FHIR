@@ -75,7 +75,7 @@ public class PropertyGroup {
     /**
      * Returns the value of the specified String property or null if it wasn't found.
      * If the value is encoded, then it will be decoded.
-     * 
+     *
      * @param propertyName the name of the property to retrieved
      * @throws Exception
      */
@@ -107,8 +107,9 @@ public class PropertyGroup {
     /**
      * This is a convenience function that will retrieve an array property, then convert it
      * to a list of Strings by calling toString() on each array element.
-     * @param propertyName the name of the property to retrive
-     * @return a List<String> containing the elements from the JSON array property.
+     * 
+     * @param propertyName the name of the property to retrieve
+     * @return a List<String> containing the elements from the JSON array property; possibly null
      * @throws Exception
      */
     public List<String> getStringListProperty(String propertyName) throws Exception {
@@ -215,7 +216,7 @@ public class PropertyGroup {
      * Each element of the returned array will be an instance of Boolean, Integer, Double, String
      * or PropertyGroup, depending on the value type associated with the property within the
      * underlying JsonObject.
-     * 
+     *
      * @param propertyName the name of the property to retrieve
      * @return an array of values from the specified array property or null if the property doesn't exist
      * @throws Exception
@@ -235,7 +236,7 @@ public class PropertyGroup {
 
     /**
      * Returns the properties contained in the PropertyGroup in the form of a list of
-     * PropertyEntry instances.   If no properties exist, then an empty list will be returned.
+     * PropertyEntry instances. If no properties exist, then an empty list will be returned.
      * @throws Exception
      */
     public List<PropertyEntry> getProperties() throws Exception {
