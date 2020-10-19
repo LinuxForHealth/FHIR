@@ -75,9 +75,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy|0.1.6",
             "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician|0.1.6",
             "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|0.1.6",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|0.1.6",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-PractitionerRole|0.1.6",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-RelatedPerson|0.1.6");
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|0.1.6");
         //@formatter:on
     }
 
