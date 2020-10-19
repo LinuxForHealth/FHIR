@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
@@ -54,6 +55,9 @@ public class CosExportImpl implements ExportImportBulkData {
 
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
+
+            String incomingUrl = FHIRRequestContext.get().getOriginalRequestUri();
+            tmpProperties.put("incomingUrl", incomingUrl);
 
             if (ExportType.GROUP.equals(exportType)) {
                 if (logicalId == null || logicalId.isEmpty()) {

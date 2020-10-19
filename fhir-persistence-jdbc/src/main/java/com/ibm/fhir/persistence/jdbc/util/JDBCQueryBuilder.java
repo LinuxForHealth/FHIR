@@ -65,6 +65,7 @@ import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -552,12 +553,22 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 targetResourceType = parts[0];
                 searchValue = parts[1];
             }
-
+            
             // Handle query parm representing this name/value pair construct:
             // <code>{name}:{Resource Type} = {resource-id}</code>
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                // override the target resource type using the modifier
-                targetResourceType = queryParm.getModifierResourceTypeName();
+                if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
+                    // Not a Reference
+                    searchValue =
+                            queryParm.getModifierResourceTypeName() + "/"
+                                    + SqlParameterEncoder.encode(value.getValueString());
+                } else {
+                    // This is a Reference type.
+                    if (parts.length != 2) {
+                        // fallback to get the target resource type using the modifier
+                        targetResourceType = queryParm.getModifierResourceTypeName();
+                    }
+                }
             } else if (targetResourceType == null && !isAbsoluteURL(searchValue)) {
                 // If the definition of the search parameter targets a single resource-type, then
                 // we can use that if we don't have it already

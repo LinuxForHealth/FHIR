@@ -134,6 +134,13 @@ public interface FHIRPersistence {
     }
 
     /**
+     * Generates a resource ID.
+     * 
+     * @return resource ID
+     */
+    String generateResourceId();
+
+    /**
      * Returns true iff the persistence layer implementation supports the "reindex" special operation
      * @return
      */

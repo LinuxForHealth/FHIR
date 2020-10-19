@@ -367,6 +367,12 @@ public class JobExecutionResponse {
             jobParameter.setCosOperationBucketNameOo(cosBucketNameOperationOutcome);
             return this;
         }
+
+        @Override
+        public Builder incomingUrl(String incomingUrl) {
+            jobParameter.setIncomingUrl(incomingUrl);
+            return this;
+        }
     }
 
     public static Builder builder() {
@@ -467,6 +473,7 @@ public class JobExecutionResponse {
                     JsonObject obj = jsonObject.getJsonObject("jobParameters");
                     JobParameter.Parser.parse(builder, obj);
                 }
+
                 return builder.build();
             } catch (Exception e) {
                 throw new FHIROperationException("Problem parsing the Bulk Export Job's response from the server", e);

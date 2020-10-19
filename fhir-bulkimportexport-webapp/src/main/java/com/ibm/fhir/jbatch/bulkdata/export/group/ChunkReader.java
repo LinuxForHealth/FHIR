@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
     List<Member> patientMembers = null;
 
     /**
-     * Fhir search patient group id.
+     * FHIR search patient group id.
      */
     @Inject
     @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_PATIENTGROUPID)
@@ -57,7 +58,16 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
         super();
     }
 
-    private void expandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients, HashSet<String> groupsInPath)
+    /*
+     * recursively expands a group into a set of members
+     * @param fhirTenant
+     * @param fhirDatastoreId
+     * @param group
+     * @param patients
+     * @param groupsInPath empty, or prior Groups scanned
+     * @throws Exception
+     */
+    private void expandGroupToPatients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients, Set<String> groupsInPath)
             throws Exception{
         if (group == null) {
             return;
@@ -69,8 +79,9 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
                 patients.add(member);
             } else if (refValue.startsWith("Group")) {
                 Group group2 = findGroupByID(refValue.substring(6));
+                // Only expand if NOT previously found
                 if (!groupsInPath.contains(group2.getId())) {
-                    expandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
+                    expandGroupToPatients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
                 }
             }
         }
@@ -81,7 +92,7 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        queryParameters.put("_id", Arrays.asList(new String[] { groupId }));
+        queryParameters.put("_id", Arrays.asList(groupId));
         searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -138,8 +149,8 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
             Group group = findGroupByID(fhirSearchPatientGroupId);
             patientMembers = new ArrayList<>();
             // List for the group and sub groups in the expansion paths, this is used to avoid dead loop caused by circle reference of the groups.
-            HashSet<String> groupsInPath = new HashSet<>();
-            expandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
+            Set<String> groupsInPath = new HashSet<>();
+            expandGroupToPatients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
         }
         List<Member> patientPageMembers = patientMembers.subList((pageNum - 1) * pageSize,
                 pageNum * pageSize <= patientMembers.size() ? pageNum * pageSize : patientMembers.size());
@@ -184,8 +195,6 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
         } else {
             logger.fine("readItem: End of reading!");
         }
-
         return patientPageMembers;
     }
-
 }

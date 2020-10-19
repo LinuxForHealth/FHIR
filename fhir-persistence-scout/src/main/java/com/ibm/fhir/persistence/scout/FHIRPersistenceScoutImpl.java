@@ -463,10 +463,14 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
                 .expression(Arrays.stream(expression).map(com.ibm.fhir.model.type.String::string).collect(Collectors.toList()))
                 .build());
     }
-
+    
+    @Override
+    public String generateResourceId() {
+        return UUID.randomUUID().toString();
+    }
+    
     @Override
     public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp) throws FHIRPersistenceException {
         return 0;
     }
-
 }

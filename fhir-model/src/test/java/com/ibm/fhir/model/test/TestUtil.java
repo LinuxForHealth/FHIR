@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,6 +38,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.ResourceType;
 
 public class TestUtil {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
@@ -280,4 +281,28 @@ public class TestUtil {
         }
         return alreadyFound;
     }
+
+    /**
+     * This function reads the contents of a minimal example resource file of the specified type and format from
+     * fhir-examples, and returns a resource of the specified resource type and format.
+     *
+     * @param type
+     *            the type of the resource to be returned
+     * @param format
+     *            the format of the resource to be returned (XML or JSON)
+     * @return the de-serialized resource
+     * @throws Exception
+     */
+    public static <T extends Resource> T getMinimalResource(ResourceType type, Format format) throws Exception {
+
+        // Build filename
+        String formatString = format.toString().toLowerCase();
+        String fileName = formatString + "/ibm/minimal/" + type.getValue() + "-1." + formatString;
+
+        // Deserialize the file contents.
+        try (Reader reader = ExamplesUtil.resourceReader(fileName)) {
+            return FHIRParser.parser(format).parse(reader);
+        }
+    }
+
 }

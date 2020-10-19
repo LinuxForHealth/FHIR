@@ -36,7 +36,7 @@ public class UriBuilder {
 
     /**
      * generates a single instance of the
-     * 
+     *
      * @return
      */
     public static UriBuilder builder() {
@@ -45,7 +45,7 @@ public class UriBuilder {
 
     /**
      * adds the context inline.
-     * 
+     *
      * @param context
      * @return
      */
@@ -56,7 +56,7 @@ public class UriBuilder {
 
     /**
      * adds the request uri inline
-     * 
+     *
      * @param requestUriString
      * @return
      */
@@ -67,7 +67,7 @@ public class UriBuilder {
 
     /**
      * outputs the searchSelfUri based
-     * 
+     *
      * @return
      * @throws URISyntaxException
      */
@@ -87,7 +87,7 @@ public class UriBuilder {
             queryString.append(context.getSearchParameters().stream().map(serializeSearchParmToQueryString)
                     .collect(Collectors.joining(SearchConstants.AND_CHAR_STR)));
         }
-        
+
         appendElementsParameter();
         appendInclusionParameters();
         appendRevInclusionParameters();
@@ -101,7 +101,7 @@ public class UriBuilder {
         queryString.append(SearchConstants.EQUALS_CHAR);
         queryString.append(context.getPageNumber());
 
-        URI selfUri = new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(), 
+        URI selfUri = new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(),
                 queryString.toString(), null);
 
         return selfUri.toString();
@@ -118,7 +118,7 @@ public class UriBuilder {
                 delim = SearchConstants.JOIN_STR;
             }
         }
-        
+
     }
 
     /*
@@ -127,7 +127,7 @@ public class UriBuilder {
      */
     private void appendSortParameters() {
 
-        // 
+        //
         if (!context.getSortParameters().isEmpty()) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.SORT);
@@ -199,9 +199,9 @@ public class UriBuilder {
     /*
      * Performs the reverse of parseQueryParameters, serializing a single parameter
      * as a search parameter for a URI
-     * 
+     *
      * @param param
-     * 
+     *
      * @return
      */
     private String serializeSearchParmToQueryString(QueryParameter param) {
@@ -239,9 +239,9 @@ public class UriBuilder {
 
     /**
      * creates a normal parameter and string.
-     * 
+     *
      * @param param
-     * 
+     *
      * @param returnString
      */
     private void appendNormalParameter(QueryParameter param, StringBuilder returnString) {
@@ -258,16 +258,17 @@ public class UriBuilder {
                 }
             }
             returnString.append(SearchConstants.EQUALS_CHAR);
-            returnString.append(param.getValues().stream().map(QueryParameterValue::toString)
+            // If it's an intermediate value, specifically for references filter them out.
+            returnString.append(param.getValues().stream().filter(qpv -> !qpv.isHidden()).map(QueryParameterValue::toString)
                     .collect(Collectors.joining(SearchConstants.JOIN_STR)));
         }
     }
 
     /*
      * creates a chained parameter
-     * 
+     *
      * @param param
-     * 
+     *
      * @param returnString
      */
     private void appendChainedParm(QueryParameter param, StringBuilder returnString) {

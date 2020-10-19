@@ -447,16 +447,6 @@ public class ValidationSupportTest {
     }
 
     @Test
-    public void testCheckValueSetBindingLanguageCodeValid3() {
-        ValidationSupport.checkValueSetBinding(Code.of("i-klingon"), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
-    }
-
-    @Test
-    public void testCheckValueSetBindingLanguageCodeValid4() {
-        ValidationSupport.checkValueSetBinding(Code.of("he-IL-u-ca-hebrew-tz-jeruslm"), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
-    }
-
-    @Test
     public void testCheckValueSetBindingLanguageCodeValid5() {
         ValidationSupport.checkValueSetBinding(Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
     }
@@ -494,6 +484,22 @@ public class ValidationSupportTest {
     }
     
     @Test
+    public void testCheckValueSetBindingLanguageCodeNotValid5() {
+        try {
+            ValidationSupport.checkValueSetBinding(Code.of("i-klingon"), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
+            fail();
+        } catch (IllegalStateException e) {}
+    }
+
+    @Test
+    public void testCheckValueSetBindingLanguageCodeNotValid6() {
+        try {
+            ValidationSupport.checkValueSetBinding(Code.of("he-IL-u-ca-hebrew-tz-jeruslm"), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
+            fail();
+        } catch (IllegalStateException e) {}
+    }
+    
+    @Test
     public void testCheckValueSetBindingLanguageCodesValid() {
         ValidationSupport.checkValueSetBinding(Collections.singletonList(Code.of("ar")), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
     }
@@ -520,16 +526,6 @@ public class ValidationSupportTest {
     @Test
     public void testCheckValueSetBindingLanguageCodingValid3() {
         ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("en-AU")).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
-    }
-
-    @Test
-    public void testCheckValueSetBindingLanguageCodingValid4() {
-        ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
-    }
-
-    @Test
-    public void testCheckValueSetBindingLanguageCodingValid5() {
-        ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("he-IL-u-ca-hebrew-tz-jeruslm")).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
     }
 
     @Test
@@ -584,6 +580,22 @@ public class ValidationSupportTest {
     public void testCheckValueSetBindingLanguageCodingNotValid7() {
         try {
             ValidationSupport.checkValueSetBinding(Coding.builder().code(Code.of("ar")).extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
+            fail();
+        } catch (IllegalStateException e) {}
+    }
+    
+    @Test
+    public void testCheckValueSetBindingLanguageCodingNotValid8() {
+        try {
+            ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("i-klingon")).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
+            fail();
+        } catch (IllegalStateException e) {}
+    }
+
+    @Test
+    public void testCheckValueSetBindingLanguageCodingNotValid9() {
+        try {
+            ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("he-IL-u-ca-hebrew-tz-jeruslm")).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
             fail();
         } catch (IllegalStateException e) {}
     }

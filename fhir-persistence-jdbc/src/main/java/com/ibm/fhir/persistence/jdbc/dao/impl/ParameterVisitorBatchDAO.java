@@ -9,6 +9,8 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
@@ -113,6 +116,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     
     // The common cache for all our identity lookup needs
     private final JDBCIdentityCache identityCache;
+
+    // The server base "https://example.com:9443/" extracted the first time we need it
+    private String serverBase;
 
     /**
      * Public constructor
@@ -729,6 +735,49 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private boolean isBase(ExtractedParameterValue param) {
         return "Resource".equals(param.getBase());
     }
+    
+    /**
+     * Get the leading part of the url e.g. https://example.com
+     * @return
+     */
+    private String getServerUrl() throws FHIRPersistenceException {
+        
+        if (this.serverBase != null) {
+            return this.serverBase;
+        }
+        
+        String uri = FHIRRequestContext.get().getOriginalRequestUri();
+
+        // request URI is not set for all unit-tests, so we need to take that into account
+        if (uri == null) {
+            return null;
+        }
+        
+        try {
+            StringBuilder result = new StringBuilder();
+            URL url = new URL(uri);
+            
+            result.append(url.getProtocol());
+            result.append("://");
+            result.append(url.getHost());
+            
+            if (url.getPort() != -1) {
+                result.append(":");
+                result.append(url.getPort());
+            }
+            
+            // https://example.com:9443/
+            result.append("/");
+
+            // Cache the result so we don't have to compute it over and over
+            this.serverBase = result.toString();
+            return this.serverBase;
+        } catch (MalformedURLException x) {
+            // not very likely at this point
+            logger.severe("Malformed server URL: " + uri);
+            throw new FHIRPersistenceException("Server URL is malformed!");
+        }
+    }
 
     @Override
     public void visit(ReferenceParmVal rpv) throws FHIRPersistenceException {
@@ -745,7 +794,30 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             throw new FHIRPersistenceException("Resource type not found in cache: '" + resourceType + "'");
         }
 
-        if (valueString.startsWith(HTTP) || valueString.startsWith(HTTPS) || valueString.startsWith(URN)) {
+        final String base = getServerUrl();
+        if (base != null && valueString.startsWith(base)) {
+            // - relative reference https://example.com/Patient/123
+            // Because this reference is to a local FHIR resource (inside this server), we need use the correct
+            // resource type name (assigned as the code system)
+            //  - https://example.com/Patient/1234
+            //  - https://example.com/Patient/1234/_history/2
+            String[] tokens = valueString.split("/");
+            if (tokens.length > 4) {
+                String refResourceType = tokens[3];
+                String refLogicalId = tokens[4];
+                Integer refVersion = null;
+                if (tokens.length == 7 && HISTORY.equals(tokens[5])) {
+                    // versioned reference
+                    refVersion = Integer.parseInt(tokens[6]);
+                }
+                
+                // Store a token value configured as a reference to another resource
+                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion));
+            } else {
+                // stored as a token with the default system
+                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
+            }
+        } else if (valueString.startsWith(HTTP) || valueString.startsWith(HTTPS) || valueString.startsWith(URN)) {
             //  - absolute URL ==> http://some.system/a/fhir/resource/path
             //  - absolute URI ==> urn:uuid:53fefa32-1111-2222-3333-55ee120877b7
             // stored as a token with the default system

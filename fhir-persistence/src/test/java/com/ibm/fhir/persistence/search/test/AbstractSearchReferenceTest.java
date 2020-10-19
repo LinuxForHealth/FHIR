@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 
@@ -32,24 +34,31 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("reference");
+        
+        // Need to set reference before storing the resource. The server-url
+        // is now used to determine if an absolute reference is local (can be served
+        // from this FHIR server).
+        createReference();
+    }
+
+    @BeforeClass
+    public void createReference() throws FHIRException {
+        String originalRequestUri = "https://example.com/Patient/123";
+        FHIRRequestContext context = FHIRRequestContext.get();
+        context.setOriginalRequestUri(originalRequestUri);
     }
 
     @Test
     public void testSearchReference_Reference_relative() throws Exception {
         // Reference by id really only works when the system knows which resource type(s)
         // can be referenced from a given element.
-        // TODO does this work if you define the extension in a StructureDefinition
-        // and declare the allowed types?
-//        assertSearchReturnsSavedResource("Reference-relative", "123");
-
         assertSearchReturnsSavedResource("Reference-relative", "Patient/123");
+        assertSearchReturnsSavedResource("Reference-relative", "123");
 
-        // TODO if this matched the hostname that the test was running on, would it work?
-//        assertSearchReturnsSavedResource("Reference-relative", "https://example.com/Patient/123");
+        assertSearchReturnsSavedResource("Reference-relative", "https://example.com/Patient/123");
 
         assertSearchReturnsSavedResource("Reference-relative:Patient", "123");
         assertSearchDoesntReturnSavedResource("Reference-relative:Basic", "123");
-
     }
 
     @Test
@@ -60,13 +69,13 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
          * See https://ibm.github.io/FHIR/Conformance#search-modifiers and
          * refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
          */
-//        assertSearchReturnsComposition("subject:Basic.Reference-relative:Patient", "123");
-//        assertSearchReturnsComposition("subject:Basic.Reference-relative:Basic", "123");
+        // assertSearchReturnsComposition("subject:Basic.Reference-relative:Patient", "123");
+        // assertSearchReturnsComposition("subject:Basic.Reference-relative:Basic", "123");
     }
 
     @Test
     public void testSearchReference_Reference_relative_revinclude() throws Exception {
-        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        Map<String, List<String>> queryParms = new HashMap<>(1);
         queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
         queryParms.put("Reference-relative", Collections.singletonList("Patient/123"));
         assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
@@ -75,13 +84,11 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchReference_Reference_absolute() throws Exception {
-        // TODO if the resource contained an absolute URI which matches the hostname
-        // where the current test was running, would these work?
-//        assertSearchReturnsSavedResource("Reference-absolute", "123");
-//        assertSearchReturnsSavedResource("Reference-absolute", "Patient/123");
-//        assertSearchReturnsSavedResource("Reference-absolute:Patient", "123");
-
         assertSearchReturnsSavedResource("Reference-absolute", "https://example.com/Patient/123");
+        assertSearchReturnsSavedResource("Reference-absolute", "Patient/123");
+        assertSearchReturnsSavedResource("Reference-absolute", "123");
+
+        assertSearchReturnsSavedResource("Reference-absolute:Patient", "123");
     }
 
     @Test

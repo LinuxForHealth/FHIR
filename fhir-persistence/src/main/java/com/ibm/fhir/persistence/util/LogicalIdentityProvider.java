@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.util;
+package com.ibm.fhir.persistence.util;
 
 /**
  * Supports different strategies for creating identity strings

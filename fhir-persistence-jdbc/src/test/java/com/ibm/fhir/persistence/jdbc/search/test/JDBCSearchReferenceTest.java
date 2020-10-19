@@ -24,7 +24,6 @@ import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchReferenceTest;
 
-
 public class JDBCSearchReferenceTest extends AbstractSearchReferenceTest {
 
     private Properties testProps;
@@ -67,7 +66,6 @@ public class JDBCSearchReferenceTest extends AbstractSearchReferenceTest {
         }
     }
 
-
     /*
      * Currently, documented in our conformance statement. We do not support
      * modifiers on chained parameters.
@@ -79,6 +77,7 @@ public class JDBCSearchReferenceTest extends AbstractSearchReferenceTest {
     public void testSearchReference_Reference_chained_missing() throws Exception {
         super.testSearchReference_Reference_chained_missing();
     }
+
     @Override
     @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
     public void testSearchReference_uri_chained_missing() throws Exception {

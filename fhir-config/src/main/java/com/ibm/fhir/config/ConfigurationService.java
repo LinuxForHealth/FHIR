@@ -1,16 +1,22 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.config;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.text.StringSubstitutor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -53,10 +59,28 @@ public class ConfigurationService {
      *            an InputStream to the input JSON file
      */
     public static PropertyGroup loadConfiguration(InputStream is) throws Exception {
-        try (JsonReader reader = JSON_READER_FACTORY.createReader(is)) {
+        String templatedJson = IOUtils.toString(is, StandardCharsets.UTF_8);
+        String resolvedJson = StringSubstitutor.replace(templatedJson, EnvironmentVariables.get());
+        try (JsonReader reader = JSON_READER_FACTORY.createReader(new StringReader(resolvedJson))) {
             JsonObject jsonObj = reader.readObject();
             reader.close();
             return instantiatePropertyGroup(jsonObj);
+        }
+    }
+
+    /**
+     * Utility class that allows mocking system environment variables retrieval in test classes (as Mockito disallows
+     * mocking static methods of {@link System}).
+     */
+    public static class EnvironmentVariables {
+        /**
+         * Simple proxy method for {@link System#getenv()} that returns an unmodifiable string map view of the current
+         * system environment.
+         *
+         * @return the environment as a map of variable names to values
+         */
+        public static Map<String,String> get() {
+            return System.getenv();
         }
     }
 

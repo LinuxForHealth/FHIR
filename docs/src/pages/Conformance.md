@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-05-15 09:59:05 -0400
+date:   2020-10-05 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -40,7 +40,7 @@ System operations are invoked at `[base]/$[operation]`
 | [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
 | [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
 | [$import](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
-| [$healthcheck](https://github.com/IBM/FHIR/blob/master/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
+| [$healthcheck](https://github.com/IBM/FHIR/blob/master/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
 
 #### Type operations
 Type operations are invoked at `[base]/[resourceType]/$[operation]`
@@ -48,7 +48,7 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 |Operation|Type|Short Description|Notes|
 |---------|----|-----------------|-----|
 | [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
-| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations) for config info |
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 
@@ -142,7 +142,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
 |--------------------------|-------------------|---------------------------------------------------------------|
 |String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
-|Reference                 |`:[type]`,`:missing`            |exact match search|
+|Reference                 |`:[type]`,`:missing`            |exact match search and targets are implicitly added|
 |URI                       |`:below`,`:above`,`:missing`    |exact match search|
 |Token                     |`:missing`                      |exact match search|
 |Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
@@ -155,7 +155,7 @@ Due to performance implications, the `:exact` modifier should be used for String
 
 At present, the `:missing` modifier is not supported for whole-system search nor for chained parameter search. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
 
-The `:text` modifier is not supported in this version of the FHIR server and use of this modifier will results in an HTTP 400 error with an `OperationOutcome` that describes the failure.
+The :text, :not, :above, :below, :in, :not-in, and :of-type modifiers are not supported in this version of the IBM FHIR server and use of this modifier will results in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
@@ -231,6 +231,15 @@ The IBM FHIR Server does not consider the `Quantity.comparator` field as part of
 
 ### Searching on URI
 URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
+
+### Searching on Reference
+Reference searches on the IBM FHIR Server support search on:
+
+* a relative reference - `1` where it is reflexsively determined to be a subset of possible targets, such as `Patient/1`, `Group/1`
+* a logical reference - `Patient/1` where it is explicitly set
+* uri searches - where it is explicitly searched using a URI on the server, such as `reference=http://example.org/fhir/Patient/123`
+
+We recommend using logical reference where possible.
 
 ### Searching on Special Positional Search
 Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants:

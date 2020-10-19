@@ -12,10 +12,8 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.IllformedLocaleException;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -30,6 +28,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import com.ibm.fhir.model.config.FHIRModelConfig;
+import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -572,13 +571,8 @@ public final class ValidationSupport {
             if (ALL_LANG_VALUE_SET_URL.contentEquals(valueSet)) {
                 if (system != null && !BCP_47_URN.equals(system)) {
                     throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, system, valueSet));
-                } else {
-                    try {
-                        // Syntax check only on code
-                        new Locale.Builder().setLanguageTag(code).build();
-                    } catch (IllformedLocaleException e) {
-                        throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, code, valueSet));
-                    }
+                } else if (!LanguageRegistryUtil.isValidLanguageTag(code)) {
+                    throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, code, valueSet));
                 }
             } else if (UCUM_UNITS_VALUE_SET_URL.equals(valueSet)) {
                 if (system != null && !UCUM_CODE_SYSTEM_URL.equals(system)) {

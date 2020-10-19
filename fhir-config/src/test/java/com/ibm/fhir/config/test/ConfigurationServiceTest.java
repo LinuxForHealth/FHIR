@@ -11,8 +11,11 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -65,6 +68,27 @@ public class ConfigurationServiceTest {
         assertNotNull(notificationProps.toString());
         assertFalse(notificationProps.toString().isEmpty());
     }
+
+    @Test
+    public void testLoadConfigurationWithEnvironmentVariables() throws Exception {
+        Map<String,String> env = new HashMap<>(ConfigurationService.EnvironmentVariables.get());
+        env.put("oauth.enabled", "true");
+        env.put("oauth.base.url", "http://localhost:9443");
+        env.put("oauth.url.path", "/oauth2/endpoint/provider/");
+        Mockito.mockStatic(ConfigurationService.EnvironmentVariables.class);
+        Mockito.when(ConfigurationService.EnvironmentVariables.get()).thenReturn(env);
+
+        PropertyGroup pg = ConfigurationService.loadConfiguration("fhirConfig.json");
+        assertNotNull(pg);
+
+        // Validate retrieval of values based on environment variables.
+
+        PropertyGroup oauthProps = pg.getPropertyGroup("fhirServer/oauth");
+
+        assertEquals(true, oauthProps.getBooleanProperty("enabled").booleanValue());
+        assertEquals("http://localhost:9443/oauth2/endpoint/provider/reg", oauthProps.getStringProperty("regUrl"));
+    }
+
 
     @Test(expectedExceptions = { java.lang.IllegalArgumentException.class })
     public void testLoadConfigurationIllegalArg() throws Exception {

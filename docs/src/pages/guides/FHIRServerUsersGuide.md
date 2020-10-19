@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-09-01"
+lastupdated: "2020-10-12"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -27,7 +27,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
   * [4.9 Multi-tenancy](#49-multi-tenancy)
   * [4.10 Bulk data operations](#410-bulk-data-operations)
-  * [4.11 CADF audit logging service](#411-CADF-audit-logging-service)
+  * [4.11 CADF audit logging service](#411-cadf-audit-logging-service)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -906,7 +906,7 @@ Response resource:
 ## 4.8 Using local references within request bundles
 Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `Patient/12345`).
 
-In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been process (that is, before the new `Patient` resource is created).
+In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been processed (that is, before the new `Patient` resource is created).
 
 Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local reference_<sup id="a6">[6](#f6)</sup>. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
 
@@ -947,13 +947,18 @@ In order to reference a resource via a local reference, you must first define a 
 After you define a local identifier for the referenced resource, you can then define one or more references to that resource by using the local identifier instead of an external identifier. In the preceding example, you can see that the Observation's `subject.reference` field specifies the Patient's local identifier as specified in the `fullUrl` field of the Patient's request entry.
 
 ### 4.8.1 Processing rules
-There is one rule for the use of local references within a request bundle:  A local identifier must be defined via a request entry's `fullUrl` field before that local identifier can be used in a local reference.
+The following processing rules apply for the use of local references within a request bundle:
+1.  A local identifier must be defined via a request entry's `fullUrl` field in order for that local identifier to be used in a local reference.
+2.  Local references will only be recognized for local identifiers associated with requst entries with a request method of `POST` or `PUT`.
+3.  `POST` requests will be processed before `PUT` requests.
+4.  There is no order dependency within a request bundle for request entries defining local identifiers, and request entries which reference those local identifiers via local reference. The exception to this rule is for request entries which specify [conditional create](https://www.hl7.org/fhir/http.html#ccreate) or [conditional update](https://www.hl7.org/fhir/http.html#cond-update) requests.
+5.  If a request entry specifying a conditional create or update request defines a local identifier, that request entry must be processed before a request entry which references the local identifier in a local reference.
 
-In the example in [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. This example satisfies the rule because the FHIR server will process the POST request entries in the order in which they appear within the request bundle.
+In the example in [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. However, based on rule 4, it would still be a valid request bundle if the `Observation` request entry appeared before the `Patient` request entry, unless the `Patient` request entry specified a conditional create (rule 5).
 
-If, however, those entries were reversed, the FHIR server would return an error when processing the `Observation` request entry, because the `Patient` local identifier is not defined yet.
+If those entries were reversed, and the `Patient` request entry specified a conditional create, then the FHIR server would return an error when processing the `Observation` request entry, because the `Patient` local identifier would not be defined yet.
 
-The following example also satisfies the rule:
+The following examples also satisfy the local reference processing rules:
 
 #### 4.8.1.1 Example 2: Observation (PUT) appears before Patient (POST)
 ```
@@ -988,46 +993,87 @@ The following example also satisfies the rule:
 }
 ```
 
-The FHIR server first processes all POST requests found within a request bundle and then processes all PUT requests. So, the FHIR server will, in fact, process the `Patient` request entry (a POST) before it processes the `Observation` request entry (a PUT). Therefore, this would be considered a valid request bundle as well.
+In Example 2, if the `Patient` request entry was a conditional create request, this would still be a valid request bundle, because `POST` requests are processed before `PUT` requests (rule 3). This means the `Patient` request entry would be processed before the `Observation` request entry, and thus the `Patient` local identifier would be defined when the `Observation` request entry was processed.
 
-While processing a POST or PUT request entry within a request bundle, the FHIR server will detect the use of a local identifier within the entry's `fullUrl` field, and will establish a mapping between that local identifier and the corresponding external identifier that results from performing the POST or PUT operation.
+#### 4.8.1.2 Example 3: Encounter and Procedure circular references
+```
+{
+    "resourceType" : "Bundle",
+    "type" : "batch",
+    "entry" : [ {
+        "fullUrl" : "urn:Encounter_1",
+        "resource" : {
+            "resourceType" : "Encounter",
+            …
+            "reasonReference" : [ {
+                    "reference" : "urn:Procedure_1"
+            } ],
+            …
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Encounter"
+        }
+    }, {
+        "fullUrl" : "urn:Procedure_1",
+        "resource" : {
+            "resourceType" : "Procedure",
+            …
+            "encounter" : {
+                    "reference" : "urn:Encounter_1"
+            },
+            …
+        },
+        "request" : {
+            "method" : "POST",
+            "url" : "Procedure"
+        }
+    } ]
+}
+```
 
-For example, in Example 1 from [Section 4.8.0.1](#4801-example-1-observation-references-patient-via-local-reference), the FHIR server detects the use of the local identifier in the `Patient` request entry (`urn:uuid:7113a0bb-d9e0-49df-9855-887409388c69`) and -- after creating the new `Patient` resource -- establishes a mapping between the local identifier and the resulting external reference associated with the new `Patient` (for example, `Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b`).
+While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation. 
 
-Then when the FHIR server processes the POST request for the `Observation`, it detects the use of the local reference and substitutes the corresponding external reference for it before creating the new `Observation` resource. Here is an example of a response bundle for the request bundle depicted in Example 1 in which we can see that the Observation's `subject.reference` field now contains a proper external reference to the newly-created `Patient` resource:
+Using Example 3, the FHIR server detects the use of local identifiers in the `Encounter` request entry (`urn:Encounter_1`) and in the `Procedure` request entry (`urn:Procedure_1`), and establishes a mapping between the local identifiers and the external references to be associated with the new `Encounter` and `Procedure` resources (for example, `Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b` and `Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf`).
 
-#### 4.8.1.2 Example 3: Response bundle for Example 1
+Then when the FHIR server processes the POST requests for the `Encounter` and `Procedure` resources, it detects the use of the local references and substitutes the corresponding external references for them before creating the new resources. Here is an example of a response bundle for the request bundle depicted in Example 3 in which we can see that the Encounter's `reasonReference.reference` field now contains a proper external reference to the newly-created `Procedure` resource, and the Procedure's `encounter.reference` field now contains a proper external reference to the newly-created `Encounter` resource:
+
+#### 4.8.1.3 Example 4: Response bundle for Example 3
 ```
 {
     "resourceType" : "Bundle",
     "type" : "batch-response",
     "entry" : [ {
         "resource" : {
-            "resourceType" : "Patient",
+            "resourceType" : "Encounter",
             "id" : "1cc5d299-d2be-4f93-8745-a121232ffe5b",
+            …
+            "reasonReference" : [ {
+                    "reference" : "Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf"
+            } ],
             …
         },
         "response" : {
             "id" : "1cc5d299-d2be-4f93-8745-a121232ffe5b",
             "status" : "201",
-            "location" : "Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b/_history/1",
+            "location" : "Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b/_history/1",
             "etag" : "W/\"1\"",
             "lastModified" : "2017-03-01T20:56:59.540Z"
         }
     }, {
         "resource" : {
-            "resourceType" : "Observation",
+            "resourceType" : "Procedure",
             "id" : "22b21fcf-8d00-492d-9de0-e25ddd409eaf",
             …
-            "subject" : {
-                "reference" : "Patient/1cc5d299-d2be-4f93-8745-a121232ffe5b"
+            "encounter" : {
+                "reference" : "Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b"
             },
             …
         },
         "response" : {
             "id" : "22b21fcf-8d00-492d-9de0-e25ddd409eaf",
             "status" : "201",
-            "location" : "Observation/22b21fcf-8d00-492d-9de0-e25ddd409eaf/_history/1",
+            "location" : "Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf/_history/1",
             "etag" : "W/\"1\"",
             "lastModified" : "2017-03-01T20:56:59.652Z"
         }
@@ -1327,23 +1373,65 @@ To enable export to parquet, an administrator must:
 One way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkimportexport-webapp pom.xml and rebuild the webapp to include them.
 
 ## 4.11 CADF audit logging service
-The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following:
+The CADF audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to the IBM Cloud Event Streams service. Each FHIR operation triggers a CADF audit log entry to be logged. The mapping of FHIR operation to CADF action is as follows:
 
-| FHIR Operation                 | CADF Action   |
-|--------------------------------| --------------|
-|`read,versionread,history,search,validate,meta` |    read       |
-|`create`                        |    create     |
-|`update`                        |    update     |
-|`delete`                        |    delete     |
-|`operation,bundle`              |    unknown    |
+| FHIR Operation                                      | CADF Action |
+|-----------------------------------------------------|-------------|
+|`history,metadata,read,search,validate,version read` |   read      |
+|`create`                                             |   create    |
+|`update`                                             |   update    |
+|`delete`                                             |   delete    |
+|`bundle,custom operation,patch`                      |   unknown   |
 
-Each FHIR create, update, delete, bundle or custom operation triggers 2 CADF events - begins with an event with "pending" outcome and ends with an event with "success" or "failure" outcome; All the other FHIR operations only trigger 1 CADF event with either "success" or "failure" outcome.
+### 4.11.1 CADF audit log entry
+The following table describes the JSON fields of the CADF audit log entries logged by the FHIR server:
 
-### 4.11.1 Enable CADF audit logging service
-Please refer to the properties names started wtih fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure CADF audit logging service.
+| CADF Audit Log Entry Field                           | Description |
+|------------------------------------------------------|-------------|
+|`action`                                              |Action that created the audit event. Possible values are "read", "update", "create", "delete", and "unknown".|
+|`eventTime`                                           |Audit event creation timestamp.|
+|`eventType`                                           |Audit event type. Value is always "activity".|
+|`id`                                                  |Globally unique identifier for the audit event.|
+|`outcome`                                             |Action outcome. Possible values are "success", "failure", "unknown", and "pending".|
+|`typeURI`                                             |TypeURI property of the CADF event entity. Value is always "http://schemas.dmtf.org/cloud/audit/1.0/event".|
+|`attachments`                                         |Note: Contains FHIR server-specific audit event data.|
+|`attachments/contentType`                             |FHIR server-specific audit event data content type. Value is always "application/json".|
+|`attachments/content`                                 |Note: Contents of this field (with its subfields) is encoded as Base64.
+|`attachments/content/request_unique_id`               |Globally unique identifier for the FHIR server request.|
+|`attachments/content/action`                          |FHIR action type. Possible values are "C" (create), "U" (update), "R" (read), "D" (delete), "P" (patch), and "O" (custom operation).|
+|`attachments/content/operation_name`                  |FHIR custom operation name.|
+|`attachments/content/start_time`                      |FHIR request start time.|
+|`attachments/content/end_time`                        |FHIR request end time.|
+|`attachments/content/api_parameters/request`          |FHIR request URL.|
+|`attachments/content/api_parameters/request_status`   |FHIR request HTTP status (e.g. 200).|
+|`attachments/content/data/resource_type`              |Resource type of FHIR resource that was created, updated, or deleted.|
+|`attachments/content/data/id`                         |Resource ID of FHIR resource that was created, updated, or deleted.|
+|`attachments/content/data/version`                    |Updated version of FHIR resource that was created, updated, or deleted.|
+|`attachments/content/batch/resources_read`            |FHIR resource count retrieved on a search request.|
+|`attachments/content/event_type`                      |FHIR event type. Possible values are "fhir-create", "fhir-update", "fhir-patch", "fhir-delete", "fhir-read", "fhir-version-read", "fhir-history", "fhir-search", "fhir-bundle", "fhir-validate", "fhir-metadata", and "fhir-operation".|
+|`attachments/content/description`                     |FHIR event type description. Possible values are "FHIR Create request", "FHIR Update request", "FHIR Patch request", "FHIR Delete request", "FHIR Read request", "FHIR VersionRead request", "FHIR History request", "FHIR Search request", "FHIR Bundle request", "FHIR Validate request", "FHIR Metadata request", and "FHIR Operation request".|
+|`attachments/content/client_cert_cn`                  |Value is determined by "IBM-App-cli-CN" HTTP header of the FHIR request.|
+|`attachments/content/client_cert_issuer_ou`           |Value is determined by "IBM-App-iss-OU" HTTP header of the FHIR request.|
+|`attachments/content/location`                        |IP address and hostname of the source of the FHIR request.|
+|`initiator/id`                                        |Value is always "TENANT_ID@fhir-server", where TENANT_ID is replaced with the tenant ID.|
+|`initiator/typeURI`                                   |Value is always "compute/machine".|
+|`initiator/host`                                      |IP address of FHIR server localhost.|
+|`initiator/credential/token`                          |Value is always "user-AUTH_USER", where AUTH_USER is replaced with the name of the authenticated user.|
+|`initiator/geolocation/city`                          |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`initiator/geolocation/state`                         |Value determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`initiator/geolocation/region`                        |Value determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+|`observer/id`                                         |Value is always "fhir-server".|
+|`observer/typeURI`                                    |Value is always "compute/node".|
+|`observer/name`                                       |Value is always "Fhir Audit".|
+|`observer/geolocation/city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
-### 4.11.2 Event Streams configuation of CADF audit logging service
-The CADF audit logging service gets event streams service credential from env variable EVENT_STREAMS_AUDIT_BINDING with values like this:
+### 4.11.2 Enable CADF audit logging service
+Please refer to the property names that start with fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
+
+### 4.11.3 Event Streams configuation of CADF audit logging service
+The CADF audit logging service gets the event streams service credential from environment variable EVENT_STREAMS_AUDIT_BINDING with values like this:
 
 ```
     {
@@ -1377,13 +1465,13 @@ And then in the YAML file for your Kubernetes deployment, specify the environmen
                     key: binding
                     name: binding-<event_streams_service_instance_name>
 ```
-please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instruction if need.
+Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instructions if needed.
 
-### 4.11.3 Query CADF events in COS
-[Waston studio stream flow]( https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source ) can be created to push those FHIR Audit CADF events from Event Streams service to COS bucket(e.g fhir-audit-dev0) in CSV format; Another option is to configure Event Streams(Kafka) S3 connect to push those CADF events to COS bucket(e.g, fhir-audit-dev0) but in raw CADF json format.
-A service instance of the [IBM Cloud SQL Query]( https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query ) service can be created to allow you to query those CADF audit events in COS with SQL queries, before you run sql query, you'd better create a COS bucket to store your query results, otherwise, the query results will be stored in a bucket which is automatically created by the SQL query service.
+### 4.11.4 Query CADF events in COS
+[Watson studio stream flow](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source) can be created to push those FHIR Audit CADF events from the Event Streams service to a COS bucket (e.g. fhir-audit-dev0) in CSV format. Another option is to configure Event Streams (Kafka) S3 connect to push those CADF events to a COS bucket (e.g. fhir-audit-dev0) but in raw CADF json format.
+A service instance of the [IBM Cloud SQL Query](https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query) service can be created to allow you to query those CADF audit events in COS with SQL queries. Before running an SQL query, it's recommended to first create a COS bucket to store your query results, otherwise the query results will be stored in a bucket which is automatically created by the SQL query service.
 
-Samples queries for CSV records expaned from the JSON CADF events:
+Sample queries for CSV records expanded from the JSON CADF events:
 
 ```
 select * from cos://us-south/fhir-audit-dev where EVENTTIME BETWEEN "2019-06-07" and "2019-06-08" and action="unknown" into cos://us-south/fhir-audit-dev-res stored as csv
@@ -1395,7 +1483,7 @@ select * from cos://us-south/fhir-audit-dev where EVENTTIME BETWEEN "2019-06-05"
 select * from cos://us-south/fhir-audit-dev where EVENTTIME BETWEEN "2019-06-05" and "2019-06-06" and ATTACHMENTS_CONTENT LIKE '%fhir-read%' into cos://us-south/fhir-audit-dev-res stored as csv
 ```
 
-Samples queries for the raw JSON CADF events:
+Sample queries for the raw JSON CADF events:
 
 ```
 select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETWEEN "2019-06-01" and "2019-06-08" and action="unknown" into cos://us-south/fhir-audit-dev0-res stored as json
@@ -1449,9 +1537,17 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.4.2.3 Datastore configuration reference](#3423-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
 |`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
-|`fhirServer/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
-|`fhirServer/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
+|`fhirServer/security/cert/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
+|`fhirServer/security/oauth/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
+|`fhirServer/security/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/tokenUrl`|string|The token URL associated with the OAuth 2.0 authentication/authorization support.|
+|`fhirServer/security/oauth/manageUrl`|string|The URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.|
+|`fhirServer/security/oauth/introspectUrl`|string|The URL of the server’s introspection endpoint that can be used to validate a token.|
+|`fhirServer/security/oauth/revokeUrl`|string|The URL to the server’s endpoint that can be used to revoke a token.|
+|`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
+|`fhirServer/security/oauth/smart/scopes`|array|A list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
@@ -1519,9 +1615,17 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
-|`fhirServer/oauth/regUrl`|""|
-|`fhirServer/oauth/authUrl`|""|
-|`fhirServer/oauth/tokenUrl`|""|
+|`fhirServer/security/basic/enabled`|boolean|false|
+|`fhirServer/security/cert/enabled`|boolean|false|
+|`fhirServer/security/oauth/enabled`|boolean|false|
+|`fhirServer/security/oauth/regUrl`|""|
+|`fhirServer/security/oauth/authUrl`|""|
+|`fhirServer/security/oauth/tokenUrl`|""|
+|`fhirServer/security/oauth/manageUrl`|""|
+|`fhirServer/security/oauth/introspectUrl`|""|
+|`fhirServer/security/oauth/revokeUrl`|""|
+|`fhirServer/security/oauth/smart/enabled`|boolean|false|
+|`fhirServer/security/oauth/smart/scopes`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
@@ -1579,9 +1683,16 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources`|Y|N|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
-|`fhirServer/oauth/regUrl`|N|N|
-|`fhirServer/oauth/authUrl`|N|N|
-|`fhirServer/oauth/tokenUrl`|N|N|
+|`fhirServer/security/basic/enabled`|N|N|
+|`fhirServer/security/cert/enabled`|N|N|
+|`fhirServer/security/oauth/regUrl`|N|N|
+|`fhirServer/security/oauth/authUrl`|N|N|
+|`fhirServer/security/oauth/tokenUrl`|N|N|
+|`fhirServer/security/oauth/manageUrl`|N|N|
+|`fhirServer/security/oauth/introspectUrl`|N|N|
+|`fhirServer/security/oauth/revokeUrl`|N|N|
+|`fhirServer/security/oauth/smart/enabled`|N|N|
+|`fhirServer/security/oauth/smart/scopes`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
@@ -1683,8 +1794,11 @@ The precise steps required to configure certificate-based authentication for a c
 
 ## 5.3 OpenID Connect and OAuth 2.0
 The FHIR specification recommends the use of OpenID Connect and OAuth 2.0.
-The IBM FHIR Server supports these via Liberty's OpenID Connect support.
-The following sections are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
+The IBM FHIR Server supports these via either:
+* An external Authorization Server and/or Identity Provider like [IBM Cloud App ID](https://www.ibm.com/cloud/app-id) or [Keycloak](https://www.keycloak.org)
+* Liberty's own OpenID Connect and OAuth 2.0 support
+
+The following sections focus on the latter and are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
 
 ### 5.3.1 Configure Liberty as the OpenID Connect Provider
 Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oidcProvider.xml` config snippet on the installed FHIR Server from `<WLP_HOME>/usr/servers/fhir-server/configDropins/disabled/` to `<WLP_HOME>/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
@@ -1824,16 +1938,15 @@ If you are using Liberty as both the openIdConnect server and the openIdConnect 
 * `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
 
 ### 5.3.3 Advertise the OAuth endpoints via fhir-server-config
-To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints of the providers, specify the following values in the default fhir-server-config.json file:
-* `fhirServer/oauth/regUrl`
-* `fhirServer/oauth/authUrl`
-* `fhirServer/oauth/tokenUrl`
+To configure the FHIR Server to advertise the OpenID Connect and OAuth 2.0 endpoints of the providers, provide values for at least the following properties in the default fhir-server-config.json file:
+* `fhirServer/security/oauth/authUrl`
+* `fhirServer/security/oauth/tokenUrl`
 
 When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values to have the server automatically replace this text with the hostname used by requestors (see `fhirServer/core/originalRequestUriHeaderName`).
 
 These values will be used to populate the corresponding entries in both the server capability statement (`GET [base]/metadata`) and the smart-configuration (`GET [base]/.well-known/smart-configuration`).
 
-For example, the following excerpt from a CapabilityStatement shows sample OAuth-related URLs (token, authorize, and register) as values of the `valueUri` elements.
+For example, the following excerpt from a CapabilityStatement shows sample OAuth-related URLs (register, authorize, and token) values in the `valueUri` elements.
 ```
 …
 "rest": [

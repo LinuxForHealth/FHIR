@@ -2,13 +2,13 @@
 layout: post
 title: FHIR Bulk Data Guide
 description: FHIR Bulk Data Guide
-date:   2020-09-23 09:00:00 -0500
+date:   2020-10-09 09:00:00 -0500
 permalink: /FHIRBulkOperations/
 ---
 
 # Overview
 
-The IBM FHIR Server has extended operations for Bulk Data `$import` and `$export`, which are implemented in the modules: 
+The IBM FHIR Server has extended operations for Bulk Data `$import`, `$export` and `$bulkdata-status`, which are implemented in the modules: 
 
 |Module|Description|
 |---|---|
@@ -23,8 +23,10 @@ The `$export` operation uses three OperationDefinition:
 - [Patient](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-patient-export.html) - Obtain a set of resources pertaining to all patients. Exports to an S3-compatible data store.
 - [Group](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-group-export.html) - Obtain a set of resources pertaining to patients in a specific Group. Only supports static membership; does not resolve inclusion/exclusion criteria.
 
+The export may be to the ndjson or parquet format.
+
 ### **$export: Create a Bulk Data Request**
-To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
+To create an export request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
 
 #### Example Request - GET
 The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using GET.
@@ -34,7 +36,7 @@ curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" -
 ```
 
 #### Example Request - POST
-The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using POST and FHIR Resource Parameters.
+The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using POST and Parameters resource.
 
 ```sh
 curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" -X POST 'https://localhost:9443/fhir-server/api/v4/$export' -d '{
@@ -67,9 +69,8 @@ To create an import request, the IBM FHIR Server requires the body fields of the
 The IBM FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
 
 The IBM FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https` and `aws-s3`.
-To import using the $import on https, one must additionally configure the fhirServer/bulkdata/validBaseUrls. For example, if one stores bulkdata on https://test-url.ibm.com/folder1 and https://test-url.ibm.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations)
 
-Please note, the BulkData Operations do not support import from `http://`.
+To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://test-url.ibm.com/folder1 and https://test-url.ibm.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
 
 #### Example Request
 The following is a request to load data from the IBM COS endpoint into the IBM FHIR Server.
@@ -194,5 +195,5 @@ The response returned is 200 if the job deletion is completed.
 ## Notes
 1. For status codes, if there is an error on the server a 500 is returned, or if there is a client request error, a 400 is returned. 
 1. There are integration tests which exercise the various features of the Bulk Data Operations - `ImportOperationTest` and `ExportOperationTest`.  These integration tests are useful for testing the IBM FHIR Server, and may be useful for developers wanting to build their own tests. 
-1. Depending on the access policy of your export location, one may download the content using a command like `curl -o Patient_1.ndjson https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-r4-connectathon/path-path/Patient_1.ndjson`.
+1. Depending on the access policy of your export location, one may download the content using a command like `curl -o Patient_1.ndjson https://example.cloud.local/fhir-downloads/path-path/Patient_1.ndjson`.
 1. The use of Basic Authentication `fhiruser:change-password` is expected to be changed to match your environment authentication routine.

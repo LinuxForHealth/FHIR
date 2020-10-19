@@ -124,6 +124,10 @@ public class ChunkReader extends AbstractItemReader {
     String fhirSearchPageSize;
 
     @Inject
+    @BatchProperty(name = Constants.INCOMING_URL)
+    String incomingUrl;
+
+    @Inject
     StepContext stepCtx;
 
     public ChunkReader() {
@@ -215,7 +219,7 @@ public class ChunkReader extends AbstractItemReader {
             queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCriteria);
         }
 
-        queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
+        queryParameters.put("_sort", Arrays.asList(Constants.FHIR_SEARCH_LASTUPDATED));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);

@@ -7,9 +7,12 @@
 package com.ibm.fhir.server.resources;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CAPABILITY_STATEMENT_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_AUTH_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_INTROSPECT_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_MANAGE_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REG_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REVOKE_URL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKEN_URL;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
@@ -19,6 +22,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +62,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.ConditionalDeleteStatus;
 import com.ibm.fhir.model.type.code.ConditionalReadStatus;
@@ -89,6 +92,8 @@ public class Capabilities extends FHIRResource {
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2020";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
+    private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
+    private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
 
     // Error Messages
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
@@ -264,44 +269,68 @@ public class Capabilities extends FHIRResource {
             log.log(Level.WARNING, "Unexpected error while reading server transaction mode setting", t);
         }
 
-        String actualHost = new URI(getRequestUri()).getHost();
+        CapabilityStatement.Rest.Security.Builder securityBuilder = CapabilityStatement.Rest.Security.builder()
+                .cors(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CORS, true)));
 
-        String regURLTemplate = null;
-        String authURLTemplate = null;
-        String tokenURLTemplate = null;
-        try {
-            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_REGURL, "");
-            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_AUTHURL, "");
-            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_OAUTH_TOKENURL, "");
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
+
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_BASIC_ENABLED, false)) {
+            securityBuilder.service(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("Basic"))
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
+                    .build())
+                .build());
         }
-        String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CERT_ENABLED, false)) {
+            securityBuilder.service(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("Certificates"))
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
+                    .build())
+                .build());
+        }
 
-        String authURL = authURLTemplate.replaceAll("<host>", actualHost);
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false)) {
+            String actualHost = new URI(getRequestUri()).getHost();
 
-        String regURL = regURLTemplate.replaceAll("<host>", actualHost);
+            String authURLTemplate = null;
+            String tokenURLTemplate = null;
+            String regURLTemplate = null;
+            String manageURLTemplate = null;
+            String introspectURLTemplate = null;
+            String revokeURLTemplate = null;
 
-        CapabilityStatement.Rest.Security restSecurity = CapabilityStatement.Rest.Security.builder()
-                .service(CodeableConcept.builder()
+            try {
+                authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
+                tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
+                regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
+                manageURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
+                introspectURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
+                revokeURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
+            }
+            String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
+            String authURL = authURLTemplate.replaceAll("<host>", actualHost);
+            String regURL = regURLTemplate.replaceAll("<host>", actualHost);
+            String manageURL = manageURLTemplate.replaceAll("<host>", actualHost);
+            String introspectURL = introspectURLTemplate.replaceAll("<host>", actualHost);
+            String revokeURL = revokeURLTemplate.replaceAll("<host>", actualHost);
+
+            Boolean smartEnabled = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false);
+            securityBuilder.service(CodeableConcept.builder()
                     .coding(Coding.builder()
-                        .code(Code.of("SMART-on-FHIR"))
+                        .code(Code.of(smartEnabled ? "SMART-on-FHIR" : "OAuth"))
                         .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
                         .build())
-                    .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                    .text(smartEnabled ? string("OAuth") : string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
                     .build())
-                .extension(Extension.builder()
-                    .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
-                    .extension(
-                        Extension.builder().url("token").value(Uri.of(tokenURL)).build(),
-                        Extension.builder().url("authorize").value(Uri.of(authURL)).build(),
-                        Extension.builder().url("register").value(Uri.of(regURL)).build())
-                    .build())
-                .build();
+                .extension(buildOAuthURIsExtension(authURL, tokenURL, regURL, manageURL, introspectURL, revokeURL));
+        }
 
         CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
                 .mode(RestfulCapabilityMode.SERVER)
-                .security(restSecurity)
+                .security(securityBuilder.build())
                 .resource(addSupportedProfilesToResources(resources))
                 .interaction(CapabilityStatement.Rest.Interaction.builder()
                     .code(transactionMode)
@@ -342,7 +371,7 @@ public class Capabilities extends FHIRResource {
                           .id(buildInfo.getBuildId())
                           .build())
                 .rest(rest)
-                .instantiates(Canonical.of("http://www.hl7.org/fhir/bulk-data/CapabilityStatement-bulk-data.html"))
+                .instantiates(buildInstantiates())
                 .build();
 
         try {
@@ -352,6 +381,55 @@ public class Capabilities extends FHIRResource {
         }
 
         return conformance;
+    }
+
+    /**
+     * Builds the list of canonicals for the instantiates field based on the capability statements (except FHIR core)
+     * found in the FHIR registry.
+     * 
+     * @return list of canonicals
+     */
+    private List<Canonical> buildInstantiates() {
+        Collection<CapabilityStatement> registeredCapabilities = FHIRRegistry.getInstance().getResources(CapabilityStatement.class);
+
+        List<Canonical> instantiates = new ArrayList<>();
+        for (CapabilityStatement registeredCapability : registeredCapabilities) {
+            if (registeredCapability != null && registeredCapability.getUrl() != null) {
+                String url = registeredCapability.getUrl().getValue();
+                // BASE_CAPABILITY_URL and BASE_2_CAPABILITY_URL come from the core spec and shouldn't be advertised
+                if (url != null && !BASE_CAPABILITY_URL.equals(url) && !BASE_2_CAPABILITY_URL.equals(url)) {
+                    String canonicalValue = url;
+                    if (registeredCapability.getVersion() != null && registeredCapability.getVersion().getValue() != null) {
+                        canonicalValue = canonicalValue + "|" + registeredCapability.getVersion().getValue();
+                    }
+                    instantiates.add(Canonical.builder().value(canonicalValue).build());
+                }
+            }
+        }
+
+        return instantiates;
+    }
+    
+    private Extension buildOAuthURIsExtension(String authURL, String tokenURL, String regURL, String manageURL, String introspectURL, String revokeURL) {
+         Extension.Builder builder = Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris");
+
+         builder.extension(Extension.builder().url("authorize").value(Uri.of(authURL)).build());
+         builder.extension(Extension.builder().url("token").value(Uri.of(tokenURL)).build());
+
+         if (regURL != null && !regURL.isEmpty()) {
+             builder.extension(Extension.builder().url("register").value(Uri.of(regURL)).build());
+         }
+         if (manageURL != null && !manageURL.isEmpty()) {
+             builder.extension(Extension.builder().url("register").value(Uri.of(manageURL)).build());
+         }
+         if (introspectURL != null && !introspectURL.isEmpty()) {
+             builder.extension(Extension.builder().url("register").value(Uri.of(introspectURL)).build());
+         }
+         if (revokeURL != null && !revokeURL.isEmpty()) {
+             builder.extension(Extension.builder().url("register").value(Uri.of(revokeURL)).build());
+         }
+
+         return builder.build();
     }
 
     private List<Rest.Resource> addSupportedProfilesToResources(List<Rest.Resource> resources){
