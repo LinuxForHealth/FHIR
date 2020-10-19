@@ -126,7 +126,8 @@ public class Capabilities extends FHIRResource {
             // Defaults to 60 minutes (or what's in the fhirConfig)
             int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
 
-            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
+            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId,
+                    (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
             CacheControl cacheControl = new CacheControl();
@@ -182,12 +183,14 @@ public class Capabilities extends FHIRResource {
         List<String> interactionConfig = null;
         if (rsrcsGroup != null) {
             PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.ValueSet.RESOURCE.value());
-            interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+            if (parentResourcePropGroup != null) {
+                interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+            }
         }
         if (interactionConfig == null) {
             interactionConfig = ALL_INTERACTIONS;
         }
-        List<Rest.Resource.Interaction> defaultInteractions = buildInteracations(interactionConfig);
+        List<Rest.Resource.Interaction> defaultInteractions = buildInteractions(interactionConfig);
 
         // Build the lists of operations that are supported
         List<OperationDefinition> systemOps = new ArrayList<>();
@@ -218,7 +221,10 @@ public class Capabilities extends FHIRResource {
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
-        Boolean supportOmittedRsrcTypes = rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true);
+        boolean supportOmittedRsrcTypes = true;
+        if (rsrcsGroup != null) {
+            supportOmittedRsrcTypes = rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true);
+        }
         List<ResourceType.ValueSet> resourceTypes = getSupportedResourceTypes(supportOmittedRsrcTypes);
 
         for (ResourceType.ValueSet resourceType : resourceTypes) {
@@ -251,9 +257,15 @@ public class Capabilities extends FHIRResource {
                 ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.ValueSet.DOMAIN_RESOURCE)));
             }
 
-            PropertyGroup resourcePropGroup = rsrcsGroup.getPropertyGroup(resourceTypeName);
-            List<String> resourceInteractionConfig = resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
-            List<Interaction> interactions = buildInteracations(resourceInteractionConfig);
+            List<Interaction> interactions = null;
+            if (rsrcsGroup != null) {
+                PropertyGroup resourcePropGroup = rsrcsGroup.getPropertyGroup(resourceTypeName);
+                if (resourcePropGroup != null) {
+                    List<String> resourceInteractionConfig =
+                            resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+                    interactions = buildInteractions(resourceInteractionConfig);
+                }
+            }
             if (interactions == null) {
                 interactions = defaultInteractions;
             }
@@ -305,7 +317,6 @@ public class Capabilities extends FHIRResource {
                     .build())
                 .build());
         }
-
         if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false)) {
             String actualHost = new URI(getRequestUri()).getHost();
 
@@ -399,25 +410,25 @@ public class Capabilities extends FHIRResource {
         return conformance;
     }
 
-    private List<Rest.Resource.Interaction> buildInteracations(List<String> interactionConfig) throws FHIRPersistenceException {
+    private List<Rest.Resource.Interaction> buildInteractions(List<String> interactionConfig) throws FHIRPersistenceException {
         if (interactionConfig == null) return null;
 
-        List<Rest.Resource.Interaction> defaultInteractions = new ArrayList<>();
+        List<Rest.Resource.Interaction> interactions = new ArrayList<>();
         for (String interactionString : interactionConfig) {
-            if (interactionString.equals("search")) {
+            if ("search".equals(interactionString)) {
                 // special case for search since the value set uses "search-type" instead of just "search"
-                defaultInteractions.add(buildInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
-            } else if (interactionString.equals("history")){
+                interactions.add(buildInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
+            } else if ("history".equals(interactionString)){
                 // special case for search since the value set uses "history-instance" instead of just "history"
-                defaultInteractions.add(buildInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
-            } else if (interactionString.equals("delete") && isDeleteSupported()) {
+                interactions.add(buildInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
+            } else if ("delete".equals(interactionString)) {
                 // special case for delete since we shouldn't advertise it if the PL doesn't support it
-                defaultInteractions.add(buildInteractionStatement(TypeRestfulInteraction.DELETE));
+                interactions.add(buildInteractionStatement(TypeRestfulInteraction.DELETE));
             } else {
-                defaultInteractions.add(buildInteractionStatement(TypeRestfulInteraction.of(interactionString)));
+                interactions.add(buildInteractionStatement(TypeRestfulInteraction.of(interactionString)));
             }
         }
-        return defaultInteractions;
+        return interactions;
     }
 
     private List<ResourceType.ValueSet> getSupportedResourceTypes(boolean supportOmittedRsrcTypes) throws Exception {
@@ -470,6 +481,8 @@ public class Capabilities extends FHIRResource {
 
         return instantiates;
     }
+
+
 
     private Extension buildOAuthURIsExtension(String authURL, String tokenURL, String regURL, String manageURL, String introspectURL, String revokeURL) {
          Extension.Builder builder = Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris");

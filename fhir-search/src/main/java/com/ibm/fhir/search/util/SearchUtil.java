@@ -185,8 +185,7 @@ public class SearchUtil {
 
     /**
      * Returns a filtered list of built-in SearchParameters associated with the
-     * specified resource type and those
-     * associated with the "Resource" resource type.
+     * specified resource type and those associated with the "Resource" resource type.
      *
      * @param resourceType
      *                     the resource type
