@@ -36,22 +36,27 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
     public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConceptValidation";
 
-    public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
+    // Resources properties
+    public static final String PROPERTY_RESOURCES = "fhirServer/resources";
+    public static final String PROPERTY_FIELD_RESOURCES_OPEN = "open";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS = "searchParameters";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL = "url";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_REQUIRED = "required";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
     public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";
     public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/cert/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_ENABLED = "fhirServer/security/oauth/enabled";
-    public static final String PROPERTY_SECURITY_OAUTH_REG_URL = "fhirServer/security/smart/regUrl";
-    public static final String PROPERTY_SECURITY_OAUTH_AUTH_URL = "fhirServer/security/smart/authUrl";
-    public static final String PROPERTY_SECURITY_OAUTH_TOKEN_URL = "fhirServer/security/smart/tokenUrl";
-    public static final String PROPERTY_SECURITY_OAUTH_MANAGE_URL = "fhirServer/security/smart/manageUrl";
-    public static final String PROPERTY_SECURITY_OAUTH_INTROSPECT_URL = "fhirServer/security/smart/introspectUrl";
-    public static final String PROPERTY_SECURITY_OAUTH_REVOKE_URL = "fhirServer/security/smart/revokeUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_REG_URL = "fhirServer/security/oauth/regUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_AUTH_URL = "fhirServer/security/oauth/authUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_TOKEN_URL = "fhirServer/security/oauth/tokenUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_MANAGE_URL = "fhirServer/security/oauth/manageUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_INTROSPECT_URL = "fhirServer/security/oauth/introspectUrl";
+    public static final String PROPERTY_SECURITY_OAUTH_REVOKE_URL = "fhirServer/security/oauth/smart/revokeUrl";
     public static final String PROPERTY_SECURITY_OAUTH_SMART_ENABLED = "fhirServer/security/oauth/smart/enabled";
-    public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/smart/scopes";
-    public static final String PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES = "fhirServer/security/smart/scopes";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/oauth/smart/scopes";
+    public static final String PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES = "fhirServer/security/oauth/smart/capabilities";
 
     public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/security/cert/authFilter/enabled";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/security/cert/authFilter/authorizedClientCertClientCN";

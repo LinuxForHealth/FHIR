@@ -1,9 +1,5 @@
 {
 	"__comment": "FHIR Server configuration",
 	"fhirServer": {
-        "_comment": "Just hiding this property because 'include-all' should be the default",
-		"_searchParameterFilter": {
-			"*": "*"
-		}
 	}
 }

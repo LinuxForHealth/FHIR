@@ -1,9 +1,5 @@
 {
 	"__comment": "FHIR Server configuration",
 	"fhirServer": {
-		"_comment": "include all search parameters for all resource types (default)",
-		"searchParameterFilter": {
-			"*": ["*"]
-		}
 	}
 }
