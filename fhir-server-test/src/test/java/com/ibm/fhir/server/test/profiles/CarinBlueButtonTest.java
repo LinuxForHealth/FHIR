@@ -148,7 +148,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     }
 
     public void loadOrganizationOrg1() throws Exception {
-        String resource = "json/profiles/fhir-ig-C4BB/Organization-Org1.json";
+        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Org1.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -160,7 +160,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     }
 
     public void loadOrganizationOrg45() throws Exception {
-        String resource = "json/profiles/fhir-ig-C4BB/Organization-Org45.json";
+        String resource = "json/profiles/fhir-ig-carin-bb/Organization-Org45.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -175,7 +175,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     // Load Coverage Resources
     public void loadCoverage() throws Exception {
         WebTarget target = getWebTarget();
-        Coverage coverage = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/Coverage-Coverage1.json");
+        Coverage coverage = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/Coverage-Coverage1.json");
 
         Reference org45ref = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
         coverage = coverage.toBuilder().payor(org45ref).build();
@@ -193,7 +193,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     // Load Patient Resources
     public void loadPatient() throws Exception {
         WebTarget target = getWebTarget();
-        Patient patient = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/Patient-Patient1.json");
+        Patient patient = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/Patient-Patient1.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -252,7 +252,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void loadExplanationOfBenefits() throws Exception {
         WebTarget target = getWebTarget();
 
-        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/ExplanationOfBenefit-EOB1.json");
+        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-EOB1.json");
         Entity<ExplanationOfBenefit> entity = Entity.entity(eob, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("ExplanationOfBenefit").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -271,7 +271,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         Reference organization = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
 
-        PractitionerRole practitionerRole = TestUtil.readExampleResource("json/profiles/fhir-ig-C4BB/PractitionerRole-PractitionerRole1.json");
+        PractitionerRole practitionerRole = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/PractitionerRole-PractitionerRole1.json");
         practitionerRole = practitionerRole.toBuilder().location(location).organization(organization).practitioner(practitioner).build();
 
         WebTarget target = getWebTarget();
