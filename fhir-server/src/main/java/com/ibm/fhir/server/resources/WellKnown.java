@@ -17,6 +17,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKE
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,6 +108,10 @@ public class WellKnown extends FHIRResource {
             revokeURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
             supportedScopes = FHIRConfigHelper.getStringListProperty(PROPERTY_SECURITY_OAUTH_SMART_SCOPES);
             capabilities = FHIRConfigHelper.getStringListProperty(PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES);
+            if (capabilities == null) {
+                // Set an empty list since capabilities is a required field
+                capabilities = new ArrayList<>();
+            }
         } catch (Exception e) {
             log.log(Level.SEVERE, "An error occurred while reading the OAuth/SMART properties", e);
         }

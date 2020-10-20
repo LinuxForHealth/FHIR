@@ -55,6 +55,7 @@ import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Operation;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -98,7 +99,9 @@ public class Capabilities extends FHIRResource {
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
-    private static final List<ResourceType.ValueSet> ALL_RESOURCE_TYPES = Arrays.asList(ResourceType.ValueSet.values());
+    private static final List<ResourceType.ValueSet> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+            .map(rt -> ResourceType.ValueSet.from(rt.getSimpleName()))
+            .collect(Collectors.toList());
 
     // Error Messages
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
@@ -450,10 +453,14 @@ public class Capabilities extends FHIRResource {
             List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
             if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
                 for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-
+                    String name = rsrcsEntry.getName();
                     // Ensure we skip over the special property "open" and process only the others
-                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
-                        resourceTypes.add(ResourceType.ValueSet.from(rsrcsEntry.getName()));
+                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name)) {
+                        // Skip the abstract types Resource and DomainResource
+                        if (!Resource.class.equals(ModelSupport.getResourceType(name)) &&
+                                !DomainResource.class.equals(ModelSupport.getResourceType(name))) {
+                            resourceTypes.add(ResourceType.ValueSet.from(name));
+                        }
                     }
                 }
             }
