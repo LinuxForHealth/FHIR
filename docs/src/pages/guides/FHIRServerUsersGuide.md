@@ -1520,9 +1520,15 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
 |`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
 |`fhirServer/resources/Resource/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>`. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameters/<code>`|
+|`fhirServer/resources/Resource/searchIncludes`|string list|A comma-separated list of \_include values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchIncludes`. Omitting this property is equivalent to supporting all \_include values for the supported resources. An empty list, `[]`, can be used to indicate that no \_include values are supported.|
+|`fhirServer/resources/Resource/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchRevIncludes`. Omitting this property is equivalent to supporting all \_revinclude values for the supported resources. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported.|
+|`fhirServer/resources/Resource/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for all resource types. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameterCombinations`. Omitting this property is equivalent to supporting any search parameter combination.|
 |`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
 |`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
+|`fhirServer/resources/<resourceType>/searchIncludes`|string list|A comma-separated list of \_include values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_include values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchIncludes` is used.|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchRevIncludes` is used.|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1604,9 +1610,15 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
+|`fhirServer/resources/Resource/searchIncludes`|null (all \_include values supported)|
+|`fhirServer/resources/Resource/searchRevIncludes`|null (all \_revinclude values supported)|
+|`fhirServer/resources/Resource/searchParameterCombinations`|null (all search parameter combinations supported)|
 |`fhirServer/resources/<resourceType>/interactions`|null (inherets from `fhirServer/resources/Resource/interactions`)|
 |`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
+|`fhirServer/resources/<resourceType>/searchIncludes`|null (inherets from `fhirServer/resources/Resource/searchIncludes`)|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherets from `fhirServer/resources/Resource/searchRevIncludes`)|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherets from `fhirServer/resources/Resource/searchParameterCombinations`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -1680,9 +1692,15 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters/<code>`|Y|Y|
+|`fhirServer/resources/Resource/searchIncludes`|Y|Y|
+|`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|
+|`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
