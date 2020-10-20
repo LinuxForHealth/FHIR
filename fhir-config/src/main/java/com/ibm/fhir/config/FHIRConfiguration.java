@@ -47,7 +47,7 @@ public class FHIRConfiguration {
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
     public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";
-    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/cert/enabled";
+    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/certificates/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_ENABLED = "fhirServer/security/oauth/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_REG_URL = "fhirServer/security/oauth/regUrl";
     public static final String PROPERTY_SECURITY_OAUTH_AUTH_URL = "fhirServer/security/oauth/authUrl";
