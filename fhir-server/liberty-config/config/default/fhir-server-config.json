@@ -14,12 +14,7 @@
                 "enabled": true
             },
             "certificates": {
-                "enabled": true,
-                "authFilter": {
-                    "enabled": false,
-                    "authorizedClientCertClientCN": "",
-                    "authorizedClientCertIssuerOU": ""
-                }
+                "enabled": true
             },
             "oauth": {
                 "enabled": false,

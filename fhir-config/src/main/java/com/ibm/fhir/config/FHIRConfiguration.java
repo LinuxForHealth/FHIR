@@ -39,6 +39,7 @@ public class FHIRConfiguration {
     // Resources properties
     public static final String PROPERTY_RESOURCES = "fhirServer/resources";
     public static final String PROPERTY_FIELD_RESOURCES_OPEN = "open";
+    public static final String PROPERTY_FIELD_RESOURCES_INTERACTIONS = "interactions";
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS = "searchParameters";
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL = "url";
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_REQUIRED = "required";
@@ -46,7 +47,7 @@ public class FHIRConfiguration {
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
     public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";
-    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/cert/enabled";
+    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/certificates/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_ENABLED = "fhirServer/security/oauth/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_REG_URL = "fhirServer/security/oauth/regUrl";
     public static final String PROPERTY_SECURITY_OAUTH_AUTH_URL = "fhirServer/security/oauth/authUrl";

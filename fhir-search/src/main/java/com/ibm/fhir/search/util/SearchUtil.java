@@ -185,8 +185,7 @@ public class SearchUtil {
 
     /**
      * Returns a filtered list of built-in SearchParameters associated with the
-     * specified resource type and those
-     * associated with the "Resource" resource type.
+     * specified resource type and those associated with the "Resource" resource type.
      *
      * @param resourceType
      *                     the resource type
@@ -302,14 +301,14 @@ public class SearchUtil {
     private static Map<String, List<String>> getFilterRules() throws Exception {
         Map<String, List<String>> result = new HashMap<>();
         boolean supportOmittedRsrcTypes = true;
-        
+
         // Retrieve the "resources" config property group.
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
         if (rsrcsGroup != null) {
-            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();            
+            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
             if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
                 for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                    
+
                     // Check special property for including omitted resource types
                     if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
                         if (rsrcsEntry.getValue() instanceof Boolean) {
@@ -324,14 +323,14 @@ public class SearchUtil {
                         PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
                         if (resourceTypeGroup != null) {
                             List<String> searchParameterUrls = new ArrayList<>();
-    
+
                             // Get search parameters
                             PropertyGroup spGroup = resourceTypeGroup.getPropertyGroup(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS);
                             if (spGroup != null) {
-                                List<PropertyEntry> spEntries = spGroup.getProperties();            
+                                List<PropertyEntry> spEntries = spGroup.getProperties();
                                 if (spEntries != null && !spEntries.isEmpty()) {
                                     for (PropertyEntry spEntry : spEntries) {
-                                        
+
                                         PropertyGroup spValueGroup = (PropertyGroup) spEntry.getValue();
                                         if (spValueGroup != null) {
                                             String url = spValueGroup.getStringProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL);
@@ -357,10 +356,10 @@ public class SearchUtil {
             // All other resource types include all search parameters
             result.put(SearchConstants.WILDCARD, Collections.singletonList(SearchConstants.WILDCARD));
         }
-        
+
         return result;
     }
-    
+
     /**
      * Returns the SearchParameter map (keyed by resource type) for the specified
      * tenant-id, or null if there are no SearchParameters for the tenant.
@@ -794,7 +793,7 @@ public class SearchUtil {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                         }
                     }
-                    
+
                     // Build list of processed query parameters
                     List<QueryParameter> curParameterList = new ArrayList<>();
                     for (String paramValueString : params) {
@@ -805,10 +804,10 @@ public class SearchUtil {
                         curParameterList.add(parameter);
                         parameters.add(parameter);
                     }
-                    
+
                     // Check search restrictions based on the SearchParameter
                     checkSearchParameterRestrictions(parameterCode, searchParameter, curParameterList);
-                    
+
                 } // end else
             } catch (FHIRSearchException se) {
                 // There's a number of places that throw within this try block. In all cases we want the same behavior:
@@ -830,11 +829,11 @@ public class SearchUtil {
         context.setSearchParameters(parameters);
         return context;
     }
-    
+
     /**
      * Checks the query parameters (with the same parameter code) against any search restrictions specified
      * in the SearchParameter resource for that parameter code.
-     * 
+     *
      * @param parameterCode
      *            the parameter code
      * @param searchParameter
@@ -895,7 +894,7 @@ public class SearchUtil {
                 if (prefix != null && comparators != null && !comparators.isEmpty()) {
                     // Check if prefix is found in list of valid comparators as an enum,
                     // since the SearchComparators in the SearchParameter may contain extensions
-                    boolean foundMatch = false; 
+                    boolean foundMatch = false;
                     SearchComparator prefixAsComparator = SearchComparator.of(prefix.value());
                     for (SearchComparator comparator : comparators) {
                         if (comparator.getValueAsEnumConstant() == prefixAsComparator.getValueAsEnumConstant()) {
@@ -912,7 +911,7 @@ public class SearchUtil {
             }
         }
     }
-   
+
     /**
      * Common logic from handling a single queryParameterValueString based on its type
      */
