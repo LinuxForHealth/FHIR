@@ -6,39 +6,23 @@
             "Patient": {
                 "interactions": ["read", "search"],
                 "searchParameters": {
-                    "_id": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-                    },
-                    "birthdate": {
-                        "url": "http://hl7.org/fhir/SearchParameter/individual-birthdate"
-                    },
-                    "gender": {
-                        "url": "http://hl7.org/fhir/SearchParameter/individual-gender"
-                    },
-                    "identifier": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Patient-identifier"
-                    },
-                    "name": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Patient-name"
-                    }
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "birthdate": "http://hl7.org/fhir/SearchParameter/individual-birthdate",
+                    "gender": "http://hl7.org/fhir/SearchParameter/individual-gender",
+                    "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
+                    "name": "http://hl7.org/fhir/SearchParameter/Patient-name"
                 }
             },
             "Practitioner": {
                 "searchParameters": {
-                    "name": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Practitioner-name"
-                    },
-                    "identifier": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier"
-                    }
+                    "name": "http://hl7.org/fhir/SearchParameter/Practitioner-name",
+                    "identifier": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier"
                 }
             },
             "Resource": {
                 "interactions": ["read", "vread", "history", "search"],
                 "searchParameters": {
-                    "_id": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-                    }
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id"
                 }
             }
         },

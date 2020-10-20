@@ -5,28 +5,16 @@
             "open": true,
             "Observation": {
                 "searchParameters": {
-                    "_id": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-                    },
-                    "subject": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Observation-subject"
-                    },
-                    "patient": {
-                        "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-patient"
-                    },
-                    "value-quantity": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity"
-                    },
-                    "component-value-quantity": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
-                    }
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "subject": "http://hl7.org/fhir/SearchParameter/Observation-subject",
+                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-patient",
+                    "value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity",
+                    "component-value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
                 }
             },
             "Resource": {
                 "searchParameters": {
-                    "_id": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-                    }
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id"
                 }
             }
         },
