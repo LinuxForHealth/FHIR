@@ -4,36 +4,27 @@
         "resources": {
             "open": true,
             "ExplanationOfBenefit": {
-                "interactions": ["read",
-                "vread",
-                "history",
-                "search"],
-                "searchIncludes": ["ExplanationOfBenefit:patient",
-                "ExplanationOfBenefit:provider",
-                "ExplanationOfBenefit:care-team",
-                "ExplanationOfBenefit:coverage",
-                "ExplanationOfBenefit:insurer"],
+                "interactions": [
+                    "read",
+                    "vread",
+                    "history",
+                    "search"
+                ],
+                "searchIncludes": [
+                    "ExplanationOfBenefit:patient",
+                    "ExplanationOfBenefit:provider",
+                    "ExplanationOfBenefit:care-team",
+                    "ExplanationOfBenefit:coverage",
+                    "ExplanationOfBenefit:insurer"
+                ],
                 "searchRevIncludes": [],
                 "searchParameters": {
-                    "_id": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-                    },
-                    "patient": {
-                        "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-patient",
-                        "required": true
-                    },
-                    "_lastUpdated": {
-                        "url": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated"
-                    },
-                    "type": {
-                        "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-type"
-                    },
-                    "identifier": {
-                        "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier"
-                    },
-                    "service-date": {
-                        "url": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date"
-                    }
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                    "patient": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-patient",
+                    "type": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-type",
+                    "identifier": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier",
+                    "service-date": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date"
                 }
             }
         }

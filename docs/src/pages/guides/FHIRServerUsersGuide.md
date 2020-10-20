@@ -1519,10 +1519,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
 |`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
-|`fhirServer/resources/Resource/searchParameters/<code>/url`|string|The URL of the search parameter definition to use for the search parameter `<code>`. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameters/<code>/url`|
+|`fhirServer/resources/Resource/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>`. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameters/<code>`|
 |`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
 |`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
-|`fhirServer/resources/<resourceType>/searchParameters/<code>/url`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1606,7 +1606,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
 |`fhirServer/resources/<resourceType>/interactions`|null (inherets from `fhirServer/resources/Resource/interactions`)|
 |`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
-|`fhirServer/resources/<resourceType>/searchParameters/<code>/url`|null|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -1679,10 +1679,10 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|
-|`fhirServer/resources/Resource/searchParameters/<code>/url`|Y|Y|
+|`fhirServer/resources/Resource/searchParameters/<code>`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
-|`fhirServer/resources/<resourceType>/searchParameters/<code>/url`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|

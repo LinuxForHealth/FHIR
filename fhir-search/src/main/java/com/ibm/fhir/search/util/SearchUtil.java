@@ -313,8 +313,7 @@ public class SearchUtil {
                     if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(rsrcsEntry.getName())) {
                         if (rsrcsEntry.getValue() instanceof Boolean) {
                             supportOmittedRsrcTypes = (Boolean) rsrcsEntry.getValue();
-                        }
-                        else {
+                        } else {
                             throw SearchExceptionUtil.buildNewIllegalStateException();
                         }
                     }
@@ -330,19 +329,10 @@ public class SearchUtil {
                                 List<PropertyEntry> spEntries = spGroup.getProperties();
                                 if (spEntries != null && !spEntries.isEmpty()) {
                                     for (PropertyEntry spEntry : spEntries) {
-
-                                        PropertyGroup spValueGroup = (PropertyGroup) spEntry.getValue();
-                                        if (spValueGroup != null) {
-                                            String url = spValueGroup.getStringProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL);
-                                            if (url == null) {
-                                                throw SearchExceptionUtil.buildNewIllegalStateException();
-                                            }
-                                            searchParameterUrls.add(url);
-                                        }
+                                        searchParameterUrls.add((String) spEntry.getValue());
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 searchParameterUrls.add(SearchConstants.WILDCARD);
                             }
                             result.put(resourceType, searchParameterUrls);
