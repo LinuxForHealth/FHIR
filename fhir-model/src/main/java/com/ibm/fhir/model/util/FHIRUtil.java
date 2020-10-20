@@ -83,7 +83,7 @@ public class FHIRUtil {
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
-    private static final OperationOutcome ALL_OK = OperationOutcome.builder()
+    public static final OperationOutcome ALL_OK = OperationOutcome.builder()
         .issue(Issue.builder()
         .severity(IssueSeverity.INFORMATION)
         .code(IssueType.INFORMATIONAL)

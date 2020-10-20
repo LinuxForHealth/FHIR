@@ -66,6 +66,10 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
         T updatedResource;
+        OperationOutcome operationOutcome = null;
+        if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
+            operationOutcome = FHIRRestHelperTest.ID_SPECIFIED;
+        }
         if (resource.getId().startsWith("generated")) {
             updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("1")).build()).build();
         } else {
@@ -73,7 +77,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
         }
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
-                .resource(updatedResource);
+                .resource(updatedResource)
+                .outcome(operationOutcome);
         return resultBuilder.build();
     }
 
