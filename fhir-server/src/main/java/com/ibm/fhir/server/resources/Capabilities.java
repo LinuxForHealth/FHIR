@@ -125,7 +125,7 @@ public class Capabilities extends FHIRResource {
             String tenantId = ctx.getTenantId();
 
             // Defaults to 60 minutes (or what's in the fhirConfig)
-            int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+            int cacheLength = FHIRConfigHelper.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
 
             CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId,
                     (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
@@ -295,10 +295,9 @@ public class Capabilities extends FHIRResource {
         }
 
         CapabilityStatement.Rest.Security.Builder securityBuilder = CapabilityStatement.Rest.Security.builder()
-                .cors(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CORS, true)));
+                .cors(com.ibm.fhir.model.type.Boolean.of(FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CORS, true)));
 
-
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_BASIC_ENABLED, false)) {
+        if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_BASIC_ENABLED, false)) {
             securityBuilder.service(CodeableConcept.builder()
                 .coding(Coding.builder()
                     .code(Code.of("Basic"))
@@ -306,7 +305,7 @@ public class Capabilities extends FHIRResource {
                     .build())
                 .build());
         }
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CERT_ENABLED, false)) {
+        if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_CERT_ENABLED, false)) {
             securityBuilder.service(CodeableConcept.builder()
                 .coding(Coding.builder()
                     .code(Code.of("Certificates"))
@@ -314,7 +313,7 @@ public class Capabilities extends FHIRResource {
                     .build())
                 .build());
         }
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false)) {
+        if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false)) {
             String actualHost = new URI(getRequestUri()).getHost();
 
             String authURLTemplate = null;
@@ -325,12 +324,12 @@ public class Capabilities extends FHIRResource {
             String revokeURLTemplate = null;
 
             try {
-                authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
-                tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
-                regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
-                manageURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
-                introspectURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
-                revokeURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
+                authURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
+                tokenURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
+                regURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
+                manageURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
+                introspectURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
+                revokeURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
             } catch (Exception e) {
                 log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
             }
@@ -341,7 +340,7 @@ public class Capabilities extends FHIRResource {
             String introspectURL = introspectURLTemplate.replaceAll("<host>", actualHost);
             String revokeURL = revokeURLTemplate.replaceAll("<host>", actualHost);
 
-            Boolean smartEnabled = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false);
+            Boolean smartEnabled = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false);
             securityBuilder.service(CodeableConcept.builder()
                     .coding(Coding.builder()
                         .code(Code.of(smartEnabled ? "SMART-on-FHIR" : "OAuth"))
