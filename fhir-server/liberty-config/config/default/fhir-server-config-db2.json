@@ -8,6 +8,34 @@
             "conditionalDeleteMaxNumber": 10,
             "capabilityStatementCacheTimeout": 60
         },
+        "security": {
+            "cors": true,
+            "basic": {
+                "enabled": true
+            },
+            "certificates": {
+                "enabled": true
+            },
+            "oauth": {
+                "enabled": false,
+                "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
+                "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
+                "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
+                "smart": {
+                    "enabled": false,
+                    "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
+                    "capabilities": [
+                        "sso-openid-connect",
+                        "launch-standalone", 
+                        "client-public", 
+                        "client-confidential-symmetric", 
+                        "permission-offline",
+                        "context-standalone-patient",
+                        "permission-patient"
+                    ]
+                }
+            }
+        },
         "notifications": {
             "common": {
                 "__comment_includeResourceTypes": [
