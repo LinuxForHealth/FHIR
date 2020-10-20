@@ -85,7 +85,7 @@ The following sections include common values for `OPTIONS`.
 ```
 --prop-file db2.properties
 --schema-name FHIRDATA
---drop-schema
+--drop-schema-fhir
 --drop-admin
 --confirm-drop
 ```
