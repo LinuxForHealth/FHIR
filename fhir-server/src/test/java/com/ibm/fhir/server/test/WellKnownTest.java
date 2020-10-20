@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.server.resources;
+package com.ibm.fhir.server.test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
@@ -19,8 +19,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.server.test.MockHttpServletRequest;
-import com.ibm.fhir.server.test.MockServletContext;
+import com.ibm.fhir.server.resources.WellKnown;
 
 public class WellKnownTest {
 

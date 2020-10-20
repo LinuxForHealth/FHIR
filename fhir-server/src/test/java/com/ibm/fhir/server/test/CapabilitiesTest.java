@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.server.resources;
+package com.ibm.fhir.server.test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -24,8 +24,7 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.server.test.MockHttpServletRequest;
-import com.ibm.fhir.server.test.MockServletContext;
+import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
 

@@ -36,412 +36,209 @@ public class MockHttpServletRequest implements HttpServletRequest {
         return new StringBuffer("http://example.com");
     }
 
+    // All below methods are auto-generated stubs
     @Override
-    public Object getAttribute(String name) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Object getAttribute(String name) { return null; }
 
     @Override
-    public Enumeration<String> getAttributeNames() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Enumeration<String> getAttributeNames() { return null; }
 
     @Override
-    public String getCharacterEncoding() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getCharacterEncoding() { return null; }
 
     @Override
-    public void setCharacterEncoding(String env) throws UnsupportedEncodingException {
-        // TODO Auto-generated method stub
+    public void setCharacterEncoding(String env) throws UnsupportedEncodingException {}
 
-    }
-
     @Override
-    public int getContentLength() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public int getContentLength() { return 0; }
 
     @Override
-    public long getContentLengthLong() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public long getContentLengthLong() { return 0; }
 
     @Override
-    public String getContentType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getContentType() { return null; }
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public ServletInputStream getInputStream() throws IOException { return null; }
 
     @Override
-    public String getParameter(String name) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getParameter(String name) { return null; }
 
     @Override
-    public Enumeration<String> getParameterNames() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Enumeration<String> getParameterNames() { return null; }
 
     @Override
-    public String[] getParameterValues(String name) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String[] getParameterValues(String name) { return null; }
 
     @Override
-    public Map<String, String[]> getParameterMap() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Map<String, String[]> getParameterMap() { return null; }
 
     @Override
-    public String getProtocol() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getProtocol() { return null; }
 
     @Override
-    public String getScheme() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getScheme() { return null; }
 
     @Override
-    public String getServerName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getServerName() { return null; }
 
     @Override
-    public int getServerPort() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public int getServerPort() { return 0; }
 
     @Override
-    public BufferedReader getReader() throws IOException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public BufferedReader getReader() throws IOException { return null; }
 
     @Override
-    public String getRemoteAddr() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getRemoteAddr() { return null; }
 
     @Override
-    public String getRemoteHost() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getRemoteHost() { return null; }
 
     @Override
-    public void setAttribute(String name, Object o) {
-        // TODO Auto-generated method stub
-
-    }
+    public void setAttribute(String name, Object o) {}
 
     @Override
-    public void removeAttribute(String name) {
-        // TODO Auto-generated method stub
+    public void removeAttribute(String name) {}
 
-    }
-
     @Override
-    public Locale getLocale() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Locale getLocale() { return null; }
 
     @Override
-    public Enumeration<Locale> getLocales() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Enumeration<Locale> getLocales() { return null; }
 
     @Override
-    public boolean isSecure() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isSecure() { return false; }
 
     @Override
-    public RequestDispatcher getRequestDispatcher(String path) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public RequestDispatcher getRequestDispatcher(String path) { return null; }
 
     @Override
-    public String getRealPath(String path) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getRealPath(String path) { return null; }
 
     @Override
-    public int getRemotePort() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public int getRemotePort() { return 0; }
 
     @Override
-    public String getLocalName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getLocalName() { return null; }
 
     @Override
-    public String getLocalAddr() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getLocalAddr() { return null; }
 
     @Override
-    public int getLocalPort() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public int getLocalPort() { return 0; }
 
     @Override
-    public ServletContext getServletContext() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public ServletContext getServletContext() { return null; }
 
     @Override
-    public AsyncContext startAsync() throws IllegalStateException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public AsyncContext startAsync() throws IllegalStateException { return null; }
 
     @Override
-    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException { return null; }
 
     @Override
-    public boolean isAsyncStarted() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isAsyncStarted() { return false; }
 
     @Override
-    public boolean isAsyncSupported() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isAsyncSupported() { return false; }
 
     @Override
-    public AsyncContext getAsyncContext() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public AsyncContext getAsyncContext() { return null; }
 
     @Override
-    public DispatcherType getDispatcherType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public DispatcherType getDispatcherType() { return null; }
 
     @Override
-    public String getAuthType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getAuthType() { return null; }
 
     @Override
-    public Cookie[] getCookies() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Cookie[] getCookies() { return null; }
 
     @Override
-    public long getDateHeader(String name) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public long getDateHeader(String name) { return 0; }
 
     @Override
-    public String getHeader(String name) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getHeader(String name) { return null; }
 
     @Override
-    public Enumeration<String> getHeaders(String name) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Enumeration<String> getHeaders(String name) { return null; }
 
     @Override
-    public Enumeration<String> getHeaderNames() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Enumeration<String> getHeaderNames() { return null; }
 
     @Override
-    public int getIntHeader(String name) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    public int getIntHeader(String name) { return 0; }
 
     @Override
-    public String getMethod() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getMethod() { return null; }
 
     @Override
-    public String getPathInfo() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getPathInfo() { return null; }
 
     @Override
-    public String getPathTranslated() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getPathTranslated() { return null; }
 
     @Override
-    public String getContextPath() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getContextPath() { return null; }
 
     @Override
-    public String getQueryString() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getQueryString() { return null; }
 
     @Override
-    public String getRemoteUser() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getRemoteUser() { return null; }
 
     @Override
-    public boolean isUserInRole(String role) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isUserInRole(String role) { return false; }
 
     @Override
-    public Principal getUserPrincipal() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Principal getUserPrincipal() { return null; }
 
     @Override
-    public String getRequestedSessionId() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getRequestedSessionId() { return null; }
 
     @Override
-    public String getRequestURI() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getRequestURI() { return null; }
 
     @Override
-    public String getServletPath() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String getServletPath() { return null; }
 
     @Override
-    public HttpSession getSession(boolean create) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public HttpSession getSession(boolean create) { return null; }
 
     @Override
-    public HttpSession getSession() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public HttpSession getSession() { return null; }
 
     @Override
-    public String changeSessionId() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public String changeSessionId() { return null; }
 
     @Override
-    public boolean isRequestedSessionIdValid() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isRequestedSessionIdValid() { return false; }
 
     @Override
-    public boolean isRequestedSessionIdFromCookie() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isRequestedSessionIdFromCookie() { return false; }
 
     @Override
-    public boolean isRequestedSessionIdFromURL() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isRequestedSessionIdFromURL() { return false; }
 
     @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean isRequestedSessionIdFromUrl() { return false; }
 
     @Override
-    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException { return false; }
 
     @Override
-    public void login(String username, String password) throws ServletException {
-        // TODO Auto-generated method stub
+    public void login(String username, String password) throws ServletException {}
 
-    }
-
     @Override
-    public void logout() throws ServletException {
-        // TODO Auto-generated method stub
-
-    }
+    public void logout() throws ServletException {}
 
     @Override
-    public Collection<Part> getParts() throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Collection<Part> getParts() throws IOException, ServletException { return null; }
 
     @Override
-    public Part getPart(String name) throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Part getPart(String name) throws IOException, ServletException { return null; }
 
     @Override
-    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException { return null; }
 
 }
