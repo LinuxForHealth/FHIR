@@ -768,6 +768,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             
             // https://example.com:9443/
             result.append("/");
+            
+            final String endpoint = "fhir-server/api/v4/";
+            if (uri.contains(endpoint)) {
+                result.append(endpoint);
+            }
 
             // Cache the result so we don't have to compute it over and over
             this.serverBase = result.toString();
@@ -781,7 +786,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     @Override
     public void visit(ReferenceParmVal rpv) throws FHIRPersistenceException {
-        final String valueString = rpv.getValueString();
+        String valueString = rpv.getValueString();
         if (valueString == null || valueString.isEmpty()) {
             return;
         }
@@ -799,16 +804,21 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             // - relative reference https://example.com/Patient/123
             // Because this reference is to a local FHIR resource (inside this server), we need use the correct
             // resource type name (assigned as the code system)
+            //  - https://localhost:9443/fhir-server/api/v4/Patient/1234
             //  - https://example.com/Patient/1234
             //  - https://example.com/Patient/1234/_history/2
+            valueString = valueString.substring(base.length());
+            
+            // Patient/1234
+            // Patient/1234/_history/2
             String[] tokens = valueString.split("/");
-            if (tokens.length > 4) {
-                String refResourceType = tokens[3];
-                String refLogicalId = tokens[4];
+            if (tokens.length > 1) {
+                String refResourceType = tokens[0];
+                String refLogicalId = tokens[1];
                 Integer refVersion = null;
-                if (tokens.length == 7 && HISTORY.equals(tokens[5])) {
+                if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
                     // versioned reference
-                    refVersion = Integer.parseInt(tokens[6]);
+                    refVersion = Integer.parseInt(tokens[3]);
                 }
                 
                 // Store a token value configured as a reference to another resource
@@ -843,8 +853,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion));
                 
             } else {
-                // doesn't adhere to the intent of the FHIR spec, so we skip
-                logger.info("Skipping ReferenceParmValue '" + rpv.getName() + "' - value string is not a valid reference: '" + valueString + "'");
+                // SearchReferenceTest system integration tests require support for arbitrary reference strings
+                //  - Relative ==> 1234
+                final String codeSystem = TokenParmVal.DEFAULT_TOKEN_SYSTEM;
+                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, valueString));
             }
         }
     }

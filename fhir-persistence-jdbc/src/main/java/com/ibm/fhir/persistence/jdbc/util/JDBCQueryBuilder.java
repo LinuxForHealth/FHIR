@@ -569,20 +569,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         targetResourceType = queryParm.getModifierResourceTypeName();
                     }
                 }
-            } else if (targetResourceType == null && !isAbsoluteURL(searchValue)) {
-                // If the definition of the search parameter targets a single resource-type, then
-                // we can use that if we don't have it already
-                SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getCode());
-                if (definition != null) {
-                    List<? extends Code> targets = definition.getTarget();
-                    if (targets.size() == 1) {
-                        Code target = targets.get(0);
-                        targetResourceType = target.getValue();
-                    }
-                } else {
-                    log.finer("Couldn't find search parameter named '" + queryParm.getCode() + "' for resource of type "
-                            + resourceType);
-                }
             }
 
             // If multiple values are present, we need to OR them together.
