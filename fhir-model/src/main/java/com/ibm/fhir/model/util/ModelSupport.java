@@ -112,61 +112,64 @@ public final class ModelSupport {
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<? extends Resource>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
+    private static final Set<Class<? extends Resource>> CONCRETE_RESOURCE_TYPES = getResourceTypes().stream()
+            .filter(rt -> !isAbstract(rt))
+            .collect(Collectors.toSet());
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     // LinkedHashSet is used just to preserve the order, for convenience only
     private static final Set<Class<? extends Element>> CHOICE_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
-        Base64Binary.class,
-        com.ibm.fhir.model.type.Boolean.class,
-        Canonical.class,
-        Code.class,
-        Date.class,
-        DateTime.class,
-        Decimal.class,
-        Id.class,
-        Instant.class,
-        com.ibm.fhir.model.type.Integer.class,
-        Markdown.class,
-        Oid.class,
-        PositiveInt.class,
-        com.ibm.fhir.model.type.String.class,
-        Time.class,
-        UnsignedInt.class,
-        Uri.class,
-        Url.class,
-        Uuid.class,
-        Address.class,
-        Age.class,
-        Annotation.class,
-        Attachment.class,
-        CodeableConcept.class,
-        Coding.class,
-        ContactPoint.class,
-        Count.class,
-        Distance.class,
-        Duration.class,
-        HumanName.class,
-        Identifier.class,
-        Money.class,
-        MoneyQuantity.class, // profiled type
-        Period.class,
-        Quantity.class,
-        Range.class,
-        Ratio.class,
-        Reference.class,
-        SampledData.class,
-        SimpleQuantity.class, // profiled type
-        Signature.class,
-        Timing.class,
-        ContactDetail.class,
-        Contributor.class,
-        DataRequirement.class,
-        Expression.class,
-        ParameterDefinition.class,
-        RelatedArtifact.class,
-        TriggerDefinition.class,
-        UsageContext.class,
-        Dosage.class,
-        Meta.class));
+            Base64Binary.class,
+            com.ibm.fhir.model.type.Boolean.class,
+            Canonical.class,
+            Code.class,
+            Date.class,
+            DateTime.class,
+            Decimal.class,
+            Id.class,
+            Instant.class,
+            com.ibm.fhir.model.type.Integer.class,
+            Markdown.class,
+            Oid.class,
+            PositiveInt.class,
+            com.ibm.fhir.model.type.String.class,
+            Time.class,
+            UnsignedInt.class,
+            Uri.class,
+            Url.class,
+            Uuid.class,
+            Address.class,
+            Age.class,
+            Annotation.class,
+            Attachment.class,
+            CodeableConcept.class,
+            Coding.class,
+            ContactPoint.class,
+            Count.class,
+            Distance.class,
+            Duration.class,
+            HumanName.class,
+            Identifier.class,
+            Money.class,
+            MoneyQuantity.class, // profiled type
+            Period.class,
+            Quantity.class,
+            Range.class,
+            Ratio.class,
+            Reference.class,
+            SampledData.class,
+            SimpleQuantity.class, // profiled type
+            Signature.class,
+            Timing.class,
+            ContactDetail.class,
+            Contributor.class,
+            DataRequirement.class,
+            Expression.class,
+            ParameterDefinition.class,
+            RelatedArtifact.class,
+            TriggerDefinition.class,
+            UsageContext.class,
+            Dosage.class,
+            Meta.class));
     private static final Set<Class<? extends Element>> DATA_TYPES;
     static {
         // LinkedHashSet is used just to preserve the order, for convenience only
@@ -646,6 +649,17 @@ public final class ModelSupport {
     }
 
     /**
+     * @return a collection of FHIR resource type model classes
+     */
+    public static Collection<Class<? extends Resource>> getResourceTypes(boolean includeAbstractTypes) {
+        if (includeAbstractTypes) {
+            return RESOURCE_TYPE_MAP.values();
+        } else {
+            return CONCRETE_RESOURCE_TYPES;
+        }
+    }
+
+    /**
      * @return the set of classes for the FHIR elements
      */
     public static Set<Class<? extends Element>> getDataTypes() {
@@ -863,6 +877,15 @@ public final class ModelSupport {
      */
     public static boolean isResourceType(Class<?> modelClass) {
         return Resource.class.isAssignableFrom(modelClass);
+    }
+
+    /**
+     * @param modelClass
+     *            a model class which represents a FHIR resource or element
+     * @return true if {@code modelClass} is an abstract FHIR model class; otherwise false
+     */
+    public static boolean isAbstract(Class<?> modelClass) {
+        return Modifier.isAbstract(modelClass.getModifiers());
     }
 
     /**
