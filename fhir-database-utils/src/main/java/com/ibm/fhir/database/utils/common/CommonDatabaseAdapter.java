@@ -46,7 +46,7 @@ import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
  */
 public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDatabaseTypeAdapter {
     private static final Logger logger = Logger.getLogger(CommonDatabaseAdapter.class.getName());
-    
+
     // The target to use for executing our DDL
     protected final IDatabaseTarget target;
 
@@ -287,7 +287,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         try {
             runStatement(ddl);
         } catch (UndefinedNameException x) {
-            logger.warning(ddl + "; PROCEDURE not found");
+            logger.warning(ddl + "; FUNCTION not found");
         }
     }
 
@@ -538,14 +538,14 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (maxValue != null && maxValue > restartWith) {
             restartWith = maxValue;
         }
-        
+
         // Note the keyword RESTART instead of START.
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "ALTER SEQUENCE " + qname + " RESTART WITH " + restartWith + " CACHE " + cache;
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
     }
 
@@ -554,13 +554,13 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         // Check input strings are clean
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertValidName(columnName);
-        
+
         // modify the CACHE property of the identity column
         final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
     }
 
@@ -634,18 +634,23 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }
-    
+
     @Override
     public void deleteTenantMeta(String adminSchemaName, int tenantId) {
         DeleteTenantDAO dao = new DeleteTenantDAO(adminSchemaName, tenantId);
         runStatement(dao);
     }
-    
+
     @Override
     public void dropIndex(String schemaName, String indexName) {
         // Create the qualified name, making sure the input is also secure
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, indexName);
         final String ddl = "DROP INDEX " + qname;
-        runStatement(ddl);
+        
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; INDEX not found");
+        }
     }
 }
