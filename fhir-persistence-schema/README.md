@@ -30,7 +30,7 @@ su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"grant connect on database T
 
 **Note 2:** When creating the database, `PAGESIZE` is important. So *do* use the statement below and not, e.g., the environment variable `DBNAME` of the [Db2 Docker container](https://hub.docker.com/r/ibmcom/db2) to generate the database; otherwise the step *Deploy new schema* below will fail with `SQLCODE=-286, SQLSTATE=42727`.  
 
-To create the PostgreSql database and database user, use the following commands:
+To create the PostgreSQL database and database user, use the following commands:
 
 ``` shell
 psql postgres
@@ -80,16 +80,6 @@ Note: Replace `${VERSION}` with the version of the jar you're using or use the w
 
 The following sections include common values for `OPTIONS`.
 
-### Drop tables from FHIR_ADMIN and FHIRDATA (Db2 only)
-
-```
---prop-file db2.properties
---schema-name FHIRDATA
---drop-schema-fhir
---drop-admin
---confirm-drop
-```
-
 ### Create new schema
 For Db2:
 
@@ -99,7 +89,7 @@ For Db2:
 --create-schemas
 ```
 
-For Postgresql:
+For PostgreSQL:
 
 ```
 --prop-file postgresql.properties
@@ -116,7 +106,7 @@ For Db2:
 --schema-name FHIRDATA
 --update-schema
 ```
-For Postgresql:
+For PostgreSQL:
 
 ```
 --prop-file postgresql.properties
@@ -218,12 +208,57 @@ For Db2:
 --update-proc
 ```
 
-For postgresql:
+For PostgreSQL:
 
 ```
 --prop-file postgresql.properties
 --schema-name fhirdata
 --update-proc
+--db-type postgresql
+```
+
+### Drop the FHIR schema specified by `schema-name` (e.g. FHIRDATA)
+For Db2:
+
+```
+--prop-file db2.properties
+--schema-name FHIRDATA
+--drop-schema-fhir
+--confirm-drop
+```
+
+For PostgreSQL:
+
+```
+--prop-file postgresql.properties
+--schema-name FHIRDATA
+--drop-schema-fhir
+--confirm-drop
+--db-type postgresql
+```
+
+### Drop all tables created by `--create-schemas` (including the FHIR-ADMIN schema)
+For Db2:
+
+```
+--prop-file db2.properties
+--schema-name FHIRDATA
+--drop-schema-fhir
+--drop-schema-batch
+--drop-schema-oauth
+--drop-admin
+--confirm-drop
+```
+
+For PostgreSQL:
+
+```
+--prop-file postgresql.properties
+--schema-name FHIRDATA
+--drop-schema-fhir
+--drop-schema-batch
+--drop-schema-oauth
+--drop-admin
 --db-type postgresql
 ```
 

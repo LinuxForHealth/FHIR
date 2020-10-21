@@ -52,7 +52,8 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         CREATE_PROC,
         DROP_PROC,
         TABLESPACE,
-        ALTER_TABLE_SEQ_CACHE
+        ALTER_TABLE_SEQ_CACHE,
+        DROP_PERMISSION
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
@@ -380,5 +381,13 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
 
         warnOnce(MessageKey.ALTER_TABLE_SEQ_CACHE, "Not supported in PostgreSQL: " + ddl);
+    }
+
+    @Override
+    public void dropPermission(String schemaName, String permissionName) {
+        final String nm = getQualifiedName(schemaName, permissionName);
+        final String ddl = "DROP PERMISSION " + nm;
+
+        warnOnce(MessageKey.DROP_PERMISSION, "Not supported in PostgreSQL: " + ddl);
     }
 }
