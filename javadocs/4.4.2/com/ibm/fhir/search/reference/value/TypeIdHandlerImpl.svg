@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="218px" preserveAspectRatio="none" style="width:595px;height:218px;" version="1.1" viewBox="0 0 595 218" width="595px" zoomAndPan="magnify"><defs><filter height="300%" id="f1q9jpdxiww150" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[9cfad085079e9761d327b6ba319548a1]
+class com.ibm.fhir.search.reference.value.TypeIdHandlerImpl--><a href="TypeIdHandlerImpl.html" target="_top" title="TypeIdHandlerImpl.html" xlink:actuate="onRequest" xlink:href="TypeIdHandlerImpl.html" xlink:show="new" xlink:title="TypeIdHandlerImpl.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1q9jpdxiww150)" height="58.7422" id="com.ibm.fhir.search.reference.value.TypeIdHandlerImpl" style="stroke: #A80036; stroke-width: 1.5;" width="578" x="6" y="127"/><ellipse cx="203.25" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M206.2188,151.6094 Q205.6406,151.9063 205,152.0469 Q204.3594,152.2031 203.6563,152.2031 Q201.1563,152.2031 199.8281,150.5625 Q198.5156,148.9063 198.5156,145.7813 Q198.5156,142.6563 199.8281,141 Q201.1563,139.3438 203.6563,139.3438 Q204.3594,139.3438 205,139.5 Q205.6563,139.6563 206.2188,139.9531 L206.2188,142.6719 Q205.5938,142.0938 205,141.8281 Q204.4063,141.5469 203.7813,141.5469 Q202.4375,141.5469 201.75,142.625 Q201.0625,143.6875 201.0625,145.7813 Q201.0625,147.875 201.75,148.9531 Q202.4375,150.0156 203.7813,150.0156 Q204.4063,150.0156 205,149.75 Q205.5938,149.4688 206.2188,148.8906 L206.2188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="127" x="247.75" y="144.9951">TypeIdHandlerImpl</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="175" x="223.75" y="157.5791">com.ibm.fhir.search.reference.value</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="583" y1="164.9375" y2="164.9375"/><ellipse cx="17" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="552" x="26" y="179.1479">processParameter(String, List&lt;String&gt;, List&lt;QueryParameterValue&gt;, String, List&lt;String&gt;): void</text></a><!--MD5=[a2cde1dd3a185f9a72d1accc593619e7]
+class com.ibm.fhir.search.reference.value.ParameterValueHandler--><a href="ParameterValueHandler.html" target="_top" title="ParameterValueHandler.html" xlink:actuate="onRequest" xlink:href="ParameterValueHandler.html" xlink:show="new" xlink:title="ParameterValueHandler.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1q9jpdxiww150)" height="58.7422" id="com.ibm.fhir.search.reference.value.ParameterValueHandler" style="stroke: #A80036; stroke-width: 1.5;" width="578" x="6" y="8"/><ellipse cx="203.25" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M199.1719,22.7344 L199.1719,20.5781 L206.5625,20.5781 L206.5625,22.7344 L204.0938,22.7344 L204.0938,30.8125 L206.5625,30.8125 L206.5625,32.9688 L199.1719,32.9688 L199.1719,30.8125 L201.6406,30.8125 L201.6406,22.7344 L199.1719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="162" x="230.25" y="25.9951">ParameterValueHandler</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="175" x="223.75" y="38.5791">com.ibm.fhir.search.reference.value</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="583" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="552" x="26" y="60.1479">processParameter(String, List&lt;String&gt;, List&lt;QueryParameterValue&gt;, String, List&lt;String&gt;): void</text></a><!--MD5=[9618ce20830c3076c2d8c5e7584b1830]
+reverse link com.ibm.fhir.search.reference.value.ParameterValueHandler to com.ibm.fhir.search.reference.value.TypeIdHandlerImpl--><path d="M295,87.3288 C295,100.7348 295,114.8139 295,126.7447 " fill="none" id="com.ibm.fhir.search.reference.value.ParameterValueHandler&lt;-com.ibm.fhir.search.reference.value.TypeIdHandlerImpl" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="288.0001,87.2218,295,67.2218,302.0001,87.2217,288.0001,87.2218" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="208" y="205.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[28a7db3d9ba9e56c5903678ae14a90ed]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>TypeIdHandlerImpl\n<size:10>com.ibm.fhir.search.reference.value" as com.ibm.fhir.search.reference.value.TypeIdHandlerImpl [[TypeIdHandlerImpl.html]] {
+        +processParameter(String, List<String>, List<QueryParameterValue>, String, List<String>): void
+    }
+
+    interface "<size:14>ParameterValueHandler\n<size:10>com.ibm.fhir.search.reference.value" as com.ibm.fhir.search.reference.value.ParameterValueHandler [[ParameterValueHandler.html]] {
+        {abstract} +processParameter(String, List<String>, List<QueryParameterValue>, String, List<String>): void
+    }
+
+    com.ibm.fhir.search.reference.value.ParameterValueHandler <|.. com.ibm.fhir.search.reference.value.TypeIdHandlerImpl
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

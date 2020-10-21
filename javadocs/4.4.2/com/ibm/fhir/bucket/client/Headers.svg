@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="146px" preserveAspectRatio="none" style="width:224px;height:146px;" version="1.1" viewBox="0 0 224 146" width="224px" zoomAndPan="magnify"><defs><filter height="300%" id="f1xhwr6x9dzi8u" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[af138a276d43d270b3f139716268a427]
+class com.ibm.fhir.bucket.client.Headers--><a href="Headers.html" target="_top" title="Headers.html" xlink:actuate="onRequest" xlink:href="Headers.html" xlink:show="new" xlink:title="Headers.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1xhwr6x9dzi8u)" height="109.9609" id="com.ibm.fhir.bucket.client.Headers" style="stroke: #A80036; stroke-width: 1.5;" width="206" x="7" y="7"/><ellipse cx="44.5" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M47.4688,31.6094 Q46.8906,31.9063 46.25,32.0469 Q45.6094,32.2031 44.9063,32.2031 Q42.4063,32.2031 41.0781,30.5625 Q39.7656,28.9063 39.7656,25.7813 Q39.7656,22.6563 41.0781,21 Q42.4063,19.3438 44.9063,19.3438 Q45.6094,19.3438 46.25,19.5 Q46.9063,19.6563 47.4688,19.9531 L47.4688,22.6719 Q46.8438,22.0938 46.25,21.8281 Q45.6563,21.5469 45.0313,21.5469 Q43.6875,21.5469 43,22.625 Q42.3125,23.6875 42.3125,25.7813 Q42.3125,27.875 43,28.9531 Q43.6875,30.0156 45.0313,30.0156 Q45.6563,30.0156 46.25,29.75 Q46.8438,29.4688 47.4688,28.8906 L47.4688,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="58" x="96.5" y="24.9951">Headers</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="124" x="63.5" y="37.5791">com.ibm.fhir.bucket.client</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="212" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="124" x="27" y="59.1479">HOST_HEADER: String</text><ellipse cx="18" cy="68.7422" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="122" x="27" y="71.9526">AUTH_HEADER: String</text><ellipse cx="18" cy="81.5469" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="180" x="27" y="84.7573">CONTENT_TYPE_HEADER: String</text><ellipse cx="18" cy="94.3516" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="136" x="27" y="97.562">ACCEPT_HEADER: String</text><ellipse cx="18" cy="107.1563" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="136" x="27" y="110.3667">TENANT_HEADER: String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="17" y="133.2432">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[2e1c5cf93b571e47c8780a989d822764]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>Headers\n<size:10>com.ibm.fhir.bucket.client" as com.ibm.fhir.bucket.client.Headers [[Headers.html]] {
+        {static} +HOST_HEADER: String
+        {static} +AUTH_HEADER: String
+        {static} +CONTENT_TYPE_HEADER: String
+        {static} +ACCEPT_HEADER: String
+        {static} +TENANT_HEADER: String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
