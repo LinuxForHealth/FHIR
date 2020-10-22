@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="95px" preserveAspectRatio="none" style="width:290px;height:95px;" version="1.1" viewBox="0 0 290 95" width="290px" zoomAndPan="magnify"><defs><filter height="300%" id="f1cuqrwtb5121a" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[1285ae898cbc875db89997e6a331ef80]
+class com.ibm.fhir.model.util.ReferenceFinder--><a href="ReferenceFinder.html" target="_top" title="ReferenceFinder.html" xlink:actuate="onRequest" xlink:href="ReferenceFinder.html" xlink:show="new" xlink:title="ReferenceFinder.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1cuqrwtb5121a)" height="58.7422" id="com.ibm.fhir.model.util.ReferenceFinder" style="stroke: #A80036; stroke-width: 1.5;" width="272" x="7" y="7"/><ellipse cx="81.25" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M84.2188,31.6094 Q83.6406,31.9063 83,32.0469 Q82.3594,32.2031 81.6563,32.2031 Q79.1563,32.2031 77.8281,30.5625 Q76.5156,28.9063 76.5156,25.7813 Q76.5156,22.6563 77.8281,21 Q79.1563,19.3438 81.6563,19.3438 Q82.3594,19.3438 83,19.5 Q83.6563,19.6563 84.2188,19.9531 L84.2188,22.6719 Q83.5938,22.0938 83,21.8281 Q82.4063,21.5469 81.7813,21.5469 Q80.4375,21.5469 79.75,22.625 Q79.0625,23.6875 79.0625,25.7813 Q79.0625,27.875 79.75,28.9531 Q80.4375,30.0156 81.7813,30.0156 Q82.4063,30.0156 83,29.75 Q83.5938,29.4688 84.2188,28.8906 L84.2188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="115" x="101.75" y="24.9951">ReferenceFinder</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="111" x="103.75" y="37.5791">com.ibm.fhir.model.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="278" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="246" x="27" y="59.1479">getReferences(Resource): List&lt;Reference&gt;</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="50" y="82.0244">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[bebcd79ac87db09d63d02cabc0ad100b]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ReferenceFinder\n<size:10>com.ibm.fhir.model.util" as com.ibm.fhir.model.util.ReferenceFinder [[ReferenceFinder.html]] {
+        {static} +getReferences(Resource): List<Reference>
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

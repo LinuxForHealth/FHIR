@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="210px" preserveAspectRatio="none" style="width:236px;height:210px;" version="1.1" viewBox="0 0 236 210" width="236px" zoomAndPan="magnify"><defs><filter height="300%" id="f1qj1qdfhgz586" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[f5910839369b93bbd60d053e743afa1c]
+class com.ibm.fhir.audit.cadf.model.CadfMapItem.Parser--><a href="CadfMapItem.Parser.html" target="_top" title="CadfMapItem.Parser.html" xlink:actuate="onRequest" xlink:href="CadfMapItem.Parser.html" xlink:show="new" xlink:title="CadfMapItem.Parser.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1qj1qdfhgz586)" height="71.5469" id="com.ibm.fhir.audit.cadf.model.CadfMapItem.Parser" style="stroke: #A80036; stroke-width: 1.5;" width="219" x="6" y="106"/><ellipse cx="39.9" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M42.8688,130.6094 Q42.2906,130.9063 41.65,131.0469 Q41.0094,131.2031 40.3063,131.2031 Q37.8063,131.2031 36.4781,129.5625 Q35.1656,127.9063 35.1656,124.7813 Q35.1656,121.6563 36.4781,120 Q37.8063,118.3438 40.3063,118.3438 Q41.0094,118.3438 41.65,118.5 Q42.3063,118.6563 42.8688,118.9531 L42.8688,121.6719 Q42.2438,121.0938 41.65,120.8281 Q41.0563,120.5469 40.4313,120.5469 Q39.0875,120.5469 38.4,121.625 Q37.7125,122.6875 37.7125,124.7813 Q37.7125,126.875 38.4,127.9531 Q39.0875,129.0156 40.4313,129.0156 Q41.0563,129.0156 41.65,128.75 Q42.2438,128.4688 42.8688,127.8906 L42.8688,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="138" x="61.6" y="123.9951">CadfMapItem.Parser</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="145" x="58.1" y="136.5791">com.ibm.fhir.audit.cadf.model</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="224" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="193" x="26" y="158.1479">parse(InputStream): CadfMapItem</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="183" x="26" y="170.9526">parse(JsonObject): CadfMapItem</text></a><!--MD5=[71026b59386c0c6dabc7d4126e965b40]
+class com.ibm.fhir.audit.cadf.model.CadfMapItem--><a href="CadfMapItem.html" target="_top" title="CadfMapItem.html" xlink:actuate="onRequest" xlink:href="CadfMapItem.html" xlink:show="new" xlink:title="CadfMapItem.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1qj1qdfhgz586)" height="37.9375" id="com.ibm.fhir.audit.cadf.model.CadfMapItem" style="stroke: #A80036; stroke-width: 1.5;" width="177" x="27" y="8"/><ellipse cx="42" cy="26.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M44.9688,32.6094 Q44.3906,32.9063 43.75,33.0469 Q43.1094,33.2031 42.4063,33.2031 Q39.9063,33.2031 38.5781,31.5625 Q37.2656,29.9063 37.2656,26.7813 Q37.2656,23.6563 38.5781,22 Q39.9063,20.3438 42.4063,20.3438 Q43.1094,20.3438 43.75,20.5 Q44.4063,20.6563 44.9688,20.9531 L44.9688,23.6719 Q44.3438,23.0938 43.75,22.8281 Q43.1563,22.5469 42.5313,22.5469 Q41.1875,22.5469 40.5,23.625 Q39.8125,24.6875 39.8125,26.7813 Q39.8125,28.875 40.5,29.9531 Q41.1875,31.0156 42.5313,31.0156 Q43.1563,31.0156 43.75,30.75 Q44.3438,30.4688 44.9688,29.8906 L44.9688,32.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="90" x="83.5" y="25.9951">CadfMapItem</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="145" x="56" y="38.5791">com.ibm.fhir.audit.cadf.model</text></a><!--MD5=[b225deac422fa50ca81008760f773e50]
+reverse link com.ibm.fhir.audit.cadf.model.CadfMapItem to com.ibm.fhir.audit.cadf.model.CadfMapItem.Parser--><path d="M115.5,61.4665 C115.5,75.5047 115.5,91.7372 115.5,105.935 " fill="none" id="com.ibm.fhir.audit.cadf.model.CadfMapItem&lt;-com.ibm.fhir.audit.cadf.model.CadfMapItem.Parser" style="stroke: #A80036; stroke-width: 1.0;"/><ellipse cx="115.5" cy="54.2484" fill="#FFFFFF" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="115.5" x2="115.5" y1="62.2484" y2="46.2484"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="107.5" x2="123.5" y1="54.2484" y2="54.2484"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="28.5" y="197.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[20d538bb4e60e54cbe53882eef07e587]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CadfMapItem.Parser\n<size:10>com.ibm.fhir.audit.cadf.model" as com.ibm.fhir.audit.cadf.model.CadfMapItem.Parser [[CadfMapItem.Parser.html]] {
+        {static} +parse(InputStream): CadfMapItem
+        {static} +parse(JsonObject): CadfMapItem
+    }
+
+    class "<size:14>CadfMapItem\n<size:10>com.ibm.fhir.audit.cadf.model" as com.ibm.fhir.audit.cadf.model.CadfMapItem [[CadfMapItem.html]]
+
+    com.ibm.fhir.audit.cadf.model.CadfMapItem +- - com.ibm.fhir.audit.cadf.model.CadfMapItem.Parser
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
