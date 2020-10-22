@@ -171,6 +171,9 @@ public class CosExportImpl implements ExportImportBulkData {
             tmpProperties.putAll(properties);
             addBaseUri(operationContext, tmpProperties);
 
+            String incomingUrl = FHIRRequestContext.get().getOriginalRequestUri();
+            tmpProperties.put("incomingUrl", incomingUrl);
+
             // Submit Job
             BulkDataClient client = new BulkDataClient(tmpProperties);
             // If we add multiple formats, shove the media-type into a properties map.

@@ -123,6 +123,9 @@ public class ChunkWriter extends AbstractItemWriter {
     @BatchProperty(name = Constants.IMPORT_FHIR_IS_VALIDATION_ON)
     String fhirValidation;
 
+    @Inject
+    @BatchProperty(name = Constants.INCOMING_URL)
+    String incomingUrl;
 
     public ChunkWriter() {
         super();
@@ -288,7 +291,10 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.info("open: Set DatastoreId to default!");
         }
 
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        FHIRRequestContext context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
+        FHIRRequestContext.set(context);
+        context.setOriginalRequestUri(incomingUrl);
+
         boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
             .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
         cosClient =
