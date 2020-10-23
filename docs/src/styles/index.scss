@@ -28,3 +28,10 @@
 // inside component class names
 //---------------------------------------
 @include carbon--type-classes();
+
+// Fix width issues in the properties block
+.bx--col-lg-8 {
+    display: block;
+    flex: 0 0 90.66667%;
+    max-width: 90.66667%;
+}
