@@ -39,6 +39,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
@@ -61,8 +62,9 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         super(connection, schemaName, flavor, cache, rrd);
     }
 
-    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
+    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+        ParameterTransactionDataImpl ptdi) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
 
     /**
@@ -129,7 +131,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
-                    identityCache, getResourceReferenceDAO())) {
+                    identityCache, getResourceReferenceDAO(), getTransactionData())) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }

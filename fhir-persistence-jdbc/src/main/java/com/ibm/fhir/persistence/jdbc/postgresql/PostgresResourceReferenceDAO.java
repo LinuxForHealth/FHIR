@@ -8,15 +8,24 @@ package com.ibm.fhir.persistence.jdbc.postgresql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 
 /**
@@ -36,6 +45,42 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
     public PostgresResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
         super(t, c, schemaName, cache);
     }
+    
+    @Override
+    public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
+        // query is a negative outer join so we only pick the rows where
+        // the row "s" from the actual table doesn't exist. Note the order by,
+        // which is crucial to avoid deadlocks (even though adding code-systems
+        // isn't that common).
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
+        insert.append("     SELECT ").append(nextVal).append(", v.name ");
+        insert.append("       FROM ");
+        insert.append("    (VALUES ").append(paramList).append(" ) AS v(name) ");
+        insert.append(" ON CONFLICT DO NOTHING ");
+                
+        // Note, we use PreparedStatement here on purpose. Partly because it's
+        // secure coding best practice, but also because many resources will have the
+        // same number of parameters, and hopefully we'll therefore share a small subset
+        // of statements for better performance. Although once the cache warms up, this
+        // shouldn't be called at all.
+        final List<String> sortedNames = new ArrayList<>(systemNames);
+        sortedNames.sort((String left, String right) -> left.compareTo(right));
+
+        try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
+            // bind all the code_system_name values as parameters
+            int a = 1;
+            for (String name: sortedNames) {
+                ps.setString(a++, name);
+            }
+            
+            ps.executeUpdate();
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert.toString(), x);
+            throw getTranslator().translate(x);
+        }
+    }
 
     @Override
     protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
@@ -45,10 +90,10 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         // unique key duplicate value error. So instead, we have to use the Postgres custom
         // syntax to tell it to ignore any conflicts.
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_token_values (token_value, code_system_id) ");
-        insert.append("     SELECT v.token_value, v.code_system_id ");
-        insert.append("       FROM (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
-        insert.append("   ORDER BY v.token_value, v.code_system_id "); // minimize probability of deadlock
+        insert.append(" INSERT INTO common_token_values (token_value, code_system_id) ");
+        insert.append("      SELECT v.token_value, v.code_system_id ");
+        insert.append("        FROM (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
+        insert.append("    ORDER BY v.token_value, v.code_system_id "); // minimize probability of deadlock
         insert.append(" ON CONFLICT DO NOTHING ");
         
         // Note, we use PreparedStatement here on purpose. Partly because it's

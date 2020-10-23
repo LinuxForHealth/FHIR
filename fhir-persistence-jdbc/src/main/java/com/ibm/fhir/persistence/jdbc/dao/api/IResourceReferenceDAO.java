@@ -79,4 +79,10 @@ public interface IResourceReferenceDAO {
      */
     long createGhostLogicalResource(String resourceType, String logicalId) throws FHIRPersistenceException;
 
+    /**
+     * Persist the records, which may span multiple resource types
+     * @param records
+     */
+    void persist(Collection<ResourceTokenValueRec> records);
+
 }

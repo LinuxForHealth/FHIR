@@ -39,6 +39,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -119,6 +120,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // The server base "https://example.com:9443/" extracted the first time we need it
     private String serverBase;
+    
+    // If not null, we stash certain parameter data here for insertion later
+    private final ParameterTransactionDataImpl transactionData;
 
     /**
      * Public constructor
@@ -126,7 +130,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      * @param resourceId
      */
     public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
-            JDBCIdentityCache identityCache, IResourceReferenceDAO resourceReferenceDAO) throws SQLException {
+            JDBCIdentityCache identityCache, IResourceReferenceDAO resourceReferenceDAO, ParameterTransactionDataImpl ptdi) throws SQLException {
         if (batchSize < 1) {
             throw new IllegalArgumentException("batchSize must be >= 1");
         }
@@ -137,6 +141,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         this.identityCache = identityCache;
         this.resourceReferenceDAO = resourceReferenceDAO;
         this.tablePrefix = tablePrefix;
+        this.transactionData = ptdi;
 
         insertString = multitenant ?
                 "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
@@ -423,7 +428,13 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     logger.info("tokenValue: " + parameterName + "[" + parameterNameId + "], "
                             + codeSystem + ", " + tokenValue);
                 }
-                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue));
+                
+                ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue);
+                if (this.transactionData != null) {
+                    this.transactionData.addValue(rec);
+                } else {
+                    this.tokenValueRecs.add(rec);
+                }
             }
         }
         catch (FHIRPersistenceDataAccessException x) {
@@ -800,6 +811,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
 
         final String base = getServerUrl();
+        ResourceTokenValueRec rec;
         if (base != null && valueString.startsWith(base)) {
             // - relative reference https://example.com/Patient/123
             // Because this reference is to a local FHIR resource (inside this server), we need use the correct
@@ -822,20 +834,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 }
                 
                 // Store a token value configured as a reference to another resource
-                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion));
+                rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion);
             } else {
                 // stored as a token with the default system
-                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
+                rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString);
             }
         } else if (valueString.startsWith(HTTP) || valueString.startsWith(HTTPS) || valueString.startsWith(URN)) {
             //  - absolute URL ==> http://some.system/a/fhir/resource/path
             //  - absolute URI ==> urn:uuid:53fefa32-1111-2222-3333-55ee120877b7
             // stored as a token with the default system
-            this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
+            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString);
         } else if (valueString.startsWith("#")) {
             //  - Internal ==> #fragmentid1
             // stored as a token value with the default system
-            this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString));
+            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, valueString);
         } else {
             //  - Relative ==> Patient/1234
             //  - Relative ==> Patient/1234/_history/2
@@ -850,14 +862,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 }
 
                 // Store a token value configured as a reference to another resource
-                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion));
+                rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion);
                 
             } else {
                 // SearchReferenceTest system integration tests require support for arbitrary reference strings
                 //  - Relative ==> 1234
                 final String codeSystem = TokenParmVal.DEFAULT_TOKEN_SYSTEM;
-                this.tokenValueRecs.add(new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, valueString));
+                rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, valueString);
             }
+        }
+        
+        if (this.transactionData != null) {
+            this.transactionData.addValue(rec);
+        } else {
+            this.tokenValueRecs.add(rec);
         }
     }
 }

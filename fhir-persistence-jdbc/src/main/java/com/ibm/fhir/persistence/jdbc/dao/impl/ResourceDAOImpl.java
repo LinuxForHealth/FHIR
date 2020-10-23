@@ -46,6 +46,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
@@ -117,6 +118,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     private final IResourceReferenceDAO resourceReferenceDAO;
     
     private final FHIRPersistenceJDBCCache cache;
+    
+    private final ParameterTransactionDataImpl transactionData;
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
@@ -125,12 +128,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param flavor
      * @param trxSyncRegistry
      */
-    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
+    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+        ParameterTransactionDataImpl ptdi) {
         super(c, schemaName, flavor);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
         this.cache = cache;
         this.resourceReferenceDAO = rrd;
+        this.transactionData = ptdi;
     }
 
     /**
@@ -145,7 +150,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         this.trxSynchRegistry = null;
         this.cache = cache;
         this.resourceReferenceDAO = rrd;
-
+        this.transactionData = null; // not supported outside JEE
     }
 
     /**
@@ -154,6 +159,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      */
     protected IResourceReferenceDAO getResourceReferenceDAO() {
         return this.resourceReferenceDAO;
+    }
+    
+    /**
+     * Get the ParameterTransactionDataImpl held by this.
+     * @return the transactionData object. Can be null.
+     */
+    protected ParameterTransactionDataImpl getTransactionData() {
+        return this.transactionData;
     }
 
     @Override
@@ -542,7 +555,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (parameters != null) {
                 JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                        resource.getId(), 100, identityCache, resourceReferenceDAO)) {
+                        resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }

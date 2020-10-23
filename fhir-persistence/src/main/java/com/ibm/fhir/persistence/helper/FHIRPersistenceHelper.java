@@ -79,46 +79,46 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
                 log.fine("Using FHIR persistence factory class name: " + factoryClassName);
             }
             
+            FHIRPersistenceFactory factory = persistenceFactoryCache.computeIfAbsent(factoryClassName, FHIRPersistenceHelper::newInstance );
             
-            FHIRPersistenceFactory factory = persistenceFactoryCache.get(factoryClassName);
-            if (factory == null) {
-
-                Class<?> factoryClass = null;
-                try {
-                    factoryClass = Class.forName(factoryClassName);
-                } catch (ClassNotFoundException e) {
-                    String msg = "An error occurred while trying to load FHIR persistence factory class '" + factoryClassName + "'";
-                    log.severe(msg + ": " + e);
-                    throw new FHIRPersistenceException(msg, e);
-                }
-                
-                // Make sure the class we loaded is in fact a FHIRPersistenceFactory class.
-                if (FHIRPersistenceFactory.class.isAssignableFrom(factoryClass)) {
-                    try {
-                        factory = (FHIRPersistenceFactory) factoryClass.getDeclaredConstructor().newInstance();
-
-                        // There's a small chance we may initially create more than one factory instance, but
-                        // we only cache the first one, so others will be quickly forgotten
-                        FHIRPersistenceFactory other = persistenceFactoryCache.putIfAbsent(factoryClassName, factory);
-                        if (other != null) {
-                            // solves a small race condition - we want the one already cached
-                            factory = other; 
-                        }
-                    } catch (Throwable t) {
-                        String msg = "An error occurred while trying to instantiate FHIR persistence factory class '" + factoryClassName + "'";
-                        log.severe(msg + ": " + t);
-                        throw new FHIRPersistenceException(msg, t);
-                    }
-                } else {
-                    String msg = "Configured FHIR persistence factory class '" + factoryClass.getName() + "' does not implement FHIRPersistenceFactory interface.";
-                    log.severe(msg);
-                    throw new FHIRPersistenceException(msg);
-                }
+            if (factory != null) {
+                // Call the factory and return the implementation instance.
+                return factory.getInstance();
+            } else {
+                throw new FHIRPersistenceException(PROPERTY_PERSISTENCE_FACTORY + " is configured incorrectly");
             }
-            // Call the factory and return the implementation instance.
-            return factory.getInstance();
+        } catch (Throwable t) {
+            throw new FHIRPersistenceException(PROPERTY_PERSISTENCE_FACTORY + " is configured incorrectly", t);
         } finally {
             log.exiting(this.getClass().getName(), "getFHIRPersistenceImplementation");
+        }
+    }
+    
+    /**
+     * Create a new instance of the class
+     * @param factoryClassName
+     * @return
+     */
+    private static FHIRPersistenceFactory newInstance(String factoryClassName) {
+        Class<?> factoryClass = null;
+        try {
+            factoryClass = Class.forName(factoryClassName);
+        } catch (ClassNotFoundException e) {
+            String msg = "An error occurred while trying to load FHIR persistence factory class '" + factoryClassName + "'";
+            log.severe(msg + ": " + e);
+            
+            throw new IllegalStateException("Failed to load persistence implementation class");
+        }
+        
+        try {
+            if (FHIRPersistenceFactory.class.isAssignableFrom(factoryClass)) {
+                return (FHIRPersistenceFactory) factoryClass.getDeclaredConstructor().newInstance();
+            } else {
+                throw new IllegalArgumentException("FHIRPersistenceFactory is not assignable from " + factoryClassName);
+            }
+        } catch (Throwable t) {
+            log.log(Level.SEVERE, "Failed creating new instance of " + factoryClassName, t);
+            throw new IllegalStateException("Failed to create persistence implementation class");
         }
     }
 }

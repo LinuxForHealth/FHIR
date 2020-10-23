@@ -123,6 +123,14 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         return this.connection;
     }
 
+    /**
+     * Getter for subclass access to the schemaName
+     * @return
+     */
+    protected String getSchemaName() {
+        return this.schemaName;
+    }
+
     @Override
     public void flush() throws FHIRPersistenceException {
         try {
@@ -338,7 +346,18 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
         cache.resolveTokenValues(xrefs, valueMisses);
         upsertCommonTokenValues(valueMisses);
-        
+
+        insertResourceTokenRefs(resourceType, xrefs);
+    }
+
+    /**
+     * Insert the values in the resource-type-specific _resource_token_refs table. This
+     * is a simple batch insert because all the FKs have already been resolved and updated
+     * in the ResourceTokenValueRec records
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertResourceTokenRefs(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
         // Now all the values should have ids assigned so we can go ahead and insert them
         // as a batch
         final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
@@ -402,49 +421,19 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         // Unique list so we don't try and create the same name more than once
         Set<String> systemNames = systems.stream().map(xr -> xr.getCodeSystemValue()).collect(Collectors.toSet());
         StringBuilder paramList = new StringBuilder();
+        StringBuilder inList = new StringBuilder();
         for (int i=0; i<systemNames.size(); i++) {
             if (paramList.length() > 0) {
                 paramList.append(", ");
+                inList.append(",");
             }
             paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_SEARCH_STRING_BYTES + ")))");
+            inList.append("?");
         }
         
-        // query is a negative outer join so we only pick the rows where
-        // the row "s" from the actual table doesn't exist.
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
-       StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
-        insert.append("     SELECT ");
-        insert.append(nextVal).append(", v.name ");
-        insert.append(" FROM ");
-        insert.append("     (VALUES ").append(paramList).append(" ) AS v(name) ");
-        insert.append(" LEFT OUTER JOIN code_systems s ");
-        insert.append("              ON s.code_system_name = v.name ");
-        insert.append("           WHERE s.code_system_name IS NULL");
+        final String paramListStr = paramList.toString();
+        doCodeSystemsUpsert(paramListStr, systemNames);
         
-        // Note, we use PreparedStatement here on purpose. Partly because it's
-        // secure coding best practice, but also because many resources will have the
-        // same number of parameters, and hopefully we'll therefore share a small subset
-        // of statements for better performance. Although once the cache warms up, this
-        // shouldn't be called at all.
-        StringBuilder inList = new StringBuilder(); // for the select query later
-        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
-            // bind all the external_system_name values as parameters
-            int a = 1;
-            for (String name: systemNames) {
-                ps.setString(a++, name);
-                
-                if (inList.length() > 0) {
-                    inList.append(",");
-                }
-                inList.append("?");
-            }
-            
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
-            throw translator.translate(x);
-        }
         
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
@@ -485,6 +474,49 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
                 logger.severe("Record for code_system_name '" + xr.getCodeSystemValue() + "' inserted but not found");
                 throw new IllegalStateException("id deleted from database!");
             }
+        }
+    }
+    
+    /**
+     * Insert any missing values into the code_systems table
+     * @param paramList
+     * @param systems
+     */
+    public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
+        // query is a negative outer join so we only pick the rows where
+        // the row "s" from the actual table doesn't exist.
+        
+        // Derby won't let us use any ORDER BY, even in a sub-select so we need to
+        // sort the values externally. It would be better if code_system_id were
+        // an identity column, but that's a much bigger change.
+        final List<String> sortedNames = new ArrayList<>(systemNames);
+        sortedNames.sort((String left, String right) -> left.compareTo(right));
+        
+        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
+        insert.append("          SELECT ").append(nextVal).append(", v.name ");
+        insert.append("            FROM (VALUES ").append(paramList).append(" ) AS v(name) ");
+        insert.append(" LEFT OUTER JOIN code_systems s ");
+        insert.append("              ON s.code_system_name = v.name ");
+        insert.append("           WHERE s.code_system_name IS NULL ");
+        
+        // Note, we use PreparedStatement here on purpose. Partly because it's
+        // secure coding best practice, but also because many resources will have the
+        // same number of parameters, and hopefully we'll therefore share a small subset
+        // of statements for better performance. Although once the cache warms up, this
+        // shouldn't be called at all.
+        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+            // bind all the code_system_name values as parameters
+            int a = 1;
+            for (String name: sortedNames) {
+                ps.setString(a++, name);
+            }
+            
+            ps.executeUpdate();
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert.toString(), x);
+            throw translator.translate(x);
         }
     }
     
@@ -729,5 +761,30 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
             throw translator.translate(x);
         }
         return result;
+    }
+
+    @Override
+    public void persist(Collection<ResourceTokenValueRec> records) {
+        // Grab the ids for all the code-systems, and upsert any misses
+        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
+        cache.resolveCodeSystems(records, systemMisses);
+        upsertCodeSystems(systemMisses);
+
+        // Now that all the code-systems ids are known, we can search the cache
+        // for all the token values, upserting anything new
+        List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
+        cache.resolveTokenValues(records, valueMisses);
+        upsertCommonTokenValues(valueMisses);
+
+        // Now split the records into groups based on resource type.
+        Map<String,List<ResourceTokenValueRec>> recordMap = new HashMap<>();
+        for (ResourceTokenValueRec rtv: records) {
+            List<ResourceTokenValueRec> list = recordMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
+            list.add(rtv);
+        }
+        
+        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: recordMap.entrySet()) {
+            insertResourceTokenRefs(entry.getKey(), entry.getValue());
+        }
     }
 }

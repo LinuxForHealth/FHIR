@@ -25,6 +25,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 
 /**
  * Derby specialization of the DAO used to assist the reindex custom operation
@@ -57,8 +58,9 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
      * @param cache
      * @param rrd
      */
-    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, translator, parameterDao, schemaName, flavor, trxSynchRegistry, cache, rrd);
+    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, 
+        ParameterTransactionDataImpl ptdi) {
+        super(connection, translator, parameterDao, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
     
     @Override

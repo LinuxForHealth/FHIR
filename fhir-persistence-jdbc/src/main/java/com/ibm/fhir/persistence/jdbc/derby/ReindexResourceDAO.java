@@ -37,6 +37,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 
 /**
  * DAO used to contain the logic required to reindex a given resource
@@ -78,8 +79,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param cache
      * @param rrd
      */
-    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
+    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
         this.translator = translator;
         this.parameterDao = parameterDao;
 
@@ -251,13 +252,14 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         deleteFromParameterTable(connection, tablePrefix + "_number_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_date_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_latlng_values", logicalResourceId);
+        deleteFromParameterTable(connection, tablePrefix + "_token_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_resource_token_refs", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
 
         if (parameters != null) {
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao);
             try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, tablePrefix, false, logicalResourceId, 100,
-                identityCache, getResourceReferenceDAO())) {
+                identityCache, getResourceReferenceDAO(), getTransactionData())) {
                 for (ExtractedParameterValue p: parameters) {
                     p.accept(pvd);
                 }

@@ -23,19 +23,22 @@ public class FHIRUserTransactionFactory implements FHIRTransactionFactory {
     private final TransactionSynchronizationRegistry syncRegistry;
     
     private final FHIRPersistenceJDBCCache cache;
+    
+    private final String transactionDataKey;
 
     /**
      * Public constructor
      * @param tx
      */
-    public FHIRUserTransactionFactory(UserTransaction tx, TransactionSynchronizationRegistry syncReg, FHIRPersistenceJDBCCache cache) {
+    public FHIRUserTransactionFactory(UserTransaction tx, TransactionSynchronizationRegistry syncReg, FHIRPersistenceJDBCCache cache, String transactionDataKey) {
         this.userTransaction = tx;
         this.syncRegistry = syncReg;
         this.cache = cache;
+        this.transactionDataKey = transactionDataKey;
     }
     
     @Override
     public FHIRPersistenceTransaction create() {
-        return new FHIRUserTransactionAdapter(userTransaction, syncRegistry, cache);
+        return new FHIRUserTransactionAdapter(userTransaction, syncRegistry, cache, transactionDataKey);
     }
 }

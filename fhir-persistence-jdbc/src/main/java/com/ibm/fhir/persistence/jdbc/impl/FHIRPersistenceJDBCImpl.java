@@ -92,6 +92,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.TransactionData;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheUtil;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
@@ -103,12 +104,15 @@ import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -150,6 +154,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
+    private static final String TXN_DATA_KEY = "transactionDataKey/" + CLASSNAME;
 
     // The following are filtered as they are handled specifically by the persistence layer:
     private static final List<String> SPECIAL_HANDLING = Arrays.asList("_id", "_lastUpdated");
@@ -177,10 +182,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     // The shared cache, used by all requests for the same tenant/datasource
     private final FHIRPersistenceJDBCCache cache;
+    
+    // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
+    private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
+    
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
+    @SuppressWarnings("unchecked")
     public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
@@ -214,7 +224,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
         this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
-        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache);
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);        
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -272,7 +282,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
 
         // TODO connect the transactionAdapter to our cache so that we can handle tx events in a non-JEE world
-        
+        this.transactionDataImpl = null;
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -398,10 +408,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         doCachePrefill(connection);
         
         if (this.trxSynchRegistry != null) {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache);
+            String datastoreId = FHIRRequestContext.get().getDataStoreId();
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
         } else {
             return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
         }
+    }
+    
+    private IResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+        if (this.trxSynchRegistry != null) {
+            String datastoreId = FHIRRequestContext.get().getDataStoreId();
+            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
+        } else {
+            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
+        }
+        
     }
 
     /**
@@ -1781,5 +1802,70 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public String generateResourceId() {
         return logicalIdentityProvider.createNewIdentityValue();
+    }
+
+    /**
+     * Each datasource involved in a transaction gets its own TransactionData impl object
+     * which is used to hold parameter data to be inserted into the datbase just prior to
+     * commit.
+     * @param datasourceId
+     * @return the ParameterTransactionDataImpl used to hold onto data to persist at the end of the current transaction
+     */
+    @SuppressWarnings("unchecked")
+    private ParameterTransactionDataImpl getTransactionDataForDatasource(String datasourceId) {
+        ParameterTransactionDataImpl result = null;
+        
+        // The trxSyncRegistry is transaction-scope, and may span multiple instances of this class. Only
+        // add the TransactionData impl if it doesn't already exist. No synchronization necessary...this is
+        // all in one thread
+        if (this.trxSynchRegistry != null) {
+            Object tdi = this.trxSynchRegistry.getResource(TXN_DATA_KEY);
+            if (tdi == null) {
+                this.transactionDataImpl = new TransactionDataImpl<ParameterTransactionDataImpl>(k -> createTransactionData(k));
+                this.trxSynchRegistry.putResource(TXN_DATA_KEY, this.transactionDataImpl);
+            } else if (tdi instanceof TransactionDataImpl<?>) {
+                this.transactionDataImpl = (TransactionDataImpl<ParameterTransactionDataImpl>)tdi;
+            } else {
+                throw new IllegalStateException(TXN_DATA_KEY + " invalid class"); // basic coding error
+            }
+
+            // Now ask the TransactionDataImpl to return the ParameterTransactionDataImpl for the
+            // current transaction, or create and stash a new instance if one doesn't yet exist
+            result = transactionDataImpl.findOrCreate(datasourceId);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Factory function to create a new instance of the TransactionData implementation
+     * used to store parameter data collected during this transaction
+     * @param datasourceId
+     * @return
+     */
+    private ParameterTransactionDataImpl createTransactionData(String datasourceId) {
+        return new ParameterTransactionDataImpl(datasourceId, this, this.userTransaction);
+    }
+
+    /**
+     * Called just prior to commit so that we can persist all the token value records
+     * that have been accumulated during the transaction. This collection therefore
+     * contains multiple resource types, which have to be processed separately.
+     * @param records
+     */
+    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records) throws FHIRPersistenceException {
+        try (Connection connection = openConnection()) {
+            IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
+            rrd.persist(records);
+        } catch(FHIRPersistenceFKVException e) {
+            log.log(Level.SEVERE, "FK violation", e);
+            throw e;
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
     }
 }

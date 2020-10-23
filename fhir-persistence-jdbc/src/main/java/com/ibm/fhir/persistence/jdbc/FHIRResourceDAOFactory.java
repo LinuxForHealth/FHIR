@@ -23,6 +23,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgresReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
@@ -44,7 +45,7 @@ public class FHIRResourceDAOFactory {
      * @throws FHIRPersistenceException
      */
     public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
-        FHIRPersistenceJDBCCache cache)
+        FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
         throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
         
@@ -52,15 +53,15 @@ public class FHIRResourceDAOFactory {
         switch (flavor.getType()) {
         case DB2:
             rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
-            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
+            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case DERBY:
             rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
-            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case POSTGRESQL:
             rrd = new PostgresResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
-            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd);
+            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         }
         return resourceDAO;
@@ -132,5 +133,66 @@ public class FHIRResourceDAOFactory {
             break;
         }
         return resourceDAO;
+    }
+
+    /**
+     * Get a standalone DAO to handle the inserts of the common token values and
+     * resource token refs just prior to the transaction commit
+     * @param connection
+     * @param schemaName
+     * @param flavor
+     * @param cache
+     * @return
+     * @throws IllegalArgumentException
+     * @throws FHIRPersistenceException
+     */
+    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, 
+        FHIRPersistenceJDBCCache cache) throws IllegalArgumentException, FHIRPersistenceException {
+        
+        IResourceReferenceDAO rrd = null;
+        switch (flavor.getType()) {
+        case DB2:
+            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
+            break;
+        case DERBY:
+            rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            break;
+        case POSTGRESQL:
+            rrd = new PostgresResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            break;
+        }
+        return rrd;
+    }
+
+    /**
+     * Get a standalone DAO to handle the inserts of the common token values and
+     * resource token refs just prior to the transaction commit.
+     * @param connection
+     * @param schemaName
+     * @param flavor
+     * @param trxSynchRegistry
+     * @param cache
+     * @param ptdi
+     * @return
+     * @throws IllegalArgumentException
+     * @throws FHIRPersistenceException
+     */
+    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
+        FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
+        throws IllegalArgumentException, FHIRPersistenceException {
+        
+        IResourceReferenceDAO rrd = null;
+        switch (flavor.getType()) {
+        case DB2:
+            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
+            break;
+        case DERBY:
+            rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            break;
+        case POSTGRESQL:
+            rrd = new PostgresResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            break;
+        }
+        return rrd;
     }
 }
