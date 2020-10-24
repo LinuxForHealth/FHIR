@@ -120,7 +120,11 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
 
     @Override
     public boolean isUndefinedName(SQLException x) {
-        return "42X05".equals(x.getSQLState());
+        String sqlState = x.getSQLState();
+        return "42704".equals(sqlState) ||
+               "42883".equals(sqlState) ||
+               "42P01".equals(sqlState) ||
+               "42P02".equals(sqlState);
     }
 
     @Override

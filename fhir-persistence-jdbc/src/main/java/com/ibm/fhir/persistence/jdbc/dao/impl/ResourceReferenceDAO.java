@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -63,37 +61,9 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
     
     // The translator for the type of database we are connected to
     private final IDatabaseTranslator translator;
-        
-    // batch statement for inserting records int local_references
-    private static final String INS_LOCAL_REF = "INSERT INTO local_references(parameter_name_id, logical_resource_id, ref_logical_resource_id) VALUES (?,?,?)";
-    private PreparedStatement localReferencesBatch;
-    private int localReferencesBatchCount = 0;
 
-    // batch statement for inserting records into external_systems
-    private static final String INS_EXT_SYS = "INSERT INTO external_systems (external_system_name) VALUES (?) RETURNING external_system_id";
-    private PreparedStatement externalSystemsBatch;
-    private int externalSystemsBatchCount = 0;
-    
-    // batch statement for inserting records into external_references
-    private static final String INS_EXT_REF = "INSERT INTO external_references (parameter_name_id, external_system_id, external_reference_value_id, logical_resource_id) VALUES (?,?,?,?)";
-    private PreparedStatement externalReferencesBatch;
-    private int externalReferencesBatchCount = 0;
-
-    // batch statement for inserting records into external_reference_values
-    private static final String INS_EXT_REF_VALUE = "INSERT INTO external_reference_values (external_reference_value) VALUES (?) RETURNING external_reference_value_id";
-    private PreparedStatement externalReferenceValuesBatch;
-    private int externalReferenceValuesBatchCount = 0;
-
-    // batch statement for inserting records into logical_resource_compartments
-    private static final String INS_COMPARTMENT = "INSERT INTO logical_resource_compartments(compartment_name_id, logical_resource_id, last_updated, compartment_logical_resource_id) "
-            + "VALUES (?, ?, ?, ?)";
-    private PreparedStatement logicalResourceCompartmentsBatch;
-    private int logicalResourceCompartmentsBatchCount = 0;
-    
-    private final ReferencesSequenceDAO referencesSequenceDAO;
-    
     // The number of operations we allow before submitting a batch
-    private static final int BATCH_SIZE = 100;
+    protected static final int BATCH_SIZE = 100;
     
     /**
      * Public constructor
@@ -104,7 +74,6 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         this.connection = c;
         this.cache = cache;
         this.schemaName = schemaName;
-        this.referencesSequenceDAO = new ReferencesSequenceDAO(c, schemaName, t);
     }
 
     /**
@@ -133,15 +102,6 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
 
     @Override
     public void flush() throws FHIRPersistenceException {
-        try {
-            if (localReferencesBatchCount > 0) {
-                localReferencesBatch.executeBatch();
-                localReferencesBatchCount = 0;
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, INS_LOCAL_REF, x);
-            throw translator.translate(x);
-        }
     }
 
     @Override
@@ -492,7 +452,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
         final List<String> sortedNames = new ArrayList<>(systemNames);
         sortedNames.sort((String left, String right) -> left.compareTo(right));
         
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        final String nextVal = translator.nextValue(schemaName, "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
         insert.append("          SELECT ").append(nextVal).append(", v.name ");
@@ -642,125 +602,21 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
             
             ps.executeUpdate();
         } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
-            throw translator.translate(x);
-        }
-    }
-
-    @Override
-    public void addLocalReferences(Collection<LocalResourceReferenceRec> lrefs) {
-        try {
-            if (localReferencesBatch == null) {
-                localReferencesBatch = connection.prepareStatement(INS_LOCAL_REF);
-            }
-
-            for (LocalResourceReferenceRec lrf: lrefs) {
-                localReferencesBatch.setInt(1, lrf.getParameterNameId());
-                localReferencesBatch.setLong(2, lrf.getLogicalResourceId());
-                localReferencesBatch.setLong(3, lrf.getRefLogicalResourceId());
-                localReferencesBatch.addBatch();
-                
-                if (++localReferencesBatchCount == BATCH_SIZE) {
-                    localReferencesBatch.executeBatch();
-                    localReferencesBatchCount = 0;
+            StringBuilder values = new StringBuilder();
+            for (CommonTokenValue tv: tokenValues) {
+                if (values.length() > 0) {
+                    values.append(", ");
                 }
+                values.append("{");
+                values.append(tv.getTokenValue());
+                values.append(",");
+                values.append(tv.getCodeSystemId());
+                values.append("}");
             }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, INS_LOCAL_REF, x);
-            throw translator.translate(x);
-        }
-    }
-    
-    /**
-     * Delete any records in the external_reference_values table which are
-     * no longer used by any external_references. Maintenance function.
-     */
-    public void deleteUnusedExternalReferenceValues() {
-        final String DML = "DELETE FROM external_reference_values xrv"
-                + " WHERE NOT EXISTS (SELECT 1 FROM external_references xr "
-                + "                    WHERE xr.external_reference_value_id = xrv.external_reference_value_id)";
-        try (Statement s = connection.createStatement()) {
-            s.executeUpdate(DML);
-        } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, DML, x);
-            throw translator.translate(x);
-        }
-    }
-    
-    /**
-     * Delete any records in the external_systems table which are no
-     * longer used by any external_references record. Maintenance function.
-     */
-    public void deleteUnusedExternalSystems() {
-        final String DML = "DELETE FROM external_systems xs"
-                + " WHERE NOT EXISTS (SELECT 1 FROM external_references xr "
-                + "                    WHERE xs.external_system_id = xr.external_system_id)";
-        try (Statement s = connection.createStatement()) {
-            s.executeUpdate(DML);
-        } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, DML, x);
-            throw translator.translate(x);
-        }
-    }
-
-    @Override
-    public long createGhostLogicalResource(String resourceType, String logicalId) throws FHIRPersistenceException {
-        long result;
-        // need to achieve two things:
-        //   1. idempotent create
-        //   2. get the logical_resource_id
-        // because RETURNING isn't available in Derby, we make this an upsert followed by a select.
-        // TODO. stored procs could reduce round-trips
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
-        final String insert = ""
-                + "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id) "
-                + "SELECT " + nextVal + ", "
-                + "       src.resource_type_id, src.logical_id "
-                + "  FROM (SELECT rt.resource_type_id, CAST(? AS VARCHAR(" + FhirSchemaConstants.LOGICAL_ID_BYTES + ")) AS logical_id "
-                + "          FROM resource_types rt "
-                + "         WHERE rt.resource_type = ? ) AS src "
-                + "LEFT OUTER JOIN logical_resources lr "
-                + "             ON (lr.resource_type_id = src.resource_type_id "
-                + "            AND lr.logical_id = src.logical_id) "
-                + " WHERE lr.logical_id IS NULL";
-        try (PreparedStatement ps = connection.prepareStatement(insert)) {
-            ps.setString(1, logicalId);
-            ps.setString(2, resourceType);
-            int created = ps.executeUpdate();
             
-            if (created > 0 && logger.isLoggable(Level.FINE)) {
-                logger.fine("Created new ghost record for logical resource " + resourceType + "/" + logicalId);
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert, x);
+            logger.log(Level.SEVERE, insert.toString() + "; [" + values.toString() + "]", x);
             throw translator.translate(x);
         }
-        
-        // Select the id for the record we just upserted
-        final String select = ""
-                + "SELECT logical_resource_id "
-                + "  FROM logical_resources lr, "
-                + "       resource_types rt "
-                + " WHERE rt.resource_type = ? "
-                + "   AND lr.resource_type_id = rt.resource_type_id "
-                + "   AND lr.logical_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(select)) {
-            ps.setString(1, resourceType);
-            ps.setString(2, logicalId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = rs.getLong(1);
-            } else {
-                // not gonna happen
-                throw new DataAccessException("logical resource record does not exist after upsert!");
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, select, x);
-            throw translator.translate(x);
-        }
-        return result;
     }
 
     @Override

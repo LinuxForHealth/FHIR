@@ -24,6 +24,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.postgresql.Db2ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgresReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
@@ -44,7 +45,7 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
+    public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
         FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
         throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
@@ -52,7 +53,7 @@ public class FHIRResourceDAOFactory {
         IResourceReferenceDAO rrd;
         switch (flavor.getType()) {
         case DB2:
-            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
             resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case DERBY:
@@ -77,7 +78,7 @@ public class FHIRResourceDAOFactory {
      * @param parameterDao
      * @return
      */
-    public static ReindexResourceDAO getReindexResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
+    public static ReindexResourceDAO getReindexResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
         FHIRPersistenceJDBCCache cache, ParameterDAO parameterDao) {
 
         IDatabaseTranslator translator = null;
@@ -87,7 +88,7 @@ public class FHIRResourceDAOFactory {
         switch (flavor.getType()) {
         case DB2:
             translator = new Db2Translator();
-            rrd = new ResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new Db2ResourceReferenceDAO(translator, connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
             result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
             break;
         case DERBY:
@@ -113,14 +114,14 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, 
+    public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, 
         FHIRPersistenceJDBCCache cache) throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
         
         IResourceReferenceDAO rrd;
         switch (flavor.getType()) {
         case DB2:
-            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
             resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, cache, rrd);
             break;
         case DERBY:
@@ -146,13 +147,13 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, 
+    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, 
         FHIRPersistenceJDBCCache cache) throws IllegalArgumentException, FHIRPersistenceException {
         
         IResourceReferenceDAO rrd = null;
         switch (flavor.getType()) {
         case DB2:
-            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
             break;
         case DERBY:
             rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
@@ -177,14 +178,14 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
+    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
         FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
         throws IllegalArgumentException, FHIRPersistenceException {
         
         IResourceReferenceDAO rrd = null;
         switch (flavor.getType()) {
         case DB2:
-            rrd = new ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
             break;
         case DERBY:
             rrd = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());

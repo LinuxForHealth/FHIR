@@ -68,7 +68,9 @@ function build_all {
     PROFILES_ARR+=(search-all-tests)
     PROFILES_ARR+=(jdbc-all-tests)
     PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
-    _mvn 'fhir-parent' "-Pdeploy-bintray,fhir-javadocs,fhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex-plan-net,fhir-ig-davinci-pdex-plan-net,fhir-ig-mcode,fhir-ig-us-core,fhir-term,${PROFILES}"
+    # To add a profile to the validation zip, append to the string.
+    # fhir-ig-davinci-hrex,fhir-ig-davinci-pdex are temporarily not included.
+    _mvn 'fhir-parent' "-Pdeploy-bintray,fhir-javadocs,fhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex-formulary,fhir-ig-davinci-pdex-plan-net,fhir-ig-mcode,fhir-ig-us-core,fhir-term,${PROFILES}"
 }
 
 ###############################################################################

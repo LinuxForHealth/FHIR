@@ -49,5 +49,4 @@ public class Db2Reorg implements IDatabaseStatement {
             throw translator.translate(x);
         }
     }
-
 }

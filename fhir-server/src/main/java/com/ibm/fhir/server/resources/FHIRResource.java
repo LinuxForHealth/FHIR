@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -80,7 +81,7 @@ public class FHIRResource {
     private FHIRPersistence persistence = null;
 
     @Context
-    private ServletContext context;
+    protected ServletContext context;
 
     @Context
     protected HttpServletRequest httpServletRequest;
@@ -332,7 +333,7 @@ public class FHIRResource {
     }
 
     protected Boolean isUpdateCreateEnabled() {
-        return fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
+        return FHIRConfigHelper.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
     }
 
     /**

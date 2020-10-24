@@ -123,7 +123,6 @@ public class Main {
     private String schemaName = DATA_SCHEMANAME;
 
     // Arguments requesting we drop the objects from the schema
-    private boolean dropSchema = false;
     private boolean dropAdmin = false;
     private boolean confirmDrop = false;
     private boolean updateProc = false;
@@ -161,6 +160,7 @@ public class Main {
 
     // Tenant management
     private boolean allocateTenant;
+    private boolean refreshTenants;
     private boolean dropTenant;
     private boolean freezeTenant;
     private String tenantName;
@@ -424,7 +424,7 @@ public class Main {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
 
-                    if (this.dropSchema) {
+                    if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
                     }
@@ -720,6 +720,44 @@ public class Main {
             }
         }
     }
+    
+    /**
+     * Make sure all the tables has a partition created for the configured tenant
+     */
+    protected void refreshTenants() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
+        // Build/update the tables as well as the stored procedures
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        gen.buildSchema(pdm);
+
+        // Similar to the allocate tenant processing, except in this case we want to
+        // make sure that each table has all the tenant partitions required. This is
+        // to handle the case where a schema update has added a new table.
+        List<TenantInfo> tenants;
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                GetTenantList rtListGetter = new GetTenantList(adminSchemaName);
+                tenants = adapter.runStatement(rtListGetter);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+        // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
+        tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
+        for (TenantInfo ti: tenants) {
+            if (ti.getTenantSchema() != null) {
+                pdm.addNewTenantPartitions(adapter, ti.getTenantSchema(), ti.getTenantId());
+            }
+        }
+    }
 
     /**
      * List the tenants currently configured
@@ -733,7 +771,7 @@ public class Main {
             try {
                 GetTenantList rtListGetter = new GetTenantList(adminSchemaName);
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
-                
+
                 System.out.println(TenantInfo.getHeader());
                 tenants.forEach(t -> System.out.println(t.toString()));
             } catch (DataAccessException x) {
@@ -802,13 +840,13 @@ public class Main {
             }
         }
     }
-    
+
     protected TenantInfo getTenantInfo() {
         TenantInfo result;
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             throw new IllegalStateException("Not a multi-tenant database");
         }
-        
+
         Db2Adapter adapter = new Db2Adapter(connectionPool);
 
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -816,7 +854,7 @@ public class Main {
             try {
                 GetTenantInfo command = new GetTenantInfo(adminSchemaName, tenantName);
                 result = adapter.runStatement(command);
-                
+
                 if (result == null) {
                     logger.info("Use --list-tenants to display the current tenants");
                     throw new IllegalArgumentException("Tenant '" + tenantName + "' not found in admin schema " + adminSchemaName);
@@ -860,10 +898,10 @@ public class Main {
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             throw new IllegalStateException("Not a multi-tenant database");
         }
-        
+
         TenantInfo result = getTenantInfo();
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        
+
 
         logger.info("Marking tenant for drop: " + tenantName);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -889,31 +927,31 @@ public class Main {
      * (due to how Db2 handles detaching partitions). This is further complicated by
      * referential integrity constraints in the schema. See:
      *  - https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.partition.doc/doc/t0021576.html
-     * 
+     *
      * The workaround described in the above link is:
      *   // Change the RI constraint to informational:
      *   1. ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
-     *   
+     *
      *   2. ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
-     *   
+     *
      *   3. SET INTEGRITY FOR child OFF;
-     *   
+     *
      *   // Change the RI constraint back to enforced:
      *   4. ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
-     *   
+     *
      *   5. SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
      *   6.   Assuming that the CHILD table does not have any dependencies on partition P0,
      *   7.   and that no updates on the CHILD table are permitted until this UOW is complete,
      *        no RI violation is possible during this UOW.
-     *   
+     *
      *   COMMIT WORK;
-     *   
+     *
      *   Unfortunately, #7 above essentially requires that all writes cease until the
      *   UOW is completed and the integrity is enabled again on all the child (leaf)
      *   tables. Of course, this could be relaxed if the application is trusted not
      *   to mess up the referential integrity...which we know to be true for the
      *   FHIR server persistence layer.
-     *   
+     *
      *   If the risk is deemed too high, tenant removal should be performed in a
      *   maintenance window.
      */
@@ -934,28 +972,27 @@ public class Main {
 
         // Detach the tenant partition from each of the data tables
         detachTenantPartitions(pdm, tenantInfo);
-        
+
         // this may not complete successfully because Db2 runs the detach as an async
         // process. Just need to run --drop-detached to clean up.
         dropDetachedPartitionTables(pdm, tenantInfo);
 
     }
-    
+
     /**
      * Drop any tables which have previously been detached. The detach process is asynchronous,
      * so this is a sort of garbage collection, sweeping up cruft left in the database.
      */
     protected void dropDetachedPartitionTables() {
 
-        TenantInfo tenantInfo = getTenantInfo();        
-         
+        TenantInfo tenantInfo = getTenantInfo();
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
         dropDetachedPartitionTables(pdm, tenantInfo);
     }
-    
+
     /**
      * Drop any tables which have previously been detached. Once all tables have been
      * dropped, we go on to drop the tablespace. If the tablespace drop is successful,
@@ -977,7 +1014,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
         // We can drop the tenant's tablespace only after all the table drops have been committed
         logger.info("Dropping tablespace for tenant " + tenantInfo.getTenantId() + "/" + tenantName);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -1002,9 +1039,9 @@ public class Main {
                 tx.setRollbackOnly();
                 throw x;
             }
-        }        
+        }
     }
-    
+
     /**
      * Temporarily suspend RI so that tables which are the subject of foreign
      * key relationships can have their partitions dropped. A bit frustrating
@@ -1019,25 +1056,25 @@ public class Main {
      */
     protected void detachTenantPartitions(PhysicalDataModel pdm, TenantInfo tenantInfo) {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        
+
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 // collect the set of all child tables with FK relationships to
                 // partitioned tables
                 Set<Table> childTables = new HashSet<>();
-                
+
                 // ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
                 pdm.visit(new DisableForeignKey(adapter, childTables));
-                
+
                 // ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
                 pdm.detachTenantPartitions(adapter, tenantInfo.getTenantSchema(), tenantInfo.getTenantId());
-                
+
                 // SET INTEGRITY FOR child OFF;
                 childTables.forEach(t -> adapter.setIntegrityOff(t.getSchemaName(), t.getObjectName()));
- 
+
                 // ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
                 pdm.visit(new EnableForeignKey(adapter));
-                
+
                 // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
                 childTables.forEach(t -> adapter.setIntegrityUnchecked(t.getSchemaName(), t.getObjectName()));
             } catch (DataAccessException x) {
@@ -1046,7 +1083,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
     }
 
     /**
@@ -1198,7 +1235,6 @@ public class Main {
                 this.updateFhirSchema = true;
                 this.updateOauthSchema = true;
                 this.updateJavaBatchSchema = true;
-                this.dropSchema = false;
                 break;
             case "--update-schema-fhir":
                 this.updateFhirSchema = true;
@@ -1250,8 +1286,8 @@ public class Main {
                 }
                 break;
             case "--drop-schema":
-                this.updateFhirSchema = false;
-                this.dropSchema = true;
+                System.err.print("Option '--drop-schema' has been retired.  Please use '--drop-schema-fhir', "
+                        + "'--drop-schema-batch', and/or '--drop-schema-oauth'.");
                 break;
             case "--drop-schema-fhir":
                 this.dropFhirSchema = Boolean.TRUE;
@@ -1288,6 +1324,11 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
+                break;
+            case "--refresh-tenants":
+                this.refreshTenants = true;
+                this.allocateTenant = false;
+                this.dropTenant = false;
                 break;
             case "--drop-tenant":
                 if (++i < args.length) {
@@ -1396,15 +1437,8 @@ public class Main {
 
         if (addKeyForTenant != null) {
             addTenantKey();
-        } else if (this.dropSchema) {
+        } else if (this.dropAdmin || this.dropFhirSchema || this.dropJavaBatchSchema || this.dropOauthSchema) {
             // only proceed with the drop if the user has provided additional confirmation
-            if (this.confirmDrop) {
-                dropSchema();
-            } else {
-                throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
-            }
-        } else if (this.dropAdmin) {
-            // only try to drop the admin schema
             if (this.confirmDrop) {
                 dropSchema();
             } else {
@@ -1420,6 +1454,8 @@ public class Main {
             listTenants();
         } else if (this.allocateTenant) {
             allocateTenant();
+        } else if (this.refreshTenants) {
+            refreshTenants();
         } else if (this.testTenant) {
             testTenant();
         } else if (this.freezeTenant) {

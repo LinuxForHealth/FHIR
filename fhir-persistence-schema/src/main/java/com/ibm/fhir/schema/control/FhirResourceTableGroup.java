@@ -98,6 +98,9 @@ public class FhirResourceTableGroup {
 
     // The session variable we depend on for access control
     private final SessionVariableDef sessionVariable;
+    
+    /// Build the multitenant variant of the schema
+    private final boolean multitenant;
 
     // All the tables created by this component
     @SuppressWarnings("unused")
@@ -133,10 +136,11 @@ public class FhirResourceTableGroup {
     /**
      * Public constructor
      */
-    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, SessionVariableDef sessionVariable,
+    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, boolean multitenant, SessionVariableDef sessionVariable,
             Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {
         this.model = model;
         this.schemaName = schemaName;
+        this.multitenant = multitenant;
         this.sessionVariable = sessionVariable;
         this.procedureDependencies = procedureDependencies;
         this.fhirTablespace = fhirTablespace;
@@ -458,10 +462,22 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         // for reference strings is actually the resource type of the reference - this is useful
         // for building chained reference queries, and is well worth the minor cost of an extra join
         StringBuilder select = new StringBuilder();
-        select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
-        select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
-        select.append(resourceTokenRefs.getName()).append(" AS ref ");
-        select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
+        if (this.multitenant) {
+            // Make sure we include MT_ID in both the select list and join condition. It's needed
+            // in the join condition to give the optimizer the best chance at finding a good nested
+            // loop strategy
+            select.append("SELECT ref.").append(MT_ID);
+            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+            select.append(resourceTokenRefs.getName()).append(" AS ref ");
+            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
+            select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
+        } else {
+            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+            select.append(resourceTokenRefs.getName()).append(" AS ref ");
+            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
+        }
         
         View view = View.builder(schemaName, viewName)
                 .setVersion(FhirSchemaVersion.V0006.vid())

@@ -18,6 +18,9 @@ public class FhirSchemaConstants {
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
     public static final int MAX_TOKEN_VALUE_BYTES = 1024;
     public static final int LOGICAL_ID_BYTES = 255;
+    
+    // Currently a constant admin schema name
+    public static final String FHIR_ADMIN = "FHIR_ADMIN";
 
     // Default tablespace
     public static final String FHIR_TS = "FHIR_TS";

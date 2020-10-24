@@ -34,6 +34,7 @@ import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
+import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.tenant.AddTenantDAO;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
@@ -50,7 +51,7 @@ import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
  */
 public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDatabaseTypeAdapter {
     private static final Logger logger = Logger.getLogger(CommonDatabaseAdapter.class.getName());
-    
+
     // The target to use for executing our DDL
     protected final IDatabaseTarget target;
 
@@ -291,7 +292,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         try {
             runStatement(ddl);
         } catch (UndefinedNameException x) {
-            logger.warning(ddl + "; PROCEDURE not found");
+            logger.warning(ddl + "; FUNCTION not found");
         }
     }
 
@@ -436,6 +437,16 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     /**
+     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
+     * be run to add partitions for existing tenants to new tables
+     * @param tables
+     * @param schemaName
+     * @param newTenantId
+     */
+    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
+        // NOP for all databases except Db2
+    }
+    /**
      * Run the statement using the connectionProvider to obtain a new
      * connection. Also, there should be a transaction open on the current
      * thread at this time
@@ -546,17 +557,17 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (maxValue != null && maxValue > restartWith) {
             restartWith = maxValue;
         }
-        
+
         // Note the keyword RESTART instead of START.
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "ALTER SEQUENCE " + qname 
                 + " RESTART WITH " + restartWith 
                 + " INCREMENT BY " + incrementBy
                 + " CACHE " + cache;
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
     }
 
@@ -565,13 +576,13 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         // Check input strings are clean
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertValidName(columnName);
-        
+
         // modify the CACHE property of the identity column
         final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
     }
 
@@ -645,19 +656,24 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }
-    
+
     @Override
     public void deleteTenantMeta(String adminSchemaName, int tenantId) {
         DeleteTenantDAO dao = new DeleteTenantDAO(adminSchemaName, tenantId);
         runStatement(dao);
     }
-    
+
     @Override
     public void dropIndex(String schemaName, String indexName) {
         // Create the qualified name, making sure the input is also secure
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, indexName);
         final String ddl = "DROP INDEX " + qname;
-        runStatement(ddl);
+        
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; INDEX not found");
+        }
     }
     
     @Override
@@ -691,5 +707,14 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(" ADD COLUMN ");
         ddl.append(col);
         runStatement(ddl.toString());
+        
+        // required for Db2
+        reorgTable(schemaName, tableName);
     }
+    
+    @Override
+    public void reorgTable(String schemaName, String tableName) {
+        // NOP, unless overridden by a subclass (Db2Adapter, for example)
+    }
+
 }

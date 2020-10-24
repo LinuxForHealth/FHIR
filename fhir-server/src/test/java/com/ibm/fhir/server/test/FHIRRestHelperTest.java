@@ -20,6 +20,8 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Encounter;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
@@ -28,16 +30,69 @@ import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.HTTPVerb;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public class FHIRRestHelperTest {
+
+    public static final OperationOutcome ALL_OK = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.INFORMATION)
+                .code(IssueType.INFORMATIONAL)
+                .details(CodeableConcept.builder()
+                    .text(string("All OK"))
+                    .build())
+                .build())
+            .build();
+    public static final OperationOutcome ID_SPECIFIED = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.INFORMATION)
+                .code(IssueType.INFORMATIONAL)
+                .details(CodeableConcept.builder()
+                    .text(string("The create request resource included id: '1'; this id has been replaced"))
+                    .build())
+                .expression(string("<no expression>"))
+                .build())
+            .build();
+    public static final OperationOutcome NO_NARRATIVE = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.WARNING)
+                .code(IssueType.INVARIANT)
+                .details(CodeableConcept.builder()
+                    .text(string("dom-6: A resource should have narrative for robust management"))
+                    .build())
+                .expression(string("Patient"))
+                .build())
+            .build();
+    public static final OperationOutcome ID_AND_NO_NARRATIVE = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.WARNING)
+                .code(IssueType.INVARIANT)
+                .details(CodeableConcept.builder()
+                    .text(string("dom-6: A resource should have narrative for robust management"))
+                    .build())
+                .expression(string("Patient"))
+                .build(),
+                Issue.builder()
+                .severity(IssueSeverity.INFORMATION)
+                .code(IssueType.INFORMATIONAL)
+                .details(CodeableConcept.builder()
+                    .text(string("The create request resource included id: '1'; this id has been replaced"))
+                    .build())
+                .expression(string("<no expression>"))
+                .build())
+            .build();
 
     /**
      * Test transaction bundle post single.
@@ -46,10 +101,17 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostSingle() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
-                .id("1")
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
                 .build();
+
         Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
                 .method(HTTPVerb.POST)
                 .url(Uri.of("Patient"))
@@ -58,7 +120,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -67,12 +129,152 @@ public class FHIRRestHelperTest {
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(ALL_OK, entry.getResource());
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
+        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+    }
+
+    /**
+     * Test transaction bundle post single with validate warning.
+     */
+    @Test
+    public void testTransactionBundlePostSingleWithValidateWarning() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, null);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(NO_NARRATIVE, entry.getResource());
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
+        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+    }
+
+    /**
+     * Test transaction bundle post single with create warning.
+     */
+    @Test
+    public void testTransactionBundlePostSingleWithCreateWarning() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .id("1")
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, null);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(ID_SPECIFIED, entry.getResource());
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
+        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+    }
+
+    /**
+     * Test transaction bundle post single with validate amd create warning.
+     */
+    @Test
+    public void testTransactionBundlePostSingleWithValidateAndCreateWarning() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .id("1")
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .build();
+
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, null);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(ID_AND_NO_NARRATIVE, entry.getResource());
         Bundle.Entry.Response response = entry.getResponse();
         assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
         assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
@@ -86,7 +288,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -99,7 +301,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -114,7 +316,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -125,7 +327,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -153,7 +355,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithBackwardDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -166,7 +368,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -181,7 +383,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -192,7 +394,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -220,7 +422,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithCircularDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -239,7 +441,7 @@ public class FHIRRestHelperTest {
                 .resource(encounter)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -258,7 +460,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -269,7 +471,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -299,7 +501,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithConditionalDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -313,7 +515,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -328,7 +530,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -339,7 +541,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -368,7 +570,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithBackwardsConditionalDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -382,7 +584,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -397,7 +599,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -408,7 +610,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -441,7 +643,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -463,7 +665,7 @@ public class FHIRRestHelperTest {
                 .resource(encounter)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -485,7 +687,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
                     .reference(string("urn:4"))
@@ -500,7 +702,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest3)
                 .build();
-        
+
         Practitioner practitioner = Practitioner.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
@@ -513,7 +715,7 @@ public class FHIRRestHelperTest {
                 .resource(practitioner)
                 .request(bundleEntryRequest4)
                 .build();
-        
+
         Condition condition = Condition.builder()
                 .subject(Reference.builder()
                     .reference(string("urn:3"))
@@ -536,7 +738,7 @@ public class FHIRRestHelperTest {
                 .resource(condition)
                 .request(bundleEntryRequest5)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -547,7 +749,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(5, responseBundle.getEntry().size());
@@ -595,7 +797,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePostWithPutDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -608,7 +810,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -623,7 +825,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -634,7 +836,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -661,7 +863,52 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutSingle() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
+        Patient patient = Patient.builder()
+                .id("1")
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, null);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(ALL_OK, entry.getResource());
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals("Patient/1/_history/2", response.getLocation().getValue());
+        assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+    }
+
+    /**
+     * Test transaction bundle put single with validate warning.
+     */
+    @Test
+    public void testTransactionBundlePutSingleWithValidateWarning() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -673,7 +920,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -682,12 +929,102 @@ public class FHIRRestHelperTest {
 
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(NO_NARRATIVE, entry.getResource());
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals("Patient/1/_history/2", response.getLocation().getValue());
+        assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+    }
+
+    /**
+     * Test transaction bundle put single with update warning.
+     */
+    @Test
+    public void testTransactionBundlePutSingleWithUpdateWarning() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .id("1")
+                .language(Code.of("en-US"))
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, null);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(ID_SPECIFIED, entry.getResource());
+        Bundle.Entry.Response response = entry.getResponse();
+        assertEquals("Patient/1/_history/2", response.getLocation().getValue());
+        assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+    }
+
+    /**
+     * Test transaction bundle put single with validate and update warning.
+     */
+    @Test
+    public void testTransactionBundlePutSingleWithValidateAndUpdateWarning() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Patient patient = Patient.builder()
+                .id("1")
+                .language(Code.of("en-US"))
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/1"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        Bundle responseBundle = helper.doBundle(requestBundle, null);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(1, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(0);
+        assertEquals(ID_AND_NO_NARRATIVE, entry.getResource());
         Bundle.Entry.Response response = entry.getResponse();
         assertEquals("Patient/1/_history/2", response.getLocation().getValue());
         assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
@@ -701,7 +1038,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -714,7 +1051,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -730,7 +1067,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -741,7 +1078,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -769,7 +1106,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithBackwardDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -782,7 +1119,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -798,7 +1135,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -809,7 +1146,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -837,7 +1174,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithCircularDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Encounter encounter = Encounter.builder()
                 .id("1")
                 .status(EncounterStatus.FINISHED)
@@ -857,7 +1194,7 @@ public class FHIRRestHelperTest {
                 .resource(encounter)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -877,7 +1214,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -888,7 +1225,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -918,7 +1255,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithConditionalDependencyAndIdSet() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -931,7 +1268,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -947,7 +1284,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -958,7 +1295,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -986,7 +1323,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithConditionalDependencyAndIdNotSet() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
@@ -999,7 +1336,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -1015,7 +1352,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -1026,7 +1363,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -1055,7 +1392,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithBackwardsConditionalDependencyAndIdNotSet() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
@@ -1068,7 +1405,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Condition condition = Condition.builder()
                 .id("2")
                 .subject(Reference.builder()
@@ -1083,7 +1420,7 @@ public class FHIRRestHelperTest {
                 .resource(condition)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -1094,7 +1431,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -1107,7 +1444,7 @@ public class FHIRRestHelperTest {
                 assertEquals("Condition/2/_history/2", response.getLocation().getValue());
                 assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
                 Condition returnedCondition = (Condition) entry.getResource();
-                // local references to conditional updates not found if backward dependency and id not set 
+                // local references to conditional updates not found if backward dependency and id not set
                 assertEquals("urn:1", returnedCondition.getSubject().getReference().getValue());
             } else {
                 fail();
@@ -1127,7 +1464,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Encounter encounter = Encounter.builder()
                 .id("1")
                 .status(EncounterStatus.FINISHED)
@@ -1150,7 +1487,7 @@ public class FHIRRestHelperTest {
                 .resource(encounter)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -1173,7 +1510,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Patient patient = Patient.builder()
                 .id("3")
                 .generalPractitioner(Reference.builder()
@@ -1189,7 +1526,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest3)
                 .build();
-        
+
         Practitioner practitioner = Practitioner.builder()
                 .id("4")
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
@@ -1203,7 +1540,7 @@ public class FHIRRestHelperTest {
                 .resource(practitioner)
                 .request(bundleEntryRequest4)
                 .build();
-        
+
         Condition condition = Condition.builder()
                 .id("5")
                 .subject(Reference.builder()
@@ -1227,7 +1564,7 @@ public class FHIRRestHelperTest {
                 .resource(condition)
                 .request(bundleEntryRequest5)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -1238,7 +1575,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(5, responseBundle.getEntry().size());
@@ -1286,7 +1623,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithPostDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Patient patient = Patient.builder()
                 .id("1")
                 .build();
@@ -1299,7 +1636,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -1315,7 +1652,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -1326,7 +1663,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -1354,7 +1691,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutWithPostCircularDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Encounter encounter = Encounter.builder()
                 .id("1")
                 .status(EncounterStatus.FINISHED)
@@ -1374,7 +1711,7 @@ public class FHIRRestHelperTest {
                 .resource(encounter)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .id("2")
                 .status(ProcedureStatus.COMPLETED)
@@ -1394,7 +1731,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -1405,7 +1742,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(2, responseBundle.getEntry().size());
@@ -1440,7 +1777,7 @@ public class FHIRRestHelperTest {
     public void testTransactionBundlePutAndPostWithMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
-        
+
         Encounter encounter = Encounter.builder()
                 .id("1")
                 .status(EncounterStatus.FINISHED)
@@ -1463,7 +1800,7 @@ public class FHIRRestHelperTest {
                 .resource(encounter)
                 .request(bundleEntryRequest)
                 .build();
-        
+
         Procedure procedure = Procedure.builder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder()
@@ -1485,7 +1822,7 @@ public class FHIRRestHelperTest {
                 .resource(procedure)
                 .request(bundleEntryRequest2)
                 .build();
-        
+
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
                     .reference(string("urn:4"))
@@ -1503,7 +1840,7 @@ public class FHIRRestHelperTest {
                 .resource(patient)
                 .request(bundleEntryRequest3)
                 .build();
-        
+
         Practitioner practitioner = Practitioner.builder()
                 .id("4")
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
@@ -1528,7 +1865,7 @@ public class FHIRRestHelperTest {
                 .resource(practitioner)
                 .request(bundleEntryRequest4)
                 .build();
-        
+
         Condition condition = Condition.builder()
                 .subject(Reference.builder()
                     .reference(string("urn:3"))
@@ -1551,7 +1888,7 @@ public class FHIRRestHelperTest {
                 .resource(condition)
                 .request(bundleEntryRequest5)
                 .build();
-        
+
         Organization organization = Organization.builder()
                 .id("6")
                 .name(string("test"))
@@ -1565,7 +1902,7 @@ public class FHIRRestHelperTest {
                 .resource(organization)
                 .request(bundleEntryRequest6)
                 .build();
-        
+
         Bundle requestBundle = Bundle.builder()
                 .id("bundle1")
                 .type(BundleType.TRANSACTION)
@@ -1576,7 +1913,7 @@ public class FHIRRestHelperTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         Bundle responseBundle = helper.doBundle(requestBundle, null);
-        
+
         // Validate results
         assertNotNull(responseBundle);
         assertEquals(6, responseBundle.getEntry().size());

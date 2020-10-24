@@ -87,6 +87,14 @@ public interface IDatabaseAdapter {
     public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column);
 
     /**
+     * Reorg the table if the underlying database supports it. Required after
+     * columns are added/removed from a table.
+     * @param schemaName
+     * @param tableName
+     */
+    public void reorgTable(String schemaName, String tableName);
+    
+    /**
      * Create ROW type used for passing values to stored procedures e.g.:
      *
      * <pre>
@@ -300,6 +308,15 @@ public interface IDatabaseAdapter {
      * @param extentSizeKB
      */
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB);
+
+    /**
+     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
+     * be run to add partitions for existing tenants to new tables
+     * @param tables
+     * @param schemaName
+     * @param newTenantId
+     */
+    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId);
 
     /**
      * Detach the partition associated with the tenantId from each of the given tables

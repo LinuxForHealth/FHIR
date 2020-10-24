@@ -32,7 +32,7 @@ import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
 
 /**
- * 
+ *
  */
 public final class CommonUtil {
     // Random generator for new tenant keys and salts
@@ -88,15 +88,23 @@ public final class CommonUtil {
 
         // Update Schema action
         ps.println("--update-schema");
-        ps.println(" * action to update the schema ");
+        ps.println(" * deploy or update the schema set by '--schema-name'");
 
         // Create Schema action
         ps.println("--create-schemas");
-        ps.println(" * action to create the schema ");
+        ps.println(" * create the database schemas for batch, oauth, and the fhir schema set by '--schema-name'");
 
         // Drop Schema action
-        ps.println("--drop-schema");
-        ps.println(" * action to drop the schema ");
+        ps.println("--drop-schema-fhir");
+        ps.println(" * drop the schema set by '--schema-name'");
+
+        // Drop Schema action
+        ps.println("--drop-schema-batch");
+        ps.println(" * drop the db schema used by liberty's java-batch feature");
+
+        // Drop Schema action
+        ps.println("--drop-schema-oauth");
+        ps.println(" * drop the db schema used by liberty's oauth/openid connect features");
 
         // Uses a specified poolsize
         ps.println("--pool-size poolSize");
@@ -193,7 +201,7 @@ public final class CommonUtil {
             throw new IllegalStateException(e);
         }
     }
-    
+
 
     public static JdbcPropertyAdapter getPropertyAdapter(DbType dbType, Properties props) {
         switch (dbType) {

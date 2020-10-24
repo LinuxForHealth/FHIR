@@ -133,6 +133,7 @@ import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
@@ -409,18 +410,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         
         if (this.trxSynchRegistry != null) {
             String datastoreId = FHIRRequestContext.get().getDataStoreId();
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
+            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
         } else {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
+            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
         }
     }
     
     private IResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         if (this.trxSynchRegistry != null) {
             String datastoreId = FHIRRequestContext.get().getDataStoreId();
-            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
+            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
         } else {
-            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
+            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
         }
         
     }
@@ -1727,7 +1728,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
-            ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
+            ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
             // Obtain a resource we will reindex in this request/transaction. The record is locked as part
             // of its selection, so we avoid a lot of (but not all) deadlock issues
             long start = System.nanoTime();

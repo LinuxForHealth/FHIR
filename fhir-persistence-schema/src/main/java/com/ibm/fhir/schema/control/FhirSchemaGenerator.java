@@ -701,7 +701,7 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);

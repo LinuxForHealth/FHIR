@@ -8,24 +8,17 @@ package com.ibm.fhir.persistence.jdbc.postgresql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
-import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 
 /**
@@ -52,7 +45,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         // the row "s" from the actual table doesn't exist. Note the order by,
         // which is crucial to avoid deadlocks (even though adding code-systems
         // isn't that common).
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
         insert.append("     SELECT ").append(nextVal).append(", v.name ");

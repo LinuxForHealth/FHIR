@@ -203,11 +203,11 @@ The IBM FHIR server has additional implementation guides available in the fhir-v
 The latest version of the fhir-validation-distribution.zip artifact includes the following implementation guides:
 
 - US Core Implementation Guide (v3.1.1: STU3 Update) [http://hl7.org/fhir/us/core/STU3.1.1/](http://hl7.org/fhir/us/core/STU3.1.1/)
-- CARIN Blue Button Implementation Guide (v0.1.0: STU1 Ballot 1) [http://hl7.org/fhir/us/carin-bb/2020Feb/](http://hl7.org/fhir/us/carin-bb/2020Feb/)
+- CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®) Implementation Guide (v0.1.7: STU1 draft) [https://build.fhir.org/ig/HL7/carin-bb/branches/v0.1.7](https://build.fhir.org/ig/HL7/carin-bb/branches/v0.1.7)
 - HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0: STU 1) [http://hl7.org/fhir/us/mcode/STU1/](http://hl7.org/fhir/us/mcode/STU1/)
 - Da Vinci Health Record Exchange (HREX) Implementation Guide (0.2.0 - STU R1 - 2nd ballot) [http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html](http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html)
 - Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v0.1.18: CI Build) [http://build.fhir.org/ig/HL7/davinci-epdx/](http://build.fhir.org/ig/HL7/davinci-epdx)
-- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v0.1.0: STU1 Ballot 1) [http://hl7.org/fhir/us/davinci-pdex-plan-net/2020Feb/index.html](http://hl7.org/fhir/us/davinci-pdex-plan-net/2020Feb/index.html)
+- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v0.1.3: STU1 draft) [https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/fsh_april_2020](https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/fsh_april_2020)
 - Da Vinci Payer Data Exchange (PDex) US Drug Formulary STU 1 [http://hl7.org/fhir/us/davinci-drug-formulary/STU1/](http://hl7.org/fhir/us/davinci-drug-formulary/STU1/)
 
 ## The IBM FHIR Server $validate operation

@@ -61,25 +61,6 @@ public interface IResourceReferenceDAO {
     void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs);
 
     /**
-     * Add the local references (assumes the referenced records have been created
-     * and the LocalResourceReferenceRec objects have been updated with the corresponding
-     * database ids (foreign keys)
-     * @param lrefs
-     */
-    void addLocalReferences(Collection<LocalResourceReferenceRec> lrefs);
-
-    /**
-     * Create a new logical id record for a resource which is the target of a reference
-     * but which hasn't yet been loaded. This is simply a record in the global
-     * logical_resources table which doesn't point to a current resource version.
-     * TODO make sure the add_any_resource stored proc can handle this
-     * @param resourceType
-     * @param logicalId
-     * @return the logical_resource_id of the record (existing or new)
-     */
-    long createGhostLogicalResource(String resourceType, String logicalId) throws FHIRPersistenceException;
-
-    /**
      * Persist the records, which may span multiple resource types
      * @param records
      */

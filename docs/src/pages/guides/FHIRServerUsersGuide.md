@@ -1032,7 +1032,7 @@ In Example 2, if the `Patient` request entry was a conditional create request, t
 }
 ```
 
-While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation. 
+While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation.
 
 Using Example 3, the FHIR server detects the use of local identifiers in the `Encounter` request entry (`urn:Encounter_1`) and in the `Procedure` request entry (`urn:Procedure_1`), and establishes a mapping between the local identifiers and the external references to be associated with the new `Encounter` and `Procedure` resources (for example, `Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b` and `Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf`).
 
@@ -1516,7 +1516,13 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
-|`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
+|`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
+|`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
+|`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
+|`fhirServer/resources/Resource/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>`. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameters/<code>`|
+|`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
+|`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1537,8 +1543,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.4.2.3 Datastore configuration reference](#3423-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
 |`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
+|`fhirServer/security/cors`|boolean|Used to convey to clients whether cors is supported or not; actual cors support is configured separately in the Liberty server.xml configuration|
 |`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
-|`fhirServer/security/cert/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
+|`fhirServer/security/certificates/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
 |`fhirServer/security/oauth/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/security/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
@@ -1547,7 +1554,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/introspectUrl`|string|The URL of the server’s introspection endpoint that can be used to validate a token.|
 |`fhirServer/security/oauth/revokeUrl`|string|The URL to the server’s endpoint that can be used to revoke a token.|
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
-|`fhirServer/security/oauth/smart/scopes`|array|A list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
+|`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
+|`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
@@ -1577,8 +1585,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
-|`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g
-through the shared lib at `wlp/user/shared/resources/lib`) |
+|`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`) |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -1594,7 +1601,12 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
-|`fhirServer/searchParameterFilter`|`"*": [*]`|
+|`fhirServer/resources/open`|true|
+|`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
+|`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
+|`fhirServer/resources/<resourceType>/interactions`|null (inherets from `fhirServer/resources/Resource/interactions`)|
+|`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -1615,8 +1627,9 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
+|`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
-|`fhirServer/security/cert/enabled`|boolean|false|
+|`fhirServer/security/certificates/enabled`|boolean|false|
 |`fhirServer/security/oauth/enabled`|boolean|false|
 |`fhirServer/security/oauth/regUrl`|""|
 |`fhirServer/security/oauth/authUrl`|""|
@@ -1626,6 +1639,7 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/security/oauth/revokeUrl`|""|
 |`fhirServer/security/oauth/smart/enabled`|boolean|false|
 |`fhirServer/security/oauth/smart/scopes`|array|null|
+|`fhirServer/security/oauth/smart/capabilities`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
@@ -1662,7 +1676,13 @@ must restart the server for that change to take effect.
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
-|`fhirServer/searchParameterFilter`|Y|Y|
+|`fhirServer/resources/open`|Y|Y|
+|`fhirServer/resources/Resource/interactions`|Y|Y|
+|`fhirServer/resources/Resource/searchParameters`|Y|Y|
+|`fhirServer/resources/Resource/searchParameters/<code>`|Y|Y|
+|`fhirServer/resources/<resourceType>/interactions`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
@@ -1683,16 +1703,19 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources`|Y|N|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
-|`fhirServer/security/basic/enabled`|N|N|
-|`fhirServer/security/cert/enabled`|N|N|
-|`fhirServer/security/oauth/regUrl`|N|N|
-|`fhirServer/security/oauth/authUrl`|N|N|
-|`fhirServer/security/oauth/tokenUrl`|N|N|
-|`fhirServer/security/oauth/manageUrl`|N|N|
-|`fhirServer/security/oauth/introspectUrl`|N|N|
-|`fhirServer/security/oauth/revokeUrl`|N|N|
-|`fhirServer/security/oauth/smart/enabled`|N|N|
+|`fhirServer/security/cors`|Y|Y|
+|`fhirServer/security/basic/enabled`|Y|Y|
+|`fhirServer/security/certificates/enabled`|Y|Y|
+|`fhirServer/security/oauth/enabled`|Y|Y|
+|`fhirServer/security/oauth/regUrl`|Y|Y|
+|`fhirServer/security/oauth/authUrl`|Y|Y|
+|`fhirServer/security/oauth/tokenUrl`|Y|Y|
+|`fhirServer/security/oauth/manageUrl`|Y|Y|
+|`fhirServer/security/oauth/introspectUrl`|Y|Y|
+|`fhirServer/security/oauth/revokeUrl`|Y|Y|
+|`fhirServer/security/oauth/smart/enabled`|Y|Y|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|
+|`fhirServer/security/oauth/smart/capabilities`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|

@@ -1,62 +1,50 @@
 {
-	"__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
-	"fhirServer": {
-		"resources": {
-			"open": true,
-			"Observation": {
-				"searchParameters": {
-					"_id": {
-						"url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-					},
-					"subject": {
-						"url": "http://hl7.org/fhir/SearchParameter/Observation-subject"
-					},
-					"patient": {
-                        "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-patient"
-					},
-					"value-quantity": {
-						"url": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity"
-					},
-					"component-value-quantity": {
-						"url": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
-					}
-				}
-			},
-			"Resource": {
-				"searchParameters": {
-					"_id": {
-						"url": "http://hl7.org/fhir/SearchParameter/Resource-id"
-					}
-				}
-			}
-		},
-		"persistence": {
-			"datasources": {
-				"profile": {
-					"type": "derby",
-					"currentSchema": "APP",
-					"connectionProperties": {
-						"databaseName": "derby/profile",
-						"createDatabase": "create"
-					}
-				},
-				"reference": {
-					"type": "derby",
-					"currentSchema": "APP",
-					"connectionProperties": {
-						"databaseName": "derby/reference",
-						"createDatabase": "create"
-					}
-				},
-				"study1": {
-					"type": "derby",
-					"currentSchema": "APP",
-					"connectionProperties": {
-						"databaseName": "derby/study1",
-						"createDatabase": "create"
-					}
-				}
-			}
-		}
-	}
+    "__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
+    "fhirServer": {
+        "resources": {
+            "open": true,
+            "Observation": {
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "subject": "http://hl7.org/fhir/SearchParameter/Observation-subject",
+                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-patient",
+                    "value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity",
+                    "component-value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
+                }
+            },
+            "Resource": {
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id"
+                }
+            }
+        },
+        "persistence": {
+            "datasources": {
+                "profile": {
+                    "type": "derby",
+                    "currentSchema": "APP",
+                    "connectionProperties": {
+                        "databaseName": "derby/profile",
+                        "createDatabase": "create"
+                    }
+                },
+                "reference": {
+                    "type": "derby",
+                    "currentSchema": "APP",
+                    "connectionProperties": {
+                        "databaseName": "derby/reference",
+                        "createDatabase": "create"
+                    }
+                },
+                "study1": {
+                    "type": "derby",
+                    "currentSchema": "APP",
+                    "connectionProperties": {
+                        "databaseName": "derby/study1",
+                        "createDatabase": "create"
+                    }
+                }
+            }
+        }
+    }
 }
