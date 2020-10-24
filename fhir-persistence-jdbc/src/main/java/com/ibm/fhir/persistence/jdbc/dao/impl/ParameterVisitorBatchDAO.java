@@ -425,8 +425,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 // Add the new token value to the collection we're building...what's the resourceTypeId?
                 final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
                 if (tokenValue == null) {
-                    logger.info("tokenValue: " + parameterName + "[" + parameterNameId + "], "
-                            + codeSystem + ", " + tokenValue);
+                    logger.info("tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
                 }
                 
                 ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue);
