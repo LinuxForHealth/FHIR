@@ -8,19 +8,20 @@ package com.ibm.fhir.persistence.jdbc.postgresql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
@@ -142,6 +143,62 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         } catch (SQLException x) {
             logger.log(Level.SEVERE, upsert.toString(), x);
             throw getTranslator().translate(x);
+        }
+    }
+    
+    @Override
+    public void upsertCommonTokenValues(List<ResourceTokenValueRec> values) {
+        // Special case for Derby so we don't try and create monster SQL statements
+        // resulting in a stack overflow when Derby attempts to parse it.
+        
+        // Unique list so we don't try and create the same name more than once.
+        // Ignore any null token-values, because we don't want to (can't) store
+        // them in our common token values table.
+        Set<CommonTokenValue> tokenValues = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
+        
+        if (tokenValues.isEmpty()) {
+            // nothing to do
+            return;
+        }
+
+        final String paramListStr = null;
+        doCommonTokenValuesUpsert(paramListStr, tokenValues);
+
+        // Fetch the ids for all the records we need.
+        // Simple join against the tmp table populated by the previous call should do it
+        StringBuilder select = new StringBuilder();
+        select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id ");
+        select.append("       FROM common_token_values ctv, ");
+        select.append("            SESSION.common_token_values_tmp tmp ");
+        select.append("      WHERE ctv.token_value = tmp.token_value ");
+        select.append("        AND ctv.code_system_id = tmp.code_system_id ");
+        
+        Map<CommonTokenValue, Long> idMap = new HashMap<>();
+        try (PreparedStatement ps = getConnection().prepareStatement(select.toString())) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                // code_system_id, token_value
+                CommonTokenValue key = new CommonTokenValue(rs.getInt(1), rs.getString(2));
+                idMap.put(key, rs.getLong(3));
+            }
+        } catch (SQLException x) {
+            throw getTranslator().translate(x);
+        }
+        
+        // Now update the ids for all the matching systems in our list
+        for (ResourceTokenValueRec xr: values) {
+            // ignore entries with null tokenValue elements - we don't store them in common_token_values
+            if (xr.getTokenValue() != null) {
+                CommonTokenValue key = new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue());
+                Long id = idMap.get(key);
+                if (id != null) {
+                    xr.setCommonTokenValueId(id);
+    
+                    // update the thread-local cache with this id. The values aren't committed to the shared cache
+                    // until the transaction commits
+                    getCache().addTokenValue(key, id);
+                }
+            }
         }
     }
 }

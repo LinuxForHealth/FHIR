@@ -85,6 +85,14 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     /**
+     * Getter for the {@link ICommonTokenValuesCache} held by this DAO
+     * @return
+     */
+    protected ICommonTokenValuesCache getCache() {
+        return this.cache;
+    }
+
+    /**
      * Getter for the {@link Connection} held by this DAO
      * @return
      */
@@ -365,12 +373,6 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * databases handled MERGE properly this would be easy, but they don't so
      * we go old-school with a negative outer join instead (which is pretty much
      * what MERGE does behind the scenes anyway).
-     * INSERT INTO fhirdata.external_systems (external_system_name)
-      SELECT v.name FROM fhirdata.external_systems s
-  LEFT OUTER JOIN
-      (VALUES ('hello'), ('world')) AS v(name)
-           ON (s.external_system_name = v.name)
-        WHERE s.external_system_name IS NULL;
      * @param systems
      */
     public void upsertCodeSystems(List<ResourceTokenValueRec> systems) {
