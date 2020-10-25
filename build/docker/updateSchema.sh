@@ -15,3 +15,11 @@ cd ${DIR}
 java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --update-schema \
   --pool-size 1
+
+# Rerun grants to cover any new tables added by the above migration step 
+java -jar schema/fhir-persistence-schema-*-cli.jar \
+  --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
+
+# And make sure that the new tables have partitions for existing tenants
+java -jar schema/fhir-persistence-schema-*-cli.jar \
+  --prop-file db2.properties --refresh-tenants
