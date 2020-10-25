@@ -48,7 +48,7 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  * close the provided Connection. That is up to the caller to manage.
  * Close does close any statements which are opened inside the class.
  */
-public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseable {
+public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ResourceReferenceDAO.class.getName());
     
     private final String schemaName;
@@ -442,43 +442,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
      * @param paramList
      * @param systems
      */
-    public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
-        // query is a negative outer join so we only pick the rows where
-        // the row "s" from the actual table doesn't exist.
-        
-        // Derby won't let us use any ORDER BY, even in a sub-select so we need to
-        // sort the values externally. It would be better if code_system_id were
-        // an identity column, but that's a much bigger change.
-        final List<String> sortedNames = new ArrayList<>(systemNames);
-        sortedNames.sort((String left, String right) -> left.compareTo(right));
-        
-        final String nextVal = translator.nextValue(schemaName, "fhir_ref_sequence");
-        StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO code_systems (code_system_id, code_system_name) ");
-        insert.append("          SELECT ").append(nextVal).append(", v.name ");
-        insert.append("            FROM (VALUES ").append(paramList).append(" ) AS v(name) ");
-        insert.append(" LEFT OUTER JOIN code_systems s ");
-        insert.append("              ON s.code_system_name = v.name ");
-        insert.append("           WHERE s.code_system_name IS NULL ");
-        
-        // Note, we use PreparedStatement here on purpose. Partly because it's
-        // secure coding best practice, but also because many resources will have the
-        // same number of parameters, and hopefully we'll therefore share a small subset
-        // of statements for better performance. Although once the cache warms up, this
-        // shouldn't be called at all.
-        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
-            // bind all the code_system_name values as parameters
-            int a = 1;
-            for (String name: sortedNames) {
-                ps.setString(a++, name);
-            }
-            
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert.toString(), x);
-            throw translator.translate(x);
-        }
-    }
+    public abstract void doCodeSystemsUpsert(String paramList, Collection<String> systemNames);
     
     /**
      * Add reference value records for each unique reference name in the given list
@@ -577,47 +541,7 @@ public class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseabl
      * @param paramList
      * @param tokenValues
      */
-    protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
-        StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_token_values (token_value, code_system_id) ");
-        insert.append("     SELECT v.token_value, v.code_system_id FROM ");
-        insert.append("     (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
-        insert.append(" LEFT OUTER JOIN common_token_values ctv ");
-        insert.append("              ON ctv.token_value = v.token_value ");
-        insert.append("             AND ctv.code_system_id = v.code_system_id ");
-        insert.append("      WHERE ctv.token_value IS NULL ");
-        
-        // Note, we use PreparedStatement here on purpose. Partly because it's
-        // secure coding best practice, but also because many resources will have the
-        // same number of parameters, and hopefully we'll therefore share a small subset
-        // of statements for better performance. Although once the cache warms up, this
-        // shouldn't be called at all.
-        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
-            // bind all the name values as parameters
-            int a = 1;
-            for (CommonTokenValue tv: tokenValues) {
-                ps.setString(a++, tv.getTokenValue());
-                ps.setInt(a++, tv.getCodeSystemId());
-            }
-            
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            StringBuilder values = new StringBuilder();
-            for (CommonTokenValue tv: tokenValues) {
-                if (values.length() > 0) {
-                    values.append(", ");
-                }
-                values.append("{");
-                values.append(tv.getTokenValue());
-                values.append(",");
-                values.append(tv.getCodeSystemId());
-                values.append("}");
-            }
-            
-            logger.log(Level.SEVERE, insert.toString() + "; [" + values.toString() + "]", x);
-            throw translator.translate(x);
-        }
-    }
+    protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues);
 
     @Override
     public void persist(Collection<ResourceTokenValueRec> records) {

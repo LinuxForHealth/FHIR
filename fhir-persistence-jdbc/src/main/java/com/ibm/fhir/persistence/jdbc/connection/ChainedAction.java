@@ -34,9 +34,9 @@ public class ChainedAction implements Action {
     }
 
     @Override
-    public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
+    public void performOn(FHIRDbFlavor flavor, Connection c) throws FHIRPersistenceDBConnectException {
         if (next != null) {
-            next.performOn(c);
+            next.performOn(flavor, c);
         }
     }
 }

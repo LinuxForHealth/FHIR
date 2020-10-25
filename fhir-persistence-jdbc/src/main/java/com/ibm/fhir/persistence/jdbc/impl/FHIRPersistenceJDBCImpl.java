@@ -95,6 +95,7 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.TransactionData;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheUtil;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
+import com.ibm.fhir.persistence.jdbc.connection.CreateTempTablesAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
@@ -191,7 +192,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
@@ -295,7 +295,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     protected Action buildActionChain() {
         // Note: do not call setSchema on a connection. It exposes a bug in Liberty.
-        return new SetTenantAction(this.configProvider);
+        
+        // Configure an action to set the tenant global variable the
+        // first time we start using a connection in a transaction
+        Action result = new SetTenantAction(this.configProvider);
+        
+        // For Derby, we also need to make sure that the declared global temporary tables
+        // are created for the current session (connection). TODO. discuss if we only
+        // want to invoke this for ingestion calls. These tables are not required for
+        // reads/searches.
+        result = new CreateTempTablesAction(result);
+        
+        return result;
     }
 
 
@@ -417,13 +428,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
     
     private IResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
-        if (this.trxSynchRegistry != null) {
-            String datastoreId = FHIRRequestContext.get().getDataStoreId();
-            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
-        } else {
-            return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
-        }
-        
+        return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
     }
 
     /**

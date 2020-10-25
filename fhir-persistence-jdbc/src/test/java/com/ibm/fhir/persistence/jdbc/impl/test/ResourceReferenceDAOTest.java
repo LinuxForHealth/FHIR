@@ -26,6 +26,7 @@ import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.postgresql.DerbyResourceReferenceDAO;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
@@ -71,7 +72,7 @@ public class ResourceReferenceDAOTest {
         // Grab a connection which we use to initialize the DAO. This connetion is used
         // for the duration of the test
         connection = derby.getConnection();
-        dao = new ResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+        dao = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
 
         // Set up the DAO we need for access to some static config like resource types and parameter names
         FHIRDbFlavor flavor = new FHIRDbFlavorImpl(DbType.DERBY, false);
