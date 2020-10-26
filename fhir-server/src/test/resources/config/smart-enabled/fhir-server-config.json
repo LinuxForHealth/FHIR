@@ -11,13 +11,15 @@
                     "gender": "http://hl7.org/fhir/SearchParameter/individual-gender",
                     "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
                     "name": "http://hl7.org/fhir/SearchParameter/Patient-name"
-                }
+                },
+                "searchIncludes": ["Patient:general-practitioner"]
             },
             "Practitioner": {
                 "searchParameters": {
                     "name": "http://hl7.org/fhir/SearchParameter/Practitioner-name",
                     "identifier": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier"
-                }
+                },
+                "searchRevIncludes": ["Patient:general-practitioner"]
             },
             "Resource": {
                 "interactions": ["read", "vread", "history", "search"],

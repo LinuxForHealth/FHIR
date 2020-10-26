@@ -5,11 +5,15 @@
             "open": true,
             "Patient": {
                 "interactions": [],
-                "searchParameters": {}
+                "searchParameters": {},
+                "searchInclude": [],
+                "searchRevInclude": []
             },
             "Resource": {
                 "interactions": [],
-                "searchParameters": {}
+                "searchParameters": {},
+                "searchInclude": [],
+                "searchRevInclude": []
             }
         },
         "security": {
