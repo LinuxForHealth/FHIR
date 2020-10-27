@@ -23,6 +23,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -183,18 +184,28 @@ public class Capabilities extends FHIRResource {
         // Retrieve the "resources" config property group.
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
 
-        // Build the list of interactions that are supported for each resource type by default.
-        List<String> interactionConfig = null;
+        // Build the list of interactions, searchIncludes, and searchRevIncludes supported for each resource type by default.
+        List<Rest.Resource.Interaction> defaultInteractions = buildInteractions(ALL_INTERACTIONS);
+        List<com.ibm.fhir.model.type.String> defaultSearchIncludes = Collections.emptyList();
+        List<com.ibm.fhir.model.type.String> defaultSearchRevIncludes = Collections.emptyList();
         if (rsrcsGroup != null) {
             PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.ValueSet.RESOURCE.value());
             if (parentResourcePropGroup != null) {
-                interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+                List<String> interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+                if (interactionConfig != null) {
+                    defaultInteractions = buildInteractions(interactionConfig);
+                }
+                List<String> searchIncludeConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
+                if (searchIncludeConfig != null) {
+                    defaultSearchIncludes = convertStringList(searchIncludeConfig);
+                }
+                List<String> searchRevIncludeConfig =
+                        parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES);
+                if (searchRevIncludeConfig != null) {
+                    defaultSearchRevIncludes = convertStringList(searchRevIncludeConfig);
+                }
             }
         }
-        if (interactionConfig == null) {
-            interactionConfig = ALL_INTERACTIONS;
-        }
-        List<Rest.Resource.Interaction> defaultInteractions = buildInteractions(interactionConfig);
 
         // Build the lists of operations that are supported
         List<OperationDefinition> systemOps = new ArrayList<>();
@@ -257,17 +268,28 @@ public class Capabilities extends FHIRResource {
                 ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.ValueSet.DOMAIN_RESOURCE)));
             }
 
-            List<Interaction> interactions = null;
+            // Build the list of interactions, searchIncludes, and searchRevIncludes supported for the resource type.
+            List<Interaction> interactions = defaultInteractions;
+            List<com.ibm.fhir.model.type.String> searchIncludes = defaultSearchIncludes;
+            List<com.ibm.fhir.model.type.String> searchRevIncludes = defaultSearchRevIncludes;
             if (rsrcsGroup != null) {
                 PropertyGroup resourcePropGroup = rsrcsGroup.getPropertyGroup(resourceTypeName);
                 if (resourcePropGroup != null) {
                     List<String> resourceInteractionConfig =
                             resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
-                    interactions = buildInteractions(resourceInteractionConfig);
+                    if (resourceInteractionConfig != null) {
+                        interactions = buildInteractions(resourceInteractionConfig);
+                    }
+                    List<String> searchIncludeConfig = resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
+                    if (searchIncludeConfig != null) {
+                        searchIncludes = convertStringList(searchIncludeConfig);
+                    }
+                    List<String> searchRevIncludeConfig =
+                            resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES);
+                    if (searchRevIncludeConfig != null) {
+                        searchRevIncludes = convertStringList(searchRevIncludeConfig);
+                    }
                 }
-            }
-            if (interactions == null) {
-                interactions = defaultInteractions;
             }
 
             // Build the ConformanceResource for this resource type.
@@ -282,6 +304,8 @@ public class Capabilities extends FHIRResource {
                     .conditionalDelete(ConditionalDeleteStatus.MULTIPLE)
                     .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                     .searchParam(conformanceSearchParams)
+                    .searchInclude(searchIncludes)
+                    .searchRevInclude(searchRevIncludes)
                     .build();
 
             resources.add(cr);
@@ -434,6 +458,18 @@ public class Capabilities extends FHIRResource {
             }
         }
         return interactions;
+    }
+
+    /**
+     * Convert list of Java strings to list of FHIR strings.
+     * @param stringList a list of Java string, or null
+     * @return a list of FHIR strings, or null
+     */
+    private List<com.ibm.fhir.model.type.String> convertStringList(List<String> stringList) {
+        if (stringList != null) {
+            return stringList.stream().map(k -> com.ibm.fhir.model.type.String.of(k)).collect(Collectors.toList());
+        }
+        return null;
     }
 
     /**

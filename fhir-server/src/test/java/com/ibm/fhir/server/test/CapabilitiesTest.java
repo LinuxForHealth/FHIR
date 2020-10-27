@@ -51,7 +51,7 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 146, 8, 8);
+        assertRestDefinition(restDefinition, 146, 8, 0, 0, 8, 0, 0);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 146, 0, 0);
+        assertRestDefinition(restDefinition, 146, 0, 0, 0, 0, 0, 0);
     }
 
     @Test
@@ -81,26 +81,33 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 2, 2, 4);
+        assertRestDefinition(restDefinition, 2, 2, 1, 0, 4, 0, 1);
     }
 
-    private void assertRestDefinition(CapabilityStatement.Rest restDefinition, int numOfResources, int patientInteractions, int practitionerInteractions) {
+    private void assertRestDefinition(CapabilityStatement.Rest restDefinition, int numOfResources,
+        int patientInteractions, int patientIncludes, int patientRevIncludes,
+        int practitionerInteractions, int practitionerIncludes, int practitionerRevIncludes) {
         assertEquals(restDefinition.getResource().size(), numOfResources, "Number of supported resources");
         assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnumConstant() == ResourceType.ValueSet.RESOURCE));
         assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnumConstant() == ResourceType.ValueSet.DOMAIN_RESOURCE));
 
-        assertInteractions(restDefinition, ResourceType.ValueSet.PATIENT, patientInteractions);
-        assertInteractions(restDefinition, ResourceType.ValueSet.PRACTITIONER, practitionerInteractions);
+        assertResourceDefinition(restDefinition, ResourceType.ValueSet.PATIENT, patientInteractions, patientIncludes, patientRevIncludes);
+        assertResourceDefinition(restDefinition, ResourceType.ValueSet.PRACTITIONER, practitionerInteractions, practitionerIncludes, practitionerRevIncludes);
     }
 
-    private void assertInteractions(CapabilityStatement.Rest restDefinition, ResourceType.ValueSet resourceType, int numOfInteractions) {
+    private void assertResourceDefinition(CapabilityStatement.Rest restDefinition, ResourceType.ValueSet resourceType, int numOfInteractions,
+        int numIncludes, int numRevIncludes) {
         Optional<CapabilityStatement.Rest.Resource> resource = restDefinition.getResource().stream()
                 .filter(r -> r.getType().getValueAsEnumConstant() == resourceType)
                 .findFirst();
         assertTrue(resource.isPresent());
 
         List<Interaction> interactions = resource.get().getInteraction();
-        assertEquals(interactions.size(), numOfInteractions, "Number of supported interactions for the Patient resource type");
+        assertEquals(interactions.size(), numOfInteractions, "Number of supported interactions for the " + resourceType + " resource type");
+        List<com.ibm.fhir.model.type.String> includes = resource.get().getSearchInclude();
+        assertEquals(includes.size(), numIncludes, "Number of supported search includes for the " + resourceType + " resource type");
+        List<com.ibm.fhir.model.type.String> revIncludes = resource.get().getSearchRevInclude();
+        assertEquals(revIncludes.size(), numRevIncludes, "Number of supported search revincludes for the " + resourceType + " resource type");
     }
 
     /**

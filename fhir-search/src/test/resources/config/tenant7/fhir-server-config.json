@@ -3,20 +3,25 @@
     "fhirServer": {
         "resources": {
             "open": true,
+            "CarePlan": {
+                "searchParameterCombinations": ["patient+category+status+date",
+                    "patient+category+status",
+                    "patient+category",
+                    "patient+category+date"]
+            },
             "ExplanationOfBenefit": {
                 "interactions": [
                     "read",
                     "vread",
                     "history",
-                    "search"
-                ],
+                    "search"],
                 "searchIncludes": [
                     "ExplanationOfBenefit:patient",
                     "ExplanationOfBenefit:provider",
                     "ExplanationOfBenefit:care-team",
                     "ExplanationOfBenefit:coverage",
-                    "ExplanationOfBenefit:insurer"
-                ],
+                    "ExplanationOfBenefit:insurer",
+                    "ExplanationOfBenefit:*"],
                 "searchRevIncludes": [],
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
@@ -26,6 +31,22 @@
                     "identifier": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier",
                     "service-date": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date"
                 }
+            },
+            "Patient": {
+                "searchIncludes": ["Patient:general-practitioner"],
+                "searchRevIncludes": ["MedicationRequest:intended-performer"],
+                "searchParameterCombinations": ["","_id",
+                    "multiple-birth-count",
+                    "multiple-birth-count-basic"]
+            },
+            "RelatedPerson": {
+                "searchParameterCombinations": ["*"]
+            },
+            "Resource": {
+                "searchIncludes": ["MedicationRequest:patient"],
+                "searchRevIncludes": ["Provenance:target"],
+                "searchParameterCombinations": ["",
+                    "_id"]
             }
         }
     }

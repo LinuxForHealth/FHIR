@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,16 +18,17 @@ public class SearchExceptionUtil {
     private static final String ILLEGAL_EXCEPTION = "SearchParameter filter property values must be an array of String.";
     private static final String ILLEGAL_ARGUMENT_EXCEPTION = "No constant with value '%s' found.";
     private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing parameter '%s'.";
+    private static final String PARSE_PARAMETERS_EXCEPTION = "An error occurred while parsing parameters.";
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
     private static final String BADFORMAT_EXCEPTION = "Invalid Date Time Format found please use 'yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm].'";
-    
+
     private SearchExceptionUtil() {
         // No Op
     }
 
     /**
      * creates an invalid search exception.
-     * 
+     *
      * @param msg
      * @return
      */
@@ -38,7 +39,7 @@ public class SearchExceptionUtil {
 
     /**
      * creates a new parse parameter exception
-     * 
+     *
      * @param name
      * @param e
      * @return
@@ -50,8 +51,21 @@ public class SearchExceptionUtil {
     }
 
     /**
+     * creates a new parse parameters exception
+     *
+     * @param name
+     * @param e
+     * @return
+     */
+    public static FHIRSearchException buildNewParseParametersException(Exception e) {
+        String msg = String.format(PARSE_PARAMETERS_EXCEPTION);
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
+        return new FHIRSearchException(msg, e).withIssue(ooi);
+    }
+
+    /**
      * creates a new chained parameter exception
-     * 
+     *
      * @param name
      * @param e
      * @return
@@ -64,7 +78,7 @@ public class SearchExceptionUtil {
 
     /**
      * builds an illegal state exception for a search filter execution
-     * 
+     *
      * @return
      */
     public static IllegalStateException buildNewIllegalStateException() {
@@ -73,17 +87,17 @@ public class SearchExceptionUtil {
 
     /**
      * builds an illegal Argument exception.
-     * 
+     *
      * @param val
      * @return
      */
     public static IllegalArgumentException buildNewIllegalArgumentException(final String val) {
         return new IllegalArgumentException(String.format(ILLEGAL_ARGUMENT_EXCEPTION, val));
     }
-    
+
     /**
      * build data time format exception
-     * 
+     *
      * @param exception e
      * @return
      */
