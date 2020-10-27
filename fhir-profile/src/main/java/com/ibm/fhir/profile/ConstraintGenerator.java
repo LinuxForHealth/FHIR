@@ -237,6 +237,12 @@ public class ConstraintGenerator {
                                     log.fine("Slice for '" + id + "' is open and missing discriminator");
                                 }
                             }
+                        } else if (DiscriminatorType.TYPE.equals(discriminator.getType())) {
+                            Type type = getTypes(elementDefinition).get(0);
+                            if (type.getCode() != null) {
+                                String code = type.getCode().getValue();
+                                sb.append(".as(").append(code).append(")");
+                            }
                         }
                     }
                     if (joiner.length() > 0) {
