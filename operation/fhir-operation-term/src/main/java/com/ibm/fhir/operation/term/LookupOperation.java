@@ -8,9 +8,13 @@ package com.ibm.fhir.operation.term;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -31,15 +35,19 @@ public class LookupOperation extends AbstractTermOperation {
             String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        Coding coding = getCoding(parameters, "coding", "code");
+        LookupOutcome outcome = null;
         try {
-            Coding coding = getCoding(parameters, "coding", "code");
-            LookupOutcome outcome = service.lookup(coding, LookupParameters.from(parameters));
-            if (outcome == null) {
-                throw new FHIROperationException("Lookup cannot be performed");
-            }
-            return outcome.toParameters();
-        } catch (Exception e) {
+            outcome = service.lookup(coding, LookupParameters.from(parameters));
+        } catch( Exception e ) {
             throw new FHIROperationException("An error occurred during the CodeSystem lookup operation", e);
         }
+        
+        if (outcome == null) {
+            throw new FHIROperationException("Code not found").withIssue(
+                    OperationOutcome.Issue.builder().severity(IssueSeverity.ERROR).code(IssueType.NOT_FOUND)
+                            .details(CodeableConcept.builder().coding(coding).build()).build());
+        }
+        return outcome.toParameters();
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="FHIRServerIntegrationTests">
     <test name="ExampleTest">
         <!-- All of these tests are automatically executed and are from fhir-examples -->
@@ -56,6 +56,12 @@
             <!-- All of these performance tests are automatically executed and 
                  the number of iterations is controlled in test.properties -->
             <package name="com.ibm.fhir.server.test.performance" />
+        </packages>
+    </test>
+    <test name="TerminologyTests">
+        <packages>
+            <!-- All of these terminology tests are disabled by default, and enabled in test.properties -->
+            <package name="com.ibm.fhir.server.test.terminology" />
         </packages>
     </test>
 </suite>
