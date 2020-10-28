@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,16 +13,16 @@ import com.ibm.fhir.search.SearchConstants.Type;
  * DTO representing external and local reference parameters
  */
 public class ReferenceParmVal implements ExtractedParameterValue {
-    
+
     // The resource type name
     private String resourceType;
-    
+
     // The name of the parameter (key into PARAMETER_NAMES)
     private String name;
-    
+
     // The reference value
     private String valueString;
-        
+
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
 

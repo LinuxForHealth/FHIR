@@ -28,19 +28,19 @@ import com.ibm.fhir.bucket.api.BucketPath;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
-import com.ibm.fhir.bucket.client.FhirClient;
-import com.ibm.fhir.bucket.cos.CosClient;
-import com.ibm.fhir.bucket.interop.CmsPayerInterop;
-import com.ibm.fhir.bucket.interop.CmsPayerScenario;
+import com.ibm.fhir.bucket.client.FHIRBucketClient;
+import com.ibm.fhir.bucket.cos.COSClient;
+import com.ibm.fhir.bucket.interop.InteropWorkload;
+import com.ibm.fhir.bucket.interop.InteropScenario;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
 import com.ibm.fhir.bucket.reindex.DriveReindexOperation;
 import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
-import com.ibm.fhir.bucket.scanner.CosReader;
+import com.ibm.fhir.bucket.scanner.COSReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
-import com.ibm.fhir.bucket.scanner.FhirClientResourceProcessor;
+import com.ibm.fhir.bucket.scanner.FHIRClientResourceProcessor;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -112,10 +112,10 @@ public class Main {
     private ExecutorService commonPool;
     
     // Configured connection to IBM Cloud Object Storage (S3)
-    private CosClient cosClient;
+    private COSClient cosClient;
     
     // FHIR server requests go through this client
-    private FhirClient fhirClient;
+    private FHIRBucketClient fhirClient;
 
     // The list of buckets to scan for resources to load
     private final List<String> cosBucketList = new ArrayList<>();
@@ -132,10 +132,10 @@ public class Main {
     private CosScanner scanner;
     
     // The COS reader handling JSON files
-    private CosReader jsonReader;
+    private COSReader jsonReader;
     
     // The COS reader handling NDJSON files (which are processed one at a time
-    private CosReader ndJsonReader;
+    private COSReader ndJsonReader;
     
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
@@ -168,7 +168,7 @@ public class Main {
     private int concurrentPayerRequests = 0;
     
     // Simple scenario to add some read load to a FHIR server
-    private CmsPayerInterop cmsPayerWorkload;
+    private InteropWorkload cmsPayerWorkload;
     
     // Special operation to break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket and key prefix:
     private String targetBucket;
@@ -758,7 +758,7 @@ public class Main {
         // Set up the shutdown hook to keep things orderly when asked to terminate
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
         
-        cosClient = new CosClient(cosProperties);
+        cosClient = new COSClient(cosProperties);
                 
         // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
         DataAccess dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
@@ -776,19 +776,18 @@ public class Main {
             resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
         } else {
             // Set up the client we use to send requests to the FHIR server
-            fhirClient = new FhirClient(new ClientPropertyAdapter(fhirClientProperties));
+            fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
             fhirClient.init(this.tenantName);
-            resourceEntryProcessor = new FhirClientResourceProcessor(fhirClient, dataAccess);
+            resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
         }
         
         // Set up the handler to process resources as they are read from COS
         // Uses an internal pool to parallelize NDJSON work
         this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
-        resourceHandler.init();
         
         // Set up the COS reader and wire it to the resourceHandler
         if (fileTypes.contains(FileType.JSON)) {
-            this.jsonReader = new CosReader(commonPool, FileType.JSON, cosClient, 
+            this.jsonReader = new COSReader(commonPool, FileType.JSON, cosClient, 
                 resource -> resourceHandler.process(resource), 
                 this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds, 
                 incrementalExact, this.bundleCostFactor, bucketPaths);
@@ -796,7 +795,7 @@ public class Main {
         }
 
         if (fileTypes.contains(FileType.NDJSON)) {
-            this.jsonReader = new CosReader(commonPool, FileType.NDJSON, cosClient, 
+            this.jsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient, 
                 resource -> resourceHandler.process(resource), 
                 this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds, 
                 incrementalExact, this.bundleCostFactor, bucketPaths);
@@ -807,8 +806,8 @@ public class Main {
         // with random requests for resources
         if (this.concurrentPayerRequests > 0 && fhirClient != null) {
             // set up the CMS payer thread to add some read-load to the system
-            CmsPayerScenario scenario = new CmsPayerScenario(this.fhirClient);
-            cmsPayerWorkload = new CmsPayerInterop(dataAccess, scenario, concurrentPayerRequests, 500000);
+            InteropScenario scenario = new InteropScenario(this.fhirClient);
+            cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, 500000);
             cmsPayerWorkload.init();
         }
         

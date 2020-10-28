@@ -19,7 +19,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 
 /**
- * 
+ * Defines a SQL VIEW object
  */
 public class View extends BaseObject {
 

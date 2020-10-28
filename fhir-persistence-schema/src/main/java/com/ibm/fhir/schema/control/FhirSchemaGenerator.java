@@ -6,7 +6,53 @@
 
 package com.ibm.fhir.schema.control;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.*;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPARTMENT_LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPARTMENT_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LAST_UPDATED;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_COMPARTMENTS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TXID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANTS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_HASH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEYS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEY_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,11 +67,9 @@ import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
-import com.ibm.fhir.database.utils.model.AlterTableAddColumn;
 import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
-import com.ibm.fhir.database.utils.model.CreateIndex;
 import com.ibm.fhir.database.utils.model.FunctionDef;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
@@ -317,7 +361,7 @@ public class FhirSchemaGenerator {
         Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
-        
+
         // new normalized table for supporting token data (replaces TOKEN_VALUES)
         Table globalResourceTokenRefs = addResourceTokenRefs(model);
 
@@ -419,7 +463,7 @@ public class FhirSchemaGenerator {
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
-        
+
         final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
 
         Table tbl = Table.builder(schemaName, tableName)
@@ -448,7 +492,7 @@ public class FhirSchemaGenerator {
 
                         statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
                         statements.add(new AddColumn(schemaName, tableName, cols.get(1)));
-                        
+
                         // Add the new index on REINDEX_TSTAMP. This index is special because it's the
                         // first index in our schema to use DESC.
                         final String mtId = this.multitenant ? MT_ID : null;
@@ -464,37 +508,6 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
-        
-        // For V0006 we also add a couple of new columns and an index to support
-        // reindexing of resources. Note CURRENT_TIMESTAMP works for Derby, Postgres and Db2.
-//        List<ColumnBase> cols = new ColumnDefBuilder()
-//                .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP")
-//                .addBigIntColumn(REINDEX_TXID, false, "0")
-//                .buildColumns();
-//        AlterTableAddColumn addCols = new AlterTableAddColumn(schemaName, tableName, FhirSchemaVersion.V0006.vid(), cols);
-//        addCols.addDependency(tbl); // table must be created before we try to alter it
-//        pdm.addObject(addCols);
-
-        // Make sure we have an index on the REINDEX_TSTAMP column so that we can quickly
-        // identify which resources need to be reindexed. For the reindex resource selection
-        // query, it's essential that we collate the reindex_tstamp with NULLS FIRST
-//        CreateIndex tsidx = CreateIndex.builder()
-//                .setSchemaName(schemaName)
-//                .setTableName(tableName)
-//                .setTenantColumnName(MT_ID)
-//                .setIndexName("IDX_" + LOGICAL_RESOURCES + "_RITS")
-//                .setVersion(FhirSchemaVersion.V0006.vid())
-//                .addColumn(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null)
-//                .build();
-//        tsidx.addDependency(addCols);
-//        pdm.addObject(tsidx);
-
-
-        // Create a new sequence to use as a transaction id for our reindexing process
-//        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REINDEX_SEQ, FhirSchemaVersion.V0001.vid(), 1, 100, 1);
-//        seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-//        sequencePrivileges.forEach(p -> p.addToObject(seq));
-//        pdm.addObject(seq);
     }
 
     /**
@@ -794,21 +807,21 @@ public class FhirSchemaGenerator {
      * This also helps to reduce the total sizes of the indexes, helping to improve
      * cache hit rates for a given buffer cache size.
      * Token values may or may not have an associated code system, in which case,
-     * it assigned a default system. This is why CODE_SYSTEM_ID is not nullable and 
-     * has a FK constraint. 
-     * 
+     * it assigned a default system. This is why CODE_SYSTEM_ID is not nullable and
+     * has a FK constraint.
+     *
      * We never need to find all token values for a given code-system, so there's no need
      * for a second index (CODE_SYSTEM_ID, TOKEN_VALUE). Do not add it.
-     * 
-     * Because different parameter names may reference the same token value (e.g. 
+     *
+     * Because different parameter names may reference the same token value (e.g.
      * 'Observation.subject' and 'Claim.patient' are both patient references), the
      * common token value is not distinguished by a parameter_name_id.
-     * 
+     *
      * Where common token values are used to represent local relationships between two resources,
      * the code_system encodes the resource type of the referenced resource and
      * the token_value represents its logical_id. This approach simplifies query writing when
      * following references.
-     * 
+     *
      * @param pdm
      * @return the table definition
      */
@@ -901,24 +914,24 @@ public class FhirSchemaGenerator {
         procedureDependencies.add(fhirRefSequence);
         sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
         pdm.addObject(fhirRefSequence);
-        
+
         // Schema V0003 does an alter to bump up the start value of the reference sequence
         // to avoid a conflict with parameter names not in the pre-populated set
         // fix for issue-1263. This will only be applied if the current version of the
         // the FHIR_REF_SEQUENCE is <= 2.
-        BaseObject alter = new AlterSequenceStartWith(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0003.vid(), 
+        BaseObject alter = new AlterSequenceStartWith(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0003.vid(),
             FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE, 1);
         alter.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(alter);
         alter.addDependency(fhirRefSequence); // only alter after the sequence is initially created
-        
+
         // Because the sequence might be dropped and recreated, we need to inject privileges
         // so that they are applied when this ALTER SEQUENCE is processed.
         sequencePrivileges.forEach(p -> p.addToObject(alter));
         pdm.addObject(alter);
     }
-    
-    
+
+
     /**
      * Add the sequence used by the new local/external references data model
      * @param pdm

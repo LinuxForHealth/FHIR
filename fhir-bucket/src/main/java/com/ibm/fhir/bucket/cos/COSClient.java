@@ -44,8 +44,8 @@ import com.ibm.fhir.bucket.api.FileType;
 /**
  * Encapsulates the AmazonS3 client for interaction with IBM Cloud Object Storage (COS)
  */
-public class CosClient {
-    private static final Logger logger = Logger.getLogger(CosClient.class.getName());
+public class COSClient {
+    private static final Logger logger = Logger.getLogger(COSClient.class.getName());
 
     // Switch on to write to the local filesystem instead of COS
     private static final boolean DEBUG = false;
@@ -53,7 +53,7 @@ public class CosClient {
     // The client connection established by calling #connect()
     private AmazonS3 client;
 
-    private CosPropertiesAdapter propertiesAdapter;
+    private COSPropertiesAdapter propertiesAdapter;
     
     // Set to false to tell a scan to return early
     private volatile boolean running = true;
@@ -67,9 +67,9 @@ public class CosClient {
      * Public constructor
      * @param cosProperties
      */
-    public CosClient(Properties cosProperties) {
+    public COSClient(Properties cosProperties) {
         // properties to configure COS connection
-        this.propertiesAdapter = new CosPropertiesAdapter(cosProperties);
+        this.propertiesAdapter = new COSPropertiesAdapter(cosProperties);
 
         AWSCredentials credentials;
         if (propertiesAdapter.isCredentialIBM()) {

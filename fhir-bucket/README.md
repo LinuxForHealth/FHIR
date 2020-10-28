@@ -1,7 +1,7 @@
-## Synthetic Data Loader
+## fhir-bucket - Synthetic Data Loader
 Scans cloud object storage buckets and uploads data using the FHIR REST API.
 
-In addition to data loading, the app has also can:
+In addition to data loading, the app also can:
 
 * Make FHIR read/search calls at high volume to stress the read performance of the server.
 * Drive the $reindex custom operation using concurrent requests. The reindex operation is needed when the search parameter configuration is changed and the user wants to update the extracted parameter values which are used to support indexes.

@@ -124,10 +124,4 @@ public class ResourceHandler implements IResourceHandler {
         
         return result;
     }
-
-    /**
-     * Perform any initialization after things have been wired up
-     */
-    public void init() {
-    }
 }

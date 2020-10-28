@@ -19,44 +19,33 @@ public class MockTransactionSynchronizationRegistry implements TransactionSynchr
 
     @Override
     public Object getTransactionKey() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void putResource(Object key, Object value) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public Object getResource(Object key) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void registerInterposedSynchronization(Synchronization sync) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public int getTransactionStatus() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public void setRollbackOnly() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public boolean getRollbackOnly() {
-        // TODO Auto-generated method stub
         return false;
     }
-
 }

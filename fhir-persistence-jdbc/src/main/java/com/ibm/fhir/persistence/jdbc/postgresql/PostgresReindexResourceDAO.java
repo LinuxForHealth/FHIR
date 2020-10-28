@@ -21,10 +21,10 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
-import com.ibm.fhir.persistence.jdbc.derby.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 
 /**

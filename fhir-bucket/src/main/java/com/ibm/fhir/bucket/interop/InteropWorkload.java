@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -21,12 +23,12 @@ import java.util.logging.Logger;
 import com.ibm.fhir.bucket.scanner.DataAccess;
 
 /**
- * Very simple emulation of a possible CMS Payer Interop workload. Adds some random
+ * Very simple emulation of a possible interop workload. Adds some random
  * read activity to the system (FHIR server/database) so we can measure the impact
  * this has on ingestion and visa versa.
  */
-public class CmsPayerInterop {
-    private static final Logger logger = Logger.getLogger(CmsPayerInterop.class.getName());
+public class InteropWorkload {
+    private static final Logger logger = Logger.getLogger(InteropWorkload.class.getName());
 
     // The scenario we use to process each randomly picked patient
     private final IPatientScenario patientScenario;
@@ -55,13 +57,21 @@ public class CmsPayerInterop {
     
     // for picking random patient ids
     private final SecureRandom random = new SecureRandom();
+    
+    private long statsResetTime = -1;
+    private final AtomicInteger fhirRequests = new AtomicInteger();
+    private final AtomicLong fhirRequestTime = new AtomicLong();
+    private final AtomicInteger resourceCount = new AtomicInteger();
+    
+    // how many nanoseconds between stats reports
+    private static final long STATS_REPORT_TIME = 10L * 1000000000L;
 
     /**
      * Public constructor
      * @param client
      * @param maxConcurrentRequests
      */
-    public CmsPayerInterop(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientBufferSize) {
+    public InteropWorkload(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientBufferSize) {
         this.dataAccess = dataAccess;
         this.patientScenario = patientScenario;
         this.maxConcurrentRequests = maxConcurrentRequests;
@@ -127,6 +137,8 @@ public class CmsPayerInterop {
         int samples = 0;
         // The list of patientIds we process
         List<String> patientIdBuffer = new ArrayList<>(patientBufferSize);
+        long statsStartTime = System.nanoTime();
+        long nextStatsReport = statsStartTime + STATS_REPORT_TIME;
         while (this.running) {
 
             try {
@@ -168,6 +180,28 @@ public class CmsPayerInterop {
                     samples++; // track how many times we've sampled from the buffer
                     pool.submit(() -> processPatientThr(patientId));
                 }
+                
+                long now = System.nanoTime();
+                if (now >= nextStatsReport) {
+                    // Time to report average throughput stats
+                    double elapsed = (now - statsStartTime) / 1e9;
+                    double avgResourcesPerSecond = this.resourceCount.get() / elapsed;
+                    double avgResponseTime = Double.NaN;
+                    double avgCallPerSecond = this.fhirRequests.get() / elapsed;
+                    if (this.fhirRequests.get() > 0) {
+                        avgResponseTime = this.fhirRequestTime.get() / 1e9 / this.fhirRequests.get();
+                    }
+                    
+                    logger.info(String.format("STATS: FHIR=%7.1f calls/s, rate=%7.1f resources/s, response time=%5.3f s", 
+                        avgCallPerSecond, avgResourcesPerSecond, avgResponseTime));
+                    
+                    // Reset the stats for the next report window
+                    statsStartTime = now;
+                    nextStatsReport = now + STATS_REPORT_TIME;
+                    this.fhirRequestTime.set(0);
+                    this.fhirRequests.set(0);
+                    this.resourceCount.set(0);
+                }
             } catch (Exception x) {
                 // log and snooze a little before we try again
                 logger.severe("Error in main loop: " + x.getMessage());
@@ -194,8 +228,11 @@ public class CmsPayerInterop {
      */
     private void processPatientThr(String patientId) {
         try {
-            logger.info("Processing patient: '" + patientId + "'");
-            patientScenario.process(patientId);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Processing patient: '" + patientId + "'");
+            }
+            
+            patientScenario.process(patientId, fhirRequests, fhirRequestTime, resourceCount);
         } catch (Exception x) {
             logger.log(Level.SEVERE, "Processing patient '" + patientId + "'" , x);
         } finally {

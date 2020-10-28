@@ -19,7 +19,7 @@ import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.api.ResourceIdValue;
-import com.ibm.fhir.bucket.client.FhirClient;
+import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.bucket.client.PostResource;
 import com.ibm.fhir.model.format.Format;
@@ -32,15 +32,15 @@ import com.ibm.fhir.model.resource.Resource;
 /**
  * Calls the FHIR REST API to create resources
  */
-public class FhirClientResourceProcessor implements IResourceEntryProcessor {
-    private static final Logger logger = Logger.getLogger(FhirClientResourceProcessor.class.getName());
+public class FHIRClientResourceProcessor implements IResourceEntryProcessor {
+    private static final Logger logger = Logger.getLogger(FHIRClientResourceProcessor.class.getName());
     private static final int BATCH_SIZE = 200;
     
     // Nanos in a millisecond
     private static final long NANOS_MS = 1000000;
 
     // Client for making FHIR server requests
-    private final FhirClient fhirClient;
+    private final FHIRBucketClient fhirClient;
 
     // Access to the FHIR bucket persistence layer to record logical ids
     private final DataAccess dataAccess;
@@ -49,7 +49,7 @@ public class FhirClientResourceProcessor implements IResourceEntryProcessor {
      * Public constructor
      * @param poolSize
      */
-    public FhirClientResourceProcessor(FhirClient fc, DataAccess dataAccess) {
+    public FHIRClientResourceProcessor(FHIRBucketClient fc, DataAccess dataAccess) {
         this.fhirClient = fc;
         this.dataAccess = dataAccess;
     }
@@ -279,11 +279,5 @@ public class FhirClientResourceProcessor implements IResourceEntryProcessor {
         } catch (FHIRGeneratorException e) {
             throw new IllegalStateException(e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void init() {
     }
 }

@@ -17,7 +17,7 @@ import com.ibm.fhir.model.resource.Resource;
 /**
  * Utilities for working with the FHIR client
  */
-public class FhirClientUtil {
+public class FHIRBucketClientUtil {
     
     
     /**

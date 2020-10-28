@@ -16,12 +16,12 @@ public class TimestampColumn extends ColumnBase {
      * The number of fractional second decimals to store or null to use the database's default
      */
     private final Integer precision;
-    
+
     public TimestampColumn(String name, boolean nullable) {
         super(name, nullable);
         this.precision = null;
     }
-    
+
     public TimestampColumn(String name, boolean nullable, Integer precision, String defaultValue) {
         super(name, nullable, defaultValue);
         this.precision = precision;

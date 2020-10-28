@@ -29,7 +29,7 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.api.ResourceRef;
-import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.bucket.cos.COSClient;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -46,14 +46,14 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * to the thread pool.
  *
  */
-public class CosReader {
-    private static final Logger logger = Logger.getLogger(CosReader.class.getName());
+public class COSReader {
+    private static final Logger logger = Logger.getLogger(COSReader.class.getName());
     
     // The type of file we are supposed to process
     private final FileType fileType;
     
     // Abstraction of our connection to cloud object storage
-    private final CosClient client;
+    private final COSClient client;
 
     // The handler which processes resources we've read from COS
     private final Consumer<ResourceEntry> resourceHandler;
@@ -106,7 +106,7 @@ public class CosReader {
      * @param incremental
      * @param recycleSeconds
      */
-    public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
+    public COSReader(ExecutorService commonPool, FileType fileType, COSClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
         double bundleCostFactor, Collection<BucketPath> bucketPaths) {
         this.pool = commonPool;
         this.fileType = fileType;

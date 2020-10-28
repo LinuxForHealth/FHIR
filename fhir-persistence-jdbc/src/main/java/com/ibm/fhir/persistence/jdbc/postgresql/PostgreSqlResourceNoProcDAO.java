@@ -48,7 +48,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
  * instead of a stored procedure and is useful for debugging performance and/or
  * concurrency issues. It should not be used in production scenarios because
  * the numerous app-database round-trips slow things down considerably.
- * 
+ *
  * @implNote This class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
  */
@@ -69,7 +69,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
         ParameterTransactionDataImpl ptdi) {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
-    
+
     /**
      * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
      * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
@@ -83,7 +83,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
      * @throws FHIRPersistenceVersionIdMismatchException
      */
     @Override
-    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
@@ -157,7 +157,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
         return resource;
 
     }
-    
+
     /**
      * Store the resource in the database, creating a new logical_resource entry if this is
      * the first version of this resource, or creating a new resource entry if this a new
@@ -258,7 +258,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
                 stmt.setString(3, p_logical_id);
                 stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP));
                 stmt.execute();
-                
+
                 ResultSet rs = stmt.getResultSet();
                 if (rs == null || !rs.next()) {
                     // nothing returned, so there was a conflict
@@ -434,7 +434,7 @@ public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
     }
-    
+
     /**
      * Delete all parameters for the given resourceId from the parameters table
      *

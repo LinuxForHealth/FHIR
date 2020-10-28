@@ -1,3 +1,9 @@
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
+
      SELECT lr.logical_id
        FROM fhirbucket.logical_resources lr, 
            (SELECT sub.resource_type_id, round(random() * (sub.max_id - sub.min_id)) + sub.min_id AS pick_id 

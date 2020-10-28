@@ -1,3 +1,9 @@
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
+
 select resource_type, total_size, total_size - tbl_size AS index_size
   from (
 select resource_type,

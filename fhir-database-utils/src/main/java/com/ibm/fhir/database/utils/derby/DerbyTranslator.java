@@ -179,7 +179,6 @@ public class DerbyTranslator implements IDatabaseTranslator {
     @Override
     public String selectSequenceNextValue(String schemaName, String sequenceName) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        // return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
         return "VALUES(NEXT VALUE FOR " + qname + ")";
     }
     

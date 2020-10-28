@@ -1,3 +1,9 @@
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
+
 select param_table, pg_size_pretty(total_size - table_size) as index_size
 from (
 select resource_type || param.nm AS param_table, 

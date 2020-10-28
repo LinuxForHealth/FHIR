@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.postgresql;
+package com.ibm.fhir.persistence.jdbc.db2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +22,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
 
 
 /**

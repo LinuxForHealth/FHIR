@@ -1,3 +1,13 @@
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
+-- Run once after the schema change implemented in issue 1366 and
+-- the reindex operation reprocessed all the resources. Reclaims
+-- space so that we can assess how much space the new schema
+-- uses compared to the old design.
+
 VACUUM FULL fhirdata.CarePlan_str_values;
 VACUUM FULL fhirdata.CarePlan_date_values;
 VACUUM FULL fhirdata.CarePlan_number_values;

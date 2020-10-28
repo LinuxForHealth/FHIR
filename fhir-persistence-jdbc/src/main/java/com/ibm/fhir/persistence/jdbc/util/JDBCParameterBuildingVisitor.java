@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -289,7 +289,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             if (!URI.equals(searchParamType) && !REFERENCE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, uri);
             }
-            
+
             // For REFERENCE search parameters, we need to treat Uris as tokens,
             // not strings.
             if (REFERENCE.equals(this.searchParamType)) {
@@ -603,7 +603,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setValueString(reference.getReference().getValue());
             result.add(p);
         }
-        
+
         // Make sure we process the identifier if there is one.
         Identifier identifier = reference.getIdentifier();
         if (reference.getIdentifier() != null) {

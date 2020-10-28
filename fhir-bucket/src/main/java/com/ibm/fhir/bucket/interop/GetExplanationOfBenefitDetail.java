@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 
 import org.apache.http.HttpStatus;
 
-import com.ibm.fhir.bucket.client.FhirClient;
-import com.ibm.fhir.bucket.client.FhirClientUtil;
+import com.ibm.fhir.bucket.client.FHIRBucketClient;
+import com.ibm.fhir.bucket.client.FHIRBucketClientUtil;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -43,7 +43,7 @@ public class GetExplanationOfBenefitDetail {
      * @param client
      * @return
      */
-    public Bundle run(FhirClient client) {
+    public Bundle run(FHIRBucketClient client) {
         Bundle.Builder bundleBuilder = Bundle.builder();
         
         // Build a bundle with gets for each ExplanationOfBenefit we can find in the
@@ -64,11 +64,11 @@ public class GetExplanationOfBenefitDetail {
             }
         }
         
-        bundleBuilder.type(BundleType.BATCH);
+        bundleBuilder.type(BundleType.TRANSACTION);
         
         // TODO refactor this repeated code
         Bundle request = bundleBuilder.build();
-        String body = FhirClientUtil.resourceToString(request);
+        String body = FHIRBucketClientUtil.resourceToString(request);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Request [" + client.getBaseUrl() + "] " + body);
         }
@@ -79,7 +79,7 @@ public class GetExplanationOfBenefitDetail {
             if (result != null) {
                 // Log out the response if we want to
                 if (logger.isLoggable(Level.FINE)) {
-                    String resultString = FhirClientUtil.resourceToString(result);
+                    String resultString = FHIRBucketClientUtil.resourceToString(result);
                     logger.fine("Result resource: " + resultString);
                 }
                 

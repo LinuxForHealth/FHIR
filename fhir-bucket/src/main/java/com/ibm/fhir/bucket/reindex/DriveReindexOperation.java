@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 
 import org.apache.http.HttpStatus;
 
-import com.ibm.fhir.bucket.client.FhirClient;
-import com.ibm.fhir.bucket.client.FhirClientUtil;
+import com.ibm.fhir.bucket.client.FHIRBucketClient;
+import com.ibm.fhir.bucket.client.FHIRBucketClientUtil;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -46,7 +46,7 @@ public class DriveReindexOperation {
     // thread pool for processing requests
     private final ExecutorService pool = Executors.newCachedThreadPool();
 
-    private final FhirClient fhirClient;
+    private final FHIRBucketClient fhirClient;
     
     private final String url = "$reindex";
     
@@ -60,7 +60,7 @@ public class DriveReindexOperation {
      * @param client the FHIR client
      * @param maxConcurrentRequests the number of threads to spin up
      */
-    public DriveReindexOperation(FhirClient fhirClient, int maxConcurrentRequests, String tstampParam, int resourceCountParam) {
+    public DriveReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String tstampParam, int resourceCountParam) {
         this.fhirClient = fhirClient;
         this.maxConcurrentRequests = maxConcurrentRequests;
 
@@ -70,7 +70,7 @@ public class DriveReindexOperation {
                 .build();
         
         // Serialize into the requestBody string used by all the threads
-        this.requestBody = FhirClientUtil.resourceToString(parameters);
+        this.requestBody = FHIRBucketClientUtil.resourceToString(parameters);
         
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Reindex request parameters: " + requestBody);
@@ -233,7 +233,7 @@ public class DriveReindexOperation {
                     result = true;
                 } else {
                     logger.severe("FHIR Server reindex response is not an OperationOutcome: " + response.getStatusCode() + " " + response.getStatusMessage());
-                    logger.severe("Actual response: " + FhirClientUtil.resourceToString(resource));
+                    logger.severe("Actual response: " + FHIRBucketClientUtil.resourceToString(resource));
                 }
             } else {
                 // this would be a bit weird

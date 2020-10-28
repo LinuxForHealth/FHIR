@@ -281,7 +281,7 @@ public class Table extends BaseObject {
             columns.add(cd);
             return this;
         }
-        
+
         public Builder addBigIntColumn(String columnName, boolean nullable) {
             addBigIntColumn(columnName, nullable, null);
             return this;

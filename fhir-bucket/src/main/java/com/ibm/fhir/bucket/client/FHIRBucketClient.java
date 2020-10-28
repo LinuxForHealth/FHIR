@@ -68,9 +68,9 @@ import com.ibm.fhir.model.resource.Resource;
  * former High Volume Ingestion Tool (HVIT) which is known to scale to
  * a large number of client connections.
  */
-public class FhirClient {
+public class FHIRBucketClient {
 
-    private static final Logger logger = Logger.getLogger(FhirClient.class.getName());
+    private static final Logger logger = Logger.getLogger(FHIRBucketClient.class.getName());
     private static final String USER_AGENT = "FHIR_BUCKET_LOADER";
 
     // Connection pool managing FHIR server HTTPS connections
@@ -90,7 +90,7 @@ public class FhirClient {
      * Public constructor
      * @param cpa
      */
-    public FhirClient(ClientPropertyAdapter cpa) {
+    public FHIRBucketClient(ClientPropertyAdapter cpa) {
         this.propertyAdapter = cpa;
     }
 

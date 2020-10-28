@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.api.ResourceEntry;
-import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.bucket.cos.COSClient;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
@@ -42,7 +42,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
     private static final String LOCAL_REF_PREFIX = "urn:";
     
     // to write the processed bundles back to COS
-    private final CosClient cosClient;
+    private final COSClient cosClient;
 
     // The maximum number of resources we allow into a single bundle
     private final int maxBundleSize;
@@ -59,7 +59,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
      * @param maxBundleSize max number of resources we want in a bundle
      * @param targetPrefix target location (COS key prefix)
      */
-    public BundleBreakerResourceProcessor(CosClient cosClient, int maxBundleSize, String targetBucket, String targetPrefix) {
+    public BundleBreakerResourceProcessor(COSClient cosClient, int maxBundleSize, String targetBucket, String targetPrefix) {
         this.cosClient = cosClient;
         this.maxBundleSize = maxBundleSize;
         this.targetBucket = targetBucket;

@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.cache;
 
-
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 

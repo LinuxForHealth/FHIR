@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,22 +12,22 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * This class defines the Data Transfer Object representing a row in the X_TOKEN_VALUES tables.
  */
 public class TokenParmVal implements ExtractedParameterValue {
-    
+
     private String resourceType;
     private String name;
     private String valueSystem;
     private String valueCode;
-    
+
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
-    
+
     // A default value for the token-system as the schema column is not null (simplifying queries)
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
     public TokenParmVal() {
         super();
     }
-    
+
     @Override
     public String toString() {
         // to aid debugging

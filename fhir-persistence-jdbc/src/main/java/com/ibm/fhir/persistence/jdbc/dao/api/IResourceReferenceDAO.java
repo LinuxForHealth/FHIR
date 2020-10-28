@@ -10,10 +10,11 @@ import java.util.Collection;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
-import com.ibm.fhir.persistence.jdbc.dao.impl.LocalResourceReferenceRec;
 
 /**
- *
+ * Contract for DAO implementations handling persistence of
+ * resource references (and token parameters) with the
+ * normalized schema introduced in issue 1366.
  */
 public interface IResourceReferenceDAO {
 
@@ -22,13 +23,13 @@ public interface IResourceReferenceDAO {
      * @return
      */
     ICommonTokenValuesCache getResourceReferenceCache();
-    
+
     /**
      * Execute any statements with pending batch entries
      * @throws FHIRPersistenceException
      */
     void flush() throws FHIRPersistenceException;
-    
+
     /**
      * Delete current external references for a given resource type and logical id. Typically
      * called when creating a new version of a resource or when re-indexing

@@ -10,7 +10,7 @@ package com.ibm.fhir.bucket.cos;
 /**
  * Constants related to our COS connection
  */
-public class CosConstants {
+public class COSConstants {
     // the IBM COS API key or S3 access key.
     public static final String COS_API_KEY = "cos.api.key";
 

@@ -6,20 +6,18 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.schema.app.Main.ADMIN_SCHEMANAME;
+import static com.ibm.fhir.schema.control.JavaBatchSchemaGenerator.BATCH_SCHEMANAME;
+import static com.ibm.fhir.schema.control.OAuthSchemaGenerator.OAUTH_SCHEMANAME;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
-
-import static com.ibm.fhir.schema.control.JavaBatchSchemaGenerator.BATCH_SCHEMANAME;
-import static com.ibm.fhir.schema.control.OAuthSchemaGenerator.OAUTH_SCHEMANAME;
-import static com.ibm.fhir.schema.app.Main.ADMIN_SCHEMANAME;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -80,7 +78,7 @@ public class DerbyBootstrapper {
             if (dbDriverName != null && dbDriverName.contains("Derby")) {
                 final String adminSchemaName = "admin_" + tenantId + "_" + dsId;
                 final String dataSchemaName = connection.getSchema();
-                
+
                 bootstrap(connection, adminSchemaName, dataSchemaName);
             }
         } catch (Throwable e) {
@@ -96,7 +94,7 @@ public class DerbyBootstrapper {
             }
         }
     }
-    
+
     /**
      * Just do something simple on a connection from the given datasource
      * @param c
@@ -168,13 +166,13 @@ public class DerbyBootstrapper {
 
         // Use the new fhir-persistence-schema mechanism to create/update the derby database
         pdm.applyWithHistory(adapter, vhs);
-        
+
         if (newDb) {
             // prepopulates static lookup data.
             populateResourceTypeAndParameterNameTableEntries(connection, adminSchemaName, dataSchemaName);
         }
     }
-    
+
     /**
      * prepopulates the bootstrapped derby database with static lookup data.
      *
@@ -196,7 +194,7 @@ public class DerbyBootstrapper {
         populateParameterNames.run(translator, connection);
         log.info("Finished prepopulating the resource type and search parameter code/name tables tables");
     }
-    
+
 
     /**
      * Bootstraps the Liberty OAuth 2.0 tables for supporting management of OAuth 2.0 Clients

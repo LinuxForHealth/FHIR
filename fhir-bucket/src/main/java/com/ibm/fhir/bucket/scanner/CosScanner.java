@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
-import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.bucket.cos.COSClient;
 
 /**
  * Active object to periodically scan COS buckets looking for new
@@ -32,7 +32,7 @@ public class CosScanner {
     public static final long HEARTBEAT_INTERVAL_MS = 5000;
 
     // COS connection
-    private final CosClient client;
+    private final COSClient client;
     
     // the list of buckets to scan
     private final List<String> buckets;
@@ -68,7 +68,7 @@ public class CosScanner {
      * @param prefix only scan items with this prefix if set
      * @param scanIntervalMs the number of milliseconds between scans. -1 for automatic
      */
-    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
+    public CosScanner(COSClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
         int scanIntervalMs) {
         this.client = client;
         this.buckets = new ArrayList<>(buckets);

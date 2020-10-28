@@ -48,8 +48,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
-import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -110,7 +108,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     private final ParameterDAO parameterDao;
     private final ResourceDAO resourceDao;
-    
+
     // For id lookups
     private final JDBCIdentityCache identityCache;
 
@@ -546,14 +544,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         for (QueryParameterValue value : queryParm.getValues()) {
             String targetResourceType = null;
             searchValue = SqlParameterEncoder.encode(value.getValueString());
-            
+
             // Make sure we split out the resource type if it is included in the search value
             String[] parts = value.getValueString().split("/");
             if (parts.length == 2) {
                 targetResourceType = parts[0];
                 searchValue = parts[1];
             }
-            
+
             // Handle query parm representing this name/value pair construct:
             // <code>{name}:{Resource Type} = {resource-id}</code>
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
@@ -580,12 +578,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
             whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
             bindVariables.add(searchValue);
-            
+
             // add the [optional] condition for the resource type if we have one
             if (targetResourceType != null) {
                 // Use a literal for the resource type code-system-id, not a parameter marker. Helps the cost-based optimizer
                 int codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(" = ").append(codeSystemIdForResourceType);
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
             }
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
@@ -660,14 +658,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     if (codeSystemName != null && !codeSystemName.equals("*")) {
                         Integer codeSystemId = identityCache.getCodeSystemId(codeSystemName);
                         if (codeSystemId != null) {
-                            whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS + DOT).append(CODE_SYSTEM_ID).append(" = ")
+                            whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
                                     .append(codeSystemId);
                         }
                     }
-                    
+
                     whereClauseSegment.append(AND);
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(TOKEN_VALUE).append(IN);
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(IN);
                 } else {
                     // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.TOKEN_VALUE IN
                     appendMidChainParm(whereClauseSegment, currentParm, chainedParmVar);
@@ -691,7 +689,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 }
                 resourceTypeName = currentParm.getModifierResourceTypeName();
                 // Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
-                // since #1366, we no longer need to prepend the resource-type-name 
+                // since #1366, we no longer need to prepend the resource-type-name
                 whereClauseSegment.append(LEFT_PAREN);
                 appendInnerSelect(whereClauseSegment, currentParm, resourceTypeName,
                         chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
@@ -733,7 +731,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return queryData;
     }
-    
+
     /*
      * Builds the specific handling for exact matches on _id.
      * The procedure here is SIMILAR to that of QuerySegmentAggregator.processFromClauseForId
@@ -774,11 +772,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         if (codeSystemName != null && !codeSystemName.equals("*")) {
             Integer codeSystemId = identityCache.getCodeSystemId(codeSystemName);
             if (codeSystemId != null) {
-                whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS + DOT).append(CODE_SYSTEM_ID).append(" = ")
+                whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS + DOT).append(CODE_SYSTEM_ID).append(EQ)
                         .append(codeSystemId);
             }
         }
-        
+
         whereClauseSegment.append(AND).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(IN);
     }
 
@@ -794,7 +792,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         QueryParameter nextParameter = currentParm.getNextParameter();
 
-        // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_TOKEN_VALUES CP1 WHERE
+        // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_TOKEN_VALUES_V CP1 WHERE
         whereClauseSegment.append(FROM)
                 .append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ")
                 .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar);
@@ -995,7 +993,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 // (pX.PARAMETER_NAME_ID = x AND
                 this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                 whereClauseSegment.append(AND);
-                
+
                 // split the resource type name out (since issue #1366)
                 String resourceTypeName = null;
                 String[] parts = currentParmValue.split("/");
@@ -1003,14 +1001,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     resourceTypeName = parts[0];
                     currentParmValue = parts[1];
                 }
-                
+
                 // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(TOKEN_VALUE).append(operator)
+                whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(operator)
                         .append(BIND_VAR);
                 if (resourceTypeName != null) {
                     int codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
-                    whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS + DOT)
-                        .append(CODE_SYSTEM_ID).append(" = ").append(codeSystemIdForResourceType);
+                    whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
+                        .append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
                 bindVariables.add(currentParmValue);
@@ -1094,11 +1092,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     } else {
                         whereClauseSegment.append(AND);
                     }
-                    whereClauseSegment.append(tableAlias + DOT).append(CODE_SYSTEM_ID).append(operator)
+                    whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
                             .append(BIND_VAR);
-                    
+
                     codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
-                    
+
                     // must be able to handle nulls
                     bindVariables.add(codeSystemId);
                 }
@@ -1291,7 +1289,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x
         parameterNameId = identityCache.getParameterNameId(queryParmName);
-        
+
         whereClauseSegment.append(LEFT_PAREN);
         whereClauseSegment.append(parameterTableAlias + DOT).append("PARAMETER_NAME_ID=")
                 .append(nullCheck(parameterNameId));

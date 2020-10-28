@@ -47,15 +47,14 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_V;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
@@ -79,7 +78,6 @@ import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
-import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -98,8 +96,8 @@ public class FhirResourceTableGroup {
 
     // The session variable we depend on for access control
     private final SessionVariableDef sessionVariable;
-    
-    /// Build the multitenant variant of the schema
+
+    // Build the multitenant variant of the schema
     private final boolean multitenant;
 
     // All the tables created by this component
@@ -119,7 +117,7 @@ public class FhirResourceTableGroup {
 
     // suffix for the token view
     private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
-    
+
     /**
      * The maximum number of components we can store in the X_COMPOSITES tables.
      * Per the current design, each component will add 6 columns to the table, so don't go too high.
@@ -275,7 +273,7 @@ public class FhirResourceTableGroup {
 
         group.add(tbl);
         model.addTable(tbl);
-        
+
         // Issue 1331. LAST_UPDATED should be indexed now that we're using it
         // in search queries
         CreateIndex idxLastUpdated = CreateIndex.builder()
@@ -290,7 +288,7 @@ public class FhirResourceTableGroup {
                 .build();
         idxLastUpdated.addDependency(tbl); // dependency to the table on which the index applies
         group.add(idxLastUpdated);
-        
+
     }
 
     /**
@@ -402,7 +400,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
         alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
         group.add(alterTable);
-        
+
         return tbl;
     }
 
@@ -438,7 +436,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         group.add(tbl);
         model.addTable(tbl);
-        
+
         return tbl;
     }
 
@@ -478,7 +476,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
         }
-        
+
         View view = View.builder(schemaName, viewName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .setSelectClause(select.toString())
@@ -489,7 +487,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         group.add(view);
     }
-    
+
 
     /**
      * <pre>
@@ -843,7 +841,7 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 statements.add(new DropIndex(schemaName, IDX + tableName + "_PTQR"));
                 statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTT"));
                 statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTQ"));
-                
+
                 // Add one new index to support access with {logical_resource_id, parameter_name_id}
                 CreateIndex compIdx = CreateIndex.builder()
                         .setSchemaName(schemaName)

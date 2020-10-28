@@ -1,3 +1,9 @@
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
+
 select resource_type || param.nm AS param_table, pg_relation_size('fhirdata.' || resource_type || param.nm)
   from fhirdata.resource_types,
     (VALUES 
@@ -97,7 +103,6 @@ VACUUM FULL fhirdata.Claim_composites;
 VACUUM FULL fhirdata.Claim_latlng_values;
 VACUUM FULL fhirdata.Claim_resource_token_refs;
 
-
 VACUUM FULL fhirdata.Observation_str_values;
 VACUUM FULL fhirdata.Observation_date_values;
 VACUUM FULL fhirdata.Observation_logical_resources;
@@ -107,8 +112,3 @@ VACUUM FULL fhirdata.Observation_quantity_values;
 VACUUM FULL fhirdata.Observation_composites;
 VACUUM FULL fhirdata.Observation_latlng_values;
 VACUUM FULL fhirdata.Observation_resource_token_refs;
-
-
-
-
-

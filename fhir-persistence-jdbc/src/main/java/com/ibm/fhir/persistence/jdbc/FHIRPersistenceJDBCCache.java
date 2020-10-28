@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc;
 
+import java.sql.Connection;
+
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 

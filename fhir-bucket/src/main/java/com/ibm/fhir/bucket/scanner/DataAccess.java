@@ -244,9 +244,6 @@ public class DataAccess {
     public void recordLogicalIds(long resourceBundleLoadId, int lineNumber, List<ResourceIdValue> idValues, int batchSize) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-//                RecordLogicalIdList cmd = new RecordLogicalIdList(resourceBundleLoadId, lineNumber, idValues, resourceTypeMap, batchSize);
-//                dbAdapter.runStatement(cmd);
-
                 for (ResourceIdValue idv: idValues) {
                     Integer resourceTypeId = resourceTypeMap.get(idv.getResourceType());
                     if (resourceTypeId == null) {

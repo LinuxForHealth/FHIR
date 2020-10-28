@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.derby;
+package com.ibm.fhir.persistence.jdbc.dao;
 
 
 import java.security.SecureRandom;

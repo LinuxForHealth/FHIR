@@ -50,7 +50,7 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  */
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
-    
+
     private static final String HISTORY = "_history";
     private static final String HTTP = "http:";
     private static final String HTTPS = "https:";
@@ -108,19 +108,19 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // DAO for handling parameters stored as token values
     private final IResourceReferenceDAO resourceReferenceDAO;
-    
+
     // Collect a list of token values to process in one go
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
-    
+
     // The table prefix (resourceType)
     private final String tablePrefix;
-    
+
     // The common cache for all our identity lookup needs
     private final JDBCIdentityCache identityCache;
 
     // The server base "https://example.com:9443/" extracted the first time we need it
     private String serverBase;
-    
+
     // If not null, we stash certain parameter data here for insertion later
     private final ParameterTransactionDataImpl transactionData;
 
@@ -223,7 +223,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     }
 
     /**
-     * Look up the code system. If it doesn't exist, add it to the database
+     * Looks up the code system. If it doesn't exist, adds it to the database
      * @param codeSystem
      * @return
      */
@@ -395,10 +395,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         try {
             int parameterNameId = getParameterNameId(parameterName);
 
-            // TODO handle base (non-resource-specific) token values for issue #1366
+            // handle base (non-resource-specific) token values for issue #1366
             if (isBase(param)) {
                 int codeSystemId = getCodeSystemId(codeSystem);
-                
+
                 // store in the base (resource) table
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseTokenValue: " + parameterName + "[" + parameterNameId + "], "
@@ -421,13 +421,13 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], "
                             + codeSystem + ", " + tokenValue);
                 }
-                
+
                 // Add the new token value to the collection we're building...what's the resourceTypeId?
                 final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
                 if (tokenValue == null) {
                     logger.info("tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
                 }
-                
+
                 ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue);
                 if (this.transactionData != null) {
                     this.transactionData.addValue(rec);
@@ -700,7 +700,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 resourceTokens.executeBatch();
                 resourceTokenCount = 0;
             }
-            
+
         }
         catch (SQLException x) {
             SQLException batchException = x.getNextException();
@@ -712,7 +712,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 throw x;
             }
         }
-        
+
         // Process any tokens and references we've collected along the way
         if (!tokenValueRecs.isEmpty()) {
             this.resourceReferenceDAO.addCommonTokenValues(this.tablePrefix, tokenValueRecs);
@@ -745,40 +745,40 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private boolean isBase(ExtractedParameterValue param) {
         return "Resource".equals(param.getBase());
     }
-    
+
     /**
      * Get the leading part of the url e.g. https://example.com
      * @return
      */
     private String getServerUrl() throws FHIRPersistenceException {
-        
+
         if (this.serverBase != null) {
             return this.serverBase;
         }
-        
+
         String uri = FHIRRequestContext.get().getOriginalRequestUri();
 
         // request URI is not set for all unit-tests, so we need to take that into account
         if (uri == null) {
             return null;
         }
-        
+
         try {
             StringBuilder result = new StringBuilder();
             URL url = new URL(uri);
-            
+
             result.append(url.getProtocol());
             result.append("://");
             result.append(url.getHost());
-            
+
             if (url.getPort() != -1) {
                 result.append(":");
                 result.append(url.getPort());
             }
-            
+
             // https://example.com:9443/
             result.append("/");
-            
+
             final String endpoint = "fhir-server/api/v4/";
             if (uri.contains(endpoint)) {
                 result.append(endpoint);
@@ -800,7 +800,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         if (valueString == null || valueString.isEmpty()) {
             return;
         }
-        
+
         final String resourceType = this.tablePrefix;
         int parameterNameId = getParameterNameId(rpv.getName());
         Integer resourceTypeId = identityCache.getResourceTypeId(resourceType);
@@ -819,7 +819,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             //  - https://example.com/Patient/1234
             //  - https://example.com/Patient/1234/_history/2
             valueString = valueString.substring(base.length());
-            
+
             // Patient/1234
             // Patient/1234/_history/2
             String[] tokens = valueString.split("/");
@@ -831,7 +831,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     // versioned reference
                     refVersion = Integer.parseInt(tokens[3]);
                 }
-                
+
                 // Store a token value configured as a reference to another resource
                 rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion);
             } else {
@@ -862,7 +862,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
                 // Store a token value configured as a reference to another resource
                 rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion);
-                
+
             } else {
                 // SearchReferenceTest system integration tests require support for arbitrary reference strings
                 //  - Relative ==> 1234
@@ -870,7 +870,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, valueString);
             }
         }
-        
+
         if (this.transactionData != null) {
             this.transactionData.addValue(rec);
         } else {

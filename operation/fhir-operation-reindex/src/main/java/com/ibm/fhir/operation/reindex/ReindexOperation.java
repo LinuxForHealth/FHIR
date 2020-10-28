@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -35,16 +36,16 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
  */
 public class ReindexOperation extends AbstractOperation {
     private static final Logger logger = Logger.getLogger(ReindexOperation.class.getName());
-    
+
     private static final String PARAM_TSTAMP = "_tstamp";
     private static final String PARAM_RESOURCE_COUNT = "_resourceCount";
-    
+
     static final DateTimeFormatter DAY_FORMAT = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd")
             .parseDefaulting(ChronoField.NANO_OF_DAY, 0)
             .toFormatter()
             .withZone(ZoneId.of("UTC"));
-    
+
     public ReindexOperation() {
         super();
     }
@@ -62,36 +63,36 @@ public class ReindexOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
-        
+
         // Allow only POST because we're changing the state of the database
         String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
         if (!"POST".equalsIgnoreCase(method)) {
             throw new FHIROperationException("HTTP method not supported: " + method);
         }
-        
+
         try {
             Instant tstamp = Instant.now();
             int resourceCount = 10;
-            
+
             if (parameters != null) {
                 for (Parameters.Parameter parameter : parameters.getParameter()) {
-                    if (parameter.getValue() != null) {
+                    if (parameter.getValue() != null && logger.isLoggable(Level.FINE)) {
                         logger.fine("reindex param: " + parameter.getName().getValue() + " = " + parameter.getValue().toString());
                     }
-                    
+
                     if (PARAM_TSTAMP.equals(parameter.getName().getValue())
                             && parameter.getValue() != null
                             && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
                         String val = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                        
-                        
+
+
                         if (val.length() == 10) {
                             tstamp = DAY_FORMAT.parse(val, Instant::from);
                         } else {
                             // assume full ISO format
                             tstamp = Instant.parse(val);
                         }
-                        
+
                     } else if (PARAM_RESOURCE_COUNT.equals(parameter.getName().getValue())) {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
                         if (val != null) {
@@ -100,7 +101,7 @@ public class ReindexOperation extends AbstractOperation {
                     }
                 }
             }
-            
+
             // Delegate the heavy lifting to the helper
             OperationOutcome.Builder result = OperationOutcome.builder();
             int totalProcessed = 0;
@@ -109,7 +110,7 @@ public class ReindexOperation extends AbstractOperation {
                 processed = resourceHelper.doReindex(operationContext, result, tstamp);
                 totalProcessed += processed;
             }
-            
+
             if (totalProcessed == 0) {
                 // must have at least one issue for a valid OperationOutcome resource
                 final String diag = "Reindex complete";
