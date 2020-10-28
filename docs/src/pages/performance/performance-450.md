@@ -40,7 +40,7 @@ PostgreSQL CPU | 9 cores (dedicated)
 PostgreSQL RAM | 24GB
 PostgreSQL Storage | 1TB (up to 10K IOPS)
 
-<br>
+<br></br>
 
 Top resource counts in the database using the query: 
 ```
@@ -95,7 +95,7 @@ Ingestion rate:
 525525 resources 
 ---------------- = 940 resources/second
    559 seconds
- ```
+```
 
 The inserts into the Observation parameter tables for token_values and quantity_values come from composite values, and there is room for improvement for how these inserts are handled:
 
