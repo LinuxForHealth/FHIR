@@ -18,6 +18,9 @@ public class FhirSchemaConstants {
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
     public static final int MAX_TOKEN_VALUE_BYTES = 1024;
     public static final int LOGICAL_ID_BYTES = 255;
+    
+    // Currently a constant admin schema name
+    public static final String FHIR_ADMIN = "FHIR_ADMIN";
 
     // Default tablespace
     public static final String FHIR_TS = "FHIR_TS";
@@ -34,6 +37,12 @@ public class FhirSchemaConstants {
     public static final long FHIR_REF_SEQUENCE_START = 20000;
     public static final int FHIR_REF_SEQUENCE_CACHE = 1000;
     public static final int FHIR_IDENTITY_SEQUENCE_CACHE = 1000;
+
+    // DO NOT CHANGE. Integrity of DB relies on these not changing
+    public static final String REFERENCES_SEQUENCE = "REFERENCES_SEQUENCE";
+    public static final int REFERENCES_SEQUENCE_START = 1;
+    public static final int REFERENCES_SEQUENCE_CACHE = 1000;
+    public static final int REFERENCES_SEQUENCE_INCREMENT = 20;
     
     // Tenant constants
     public static final String MT_ID = "MT_ID";
@@ -44,6 +53,9 @@ public class FhirSchemaConstants {
 
     // R4 Logical Resources
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
+    public static final String REINDEX_TSTAMP = "REINDEX_TSTAMP";
+    public static final String REINDEX_TXID = "REINDEX_TXID";
+    public static final String REINDEX_SEQ = "REINDEX_SEQ";
 
     // R4 Logical Resource Tags and Security are modeled as token values
     public static final String TOKEN_VALUES = "TOKEN_VALUES";
@@ -117,5 +129,28 @@ public class FhirSchemaConstants {
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;
     public static final int PART_UPPER = 0;
-
+    
+    // Table for Normalization of References (Internal and External)
+    public static final String LOCAL_REFERENCES = "LOCAL_REFERENCES";
+    public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
+//    public static final String EXTERNAL_SYSTEMS = "EXTERNAL_SYSTEMS";
+//    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
+//    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
+//    public static final String EXTERNAL_REFERENCES = "EXTERNAL_REFERENCES";
+    
+    // For V0006 (issue #1366) token_values become normalized to improve storage efficiency
+    public static final String COMMON_TOKEN_VALUES = "COMMON_TOKEN_VALUES";
+    public static final String COMMON_TOKEN_VALUE_ID = "COMMON_TOKEN_VALUE_ID";
+    
+    // The table mapping a resource to its (shared) token values
+    public static final String RESOURCE_TOKEN_REFS = "RESOURCE_TOKEN_REFS";
+    public static final String REF_RESOURCE_TYPE_ID = "REF_RESOURCE_TYPE_ID";
+    public static final String REF_VERSION_ID = "REF_VERSION_ID";
+    
+    // View suffix to overlay the new common_token_values and resource_token_refs tables
+    public static final String TOKEN_VALUES_V = "TOKEN_VALUES_V";
+    
+    public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
+    public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";
+    public static final String COMPARTMENT_NAME_ID = "COMPARTMENT_NAME_ID";
 }

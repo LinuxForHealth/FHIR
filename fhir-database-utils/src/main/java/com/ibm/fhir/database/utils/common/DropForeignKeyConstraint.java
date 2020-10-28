@@ -41,12 +41,14 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         String qTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
 
+        // Need to account for the syntax differences betweeb Db2/Derby and PostgreSQL
+        // DB2: ALTER TABLE tbl DROP FOREIGN KEY fkConstraintName
+        // PostgreSQL: ALTER TABLE tbl DROP CONSTRAINT fkConstraintName
         for (String constraintName : constraintNames) {
-            StringBuilder ddl = new StringBuilder("ALTER TABLE " + qTableName);
-            ddl.append("\n\t" + "DROP FOREIGN KEY " + constraintName);
+            String ddl = translator.dropForeignKeyConstraint(qTableName, constraintName);
 
             try (Statement s = c.createStatement()) {
-                s.executeUpdate(ddl.toString());
+                s.executeUpdate(ddl);
             }
             catch (SQLException x) {
                 throw translator.translate(x);

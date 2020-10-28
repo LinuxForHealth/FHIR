@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,11 +24,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.BucketPath;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleError;
 import com.ibm.fhir.bucket.api.ResourceEntry;
 import com.ibm.fhir.bucket.api.ResourceRef;
-import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.bucket.cos.COSClient;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -44,14 +46,14 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * to the thread pool.
  *
  */
-public class CosReader {
-    private static final Logger logger = Logger.getLogger(CosReader.class.getName());
+public class COSReader {
+    private static final Logger logger = Logger.getLogger(COSReader.class.getName());
     
     // The type of file we are supposed to process
     private final FileType fileType;
     
     // Abstraction of our connection to cloud object storage
-    private final CosClient client;
+    private final COSClient client;
 
     // The handler which processes resources we've read from COS
     private final Consumer<ResourceEntry> resourceHandler;
@@ -89,7 +91,9 @@ public class CosReader {
     private int recycleSeconds;
 
     // The cost of a bundle compared to a single resource
-    private final int bundleCostFactor;
+    private final double bundleCostFactor;
+    
+    private final List<BucketPath> bucketPaths;
     
     /**
      * Public constructor
@@ -102,8 +106,8 @@ public class CosReader {
      * @param incremental
      * @param recycleSeconds
      */
-    public CosReader(ExecutorService commonPool, FileType fileType, CosClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
-        int bundleCostFactor) {
+    public COSReader(ExecutorService commonPool, FileType fileType, COSClient client, Consumer<ResourceEntry> resourceHandler, int maxInflight, DataAccess da, boolean incremental, int recycleSeconds, boolean incrementalExact,
+        double bundleCostFactor, Collection<BucketPath> bucketPaths) {
         this.pool = commonPool;
         this.fileType = fileType;
         this.client = client;
@@ -115,6 +119,7 @@ public class CosReader {
         this.recycleSeconds = recycleSeconds;
         this.incrementalExact = incrementalExact;
         this.bundleCostFactor = bundleCostFactor;
+        this.bucketPaths = new ArrayList<>(bucketPaths);
     }
     
     /**
@@ -195,6 +200,13 @@ public class CosReader {
                 }
             } catch (InterruptedException x) {
                 // NOP
+            } catch (Exception x) {
+                // Probably database connection error, so we take a good long pause
+                // before trying again as these things are never fixed quickly
+                logger.severe("Error in main allocation loop. Sleeping before retry");
+                if (this.running) {
+                    safeSleep(60000L);
+                }
             } finally {
                 lock.unlock();
             }
@@ -203,20 +215,21 @@ public class CosReader {
                 // We have more capacity than work is currently available in the database,
                 // so take a nap before checking again
                 logger.fine("No work. Napping");
-                safeSleep(5000);
+                safeSleep(10000L);
             }
         }
     }
     
     /**
-     * Sleep this thread for the given milliseconds
+     * Sleep current thread for given number of milliseconds or until
+     * the thread is interrupted.
      * @param millis
      */
     protected void safeSleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException x) {
-            // NOP
+            // woken up early from sleep, probably shutting down, so this is a NOP
         }
     }
 
@@ -229,7 +242,7 @@ public class CosReader {
     private int allocateJobs(int free) {
         logger.info("allocateJobs[" + fileType.name() + "]: free = " + free);
         List<BucketLoaderJob> jobList = new ArrayList<>();
-        dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds);
+        dataAccess.allocateJobs(jobList, fileType, free, recycleSeconds, this.bucketPaths);
         
         logger.info("Allocated job count["  + fileType.name() + "]: " + jobList.size());
         
@@ -247,9 +260,41 @@ public class CosReader {
      * @param job
      */
     protected void markJobDone(final BucketLoaderJob job) {
+        // The number of seconds the whole job took to complete (including queue time)
         double elapsedSeconds = (job.getProcessingEndTime() - job.getProcessingStartTime()) / 1e9;
-        logger.info(String.format("Completed entry: %s [took %.3f secs]", job.toString(), elapsedSeconds));
-        dataAccess.markJobDone(job);
+        
+        // The response time of the last call...which is useful if the request is one big bundle
+        double lastCallTime = job.getLastCallResponseTime() / 1e3;
+        
+        int resources = job.getTotalResourceCount();
+        double rps = Double.NaN;
+        if (lastCallTime > 0) {
+            rps = resources / lastCallTime;
+        }
+        
+        try {
+            // Log some useful info so we can eyeball rate/progress in the logs
+            logger.info(String.format("Completed entry: %s [took %.3f secs, lastCall: %.3f secs, resources: %d, rate: %.1f resources/sec]", job.toString(), elapsedSeconds, lastCallTime, resources, rps));
+            dataAccess.markJobDone(job);
+        } finally {
+            // As this job is now finally complete, we can reduce our inflight count, freeing up capacity
+            // for new jobs to be allocated
+            lock.lock();
+            try {
+                inflight--;
+                logger.info("Job completed[" + fileType.name() + "] inflight count now: " + inflight);
+                
+                // Apply some hysteresis before we wake up the allocation
+                // thread. This is so we fetch larger allocations in fewer
+                // calls to the database
+                if (inflight < rescanThreshold) {
+                    logger.info("triggering job fetch[" + fileType.name() + "]");
+                    resourceLimit.signal();
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
     }
 
     /**
@@ -258,26 +303,7 @@ public class CosReader {
      */
     private void process(BucketLoaderJob job) {
         pool.submit(() -> {
-            try {
-                processThr(job);
-            } finally {
-                // free up capacity after the job completes
-                lock.lock();
-                try {
-                    inflight--;
-                    logger.info("Job completed[" + fileType.name() + "] inflight count now: " + inflight);
-                    
-                    // Apply some hysteresis before we wake up the allocation
-                    // thread. This is so we fetch larger allocations in fewer
-                    // calls to the database
-                    if (inflight < rescanThreshold) {
-                        logger.info("triggering job fetch[" + fileType.name() + "]");
-                        resourceLimit.signal();
-                    }
-                } finally {
-                    lock.unlock();
-                }
-            }
+            processThr(job);
         });
     }
 
@@ -344,8 +370,10 @@ public class CosReader {
         // Bundles tend to be a lot larger, so we limit how many we try to
         // process in parallel.
         if (r.is(Bundle.class)) {
+            // Estimate a cost based on the number of entries in the bundle
+            // multiplied by the cost factor. Cost can never be < 1.
             Bundle b = r.as(Bundle.class);
-            return this.bundleCostFactor * b.getEntry().size();
+            return Math.max(1, (int)(this.bundleCostFactor * b.getEntry().size()));
         } else {
             return 1;
         }

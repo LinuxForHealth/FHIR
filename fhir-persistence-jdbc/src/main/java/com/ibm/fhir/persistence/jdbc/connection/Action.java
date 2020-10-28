@@ -18,7 +18,8 @@ public interface Action {
 
     /**
      * Perform this action on the given connection
-     * @param c
+     * @param flavor describes the type of database associated with the given connection
+     * @param c the connection to perform the action on
      */
-    public void performOn(Connection c) throws FHIRPersistenceDBConnectException;
+    public void performOn(FHIRDbFlavor flavor, Connection c) throws FHIRPersistenceDBConnectException;
 }

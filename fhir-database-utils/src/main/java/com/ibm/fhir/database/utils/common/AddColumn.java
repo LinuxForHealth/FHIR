@@ -21,7 +21,7 @@ import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 
 /**
- * Drop columns from the schema.table
+ * Add column to the schema.table
  */
 public class AddColumn implements IDatabaseStatement {
     private final String schemaName;

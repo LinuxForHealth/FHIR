@@ -5,7 +5,6 @@
  */
 package com.ibm.fhir.bucket.client;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,9 +68,9 @@ import com.ibm.fhir.model.resource.Resource;
  * former High Volume Ingestion Tool (HVIT) which is known to scale to
  * a large number of client connections.
  */
-public class FhirClient {
+public class FHIRBucketClient {
 
-    private static final Logger logger = Logger.getLogger(FhirClient.class.getName());
+    private static final Logger logger = Logger.getLogger(FHIRBucketClient.class.getName());
     private static final String USER_AGENT = "FHIR_BUCKET_LOADER";
 
     // Connection pool managing FHIR server HTTPS connections
@@ -91,7 +90,7 @@ public class FhirClient {
      * Public constructor
      * @param cpa
      */
-    public FhirClient(ClientPropertyAdapter cpa) {
+    public FHIRBucketClient(ClientPropertyAdapter cpa) {
         this.propertyAdapter = cpa;
     }
 
@@ -291,9 +290,11 @@ public class FhirClient {
                 logger.fine(msg.toString());
             }
 
-            // If we are posting a bundle, then we need to parse the response entity
-            boolean isBundle = url.isEmpty();
-            return buildResponse(response, startTime, isBundle);
+            // If we are posting a bundle or calling a custom operation, 
+            // then we need to parse the response entity. This is a little
+            // crude, but works OK here
+            boolean processResponseEntity = url.isEmpty() || url.startsWith("$");
+            return buildResponse(response, startTime, processResponseEntity);
             
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
@@ -494,11 +495,10 @@ public class FhirClient {
         }
     }
     
-    private void dump(Reader rdr) throws IOException {
-        BufferedReader br = new BufferedReader(rdr);
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
+    /**
+     * @return the URL to the base of the FHIR server
+     */
+    public String getBaseUrl() {
+        return buildTargetPath(null);
     }
 }

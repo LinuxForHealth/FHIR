@@ -51,6 +51,11 @@ public class BucketLoaderJob {
     // nanoTime when the job and all of its entries completed
     private long processingEndTime;
     
+    private long lastCallResponseTime;
+    
+    // how many resources were generated when processing this job
+    private volatile int totalResourceCount = 0;
+    
     /**
      * Public constructor
      * @param resourceBundleLoadId
@@ -234,5 +239,35 @@ public class BucketLoaderJob {
      */
     public long getProcessingEndTime() {
         return processingEndTime;
+    }
+
+    /**
+     * @return the lastCallResponseTime in milliseconds
+     */
+    public long getLastCallResponseTime() {
+        return lastCallResponseTime;
+    }
+
+    /**
+     * @param lastCallResponseTime the lastCallResponseTime to set in milliseconds
+     */
+    public void setLastCallResponseTime(long lastCallResponseTime) {
+        this.lastCallResponseTime = lastCallResponseTime;
+    }
+
+    /**
+     * Increment the total number of resources that have been created when
+     * processing this job
+     * @param resources
+     */
+    public void addTotalResourceCount(int resources) {
+        this.totalResourceCount += resources;
+    }
+
+    /**
+     * @return the totalResourceCount
+     */
+    public int getTotalResourceCount() {
+        return totalResourceCount;
     }
 }

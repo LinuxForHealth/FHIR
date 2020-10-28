@@ -19,5 +19,6 @@ public enum DatabaseObjectType {
     VARIABLE,
     NOP,
     GROUP,
-    TABLESPACE
+    TABLESPACE,
+    VIEW
 }

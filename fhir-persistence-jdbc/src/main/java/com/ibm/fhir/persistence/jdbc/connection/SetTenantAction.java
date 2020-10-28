@@ -62,12 +62,12 @@ public class SetTenantAction extends ChainedAction {
     }
 
     @Override
-    public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
+    public void performOn(FHIRDbFlavor flavor, Connection c) throws FHIRPersistenceDBConnectException {
         
         configureTenantAccess(c);
         
         // perform next action in the chain
-        super.performOn(c);
+        super.performOn(flavor, c);
     }
 
     /**

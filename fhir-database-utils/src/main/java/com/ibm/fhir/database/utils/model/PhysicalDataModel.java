@@ -263,6 +263,19 @@ public class PhysicalDataModel implements IDataModel {
     }
 
     /**
+     * Ensure that each partitioned table has a partition matching the given tenantId. This
+     * method is use to add partitions to new tables added by a schema update (after the
+     * tenant was allocated).
+     * @param adapter
+     * @param schemaName
+     * @param tenantId
+     */
+    public void addNewTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
+        final String tenantIdColumn = "MT_ID";
+        adapter.addNewTenantPartitions(getTenantPartitionedTables(tenantIdColumn), schemaName, tenantId);
+    }
+
+    /**
      * remove the partition from each of the tenant-based tables
      *
      * @param adapter

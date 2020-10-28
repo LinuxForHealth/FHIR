@@ -79,7 +79,7 @@ public class NumberParmBehaviorUtilTest {
         StringBuilder actualWhereClauseSegment = new StringBuilder();
         List<Object> actualBindVariables = new ArrayList<>();
 
-        JDBCQueryBuilder queryBuilder = new JDBCQueryBuilder(null, null, null);
+        JDBCQueryBuilder queryBuilder = new JDBCQueryBuilder(null, null, null, null);
         NumberParmBehaviorUtil.executeBehavior(actualWhereClauseSegment, queryParm, actualBindVariables, resourceType,
                 tableAlias, queryBuilder);
 

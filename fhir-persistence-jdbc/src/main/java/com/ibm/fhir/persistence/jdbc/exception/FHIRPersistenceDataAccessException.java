@@ -18,6 +18,9 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceDataAccessException extends FHIRPersistenceException {
 
     private static final long serialVersionUID = -8350452448890342596L;
+    
+    // hint as to whether or not the transaction can be retried
+    private boolean transactionRetryable;
 
     public FHIRPersistenceDataAccessException(String message) {
         super(message);
@@ -39,4 +42,19 @@ public class FHIRPersistenceDataAccessException extends FHIRPersistenceException
         return this;
     }
     
+    /**
+     * Setter for the transactionRetryable flag
+     * @param flag
+     */
+    public void setTransactionRetryable(boolean flag) {
+        this.transactionRetryable = flag;
+    }
+
+    /**
+     * Getter for the transactionRetryable flag
+     * @return true if the transaction could be retried
+     */
+    public boolean isTransactionRetryable() {
+        return this.transactionRetryable;
+    }
 }

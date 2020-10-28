@@ -24,6 +24,7 @@ import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
+import java.util.logging.Logger;
 
 /**
  * Wrapping of a real database connection so that we can intercept the close call
@@ -33,6 +34,7 @@ import java.util.concurrent.Executor;
  * to abandon the underlying connection.
  */
 public class PooledConnection implements Connection {
+    private static final Logger logger = Logger.getLogger(PooledConnection.class.getName());
 
     // Pointer back to the object which spawned us
     private final PoolConnectionProvider pool;
@@ -678,6 +680,7 @@ public class PooledConnection implements Connection {
     @Override
     public void setSchema(String schema) throws SQLException {
         try {
+            logger.warning("Calling setSchema, which exposes a transaction bug in Liberty+Derby: " + schema);
             wrapped.setSchema(schema);
         }
         catch (SQLException x) {

@@ -19,6 +19,8 @@ public class Sequence extends BaseObject {
     
     // caching sequence values for tuning
     private final int cache;
+    
+    private final int incrementBy;
 
     /**
      * Public constructor
@@ -28,16 +30,22 @@ public class Sequence extends BaseObject {
      * @param version
      * @param startWith
      * @param cache
+     * @param incrementBy
      */
     public Sequence(String schemaName, String sequenceName, int version, long startWith, int cache) {
+        this(schemaName, sequenceName, version, startWith, cache, 1);
+    }
+
+    public Sequence(String schemaName, String sequenceName, int version, long startWith, int cache, int incrementBy) {
         super(schemaName, sequenceName, DatabaseObjectType.SEQUENCE, version);
         this.startWith = startWith;
         this.cache = cache;
+        this.incrementBy = incrementBy;
     }
 
     @Override
     public void apply(IDatabaseAdapter target) {
-        target.createSequence(getSchemaName(), getObjectName(), this.startWith, this.cache);
+        target.createSequence(getSchemaName(), getObjectName(), this.startWith, this.cache, this.incrementBy);
     }
 
     @Override

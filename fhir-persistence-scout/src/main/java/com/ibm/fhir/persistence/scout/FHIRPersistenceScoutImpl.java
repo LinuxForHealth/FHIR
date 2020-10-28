@@ -468,4 +468,9 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     public String generateResourceId() {
         return UUID.randomUUID().toString();
     }
+    
+    @Override
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp) throws FHIRPersistenceException {
+        return 0;
+    }
 }

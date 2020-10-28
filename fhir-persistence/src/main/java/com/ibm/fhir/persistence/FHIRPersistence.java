@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence;
 
+import java.time.Instant;
+
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -137,4 +139,28 @@ public interface FHIRPersistence {
      * @return resource ID
      */
     String generateResourceId();
+
+    /**
+     * Returns true iff the persistence layer implementation supports the "reindex" special operation
+     * @return
+     */
+    default boolean isReindexSupported() {
+        return false;
+    }
+    
+    /**
+     * Initiates reindexing for resources not yet processed. Limits the number of resources
+     * processed to resourceCount. The number processed is returned in the OperationOutcome.
+     * This can be used by a controller to continue processing until everything is complete.
+     * Increasing resourceCount reduces the number of calls required to reindex an entire
+     * database, but larger values risk exceeding the transaction timeout. Values around 100
+     * are a good starting point for most systems.
+     * @param context the FHIRPersistenceContext instance associated with the current request.
+     * @param operationOutcomeResult accumulate issues in this {@link Builder}
+     * @param tstamp reindex any resources with an index_tstamp less than this.
+     * @return count of the number of resources reindexed by this call (0 or 1)
+     * @throws FHIRPersistenceException
+     */
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp)
+            throws FHIRPersistenceException;
 }

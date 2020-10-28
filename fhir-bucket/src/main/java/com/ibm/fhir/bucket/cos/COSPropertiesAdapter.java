@@ -11,12 +11,12 @@ import java.util.Properties;
 /**
  * Adapter to support reading of COS properties from a {@link Properties} instance
  */
-public class CosPropertiesAdapter {
+public class COSPropertiesAdapter {
 
     // The properties we are adapting
     private final Properties properties;
     
-    public CosPropertiesAdapter(Properties properties) {
+    public COSPropertiesAdapter(Properties properties) {
         // intentionally do not copy. We act as a facade, so want
         // to track any changes to our properties delegate
         this.properties = properties;
@@ -27,7 +27,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public String getApiKey() {
-        return properties.getProperty(CosConstants.COS_API_KEY);
+        return properties.getProperty(COSConstants.COS_API_KEY);
     }
 
     /**
@@ -35,7 +35,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public String getSrvInstId() {
-        return properties.getProperty(CosConstants.COS_SRVINSTID);
+        return properties.getProperty(COSConstants.COS_SRVINSTID);
     }
 
     /**
@@ -43,7 +43,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public String getEndpointUrl() {
-        return properties.getProperty(CosConstants.COS_ENDPOINT_URL);
+        return properties.getProperty(COSConstants.COS_ENDPOINT_URL);
     }
 
     /**
@@ -51,7 +51,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public String getLocation() {
-        return properties.getProperty(CosConstants.COS_LOCATION);
+        return properties.getProperty(COSConstants.COS_LOCATION);
     }
 
     /**
@@ -59,7 +59,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public String getBucketName() {
-        return properties.getProperty(CosConstants.COS_BUCKET_NAME);
+        return properties.getProperty(COSConstants.COS_BUCKET_NAME);
     }
 
     /**
@@ -67,7 +67,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public boolean isCredentialIBM() {
-        return "Y".equalsIgnoreCase(properties.getProperty(CosConstants.COS_CREDENTIAL_IBM));
+        return "Y".equalsIgnoreCase(properties.getProperty(COSConstants.COS_CREDENTIAL_IBM));
     }
 
     /**
@@ -75,7 +75,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public int getRequestTimeout() {
-        String val = properties.getProperty(CosConstants.COS_REQUEST_TIMEOUT, "60000");
+        String val = properties.getProperty(COSConstants.COS_REQUEST_TIMEOUT, "60000");
         return Integer.parseInt(val);
     }
 
@@ -84,7 +84,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public int getSocketTimeout() {
-        String val = properties.getProperty(CosConstants.COS_SOCKET_TIMEOUT, "60000");
+        String val = properties.getProperty(COSConstants.COS_SOCKET_TIMEOUT, "60000");
         return Integer.parseInt(val);
     }
 
@@ -93,7 +93,7 @@ public class CosPropertiesAdapter {
      * @return
      */
     public int getMaxKeys() {
-        String val = properties.getProperty(CosConstants.COS_MAX_KEYS, "1000");
+        String val = properties.getProperty(COSConstants.COS_MAX_KEYS, "1000");
         return Integer.parseInt(val);
     }
 }

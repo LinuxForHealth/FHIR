@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -52,6 +52,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
@@ -285,13 +286,23 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(String elementName, int elementIndex, Uri uri) {
         if (uri.hasValue()) {
-            StringParmVal p = new StringParmVal();
             if (!URI.equals(searchParamType) && !REFERENCE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, uri);
             }
-            p.setName(searchParamCode);
-            p.setValueString(uri.getValue());
-            result.add(p);
+
+            // For REFERENCE search parameters, we need to treat Uris as tokens,
+            // not strings.
+            if (REFERENCE.equals(this.searchParamType)) {
+                TokenParmVal p = new TokenParmVal();
+                p.setName(searchParamCode);
+                p.setValueCode(uri.getValue());
+                result.add(p);
+            } else {
+                StringParmVal p = new StringParmVal();
+                p.setName(searchParamCode);
+                p.setValueString(uri.getValue());
+                result.add(p);
+            }
         }
         return false;
     }
@@ -436,23 +447,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
-        if (!TOKEN.equals(searchParamType)) {
-            throw invalidComboException(searchParamType, identifier);
-        }
-        if (identifier != null && identifier.getValue() != null) {
-            TokenParmVal p = new TokenParmVal();
-            p.setName(searchParamCode);
-            if (identifier.getSystem() != null) {
-                p.setValueSystem(identifier.getSystem().getValue());
-            }
-            p.setValueCode(identifier.getValue().getValue());
-            result.add(p);
-        }
-        return false;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Money money) {
         if (!QUANTITY.equals(searchParamType)) {
             throw invalidComboException(searchParamType, money);
@@ -582,14 +576,43 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
+        if (!TOKEN.equals(searchParamType)) {
+            throw invalidComboException(searchParamType, identifier);
+        }
+        if (identifier != null && identifier.getValue() != null) {
+            TokenParmVal p = new TokenParmVal();
+            p.setName(searchParamCode);
+            if (identifier.getSystem() != null) {
+                p.setValueSystem(identifier.getSystem().getValue());
+            }
+            p.setValueCode(identifier.getValue().getValue());
+            result.add(p);
+        }
+        return false;
+    }
+
+    @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Reference reference) {
         if (!REFERENCE.equals(searchParamType)) {
             throw invalidComboException(searchParamType, reference);
         }
         if (reference.getReference() != null) {
-            StringParmVal p = new StringParmVal();
+            ReferenceParmVal p = new ReferenceParmVal();
             p.setName(searchParamCode);
             p.setValueString(reference.getReference().getValue());
+            result.add(p);
+        }
+
+        // Make sure we process the identifier if there is one.
+        Identifier identifier = reference.getIdentifier();
+        if (reference.getIdentifier() != null) {
+            TokenParmVal p = new TokenParmVal();
+            p.setName(searchParamCode);
+            if (identifier.getSystem() != null) {
+                p.setValueSystem(identifier.getSystem().getValue());
+            }
+            p.setValueCode(identifier.getValue().getValue());
             result.add(p);
         }
         return false;

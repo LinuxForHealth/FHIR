@@ -8,6 +8,7 @@ package com.ibm.fhir.database.utils.db2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,13 +145,15 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Make sure each of our partitioned tables includes partitions up to and including
         // the maxTenantId value. Get the current values, and then fill in the gaps.
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
-        loadPartitionInfoMap(partitionInfoMap, schemaName);
 
         // Make sure there's a tablespace available for this tenant before we
         // try to create the actual partitions
         final String tablespaceName = "TS_TENANT" + newTenantId;
         try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
             try {
+                // Get the current partition info
+                loadPartitionInfoMap(partitionInfoMap, schemaName);
+                
                 logger.info("Creating tablespace: " + tablespaceName);
                 Db2CreateTablespace createTablespace = new Db2CreateTablespace(tablespaceName, extentSizeKB);
                 runStatement(createTablespace);
@@ -162,6 +165,41 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             }
         }
 
+        addNewTenantPartitions(tables, partitionInfoMap, newTenantId, tablespaceName);
+    }
+
+    @Override
+    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
+        DataDefinitionUtil.assertValidName(schemaName);
+
+        // Make sure each of our partitioned tables includes partitions up to and including
+        // the maxTenantId value. Get the current values, and then fill in the gaps.
+        Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
+            try {
+                // Get the current partition info
+                loadPartitionInfoMap(partitionInfoMap, schemaName);
+            }
+            catch (RuntimeException x) {
+                logger.severe("Get partition info failed for schema " + schemaName + ": " + x.getMessage());
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+        final String tablespaceName = "TS_TENANT" + newTenantId;
+        addNewTenantPartitions(tables, partitionInfoMap, newTenantId, tablespaceName);
+    }
+    
+    /**
+     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
+     * be run to add partitions for existing tenants to new tables
+     * @param tables
+     * @param partitionInfoMap
+     * @param newTenantId
+     * @param tablespaceName
+     */
+    public void addNewTenantPartitions(Collection<Table> tables, Map<String, PartitionInfo> partitionInfoMap, int newTenantId, String tablespaceName) {
         // Thread pool for parallelizing requests
         int poolSize = connectionProvider.getPoolSize();
         if (poolSize == -1) {
@@ -169,7 +207,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             poolSize = 40;
         }
         final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
-
+        
         final AtomicInteger taskCount = new AtomicInteger();
         for (Table t: tables) {
             String qualifiedName = t.getQualifiedName();
@@ -195,7 +233,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 });
             }
         }
-
+        
         // Wait for all the tasks to complete
         pool.shutdown();
         try {
@@ -207,9 +245,9 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             // Not cool. This means that only some of the tables will have the partition assigned
             throw new DataAccessException("Tenant partition creation did not complete");
         }
-
+        
     }
-
+    
     /**
      * Ensure that the given table has all the partitions necessary up to and
      * including the max tenant id
@@ -227,10 +265,15 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                     throw new IllegalArgumentException("Missing upper partition information");
                 }
 
-                logger.info("Adding tenant partition: TENANT" + newTenantId + " to " + t.getName());
-                Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
-                runStatement(cmd);
-                logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
+                if (newTenantId > Integer.parseInt(pi.getHighValue())) {
+                    logger.info("Adding tenant partition: TENANT" + newTenantId + " to " + t.getName());
+                    Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
+                    runStatement(cmd);
+                    logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
+                } else {
+                    // Not an error, because we want to make this idempotent
+                    logger.info("Partition already exists: TENANT" + newTenantId + " for " + t.getName());
+                }
             } catch (RuntimeException x) {
                 logger.severe("Rolling back transaction after tenant creation failed for table " + t.getName());
                 tx.setRollbackOnly();
@@ -560,5 +603,11 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         logger.info(ddl);
 
         runStatement(ddl);
+    }
+
+    @Override
+    public void reorgTable(String schemaName, String tableName) {
+        Db2Reorg cmd = new Db2Reorg(schemaName, tableName);
+        runStatement(cmd);
     }
 }

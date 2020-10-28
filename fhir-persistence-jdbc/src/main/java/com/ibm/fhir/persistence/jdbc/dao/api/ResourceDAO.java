@@ -196,5 +196,4 @@ public interface ResourceDAO extends FHIRDbDAO {
      */
     Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceException;
-
 }

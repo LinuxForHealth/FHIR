@@ -67,7 +67,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
                 try {
                     // actions are optional so may be null
                     if (action != null) {
-                        action.performOn(result);
+                        action.performOn(this.flavor, result);
                     }
                     this.initialized = true;
                     

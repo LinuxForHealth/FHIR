@@ -10,6 +10,7 @@ package com.ibm.fhir.server.test;
 import java.util.ArrayList;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Builder;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Id;
@@ -112,5 +113,10 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public String generateResourceId() {
         return "generated-" + id++;
+    }
+
+    @Override
+    public int reindex(FHIRPersistenceContext context, Builder operationOutcomeResult, java.time.Instant tstamp) throws FHIRPersistenceException {
+        return 0;
     }
 }

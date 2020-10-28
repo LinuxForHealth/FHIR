@@ -6,6 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.schema.app.Main.ADMIN_SCHEMANAME;
+import static com.ibm.fhir.schema.control.JavaBatchSchemaGenerator.BATCH_SCHEMANAME;
+import static com.ibm.fhir.schema.control.OAuthSchemaGenerator.OAUTH_SCHEMANAME;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,12 +19,9 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
-import static com.ibm.fhir.schema.control.JavaBatchSchemaGenerator.BATCH_SCHEMANAME;
-import static com.ibm.fhir.schema.control.OAuthSchemaGenerator.OAUTH_SCHEMANAME;
-import static com.ibm.fhir.schema.app.Main.ADMIN_SCHEMANAME;
-
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
@@ -95,6 +96,40 @@ public class DerbyBootstrapper {
     }
 
     /**
+     * Just do something simple on a connection from the given datasource
+     * @param c
+     */
+    public static void checkDatabase(DataSource fhirDb) {
+
+        try {
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            String dsId = FHIRRequestContext.get().getDataStoreId();
+            try (Connection connection = fhirDb.getConnection(tenantId, dsId)) {
+                connection.setAutoCommit(false);
+                final String adminSchemaName = "admin_" + tenantId + "_" + dsId;
+                final String tableName = DataDefinitionUtil.getQualifiedName(adminSchemaName, "TENANTS");
+
+                final String SQL = "SELECT count(*) FROM " + tableName;
+                log.info("Checking database with: " + SQL);
+                try (Statement s = connection.createStatement()) {
+                    ResultSet rs = s.executeQuery(SQL);
+                    if (rs.next()) {
+                        log.info("Database OK");
+                    } else {
+                        // won't happen...but shows we're checking the result
+                        throw new IllegalStateException(SQL + ": count returned no rows!");
+                    }
+                }
+            }
+        } catch (Throwable e) {
+            String msg = "Encountered an exception while checking the FHIR database";
+            log.log(Level.SEVERE, msg, e);
+        }
+    }
+
+
+
+    /**
      * Bootstrap the (derby) connection with all the DML we need for an operational FHIR schema
      * Should be idempotent, because we use a version_history table to track which DML statements
      * have been applied, and which are still required
@@ -125,13 +160,13 @@ public class DerbyBootstrapper {
                         || vhs.getVersion(dataSchemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         // Define the schema and apply it (or required updates)
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, dataSchemaName);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, dataSchemaName, false);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
         // Use the new fhir-persistence-schema mechanism to create/update the derby database
         pdm.applyWithHistory(adapter, vhs);
-        
+
         if (newDb) {
             // prepopulates static lookup data.
             populateResourceTypeAndParameterNameTableEntries(connection, adminSchemaName, dataSchemaName);
@@ -159,6 +194,7 @@ public class DerbyBootstrapper {
         populateParameterNames.run(translator, connection);
         log.info("Finished prepopulating the resource type and search parameter code/name tables tables");
     }
+
 
     /**
      * Bootstraps the Liberty OAuth 2.0 tables for supporting management of OAuth 2.0 Clients

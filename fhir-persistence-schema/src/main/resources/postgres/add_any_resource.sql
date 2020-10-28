@@ -57,8 +57,8 @@ BEGIN
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
     -- is easy to handle, just turn around and read it
-    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id)
-         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id) ON CONFLICT DO NOTHING;
+    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp)
+         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01') ON CONFLICT DO NOTHING;
        
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
@@ -127,19 +127,21 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites      WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values      WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values   WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values     WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values   WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values    WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values WHERE logical_resource_id = $1'
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
+        USING v_logical_resource_id;
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
     END IF;
 

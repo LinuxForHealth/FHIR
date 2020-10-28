@@ -160,6 +160,7 @@ public class Main {
 
     // Tenant management
     private boolean allocateTenant;
+    private boolean refreshTenants;
     private boolean dropTenant;
     private boolean freezeTenant;
     private String tenantName;
@@ -226,7 +227,7 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
             gen.buildSchema(pdm);
             switch (dbType) {
             case DB2:
@@ -519,6 +520,15 @@ public class Main {
             }
         }
     }
+    
+    /**
+     * Do we want to build the multitenant variant of the schema (currently only supported
+     * by DB2)
+     * @return
+     */
+    protected boolean isMultitenant() {
+        return MULTITENANT_FEATURE_ENABLED.contains(this.dbType);
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
     // The following methods are related to Multi-Tenant only.
@@ -528,7 +538,7 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+        if (!isMultitenant()) {
             return;
         }
 
@@ -674,7 +684,7 @@ public class Main {
         }
 
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -707,6 +717,44 @@ public class Main {
                     + tenantId);
             if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
                 tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
+            }
+        }
+    }
+    
+    /**
+     * Make sure all the tables has a partition created for the configured tenant
+     */
+    protected void refreshTenants() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
+        // Build/update the tables as well as the stored procedures
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        gen.buildSchema(pdm);
+
+        // Similar to the allocate tenant processing, except in this case we want to
+        // make sure that each table has all the tenant partitions required. This is
+        // to handle the case where a schema update has added a new table.
+        List<TenantInfo> tenants;
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                GetTenantList rtListGetter = new GetTenantList(adminSchemaName);
+                tenants = adapter.runStatement(rtListGetter);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+        // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
+        tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
+        for (TenantInfo ti: tenants) {
+            if (ti.getTenantSchema() != null) {
+                pdm.addNewTenantPartitions(adapter, ti.getTenantSchema(), ti.getTenantId());
             }
         }
     }
@@ -918,7 +966,7 @@ public class Main {
         TenantInfo tenantInfo = freezeTenant();
 
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -938,8 +986,7 @@ public class Main {
     protected void dropDetachedPartitionTables() {
 
         TenantInfo tenantInfo = getTenantInfo();
-
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -1278,6 +1325,11 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
+            case "--refresh-tenants":
+                this.refreshTenants = true;
+                this.allocateTenant = false;
+                this.dropTenant = false;
+                break;
             case "--drop-tenant":
                 if (++i < args.length) {
                     this.tenantName = args[i];
@@ -1402,6 +1454,8 @@ public class Main {
             listTenants();
         } else if (this.allocateTenant) {
             allocateTenant();
+        } else if (this.refreshTenants) {
+            refreshTenants();
         } else if (this.testTenant) {
             testTenant();
         } else if (this.freezeTenant) {

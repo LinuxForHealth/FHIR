@@ -19,6 +19,8 @@ public class AlterSequenceStartWith extends BaseObject {
     
     // caching sequence values for tuning
     private final int cache;
+    
+    private final int incrementBy;
 
     /**
      * Public constructor
@@ -29,15 +31,16 @@ public class AlterSequenceStartWith extends BaseObject {
      * @param startWith
      * @param cache
      */
-    public AlterSequenceStartWith(String schemaName, String sequenceName, int version, long startWith, int cache) {
+    public AlterSequenceStartWith(String schemaName, String sequenceName, int version, long startWith, int cache, int incrementBy) {
         super(schemaName, sequenceName, DatabaseObjectType.SEQUENCE, version);
         this.startWith = startWith;
         this.cache = cache;
+        this.incrementBy = incrementBy;
     }
 
     @Override
     public void apply(IDatabaseAdapter target) {
-        target.alterSequenceRestartWith(getSchemaName(), getObjectName(), startWith, this.cache);
+        target.alterSequenceRestartWith(getSchemaName(), getObjectName(), startWith, this.cache, this.incrementBy);
     }
 
     @Override

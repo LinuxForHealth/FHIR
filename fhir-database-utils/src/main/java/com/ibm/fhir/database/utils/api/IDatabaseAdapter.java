@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -76,7 +77,23 @@ public interface IDatabaseAdapter {
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
             PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName);
+    
+    /**
+     * Add a new column to an existing table
+     * @param schemaName
+     * @param tableName
+     * @param column
+     */
+    public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column);
 
+    /**
+     * Reorg the table if the underlying database supports it. Required after
+     * columns are added/removed from a table.
+     * @param schemaName
+     * @param tableName
+     */
+    public void reorgTable(String schemaName, String tableName);
+    
     /**
      * Create ROW type used for passing values to stored procedures e.g.:
      *
@@ -137,7 +154,7 @@ public interface IDatabaseAdapter {
      * @param includeColumns
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<String> indexColumns, List<String> includeColumns);
+            List<OrderedColumnDef> indexColumns, List<String> includeColumns);
 
     /**
      *
@@ -148,7 +165,7 @@ public interface IDatabaseAdapter {
      * @param indexColumns
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<String> indexColumns);
+            List<OrderedColumnDef> indexColumns);
 
     /**
      *
@@ -159,7 +176,7 @@ public interface IDatabaseAdapter {
      * @param indexColumns
      */
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<String> indexColumns);
+            List<OrderedColumnDef> indexColumns);
 
     /**
      *
@@ -293,6 +310,15 @@ public interface IDatabaseAdapter {
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB);
 
     /**
+     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
+     * be run to add partitions for existing tenants to new tables
+     * @param tables
+     * @param schemaName
+     * @param newTenantId
+     */
+    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId);
+
+    /**
      * Detach the partition associated with the tenantId from each of the given tables
      *
      * @param tables
@@ -327,7 +353,7 @@ public interface IDatabaseAdapter {
      * @param startWith the START WITH value for the sequence
      * @param cache the sequence CACHE value
      */
-    public void createSequence(String schemaName, String sequenceName, long startWith, int cache);
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache, int incrementBy);
 
     /**
      *
@@ -343,7 +369,7 @@ public interface IDatabaseAdapter {
      * @param restartWith
      * @param cache
      */
-    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache);
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy);
     
     /**
      * Grant the list of privileges on the named object to the user. This is a
@@ -523,4 +549,27 @@ public interface IDatabaseAdapter {
      * @param indexName
      */
     public void dropIndex(String schemaName, String indexName);
+    
+    /**
+     * Create the view as defined by the selectClause
+     * @param schemaName
+     * @param objectName
+     * @param selectClause
+     */
+    public void createView(String schemaName, String objectName, String selectClause);
+
+    /**
+     * Drop the view from the database
+     * @param schemaName
+     * @param objectName
+     */
+    public void dropView(String schemaName, String objectName);
+
+    /**
+     * Create or replace the view
+     * @param schemaName
+     * @param objectName
+     * @param selectClause
+     */
+    public void createOrReplaceView(String schemaName, String objectName, String selectClause);
 }

@@ -33,7 +33,7 @@ public class DisableAutocommitAction extends ChainedAction {
     }
 
     @Override
-    public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
+    public void performOn(FHIRDbFlavor flavor, Connection c) throws FHIRPersistenceDBConnectException {
             
         try {
             c.setAutoCommit(false);
@@ -45,6 +45,6 @@ public class DisableAutocommitAction extends ChainedAction {
         }
         
         // call the next action in the chain
-        super.performOn(c);
+        super.performOn(flavor, c);
     }
 }

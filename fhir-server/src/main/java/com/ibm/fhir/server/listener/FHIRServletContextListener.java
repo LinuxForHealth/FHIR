@@ -225,6 +225,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             bootstrapFhirDb(utx, "tenant1", "profile", ds);
             bootstrapFhirDb(utx, "tenant1", "reference", ds);
             bootstrapFhirDb(utx, "tenant1", "study1", ds);
+            
+            checkFhirDb(utx, "default", "default", ds);
 
             datasourceJndiName = "jdbc/OAuth2DB";
             try {
@@ -291,6 +293,40 @@ public class FHIRServletContextListener implements ServletContextListener {
                     log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
                     
                     log.fine("Committing transaction");
+                    utx.commit();
+                    utx = null;
+                } finally {
+                    if (utx != null) {
+                        safeRollback(utx);
+                    }
+                }
+            }
+        }
+
+        FHIRRequestContext.remove();
+    }
+    
+    /**
+     * Schema bootstrap migration can be impacted by Liberty/Derby defect
+     * https://github.com/OpenLiberty/open-liberty/issues/14537. This check
+     * is in place to catch the failure during startup, instead of failing
+     * on the first request.
+     * @param utx
+     * @param tenantId
+     * @param dsId
+     * @param ds
+     * @throws Exception
+     */
+    private void checkFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds) throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
+        if (pg != null) {
+            String type = pg.getStringProperty("type");
+            if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
+                utx.begin();
+                try {
+                    log.info("Checking connection after schema bootstrap/migration");
+                    DerbyBootstrapper.checkDatabase(ds);
                     utx.commit();
                     utx = null;
                 } finally {

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -30,12 +31,16 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
+import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.tenant.AddTenantDAO;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
+import com.ibm.fhir.database.utils.tenant.CreateOrReplaceViewDAO;
 import com.ibm.fhir.database.utils.tenant.DeleteTenantDAO;
+import com.ibm.fhir.database.utils.tenant.DropViewDAO;
 import com.ibm.fhir.database.utils.tenant.FindTenantIdDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO;
@@ -167,7 +172,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns, List<String> includeColumns) {
+        List<OrderedColumnDef> indexColumns, List<String> includeColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
@@ -175,7 +180,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+        List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
@@ -183,7 +188,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+        List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
@@ -196,14 +201,14 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param columns
      * @return
      */
-    protected List<String> prefixTenantColumn(String tenantColumnName, List<String> columns) {
-        List<String> result;
+    protected List<OrderedColumnDef> prefixTenantColumn(String tenantColumnName, List<OrderedColumnDef> columns) {
+        List<OrderedColumnDef> result;
         if (tenantColumnName == null) {
             result = columns; // no change
         }
         else {
             result = new ArrayList<>(columns.size() + 1);
-            result.add(tenantColumnName);
+            result.add(new OrderedColumnDef(tenantColumnName, null, null));
             result.addAll(columns);
         }
 
@@ -432,6 +437,16 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     /**
+     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
+     * be run to add partitions for existing tenants to new tables
+     * @param tables
+     * @param schemaName
+     * @param newTenantId
+     */
+    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
+        // NOP for all databases except Db2
+    }
+    /**
      * Run the statement using the connectionProvider to obtain a new
      * connection. Also, there should be a transaction open on the current
      * thread at this time
@@ -504,7 +519,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache, int incrementBy) {
         /*
          * Example syntax:
          * <CODE>CREATE SEQUENCE <sequence-name>
@@ -514,7 +529,11 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
          * NO CYCLE;</CODE>
          */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
+                + " INCREMENT BY " + incrementBy
+                + " START WITH " + startWith 
+                + " CACHE " + cache 
+                + " NO CYCLE";
         runStatement(ddl);
     }
 
@@ -531,7 +550,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
     }
     @Override
-    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy) {
         // make sure we never reduce the sequence value
         GetSequenceNextValueDAO dao = new GetSequenceNextValueDAO(schemaName, sequenceName);
         Long maxValue = runStatement(dao);
@@ -541,7 +560,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         // Note the keyword RESTART instead of START.
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "ALTER SEQUENCE " + qname + " RESTART WITH " + restartWith + " CACHE " + cache;
+        final String ddl = "ALTER SEQUENCE " + qname 
+                + " RESTART WITH " + restartWith 
+                + " INCREMENT BY " + incrementBy
+                + " CACHE " + cache;
 
         // so important, we log it
         logger.info(ddl);
@@ -653,4 +675,46 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             logger.warning(ddl + "; INDEX not found");
         }
     }
+    
+    @Override
+    public void dropView(String schemaName, String viewName) {
+        // don't propagate errors...we don't really care if the drop failed
+        DropViewDAO dao = new DropViewDAO(schemaName, viewName, false);
+        runStatement(dao);
+    }
+
+    @Override
+    public void createOrReplaceView(String schemaName, String viewName, String selectClause) {
+        CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause);
+        runStatement(dao);
+    }
+    
+    @Override 
+    public void createView(String schemaName, String viewName, String selectClause) {
+        // for databases (like Derby) without CREATE OR REPLACE support
+        CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause, false);
+        runStatement(dao);
+    }
+    
+    @Override
+    public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column) {
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        final String col = buildColumns(Collections.singletonList(column), null);
+        
+        final StringBuilder ddl = new StringBuilder();
+        ddl.append("ALTER TABLE ");
+        ddl.append(qname);
+        ddl.append(" ADD COLUMN ");
+        ddl.append(col);
+        runStatement(ddl.toString());
+        
+        // required for Db2
+        reorgTable(schemaName, tableName);
+    }
+    
+    @Override
+    public void reorgTable(String schemaName, String tableName) {
+        // NOP, unless overridden by a subclass (Db2Adapter, for example)
+    }
+
 }

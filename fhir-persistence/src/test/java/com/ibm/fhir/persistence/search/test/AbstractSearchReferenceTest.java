@@ -34,6 +34,11 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("reference");
+        
+        // Need to set reference before storing the resource. The server-url
+        // is now used to determine if an absolute reference is local (can be served
+        // from this FHIR server).
+        createReference();
     }
 
     @BeforeClass

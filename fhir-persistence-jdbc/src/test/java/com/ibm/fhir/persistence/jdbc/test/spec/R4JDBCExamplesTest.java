@@ -25,6 +25,11 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -35,7 +40,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     
     // provides connections to a bootstrapped Derby database
     private IConnectionProvider derbyConnectionProvider;
-
+    
     /**
      * Public constructor
      * @throws Exception
@@ -53,6 +58,9 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(derbyConnectionProvider, 1);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+
         List<ITestResourceOperation> operations = new ArrayList<>();
         operations.add(new CreateOperation());
         operations.add(new ReadOperation());
@@ -71,7 +79,8 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
                 null,
                 null,
                 transactionProvider,
-                configProvider);
+                configProvider,
+                cache);
 
         // The driver will iterate over all the examples in the index, parse
         // the resource and call the processor.

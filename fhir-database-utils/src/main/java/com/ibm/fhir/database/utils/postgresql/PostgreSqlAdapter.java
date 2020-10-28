@@ -28,6 +28,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -101,7 +102,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
             List<String> includeColumns) {
         // PostgreSql doesn't support include columns, so we just have to create a normal index
         createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
@@ -187,7 +188,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache, int incrementBy) {
         /* CREATE SEQUENCE fhir_sequence
          *     AS BIGINT
          *     START WITH 1000
@@ -195,7 +196,11 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
          *     NO CYCLE;
         */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
+                + " INCREMENT BY " + incrementBy
+                + " START WITH " + startWith 
+                + " CACHE " + cache 
+                + " NO CYCLE";
         runStatement(ddl);
     }
 
@@ -242,7 +247,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    protected List<String> prefixTenantColumn(String tenantColumnName, List<String> columns) {
+    protected List<OrderedColumnDef> prefixTenantColumn(String tenantColumnName, List<OrderedColumnDef> columns) {
         // No tenant support, so simply return the columns list unchanged, without prefixing
         // the tenanteColumnName
         return columns;
@@ -264,7 +269,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+        List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, false);
@@ -273,7 +278,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+        List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);

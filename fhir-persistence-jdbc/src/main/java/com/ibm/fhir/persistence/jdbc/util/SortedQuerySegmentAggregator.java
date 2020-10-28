@@ -257,13 +257,12 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             attributeNames.add(STR_VALUE);
             break;
         case REFERENCE:
-            attributeNames.add(STR_VALUE);
+            attributeNames.add(TOKEN_VALUE);
             break;
         case DATE:
             attributeNames.add(DATE_START);
             break;
         case TOKEN:
-            attributeNames.add(CODE_SYSTEM_ID); //TODO This is probably wrong
             attributeNames.add(TOKEN_VALUE);
             break;
         case NUMBER:
@@ -349,7 +348,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         sortParameterTableName.append(this.resourceType.getSimpleName()).append("_");
 
         switch (sortParm.getType()) {
-        case REFERENCE:
         case URI:
         case STRING:
             sortParameterTableName.append("STR_VALUES");
@@ -357,8 +355,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         case DATE:
             sortParameterTableName.append("DATE_VALUES");
             break;
+        case REFERENCE:
         case TOKEN:
-            sortParameterTableName.append("TOKEN_VALUES");
+            sortParameterTableName.append("TOKEN_VALUES_V");
             break;
         case NUMBER:
             sortParameterTableName.append("NUMBER_VALUES");

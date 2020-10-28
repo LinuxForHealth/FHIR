@@ -1,10 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.test;
+
+import java.time.Instant;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
@@ -67,6 +69,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
         return null;
+    }
+
+    @Override
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, Instant tstamp) throws FHIRPersistenceException {
+        return 0;
     }
 
     @Override

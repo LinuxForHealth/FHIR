@@ -30,7 +30,7 @@ public class PostResource implements FhirServerRequest<FhirServerResponse> {
     }
     
     @Override
-    public FhirServerResponse run(FhirClient client) {
+    public FhirServerResponse run(FHIRBucketClient client) {
         // Serialize the resource as a JSON string
         ByteArrayOutputStream os = new ByteArrayOutputStream(4096);
         try {

@@ -179,11 +179,23 @@ public class DerbyTranslator implements IDatabaseTranslator {
     @Override
     public String selectSequenceNextValue(String schemaName, String sequenceName) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
+        return "VALUES(NEXT VALUE FOR " + qname + ")";
     }
     
     @Override
     public String currentTimestampString() {
         return "CURRENT TIMESTAMP";
+    }
+    
+    @Override
+    public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
+        // Same syntax as DB2
+        return "ALTER TABLE " + qualifiedTableName + " DROP FOREIGN KEY " + constraintName;
+    }
+    
+    @Override
+    public String nextValue(String schemaName, String sequenceName) {
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "NEXT VALUE FOR " + qname;
     }
 }

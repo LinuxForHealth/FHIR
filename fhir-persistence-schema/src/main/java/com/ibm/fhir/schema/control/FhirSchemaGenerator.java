@@ -9,6 +9,10 @@ package com.ibm.fhir.schema.control;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPARTMENT_LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPARTMENT_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
@@ -17,9 +21,11 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LAST_UPDATED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_COMPARTMENTS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
@@ -27,6 +33,10 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TXID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
@@ -52,15 +62,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.common.AddColumn;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
+import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.FunctionDef;
+import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.ProcedureDef;
@@ -79,6 +95,9 @@ public class FhirSchemaGenerator {
 
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
+
+    /// Build the multitenant variant of the schema
+    private final boolean multitenant;
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
@@ -128,6 +147,7 @@ public class FhirSchemaGenerator {
     private Table codeSystemsTable;
     private Table parameterNamesTable;
     private Table resourceTypesTable;
+    private Table commonTokenValuesTable;
 
     // A NOP marker used to ensure procedures are only applied after all the create
     // table statements are applied - to avoid DB2 catalog deadlocks
@@ -154,8 +174,8 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName) {
-        this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.ValueSet.values())
+    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
+        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
                 .map(FHIRResourceType.ValueSet::value)
                 .collect(Collectors.toSet()));
     }
@@ -166,9 +186,10 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, Set<String> resourceTypes) {
+    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
+        this.multitenant = multitenant;
 
         // The FHIR user (e.g. "FHIRSERVER") will need these privileges to be granted to it. Note that
         // we use the group identified by FHIR_USER_GRANT_GROUP here - these privileges can be applied
@@ -331,16 +352,22 @@ public class FhirSchemaGenerator {
         addFhirRefSequence(model);
         addParameterNames(model);
         addCodeSystems(model);
+        addCommonTokenValues(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
+        addReferencesSequence(model);
+        addLogicalResourceCompartments(model);
 
         Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
 
+        // new normalized table for supporting token data (replaces TOKEN_VALUES)
+        Table globalResourceTokenRefs = addResourceTokenRefs(model);
+
         // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing
         // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
-        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues);
+        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues, globalResourceTokenRefs);
 
         // All the table objects and types should be ready now, so create our NOP
         // which is used as a single dependency for all procedures. This means
@@ -437,17 +464,43 @@ public class FhirSchemaGenerator {
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
 
+        final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
+
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
+                .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP") // new column for V0006
+                .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
+                .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == FhirSchemaVersion.V0001.vid()) {
+                        // Add statements to migrate from version V0001 to V0006 of this object
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                                .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP")
+                                .addBigIntColumn(REINDEX_TXID, false, "0")
+                                .buildColumns();
+
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(1)));
+
+                        // Add the new index on REINDEX_TSTAMP. This index is special because it's the
+                        // first index in our schema to use DESC.
+                        final String mtId = this.multitenant ? MT_ID : null;
+                        List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null));
+                        statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, mtId, indexCols));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -493,6 +546,49 @@ public class FhirSchemaGenerator {
 
         return tbl;
     }
+
+    /**
+     * Adds the system level logical_resource_compartments table which identifies to
+     * which compartments a give resource belongs. A resource may belong to many
+     * compartments.
+     * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
+     */
+    public Table addLogicalResourceCompartments(PhysicalDataModel pdm) {
+
+        final String tableName = LOGICAL_RESOURCE_COMPARTMENTS;
+
+        // note COMPARTMENT_LOGICAL_RESOURCE_ID represents the compartment (e.g. the Patient)
+        // that this resource exists within. This compartment resource may be a ghost resource...i.e. one
+        // which has a record in LOGICAL_RESOURCES but currently does not have any resource
+        // versions because we haven't yet loaded the resource itself. The timestamp is included
+        // because it makes it very easy to find the most recent changes to resources associated with
+        // a given patient (for example).
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(     COMPARTMENT_NAME_ID,      false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addTimestampColumn(LAST_UPDATED, false)
+                .addBigIntColumn(COMPARTMENT_LOGICAL_RESOURCE_ID, false)
+                .addUniqueIndex(IDX + tableName + "_LRNMLR", LOGICAL_RESOURCE_ID, COMPARTMENT_NAME_ID, COMPARTMENT_LOGICAL_RESOURCE_ID)
+                .addUniqueIndex(IDX + tableName + "_NMCOMPLULR", COMPARTMENT_NAME_ID, COMPARTMENT_LOGICAL_RESOURCE_ID, LAST_UPDATED, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_COMP", schemaName, LOGICAL_RESOURCES, COMPARTMENT_LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+
 
     /**
      * Add system-wide RESOURCE_STR_VALUES table to support _profile
@@ -618,13 +714,13 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
             // Add additional dependencies the group doesn't yet know about
-            group.addDependencies(Arrays.asList(this.codeSystemsTable, this.parameterNamesTable, this.resourceTypesTable));
+            group.addDependencies(Arrays.asList(this.codeSystemsTable, this.parameterNamesTable, this.resourceTypesTable, this.commonTokenValuesTable));
 
             // Add all other dependencies that were explicitly passed
             group.addDependencies(Arrays.asList(dependency));
@@ -705,6 +801,94 @@ public class FhirSchemaGenerator {
     }
 
     /**
+     * Table used to store normalized values for tokens, shared by all the
+     * <RESOURCE_TYPE>_TOKEN_VALUES tables. Although this requires an additional
+     * join, it cuts down on space by avoiding repeating long strings (e.g. urls).
+     * This also helps to reduce the total sizes of the indexes, helping to improve
+     * cache hit rates for a given buffer cache size.
+     * Token values may or may not have an associated code system, in which case,
+     * it assigned a default system. This is why CODE_SYSTEM_ID is not nullable and
+     * has a FK constraint.
+     *
+     * We never need to find all token values for a given code-system, so there's no need
+     * for a second index (CODE_SYSTEM_ID, TOKEN_VALUE). Do not add it.
+     *
+     * Because different parameter names may reference the same token value (e.g.
+     * 'Observation.subject' and 'Claim.patient' are both patient references), the
+     * common token value is not distinguished by a parameter_name_id.
+     *
+     * Where common token values are used to represent local relationships between two resources,
+     * the code_system encodes the resource type of the referenced resource and
+     * the token_value represents its logical_id. This approach simplifies query writing when
+     * following references.
+     *
+     * @param pdm
+     * @return the table definition
+     */
+    public void addCommonTokenValues(PhysicalDataModel pdm) {
+        final String tableName = COMMON_TOKEN_VALUES;
+        commonTokenValuesTable = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(     COMMON_TOKEN_VALUE_ID,                          false)
+                .setIdentityColumn(   COMMON_TOKEN_VALUE_ID, Generated.ALWAYS)
+                .addIntColumn(               CODE_SYSTEM_ID,                          false)
+                .addVarcharColumn(              TOKEN_VALUE, MAX_TOKEN_VALUE_BYTES,   false)
+                .addUniqueIndex(IDX + tableName + "_TVCP", TOKEN_VALUE, CODE_SYSTEM_ID)
+                .addPrimaryKey(tableName + "_PK", COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        commonTokenValuesTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(commonTokenValuesTable);
+        pdm.addObject(commonTokenValuesTable);
+    }
+
+    /**
+     * Add the system-wide RESOURCE_TOKEN_REFS table which is used for
+     * _tag and _security search properties in R4 (new table
+     * for issue #1366 V0006 schema change). Replaces the
+     * previous TOKEN_VALUES table. All token values are now
+     * normalized in the COMMON_TOKEN_VALUES table
+     * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
+     */
+    public Table addResourceTokenRefs(PhysicalDataModel pdm) {
+
+        final String tableName = RESOURCE_TOKEN_REFS;
+
+        // logical_resources (0|1) ---- (*) resource_token_refs
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addIntColumn(       PARAMETER_NAME_ID,    false)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
+                .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
+                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+    /**
      * <pre>
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
@@ -730,20 +914,33 @@ public class FhirSchemaGenerator {
         procedureDependencies.add(fhirRefSequence);
         sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
         pdm.addObject(fhirRefSequence);
-        
+
         // Schema V0003 does an alter to bump up the start value of the reference sequence
         // to avoid a conflict with parameter names not in the pre-populated set
         // fix for issue-1263. This will only be applied if the current version of the
         // the FHIR_REF_SEQUENCE is <= 2.
-        BaseObject alter = new AlterSequenceStartWith(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0003.vid(), 
-            FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE);
+        BaseObject alter = new AlterSequenceStartWith(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0003.vid(),
+            FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE, 1);
         alter.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(alter);
         alter.addDependency(fhirRefSequence); // only alter after the sequence is initially created
-        
+
         // Because the sequence might be dropped and recreated, we need to inject privileges
         // so that they are applied when this ALTER SEQUENCE is processed.
         sequencePrivileges.forEach(p -> p.addToObject(alter));
         pdm.addObject(alter);
+    }
+
+
+    /**
+     * Add the sequence used by the new local/external references data model
+     * @param pdm
+     */
+    protected void addReferencesSequence(PhysicalDataModel pdm) {
+        Sequence seq = new Sequence(schemaName, FhirSchemaConstants.REFERENCES_SEQUENCE, FhirSchemaVersion.V0001.vid(), FhirSchemaConstants.REFERENCES_SEQUENCE_START, FhirSchemaConstants.REFERENCES_SEQUENCE_CACHE, FhirSchemaConstants.REFERENCES_SEQUENCE_INCREMENT);
+        seq.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        procedureDependencies.add(seq);
+        sequencePrivileges.forEach(p -> p.addToObject(seq));
+        pdm.addObject(seq);
     }
 }

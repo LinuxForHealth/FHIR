@@ -348,6 +348,7 @@ public class FHIRProxyConnection implements Connection {
 
     @Override
     public void setSchema(String schema) throws SQLException {
+        logger.warning("Calling setSchema, which exposes a transaction bug in Liberty+Derby: " + schema);
         wrapped.setSchema(schema);
     }
 
