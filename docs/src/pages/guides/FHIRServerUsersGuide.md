@@ -210,7 +210,7 @@ If you configure the FHIR server to use a PostgreSQL database, you must:
 
 1. create the database if it doesn't already exist
 
-2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, stored procedures, etc)
+2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, functions, etc)
 
 An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
 

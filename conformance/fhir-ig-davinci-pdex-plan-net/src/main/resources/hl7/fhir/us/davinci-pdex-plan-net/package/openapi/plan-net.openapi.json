@@ -1,13 +1,13 @@
 ﻿{
   "openapi": "3.0.2",
   "info": {
-    "title": "Davinci Pdex Plan Net CapabilityStatement",
-    "description": "This Section describes the expected capabilities of the Plan-Net Server actor which is responsible for providing responses to the queries submitted by the Plan-Net Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by Plan-Net Servers are defined. Systems implementing this capability statement should meet the [CMS FInal Rule requirement for provider directory access].  Plan-Net  Clients have the option of choosing from this list to access necessary data based on their local use cases and other contextual requirements.",
+    "title": "Plan-Net CapabilityStatement",
+    "description": "This Section describes the expected capabilities of the Plan-Net Server actor which is responsible for providing responses to the queries submitted by the Plan-Net Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by Plan-Net Servers are defined. Systems implementing this capability statement should meet the CMS FInal Rule requirement for provider directory access.  Plan-Net  Clients can use the required capabilities to access necessary data based on their local use cases and other contextual requirements.",
     "license": {
       "name": "Creative Commons Zero v1.0 Universal",
       "url": "http://spdx.org/licenses/CC0-1.0.html"
     },
-    "version": "0.3.0",
+    "version": "0.1.5",
     "contact": {
       "name": "HL7 Financial Management Working Group",
       "email": "fm@lists.HL7.org",
@@ -15,7 +15,7 @@
     }
   },
   "externalDocs": {
-    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CapabilityStatement/davinci-pdex-plan-net",
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CapabilityStatement/plan-net",
     "description": "FHIR CapabilityStatement"
   },
   "paths": {
@@ -131,6 +131,23 @@
               "type": "string"
             },
             "description": "Select Endpoints managed by the specified organization"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
           }
         ]
       }
@@ -382,6 +399,23 @@
               "type": "string"
             },
             "description": "Select services associated with the specified specialty"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
           }
         ]
       }
@@ -595,14 +629,6 @@
             "description": "Select products that are offered in the specified location"
           },
           {
-            "name": "network",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Select products associated with the specified health insurance provider network"
-          },
-          {
             "name": "name",
             "in": "query",
             "schema": {
@@ -617,6 +643,31 @@
               "type": "string"
             },
             "description": "Select plans of the specified type"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Select insurance plans of the specified type"
           }
         ]
       }
@@ -830,6 +881,30 @@
             "description": "Select Locations with the specified endpoint"
           },
           {
+            "name": "address-city",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Select Locations with the specified address.city"
+          },
+          {
+            "name": "address-state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Select Locations with the specified address.state"
+          },
+          {
+            "name": "address-postalcode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Select Locations with the specified address"
+          },
+          {
             "name": "address",
             "in": "query",
             "schema": {
@@ -844,6 +919,23 @@
               "type": "string"
             },
             "description": "Select Locations of the specified type"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
           }
         ]
       }
@@ -1063,6 +1155,39 @@
               "type": "string"
             },
             "description": "Select Organizations with the specified name"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Select Organizations of the specified type"
+          },
+          {
+            "name": "coverage-area",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Select health insurance provider networks available in a region described by the specified location"
           }
         ]
       }
@@ -1314,6 +1439,23 @@
               "type": "string"
             },
             "description": "Select OrganizationAffiliations associated with the specified specialty"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
           }
         ]
       }
@@ -1509,6 +1651,37 @@
               "type": "string"
             },
             "description": "Select Practitioners with the specified name (matches against any of the elements in the HumanName data type)"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
+          },
+          {
+            "name": "family",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "given",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ]
       }
@@ -1760,6 +1933,23 @@
               "type": "string"
             },
             "description": "Select PractitionerRoles associated with the specified specialty"
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Logical id of this artifact"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1])(T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\.[0-9]+)?(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)))?)?)?"
+            },
+            "description": "When the resource version last changed"
           }
         ]
       }
