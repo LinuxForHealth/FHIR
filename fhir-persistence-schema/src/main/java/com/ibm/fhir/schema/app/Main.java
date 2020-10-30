@@ -476,10 +476,10 @@ public class Main {
                     throw x;
                 }
                 c.commit();
+            } catch (SQLException x) {
+                tx.setRollbackOnly();
+                throw translator.translate(x);
             }
-        } catch (SQLException x) {
-            tx.setRollbackOnly();
-            throw translator.translate(x);
         }
     }
 

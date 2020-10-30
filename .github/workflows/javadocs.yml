@@ -17,23 +17,23 @@ jobs:
       id: get_version
       run: echo "TAG_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
     - name: Setup GraphViz environment for PlanetUML/JavaDoc Graphics
-      uses: kamiazya/setup-graphviz@v1
+      uses: ts-graphviz/setup-graphviz@v1
     - name: Grab the Master Branch
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.3.3
       with:
             ref: refs/heads/master
             fetch-depth: 1
             path: fhir
             token: ${{ secrets.DOCS_SITE_TOKEN }}
     - name: Grab the GH-Pages Branch
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.3.3
       with:
             ref: refs/heads/gh-pages
             fetch-depth: 1
             path: gh-pages
             token: ${{ secrets.DOCS_SITE_TOKEN }}
     - name: Set up OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build fhir-samples
