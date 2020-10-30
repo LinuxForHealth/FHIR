@@ -1,4 +1,12 @@
-# IBM FHIR Server 4.5.0: Performance
+---
+layout: post
+title:  IBM FHIR Server 4.5.0 - Performance 
+description: Performance
+date:   2020-10-29 01:00:00 -0400
+permalink: /performance/performance450/
+---
+
+# IBM FHIR Server 4.5.0 - Performance
 
 ## Workloads
 
@@ -7,19 +15,18 @@
 
 ### Ingestion Workload
 
-The fhir-bucket utility scans an IBM Cloud Object Store (COS) bucket for matching `.json` or `.ndjson` files. Matching files are recorded in the fhirbucket database and this information is subsequently used to drive the loading of those files into the IBM FHIR Server.
+The *fhir-bucket* utility scans an IBM Cloud Object Store (COS) bucket for matching **json** or **ndjson** files. Matching files are recorded in the fhirbucket database and this information is subsequently used to drive the loading of those files into the IBM FHIR Server.
 
-The test described here uses bundles based on Synthea "Synthetic Mass." data. The original bundles have been preprocessed and broken into smaller bundles of no more than 100 resources. Resources within original bundles contain references to other resources within the same bundle. Traditionally, these references would be resolved by the FHIR server on ingestion. However, because the bundles are being broken into smaller units of work, the references must be resolved in advance. This requires that any create requests using server-asserted ids must be rewritten as client asserted id requests (using PUT).
+The test described here uses bundles based on Synthea - Synthetic Mass data. The original bundles have been preprocessed and broken into smaller bundles of no more than 100 resources. Resources within original bundles contain references to other resources within the same bundle. Traditionally, these references would be resolved by the IBM FHIR Server on ingestion. However, because the bundles are being broken into smaller units of work, the references must be resolved in advance. This requires that any create requests using server-asserted ids must be rewritten as client asserted id requests, using PUT.
 
-The fhir-bucket uses a large thread-pool to fetch the bundles from COS and POST each to the FHIR server. The result bundle is parsed and each of the returned logical resource ids are stored in the fhirbucket database, along with some timing metrics.
-
+The *fhir-bucket* uses a large thread-pool to fetch the bundles from COS and POST each to the IBM FHIR server. The result bundle is parsed and each of the returned logical resource ids are stored in the fhirbucket database, along with some timing metrics.
 
 ### Client Access
 
 The client access workload is generated using fhir-bucket running within the same K8s cluster. Random patients are selected from the `fhirbucket.logical_resources` table which is populated by first running the fhir-bucket ingestion mode. The client workload is comprised of the following steps:
 
 1. Select a random patient id and submit to the thread-pool;
-2. Create a Bundle resource containing a read for the patient resource and a search for ExplanationOfBenefit resources which refer to that patient (limit 20);
+2. Create a Bundle resource containing a read for the patient resource and a search for ExplanationOfBenefit resources which refer to that patient **limit 20**;
 3. POST the bundle request;
 4. Process the response, constructing a new Bundle resource containing GET requests for each Claim and Provider referenced by the ExplanationOfBenefit resources contained in the first response.
 5. Collect statistics on the number of calls, number of resources returned and the time taken for each request.
@@ -29,18 +36,19 @@ The request bundles are configured to use a type of TRANSACTION. This provides t
 
 ## System Configuration
 
-Configuration Item | Value
------------------- | -----
-IBM FHIR Server | Release 4.5.0
-Client thread-pool size | 300
-FHIR Server Deployment Size | 6 PODS
-PostgreSQL Service | IBM Cloud Database
-PostgreSQL Version | 12.4
-PostgreSQL CPU | 9 cores (dedicated)
-PostgreSQL RAM | 24GB
-PostgreSQL Storage | 1TB (up to 10K IOPS)
+|Configuration Item | Value|
+|------------------ | -----|
+|IBM FHIR Server | Release 4.5.0|
+|Client thread-pool size | 300|
+|FHIR Server Deployment Size | 6 PODS|
+|PostgreSQL Service | IBM Cloud Database|
+|PostgreSQL Version | 12.4|
+|PostgreSQL CPU | 9 cores **dedicated**|
+|PostgreSQL RAM | 24GB|
+|PostgreSQL Storage | 1TB **up to 10K IOPS**|
 
-<br></br>
+
+## Top Resource Counts
 
 Top resource counts in the database using the query: 
 ```
@@ -52,30 +60,30 @@ GROUP BY rt.resource_type
 ORDER BY 2 DESC;
 ```
 
-resource_type                  |  count
------------------- | ----------------------- |
-Observation                       | 28643640
-Claim                             |  9809811
-Procedure                         |  9533768
-Encounter                         |  8788209
-ExplanationOfBenefit              |  7795369
-DiagnosticReport                  |  2942204
-MedicationRequest                 |  2761835
-Condition                         |  1755335
-Immunization                      |  1656535
-CarePlan                          |  1320978
-Goal                              |   347835
-CareTeam                          |   341226
-Practitioner                      |   319783
-Organization                      |   319729
-AllergyIntolerance                |   216350
-Patient                           |   174388
+| resource_type                  |  count    |
+| ------------------ | --------------------- |
+|Observation                       | 28643640|
+|Claim                             |  9809811|
+|Procedure                         |  9533768|
+|Encounter                         |  8788209|
+|ExplanationOfBenefit              |  7795369|
+|DiagnosticReport                  |  2942204|
+|MedicationRequest                 |  2761835|
+|Condition                         |  1755335|
+|Immunization                      |  1656535|
+|CarePlan                          |  1320978|
+|Goal                              |   347835|
+|CareTeam                          |   341226|
+|Practitioner                      |   319783|
+|Organization                      |   319729|
+|AllergyIntolerance                |   216350|
+|Patient                           |   174388|
 
 The full list is included at the end of this report.
 
 ## Ingestion Performance
 
-To compute the ingestion rate we can query the fhirbucket logical_resources table, looking for the first and last creation times for the latest run of the loader (loader_instance_id = 212 in the example below):
+To compute the ingestion rate we can query the `fhirbucket.logical_resources` table, looking for the first and last creation times for the latest run of the loader, `loader_instance_id = 212` in the example below:
 
 ```
 select count(*), max(created_tstamp) - min(created_tstamp) as elapsed 
@@ -84,9 +92,9 @@ select count(*), max(created_tstamp) - min(created_tstamp) as elapsed
    and bl.loader_instance_id = 212;
 ```
 
- count  |     elapsed     
-------- | -----------------
- 525525 | 00:09:19.253087
+| count  |     elapsed      |
+|------- | -----------------|
+| 525525 | 00:09:19.253087  |
 
 
 Ingestion rate: 
@@ -117,11 +125,9 @@ Time series view of the same data:
 
 ![TOP DB Operations Timeseries](https://ibm.github.io/FHIR/images/performance-450/Ingest_Top_DB_Ops_Timeseries.png)
 
-
-
 ## Client Read Performance
 
-The average server response time reported by the client is consistently under 180ms as shown below (statistics are sampled and printed by fhir-bucket every 10 seconds:
+The average server response time reported by the client is consistently under 180ms as shown below (statistics are sampled and printed by *fhir-bucket* every 10 seconds:
 
 ```
 STATS: FHIR= 1643.8 calls/s, rate=16825.1 resources/s, response time=0.179 s
@@ -171,12 +177,9 @@ The top DB operations align with the above Application Breakdown.
 
 ![Top DB Ops Timeseries](https://ibm.github.io/FHIR/images/performance-450/Client_Top_DB_Ops_Timeseries.png)
 
-
 The database CPU is hitting its limit, suggesting that scaling up to more cores would increase throughput.
 
 ![DB CPU Usage](https://ibm.github.io/FHIR/images/performance-450/Client_DB_CPU_Usage.png)
-
-
 
 ##  Postgres Database Configuration
 
