@@ -49,7 +49,6 @@ public class ProcedureDef extends BaseObject {
             logger.warning("Found '" + migrations.size() + "' migration steps, but performing 'create or replace' instead");
         }
 
-        // Procedures are applied with "Create or replace", so just do a regular apply
         // we need to drop and then apply.
         drop(target);
         apply(target);
