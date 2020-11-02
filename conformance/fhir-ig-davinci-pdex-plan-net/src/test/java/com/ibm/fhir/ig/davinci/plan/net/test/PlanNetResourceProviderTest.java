@@ -16,6 +16,6 @@ public class PlanNetResourceProviderTest {
     @Test
     public void testGetResources() {
         FHIRRegistryResourceProvider provider = new PlanNetResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 106);
+        Assert.assertEquals(provider.getRegistryResources().size(), 110);
     }
 }

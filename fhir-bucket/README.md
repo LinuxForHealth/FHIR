@@ -76,19 +76,28 @@ sslTrustStorePassword=<TRUSTSTORE-PASSWORD>
 currentSchema=FHIRBUCKET
 ```
 
+#### The postgres.properties file
+
+```
+db.host=<POSTGRES-HOST-NAME>
+db.port=<POSTGRES-PORT>
+db.database=<POSTGRES-DATABASE>
+user=<POSTGRES-USER>
+password=<POSTGRES-PASSWORD>
+sslrootcert=/path/to/postgres.cert
+ssl=true
+sslmode=require
+currentSchema=FHIRBUCKET
+```
+
 #### The derby.properties file
 
-Db2 is the preferred database for hosting the fhir-bucket schema. Derby can, however, be used for development. The derby.properties file must be configured as follows:
+Db2 and PostgreSQL are the preferred databases for hosting the fhir-bucket schema. Derby can, however, be used for development. The derby.properties file must be configured as follows:
 
 ```
 db.database=derby/bucketDB
 db.create=Y
 ```
-
-
-#### The postgres.properties file
-
-
 
 The name of the Derby database can be anything (without spaces) but must be contained within a folder called "derby".
 
