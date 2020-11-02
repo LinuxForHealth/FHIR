@@ -2,6 +2,6 @@
     <featureManager>
         <feature>jdbc-4.1</feature>
     </featureManager>
-    <variable name="FHIR_TRANSACTION_MANAGER" defaultValue="120s"/>
-    <transaction totalTranLifetimeTimeout="${FHIR_TRANSACTION_MANAGER}"/>
+    <variable name="FHIR_TRANSACTION_MANAGER_TIMEOUT" defaultValue="120s"/>
+    <transaction totalTranLifetimeTimeout="${FHIR_TRANSACTION_MANAGER_TIMEOUT}"/>
 </server>
