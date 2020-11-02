@@ -1,0 +1,7 @@
+<server description="fhir-server">
+    <featureManager>
+        <feature>jdbc-4.1</feature>
+    </featureManager>
+    <variable name="FHIR_TRANSACTION_MANAGER" value="900s"/>
+    <transaction totalTranLifetimeTimeout="${FHIR_TRANSACTION_MANAGER}"/>
+</server>

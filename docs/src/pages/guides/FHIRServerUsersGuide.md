@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-10-27"
+lastupdated: "2020-11-02"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -21,7 +21,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
   * [4.4 Resource validation](#44-resource-validation)
-  * [4.5 “Update/Create” feature](#45-updatecreate-feature)
+  * [4.5 "Update/Create" feature](#45-updatecreate-feature)
   * [4.6 FHIR client API](#46-fhir-client-api)
   * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
@@ -431,6 +431,11 @@ The `connectionProperties` property is a set of driver-specific properties neede
 For a Derby-related datasource definition, any bean property supported by the `EmbeddedXADataSource` class can be specified within the `connectionProperties` property group. For more information about the properties supported by the `EmbeddedXADataSource` class, and its super classes, see the [Apache Derby documentation](https://db.apache.org/derby/docs/10.13/publishedapi/org/apache/derby/jdbc/EmbeddedXADataSource.html).
 
 To disable the multitenant feature for a particular offering add to your `fhirServer/persistence/datasources` entry `multitenant` and set false to disable, and true to enable, only for Db2 is the default set to true.
+
+#### 3.4.2.4 Database Access TransactionManager
+The TransactionManager controls the timeout of database queries.  
+
+To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s. 
 
 # 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
