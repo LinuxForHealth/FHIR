@@ -126,14 +126,15 @@ public class FHIRBucketClient {
         };
 
         try {
-            // SSLContext sslContext = SSLContexts.custom().build();
-
             SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
-            // sslContextBuilder.loadKeyMaterial(new File(keystoreFilename), keystorePass.toCharArray(), keyPass.toCharArray());
+
             String truststore = propertyAdapter.getTruststore();
             if (truststore != null) {
                 sslContextBuilder.loadTrustMaterial(new File(truststore), propertyAdapter.getTruststorePass().toCharArray());
             }
+
+            // TODO: support mTLS by passing keystore info
+
             SSLContext sslContext = sslContextBuilder.build();
 
             // For dev/test setups, allow connections to a FHIR server using a hostname
