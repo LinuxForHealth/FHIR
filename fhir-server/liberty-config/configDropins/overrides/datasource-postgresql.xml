@@ -1,0 +1,18 @@
+<server>
+    <!-- ============================================================== -->
+    <!-- TENANT: default; DSID: default; TYPE: read-write               -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="fhirSharedLib"/>
+            <properties.postgresql
+                 serverName="localhost"
+                 portNumber="5432"
+                 databaseName="fhirdb"
+                 user="fhirserver"
+                 password="change-password"
+                 currentSchema="fhirdata"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+</server>

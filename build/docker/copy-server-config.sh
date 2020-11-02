@@ -21,4 +21,10 @@ cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-db2.json ${CONFIG}/default/fhir-server-config.json
 
+echo "Replacing datasource content in server configDropins..."
+OVERRIDES="${WORKSPACE}/build/docker/fhir-server/volumes/overrides"
+rm -f $OVERRIDES/datasource-*.xml 2> /dev/null
+mkdir -p $OVERRIDES
+cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-db2.xml $OVERRIDES
+
 echo "Finished copying the server config."

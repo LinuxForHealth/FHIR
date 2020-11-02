@@ -48,6 +48,11 @@ rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 
+# Only copy over the Derby datasource definition for this instance
+rm -f ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-*.xml
+mkdir -p ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides
+cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-derby.xml ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/
+
 echo "Copying test artifacts to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/fhir-operation-*-tests.jar
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/

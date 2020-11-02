@@ -31,12 +31,15 @@ public class FHIRRequestContext {
 
     // The tenantId. Corresponding tenantKey is retrieved from the configuration on demand
     private String tenantId;
-    
+
     // The datastore to be used for this request. Usually "default"
     private String dataStoreId;
     private String requestUniqueId;
     private String originalRequestUri;
     private Map<String, List<String>> httpHeaders;
+
+    // Set to true if the REST layer determines the entire request only needs to read from a persistence layer, not write to it
+    private boolean readOnly;
 
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
@@ -74,6 +77,23 @@ public class FHIRRequestContext {
 
     public String getTenantId() {
         return tenantId;
+    }
+
+    /**
+     * Returns true iff the entire request can be processed using only reads in the persistence layer
+     * Permits persistence layer implementations to leverage read-only replicas if they are available
+     * @return
+     */
+    public boolean isReadOnly() {
+        return this.readOnly;
+    }
+
+    /**
+     * Setter for the readOnly flag
+     * @param flag
+     */
+    public void setReadOnly(boolean flag) {
+        this.readOnly = flag;
     }
 
     public void setTenantId(String tenantId) throws FHIRException {

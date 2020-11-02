@@ -46,10 +46,11 @@ public class DerbyBootstrapper {
     /**
      * Bootstraps the FHIR database (only for Derby databases)
      * Note: Since v4.0.0, the schema is generated and applied using fhir-persistence-schema, not liquibase
-     *
+     * @param fhirDb the datasource providing connections to the database we want to bootstrap
+     * @param boolean useProxy - assume behavior of the legacy FHIR proxy datasource
      * @throws SQLException
      */
-    public static void bootstrapDb(DataSource fhirDb) throws SQLException {
+    public static void bootstrapDb(DataSource fhirDb, boolean useProxy) throws SQLException {
         if (log.isLoggable(Level.FINER)) {
             log.entering(className, "bootstrapDb");
         }
@@ -66,7 +67,12 @@ public class DerbyBootstrapper {
             String tenantId = FHIRRequestContext.get().getTenantId();
             String dsId = FHIRRequestContext.get().getDataStoreId();
             log.finer("Obtaining connection for tenantId/dsId: " + tenantId + "/" + dsId);
-            connection = fhirDb.getConnection(tenantId, dsId);
+            if (useProxy) {
+                connection = fhirDb.getConnection(tenantId, dsId);
+            } else {
+                // Current schema will be APP
+                connection = fhirDb.getConnection();
+            }
             connection.setAutoCommit(false);
             log.finer("Connection: " + connection.toString());
 

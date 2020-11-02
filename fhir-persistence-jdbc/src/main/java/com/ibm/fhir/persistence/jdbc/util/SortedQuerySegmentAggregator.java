@@ -8,7 +8,6 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ASCENDING;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA_CHAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
@@ -55,7 +54,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
     /**
      * Constructs a new SortedQuerySegmentAggregator
-     * 
+     *
      * @param resourceType - The type of FHIR Resource to be searched for.
      * @param offset       - The beginning index of the first search result.
      * @param pageSize     - The max number of requested search results.
@@ -74,21 +73,21 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * contains the necessary clauses to support sorted search results.
      * <p>
      * A simple example query produced by this method:
-     * 
+     *
      * <pre>
-     * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM Patient_RESOURCES R 
+     * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM Patient_RESOURCES R
      *   JOIN Patient_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-     *   JOIN Patient_TOKEN_VALUES P1 ON P1.RESOURCE_ID=R.RESOURCE_ID  
+     *   JOIN Patient_TOKEN_VALUES P1 ON P1.RESOURCE_ID=R.RESOURCE_ID
      *   LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND S1.RESOURCE_ID = R.RESOURCE_ID)
-     *   WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND 
-     *         R.IS_DELETED <> 'Y' AND 
-     *         P1.RESOURCE_ID = R.RESOURCE_ID AND 
-     *         (P1.PARAMETER_NAME_ID=196 AND ((P1.TOKEN_VALUE = false))) 
-     * GROUP BY R.RESOURCE_ID  
-     * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST 
+     *   WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
+     *         R.IS_DELETED = 'N' AND
+     *         P1.RESOURCE_ID = R.RESOURCE_ID AND
+     *         (P1.PARAMETER_NAME_ID=196 AND ((P1.TOKEN_VALUE = false)))
+     * GROUP BY R.RESOURCE_ID
+     * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST
      * OFFSET 0 ROWS FETCH NEXT 100 ROWS ONLY;
      * </pre>
-     * 
+     *
      * @return SqlQueryData - contains the complete SQL query string and any
      *         associated bind variables.
      * @throws Exception
@@ -102,7 +101,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             throw new FHIRPersistenceException("No sort parameters found.");
         }
 
-        // For system level search, the sort parameters are limited to a couple of columns in the *_resources  
+        // For system level search, the sort parameters are limited to a couple of columns in the *_resources
         // and *_logical_resources tables. Execute the following special logic for sorted system-level-searches.
         SqlQueryData queryData;
         if (this.isSystemLevelSearch()) {
@@ -134,7 +133,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
             // Build the WHERE clause...this needs to appear before the outer join part
             buildWhereClause(sqlSortQuery, null);
-            
+
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
 
@@ -160,11 +159,11 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the SELECT clause necessary to return sorted Resource ids.
      * For example:
-     * 
+     *
      * <pre>
      * SELECT R.RESOURCE_ID,MIN(S1.STR_VALUE) FROM
      * </pre>
-     * 
+     *
      * @throws FHIRPersistenceException
      */
     private String buildSelectClause() throws FHIRPersistenceException {
@@ -188,7 +187,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the required MIN or MAX aggregate expressions for the passed sort
      * parameter.
-     * 
+     *
      * @param sortParm           A valid sort parameter.
      * @param sortParmIndex      An integer representing the position of the sort
      *                           parameter in a collection of sort parameters.
@@ -244,7 +243,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Returns the names of the Parameter attributes containing the values
      * corresponding to the passed sort parameter.
-     * 
+     *
      * @throws FHIRPersistenceException
      */
     private List<String> getValueAttributeNames(SortParameter sortParm) throws FHIRPersistenceException {
@@ -288,7 +287,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * JOIN r.parameters p1
      * LEFT OUTER JOIN Patient_STR_VALUES S1 ON (S1.PARAMETER_NAME_ID=50 AND
      * S1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)
-     * 
+     *
      * @throws FHIRPersistenceException
      */
     private String buildSortJoinClause() throws FHIRPersistenceException {
@@ -335,7 +334,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Returns the name of the database table corresponding to the type of the
      * passed sort parameter.
-     * 
+     *
      * @param sortParm A valid SortParameter
      * @return String - A database table name
      * @throws FHIRPersistenceException
@@ -376,11 +375,11 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     /**
      * Builds the ORDER BY clause necessary to return sorted Resource ids.
      * For example:
-     * 
+     *
      * <pre>
      * ORDER BY MIN(S1.STR_VALUE) asc NULLS LAST,MAX(S2.CODE_SYSTEM_ID) desc NULLS LAST, MAX(S2.TOKEN_VALUE) desc NULLS LAST
      * </pre>
-     * 
+     *
      * @throws FHIRPersistenceException
      */
     private String buildOrderByClause() throws FHIRPersistenceException {
@@ -407,7 +406,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
      * queries.
      * Only 2 parameters are supported for sorting on system-level searches: _id and
      * _lastUpdated.
-     * 
+     *
      * @return An ORDER-BY clause for use exclusively with system-level searches.
      * @throws FHIRPersistenceException
      */

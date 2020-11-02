@@ -50,6 +50,11 @@ copy_server_config(){
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
+    echo "Replacing datasource content in server configDropins..."
+    rm -f $DIST/overrides/datasource-*.xml 2> /dev/null
+    mkdir -p $DIST/overrides
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-postgresql.xml $DIST/overrides
+
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
 
