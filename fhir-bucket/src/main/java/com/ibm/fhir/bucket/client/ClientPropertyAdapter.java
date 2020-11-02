@@ -18,7 +18,7 @@ public class ClientPropertyAdapter {
     public static final String FHIR_SERVER_ENDPOINT = "fhir.server.endpoint";
     public static final String FHIR_SERVER_USER = "fhir.server.user";
     public static final String FHIR_SERVER_PASS = "fhir.server.pass";
-    
+
     public static final String TRUSTSTORE = "truststore";
     public static final String TRUSTSTORE_PASS = "truststore.pass";
     public static final String POOL_CONNECTIONS_MAX = "pool.connections.max";
@@ -27,7 +27,7 @@ public class ClientPropertyAdapter {
 
     // The properties being adapted
     private final Properties properties;
-    
+
     public ClientPropertyAdapter(Properties props) {
         this.properties = props;
     }
@@ -54,40 +54,40 @@ public class ClientPropertyAdapter {
         String val = properties.getProperty(READ_TIMEOUT, "60000");
         return Integer.parseInt(val);
     }
-    
+
     public String fhirServerHost() {
         return properties.getProperty(FHIR_SERVER_HOST);
     }
-    
+
     public String fhirServerEndpoint() {
         return properties.getProperty(FHIR_SERVER_ENDPOINT);
     }
-    
+
     public int fhirServerPort() {
         String val = properties.getProperty(FHIR_SERVER_PORT, "9443");
-        return Integer.parseInt(val);        
+        return Integer.parseInt(val);
     }
-    
+
     public String getTruststore() {
         return properties.getProperty(TRUSTSTORE);
     }
-    
+
     public String getTruststorePass() {
         return properties.getProperty(TRUSTSTORE_PASS);
     }
-    
+
     public String getEnabledCiphers() {
         return properties.getProperty(ENABLED_CIPHERS);
     }
-    
+
     public String getFhirServerUser() {
         return properties.getProperty(FHIR_SERVER_USER);
     }
-    
+
     public String getFhirServerPass() {
         return properties.getProperty(FHIR_SERVER_PASS);
     }
-    
+
     public boolean isDisableHostnameVerification() {
         return "true".equalsIgnoreCase(properties.getProperty(DISABLE_HOSTNAME_VERIFICATION, "false"));
     }

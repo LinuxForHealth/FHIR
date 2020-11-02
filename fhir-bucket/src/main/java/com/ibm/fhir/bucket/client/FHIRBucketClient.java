@@ -75,7 +75,7 @@ public class FHIRBucketClient {
 
     // Connection pool managing FHIR server HTTPS connections
     private PoolingHttpClientConnectionManager connManager;
-    
+
     // HTTP client used to POST/PUT/GET FHIR server requests
     private CloseableHttpClient client;
     private String[] enabledCiphers;
@@ -85,7 +85,7 @@ public class FHIRBucketClient {
 
     // The common headers we use which are shared across all threads
     private final Map<String,String> headers = new ConcurrentHashMap<String, String>();
-    
+
     /**
      * Public constructor
      * @param cpa
@@ -102,7 +102,7 @@ public class FHIRBucketClient {
     public void addHeader(String key, String value) {
         this.headers.put(key, value);
     }
-    
+
     /**
      * Initialize the SSL connection pool after all the required field values have been injected
      */
@@ -111,7 +111,7 @@ public class FHIRBucketClient {
             throw new IllegalStateException("Already initialied");
         }
 
-        
+
         String enabledCiphersValue = propertyAdapter.getEnabledCiphers();
         if (enabledCiphersValue != null && !enabledCiphersValue.isEmpty()) {
             enabledCiphers = enabledCiphersValue.split(",");
@@ -124,13 +124,17 @@ public class FHIRBucketClient {
                 return 60000*60;
             }
         };
-        
+
         try {
-            // SSLContext sslContext = SSLContexts.custom().build();
-            
             SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
-            // sslContextBuilder.loadKeyMaterial(new File(keystoreFilename), keystorePass.toCharArray(), keyPass.toCharArray());
-            sslContextBuilder.loadTrustMaterial(new File(propertyAdapter.getTruststore()), propertyAdapter.getTruststorePass().toCharArray());
+
+            String truststore = propertyAdapter.getTruststore();
+            if (truststore != null) {
+                sslContextBuilder.loadTrustMaterial(new File(truststore), propertyAdapter.getTruststorePass().toCharArray());
+            }
+
+            // TODO: support mTLS by passing keystore info
+
             SSLContext sslContext = sslContextBuilder.build();
 
             // For dev/test setups, allow connections to a FHIR server using a hostname
@@ -152,15 +156,15 @@ public class FHIRBucketClient {
             connManager.setDefaultMaxPerRoute(propertyAdapter.getPoolConnectionsMax());
             connManager.setValidateAfterInactivity(60000);
             connManager.setDefaultSocketConfig(SocketConfig.custom().build());
-            
+
             client = obtainCloseableHttpClient(connKeepAliveStrategy);
-        } 
+        }
         catch (KeyManagementException e) {
             throw new IllegalStateException("Failed to initialize connection manager", e);
-        } 
+        }
         catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("Failed to initialize connection manager", e);
-        }        
+        }
         catch (IOException x) {
             throw new IllegalStateException("Failed to initialize connection manager", x);
         }
@@ -188,16 +192,16 @@ public class FHIRBucketClient {
             headers.put(Headers.AUTH_HEADER, "Basic ".concat(b64));
         }
     }
-    
+
     /**
      * Add our headers to the request
      * @param request
      */
     private void addHeadersTo(final HttpRequestBase request) {
         // inject each header into the request
-        headers.entrySet().stream().forEach(e -> request.addHeader(e.getKey(), e.getValue())); 
+        headers.entrySet().stream().forEach(e -> request.addHeader(e.getKey(), e.getValue()));
     }
-    
+
     private String buildTargetPath(String resourceName) {
         StringBuilder result = new StringBuilder();
 
@@ -206,16 +210,16 @@ public class FHIRBucketClient {
         result.append(":");
         result.append(propertyAdapter.fhirServerPort());
         result.append(propertyAdapter.fhirServerEndpoint());
-        
+
         if (resourceName != null) {
             result.append(resourceName);
         }
-        
+
         return result.toString();
     }
-    
+
     public FhirServerResponse get(String url, Function<Reader, Resource> fn) {
-        
+
         String target = buildTargetPath(url);
         if (logger.isLoggable(Level.FINE)){
             logger.fine("REQUEST GET "+ target);
@@ -223,14 +227,14 @@ public class FHIRBucketClient {
 
         HttpGet getRequest = new HttpGet(target);
         addHeadersTo(getRequest);
-        
+
         for (int i = 1; ; i++) {
             try {
                 long startTime = System.nanoTime();
                 HttpResponse response = client.execute(getRequest);
                 if(logger.isLoggable(Level.FINE)){
                     Header responseHeaders[] = response.getAllHeaders();
-                    
+
                     StringBuilder msg = new StringBuilder();
                     msg.append("Response HTTP Headers: ");
                     for (Header responseHeader : responseHeaders) {
@@ -250,9 +254,9 @@ public class FHIRBucketClient {
                 logger.warning("Skipping this request.");
                 return null;
             }
-        }        
+        }
     }
-    
+
     /**
      * Issue a POST request at the given url
      * @param sUrl
@@ -264,23 +268,23 @@ public class FHIRBucketClient {
         if(logger.isLoggable(Level.FINE)) {
             logger.fine("REQUEST POST "+ target);
         }
-        
+
         try {
             HttpPost postRequest = new HttpPost(target);
             postRequest.setEntity(new StringEntity(body));
             addHeadersTo(postRequest);
-            
+
             if(logger.isLoggable(Level.FINE)) {
                 logger.fine("REQUEST POST BODY - " + body);
             }
-            
+
             long startTime = System.currentTimeMillis();
             HttpResponse response = client.execute(postRequest);
-            
+
             // Log details of the response if required
             if(logger.isLoggable(Level.FINE)) {
                 Header responseHeaders[] = response.getAllHeaders();
-                
+
                 StringBuilder msg = new StringBuilder();
                 msg.append("Response HTTP Headers: ");
                 for (Header responseHeader : responseHeaders) {
@@ -290,12 +294,12 @@ public class FHIRBucketClient {
                 logger.fine(msg.toString());
             }
 
-            // If we are posting a bundle or calling a custom operation, 
+            // If we are posting a bundle or calling a custom operation,
             // then we need to parse the response entity. This is a little
             // crude, but works OK here
             boolean processResponseEntity = url.isEmpty() || url.startsWith("$");
             return buildResponse(response, startTime, processResponseEntity);
-            
+
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
             logger.warning("POST URL: "+target+"\nRequest Body: "+body);
@@ -310,23 +314,23 @@ public class FHIRBucketClient {
             throw new DataAccessException("FHIR server connection failed");
         }
     }
-    
+
     public FhirServerResponse put(String url, Map<String, String> headers, String body) {
         String target = buildTargetPath(url);
 
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("REQUEST PUT "+target);
         }
-        
+
         try {
             HttpPut putRequest = new HttpPut(target);
             putRequest.setEntity(new StringEntity(body));
             addHeadersTo(putRequest);
-            
+
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("REQUEST PUT BODY - " + body);
             }
-            
+
             long startTime = System.currentTimeMillis();
             HttpResponse response = client.execute(putRequest);
             if (logger.isLoggable(Level.FINE)) {
@@ -337,7 +341,7 @@ public class FHIRBucketClient {
                 }
             }
             return buildResponse(response, startTime, false);
-            
+
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
             logger.warning("PUT URL: "+target+"\nRequest Body: "+body);
@@ -348,10 +352,10 @@ public class FHIRBucketClient {
             logger.severe("Error while executing the PUT request. "+e);
             logger.warning("PUT URL: "+target+"\nRequest Body: "+body);
         }
-        
+
         return null;
     }
-    
+
     public void shutdown() {
         if (client != null) {
             try {
@@ -361,7 +365,7 @@ public class FHIRBucketClient {
                 throw new IllegalStateException("Unable to shutdown HTTP clients and Connection Manager successfully. ", e);
             }
         }
-        
+
     }
 
     /**
@@ -371,8 +375,8 @@ public class FHIRBucketClient {
     public PoolStats getPoolInformation() {
         if (connManager != null) {
             return connManager.getTotalStats();
-        } 
-        
+        }
+
         return null;
     }
 
@@ -384,7 +388,7 @@ public class FHIRBucketClient {
      */
     private FhirServerResponse buildResponse(HttpResponse response, long startTime, boolean processResponseEntity) {
         FhirServerResponse sr = new FhirServerResponse();
-        
+
         int status = response.getStatusLine().getStatusCode();
         sr.setStatusCode(status);
         sr.setStatusMessage(response.getStatusLine().getReasonPhrase());
@@ -410,7 +414,7 @@ public class FHIRBucketClient {
             long endTime = System.nanoTime();
             sr.setResponseTime((int)(endTime-startTime));
         }
-        
+
             // Last-Modified: 2018-11-26T05:07:00.954Z
             // TODO
 //            Header lastModifiedHeader = response.getFirstHeader("Last-Modified");
@@ -421,11 +425,11 @@ public class FHIRBucketClient {
 //                // TODO. Must have a lastModified, but we don't know what it is
 //                sr.setLastModified(new Date(0));
 //            }
-            
-                    
+
+
         return sr;
     }
-    
+
     /**
      * Extract the operational outcome message from the response entity
      * @param sr
@@ -456,7 +460,7 @@ public class FHIRBucketClient {
         }
     }
 
-    
+
     /**
      * Overridden by child classes for specialized behavior.
      * @param connKeepAliveStrategy
@@ -469,11 +473,11 @@ public class FHIRBucketClient {
                     @Override
                     public Object getUserToken(HttpContext context) {
                         return null;
-                    }        
+                    }
                 })
                 .build();
     }
-    
+
 
     /**
      * Parse the response returned by the FHIR server
@@ -494,7 +498,7 @@ public class FHIRBucketClient {
             throw new IllegalStateException(x);
         }
     }
-    
+
     /**
      * @return the URL to the base of the FHIR server
      */
