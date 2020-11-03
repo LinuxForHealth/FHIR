@@ -4,17 +4,14 @@
     <!-- ============================================================== -->
     <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
         <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
-            <properties.postgresql
-                 serverName="localhost"
-                 portNumber="50001"
-                 user="FHIRSERVER"
+            <properties.db2.jcc
+                 serverName="db2"
+                 portNumber="50000"
+                 user="fhirserver"
                  password="change-password"
                  databaseName="FHIRDB"
                  currentSchema="FHIRDATA"
                  driverType="4"
-                 sslConnection="true"
-                 sslTrustStoreLocation="resources/security/fhirTrustStore.p12"
-                 sslTrustStorePassword="change-password"
              />
         />
         <connectionManager maxPoolSize="200" minPoolSize="40"/>
