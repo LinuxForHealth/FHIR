@@ -464,21 +464,22 @@ public class Main {
 
         // Now only apply the procedures in the model. Much faster than
         // going through the whole schema
-        try {
-            try (Connection c = createConnection()) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try (Connection c = connectionPool.getConnection();) {
                 try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+                    IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
                     pdm.applyProcedures(adapter);
                     pdm.applyFunctions(adapter);
-                } catch (Exception x) {
-                    c.rollback();
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
                     throw x;
                 }
                 c.commit();
+            } catch (SQLException x) {
+                tx.setRollbackOnly();
+                throw translator.translate(x);
             }
-        } catch (SQLException x) {
-            throw translator.translate(x);
         }
     }
 
@@ -520,7 +521,7 @@ public class Main {
             }
         }
     }
-    
+
     /**
      * Do we want to build the multitenant variant of the schema (currently only supported
      * by DB2)
@@ -720,7 +721,7 @@ public class Main {
             }
         }
     }
-    
+
     /**
      * Make sure all the tables has a partition created for the configured tenant
      */
@@ -749,7 +750,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
         // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
         tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
         for (TenantInfo ti: tenants) {

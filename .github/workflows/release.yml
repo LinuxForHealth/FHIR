@@ -18,14 +18,14 @@ jobs:
       fail-fast: false
     steps:
     - name: Setup Graphviz environment
-      uses: kamiazya/setup-graphviz@v1
+      uses: ts-graphviz/setup-graphviz@v1
     - name: Grab the Master Branch
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.3.3
       with:
         ref: refs/heads/master
         fetch-depth: 1
     - name: Setup OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build and Release for Git Tag
@@ -41,7 +41,7 @@ jobs:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         CI: true
-        JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+        JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
         bash build/release/bootstrap-env.sh
         . ./build/release/bootstrap.env
@@ -63,13 +63,13 @@ jobs:
         bash build/release/diagnostics.sh
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: release-tag-${{ matrix.java }}
         path: release-test-coverage-and-logs.tgz
     - name: Upload Artifacts - Distribution
       if: success()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: fhir-server-distribution
         path: fhir-install/target/fhir-server-distribution.zip

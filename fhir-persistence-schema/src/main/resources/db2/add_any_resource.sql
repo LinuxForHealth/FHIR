@@ -20,7 +20,6 @@
       IN p_payload                          BLOB(2147483647),
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(  1),
-      IN p_source_key                    VARCHAR( 64),
       IN p_version                           INT,
       OUT o_logical_resource_id            BIGINT
     )

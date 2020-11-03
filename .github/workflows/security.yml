@@ -23,9 +23,9 @@ jobs:
       fail-fast: false
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.3.3
     - name: Set up java
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Setup prerequisites
@@ -43,7 +43,7 @@ jobs:
         bash build/security/run.sh
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: security-testing-results
         path: build/security/logs/output

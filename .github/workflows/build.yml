@@ -15,9 +15,9 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.3
     - name: Set up OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build tools
@@ -38,9 +38,9 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.3
     - name: Set up OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Fetch target branch
@@ -118,9 +118,9 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.3
     - name: Set up OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
@@ -130,9 +130,9 @@ jobs:
       # The profile avoids UML diagram creation
       run: |
         JAVADOC_GOAL=""
-        if [ "${{ matrix.java }}" != "openjdk8" ]
+        if [ "${{ matrix.java }}" = "openjdk11" ]
         then
-          export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+          export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent --no-transfer-progress -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
@@ -169,7 +169,7 @@ jobs:
         cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: integration-test-results-${{ matrix.java }}
         path: SIT/integration-test-results
