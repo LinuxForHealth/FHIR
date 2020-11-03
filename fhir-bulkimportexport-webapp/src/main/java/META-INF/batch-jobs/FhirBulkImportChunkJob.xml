@@ -25,6 +25,7 @@
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
+                    <property name="incomingUrl" value="#{jobParameters['incomingUrl']}"/>
                 </properties>
             </reader>
             <writer ref="com.ibm.fhir.jbatch.bulkdata.load.ChunkWriter">
@@ -39,7 +40,7 @@
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.operationoutcomes.bucket.name" value="#{jobParameters['cos.operationoutcomes.bucket.name']}"/>
                     <property name="import.fhir.validation" value="#{jobParameters['import.fhir.validation']}"/>
-                </properties>     
+                </properties>
             </writer>
         </chunk>
         <partition>
