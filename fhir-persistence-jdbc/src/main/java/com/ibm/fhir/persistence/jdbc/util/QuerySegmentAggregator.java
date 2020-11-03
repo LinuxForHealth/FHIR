@@ -555,20 +555,35 @@ public class QuerySegmentAggregator {
                     whereClause.append(whereClauseSegment);
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
-                        // Join a standard parameter table
-                        //   JOIN Observation_TOKEN_VALUES AS param0
-                        //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
-                        //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
-
                         final String paramTableAlias = "param" + i;
-                        final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
+                        if (param.isReverseChained()) {
+                            // Join on a select from logical resource table
+                            //   JOIN (
+                            //     SELECT CLR0.LOGICAL_ID FROM Observation_LOGICAL_RESOURCES AS CLR0
+                            //       ...
+                            //   ) AS param0 ON LR.LOGICAL_ID = param0.LOGICAL_ID
+                            whereClause.append(JOIN)
+                                        .append(LEFT_PAREN);
+                            whereClause.append(querySegment.getQueryString());
+                            whereClause.append(RIGHT_PAREN)
+                                        .append(" AS " + paramTableAlias)
+                                        .append(ON)
+                                        .append("LR.LOGICAL_ID = " + paramTableAlias + ".LOGICAL_ID");
+                        } else {
+                            // Join a standard parameter table
+                            //   JOIN Observation_TOKEN_VALUES AS param0
+                            //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                            //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
 
-                        whereClause.append(JOIN);
-                        whereClause.append(tableName(overrideType, param));
-                        whereClause.append(" AS " + paramTableAlias);
-                        whereClause.append(ON);
-                        whereClause.append(onFilter);
-                        whereClause.append(" AND LR.LOGICAL_RESOURCE_ID = " + paramTableAlias + ".LOGICAL_RESOURCE_ID");
+                            final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
+
+                            whereClause.append(JOIN);
+                            whereClause.append(tableName(overrideType, param));
+                            whereClause.append(" AS " + paramTableAlias);
+                            whereClause.append(ON);
+                            whereClause.append(onFilter);
+                            whereClause.append(" AND LR.LOGICAL_RESOURCE_ID = " + paramTableAlias + ".LOGICAL_RESOURCE_ID");
+                        }
                     } else {
                         // add an alias for the composite table
                         String compositeAlias = "comp" + (i + 1);
@@ -623,7 +638,11 @@ public class QuerySegmentAggregator {
             break;
         case REFERENCE:
         case TOKEN:
-            name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
+            if (param.isReverseChained()) {
+                name.append("_LOGICAL_RESOURCES");
+            } else {
+                name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
+            }
             break;
         case COMPOSITE:
             name.append("_COMPOSITES ");
@@ -633,7 +652,7 @@ public class QuerySegmentAggregator {
     }
 
     /**
-     * Get the abbreviation used for composites 
+     * Get the abbreviation used for composites
      * @param param
      * @return
      */

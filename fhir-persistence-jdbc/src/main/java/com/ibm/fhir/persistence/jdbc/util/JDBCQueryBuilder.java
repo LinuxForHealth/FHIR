@@ -355,7 +355,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processStringParm(queryParm, tableAlias);
                     break;
                 case REFERENCE:
-                    if (queryParm.isChained()) {
+                    if (queryParm.isReverseChained()) {
+                        databaseQueryParm = this.processReverseChainedReferenceParm(resourceType, queryParm);
+                    } else if (queryParm.isChained()) {
                         databaseQueryParm = this.processChainedReferenceParm(queryParm);
                     } else if (queryParm.isInclusionCriteria()) {
                         databaseQueryParm = this.processInclusionCriteria(queryParm);
@@ -772,7 +774,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         if (codeSystemName != null && !codeSystemName.equals("*")) {
             Integer codeSystemId = identityCache.getCodeSystemId(codeSystemName);
             if (codeSystemId != null) {
-                whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS + DOT).append(CODE_SYSTEM_ID).append(EQ)
+                whereClauseSegment.append(AND).append(chainedParmVar + DOT).append(CODE_SYSTEM_ID).append(EQ)
                         .append(codeSystemId);
             }
         }
@@ -1384,4 +1386,242 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
     }
+
+    /**
+     * Contains special logic for handling reverse chained reference search parameters.
+     * <p>
+     * A select statement is built to realize the reverse chaining logic required. Here is a sample
+     * reverse chained query for a Patient given this search parameter: _has:Observation:patient:code=1234
+     *
+     * <pre>
+     * SELECT
+     *   CLR0.LOGICAL_ID
+     * FROM
+     *   Patient_LOGICAL_RESOURCES AS CLR0
+     *   JOIN Patient_RESOURCES AS CR0 ON CR0.RESOURCE_ID = CLR0.CURRENT_RESOURCE_ID AND CR0.IS_DELETED = 'N'
+     * WHERE
+     *   EXISTS (
+     *     SELECT
+     *       1
+     *     FROM
+     *       Observation_TOKEN_VALUES_V AS CP1
+     *       JOIN Observation_LOGICAL_RESOURCES AS CLR1 ON CLR1.LOGICAL_RESOURCE_ID = CP1.LOGICAL_RESOURCE_ID
+     *       JOIN Observation_RESOURCES AS CR1 ON CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N'
+     *       JOIN Observation_TOKEN_VALUES_V AS CP2 ON CP2.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID
+     *       AND (
+     *         CP2.PARAMETER_NAME_ID = 1073
+     *         AND ((CP2.TOKEN_VALUE = ?))
+     *       )
+     *     WHERE
+     *       CP1.TOKEN_VALUE = CLR0.LOGICAL_ID
+     *       AND CP1.PARAMETER_NAME_ID = 1274
+     *       AND CP1.CODE_SYSTEM_ID = 20004
+     *   )
+     * </pre>
+     *
+     * @see https://www.hl7.org/fhir/search.html#has
+     * @param resourceType
+     *                  - The resource type being searched.
+     * @param queryParm
+     *                  - A Parameter representing a reverse chained query.
+     * @return SqlQueryData
+     *                  - The query segment for a reverse chained parameter reference search.
+     * @throws Exception
+     */
+    @Override
+    protected SqlQueryData processReverseChainedReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
+        final String METHODNAME = "processReverseChainedReferenceParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+
+        final String CR = "CR";
+        final String CLR = "CLR";
+        final String CP = "CP";
+        String prevChainedResourceVar = null;
+        String prevChainedLogicalResourceVar = null;
+        String chainedResourceVar = null;
+        String chainedLogicalResourceVar = null;
+        String chainedParmVar = null;
+        String nextChainedResourceVar = null;
+        String nextChainedLogicalResourceVar = null;
+        String nextChainedParmVar = null;
+        QueryParameter previousParm = null;;
+        int parmIndex = 0;
+        int lastParmIndex = queryParm.getChain().size();
+        boolean chainedParmProcessed = false;
+        StringBuilder selectSegments = new StringBuilder();
+        StringBuilder whereClauseSegments = new StringBuilder();
+        List<Object> bindVariables = new ArrayList<>();
+
+        // Loop through the chained query parameters in order
+        List<QueryParameter> queryParms = queryParm.getChain();
+        queryParms.add(0, queryParm);
+        for (QueryParameter currentParm : queryParms) {
+
+            prevChainedResourceVar        = CR + parmIndex;
+            prevChainedLogicalResourceVar = CLR + parmIndex;
+            chainedResourceVar        = CR + (parmIndex + 1);
+            chainedLogicalResourceVar = CLR + (parmIndex + 1);
+            chainedParmVar            = CP + (parmIndex + 1);
+            nextChainedResourceVar        = CR + (parmIndex + 2);
+            nextChainedLogicalResourceVar = CLR + (parmIndex + 2);
+            nextChainedParmVar        = CP + (parmIndex + 2);
+            StringBuilder whereClauseSegment = new StringBuilder();
+
+            if (parmIndex == 0) {
+                // BUild outer select: SELECT CLR0.LOGICAL_ID
+                //                       FROM <resource-type>_LOGICAL_RESOURCES AS CLR0
+                //                       JOIN <resource-type>_RESOURCES AS CR0
+                //                         ON CR0.RESOURCE_ID = CLR0.CURRENT_RESOURCE_ID AND CR0.IS_DELETED = 'N'
+                //                       WHERE
+                selectSegments.append("SELECT " + prevChainedLogicalResourceVar + DOT + "LOGICAL_ID")
+                                .append(FROM + resourceType.getSimpleName() + "_LOGICAL_RESOURCES AS " + prevChainedLogicalResourceVar)
+                                .append(JOIN + resourceType.getSimpleName() + "_RESOURCES AS " + prevChainedResourceVar)
+                                .append(ON + prevChainedResourceVar + DOT + "RESOURCE_ID" + EQ + prevChainedLogicalResourceVar + DOT + "CURRENT_RESOURCE_ID")
+                                .append(AND + prevChainedResourceVar + DOT + "IS_DELETED" + EQ + "'N'")
+                                .append(WHERE);
+            }
+
+            if (parmIndex < lastParmIndex) {
+                if (currentParm.isReverseChained()) {
+                    // Build inner select joins: EXISTS (SELECT 1
+                    //                           FROM <modifierTypeResourceName>_TOKEN_VALUES_V AS CPx
+                    //                           JOIN <modifierTypeResourceName>_LOGICAL_RESOURCES AS CLRx
+                    //                             ON CLRx.LOGICAL_RESOURCE_ID = CPx.LOGICAL_RESOURCE_ID
+                    //                           JOIN <modifierTypeResourceName>_RESOURCES AS CRx
+                    //                             ON CRx.RESOURCE_ID = CLRx.CURRENT_RESOURCE_ID AND CRx.IS_DELETED = 'N'
+                    selectSegments.append("EXISTS " + LEFT_PAREN + "SELECT 1")
+                                    .append(FROM + currentParm.getModifierResourceTypeName() + "_TOKEN_VALUES_V AS " + chainedParmVar)
+                                    .append(JOIN + currentParm.getModifierResourceTypeName() + "_LOGICAL_RESOURCES AS " + chainedLogicalResourceVar)
+                                    .append(ON + chainedLogicalResourceVar + DOT + "LOGICAL_RESOURCE_ID" + EQ + chainedParmVar + DOT + "LOGICAL_RESOURCE_ID")
+                                    .append(JOIN + currentParm.getModifierResourceTypeName() + "_RESOURCES AS " + chainedResourceVar)
+                                    .append(ON + chainedResourceVar + DOT + "RESOURCE_ID" + EQ + chainedLogicalResourceVar + DOT + "CURRENT_RESOURCE_ID")
+                                    .append(AND + chainedResourceVar + DOT + "IS_DELETED" + EQ + "'N'");
+
+                    String referencedResourceType = null;
+                    if (parmIndex == 0) {
+                        referencedResourceType = resourceType.getSimpleName();
+                    } else {
+                        referencedResourceType = previousParm.getModifierResourceTypeName();
+                    }
+                    if (parmIndex < lastParmIndex - 1 && currentParm.getNextParameter().isReverseChained()) {
+                        // Build inner select where clause: WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
+                        //                                    AND CPx.PARAMETER_NAME_ID = <parm-name-id>
+                        //                                    AND CPx.CDE_SYSTEM_ID = <code-system-id>
+                        //                                    AND
+                        selectSegments.append(WHERE + chainedParmVar + DOT + "TOKEN_VALUE" + EQ + prevChainedLogicalResourceVar + DOT + "LOGICAL_ID" + AND);
+                        populateReferenceNameAndCodeSystemIdSubSegment(selectSegments, currentParm.getCode(), referencedResourceType, chainedParmVar);
+                        selectSegments.append(AND);
+                    } else {
+                        // Build final inner select where clause: WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
+                        //                                          AND CPx.PARAMETER_NAME_ID = <parm-name-id>
+                        //                                          AND CPx.CDE_SYSTEM_ID = <code-system-id>
+                        whereClauseSegment.append(WHERE + chainedParmVar + DOT + "TOKEN_VALUE" + EQ + prevChainedLogicalResourceVar + DOT + "LOGICAL_ID" + AND);
+                        populateReferenceNameAndCodeSystemIdSubSegment(whereClauseSegment, currentParm.getCode(), referencedResourceType, chainedParmVar);
+                    }
+
+                    // Add closing right paren for EXISTS
+                    whereClauseSegment.append(RIGHT_PAREN);
+                } else if (currentParm.isChained()) {
+                    // Build chained query
+                    if (!chainedParmProcessed) {
+                        // Build initial chain join and select:
+                        // SELECT CPx.LOGICAL_RESOURCE_ID FROM <modifierTypeResourceName>_TOKEN_VALUES_V AS CPx WHERE
+                        selectSegments.append(JOIN + LEFT_PAREN)
+                                        .append("SELECT " + chainedParmVar + DOT + "LOGICAL_RESOURCE_ID" + FROM)
+                                        .append(previousParm.getModifierResourceTypeName() + "_TOKEN_VALUES_V AS " + chainedParmVar + WHERE);
+                    }
+
+                    // Build this piece: CPx.PARAMETER_NAME_ID = <code-id> AND CPx.STR_VALUE IN
+                    appendMidChainParm(selectSegments, currentParm, chainedParmVar);
+
+                    // Build this piece: (SELECT 'resource-type-name' || '/' || CLR<x+1>.LOGICAL_ID ...
+                    selectSegments.append(LEFT_PAREN);
+                    appendInnerSelect(selectSegments, currentParm, currentParm.getModifierResourceTypeName(),
+                        nextChainedResourceVar, nextChainedLogicalResourceVar, nextChainedParmVar);
+                    whereClauseSegment.append(RIGHT_PAREN);
+
+                    if (!chainedParmProcessed) {
+                        chainedParmProcessed = true;
+
+                        // BUild ON clause for join: ) AS CPx ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        whereClauseSegment.append(RIGHT_PAREN + " AS " + chainedParmVar + ON)
+                                            .append(chainedParmVar + DOT + "LOGICAL_RESOURCE_ID" + EQ + prevChainedLogicalResourceVar + DOT + "LOGICAL_RESOURCE_ID");
+                    }
+                }
+            } else if (parmIndex == lastParmIndex) {
+                // This logic processes the LAST parameter in the chain.
+                if (!chainedParmProcessed) {
+                    if (!"_id".equals(currentParm.getCode())) {
+                        // Build this join: JOIN <modifierTypeResourceName>_<type>_VALUES AS CPx
+                        //                    ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        //                    AND
+                        whereClauseSegment.append(JOIN + QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), currentParm))
+                                            .append(" AS " + chainedParmVar + ON + chainedParmVar + DOT + "LOGICAL_RESOURCE_ID");
+                    } else {
+                        // Build this join: JOIN <modifierTypeResourceName>_LOGICAL_RESOURCES AS CLRx
+                        //                    ON CLRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        //                    AND
+                        whereClauseSegment.append(JOIN + previousParm.getModifierResourceTypeName() + "_LOGICAL_RESOURCES")
+                                            .append(" AS " + chainedLogicalResourceVar + ON + chainedLogicalResourceVar + DOT + "LOGICAL_RESOURCE_ID");
+                    }
+                    whereClauseSegment.append(EQ + prevChainedLogicalResourceVar + DOT + "LOGICAL_RESOURCE_ID" + AND);
+                }
+
+                // Build the rest
+                SqlQueryData sqlQueryData;
+                if (!"_id".equals(currentParm.getCode())) {
+                    // (CPx.PARAMETER_NAME_ID=<code-id> AND (CPx.<type>_VALUE=<valueCode>))
+                    sqlQueryData = buildQueryParm(ModelSupport.getResourceType(previousParm.getModifierResourceTypeName()), currentParm, chainedParmVar);
+                } else {
+                    // CLRx.LOGICAL_ID IN (?)
+                    sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
+                }
+
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("chained sqlQueryData[" + chainedParmVar + "] = " + sqlQueryData.getQueryString());
+                }
+                whereClauseSegment.append(sqlQueryData.getQueryString());
+                bindVariables.addAll(sqlQueryData.getBindVariables());
+           }
+
+            // Insert where clause segment in whole
+            whereClauseSegments.insert(0, whereClauseSegment.toString());
+
+            previousParm = currentParm;
+            parmIndex++;
+        }
+
+        SqlQueryData queryData = new SqlQueryData(whereClauseSegments.insert(0, selectSegments.toString()).toString(), bindVariables);
+        log.exiting(CLASSNAME, METHODNAME, queryData.getQueryString());
+        return queryData;
+    }
+
+    /**
+     * Populates the reference parameter name ID and code system ID sub-segment of the passed where clause segment.
+     *
+     * @param whereClauseSegment - the segment to which the sub-segment will be added
+     * @param queryParmName - the search parameter name
+     * @param resourceTypeName - the resource type of the reference being followed
+     * @param parameterTableAlias - the alias for the parameter table e.g. CPx
+     * @throws FHIRPersistenceException
+     */
+    private void populateReferenceNameAndCodeSystemIdSubSegment(StringBuilder whereClauseSegment, String queryParmName,
+            String resourceTypeName, String parameterTableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "populateReferenceNameAndCodeSystemIdSubSegment";
+        log.entering(CLASSNAME, METHODNAME, queryParmName);
+
+        Integer parameterNameId = identityCache.getParameterNameId(queryParmName);
+        Integer codeSystemId = getCodeSystemId(resourceTypeName);
+
+        // Build the segment:
+        // CPx.PARAMETER_NAME_ID = <parameter-name-id> AND CPx.CODE_SYSTEM_ID = <code-system_id>
+        whereClauseSegment.append(parameterTableAlias + DOT + "PARAMETER_NAME_ID=")
+                .append(nullCheck(parameterNameId))
+                .append(AND)
+                .append(parameterTableAlias + DOT + "CODE_SYSTEM_ID=")
+                .append(nullCheck(codeSystemId));
+
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+
 }

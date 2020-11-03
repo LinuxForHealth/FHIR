@@ -85,6 +85,7 @@ public class SearchUtil {
             "Search Parameter includes an unsupported operation or bad expression : [%s] [%s] [%s]";
 
     // Exception Strings
+    private static final String SEARCH_PARAMETER_NOT_FOUND = "Search parameter '%s' for resource type '%s' was not found.";
     private static final String MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION = "Modifier: '%s' not allowed on chained parameter";
     private static final String TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION =
             "Type: '%s' not allowed on chained parameter";
@@ -93,12 +94,18 @@ public class SearchUtil {
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
     private static final String UNSUPPORTED_EXPR_NULL =
             "An empty expression is found or the parameter type is unsupported [%s][%s]";
-
     private static final String MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE =
             "Modifier resource type [%s] is not allowed for search parameter [%s] of resource type [%s].";
-
     private static final String DIFFERENT_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES =
             "Different Modifier resource types are found for search parameter [%s] of the to-be-searched resource types.";
+    private static final String INCORRECT_NUMBER_OF_COMPONENTS_FOR_REVERSE_CHAIN_SEARCH =
+            "An incorrect number of components were specified for '_has' (reverse chain) search.";
+    private static final String INVALID_RESOURCE_TYPE_FOR_REVERSE_CHAIN_SEARCH =
+            "Resource type '%s' is not valid for '_has' (reverse chain) search.";
+    private static final String PARAMETER_TYPE_NOT_REFERENCE_FOR_REVERSE_CHAIN_SEARCH =
+            "Search parameter '%s' is not of type reference for '_has' (reverse chain) search.";
+    private static final String TARGET_TYPE_OF_REFERENCE_PARAMETER_NOT_VALID_FOR_REVERSE_CHAIN_SEARCH =
+            "Search parameter '%s' target types do not include expected type '%s' for '_has' (reverse chain) search.";
 
     // Other Constants
     private static final String SEARCH_PARAM_COMBINATION_ANY = "*";
@@ -729,6 +736,15 @@ public class SearchUtil {
                     }
                 } else if (isGeneralParameter(name) ) {
                     // we'll handle it somewhere else, so just ignore it here
+                } else if (isReverseChainedParameter(name)) {
+                    if (isMultiResTypeSearch) {
+                        // _has search requires specific resource type modifier in
+                        // search parameter, so we don't currently support system search.
+                        throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _has.");
+                    }
+                    for (String reverseChainedParameterValueString : params) {
+                        parameters.add(parseReverseChainedParameter(resourceType, name, reverseChainedParameterValueString));
+                    }
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
@@ -756,20 +772,16 @@ public class SearchUtil {
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
                           searchParameter = getSearchParameter(resType, parameterCode);
                           if (searchParameter == null) {
-                              String msg =
-                                      "Search parameter '" + parameterCode + "' for resource type '"
-                                              + resType + "' was not found.";
-                              throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                              throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                  String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resType));
                           }
                       }
                     } else {
                         // Get the search parameter from our filtered set of applicable SPs for this resource type.
                         searchParameter = getSearchParameter(resourceType.getSimpleName(), parameterCode);
                         if (searchParameter == null) {
-                            String msg =
-                                    "Search parameter '" + parameterCode + "' for resource type '"
-                                            + resourceType.getSimpleName() + "' was not found.";
-                            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(
+                                String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resourceType.getSimpleName()));
                         }
                     }
 
@@ -1076,7 +1088,7 @@ public class SearchUtil {
             }
             QueryParameterValue parameterValue = new QueryParameterValue();
             for (int i = 0; i < compTypes.size(); i++) {
-                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), componentValueStrings[i], null);
+                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), null, componentValueStrings[i]);
                 if (values.isEmpty()) {
                     throw new FHIRSearchException("Component values cannot be empty");
                 } else if (values.size() > 1) {
@@ -1370,6 +1382,10 @@ public class SearchUtil {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
     }
 
+    public static boolean isReverseChainedParameter(String name) {
+        return name.startsWith(SearchConstants.HAS);
+    }
+
     private static QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
             throws Exception {
         QueryParameter rootParameter = null;
@@ -1590,6 +1606,168 @@ public class SearchUtil {
     }
 
     /**
+     * Transforms the passed string representing reverse chain search criteria, into
+     * an actual chain of QueryParameter objects. This method consumes strings of this form:
+     * <pre>
+     *      +-------------------------------------------------------------------+
+     *      |                                                                   |
+     *      V                                                                   |
+     * >>---+--- "_has:{referenced-by-resource-type}:{reference-parameter}:" ---+--- "{search-parameter}" ---><
+     * </pre>
+     * See the FHIR specification for details:
+     * <a href="https://www.hl7.org/fhir/search.html#has</a>
+     *
+     * @param resourceType
+     *          Search type.
+     * @param reverseChainParameterString
+     *          Reverse chain search parameter string.
+     * @param valuesString
+     *          String containing the final search value.
+     * @return QueryParameter
+     *          The root of a parameter chain for the reverse chain criteria.
+     */
+    private static QueryParameter parseReverseChainedParameter(Class<?> resourceType, String reverseChainParameterString, String valuesString) throws Exception {
+
+        QueryParameter rootParameter = null;
+
+        try {
+            // Strip leading '_has:' and then split by ':_has:'
+            List<String> components = Arrays.asList(reverseChainParameterString
+                .replaceFirst(SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR, "")
+                .split(SearchConstants.COLON_DELIMITER_STR + SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR));
+
+            if (components.size() == 0) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(INCORRECT_NUMBER_OF_COMPONENTS_FOR_REVERSE_CHAIN_SEARCH);
+            }
+
+            int currentIndex = 0;
+            int lastIndex = components.size() - 1;
+
+            for (String component : components) {
+                // Split into subcomponents by colon delimiter
+                List<String> subcomponents = Arrays.asList(component.split(SearchConstants.COLON_DELIMITER_STR, 3));
+
+                // Validate correct number of subcomponents
+                if ((currentIndex < lastIndex && subcomponents.size() != 2) ||
+                        (currentIndex == lastIndex && subcomponents.size() != 3)) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(INCORRECT_NUMBER_OF_COMPONENTS_FOR_REVERSE_CHAIN_SEARCH);
+                }
+
+                // Validate referenced-by resource type
+                String referencedByResourceTypeName = subcomponents.get(0);
+                Class<? extends Resource> referencedByResourceType = ModelSupport.getResourceType(referencedByResourceTypeName);
+                if (referencedByResourceType == null) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        String.format(INVALID_RESOURCE_TYPE_FOR_REVERSE_CHAIN_SEARCH, referencedByResourceTypeName));
+                }
+
+                // Validate reference search parameter
+                String referenceSearchParameterName = subcomponents.get(1);
+                SearchParameter referenceSearchParameter = getSearchParameter(referencedByResourceType, referenceSearchParameterName);
+                if (referenceSearchParameter == null) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        String.format(SEARCH_PARAMETER_NOT_FOUND, referenceSearchParameterName, referencedByResourceTypeName));
+                }
+                if (!Type.REFERENCE.equals(Type.fromValue(referenceSearchParameter.getType().getValue()))) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        String.format(PARAMETER_TYPE_NOT_REFERENCE_FOR_REVERSE_CHAIN_SEARCH, referenceSearchParameterName));
+                }
+
+                // Validate resource type is one of the reference search parameter target resource types
+                if (!referenceSearchParameter.getTarget().contains(ResourceType.of(resourceType.getSimpleName()))) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        String.format(TARGET_TYPE_OF_REFERENCE_PARAMETER_NOT_VALID_FOR_REVERSE_CHAIN_SEARCH,
+                            referenceSearchParameterName, resourceType.getSimpleName()));
+                }
+
+                // Create new QueryParameter
+                QueryParameter parameter = new QueryParameter(Type.REFERENCE, referenceSearchParameterName, Modifier.TYPE, referencedByResourceTypeName, false, true);
+                if (rootParameter == null) {
+                    rootParameter = parameter;
+                } else {
+                    if (rootParameter.getChain().isEmpty()) {
+                        rootParameter.setNextParameter(parameter);
+                    } else {
+                        rootParameter.getChain().getLast().setNextParameter(parameter);
+                    }
+                }
+
+                if (currentIndex == lastIndex) {
+                    // Add last search parameter
+                    String parameterName = subcomponents.get(2);
+                    if (isChainedParameter(parameterName)) {
+                        QueryParameter lastParameter = parseChainedParameter(referencedByResourceType, parameterName, valuesString);
+                        if (rootParameter.getChain().isEmpty()) {
+                            rootParameter.setNextParameter(lastParameter);
+                        } else {
+                            rootParameter.getChain().getLast().setNextParameter(lastParameter);
+                        }
+                    } else {
+                        String modifierName = null;
+                        Modifier modifier = null;
+                        String modifierResourceTypeName = null;
+
+                        // Check if modifier is specified
+                        int index = parameterName.indexOf(":");
+                        if (index != -1) {
+                            modifierName = parameterName.substring(index + 1);
+                            parameterName = parameterName.substring(0, index);
+                        }
+
+                        SearchParameter searchParameter = getSearchParameter(referencedByResourceType, parameterName);
+                        if (searchParameter == null) {
+                            throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(SEARCH_PARAMETER_NOT_FOUND, parameterName, referencedByResourceTypeName));
+                        }
+                        Type type = Type.fromValue(searchParameter.getType().getValue());
+
+                        if (modifierName != null) {
+                            if (ModelSupport.isResourceType(modifierName)) {
+                                modifier = Modifier.TYPE;
+                                modifierResourceTypeName = modifierName;
+                            } else {
+                                try {
+                                    modifier = Modifier.fromValue(modifierName);
+                                } catch (IllegalArgumentException e) {
+                                    String msg = "Undefined Modifier: " + modifierName;
+                                    throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                                }
+                            }
+                            if (!isAllowed(type, modifier)) {
+                                String msg = "Unsupported type/modifier combination: " + type.value() + "/" + modifier.value();
+                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                            }
+                        }
+
+                        // Process value string
+                        List<QueryParameterValue> valueList = processQueryParameterValueString(referencedByResourceType, searchParameter,
+                            modifier, modifierResourceTypeName, valuesString);
+
+                        QueryParameter lastParameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName, valueList);
+                        if (rootParameter.getChain().isEmpty()) {
+                            rootParameter.setNextParameter(lastParameter);
+                        } else {
+                            rootParameter.getChain().getLast().setNextParameter(lastParameter);
+                        }
+
+                        // Check search restrictions based on the SearchParameter
+                        checkSearchParameterRestrictions(parameterName, searchParameter, Collections.singletonList(lastParameter));
+                    }
+                } else {
+                    // Get ready for next parameter in chain
+                    resourceType = referencedByResourceType;
+                    currentIndex++;
+                }
+            }
+        } catch (FHIRSearchException e) {
+            throw e;
+        } catch (Exception e) {
+            throw SearchExceptionUtil.buildNewReverseChainedParameterException(SearchConstants.HAS, e);
+        }
+
+        return rootParameter;
+    }
+
+    /**
      * Transforms the passed QueryParameter representing chained inclusion criteria, into
      * an actual chain of QueryParameter objects. This method consumes QueryParameters
      * with names of this form:
@@ -1753,7 +1931,6 @@ public class SearchUtil {
                     newInclusionParms =
                             buildIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
                     context.getIncludeParameters().addAll(newInclusionParms);
-
                 } else {
                     newInclusionParm =
                             buildRevIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);

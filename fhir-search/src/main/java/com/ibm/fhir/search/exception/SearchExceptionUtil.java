@@ -20,6 +20,7 @@ public class SearchExceptionUtil {
     private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing parameter '%s'.";
     private static final String PARSE_PARAMETERS_EXCEPTION = "An error occurred while parsing parameters.";
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
+    private static final String REVERSE_CHAINED_PARAMETER_EXCEPTION = "Unable to parse reverse chained parameter: '%s'";
     private static final String BADFORMAT_EXCEPTION = "Invalid Date Time Format found please use 'yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm].'";
 
     private SearchExceptionUtil() {
@@ -72,6 +73,22 @@ public class SearchExceptionUtil {
      */
     public static FHIRSearchException buildNewChainedParameterException(final String name, Exception e) {
         String msg = String.format(CHAINED_PARAMETER_EXCEPTION, name);
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
+        return new FHIRSearchException(msg, e).withIssue(ooi);
+    }
+
+    /**
+     * creates a new reverse chained parameter exception
+     *
+     * @param name
+     *        The search parameter name
+     * @param e
+     *        An exception
+     * @return
+     *        A FHIRSearchException
+     */
+    public static FHIRSearchException buildNewReverseChainedParameterException(final String name, Exception e) {
+        String msg = String.format(REVERSE_CHAINED_PARAMETER_EXCEPTION, name);
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
         return new FHIRSearchException(msg, e).withIssue(ooi);
     }
