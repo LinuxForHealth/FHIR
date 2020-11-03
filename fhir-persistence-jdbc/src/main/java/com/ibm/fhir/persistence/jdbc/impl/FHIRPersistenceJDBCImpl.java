@@ -225,11 +225,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
 
-        // For release 4.5.0, default is to use traditional JNDI datasources instead
-        // of the fhir-server-config based proxy datasource
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.FALSE)) {
+        // Release 4.5.0: Still default to the old proxy datasource configuration so we don't break existing
+        // configurations. This may change in a future release.
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
             this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
         } else {
+            // since 4.5.0 and preferred to use separate JNDI datasources for each tenant/dsId
             boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
             this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
         }

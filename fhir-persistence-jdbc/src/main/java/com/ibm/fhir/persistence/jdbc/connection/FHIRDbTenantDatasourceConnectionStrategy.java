@@ -54,7 +54,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
     private static final long NANOMS = 1000000;
 
     // JNDI prefix  of the (proxy) datasource
-    private static final String DATASOURCE_BASE_NAME = "jdbc/fhir_";
+    private static final String DATASOURCE_BASE_NAME = "jdbc/fhir";
 
     // Cache of datasources we've found
     private final Map<String, DataSource> datasourceMap = new ConcurrentHashMap<>();
@@ -76,9 +76,11 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         this.enableReadOnlyReplicas = enableReadOnlyReplicas;
     }
 
-    public static String makeTenantDatasourceJNDIName(String tenantId, String dsId, boolean readOnly) {
+    public static String makeTenantDatasourceJNDIName(String jndiBase, String tenantId, String dsId, boolean readOnly) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(DATASOURCE_BASE_NAME);
+
+        builder.append(jndiBase);
+        builder.append("_");
         builder.append(tenantId);
         builder.append("_");
         builder.append(dsId);
@@ -108,7 +110,28 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         String tenantId = FHIRRequestContext.get().getTenantId();
         String dsId = FHIRRequestContext.get().getDataStoreId();
         boolean readOnly = this.enableReadOnlyReplicas && FHIRRequestContext.get().isReadOnly();
-        final String datasourceName = makeTenantDatasourceJNDIName(tenantId, dsId, readOnly);
+
+        // The jndiName may be given explicitly in the fhir-server-config
+        String jndiName;
+
+        final String jndiNameProperty = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId + "/jndiName";
+        try {
+            PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
+            jndiName = fhirConfig.getStringProperty(jndiNameProperty, null);
+
+            if (readOnly) {
+                jndiName = jndiName + "_ro";
+            }
+        } catch (Exception x) {
+            log.log(Level.SEVERE, "Error getting value for tenant/datasource jndiName property: " + jndiNameProperty, x);
+            throw new FHIRPersistenceDBConnectException("FHIR server configuration error. See server log for details");
+        }
+
+        if (jndiName == null) {
+            // Name wasn't provided, so build the name using a standard pattern: jdbc/fhir_<tenantId>_<dsId>[_ro]
+            jndiName = makeTenantDatasourceJNDIName(DATASOURCE_BASE_NAME, tenantId, dsId, readOnly);
+        }
+
 
         // Note: we don't need any synchronization around ConcurrentHashMap, but that
         // doesn't change the fact that we may look up the datasource and put it into
@@ -116,18 +139,18 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         // the chance of doing more work than necessary a single time, but we avoid the
         // need for any synchronization. We cache locally, because we've found that JNDI
         // lookups can become a bottleneck with high concurrency
-        datasource = datasourceMap.get(datasourceName);
+        datasource = datasourceMap.get(jndiName);
         if (datasource == null) {
             // cache miss
             try {
                 InitialContext ctxt = new InitialContext();
 
-                datasource = (DataSource) ctxt.lookup(datasourceName);
-                datasourceMap.put(datasourceName, datasource);
+                datasource = (DataSource) ctxt.lookup(jndiName);
+                datasourceMap.put(jndiName, datasource);
             } catch (Throwable e) {
                 // don't emit secrets in exceptions
                 FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failure acquiring datasource");
-                throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceName, e);
+                throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + jndiName, e);
             } finally {
                 if (log.isLoggable(Level.FINEST)) {
                     log.exiting(CLASSNAME, METHODNAME);
@@ -152,7 +175,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
             // Don't emit secrets in case they are returned to a client
             FHIRPersistenceDBConnectException fx =
                     new FHIRPersistenceDBConnectException("Failure acquiring connection for datasource");
-            throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceName, e);
+            throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + jndiName, e);
         } finally {
             if (log.isLoggable(Level.FINEST)) {
                 log.exiting(CLASSNAME, METHODNAME);

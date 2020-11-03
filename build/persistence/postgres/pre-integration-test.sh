@@ -53,6 +53,7 @@ copy_server_config(){
     echo "Replacing datasource content in server configDropins..."
     rm -f $DIST/overrides/datasource-*.xml 2> /dev/null
     mkdir -p $DIST/overrides
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-bootstrap.xml $DIST/overrides
     cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-postgresql.xml $DIST/overrides
 
     USERLIB="${DIST}/userlib"

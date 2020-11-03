@@ -239,10 +239,11 @@ public class FHIRServletContextListener implements ServletContextListener {
                 checkFhirDb(utx, "default", "default", ds);
             } else {
                 // Bootstrap using dedicated datasources
-                bootstrapFhirDb(utx, "default", "default");
-                bootstrapFhirDb(utx, "tenant1", "profile");
-                bootstrapFhirDb(utx, "tenant1", "reference");
-                bootstrapFhirDb(utx, "tenant1", "study1");
+                String jndiBase = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DATASOURCE_BASE, "jdbc/bootstrap");
+                bootstrapFhirDb(utx, jndiBase, "default", "default");
+                bootstrapFhirDb(utx, jndiBase, "tenant1", "profile");
+                bootstrapFhirDb(utx, jndiBase, "tenant1", "reference");
+                bootstrapFhirDb(utx, jndiBase, "tenant1", "study1");
             }
 
             String datasourceJndiName = "jdbc/OAuth2DB";
@@ -301,10 +302,10 @@ public class FHIRServletContextListener implements ServletContextListener {
      * @param dsId the datasource identifier
      * @throws Exception
      */
-    private void bootstrapFhirDb(UserTransaction utx, String tenantId, String dsId) throws Exception {
+    private void bootstrapFhirDb(UserTransaction utx, String jndiBase, String tenantId, String dsId) throws Exception {
         InitialContext ctxt = new InitialContext();
 
-        final String jndiName = FHIRDbTenantDatasourceConnectionStrategy.makeTenantDatasourceJNDIName(tenantId, dsId, false);
+        final String jndiName = FHIRDbTenantDatasourceConnectionStrategy.makeTenantDatasourceJNDIName(jndiBase, tenantId, dsId, false);
         DataSource ds = (DataSource) ctxt.lookup(jndiName);
         bootstrapFhirDb(utx, tenantId, dsId, ds, false);
     }

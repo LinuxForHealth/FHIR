@@ -25,6 +25,7 @@ echo "Replacing datasource content in server configDropins..."
 OVERRIDES="${WORKSPACE}/build/docker/fhir-server/volumes/overrides"
 rm -f $OVERRIDES/datasource-*.xml 2> /dev/null
 mkdir -p $OVERRIDES
+cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-bootstrap.xml $OVERRIDES
 cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-db2.xml $OVERRIDES
 
 echo "Finished copying the server config."
