@@ -98,6 +98,9 @@ public class NutritionOrderIntent extends Code {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
+    /**
+     * Factory method for creating NutritionOrderIntent objects from a passed enum value.
+     */
     public static NutritionOrderIntent of(ValueSet value) {
         switch (value) {
         case PROPOSAL:
@@ -123,14 +126,38 @@ public class NutritionOrderIntent extends Code {
         }
     }
 
+    /**
+     * Factory method for creating NutritionOrderIntent objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static NutritionOrderIntent of(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating NutritionOrderIntent objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static String string(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating NutritionOrderIntent objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static Code code(java.lang.String value) {
         return of(ValueSet.from(value));
     }
@@ -283,10 +310,22 @@ public class NutritionOrderIntent extends Code {
             this.value = value;
         }
 
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
         public java.lang.String value() {
             return value;
         }
 
+        /**
+         * Factory method for creating NutritionOrderIntent.ValueSet values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
                 if (c.value.equals(value)) {
