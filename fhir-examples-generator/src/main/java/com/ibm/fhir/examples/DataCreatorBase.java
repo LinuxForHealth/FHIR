@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,6 +40,12 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
  * we can infer the parameter names on the builder method of each model class.
  */
 public abstract class DataCreatorBase {
+    public static final Extension DATA_ABSENT = Extension.builder()
+            .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+            .value(Code.of("unknown"))
+            .build();
+    public static final Coding ABSENT_CODING = Coding.builder().extension(DATA_ABSENT).build();
+    public static final CodeableConcept ABSENT_CODEABLE_CONCEPT = CodeableConcept.builder().coding(ABSENT_CODING).build();
     private String resourcePackageName = "com.ibm.fhir.model.resource";
 
     /**
@@ -261,21 +267,7 @@ public abstract class DataCreatorBase {
     }
 
     protected Element.Builder setDataAbsentReason(Element.Builder builder) {
-        Extension e = Extension.builder()
-                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
-                .value(Code.of("unknown"))
-                .build();
-        return builder.extension(e);
-    }
-
-    protected CodeableConcept.Builder setDataAbsentReasonCoding(CodeableConcept.Builder builder) {
-        Coding coding = Coding.builder()
-                .extension(Extension.builder()
-                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
-                .value(Code.of("unknown"))
-                .build())
-                .build();
-        return builder.coding(coding);
+        return builder.extension(DATA_ABSENT);
     }
 
     protected String titleCase(String name) {

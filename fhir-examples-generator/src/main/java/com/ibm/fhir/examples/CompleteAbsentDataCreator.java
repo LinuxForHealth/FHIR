@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,10 @@ import static com.ibm.fhir.model.type.Xhtml.xhtml;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Collections;
 
 import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.Appointment;
@@ -27,6 +30,7 @@ import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.Task;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Age;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DataRequirement;
 import com.ibm.fhir.model.type.Duration;
@@ -39,8 +43,12 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
+import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 
 public class CompleteAbsentDataCreator extends DataCreatorBase {
+    private static final Quantity ABSENT_QUANTITY = Quantity.builder().extension(DATA_ABSENT).build();
 
     public CompleteAbsentDataCreator() throws IOException {
         super();
@@ -57,52 +65,45 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
     }
 
     private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
-        if (builder instanceof Coding.Builder || builder instanceof Quantity.Builder){
-            // we have a Coding or Quantity type - treat as a primitive type (i.e. an edge node) due to validation rules
-            setDataAbsentReason((Element.Builder) builder);
-            return builder;
-        }
-
         Method[] methods = builder.getClass().getDeclaredMethods();
-        
+
         boolean empty = true;
         for (Method method : methods) {
             if (method.getName().equals("build") ||
-                method.getName().equals("toString") ||
-                method.getName().equals("hashCode") ||
-                method.getName().equals("from") ||
-                method.getName().equals("contained") ||
-                method.getName().equals("extension")) {
-                
+                    method.getName().equals("toString") ||
+                    method.getName().equals("hashCode") ||
+                    method.getName().equals("from") ||
+                    method.getName().equals("contained") ||
+                    method.getName().equals("extension") ||
+                    method.getName().equals("modifierExtension")) {
                 continue;
             }
-            
+
             Class<?>[] parameterClasses = method.getParameterTypes();
-            
+
             if (parameterClasses.length != 1) {
                 throw new RuntimeException("Error adding data via builder " + builder.getClass() + "; expected 1 parameter, but found " + parameterClasses.length);
 //                return (Builder) method.invoke(builder);
             }
-            
+
             Class<?> parameterType = parameterClasses[0];
             // Special case to avoid infinite recursion
             if (builder instanceof Identifier.Builder && Reference.class.isAssignableFrom(parameterType)) {
                 continue;
             }
-            
+
             // Special case for Narrative
             if (builder instanceof Narrative.Builder && method.getName().equals("div")) {
                 ((Narrative.Builder) builder).div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"));
                 continue;
             }
-            
-            Object argument;
+
+            Object argument = null;
             if (Element.class.isAssignableFrom(parameterType)
                 || Collection.class.isAssignableFrom(parameterType)) {
-            
+
                 // filter out inhereted methods like Code.Builder.extension and String.Builder.extension
                 if (builder.getClass().equals(method.getReturnType())) {
-                    
                     ////////
                     // Skips
                     ////////
@@ -164,13 +165,49 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                         builder instanceof Measure.Group.Stratifier.Builder && method.getName().equals("component") ||
                         // cpl-3: Provide a reference or detail, not both
                         builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail")) {
-                        
+
                         continue;
                     }
                     /////////////////
                     // Everything else
                     /////////////////
-                    argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
+
+                    // coded elements with required bindings
+                    ElementInfo elementInfo = ModelSupport.getElementInfo(builder.getClass().getEnclosingClass(), method.getName());
+                    if (elementInfo != null && elementInfo.hasBinding() &&
+                            (BindingStrength.ValueSet.REQUIRED == elementInfo.getBinding().strength() ||
+                             elementInfo.getBinding().maxValueSet() != null)) {
+
+                        Class<?> realType = parameterType;
+                        boolean isCollection = Collection.class.isAssignableFrom(parameterType);
+                        if (isCollection) {
+                            // The parameter is a Collection so infer the generic type
+                            Type[] parameterTypes = method.getGenericParameterTypes();
+                            if (parameterTypes[0] instanceof ParameterizedType) {
+                                realType = (Class<?>) ((ParameterizedType) parameterTypes[0]).getActualTypeArguments()[0];
+                            } else {
+                                // TODO how can we find the generic type of the collection?!
+                                throw new Exception("Type '" + parameterTypes[0].getTypeName() + "' is not generic!?");
+                            }
+                        }
+
+                        if (CodeableConcept.class.isAssignableFrom(realType)) {
+                            argument = ABSENT_CODEABLE_CONCEPT;
+                        } else if (Coding.class.isAssignableFrom(realType)) {
+                            argument = ABSENT_CODING;
+                        } else if (Quantity.class.isAssignableFrom(realType)) {
+                            argument = ABSENT_QUANTITY;
+                        }
+
+                        if (isCollection && argument != null) {
+                            argument = Collections.singleton(argument);
+                        }
+                    }
+
+                    if (argument == null){
+                        argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
+                    }
+
                     if (argument != null && !(argument instanceof Collection && ((Collection<?>) argument).isEmpty())) {
                         method.invoke(builder, argument);
                         empty = false;
@@ -178,7 +215,7 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                 }
             }
         }
-        
+
         if (empty) {
             if (builder instanceof Element.Builder){
                 // We have a primitive type (i.e. an edge node)

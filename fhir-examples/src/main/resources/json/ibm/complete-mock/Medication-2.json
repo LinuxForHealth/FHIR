@@ -1,27 +1,27 @@
 {
     "resourceType": "Medication",
     "meta": {
-        "versionId": "OvYJezLMBP",
-        "lastUpdated": "2020-11-04T02:37:41.026513-05:00",
-        "source": "u9xBe4ENUP",
+        "versionId": "MCnOCqq1RC",
+        "lastUpdated": "2020-11-04T11:22:45.090741-05:00",
+        "source": "4_IpL31foF",
         "profile": [
-            "AptqbnUJWS"
+            "4v4BZraKyZ"
         ],
         "security": [
             {
-                "system": "0HmRCS43jH",
-                "version": "tziKA2ptK0",
-                "code": "7IqdT1xX9m",
-                "display": "tV2MA0k1Cc",
+                "system": "cPYd8gd58y",
+                "version": "PllA1TgXGe",
+                "code": "60ileVPsP4",
+                "display": "CHqmpCvtG2",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "smqSnuuj1U",
-                "version": "55bDXBvUHm",
-                "code": "u8owBn6MM2",
-                "display": "4CzXRxbPDX",
+                "system": "m0UGkMcSYF",
+                "version": "T_VLWVQ5wC",
+                "code": "FtkRL0pJNR",
+                "display": "cAcOQz_dwH",
                 "userSelected": true
             },
             {
@@ -29,151 +29,151 @@
             }
         ]
     },
-    "implicitRules": "9Hv8Ft5NaM",
+    "implicitRules": "M0zpujlAzp",
     "language": "en-US",
     "text": {
-        "status": "additional",
+        "status": "generated",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
     "identifier": [
         {
-            "use": "old",
+            "use": "usual",
             "type": {
                 "coding": [
                     {
-                        "system": "6dEIOVkqFt",
-                        "version": "xxCOQr4Pyy",
-                        "code": "2VzJgQ8zDw",
-                        "display": "6N4pQafLxo",
+                        "system": "d2b2VfmUue",
+                        "version": "_FEQftCbta",
+                        "code": "brSJT9Cq7P",
+                        "display": "EbuAgUVM_I",
                         "userSelected": true
                     }
                 ],
-                "text": "6VPE5D9Gd9"
+                "text": "CiuTDMSwZp"
             },
-            "system": "ssykc3kG2r",
-            "value": "6siQKY603g",
+            "system": "7MNiFhrr0f",
+            "value": "EKckt2Ze4T",
             "period": {
-                "start": "2020-11-04T02:37:41.028874-05:00",
-                "end": "2020-11-04T02:37:41.029038-05:00"
+                "start": "2020-11-04T11:22:45.095752-05:00",
+                "end": "2020-11-04T11:22:45.096091-05:00"
             }
         }
     ],
     "code": {
         "coding": [
             {
-                "system": "MQ895sH2_B",
-                "version": "7ZBNXdQ0mG",
-                "code": "QLgyPz24zP",
-                "display": "HAXhxnloUe",
+                "system": "VvwYjhxRFv",
+                "version": "A5oaWSMAvC",
+                "code": "W7KtCglbH4",
+                "display": "Z7UmKrdPSR",
                 "userSelected": true
             }
         ],
-        "text": "Kg8KzTLTtY"
+        "text": "g4opDxNFZl"
     },
-    "status": "active",
+    "status": "inactive",
     "manufacturer": {
-        "reference": "Organization/hImKpZpqPF",
+        "reference": "Organization/SptZwzHFSA",
         "type": "Organization",
         "identifier": {
-            "use": "temp",
+            "use": "secondary",
             "type": {
                 "coding": [
                     {
-                        "system": "PAi5JWYSZM",
-                        "version": "YQKsr8USow",
-                        "code": "5cDt0CywwJ",
-                        "display": "mcRDX4ciAP",
+                        "system": "301h5dSXHa",
+                        "version": "xGNP20aRVo",
+                        "code": "dqatug5MLr",
+                        "display": "bmTJ4d5s1j",
                         "userSelected": true
                     }
                 ],
-                "text": "0_deIoMp7z"
+                "text": "CCy99ytsDA"
             },
-            "system": "aIoYtHLXpp",
-            "value": "qaJFxknZJ0",
+            "system": "sWgzQhNRZ3",
+            "value": "weLcXRFndV",
             "period": {
-                "start": "2020-11-04T02:37:41.030335-05:00",
-                "end": "2020-11-04T02:37:41.030488-05:00"
+                "start": "2020-11-04T11:22:45.098922-05:00",
+                "end": "2020-11-04T11:22:45.099248-05:00"
             }
         },
-        "display": "ePlJyku3Zg"
+        "display": "JGU4EPGFWC"
     },
     "form": {
         "coding": [
             {
-                "system": "STyTtHknfK",
-                "version": "hNwwBX3t7K",
-                "code": "XYzzl_DA4c",
-                "display": "lXQgyCZ1Th",
+                "system": "_oZSqSjNxP",
+                "version": "qcZ2MJZKrh",
+                "code": "m0yUW_mGvy",
+                "display": "VRPCAahi8U",
                 "userSelected": true
             }
         ],
-        "text": "xlKi9iPP5C"
+        "text": "eZgb2bY3Th"
     },
     "amount": {
         "numerator": {
-            "value": 0.961603731549673934608790659694932401180267333984375,
-            "comparator": "<",
-            "unit": "Yd8DxpPXpq",
-            "system": "2gKyLQFMeP",
-            "code": "m76K9PvcfL"
+            "value": 0.4804848409077748794260287468205206096172332763671875,
+            "comparator": "<=",
+            "unit": "ix0xuFfIoV",
+            "system": "EhswtX1i3g",
+            "code": "2mgoMFEL_a"
         },
         "denominator": {
-            "value": 0.7904735709447463509746967247338034212589263916015625,
+            "value": 0.3534119768107124581746347757871262729167938232421875,
             "comparator": "<",
-            "unit": "SrstrqZQL9",
-            "system": "Pm9RkZltyk",
-            "code": "e6yTpllLU6"
+            "unit": "fYcGW3yJ2I",
+            "system": "BouzHFctMF",
+            "code": "IeegLMWXGR"
         }
     },
     "ingredient": [
         {
             "itemReference": {
-                "reference": "Medication/_30To92335",
+                "reference": "Medication/1sQQyxU66P",
                 "type": "Medication",
                 "identifier": {
-                    "use": "secondary",
+                    "use": "old",
                     "type": {
                         "coding": [
                             {
-                                "system": "mtspIfRJXB",
-                                "version": "_KBpM9qUv4",
-                                "code": "3KJlHCMV4_",
-                                "display": "LgJBdc40CI",
+                                "system": "EISy0K37bm",
+                                "version": "RB0eX5Op6H",
+                                "code": "WVLXAAdf_U",
+                                "display": "8ztGMlHqbE",
                                 "userSelected": true
                             }
                         ],
-                        "text": "SY0ppBrG6c"
+                        "text": "6e6DTvpe4i"
                     },
-                    "system": "tQ5pwvPl3n",
-                    "value": "r2vK0uCKyE",
+                    "system": "erE0nkj0pV",
+                    "value": "wbBpPbGF_v",
                     "period": {
-                        "start": "2020-11-04T02:37:41.032821-05:00",
-                        "end": "2020-11-04T02:37:41.032974-05:00"
+                        "start": "2020-11-04T11:22:45.104042-05:00",
+                        "end": "2020-11-04T11:22:45.104358-05:00"
                     }
                 },
-                "display": "8CJv9n0KIs"
+                "display": "MMOzXnhWSj"
             },
             "isActive": true,
             "strength": {
                 "numerator": {
-                    "value": 0.005202005182504143739052882011719702859409153461456298828125,
-                    "comparator": "<=",
-                    "unit": "Gl3KBr72jx",
-                    "system": "fAZ2AYQdrr",
-                    "code": "2DiYBnlJ04"
+                    "value": 0.146688655772393594656222148842061869800090789794921875,
+                    "comparator": ">=",
+                    "unit": "9Y88ijfGyY",
+                    "system": "hhIbaoYEEN",
+                    "code": "3aYava60VR"
                 },
                 "denominator": {
-                    "value": 0.345071018158321252133902135028620250523090362548828125,
-                    "comparator": "<=",
-                    "unit": "NBjxMDW3o4",
-                    "system": "HaXDgicYNT",
-                    "code": "6pSB3vpVP2"
+                    "value": 0.52150183763759716537578015049803070724010467529296875,
+                    "comparator": "<",
+                    "unit": "kULCSySY8D",
+                    "system": "puvAb1peHL",
+                    "code": "XFy18EHLim"
                 }
             }
         }
     ],
     "batch": {
-        "lotNumber": "ngsjo7jojo",
-        "expirationDate": "2020-11-04T02:37:41.034229-05:00"
+        "lotNumber": "nMgsEseeTY",
+        "expirationDate": "2020-11-04T11:22:45.107019-05:00"
     }
 }
