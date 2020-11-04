@@ -569,7 +569,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       FHIRSearchContext searchContext;
       Class<Patient> resourceType = Patient.class;
       Instant now = Instant.now();
-      String queryString = "&_has:RiskAssessment:subject:date=" + now.toString();
+      String queryString = "&_has:RiskAssessment:subject:date=" + now.toString().substring(0,19);
 
       queryParameters.put("_has:RiskAssessment:subject:date", Collections.singletonList(now.toString()));
       searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
