@@ -50,6 +50,9 @@ public class SequenceType extends Code {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
+    /**
+     * Factory method for creating SequenceType objects from a passed enum value.
+     */
     public static SequenceType of(ValueSet value) {
         switch (value) {
         case AA:
@@ -63,14 +66,38 @@ public class SequenceType extends Code {
         }
     }
 
+    /**
+     * Factory method for creating SequenceType objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static SequenceType of(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating SequenceType objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static String string(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating SequenceType objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static Code code(java.lang.String value) {
         return of(ValueSet.from(value));
     }
@@ -175,10 +202,22 @@ public class SequenceType extends Code {
             this.value = value;
         }
 
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
         public java.lang.String value() {
             return value;
         }
 
+        /**
+         * Factory method for creating SequenceType.ValueSet values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
                 if (c.value.equals(value)) {

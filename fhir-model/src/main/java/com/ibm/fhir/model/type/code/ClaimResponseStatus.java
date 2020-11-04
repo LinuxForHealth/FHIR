@@ -57,6 +57,9 @@ public class ClaimResponseStatus extends Code {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
+    /**
+     * Factory method for creating ClaimResponseStatus objects from a passed enum value.
+     */
     public static ClaimResponseStatus of(ValueSet value) {
         switch (value) {
         case ACTIVE:
@@ -72,14 +75,38 @@ public class ClaimResponseStatus extends Code {
         }
     }
 
+    /**
+     * Factory method for creating ClaimResponseStatus objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static ClaimResponseStatus of(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating ClaimResponseStatus objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static String string(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating ClaimResponseStatus objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static Code code(java.lang.String value) {
         return of(ValueSet.from(value));
     }
@@ -191,10 +218,22 @@ public class ClaimResponseStatus extends Code {
             this.value = value;
         }
 
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
         public java.lang.String value() {
             return value;
         }
 
+        /**
+         * Factory method for creating ClaimResponseStatus.ValueSet values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
                 if (c.value.equals(value)) {

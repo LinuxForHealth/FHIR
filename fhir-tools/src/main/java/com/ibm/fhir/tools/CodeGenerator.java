@@ -996,6 +996,11 @@ public class CodeGenerator {
                 cb.field(mods("private", "static", "final"), "int", "MIN_VALUE", "0").newLine();
             }
 
+            if (isXhtml(structureDefinition)) {
+                cb.field(mods("private", "static", "final"), "java.lang.String", "DIV_OPEN", quote("<div xmlns=\\\"http://www.w3.org/1999/xhtml\\\">")).newLine();
+                cb.field(mods("private", "static", "final"), "java.lang.String", "DIV_CLOSE", quote("</div>")).newLine();
+            }
+
             List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
             if (isProfiledType(className)) {
                 elementDefinitions = Collections.emptyList();
@@ -1855,16 +1860,40 @@ public class CodeGenerator {
         }
 
         if (isXhtml(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating Xhtml objects from an XHTML java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String with valid XHTML content")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
+
+            cb.javadocStart()
+                .javadoc("Factory method for creating Xhtml objects from an XHTML java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String with valid XHTML content")
+                .javadocEnd();
             cb.method(mods("public", "static"), "Xhtml", "xhtml", params("java.lang.String value"))
                 ._return("Xhtml.builder().value(value).build()")
+            .end().newLine();
+
+            cb.javadocStart()
+                .javadoc("Factory method for creating Xhtml objects from a plain text string")
+                .javadoc("")
+                .javadoc("<p>This method will automatically encode the passed string for use within XHTML,", false)
+                .javadoc("then wrap it in an XHTML {@code <div>} element with a namespace of {@code http://www.w3.org/1999/xhtml}", false)
+                .javadoc("")
+                .javadocParam("plainText", "The text to encode and wrap for use within a Narrative")
+                .javadocEnd();
+            cb.method(mods("public", "static"), "Xhtml", "from", params("java.lang.String plainText"))
+                ._return("Xhtml.builder().value(DIV_OPEN + Encode.forHtmlContent(plainText) + DIV_CLOSE).build()")
             .end().newLine();
         }
     }
 
     private void generateImports(JsonObject structureDefinition, String className, CodeBuilder cb) {
+
         String name = structureDefinition.getString("name");
 
         Set<String> imports = new HashSet<>();
@@ -2054,6 +2083,10 @@ public class CodeGenerator {
             imports.add("java.math.BigDecimal");
         }
 
+        if (isXhtml(structureDefinition)) {
+            imports.add("org.owasp.encoder.Encode");
+        }
+
         List<String> javaImports = new ArrayList<>();
         for (String _import : imports) {
             if (_import.startsWith("java.")) {
@@ -2087,6 +2120,11 @@ public class CodeGenerator {
         List<String> otherImports = new ArrayList<>();
         for (String _import : imports) {
             if (_import.startsWith("com")) {
+                otherImports.add(_import);
+            }
+        }
+        for (String _import : imports) {
+            if (_import.startsWith("org")) {
                 otherImports.add(_import);
             }
         }
@@ -3167,6 +3205,9 @@ public class CodeGenerator {
             ._return("(value != null) ? ValueSet.from(value) : null")
         .end().newLine();
 
+        cb.javadocStart()
+            .javadoc("Factory method for creating " + bindingName + " objects from a passed enum value.")
+            .javadocEnd();
         cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
             ._switch("value");
             for (JsonObject concept : concepts) {
@@ -3180,14 +3221,32 @@ public class CodeGenerator {
             cb.end();
         cb.end().newLine();
 
+        cb.javadocStart()
+            .javadoc("Factory method for creating " + bindingName + " objects from a passed string value.")
+            .javadoc("")
+            .javadocParam("value", "A string that matches one of the allowed code values")
+            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
+            .javadocEnd();
         cb.method(mods("public", "static"), bindingName, "of", args("java.lang.String value"))
             ._return("of(ValueSet.from(value))")
         .end().newLine();
 
+        cb.javadocStart()
+            .javadoc("Inherited factory method for creating " + bindingName + " objects from a passed string value.")
+            .javadoc("")
+            .javadocParam("value", "A string that matches one of the allowed code values")
+            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
+            .javadocEnd();
         cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
             ._return("of(ValueSet.from(value))")
         .end().newLine();
 
+        cb.javadocStart()
+            .javadoc("Inherited factory method for creating " + bindingName + " objects from a passed string value.")
+            .javadoc("")
+            .javadocParam("value", "A string that matches one of the allowed code values")
+            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
+            .javadocEnd();
         cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
             ._return("of(ValueSet.from(value))")
         .end().newLine();
@@ -3286,10 +3345,19 @@ public class CodeGenerator {
             .assign(_this("value"), "value")
         .end().newLine();
 
+        cb.javadocStart()
+            .javadocReturn("The java.lang.String value of the code represented by this enum")
+            .javadocEnd();
         cb.method(mods("public"), "java.lang.String", "value")
             ._return("value")
         .end().newLine();
 
+        cb.javadocStart()
+            .javadoc("Factory method for creating " + bindingName + ".ValueSet values from a passed string value.")
+            .javadoc("")
+            .javadocParam("value", "A string that matches one of the allowed code values")
+            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
+            .javadocEnd();
         cb.method(mods("public", "static"), "ValueSet", "from", params("java.lang.String value"))
             ._foreach("ValueSet c", "ValueSet.values()")
                 ._if("c.value.equals(value)")
