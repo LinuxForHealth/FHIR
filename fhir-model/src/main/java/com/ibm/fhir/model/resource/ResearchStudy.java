@@ -201,20 +201,12 @@ public class ResearchStudy extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
         objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
-        for (Reference r : protocol) {
-            ValidationSupport.checkReferenceType(r, "protocol", "PlanDefinition");
-        }
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "ResearchStudy");
-        }
-        for (Reference r : enrollment) {
-            ValidationSupport.checkReferenceType(r, "enrollment", "Group");
-        }
+        ValidationSupport.checkReferenceType(protocol, "protocol", "PlanDefinition");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "ResearchStudy");
+        ValidationSupport.checkReferenceType(enrollment, "enrollment", "Group");
         ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
         ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
-        for (Reference r : site) {
-            ValidationSupport.checkReferenceType(r, "site", "Location");
-        }
+        ValidationSupport.checkReferenceType(site, "site", "Location");
         ValidationSupport.requireChildren(this);
     }
 

@@ -202,9 +202,7 @@ public class ClaimResponse extends DomainResource {
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Claim");
-        for (Reference r : communicationRequest) {
-            ValidationSupport.checkReferenceType(r, "communicationRequest", "CommunicationRequest");
-        }
+        ValidationSupport.checkReferenceType(communicationRequest, "communicationRequest", "CommunicationRequest");
         ValidationSupport.requireChildren(this);
     }
 
@@ -3144,12 +3142,8 @@ public class ClaimResponse extends DomainResource {
             noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            for (Reference r : provider) {
-                ValidationSupport.checkReferenceType(r, "provider", "Practitioner", "PractitionerRole", "Organization");
-            }
-            if (location instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
-            }
+            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
         }
 

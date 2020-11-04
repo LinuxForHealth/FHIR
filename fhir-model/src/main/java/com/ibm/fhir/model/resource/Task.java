@@ -241,19 +241,13 @@ public class Task extends DomainResource {
         restriction = builder.restriction;
         input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
         output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "Task");
-        }
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Task");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(owner, "owner", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        for (Reference r : insurance) {
-            ValidationSupport.checkReferenceType(r, "insurance", "Coverage", "ClaimResponse");
-        }
-        for (Reference r : relevantHistory) {
-            ValidationSupport.checkReferenceType(r, "relevantHistory", "Provenance");
-        }
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
+        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1777,9 +1771,7 @@ public class Task extends DomainResource {
             repetitions = builder.repetitions;
             period = builder.period;
             recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
-            for (Reference r : recipient) {
-                ValidationSupport.checkReferenceType(r, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
-            }
+            ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

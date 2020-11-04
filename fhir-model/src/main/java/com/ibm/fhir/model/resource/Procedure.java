@@ -211,29 +211,17 @@ public class Procedure extends DomainResource {
         focalDevice = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focalDevice, "focalDevice"));
         usedReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedReference, "usedReference"));
         usedCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedCode, "usedCode"));
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "ServiceRequest");
-        }
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "Procedure", "Observation", "MedicationAdministration");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure", "Observation", "MedicationAdministration");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
-        }
-        for (Reference r : report) {
-            ValidationSupport.checkReferenceType(r, "report", "DiagnosticReport", "DocumentReference", "Composition");
-        }
-        for (Reference r : complicationDetail) {
-            ValidationSupport.checkReferenceType(r, "complicationDetail", "Condition");
-        }
-        for (Reference r : usedReference) {
-            ValidationSupport.checkReferenceType(r, "usedReference", "Device", "Medication", "Substance");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(report, "report", "DiagnosticReport", "DocumentReference", "Composition");
+        ValidationSupport.checkReferenceType(complicationDetail, "complicationDetail", "Condition");
+        ValidationSupport.checkReferenceType(usedReference, "usedReference", "Device", "Medication", "Substance");
         ValidationSupport.requireChildren(this);
     }
 

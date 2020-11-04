@@ -62,9 +62,7 @@ public class MedicinalProductIngredient extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         specifiedSubstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specifiedSubstance, "specifiedSubstance"));
         substance = builder.substance;
-        for (Reference r : manufacturer) {
-            ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
-        }
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

@@ -93,18 +93,12 @@ public class SupplyDelivery extends DomainResource {
         destination = builder.destination;
         receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
         ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "SupplyRequest");
-        }
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "SupplyDelivery", "Contract");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(destination, "destination", "Location");
-        for (Reference r : receiver) {
-            ValidationSupport.checkReferenceType(r, "receiver", "Practitioner", "PractitionerRole");
-        }
+        ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 
@@ -893,9 +887,7 @@ public class SupplyDelivery extends DomainResource {
             super(builder);
             quantity = builder.quantity;
             item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-            if (item instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) item, "item", "Medication", "Substance", "Device");
-            }
+            ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -159,12 +159,8 @@ public class Coverage extends DomainResource {
         ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
-        for (Reference r : payor) {
-            ValidationSupport.checkReferenceType(r, "payor", "Organization", "Patient", "RelatedPerson");
-        }
-        for (Reference r : contract) {
-            ValidationSupport.checkReferenceType(r, "contract", "Contract");
-        }
+        ValidationSupport.checkReferenceType(payor, "payor", "Organization", "Patient", "RelatedPerson");
+        ValidationSupport.checkReferenceType(contract, "contract", "Contract");
         ValidationSupport.requireChildren(this);
     }
 

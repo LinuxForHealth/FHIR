@@ -128,12 +128,8 @@ public class MedicationKnowledge extends DomainResource {
         regulatory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.regulatory, "regulatory"));
         kinetics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.kinetics, "kinetics"));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        for (Reference r : associatedMedication) {
-            ValidationSupport.checkReferenceType(r, "associatedMedication", "Medication");
-        }
-        for (Reference r : contraindication) {
-            ValidationSupport.checkReferenceType(r, "contraindication", "DetectedIssue");
-        }
+        ValidationSupport.checkReferenceType(associatedMedication, "associatedMedication", "Medication");
+        ValidationSupport.checkReferenceType(contraindication, "contraindication", "DetectedIssue");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1459,9 +1455,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
-            for (Reference r : reference) {
-                ValidationSupport.checkReferenceType(r, "reference", "MedicationKnowledge");
-            }
+            ValidationSupport.checkReferenceType(reference, "reference", "MedicationKnowledge");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2039,9 +2033,7 @@ public class MedicationKnowledge extends DomainResource {
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
             isActive = builder.isActive;
             strength = builder.strength;
-            if (item instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) item, "item", "Substance");
-            }
+            ValidationSupport.checkReferenceType(item, "item", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2925,9 +2917,7 @@ public class MedicationKnowledge extends DomainResource {
             dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
             indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
             patientCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientCharacteristics, "patientCharacteristics"));
-            if (indication instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) indication, "indication", "ObservationDefinition");
-            }
+            ValidationSupport.checkReferenceType(indication, "indication", "ObservationDefinition");
             ValidationSupport.requireValueOrChildren(this);
         }
 

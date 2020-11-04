@@ -106,16 +106,10 @@ public class EpisodeOfCare extends DomainResource {
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        for (Reference r : referralRequest) {
-            ValidationSupport.checkReferenceType(r, "referralRequest", "ServiceRequest");
-        }
+        ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");
         ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
-        for (Reference r : team) {
-            ValidationSupport.checkReferenceType(r, "team", "CareTeam");
-        }
-        for (Reference r : account) {
-            ValidationSupport.checkReferenceType(r, "account", "Account");
-        }
+        ValidationSupport.checkReferenceType(team, "team", "CareTeam");
+        ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.requireChildren(this);
     }
 

@@ -157,24 +157,14 @@ public class MedicationAdministration extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = builder.dosage;
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "MedicationAdministration", "Procedure");
-        }
-        if (medication instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) medication, "medication", "Medication");
-        }
+        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "Procedure");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         ValidationSupport.checkReferenceType(request, "request", "MedicationRequest");
-        for (Reference r : device) {
-            ValidationSupport.checkReferenceType(r, "device", "Device");
-        }
-        for (Reference r : eventHistory) {
-            ValidationSupport.checkReferenceType(r, "eventHistory", "Provenance");
-        }
+        ValidationSupport.checkReferenceType(device, "device", "Device");
+        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 

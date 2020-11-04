@@ -106,18 +106,10 @@ public class OrganizationAffiliation extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
-        for (Reference r : network) {
-            ValidationSupport.checkReferenceType(r, "network", "Organization");
-        }
-        for (Reference r : location) {
-            ValidationSupport.checkReferenceType(r, "location", "Location");
-        }
-        for (Reference r : healthcareService) {
-            ValidationSupport.checkReferenceType(r, "healthcareService", "HealthcareService");
-        }
-        for (Reference r : endpoint) {
-            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
-        }
+        ValidationSupport.checkReferenceType(network, "network", "Organization");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.requireChildren(this);
     }
 

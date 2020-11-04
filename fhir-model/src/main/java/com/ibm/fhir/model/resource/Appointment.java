@@ -208,15 +208,9 @@ public class Appointment extends DomainResource {
         basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
         requestedPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestedPeriod, "requestedPeriod"));
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-        }
-        for (Reference r : slot) {
-            ValidationSupport.checkReferenceType(r, "slot", "Slot");
-        }
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "ServiceRequest");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+        ValidationSupport.checkReferenceType(slot, "slot", "Slot");
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
         ValidationSupport.requireChildren(this);
     }
 

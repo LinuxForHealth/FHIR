@@ -3730,9 +3730,7 @@ public class ExplanationOfBenefit extends DomainResource {
             type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
-            if (diagnosis instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) diagnosis, "diagnosis", "Condition");
-            }
+            ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4150,12 +4148,8 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
             udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
-            if (procedure instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) procedure, "procedure", "Procedure");
-            }
-            for (Reference r : udi) {
-                ValidationSupport.checkReferenceType(r, "udi", "Device");
-            }
+            ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
+            ValidationSupport.checkReferenceType(udi, "udi", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4927,9 +4921,7 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             type = builder.type;
             location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
-            if (location instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
-            }
+            ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5332,15 +5324,9 @@ public class ExplanationOfBenefit extends DomainResource {
             noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            if (location instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
-            }
-            for (Reference r : udi) {
-                ValidationSupport.checkReferenceType(r, "udi", "Device");
-            }
-            for (Reference r : encounter) {
-                ValidationSupport.checkReferenceType(r, "encounter", "Encounter");
-            }
+            ValidationSupport.checkReferenceType(location, "location", "Location");
+            ValidationSupport.checkReferenceType(udi, "udi", "Device");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -6935,9 +6921,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
                 adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
                 subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
-                for (Reference r : udi) {
-                    ValidationSupport.checkReferenceType(r, "udi", "Device");
-                }
+                ValidationSupport.checkReferenceType(udi, "udi", "Device");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -7759,9 +7743,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
                     noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
                     adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
-                    for (Reference r : udi) {
-                        ValidationSupport.checkReferenceType(r, "udi", "Device");
-                    }
+                    ValidationSupport.checkReferenceType(udi, "udi", "Device");
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -8554,12 +8536,8 @@ public class ExplanationOfBenefit extends DomainResource {
             noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            for (Reference r : provider) {
-                ValidationSupport.checkReferenceType(r, "provider", "Practitioner", "PractitionerRole", "Organization");
-            }
-            if (location instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
-            }
+            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
         }
 

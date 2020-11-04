@@ -158,18 +158,12 @@ public class Communication extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        for (Reference r : inResponseTo) {
-            ValidationSupport.checkReferenceType(r, "inResponseTo", "Communication");
-        }
+        ValidationSupport.checkReferenceType(inResponseTo, "inResponseTo", "Communication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        for (Reference r : recipient) {
-            ValidationSupport.checkReferenceType(r, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
-        }
+        ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
         ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 

@@ -269,22 +269,12 @@ public class ActivityDefinition extends DomainResource {
         observationResultRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationResultRequirement, "observationResultRequirement"));
         transform = builder.transform;
         dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
-        if (subject instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        if (product instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) product, "product", "Medication", "Substance");
-        }
-        for (Reference r : specimenRequirement) {
-            ValidationSupport.checkReferenceType(r, "specimenRequirement", "SpecimenDefinition");
-        }
-        for (Reference r : observationRequirement) {
-            ValidationSupport.checkReferenceType(r, "observationRequirement", "ObservationDefinition");
-        }
-        for (Reference r : observationResultRequirement) {
-            ValidationSupport.checkReferenceType(r, "observationResultRequirement", "ObservationDefinition");
-        }
+        ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
+        ValidationSupport.checkReferenceType(specimenRequirement, "specimenRequirement", "SpecimenDefinition");
+        ValidationSupport.checkReferenceType(observationRequirement, "observationRequirement", "ObservationDefinition");
+        ValidationSupport.checkReferenceType(observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
         ValidationSupport.requireChildren(this);
     }
 

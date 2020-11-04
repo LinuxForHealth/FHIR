@@ -40,9 +40,7 @@ public class Annotation extends Element {
         author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);
         time = builder.time;
         text = ValidationSupport.requireNonNull(builder.text, "text");
-        if (author instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
-        }
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.requireValueOrChildren(this);
     }
 

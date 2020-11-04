@@ -147,9 +147,7 @@ public class Location extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
-        for (Reference r : endpoint) {
-            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
-        }
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.requireChildren(this);
     }
 

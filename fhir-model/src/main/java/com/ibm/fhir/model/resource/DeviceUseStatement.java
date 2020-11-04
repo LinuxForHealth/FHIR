@@ -108,18 +108,12 @@ public class DeviceUseStatement extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         bodySite = builder.bodySite;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "ServiceRequest");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        for (Reference r : derivedFrom) {
-            ValidationSupport.checkReferenceType(r, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
-        }
+        ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
         ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(device, "device", "Device");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
         ValidationSupport.requireChildren(this);
     }
 

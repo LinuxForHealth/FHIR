@@ -1205,28 +1205,9 @@ public class CodeGenerator {
             for (JsonObject elementDefinition : elementDefinitions) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
-                if (isRepeating(elementDefinition)) {
-                    String fieldType = getFieldType(structureDefinition, elementDefinition);
-                    if (fieldType.equals("List<Reference>")) {
-                        List<String> referenceTypes = getReferenceTypes(elementDefinition);
-                        if (!referenceTypes.isEmpty()) {
-                            cb._foreach("Reference r", fieldName)
-                                .invoke("ValidationSupport", "checkReferenceType", args("r", quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))))
-                                .end();
-                        }
-                    }
-                }
-                if (isChoiceElement(elementDefinition)) {
-                    if (getChoiceTypeNames(elementDefinition).contains("Reference")) {
-                        List<String> referenceTypes = getReferenceTypes(elementDefinition);
-                        if (!referenceTypes.isEmpty()) {
-                            cb._if(fieldName + " instanceof Reference")
-                                .invoke("ValidationSupport", "checkReferenceType", args("(Reference) " + fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))))
-                                .end();
-                        }
-                    }
-                }
-                if (isReferenceElement(structureDefinition, elementDefinition)) {
+                if (isReferenceElement(structureDefinition, elementDefinition) ||
+                        (isRepeating(elementDefinition) && "List<Reference>".equals(getFieldType(structureDefinition, elementDefinition))) ||
+                        (isChoiceElement(elementDefinition) && getChoiceTypeNames(elementDefinition).contains("Reference"))) {
                     List<String> referenceTypes = getReferenceTypes(elementDefinition);
                     if (!referenceTypes.isEmpty()) {
                         cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));

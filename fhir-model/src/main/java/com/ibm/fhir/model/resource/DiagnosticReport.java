@@ -143,26 +143,14 @@ public class DiagnosticReport extends DomainResource {
         conclusion = builder.conclusion;
         conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
         presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        for (Reference r : performer) {
-            ValidationSupport.checkReferenceType(r, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-        }
-        for (Reference r : resultsInterpreter) {
-            ValidationSupport.checkReferenceType(r, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-        }
-        for (Reference r : specimen) {
-            ValidationSupport.checkReferenceType(r, "specimen", "Specimen");
-        }
-        for (Reference r : result) {
-            ValidationSupport.checkReferenceType(r, "result", "Observation");
-        }
-        for (Reference r : imagingStudy) {
-            ValidationSupport.checkReferenceType(r, "imagingStudy", "ImagingStudy");
-        }
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+        ValidationSupport.checkReferenceType(result, "result", "Observation");
+        ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
         ValidationSupport.requireChildren(this);
     }
 

@@ -209,33 +209,19 @@ public class MedicationRequest extends DomainResource {
         priorPrescription = builder.priorPrescription;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
-        if (reported instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        }
-        if (medication instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) medication, "medication", "Medication");
-        }
+        ValidationSupport.checkReferenceType(reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
         ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation");
-        }
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
-        }
-        for (Reference r : insurance) {
-            ValidationSupport.checkReferenceType(r, "insurance", "Coverage", "ClaimResponse");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation");
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
         ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
-        for (Reference r : detectedIssue) {
-            ValidationSupport.checkReferenceType(r, "detectedIssue", "DetectedIssue");
-        }
-        for (Reference r : eventHistory) {
-            ValidationSupport.checkReferenceType(r, "eventHistory", "Provenance");
-        }
+        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
+        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 

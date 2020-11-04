@@ -3029,9 +3029,7 @@ public class ImplementationGuide extends DomainResource {
                 title = ValidationSupport.requireNonNull(builder.title, "title");
                 generation = ValidationSupport.requireNonNull(builder.generation, "generation");
                 page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
-                if (name instanceof Reference) {
-                    ValidationSupport.checkReferenceType((Reference) name, "name", "Binary");
-                }
+                ValidationSupport.checkReferenceType(name, "name", "Binary");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

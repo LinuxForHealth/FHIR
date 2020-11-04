@@ -171,12 +171,8 @@ public class Goal extends DomainResource {
         outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
         ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        for (Reference r : addresses) {
-            ValidationSupport.checkReferenceType(r, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
-        }
-        for (Reference r : outcomeReference) {
-            ValidationSupport.checkReferenceType(r, "outcomeReference", "Observation");
-        }
+        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
+        ValidationSupport.checkReferenceType(outcomeReference, "outcomeReference", "Observation");
         ValidationSupport.requireChildren(this);
     }
 

@@ -218,21 +218,11 @@ public class Encounter extends DomainResource {
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        for (Reference r : episodeOfCare) {
-            ValidationSupport.checkReferenceType(r, "episodeOfCare", "EpisodeOfCare");
-        }
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "ServiceRequest");
-        }
-        for (Reference r : appointment) {
-            ValidationSupport.checkReferenceType(r, "appointment", "Appointment");
-        }
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-        }
-        for (Reference r : account) {
-            ValidationSupport.checkReferenceType(r, "account", "Account");
-        }
+        ValidationSupport.checkReferenceType(episodeOfCare, "episodeOfCare", "EpisodeOfCare");
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
+        ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+        ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
         ValidationSupport.requireChildren(this);

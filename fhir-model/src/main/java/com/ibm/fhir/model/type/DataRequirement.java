@@ -99,9 +99,7 @@ public class DataRequirement extends Element {
         dateFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateFilter, "dateFilter"));
         limit = builder.limit;
         sort = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sort, "sort"));
-        if (subject instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireValueOrChildren(this);
     }
 

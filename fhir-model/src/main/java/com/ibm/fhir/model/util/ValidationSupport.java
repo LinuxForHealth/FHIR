@@ -285,6 +285,10 @@ public final class ValidationSupport {
                 List<String> typeNameList = Arrays.stream(types).map(Class::getSimpleName).collect(Collectors.toList());
                 throw new IllegalStateException(String.format("Invalid type: %s for choice element: '%s' must be one of: %s", elementType.getSimpleName(), elementName, typeNameList.toString()));
             }
+            //do other validation here?
+//            if (element instanceof Reference) {
+//                checkReferenceType(element, elementName, ModelSupport.getReferenceTargetTypes(modelClass, elementName));
+//            }
         }
         return element;
     }
@@ -427,7 +431,7 @@ public final class ValidationSupport {
 
     /**
      * Check that the specified list of elements contain a code that is a member of the specified value set.
-     * 
+     *
      * @param elements
      *     the list of elements for which to check codes
      * @param elementName
@@ -450,7 +454,7 @@ public final class ValidationSupport {
 
     /**
      * Check that the specified element contains a code that is a member of the specified value set.
-     * 
+     *
      * @param element
      *     the element for which to check codes
      * @param elementName
@@ -618,6 +622,26 @@ public final class ValidationSupport {
     }
 
     /**
+     * @throws IllegalStateException if the resource type found in one or more reference values does not match the specified Reference.type
+     *                               value or is not one of the allowed reference types for that element
+     */
+    public static void checkReferenceType(List<Reference> reference, String elementName, String... referenceTypes) {
+        for (Reference r : reference) {
+            checkReferenceType(r, elementName, referenceTypes);
+        }
+    }
+
+    /**
+     * @throws IllegalStateException if the choiceElement is a Reference and the reference value does not match the specified Reference.type
+     *                               value or is not one of the allowed reference types for that element
+     */
+    public static void checkReferenceType(Element choiceElement, String elementName, String... referenceTypes) {
+        if (choiceElement instanceof Reference) {
+            checkReferenceType((Reference) choiceElement, elementName, referenceTypes);
+        }
+    }
+
+    /**
      * @throws IllegalStateException if the resource type found in the reference value does not match the specified Reference.type value
      *                               or is not one of the allowed reference types for that element
      */
@@ -705,7 +729,7 @@ public final class ValidationSupport {
             }
         }
     }
-    
+
     public static boolean hasOnlyDataAbsentReasonExtension(Element element) {
         if (hasDataAbsentReasonExtension(element) &&
                 ((element.is(Code.class) && element.as(Code.class).getValue() == null) ||
@@ -717,7 +741,7 @@ public final class ValidationSupport {
         } else if (element.is(CodeableConcept.class) && element.as(CodeableConcept.class).getCoding() != null) {
             for (Coding coding : element.as(CodeableConcept.class).getCoding()) {
                 if (hasOnlyDataAbsentReasonExtension(coding)) {
-                    return true;     
+                    return true;
                 }
             }
         }

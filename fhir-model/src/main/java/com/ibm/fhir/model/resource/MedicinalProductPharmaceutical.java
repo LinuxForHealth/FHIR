@@ -68,12 +68,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
         characteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristics, "characteristics"));
         routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
-        for (Reference r : ingredient) {
-            ValidationSupport.checkReferenceType(r, "ingredient", "MedicinalProductIngredient");
-        }
-        for (Reference r : device) {
-            ValidationSupport.checkReferenceType(r, "device", "DeviceDefinition");
-        }
+        ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
+        ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
         ValidationSupport.requireChildren(this);
     }
 

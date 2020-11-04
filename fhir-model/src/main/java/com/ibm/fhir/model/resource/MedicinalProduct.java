@@ -112,24 +112,12 @@ public class MedicinalProduct extends DomainResource {
         crossReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.crossReference, "crossReference"));
         manufacturingBusinessOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturingBusinessOperation, "manufacturingBusinessOperation"));
         specialDesignation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialDesignation, "specialDesignation"));
-        for (Reference r : pharmaceuticalProduct) {
-            ValidationSupport.checkReferenceType(r, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
-        }
-        for (Reference r : packagedMedicinalProduct) {
-            ValidationSupport.checkReferenceType(r, "packagedMedicinalProduct", "MedicinalProductPackaged");
-        }
-        for (Reference r : attachedDocument) {
-            ValidationSupport.checkReferenceType(r, "attachedDocument", "DocumentReference");
-        }
-        for (Reference r : masterFile) {
-            ValidationSupport.checkReferenceType(r, "masterFile", "DocumentReference");
-        }
-        for (Reference r : contact) {
-            ValidationSupport.checkReferenceType(r, "contact", "Organization", "PractitionerRole");
-        }
-        for (Reference r : clinicalTrial) {
-            ValidationSupport.checkReferenceType(r, "clinicalTrial", "ResearchStudy");
-        }
+        ValidationSupport.checkReferenceType(pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
+        ValidationSupport.checkReferenceType(packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
+        ValidationSupport.checkReferenceType(attachedDocument, "attachedDocument", "DocumentReference");
+        ValidationSupport.checkReferenceType(masterFile, "masterFile", "DocumentReference");
+        ValidationSupport.checkReferenceType(contact, "contact", "Organization", "PractitionerRole");
+        ValidationSupport.checkReferenceType(clinicalTrial, "clinicalTrial", "ResearchStudy");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2334,9 +2322,7 @@ public class MedicinalProduct extends DomainResource {
             confidentialityIndicator = builder.confidentialityIndicator;
             manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
             regulator = builder.regulator;
-            for (Reference r : manufacturer) {
-                ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
-            }
+            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
             ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2773,9 +2759,7 @@ public class MedicinalProduct extends DomainResource {
             status = builder.status;
             date = builder.date;
             species = builder.species;
-            if (indication instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) indication, "indication", "MedicinalProductIndication");
-            }
+            ValidationSupport.checkReferenceType(indication, "indication", "MedicinalProductIndication");
             ValidationSupport.requireValueOrChildren(this);
         }
 

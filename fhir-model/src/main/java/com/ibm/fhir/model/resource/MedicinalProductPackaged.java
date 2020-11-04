@@ -75,13 +75,9 @@ public class MedicinalProductPackaged extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
         packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
-        for (Reference r : subject) {
-            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct");
         ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
-        for (Reference r : manufacturer) {
-            ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
-        }
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1124,15 +1120,9 @@ public class MedicinalProductPackaged extends DomainResource {
             otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
             shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
             manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-            for (Reference r : device) {
-                ValidationSupport.checkReferenceType(r, "device", "DeviceDefinition");
-            }
-            for (Reference r : manufacturedItem) {
-                ValidationSupport.checkReferenceType(r, "manufacturedItem", "MedicinalProductManufactured");
-            }
-            for (Reference r : manufacturer) {
-                ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
-            }
+            ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
+            ValidationSupport.checkReferenceType(manufacturedItem, "manufacturedItem", "MedicinalProductManufactured");
+            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

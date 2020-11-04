@@ -101,12 +101,8 @@ public class GuidanceResponse extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(performer, "performer", "Device");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        }
-        for (Reference r : evaluationMessage) {
-            ValidationSupport.checkReferenceType(r, "evaluationMessage", "OperationOutcome");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
         ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
         ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
         ValidationSupport.requireChildren(this);

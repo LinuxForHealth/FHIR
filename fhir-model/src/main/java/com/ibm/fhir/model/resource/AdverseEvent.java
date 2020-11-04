@@ -166,23 +166,13 @@ public class AdverseEvent extends DomainResource {
         ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        for (Reference r : resultingCondition) {
-            ValidationSupport.checkReferenceType(r, "resultingCondition", "Condition");
-        }
+        ValidationSupport.checkReferenceType(resultingCondition, "resultingCondition", "Condition");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        for (Reference r : contributor) {
-            ValidationSupport.checkReferenceType(r, "contributor", "Practitioner", "PractitionerRole", "Device");
-        }
-        for (Reference r : subjectMedicalHistory) {
-            ValidationSupport.checkReferenceType(r, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
-        }
-        for (Reference r : referenceDocument) {
-            ValidationSupport.checkReferenceType(r, "referenceDocument", "DocumentReference");
-        }
-        for (Reference r : study) {
-            ValidationSupport.checkReferenceType(r, "study", "ResearchStudy");
-        }
+        ValidationSupport.checkReferenceType(contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
+        ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
+        ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
+        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
         ValidationSupport.requireChildren(this);
     }
 

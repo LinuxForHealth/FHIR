@@ -156,9 +156,7 @@ public class ChargeItemDefinition extends DomainResource {
         instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
         applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
         propertyGroup = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.propertyGroup, "propertyGroup"));
-        for (Reference r : instance) {
-            ValidationSupport.checkReferenceType(r, "instance", "Medication", "Substance", "Device");
-        }
+        ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
         ValidationSupport.requireChildren(this);
     }
 

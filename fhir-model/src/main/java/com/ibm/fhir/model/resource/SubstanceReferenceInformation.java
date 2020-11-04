@@ -604,9 +604,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             geneSequenceOrigin = builder.geneSequenceOrigin;
             gene = builder.gene;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            for (Reference r : source) {
-                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
-            }
+            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -934,9 +932,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             type = builder.type;
             element = builder.element;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            for (Reference r : source) {
-                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
-            }
+            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1267,9 +1263,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             classification = builder.classification;
             subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            for (Reference r : source) {
-                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
-            }
+            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1663,9 +1657,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
             amountType = builder.amountType;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            for (Reference r : source) {
-                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
-            }
+            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
 

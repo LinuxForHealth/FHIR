@@ -700,9 +700,7 @@ public class Medication extends DomainResource {
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
             isActive = builder.isActive;
             strength = builder.strength;
-            if (item instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) item, "item", "Substance", "Medication");
-            }
+            ValidationSupport.checkReferenceType(item, "item", "Substance", "Medication");
             ValidationSupport.requireValueOrChildren(this);
         }
 

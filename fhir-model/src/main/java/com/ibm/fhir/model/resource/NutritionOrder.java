@@ -144,9 +144,7 @@ public class NutritionOrder extends DomainResource {
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
-        for (Reference r : allergyIntolerance) {
-            ValidationSupport.checkReferenceType(r, "allergyIntolerance", "AllergyIntolerance");
-        }
+        ValidationSupport.checkReferenceType(allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
         ValidationSupport.requireChildren(this);
     }
 

@@ -171,22 +171,14 @@ public class DeviceRequest extends DomainResource {
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        if (code instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) code, "code", "Device");
-        }
+        ValidationSupport.checkReferenceType(code, "code", "Device");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        }
-        for (Reference r : insurance) {
-            ValidationSupport.checkReferenceType(r, "insurance", "Coverage", "ClaimResponse");
-        }
-        for (Reference r : relevantHistory) {
-            ValidationSupport.checkReferenceType(r, "relevantHistory", "Provenance");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
+        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 

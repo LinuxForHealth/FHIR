@@ -661,9 +661,7 @@ public class ImmunizationRecommendation extends DomainResource {
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             supportingImmunization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingImmunization, "supportingImmunization"));
             supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingPatientInformation, "supportingPatientInformation"));
-            for (Reference r : supportingImmunization) {
-                ValidationSupport.checkReferenceType(r, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
-            }
+            ValidationSupport.checkReferenceType(supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
             ValidationSupport.requireValueOrChildren(this);
         }
 

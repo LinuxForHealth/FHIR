@@ -164,31 +164,17 @@ public class MedicationDispense extends DomainResource {
         substitution = builder.substitution;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "Procedure");
-        }
-        if (statusReason instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) statusReason, "statusReason", "DetectedIssue");
-        }
-        if (medication instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) medication, "medication", "Medication");
-        }
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
+        ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        for (Reference r : authorizingPrescription) {
-            ValidationSupport.checkReferenceType(r, "authorizingPrescription", "MedicationRequest");
-        }
+        ValidationSupport.checkReferenceType(authorizingPrescription, "authorizingPrescription", "MedicationRequest");
         ValidationSupport.checkReferenceType(destination, "destination", "Location");
-        for (Reference r : receiver) {
-            ValidationSupport.checkReferenceType(r, "receiver", "Patient", "Practitioner");
-        }
-        for (Reference r : detectedIssue) {
-            ValidationSupport.checkReferenceType(r, "detectedIssue", "DetectedIssue");
-        }
-        for (Reference r : eventHistory) {
-            ValidationSupport.checkReferenceType(r, "eventHistory", "Provenance");
-        }
+        ValidationSupport.checkReferenceType(receiver, "receiver", "Patient", "Practitioner");
+        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
+        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1859,9 +1845,7 @@ public class MedicationDispense extends DomainResource {
             type = builder.type;
             reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
             responsibleParty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.responsibleParty, "responsibleParty"));
-            for (Reference r : responsibleParty) {
-                ValidationSupport.checkReferenceType(r, "responsibleParty", "Practitioner", "PractitionerRole");
-            }
+            ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }
 

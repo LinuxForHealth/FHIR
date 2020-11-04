@@ -196,9 +196,7 @@ public class ResearchDefinition extends DomainResource {
         exposure = builder.exposure;
         exposureAlternative = builder.exposureAlternative;
         outcome = builder.outcome;
-        if (subject instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
         ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
         ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");

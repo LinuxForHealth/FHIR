@@ -2274,9 +2274,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             private Diagnosis(Builder builder) {
                 super(builder);
                 diagnosis = ValidationSupport.choiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-                if (diagnosis instanceof Reference) {
-                    ValidationSupport.checkReferenceType((Reference) diagnosis, "diagnosis", "Condition");
-                }
+                ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

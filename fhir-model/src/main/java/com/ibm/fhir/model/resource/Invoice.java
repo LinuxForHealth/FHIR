@@ -1326,9 +1326,7 @@ public class Invoice extends DomainResource {
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
             priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
-            if (chargeItem instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) chargeItem, "chargeItem", "ChargeItem");
-            }
+            ValidationSupport.checkReferenceType(chargeItem, "chargeItem", "ChargeItem");
             ValidationSupport.requireValueOrChildren(this);
         }
 

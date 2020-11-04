@@ -92,12 +92,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
         processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
         manipulation = builder.manipulation;
         storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
-        for (Reference r : request) {
-            ValidationSupport.checkReferenceType(r, "request", "ServiceRequest");
-        }
-        for (Reference r : parent) {
-            ValidationSupport.checkReferenceType(r, "parent", "BiologicallyDerivedProduct");
-        }
+        ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
+        ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
         ValidationSupport.requireChildren(this);
     }
 

@@ -285,9 +285,7 @@ public class Measure extends DomainResource {
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
         supplementalData = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplementalData, "supplementalData"));
         ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
-        if (subject instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }
 

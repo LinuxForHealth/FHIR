@@ -120,12 +120,8 @@ public class Specimen extends DomainResource {
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
-        for (Reference r : parent) {
-            ValidationSupport.checkReferenceType(r, "parent", "Specimen");
-        }
-        for (Reference r : request) {
-            ValidationSupport.checkReferenceType(r, "request", "ServiceRequest");
-        }
+        ValidationSupport.checkReferenceType(parent, "parent", "Specimen");
+        ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1490,9 +1486,7 @@ public class Specimen extends DomainResource {
             procedure = builder.procedure;
             additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            for (Reference r : additive) {
-                ValidationSupport.checkReferenceType(r, "additive", "Substance");
-            }
+            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1876,9 +1870,7 @@ public class Specimen extends DomainResource {
             capacity = builder.capacity;
             specimenQuantity = builder.specimenQuantity;
             additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-            if (additive instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) additive, "additive", "Substance");
-            }
+            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -153,9 +153,7 @@ public class RequestGroup extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1320,9 +1318,7 @@ public class RequestGroup extends DomainResource {
             cardinalityBehavior = builder.cardinalityBehavior;
             resource = builder.resource;
             action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            for (Reference r : participant) {
-                ValidationSupport.checkReferenceType(r, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
-            }
+            ValidationSupport.checkReferenceType(participant, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 

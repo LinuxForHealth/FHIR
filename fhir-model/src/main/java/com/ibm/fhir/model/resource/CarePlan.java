@@ -158,30 +158,16 @@ public class CarePlan extends DomainResource {
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan");
-        }
-        for (Reference r : replaces) {
-            ValidationSupport.checkReferenceType(r, "replaces", "CarePlan");
-        }
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "CarePlan");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
+        ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-        for (Reference r : contributor) {
-            ValidationSupport.checkReferenceType(r, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-        }
-        for (Reference r : careTeam) {
-            ValidationSupport.checkReferenceType(r, "careTeam", "CareTeam");
-        }
-        for (Reference r : addresses) {
-            ValidationSupport.checkReferenceType(r, "addresses", "Condition");
-        }
-        for (Reference r : goal) {
-            ValidationSupport.checkReferenceType(r, "goal", "Goal");
-        }
+        ValidationSupport.checkReferenceType(contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
+        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
+        ValidationSupport.checkReferenceType(goal, "goal", "Goal");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2117,19 +2103,11 @@ public class CarePlan extends DomainResource {
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
-                for (Reference r : reasonReference) {
-                    ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-                }
-                for (Reference r : goal) {
-                    ValidationSupport.checkReferenceType(r, "goal", "Goal");
-                }
+                ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+                ValidationSupport.checkReferenceType(goal, "goal", "Goal");
                 ValidationSupport.checkReferenceType(location, "location", "Location");
-                for (Reference r : performer) {
-                    ValidationSupport.checkReferenceType(r, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
-                }
-                if (product instanceof Reference) {
-                    ValidationSupport.checkReferenceType((Reference) product, "product", "Medication", "Substance");
-                }
+                ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
+                ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

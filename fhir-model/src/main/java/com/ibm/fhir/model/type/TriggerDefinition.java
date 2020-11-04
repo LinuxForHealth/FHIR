@@ -81,9 +81,7 @@ public class TriggerDefinition extends Element {
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
         data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
         condition = builder.condition;
-        if (timing instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) timing, "timing", "Schedule");
-        }
+        ValidationSupport.checkReferenceType(timing, "timing", "Schedule");
         ValidationSupport.requireValueOrChildren(this);
     }
 

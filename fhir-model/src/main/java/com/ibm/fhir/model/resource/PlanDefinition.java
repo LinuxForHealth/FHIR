@@ -240,9 +240,7 @@ public class PlanDefinition extends DomainResource {
         library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-        if (subject instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2750,9 +2748,7 @@ public class PlanDefinition extends DomainResource {
             transform = builder.transform;
             dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
             action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            if (subject instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
-            }
+            ValidationSupport.checkReferenceType(subject, "subject", "Group");
             ValidationSupport.requireValueOrChildren(this);
         }
 

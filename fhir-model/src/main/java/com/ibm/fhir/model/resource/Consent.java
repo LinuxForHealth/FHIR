@@ -215,15 +215,9 @@ public class Consent extends DomainResource {
         verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
         provision = builder.provision;
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        for (Reference r : performer) {
-            ValidationSupport.checkReferenceType(r, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
-        }
-        for (Reference r : organization) {
-            ValidationSupport.checkReferenceType(r, "organization", "Organization");
-        }
-        if (source instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
-        }
+        ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+        ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
         ValidationSupport.requireChildren(this);
     }
 

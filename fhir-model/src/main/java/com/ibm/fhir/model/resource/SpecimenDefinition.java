@@ -1665,9 +1665,7 @@ public class SpecimenDefinition extends DomainResource {
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-                    if (additive instanceof Reference) {
-                        ValidationSupport.checkReferenceType((Reference) additive, "additive", "Substance");
-                    }
+                    ValidationSupport.checkReferenceType(additive, "additive", "Substance");
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

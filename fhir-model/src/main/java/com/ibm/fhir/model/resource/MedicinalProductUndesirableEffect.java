@@ -53,9 +53,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
         classification = builder.classification;
         frequencyOfOccurrence = builder.frequencyOfOccurrence;
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
-        for (Reference r : subject) {
-            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct", "Medication");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.requireChildren(this);
     }
 

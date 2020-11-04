@@ -112,12 +112,8 @@ public class CareTeam extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition");
-        }
-        for (Reference r : managingOrganization) {
-            ValidationSupport.checkReferenceType(r, "managingOrganization", "Organization");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition");
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

@@ -137,12 +137,8 @@ public class ClinicalImpression extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
-        for (Reference r : problem) {
-            ValidationSupport.checkReferenceType(r, "problem", "Condition", "AllergyIntolerance");
-        }
-        for (Reference r : prognosisReference) {
-            ValidationSupport.checkReferenceType(r, "prognosisReference", "RiskAssessment");
-        }
+        ValidationSupport.checkReferenceType(problem, "problem", "Condition", "AllergyIntolerance");
+        ValidationSupport.checkReferenceType(prognosisReference, "prognosisReference", "RiskAssessment");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1326,9 +1322,7 @@ public class ClinicalImpression extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-            for (Reference r : item) {
-                ValidationSupport.checkReferenceType(r, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
-            }
+            ValidationSupport.checkReferenceType(item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
             ValidationSupport.requireValueOrChildren(this);
         }
 

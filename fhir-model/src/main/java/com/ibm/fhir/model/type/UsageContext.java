@@ -63,9 +63,7 @@ public class UsageContext extends Element {
         super(builder);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
-        if (value instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
-        }
+        ValidationSupport.checkReferenceType(value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
         ValidationSupport.requireValueOrChildren(this);
     }
 

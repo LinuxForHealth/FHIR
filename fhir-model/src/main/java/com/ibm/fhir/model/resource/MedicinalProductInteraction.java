@@ -63,9 +63,7 @@ public class MedicinalProductInteraction extends DomainResource {
         effect = builder.effect;
         incidence = builder.incidence;
         management = builder.management;
-        for (Reference r : subject) {
-            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct", "Medication", "Substance");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -642,9 +640,7 @@ public class MedicinalProductInteraction extends DomainResource {
         private Interactant(Builder builder) {
             super(builder);
             item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
-            if (item instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
-            }
+            ValidationSupport.checkReferenceType(item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
             ValidationSupport.requireValueOrChildren(this);
         }
 

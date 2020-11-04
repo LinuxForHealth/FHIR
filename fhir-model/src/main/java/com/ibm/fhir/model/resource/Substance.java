@@ -1011,9 +1011,7 @@ public class Substance extends DomainResource {
             super(builder);
             quantity = builder.quantity;
             substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
-            if (substance instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) substance, "substance", "Substance");
-            }
+            ValidationSupport.checkReferenceType(substance, "substance", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 

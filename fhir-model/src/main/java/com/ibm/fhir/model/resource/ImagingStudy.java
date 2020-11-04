@@ -189,21 +189,13 @@ public class ImagingStudy extends DomainResource {
         series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
         ValidationSupport.checkReferenceType(referrer, "referrer", "Practitioner", "PractitionerRole");
-        for (Reference r : interpreter) {
-            ValidationSupport.checkReferenceType(r, "interpreter", "Practitioner", "PractitionerRole");
-        }
-        for (Reference r : endpoint) {
-            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
-        }
+        ValidationSupport.checkReferenceType(interpreter, "interpreter", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
-        }
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1488,12 +1480,8 @@ public class ImagingStudy extends DomainResource {
             started = builder.started;
             performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
             instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-            for (Reference r : endpoint) {
-                ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
-            }
-            for (Reference r : specimen) {
-                ValidationSupport.checkReferenceType(r, "specimen", "Specimen");
-            }
+            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
             ValidationSupport.requireValueOrChildren(this);
         }
 

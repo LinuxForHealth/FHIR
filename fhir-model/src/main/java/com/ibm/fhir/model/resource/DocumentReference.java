@@ -159,9 +159,7 @@ public class DocumentReference extends DomainResource {
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         context = builder.context;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-        for (Reference r : author) {
-            ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-        }
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
         ValidationSupport.requireChildren(this);
@@ -1741,9 +1739,7 @@ public class DocumentReference extends DomainResource {
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
             related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
-            for (Reference r : encounter) {
-                ValidationSupport.checkReferenceType(r, "encounter", "Encounter", "EpisodeOfCare");
-            }
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter", "EpisodeOfCare");
             ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
             ValidationSupport.requireValueOrChildren(this);
         }

@@ -164,24 +164,16 @@ public class ChargeItem extends DomainResource {
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
-        for (Reference r : partOf) {
-            ValidationSupport.checkReferenceType(r, "partOf", "ChargeItem");
-        }
+        ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
         ValidationSupport.checkReferenceType(performingOrganization, "performingOrganization", "Organization");
         ValidationSupport.checkReferenceType(requestingOrganization, "requestingOrganization", "Organization");
         ValidationSupport.checkReferenceType(costCenter, "costCenter", "Organization");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
-        for (Reference r : service) {
-            ValidationSupport.checkReferenceType(r, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
-        }
-        if (product instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) product, "product", "Device", "Medication", "Substance");
-        }
-        for (Reference r : account) {
-            ValidationSupport.checkReferenceType(r, "account", "Account");
-        }
+        ValidationSupport.checkReferenceType(service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
+        ValidationSupport.checkReferenceType(product, "product", "Device", "Medication", "Substance");
+        ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.requireChildren(this);
     }
 

@@ -93,9 +93,7 @@ public class Schedule extends DomainResource {
         actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
-        for (Reference r : actor) {
-            ValidationSupport.checkReferenceType(r, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-        }
+        ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         ValidationSupport.requireChildren(this);
     }
 

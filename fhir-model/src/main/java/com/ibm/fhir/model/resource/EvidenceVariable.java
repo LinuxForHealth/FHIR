@@ -1617,9 +1617,7 @@ public class EvidenceVariable extends DomainResource {
             participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
             timeFromStart = builder.timeFromStart;
             groupMeasure = builder.groupMeasure;
-            if (definition instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) definition, "definition", "Group", "ActivityDefinition");
-            }
+            ValidationSupport.checkReferenceType(definition, "definition", "Group", "ActivityDefinition");
             ValidationSupport.requireValueOrChildren(this);
         }
 

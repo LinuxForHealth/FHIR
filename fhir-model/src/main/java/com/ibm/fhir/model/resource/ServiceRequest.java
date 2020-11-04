@@ -241,33 +241,17 @@ public class ServiceRequest extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         patientInstruction = builder.patientInstruction;
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        for (Reference r : basedOn) {
-            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
-        }
-        for (Reference r : replaces) {
-            ValidationSupport.checkReferenceType(r, "replaces", "ServiceRequest");
-        }
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
+        ValidationSupport.checkReferenceType(replaces, "replaces", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        for (Reference r : performer) {
-            ValidationSupport.checkReferenceType(r, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-        }
-        for (Reference r : locationReference) {
-            ValidationSupport.checkReferenceType(r, "locationReference", "Location");
-        }
-        for (Reference r : reasonReference) {
-            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        }
-        for (Reference r : insurance) {
-            ValidationSupport.checkReferenceType(r, "insurance", "Coverage", "ClaimResponse");
-        }
-        for (Reference r : specimen) {
-            ValidationSupport.checkReferenceType(r, "specimen", "Specimen");
-        }
-        for (Reference r : relevantHistory) {
-            ValidationSupport.checkReferenceType(r, "relevantHistory", "Provenance");
-        }
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+        ValidationSupport.checkReferenceType(locationReference, "locationReference", "Location");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
+        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 

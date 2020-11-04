@@ -170,9 +170,7 @@ public class Composition extends DomainResource {
         event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
         section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        for (Reference r : author) {
-            ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-        }
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
         ValidationSupport.requireChildren(this);
     }
@@ -1446,9 +1444,7 @@ public class Composition extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
-            if (target instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) target, "target", "Composition");
-            }
+            ValidationSupport.checkReferenceType(target, "target", "Composition");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2125,9 +2121,7 @@ public class Composition extends DomainResource {
             entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
             emptyReason = builder.emptyReason;
             section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
-            for (Reference r : author) {
-                ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-            }
+            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

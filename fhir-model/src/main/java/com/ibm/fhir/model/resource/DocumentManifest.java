@@ -94,12 +94,8 @@ public class DocumentManifest extends DomainResource {
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-        for (Reference r : author) {
-            ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-        }
-        for (Reference r : recipient) {
-            ValidationSupport.checkReferenceType(r, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        }
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+        ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

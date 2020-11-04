@@ -137,9 +137,7 @@ public class MolecularSequence extends DomainResource {
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(device, "device", "Device");
         ValidationSupport.checkReferenceType(performer, "performer", "Organization");
-        for (Reference r : pointer) {
-            ValidationSupport.checkReferenceType(r, "pointer", "MolecularSequence");
-        }
+        ValidationSupport.checkReferenceType(pointer, "pointer", "MolecularSequence");
         ValidationSupport.requireChildren(this);
     }
 

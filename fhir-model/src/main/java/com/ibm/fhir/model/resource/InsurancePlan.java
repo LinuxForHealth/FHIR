@@ -120,15 +120,9 @@ public class InsurancePlan extends DomainResource {
         plan = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.plan, "plan"));
         ValidationSupport.checkReferenceType(ownedBy, "ownedBy", "Organization");
         ValidationSupport.checkReferenceType(administeredBy, "administeredBy", "Organization");
-        for (Reference r : coverageArea) {
-            ValidationSupport.checkReferenceType(r, "coverageArea", "Location");
-        }
-        for (Reference r : endpoint) {
-            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
-        }
-        for (Reference r : network) {
-            ValidationSupport.checkReferenceType(r, "network", "Organization");
-        }
+        ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+        ValidationSupport.checkReferenceType(network, "network", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1442,9 +1436,7 @@ public class InsurancePlan extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
             benefit = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.benefit, "benefit"));
-            for (Reference r : network) {
-                ValidationSupport.checkReferenceType(r, "network", "Organization");
-            }
+            ValidationSupport.checkReferenceType(network, "network", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2396,12 +2388,8 @@ public class InsurancePlan extends DomainResource {
             network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
             generalCost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalCost, "generalCost"));
             specificCost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specificCost, "specificCost"));
-            for (Reference r : coverageArea) {
-                ValidationSupport.checkReferenceType(r, "coverageArea", "Location");
-            }
-            for (Reference r : network) {
-                ValidationSupport.checkReferenceType(r, "network", "Organization");
-            }
+            ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
+            ValidationSupport.checkReferenceType(network, "network", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

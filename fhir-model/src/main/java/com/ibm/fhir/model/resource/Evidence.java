@@ -163,12 +163,8 @@ public class Evidence extends DomainResource {
         exposureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exposureVariant, "exposureVariant"));
         outcome = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcome, "outcome"));
         ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
-        for (Reference r : exposureVariant) {
-            ValidationSupport.checkReferenceType(r, "exposureVariant", "EvidenceVariable");
-        }
-        for (Reference r : outcome) {
-            ValidationSupport.checkReferenceType(r, "outcome", "EvidenceVariable");
-        }
+        ValidationSupport.checkReferenceType(exposureVariant, "exposureVariant", "EvidenceVariable");
+        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
         ValidationSupport.requireChildren(this);
     }
 

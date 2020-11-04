@@ -178,15 +178,9 @@ public class HealthcareService extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
-        for (Reference r : location) {
-            ValidationSupport.checkReferenceType(r, "location", "Location");
-        }
-        for (Reference r : coverageArea) {
-            ValidationSupport.checkReferenceType(r, "coverageArea", "Location");
-        }
-        for (Reference r : endpoint) {
-            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
-        }
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.requireChildren(this);
     }
 

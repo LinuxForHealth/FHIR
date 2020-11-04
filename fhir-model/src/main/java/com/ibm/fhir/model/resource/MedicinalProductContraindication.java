@@ -65,12 +65,8 @@ public class MedicinalProductContraindication extends DomainResource {
         therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
         otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
-        for (Reference r : subject) {
-            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct", "Medication");
-        }
-        for (Reference r : therapeuticIndication) {
-            ValidationSupport.checkReferenceType(r, "therapeuticIndication", "MedicinalProductIndication");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
+        ValidationSupport.checkReferenceType(therapeuticIndication, "therapeuticIndication", "MedicinalProductIndication");
         ValidationSupport.requireChildren(this);
     }
 
@@ -719,9 +715,7 @@ public class MedicinalProductContraindication extends DomainResource {
             super(builder);
             therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
             medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-            if (medication instanceof Reference) {
-                ValidationSupport.checkReferenceType((Reference) medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
-            }
+            ValidationSupport.checkReferenceType(medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
             ValidationSupport.requireValueOrChildren(this);
         }
 

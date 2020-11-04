@@ -112,9 +112,7 @@ public class DeviceDefinition extends DomainResource {
         quantity = builder.quantity;
         parentDevice = builder.parentDevice;
         material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
-        if (manufacturer instanceof Reference) {
-            ValidationSupport.checkReferenceType((Reference) manufacturer, "manufacturer", "Organization");
-        }
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
         ValidationSupport.requireChildren(this);

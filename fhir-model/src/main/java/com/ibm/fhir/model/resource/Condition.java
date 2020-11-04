@@ -1218,9 +1218,7 @@ public class Condition extends DomainResource {
             summary = builder.summary;
             assessment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.assessment, "assessment"));
             type = builder.type;
-            for (Reference r : assessment) {
-                ValidationSupport.checkReferenceType(r, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
-            }
+            ValidationSupport.checkReferenceType(assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -94,9 +94,7 @@ public class Account extends DomainResource {
         description = builder.description;
         guarantor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.guarantor, "guarantor"));
         partOf = builder.partOf;
-        for (Reference r : subject) {
-            ValidationSupport.checkReferenceType(r, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
-        }
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
         ValidationSupport.requireChildren(this);
