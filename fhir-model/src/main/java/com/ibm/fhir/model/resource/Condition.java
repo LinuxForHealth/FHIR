@@ -1201,6 +1201,7 @@ public class Condition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/condition-stage"
         )
         private final CodeableConcept summary;
+        @ReferenceTarget({ "ClinicalImpression", "DiagnosticReport", "Observation" })
         private final List<Reference> assessment;
         @Binding(
             bindingName = "ConditionStageType",
@@ -1217,6 +1218,9 @@ public class Condition extends DomainResource {
             summary = builder.summary;
             assessment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.assessment, "assessment"));
             type = builder.type;
+            for (Reference r : assessment) {
+                ValidationSupport.checkReferenceType(r, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1449,6 +1453,13 @@ public class Condition extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link ClinicalImpression}</li>
+             * <li>{@link DiagnosticReport}</li>
+             * <li>{@link Observation}</li>
+             * </ul>
+             * 
              * @param assessment
              *     Formal record of assessment
              * 
@@ -1466,6 +1477,13 @@ public class Condition extends DomainResource {
              * Reference to a formal record of the evidence on which the staging assessment is based.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link ClinicalImpression}</li>
+             * <li>{@link DiagnosticReport}</li>
+             * <li>{@link Observation}</li>
+             * </ul>
              * 
              * @param assessment
              *     Formal record of assessment

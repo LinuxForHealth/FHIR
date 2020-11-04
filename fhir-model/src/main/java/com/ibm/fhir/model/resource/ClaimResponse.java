@@ -162,6 +162,7 @@ public class ClaimResponse extends DomainResource {
     private final CodeableConcept formCode;
     private final Attachment form;
     private final List<ProcessNote> processNote;
+    @ReferenceTarget({ "CommunicationRequest" })
     private final List<Reference> communicationRequest;
     private final List<Insurance> insurance;
     private final List<Error> error;
@@ -201,6 +202,9 @@ public class ClaimResponse extends DomainResource {
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Claim");
+        for (Reference r : communicationRequest) {
+            ValidationSupport.checkReferenceType(r, "communicationRequest", "CommunicationRequest");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1396,6 +1400,11 @@ public class ClaimResponse extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CommunicationRequest}</li>
+         * </ul>
+         * 
          * @param communicationRequest
          *     Request for additional information
          * 
@@ -1413,6 +1422,11 @@ public class ClaimResponse extends DomainResource {
          * Request for additional supporting or authorizing information.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CommunicationRequest}</li>
+         * </ul>
          * 
          * @param communicationRequest
          *     Request for additional information
@@ -3050,6 +3064,7 @@ public class ClaimResponse extends DomainResource {
         private final List<PositiveInt> itemSequence;
         private final List<PositiveInt> detailSequence;
         private final List<PositiveInt> subdetailSequence;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final List<Reference> provider;
         @Binding(
             bindingName = "ServiceProduct",
@@ -3075,6 +3090,7 @@ public class ClaimResponse extends DomainResource {
         private final List<CodeableConcept> programCode;
         @Choice({ Date.class, Period.class })
         private final Element serviced;
+        @ReferenceTarget({ "Location" })
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
@@ -3128,6 +3144,12 @@ public class ClaimResponse extends DomainResource {
             noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            for (Reference r : provider) {
+                ValidationSupport.checkReferenceType(r, "provider", "Practitioner", "PractitionerRole", "Organization");
+            }
+            if (location instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3676,6 +3698,13 @@ public class ClaimResponse extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param provider
              *     Authorized providers
              * 
@@ -3693,6 +3722,13 @@ public class ClaimResponse extends DomainResource {
              * The providers who are authorized for the services rendered to the patient.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param provider
              *     Authorized providers
@@ -3818,6 +3854,11 @@ public class ClaimResponse extends DomainResource {
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Address}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Location}</li>
              * </ul>
              * 
              * @param location

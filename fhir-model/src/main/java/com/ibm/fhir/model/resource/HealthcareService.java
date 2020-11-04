@@ -93,6 +93,7 @@ public class HealthcareService extends DomainResource {
     )
     private final List<CodeableConcept> specialty;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final List<Reference> location;
     @Summary
     private final String name;
@@ -102,6 +103,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     private final Attachment photo;
     private final List<ContactPoint> telecom;
+    @ReferenceTarget({ "Location" })
     private final List<Reference> coverageArea;
     @Binding(
         bindingName = "ServiceProvisionConditions",
@@ -143,6 +145,7 @@ public class HealthcareService extends DomainResource {
     private final List<AvailableTime> availableTime;
     private final List<NotAvailable> notAvailable;
     private final String availabilityExceptions;
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
     private volatile int hashCode;
@@ -175,6 +178,15 @@ public class HealthcareService extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
+        for (Reference r : location) {
+            ValidationSupport.checkReferenceType(r, "location", "Location");
+        }
+        for (Reference r : coverageArea) {
+            ValidationSupport.checkReferenceType(r, "coverageArea", "Location");
+        }
+        for (Reference r : endpoint) {
+            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -996,6 +1008,11 @@ public class HealthcareService extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     Location(s) where service may be provided
          * 
@@ -1013,6 +1030,11 @@ public class HealthcareService extends DomainResource {
          * The location(s) where this healthcare service may be provided.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Location(s) where service may be provided
@@ -1122,6 +1144,11 @@ public class HealthcareService extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param coverageArea
          *     Location(s) service is intended for/available to
          * 
@@ -1139,6 +1166,11 @@ public class HealthcareService extends DomainResource {
          * The location(s) that this service is available to (not where the service is provided).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param coverageArea
          *     Location(s) service is intended for/available to
@@ -1463,6 +1495,11 @@ public class HealthcareService extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoints providing access to electronic services operated for the healthcare service
          * 
@@ -1481,6 +1518,11 @@ public class HealthcareService extends DomainResource {
          * resource.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Technical endpoints providing access to electronic services operated for the healthcare service

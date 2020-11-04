@@ -53,6 +53,7 @@ public class SubstanceSpecification extends DomainResource {
     @Summary
     private final String description;
     @Summary
+    @ReferenceTarget({ "DocumentReference" })
     private final List<Reference> source;
     @Summary
     private final String comment;
@@ -109,6 +110,9 @@ public class SubstanceSpecification extends DomainResource {
         polymer = builder.polymer;
         protein = builder.protein;
         sourceMaterial = builder.sourceMaterial;
+        for (Reference r : source) {
+            ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+        }
         ValidationSupport.checkReferenceType(referenceInformation, "referenceInformation", "SubstanceReferenceInformation");
         ValidationSupport.checkReferenceType(nucleicAcid, "nucleicAcid", "SubstanceNucleicAcid");
         ValidationSupport.checkReferenceType(polymer, "polymer", "SubstancePolymer");
@@ -752,6 +756,11 @@ public class SubstanceSpecification extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param source
          *     Supporting literature
          * 
@@ -769,6 +778,11 @@ public class SubstanceSpecification extends DomainResource {
          * Supporting literature.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param source
          *     Supporting literature
@@ -1592,6 +1606,7 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         private final String parameters;
         @Summary
+        @ReferenceTarget({ "SubstanceSpecification", "Substance" })
         @Choice({ Reference.class, CodeableConcept.class })
         private final Element definingSubstance;
         @Summary
@@ -1607,6 +1622,9 @@ public class SubstanceSpecification extends DomainResource {
             parameters = builder.parameters;
             definingSubstance = ValidationSupport.choiceElement(builder.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
+            if (definingSubstance instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) definingSubstance, "definingSubstance", "SubstanceSpecification", "Substance");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1901,6 +1919,12 @@ public class SubstanceSpecification extends DomainResource {
              * <li>{@link CodeableConcept}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link SubstanceSpecification}</li>
+             * <li>{@link Substance}</li>
+             * </ul>
+             * 
              * @param definingSubstance
              *     A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol)
              * 
@@ -1974,6 +1998,7 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         private final SubstanceSpecification.Structure.Isotope.MolecularWeight molecularWeight;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
         @Summary
         private final List<Representation> representation;
@@ -1990,6 +2015,9 @@ public class SubstanceSpecification extends DomainResource {
             molecularWeight = builder.molecularWeight;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
             representation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.representation, "representation"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2390,6 +2418,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Supporting literature
              * 
@@ -2407,6 +2440,11 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Supporting literature
@@ -3451,6 +3489,7 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         private final String comment;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -3462,6 +3501,9 @@ public class SubstanceSpecification extends DomainResource {
             statusDate = builder.statusDate;
             comment = builder.comment;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3766,6 +3808,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Supporting literature
              * 
@@ -3783,6 +3830,11 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Supporting literature
@@ -3846,6 +3898,7 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         private final List<Official> official;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -3863,6 +3916,9 @@ public class SubstanceSpecification extends DomainResource {
             translation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.translation, "translation"));
             official = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.official, "official"));
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4468,6 +4524,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Supporting literature
              * 
@@ -4485,6 +4546,11 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Supporting literature
@@ -4834,6 +4900,7 @@ public class SubstanceSpecification extends DomainResource {
      */
     public static class Relationship extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "SubstanceSpecification" })
         @Choice({ Reference.class, CodeableConcept.class })
         private final Element substance;
         @Summary
@@ -4848,6 +4915,7 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         private final CodeableConcept amountType;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -4861,6 +4929,12 @@ public class SubstanceSpecification extends DomainResource {
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            if (substance instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) substance, "substance", "SubstanceSpecification");
+            }
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5145,6 +5219,11 @@ public class SubstanceSpecification extends DomainResource {
              * <li>{@link CodeableConcept}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link SubstanceSpecification}</li>
+             * </ul>
+             * 
              * @param substance
              *     A pointer to another substance, as a resource or just a representational code
              * 
@@ -5243,6 +5322,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Supporting literature
              * 
@@ -5260,6 +5344,11 @@ public class SubstanceSpecification extends DomainResource {
              * Supporting literature.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Supporting literature

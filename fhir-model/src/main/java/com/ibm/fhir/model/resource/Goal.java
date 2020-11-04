@@ -136,6 +136,7 @@ public class Goal extends DomainResource {
     @Summary
     @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference expressedBy;
+    @ReferenceTarget({ "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment" })
     private final List<Reference> addresses;
     private final List<Annotation> note;
     @Binding(
@@ -145,6 +146,7 @@ public class Goal extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> outcomeCode;
+    @ReferenceTarget({ "Observation" })
     private final List<Reference> outcomeReference;
 
     private volatile int hashCode;
@@ -169,6 +171,12 @@ public class Goal extends DomainResource {
         outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
         ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+        for (Reference r : addresses) {
+            ValidationSupport.checkReferenceType(r, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
+        }
+        for (Reference r : outcomeReference) {
+            ValidationSupport.checkReferenceType(r, "outcomeReference", "Observation");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -952,6 +960,16 @@ public class Goal extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link MedicationStatement}</li>
+         * <li>{@link NutritionOrder}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link RiskAssessment}</li>
+         * </ul>
+         * 
          * @param addresses
          *     Issues addressed by this goal
          * 
@@ -969,6 +987,16 @@ public class Goal extends DomainResource {
          * The identified conditions and other health record elements that are intended to be addressed by the goal.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link MedicationStatement}</li>
+         * <li>{@link NutritionOrder}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link RiskAssessment}</li>
+         * </ul>
          * 
          * @param addresses
          *     Issues addressed by this goal
@@ -1054,6 +1082,11 @@ public class Goal extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * </ul>
+         * 
          * @param outcomeReference
          *     Observation that resulted from goal
          * 
@@ -1071,6 +1104,11 @@ public class Goal extends DomainResource {
          * Details of what's changed (or not changed).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * </ul>
          * 
          * @param outcomeReference
          *     Observation that resulted from goal

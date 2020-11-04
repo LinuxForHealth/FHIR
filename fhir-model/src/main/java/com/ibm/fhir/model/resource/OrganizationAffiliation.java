@@ -60,6 +60,7 @@ public class OrganizationAffiliation extends DomainResource {
     @ReferenceTarget({ "Organization" })
     private final Reference participatingOrganization;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> network;
     @Summary
     @Binding(
@@ -78,10 +79,13 @@ public class OrganizationAffiliation extends DomainResource {
     )
     private final List<CodeableConcept> specialty;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final List<Reference> location;
+    @ReferenceTarget({ "HealthcareService" })
     private final List<Reference> healthcareService;
     @Summary
     private final List<ContactPoint> telecom;
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
     private volatile int hashCode;
@@ -102,6 +106,18 @@ public class OrganizationAffiliation extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
+        for (Reference r : network) {
+            ValidationSupport.checkReferenceType(r, "network", "Organization");
+        }
+        for (Reference r : location) {
+            ValidationSupport.checkReferenceType(r, "location", "Location");
+        }
+        for (Reference r : healthcareService) {
+            ValidationSupport.checkReferenceType(r, "healthcareService", "HealthcareService");
+        }
+        for (Reference r : endpoint) {
+            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -669,6 +685,11 @@ public class OrganizationAffiliation extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param network
          *     Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at 
          *     the indicated locations (if defined)
@@ -688,6 +709,11 @@ public class OrganizationAffiliation extends DomainResource {
          * the indicated locations (if defined).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param network
          *     Health insurance provider network in which the participatingOrganization provides the role's services (if defined) at 
@@ -774,6 +800,11 @@ public class OrganizationAffiliation extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     The location(s) at which the role occurs
          * 
@@ -792,6 +823,11 @@ public class OrganizationAffiliation extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     The location(s) at which the role occurs
          * 
@@ -807,6 +843,11 @@ public class OrganizationAffiliation extends DomainResource {
          * Healthcare services provided through the role.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param healthcareService
          *     Healthcare services provided through the role
@@ -825,6 +866,11 @@ public class OrganizationAffiliation extends DomainResource {
          * Healthcare services provided through the role.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param healthcareService
          *     Healthcare services provided through the role
@@ -876,6 +922,11 @@ public class OrganizationAffiliation extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for this role
          * 
@@ -893,6 +944,11 @@ public class OrganizationAffiliation extends DomainResource {
          * Technical endpoints providing access to services operated for this role.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for this role

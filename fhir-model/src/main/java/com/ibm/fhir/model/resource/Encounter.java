@@ -157,11 +157,14 @@ public class Encounter extends DomainResource {
     @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "EpisodeOfCare" })
     private final List<Reference> episodeOfCare;
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
     private final List<Participant> participant;
     @Summary
+    @ReferenceTarget({ "Appointment" })
     private final List<Reference> appointment;
     private final Period period;
     private final Duration length;
@@ -174,9 +177,11 @@ public class Encounter extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Procedure", "Observation", "ImmunizationRecommendation" })
     private final List<Reference> reasonReference;
     @Summary
     private final List<Diagnosis> diagnosis;
+    @ReferenceTarget({ "Account" })
     private final List<Reference> account;
     private final Hospitalization hospitalization;
     private final List<Location> location;
@@ -213,6 +218,21 @@ public class Encounter extends DomainResource {
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        for (Reference r : episodeOfCare) {
+            ValidationSupport.checkReferenceType(r, "episodeOfCare", "EpisodeOfCare");
+        }
+        for (Reference r : basedOn) {
+            ValidationSupport.checkReferenceType(r, "basedOn", "ServiceRequest");
+        }
+        for (Reference r : appointment) {
+            ValidationSupport.checkReferenceType(r, "appointment", "Appointment");
+        }
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+        }
+        for (Reference r : account) {
+            ValidationSupport.checkReferenceType(r, "account", "Account");
+        }
         ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
         ValidationSupport.requireChildren(this);
@@ -1089,6 +1109,11 @@ public class Encounter extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link EpisodeOfCare}</li>
+         * </ul>
+         * 
          * @param episodeOfCare
          *     Episode(s) of care that this encounter should be recorded against
          * 
@@ -1111,6 +1136,11 @@ public class Encounter extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link EpisodeOfCare}</li>
+         * </ul>
+         * 
          * @param episodeOfCare
          *     Episode(s) of care that this encounter should be recorded against
          * 
@@ -1126,6 +1156,11 @@ public class Encounter extends DomainResource {
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param basedOn
          *     The ServiceRequest that initiated this encounter
@@ -1144,6 +1179,11 @@ public class Encounter extends DomainResource {
          * The request this encounter satisfies (e.g. incoming referral or procedure request).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param basedOn
          *     The ServiceRequest that initiated this encounter
@@ -1195,6 +1235,11 @@ public class Encounter extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Appointment}</li>
+         * </ul>
+         * 
          * @param appointment
          *     The appointment that scheduled this encounter
          * 
@@ -1212,6 +1257,11 @@ public class Encounter extends DomainResource {
          * The appointment that scheduled this encounter.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Appointment}</li>
+         * </ul>
          * 
          * @param appointment
          *     The appointment that scheduled this encounter
@@ -1294,6 +1344,14 @@ public class Encounter extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Reason the encounter takes place (reference)
          * 
@@ -1312,6 +1370,14 @@ public class Encounter extends DomainResource {
          * diagnosis.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Reason the encounter takes place (reference)
@@ -1363,6 +1429,11 @@ public class Encounter extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
+         * 
          * @param account
          *     The set of accounts that may be used for billing for this Encounter
          * 
@@ -1380,6 +1451,11 @@ public class Encounter extends DomainResource {
          * The set of accounts that may be used for billing for this Encounter.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this Encounter

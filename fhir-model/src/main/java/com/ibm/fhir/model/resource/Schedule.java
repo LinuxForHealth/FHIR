@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -73,6 +74,7 @@ public class Schedule extends DomainResource {
     )
     private final List<CodeableConcept> specialty;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location" })
     @Required
     private final List<Reference> actor;
     @Summary
@@ -91,6 +93,9 @@ public class Schedule extends DomainResource {
         actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
+        for (Reference r : actor) {
+            ValidationSupport.checkReferenceType(r, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -649,6 +654,17 @@ public class Schedule extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param actor
          *     Resource(s) that availability information is being provided for
          * 
@@ -668,6 +684,17 @@ public class Schedule extends DomainResource {
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param actor
          *     Resource(s) that availability information is being provided for

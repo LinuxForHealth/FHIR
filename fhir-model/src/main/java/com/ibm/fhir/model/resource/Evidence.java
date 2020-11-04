@@ -124,8 +124,10 @@ public class Evidence extends DomainResource {
     @Required
     private final Reference exposureBackground;
     @Summary
+    @ReferenceTarget({ "EvidenceVariable" })
     private final List<Reference> exposureVariant;
     @Summary
+    @ReferenceTarget({ "EvidenceVariable" })
     private final List<Reference> outcome;
 
     private volatile int hashCode;
@@ -161,6 +163,12 @@ public class Evidence extends DomainResource {
         exposureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exposureVariant, "exposureVariant"));
         outcome = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcome, "outcome"));
         ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
+        for (Reference r : exposureVariant) {
+            ValidationSupport.checkReferenceType(r, "exposureVariant", "EvidenceVariable");
+        }
+        for (Reference r : outcome) {
+            ValidationSupport.checkReferenceType(r, "outcome", "EvidenceVariable");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1501,6 +1509,11 @@ public class Evidence extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
+         * 
          * @param exposureVariant
          *     What exposure?
          * 
@@ -1519,6 +1532,11 @@ public class Evidence extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
+         * 
          * @param exposureVariant
          *     What exposure?
          * 
@@ -1534,6 +1552,11 @@ public class Evidence extends DomainResource {
          * A reference to a EvidenceVariable resomece that defines the outcome for the research.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
          * 
          * @param outcome
          *     What outcome?
@@ -1552,6 +1575,11 @@ public class Evidence extends DomainResource {
          * A reference to a EvidenceVariable resomece that defines the outcome for the research.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
          * 
          * @param outcome
          *     What outcome?

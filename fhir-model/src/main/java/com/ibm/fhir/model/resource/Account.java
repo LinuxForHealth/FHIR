@@ -64,6 +64,7 @@ public class Account extends DomainResource {
     @Summary
     private final String name;
     @Summary
+    @ReferenceTarget({ "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization" })
     private final List<Reference> subject;
     @Summary
     private final Period servicePeriod;
@@ -93,6 +94,9 @@ public class Account extends DomainResource {
         description = builder.description;
         guarantor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.guarantor, "guarantor"));
         partOf = builder.partOf;
+        for (Reference r : subject) {
+            ValidationSupport.checkReferenceType(r, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
+        }
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
         ValidationSupport.requireChildren(this);
@@ -627,6 +631,17 @@ public class Account extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param subject
          *     The entity that caused the expenses
          * 
@@ -645,6 +660,17 @@ public class Account extends DomainResource {
          * related to the subject, the expenses were ultimately incurred by the subject of the Account.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param subject
          *     The entity that caused the expenses

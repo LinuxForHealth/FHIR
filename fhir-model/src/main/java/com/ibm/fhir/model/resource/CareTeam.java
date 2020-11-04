@@ -85,8 +85,10 @@ public class CareTeam extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition" })
     private final List<Reference> reasonReference;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> managingOrganization;
     private final List<ContactPoint> telecom;
     private final List<Annotation> note;
@@ -110,6 +112,12 @@ public class CareTeam extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition");
+        }
+        for (Reference r : managingOrganization) {
+            ValidationSupport.checkReferenceType(r, "managingOrganization", "Organization");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -811,6 +819,11 @@ public class CareTeam extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why the care team exists
          * 
@@ -829,6 +842,11 @@ public class CareTeam extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why the care team exists
          * 
@@ -844,6 +862,11 @@ public class CareTeam extends DomainResource {
          * The organization responsible for the care team.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param managingOrganization
          *     Organization responsible for the care team
@@ -862,6 +885,11 @@ public class CareTeam extends DomainResource {
          * The organization responsible for the care team.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param managingOrganization
          *     Organization responsible for the care team

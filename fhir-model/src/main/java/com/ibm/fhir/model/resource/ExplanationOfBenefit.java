@@ -3689,6 +3689,7 @@ public class ExplanationOfBenefit extends DomainResource {
     public static class Diagnosis extends BackboneElement {
         @Required
         private final PositiveInt sequence;
+        @ReferenceTarget({ "Condition" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10",
@@ -3729,6 +3730,9 @@ public class ExplanationOfBenefit extends DomainResource {
             type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
+            if (diagnosis instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) diagnosis, "diagnosis", "Condition");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4000,6 +4004,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Condition}</li>
+             * </ul>
+             * 
              * @param diagnosis
              *     Nature of illness or problem
              * 
@@ -4119,6 +4128,7 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final List<CodeableConcept> type;
         private final DateTime date;
+        @ReferenceTarget({ "Procedure" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10_Procedures",
@@ -4128,6 +4138,7 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         @Required
         private final Element procedure;
+        @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
 
         private volatile int hashCode;
@@ -4139,6 +4150,12 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
             udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
+            if (procedure instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) procedure, "procedure", "Procedure");
+            }
+            for (Reference r : udi) {
+                ValidationSupport.checkReferenceType(r, "udi", "Device");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4457,6 +4474,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Procedure}</li>
+             * </ul>
+             * 
              * @param procedure
              *     Specific clinical procedure
              * 
@@ -4472,6 +4494,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * <p>Adds new element(s) to the existing list
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param udi
              *     Unique device identifier
@@ -4490,6 +4517,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param udi
              *     Unique device identifier
@@ -4884,6 +4916,7 @@ public class ExplanationOfBenefit extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActIncidentCode"
         )
         private final CodeableConcept type;
+        @ReferenceTarget({ "Location" })
         @Choice({ Address.class, Reference.class })
         private final Element location;
 
@@ -4894,6 +4927,9 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             type = builder.type;
             location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
+            if (location instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5146,6 +5182,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
+             * 
              * @param location
              *     Where the event occurred
              * 
@@ -5229,6 +5270,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<CodeableConcept> programCode;
         @Choice({ Date.class, Period.class })
         private final Element serviced;
+        @ReferenceTarget({ "Location" })
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
@@ -5241,6 +5283,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Money unitPrice;
         private final Decimal factor;
         private final Money net;
+        @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
         @Binding(
             bindingName = "OralSites",
@@ -5256,6 +5299,7 @@ public class ExplanationOfBenefit extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
         private final List<CodeableConcept> subSite;
+        @ReferenceTarget({ "Encounter" })
         private final List<Reference> encounter;
         private final List<PositiveInt> noteNumber;
         private final List<Adjudication> adjudication;
@@ -5288,6 +5332,15 @@ public class ExplanationOfBenefit extends DomainResource {
             noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            if (location instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
+            }
+            for (Reference r : udi) {
+                ValidationSupport.checkReferenceType(r, "udi", "Device");
+            }
+            for (Reference r : encounter) {
+                ValidationSupport.checkReferenceType(r, "encounter", "Encounter");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -6100,6 +6153,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
+             * 
              * @param location
              *     Place of service or where product was supplied
              * 
@@ -6174,6 +6232,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
+             * 
              * @param udi
              *     Unique device identifier
              * 
@@ -6191,6 +6254,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param udi
              *     Unique device identifier
@@ -6256,6 +6324,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Encounter}</li>
+             * </ul>
+             * 
              * @param encounter
              *     Encounters related to this billed item
              * 
@@ -6273,6 +6346,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * A billed item may include goods or services provided in multiple encounters.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Encounter}</li>
+             * </ul>
              * 
              * @param encounter
              *     Encounters related to this billed item
@@ -6833,6 +6911,7 @@ public class ExplanationOfBenefit extends DomainResource {
             private final Money unitPrice;
             private final Decimal factor;
             private final Money net;
+            @ReferenceTarget({ "Device" })
             private final List<Reference> udi;
             private final List<PositiveInt> noteNumber;
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
@@ -6856,6 +6935,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
                 adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
                 subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
+                for (Reference r : udi) {
+                    ValidationSupport.checkReferenceType(r, "udi", "Device");
+                }
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -7429,6 +7511,11 @@ public class ExplanationOfBenefit extends DomainResource {
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Device}</li>
+                 * </ul>
+                 * 
                  * @param udi
                  *     Unique device identifier
                  * 
@@ -7446,6 +7533,11 @@ public class ExplanationOfBenefit extends DomainResource {
                  * Unique Device Identifiers associated with this line item.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Device}</li>
+                 * </ul>
                  * 
                  * @param udi
                  *     Unique device identifier
@@ -7645,6 +7737,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final Money unitPrice;
                 private final Decimal factor;
                 private final Money net;
+                @ReferenceTarget({ "Device" })
                 private final List<Reference> udi;
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
@@ -7666,6 +7759,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
                     noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
                     adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
+                    for (Reference r : udi) {
+                        ValidationSupport.checkReferenceType(r, "udi", "Device");
+                    }
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -8224,6 +8320,11 @@ public class ExplanationOfBenefit extends DomainResource {
                      * 
                      * <p>Adds new element(s) to the existing list
                      * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Device}</li>
+                     * </ul>
+                     * 
                      * @param udi
                      *     Unique device identifier
                      * 
@@ -8241,6 +8342,11 @@ public class ExplanationOfBenefit extends DomainResource {
                      * Unique Device Identifiers associated with this line item.
                      * 
                      * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Device}</li>
+                     * </ul>
                      * 
                      * @param udi
                      *     Unique device identifier
@@ -8369,6 +8475,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> itemSequence;
         private final List<PositiveInt> detailSequence;
         private final List<PositiveInt> subDetailSequence;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final List<Reference> provider;
         @Binding(
             bindingName = "ServiceProduct",
@@ -8394,6 +8501,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<CodeableConcept> programCode;
         @Choice({ Date.class, Period.class })
         private final Element serviced;
+        @ReferenceTarget({ "Location" })
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
@@ -8446,6 +8554,12 @@ public class ExplanationOfBenefit extends DomainResource {
             noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
             adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            for (Reference r : provider) {
+                ValidationSupport.checkReferenceType(r, "provider", "Practitioner", "PractitionerRole", "Organization");
+            }
+            if (location instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -8997,6 +9111,13 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param provider
              *     Authorized providers
              * 
@@ -9014,6 +9135,13 @@ public class ExplanationOfBenefit extends DomainResource {
              * The providers who are authorized for the services rendered to the patient.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param provider
              *     Authorized providers
@@ -9139,6 +9267,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Address}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Location}</li>
              * </ul>
              * 
              * @param location

@@ -63,8 +63,10 @@ public class Procedure extends DomainResource {
     @Summary
     private final List<Uri> instantiatesUri;
     @Summary
+    @ReferenceTarget({ "CarePlan", "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "Procedure", "Observation", "MedicationAdministration" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -129,6 +131,7 @@ public class Procedure extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     @Summary
     @Binding(
@@ -146,6 +149,7 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-outcome"
     )
     private final CodeableConcept outcome;
+    @ReferenceTarget({ "DiagnosticReport", "DocumentReference", "Composition" })
     private final List<Reference> report;
     @Binding(
         bindingName = "ProcedureComplication",
@@ -154,6 +158,7 @@ public class Procedure extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
     private final List<CodeableConcept> complication;
+    @ReferenceTarget({ "Condition" })
     private final List<Reference> complicationDetail;
     @Binding(
         bindingName = "ProcedureFollowUp",
@@ -164,6 +169,7 @@ public class Procedure extends DomainResource {
     private final List<CodeableConcept> followUp;
     private final List<Annotation> note;
     private final List<FocalDevice> focalDevice;
+    @ReferenceTarget({ "Device", "Medication", "Substance" })
     private final List<Reference> usedReference;
     @Binding(
         bindingName = "ProcedureUsed",
@@ -205,11 +211,29 @@ public class Procedure extends DomainResource {
         focalDevice = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focalDevice, "focalDevice"));
         usedReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedReference, "usedReference"));
         usedCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedCode, "usedCode"));
+        for (Reference r : basedOn) {
+            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "ServiceRequest");
+        }
+        for (Reference r : partOf) {
+            ValidationSupport.checkReferenceType(r, "partOf", "Procedure", "Observation", "MedicationAdministration");
+        }
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(location, "location", "Location");
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
+        }
+        for (Reference r : report) {
+            ValidationSupport.checkReferenceType(r, "report", "DiagnosticReport", "DocumentReference", "Composition");
+        }
+        for (Reference r : complicationDetail) {
+            ValidationSupport.checkReferenceType(r, "complicationDetail", "Condition");
+        }
+        for (Reference r : usedReference) {
+            ValidationSupport.checkReferenceType(r, "usedReference", "Device", "Medication", "Substance");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1033,6 +1057,12 @@ public class Procedure extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     A request for this procedure
          * 
@@ -1051,6 +1081,12 @@ public class Procedure extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     A request for this procedure
          * 
@@ -1066,6 +1102,13 @@ public class Procedure extends DomainResource {
          * A larger event of which this particular procedure is a component or step.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link MedicationAdministration}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -1084,6 +1127,13 @@ public class Procedure extends DomainResource {
          * A larger event of which this particular procedure is a component or step.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link MedicationAdministration}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -1359,6 +1409,15 @@ public class Procedure extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     The justification that the procedure was performed
          * 
@@ -1376,6 +1435,15 @@ public class Procedure extends DomainResource {
          * The justification of why the procedure was performed.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     The justification that the procedure was performed
@@ -1443,6 +1511,13 @@ public class Procedure extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link Composition}</li>
+         * </ul>
+         * 
          * @param report
          *     Any report resulting from the procedure
          * 
@@ -1460,6 +1535,13 @@ public class Procedure extends DomainResource {
          * This could be a histology result, pathology report, surgical report, etc.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link Composition}</li>
+         * </ul>
          * 
          * @param report
          *     Any report resulting from the procedure
@@ -1515,6 +1597,11 @@ public class Procedure extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
+         * 
          * @param complicationDetail
          *     A condition that is a result of the procedure
          * 
@@ -1532,6 +1619,11 @@ public class Procedure extends DomainResource {
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
          * 
          * @param complicationDetail
          *     A condition that is a result of the procedure
@@ -1655,6 +1747,13 @@ public class Procedure extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * </ul>
+         * 
          * @param usedReference
          *     Items used during procedure
          * 
@@ -1672,6 +1771,13 @@ public class Procedure extends DomainResource {
          * Identifies medications, devices and any other substance used as part of the procedure.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * </ul>
          * 
          * @param usedReference
          *     Items used during procedure

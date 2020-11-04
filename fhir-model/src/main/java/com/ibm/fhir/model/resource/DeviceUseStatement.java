@@ -46,6 +46,7 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
     @Binding(
@@ -61,6 +62,7 @@ public class DeviceUseStatement extends DomainResource {
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference" })
     private final List<Reference> derivedFrom;
     @Summary
     @Choice({ Timing.class, Period.class, DateTime.class })
@@ -77,6 +79,7 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media" })
     private final List<Reference> reasonReference;
     @Summary
     @Binding(
@@ -105,9 +108,18 @@ public class DeviceUseStatement extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         bodySite = builder.bodySite;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        for (Reference r : basedOn) {
+            ValidationSupport.checkReferenceType(r, "basedOn", "ServiceRequest");
+        }
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        for (Reference r : derivedFrom) {
+            ValidationSupport.checkReferenceType(r, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
+        }
         ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(device, "device", "Device");
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -623,6 +635,11 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
@@ -640,6 +657,11 @@ public class DeviceUseStatement extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this DeviceUseStatement.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param basedOn
          *     Fulfills plan, proposal or order
@@ -697,6 +719,16 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Claim}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param derivedFrom
          *     Supporting information
          * 
@@ -715,6 +747,16 @@ public class DeviceUseStatement extends DomainResource {
          * derive the DeviceUseStatement.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Claim}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param derivedFrom
          *     Supporting information
@@ -844,6 +886,15 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link Media}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why was DeviceUseStatement performed?
          * 
@@ -861,6 +912,15 @@ public class DeviceUseStatement extends DomainResource {
          * Indicates another resource whose existence justifies this DeviceUseStatement.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link Media}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why was DeviceUseStatement performed?

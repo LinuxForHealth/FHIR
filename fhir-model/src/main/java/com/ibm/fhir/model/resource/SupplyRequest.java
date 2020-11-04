@@ -73,6 +73,7 @@ public class SupplyRequest extends DomainResource {
     )
     private final RequestPriority priority;
     @Summary
+    @ReferenceTarget({ "Medication", "Substance", "Device" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SupplyRequestItem",
@@ -95,6 +96,7 @@ public class SupplyRequest extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
     private final Reference requester;
     @Summary
+    @ReferenceTarget({ "Organization", "HealthcareService" })
     private final List<Reference> supplier;
     @Binding(
         bindingName = "SupplyRequestReason",
@@ -103,6 +105,7 @@ public class SupplyRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     @ReferenceTarget({ "Organization", "Location" })
     private final Reference deliverFrom;
@@ -128,7 +131,16 @@ public class SupplyRequest extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
+        if (item instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) item, "item", "Medication", "Substance", "Device");
+        }
         ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+        for (Reference r : supplier) {
+            ValidationSupport.checkReferenceType(r, "supplier", "Organization", "HealthcareService");
+        }
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        }
         ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
         ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
         ValidationSupport.requireChildren(this);
@@ -728,6 +740,13 @@ public class SupplyRequest extends DomainResource {
          * <li>{@link Reference}</li>
          * </ul>
          * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param item
          *     Medication, Substance, or Device requested to be supplied
          * 
@@ -853,6 +872,12 @@ public class SupplyRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
+         * 
          * @param supplier
          *     Who is intended to fulfill the request
          * 
@@ -870,6 +895,12 @@ public class SupplyRequest extends DomainResource {
          * Who is intended to fulfill the request.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param supplier
          *     Who is intended to fulfill the request
@@ -921,6 +952,14 @@ public class SupplyRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     The reason why the supply item was requested
          * 
@@ -938,6 +977,14 @@ public class SupplyRequest extends DomainResource {
          * The reason why the supply item was requested.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     The reason why the supply item was requested

@@ -116,13 +116,16 @@ public class ImagingStudy extends DomainResource {
     @Summary
     private final DateTime started;
     @Summary
+    @ReferenceTarget({ "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task" })
     private final List<Reference> basedOn;
     @Summary
     @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference referrer;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final List<Reference> interpreter;
     @Summary
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
     @Summary
     private final UnsignedInt numberOfSeries;
@@ -151,6 +154,7 @@ public class ImagingStudy extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     @Summary
     private final List<Annotation> note;
@@ -185,9 +189,21 @@ public class ImagingStudy extends DomainResource {
         series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        for (Reference r : basedOn) {
+            ValidationSupport.checkReferenceType(r, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
+        }
         ValidationSupport.checkReferenceType(referrer, "referrer", "Practitioner", "PractitionerRole");
+        for (Reference r : interpreter) {
+            ValidationSupport.checkReferenceType(r, "interpreter", "Practitioner", "PractitionerRole");
+        }
+        for (Reference r : endpoint) {
+            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
+        }
         ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
         ValidationSupport.checkReferenceType(location, "location", "Location");
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -923,6 +939,15 @@ public class ImagingStudy extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link Appointment}</li>
+         * <li>{@link AppointmentResponse}</li>
+         * <li>{@link Task}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Request fulfilled
          * 
@@ -940,6 +965,15 @@ public class ImagingStudy extends DomainResource {
          * A list of the diagnostic requests that resulted in this imaging study being performed.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link Appointment}</li>
+         * <li>{@link AppointmentResponse}</li>
+         * <li>{@link Task}</li>
+         * </ul>
          * 
          * @param basedOn
          *     Request fulfilled
@@ -977,6 +1011,12 @@ public class ImagingStudy extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param interpreter
          *     Who interpreted images
          * 
@@ -995,6 +1035,12 @@ public class ImagingStudy extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param interpreter
          *     Who interpreted images
          * 
@@ -1012,6 +1058,11 @@ public class ImagingStudy extends DomainResource {
          * by a series-level endpoint with the same Endpoint.connectionType.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Study access endpoint
@@ -1032,6 +1083,11 @@ public class ImagingStudy extends DomainResource {
          * by a series-level endpoint with the same Endpoint.connectionType.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Study access endpoint
@@ -1187,6 +1243,15 @@ public class ImagingStudy extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link Media}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why was study performed
          * 
@@ -1204,6 +1269,15 @@ public class ImagingStudy extends DomainResource {
          * Indicates another resource whose existence justifies this Study.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link Media}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why was study performed
@@ -1371,6 +1445,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         private final UnsignedInt numberOfInstances;
         @Summary
+        @ReferenceTarget({ "Endpoint" })
         private final List<Reference> endpoint;
         @Summary
         @Binding(
@@ -1389,6 +1464,7 @@ public class ImagingStudy extends DomainResource {
         )
         private final Coding laterality;
         @Summary
+        @ReferenceTarget({ "Specimen" })
         private final List<Reference> specimen;
         @Summary
         private final DateTime started;
@@ -1412,6 +1488,12 @@ public class ImagingStudy extends DomainResource {
             started = builder.started;
             performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
             instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
+            for (Reference r : endpoint) {
+                ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
+            }
+            for (Reference r : specimen) {
+                ValidationSupport.checkReferenceType(r, "specimen", "Specimen");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1851,6 +1933,11 @@ public class ImagingStudy extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Endpoint}</li>
+             * </ul>
+             * 
              * @param endpoint
              *     Series access endpoint
              * 
@@ -1870,6 +1957,11 @@ public class ImagingStudy extends DomainResource {
              * endpoint with the same Endpoint.connectionType.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Endpoint}</li>
+             * </ul>
              * 
              * @param endpoint
              *     Series access endpoint
@@ -1919,6 +2011,11 @@ public class ImagingStudy extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Specimen}</li>
+             * </ul>
+             * 
              * @param specimen
              *     Specimen imaged
              * 
@@ -1936,6 +2033,11 @@ public class ImagingStudy extends DomainResource {
              * The specimen imaged, e.g., for whole slide imaging of a biopsy.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Specimen}</li>
+             * </ul>
              * 
              * @param specimen
              *     Specimen imaged

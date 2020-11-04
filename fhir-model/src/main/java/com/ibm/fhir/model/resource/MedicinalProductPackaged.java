@@ -42,6 +42,7 @@ public class MedicinalProductPackaged extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "MedicinalProduct" })
     private final List<Reference> subject;
     @Summary
     private final String description;
@@ -53,6 +54,7 @@ public class MedicinalProductPackaged extends DomainResource {
     @ReferenceTarget({ "MedicinalProductAuthorization" })
     private final Reference marketingAuthorization;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> manufacturer;
     @Summary
     private final List<BatchIdentifier> batchIdentifier;
@@ -73,7 +75,13 @@ public class MedicinalProductPackaged extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
         packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
+        for (Reference r : subject) {
+            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct");
+        }
         ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
+        for (Reference r : manufacturer) {
+            ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -526,6 +534,11 @@ public class MedicinalProductPackaged extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * </ul>
+         * 
          * @param subject
          *     The product with this is a pack for
          * 
@@ -543,6 +556,11 @@ public class MedicinalProductPackaged extends DomainResource {
          * The product with this is a pack for.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * </ul>
          * 
          * @param subject
          *     The product with this is a pack for
@@ -641,6 +659,11 @@ public class MedicinalProductPackaged extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param manufacturer
          *     Manufacturer of this Package Item
          * 
@@ -658,6 +681,11 @@ public class MedicinalProductPackaged extends DomainResource {
          * Manufacturer of this Package Item.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param manufacturer
          *     Manufacturer of this Package Item
@@ -1063,8 +1091,10 @@ public class MedicinalProductPackaged extends DomainResource {
         @Summary
         private final List<CodeableConcept> alternateMaterial;
         @Summary
+        @ReferenceTarget({ "DeviceDefinition" })
         private final List<Reference> device;
         @Summary
+        @ReferenceTarget({ "MedicinalProductManufactured" })
         private final List<Reference> manufacturedItem;
         @Summary
         private final List<MedicinalProductPackaged.PackageItem> packageItem;
@@ -1075,6 +1105,7 @@ public class MedicinalProductPackaged extends DomainResource {
         @Summary
         private final List<ProductShelfLife> shelfLifeStorage;
         @Summary
+        @ReferenceTarget({ "Organization" })
         private final List<Reference> manufacturer;
 
         private volatile int hashCode;
@@ -1093,6 +1124,15 @@ public class MedicinalProductPackaged extends DomainResource {
             otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
             shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
             manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
+            for (Reference r : device) {
+                ValidationSupport.checkReferenceType(r, "device", "DeviceDefinition");
+            }
+            for (Reference r : manufacturedItem) {
+                ValidationSupport.checkReferenceType(r, "manufacturedItem", "MedicinalProductManufactured");
+            }
+            for (Reference r : manufacturer) {
+                ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1580,6 +1620,11 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DeviceDefinition}</li>
+             * </ul>
+             * 
              * @param device
              *     A device accompanying a medicinal product
              * 
@@ -1598,6 +1643,11 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DeviceDefinition}</li>
+             * </ul>
+             * 
              * @param device
              *     A device accompanying a medicinal product
              * 
@@ -1613,6 +1663,11 @@ public class MedicinalProductPackaged extends DomainResource {
              * The manufactured item as contained in the packaged medicinal product.
              * 
              * <p>Adds new element(s) to the existing list
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link MedicinalProductManufactured}</li>
+             * </ul>
              * 
              * @param manufacturedItem
              *     The manufactured item as contained in the packaged medicinal product
@@ -1631,6 +1686,11 @@ public class MedicinalProductPackaged extends DomainResource {
              * The manufactured item as contained in the packaged medicinal product.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link MedicinalProductManufactured}</li>
+             * </ul>
              * 
              * @param manufacturedItem
              *     The manufactured item as contained in the packaged medicinal product
@@ -1764,6 +1824,11 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param manufacturer
              *     Manufacturer of this Package Item
              * 
@@ -1781,6 +1846,11 @@ public class MedicinalProductPackaged extends DomainResource {
              * Manufacturer of this Package Item.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param manufacturer
              *     Manufacturer of this Package Item

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -593,6 +594,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         private final CodeableConcept gene;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -602,6 +604,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             geneSequenceOrigin = builder.geneSequenceOrigin;
             gene = builder.gene;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -848,6 +853,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Todo
              * 
@@ -865,6 +875,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Todo
@@ -909,6 +924,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         private final Identifier element;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -918,6 +934,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             type = builder.type;
             element = builder.element;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1164,6 +1183,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Todo
              * 
@@ -1181,6 +1205,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Todo
@@ -1227,6 +1256,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         private final List<CodeableConcept> subtype;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -1237,6 +1267,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             classification = builder.classification;
             subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1532,6 +1565,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Todo
              * 
@@ -1549,6 +1587,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Todo
@@ -1605,6 +1648,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         private final CodeableConcept amountType;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
         private volatile int hashCode;
@@ -1619,6 +1663,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
             amountType = builder.amountType;
             source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            for (Reference r : source) {
+                ValidationSupport.checkReferenceType(r, "source", "DocumentReference");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2017,6 +2064,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
+             * 
              * @param source
              *     Todo
              * 
@@ -2034,6 +2086,11 @@ public class SubstanceReferenceInformation extends DomainResource {
              * Todo.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param source
              *     Todo

@@ -76,8 +76,10 @@ public class ResearchStudy extends DomainResource {
     @Summary
     private final String title;
     @Summary
+    @ReferenceTarget({ "PlanDefinition" })
     private final List<Reference> protocol;
     @Summary
+    @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -146,6 +148,7 @@ public class ResearchStudy extends DomainResource {
     private final List<CodeableConcept> location;
     private final Markdown description;
     @Summary
+    @ReferenceTarget({ "Group" })
     private final List<Reference> enrollment;
     @Summary
     private final Period period;
@@ -156,6 +159,7 @@ public class ResearchStudy extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference principalInvestigator;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final List<Reference> site;
     @Summary
     @Binding(
@@ -197,8 +201,20 @@ public class ResearchStudy extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
         objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
+        for (Reference r : protocol) {
+            ValidationSupport.checkReferenceType(r, "protocol", "PlanDefinition");
+        }
+        for (Reference r : partOf) {
+            ValidationSupport.checkReferenceType(r, "partOf", "ResearchStudy");
+        }
+        for (Reference r : enrollment) {
+            ValidationSupport.checkReferenceType(r, "enrollment", "Group");
+        }
         ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
         ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
+        for (Reference r : site) {
+            ValidationSupport.checkReferenceType(r, "site", "Location");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -899,6 +915,11 @@ public class ResearchStudy extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link PlanDefinition}</li>
+         * </ul>
+         * 
          * @param protocol
          *     Steps followed in executing study
          * 
@@ -917,6 +938,11 @@ public class ResearchStudy extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link PlanDefinition}</li>
+         * </ul>
+         * 
          * @param protocol
          *     Steps followed in executing study
          * 
@@ -932,6 +958,11 @@ public class ResearchStudy extends DomainResource {
          * A larger research study of which this particular study is a component or step.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of larger study
@@ -950,6 +981,11 @@ public class ResearchStudy extends DomainResource {
          * A larger research study of which this particular study is a component or step.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of larger study
@@ -1273,6 +1309,11 @@ public class ResearchStudy extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param enrollment
          *     Inclusion &amp; exclusion criteria
          * 
@@ -1291,6 +1332,11 @@ public class ResearchStudy extends DomainResource {
          * female Europeans between the ages of 20 and 45 with early onset diabetes".
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Group}</li>
+         * </ul>
          * 
          * @param enrollment
          *     Inclusion &amp; exclusion criteria
@@ -1363,6 +1409,11 @@ public class ResearchStudy extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param site
          *     Facility where study activities are conducted
          * 
@@ -1380,6 +1431,11 @@ public class ResearchStudy extends DomainResource {
          * A facility in which study activities are conducted.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param site
          *     Facility where study activities are conducted

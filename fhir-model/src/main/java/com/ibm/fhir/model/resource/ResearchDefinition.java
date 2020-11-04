@@ -96,6 +96,7 @@ public class ResearchDefinition extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -195,6 +196,9 @@ public class ResearchDefinition extends DomainResource {
         exposure = builder.exposure;
         exposureAlternative = builder.exposureAlternative;
         outcome = builder.outcome;
+        if (subject instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
+        }
         ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
         ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
         ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
@@ -1181,6 +1185,11 @@ public class ResearchDefinition extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
          * </ul>
          * 
          * @param subject

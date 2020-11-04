@@ -77,6 +77,7 @@ public class MedicationKnowledge extends DomainResource {
     @Summary
     private final List<String> synonym;
     private final List<RelatedMedicationKnowledge> relatedMedicationKnowledge;
+    @ReferenceTarget({ "Medication" })
     private final List<Reference> associatedMedication;
     private final List<CodeableConcept> productType;
     private final List<Monograph> monograph;
@@ -95,6 +96,7 @@ public class MedicationKnowledge extends DomainResource {
     private final List<MedicineClassification> medicineClassification;
     private final Packaging packaging;
     private final List<DrugCharacteristic> drugCharacteristic;
+    @ReferenceTarget({ "DetectedIssue" })
     private final List<Reference> contraindication;
     private final List<Regulatory> regulatory;
     private final List<Kinetics> kinetics;
@@ -126,6 +128,12 @@ public class MedicationKnowledge extends DomainResource {
         regulatory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.regulatory, "regulatory"));
         kinetics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.kinetics, "kinetics"));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+        for (Reference r : associatedMedication) {
+            ValidationSupport.checkReferenceType(r, "associatedMedication", "Medication");
+        }
+        for (Reference r : contraindication) {
+            ValidationSupport.checkReferenceType(r, "contraindication", "DetectedIssue");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -903,6 +911,11 @@ public class MedicationKnowledge extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * </ul>
+         * 
          * @param associatedMedication
          *     A medication resource that is associated with this medication
          * 
@@ -922,6 +935,11 @@ public class MedicationKnowledge extends DomainResource {
          * branded product (e.g. Crestor).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * </ul>
          * 
          * @param associatedMedication
          *     A medication resource that is associated with this medication
@@ -1276,6 +1294,11 @@ public class MedicationKnowledge extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
+         * </ul>
+         * 
          * @param contraindication
          *     Potential clinical issue with or between medication(s)
          * 
@@ -1294,6 +1317,11 @@ public class MedicationKnowledge extends DomainResource {
          * contraindication, drug-allergy interaction, etc.).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
+         * </ul>
          * 
          * @param contraindication
          *     Potential clinical issue with or between medication(s)
@@ -1421,6 +1449,7 @@ public class MedicationKnowledge extends DomainResource {
     public static class RelatedMedicationKnowledge extends BackboneElement {
         @Required
         private final CodeableConcept type;
+        @ReferenceTarget({ "MedicationKnowledge" })
         @Required
         private final List<Reference> reference;
 
@@ -1430,6 +1459,9 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+            for (Reference r : reference) {
+                ValidationSupport.checkReferenceType(r, "reference", "MedicationKnowledge");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1651,6 +1683,11 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link MedicationKnowledge}</li>
+             * </ul>
+             * 
              * @param reference
              *     Associated documentation about the associated medication knowledge
              * 
@@ -1670,6 +1707,11 @@ public class MedicationKnowledge extends DomainResource {
              * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link MedicationKnowledge}</li>
+             * </ul>
              * 
              * @param reference
              *     Associated documentation about the associated medication knowledge
@@ -1983,6 +2025,7 @@ public class MedicationKnowledge extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      */
     public static class Ingredient extends BackboneElement {
+        @ReferenceTarget({ "Substance" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Required
         private final Element item;
@@ -1996,6 +2039,9 @@ public class MedicationKnowledge extends DomainResource {
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
             isActive = builder.isActive;
             strength = builder.strength;
+            if (item instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) item, "item", "Substance");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2219,6 +2265,11 @@ public class MedicationKnowledge extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Substance}</li>
              * </ul>
              * 
              * @param item
@@ -2862,6 +2913,7 @@ public class MedicationKnowledge extends DomainResource {
      */
     public static class AdministrationGuidelines extends BackboneElement {
         private final List<Dosage> dosage;
+        @ReferenceTarget({ "ObservationDefinition" })
         @Choice({ CodeableConcept.class, Reference.class })
         private final Element indication;
         private final List<PatientCharacteristics> patientCharacteristics;
@@ -2873,6 +2925,9 @@ public class MedicationKnowledge extends DomainResource {
             dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
             indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
             patientCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientCharacteristics, "patientCharacteristics"));
+            if (indication instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) indication, "indication", "ObservationDefinition");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3128,6 +3183,11 @@ public class MedicationKnowledge extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link ObservationDefinition}</li>
              * </ul>
              * 
              * @param indication

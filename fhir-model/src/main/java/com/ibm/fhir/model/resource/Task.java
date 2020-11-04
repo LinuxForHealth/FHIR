@@ -111,6 +111,7 @@ public class Task extends DomainResource {
     @Summary
     private final Identifier groupIdentifier;
     @Summary
+    @ReferenceTarget({ "Task" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -196,8 +197,10 @@ public class Task extends DomainResource {
     )
     private final CodeableConcept reasonCode;
     private final Reference reasonReference;
+    @ReferenceTarget({ "Coverage", "ClaimResponse" })
     private final List<Reference> insurance;
     private final List<Annotation> note;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
     private final Restriction restriction;
     private final List<Input> input;
@@ -238,10 +241,19 @@ public class Task extends DomainResource {
         restriction = builder.restriction;
         input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
         output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
+        for (Reference r : partOf) {
+            ValidationSupport.checkReferenceType(r, "partOf", "Task");
+        }
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(owner, "owner", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
         ValidationSupport.checkReferenceType(location, "location", "Location");
+        for (Reference r : insurance) {
+            ValidationSupport.checkReferenceType(r, "insurance", "Coverage", "ClaimResponse");
+        }
+        for (Reference r : relevantHistory) {
+            ValidationSupport.checkReferenceType(r, "relevantHistory", "Provenance");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1120,6 +1132,11 @@ public class Task extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Task}</li>
+         * </ul>
+         * 
          * @param partOf
          *     Composite task
          * 
@@ -1137,6 +1154,11 @@ public class Task extends DomainResource {
          * Task that this particular task is part of.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Task}</li>
+         * </ul>
          * 
          * @param partOf
          *     Composite task
@@ -1478,6 +1500,12 @@ public class Task extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
+         * 
          * @param insurance
          *     Associated insurance coverage
          * 
@@ -1495,6 +1523,12 @@ public class Task extends DomainResource {
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1547,6 +1581,11 @@ public class Task extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
+         * 
          * @param relevantHistory
          *     Key events in history of the Task
          * 
@@ -1565,6 +1604,11 @@ public class Task extends DomainResource {
          * likely to be relevant to a user looking at the current version of the task.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param relevantHistory
          *     Key events in history of the Task
@@ -1723,6 +1767,7 @@ public class Task extends DomainResource {
     public static class Restriction extends BackboneElement {
         private final PositiveInt repetitions;
         private final Period period;
+        @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization" })
         private final List<Reference> recipient;
 
         private volatile int hashCode;
@@ -1732,6 +1777,9 @@ public class Task extends DomainResource {
             repetitions = builder.repetitions;
             period = builder.period;
             recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+            for (Reference r : recipient) {
+                ValidationSupport.checkReferenceType(r, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1978,6 +2026,16 @@ public class Task extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Group}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param recipient
              *     For whom is fulfillment sought?
              * 
@@ -1995,6 +2053,16 @@ public class Task extends DomainResource {
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Group}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param recipient
              *     For whom is fulfillment sought?

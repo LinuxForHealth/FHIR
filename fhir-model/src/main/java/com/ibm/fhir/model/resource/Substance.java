@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -993,6 +994,7 @@ public class Substance extends DomainResource {
         @Summary
         private final Ratio quantity;
         @Summary
+        @ReferenceTarget({ "Substance" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubstanceIngredient",
@@ -1009,6 +1011,9 @@ public class Substance extends DomainResource {
             super(builder);
             quantity = builder.quantity;
             substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
+            if (substance instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) substance, "substance", "Substance");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1230,6 +1235,11 @@ public class Substance extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Substance}</li>
              * </ul>
              * 
              * @param substance

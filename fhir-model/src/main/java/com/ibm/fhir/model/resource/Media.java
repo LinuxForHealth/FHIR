@@ -59,6 +59,7 @@ public class Media extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "ServiceRequest", "CarePlan" })
     private final List<Reference> basedOn;
     @Summary
     private final List<Reference> partOf;
@@ -169,6 +170,9 @@ public class Media extends DomainResource {
         duration = builder.duration;
         content = ValidationSupport.requireNonNull(builder.content, "content");
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        for (Reference r : basedOn) {
+            ValidationSupport.checkReferenceType(r, "basedOn", "ServiceRequest", "CarePlan");
+        }
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
@@ -826,6 +830,12 @@ public class Media extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link CarePlan}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Procedure that caused this media to be created
          * 
@@ -843,6 +853,12 @@ public class Media extends DomainResource {
          * A procedure that is fulfilled in whole or in part by the creation of this media.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link CarePlan}</li>
+         * </ul>
          * 
          * @param basedOn
          *     Procedure that caused this media to be created

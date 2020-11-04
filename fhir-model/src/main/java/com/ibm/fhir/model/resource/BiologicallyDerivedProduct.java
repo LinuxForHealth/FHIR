@@ -67,8 +67,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.1"
     )
     private final BiologicallyDerivedProductStatus status;
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> request;
     private final Integer quantity;
+    @ReferenceTarget({ "BiologicallyDerivedProduct" })
     private final List<Reference> parent;
     private final Collection collection;
     private final List<Processing> processing;
@@ -90,6 +92,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
         processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
         manipulation = builder.manipulation;
         storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
+        for (Reference r : request) {
+            ValidationSupport.checkReferenceType(r, "request", "ServiceRequest");
+        }
+        for (Reference r : parent) {
+            ValidationSupport.checkReferenceType(r, "parent", "BiologicallyDerivedProduct");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -622,6 +630,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param request
          *     Procedure request
          * 
@@ -639,6 +652,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Procedure request to obtain this biologically derived product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param request
          *     Procedure request
@@ -670,6 +688,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link BiologicallyDerivedProduct}</li>
+         * </ul>
+         * 
          * @param parent
          *     BiologicallyDerivedProduct parent
          * 
@@ -687,6 +710,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Parent product (if any).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link BiologicallyDerivedProduct}</li>
+         * </ul>
          * 
          * @param parent
          *     BiologicallyDerivedProduct parent

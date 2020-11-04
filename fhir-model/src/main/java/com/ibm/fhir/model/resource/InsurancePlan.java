@@ -90,9 +90,12 @@ public class InsurancePlan extends DomainResource {
     @ReferenceTarget({ "Organization" })
     private final Reference administeredBy;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final List<Reference> coverageArea;
     private final List<Contact> contact;
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> network;
     private final List<Coverage> coverage;
     private final List<Plan> plan;
@@ -117,6 +120,15 @@ public class InsurancePlan extends DomainResource {
         plan = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.plan, "plan"));
         ValidationSupport.checkReferenceType(ownedBy, "ownedBy", "Organization");
         ValidationSupport.checkReferenceType(administeredBy, "administeredBy", "Organization");
+        for (Reference r : coverageArea) {
+            ValidationSupport.checkReferenceType(r, "coverageArea", "Location");
+        }
+        for (Reference r : endpoint) {
+            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
+        }
+        for (Reference r : network) {
+            ValidationSupport.checkReferenceType(r, "network", "Organization");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -799,6 +811,11 @@ public class InsurancePlan extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param coverageArea
          *     Where product applies
          * 
@@ -816,6 +833,11 @@ public class InsurancePlan extends DomainResource {
          * The geographic region in which a health insurance product's benefits apply.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param coverageArea
          *     Where product applies
@@ -867,6 +889,11 @@ public class InsurancePlan extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoint
          * 
@@ -885,6 +912,11 @@ public class InsurancePlan extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoint
          * 
@@ -900,6 +932,11 @@ public class InsurancePlan extends DomainResource {
          * Reference to the network included in the health insurance product.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param network
          *     What networks are Included
@@ -918,6 +955,11 @@ public class InsurancePlan extends DomainResource {
          * Reference to the network included in the health insurance product.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param network
          *     What networks are Included
@@ -1388,6 +1430,7 @@ public class InsurancePlan extends DomainResource {
     public static class Coverage extends BackboneElement {
         @Required
         private final CodeableConcept type;
+        @ReferenceTarget({ "Organization" })
         private final List<Reference> network;
         @Required
         private final List<Benefit> benefit;
@@ -1399,6 +1442,9 @@ public class InsurancePlan extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
             benefit = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.benefit, "benefit"));
+            for (Reference r : network) {
+                ValidationSupport.checkReferenceType(r, "network", "Organization");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1635,6 +1681,11 @@ public class InsurancePlan extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param network
              *     What networks provide coverage
              * 
@@ -1652,6 +1703,11 @@ public class InsurancePlan extends DomainResource {
              * Reference to the network that providing the type of coverage.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param network
              *     What networks provide coverage
@@ -2323,7 +2379,9 @@ public class InsurancePlan extends DomainResource {
         private final List<Identifier> identifier;
         private final CodeableConcept type;
         @Summary
+        @ReferenceTarget({ "Location" })
         private final List<Reference> coverageArea;
+        @ReferenceTarget({ "Organization" })
         private final List<Reference> network;
         private final List<GeneralCost> generalCost;
         private final List<SpecificCost> specificCost;
@@ -2338,6 +2396,12 @@ public class InsurancePlan extends DomainResource {
             network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
             generalCost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalCost, "generalCost"));
             specificCost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specificCost, "specificCost"));
+            for (Reference r : coverageArea) {
+                ValidationSupport.checkReferenceType(r, "coverageArea", "Location");
+            }
+            for (Reference r : network) {
+                ValidationSupport.checkReferenceType(r, "network", "Organization");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2652,6 +2716,11 @@ public class InsurancePlan extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
+             * 
              * @param coverageArea
              *     Where product applies
              * 
@@ -2670,6 +2739,11 @@ public class InsurancePlan extends DomainResource {
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
+             * 
              * @param coverageArea
              *     Where product applies
              * 
@@ -2685,6 +2759,11 @@ public class InsurancePlan extends DomainResource {
              * Reference to the network that providing the type of coverage.
              * 
              * <p>Adds new element(s) to the existing list
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param network
              *     What networks provide coverage
@@ -2703,6 +2782,11 @@ public class InsurancePlan extends DomainResource {
              * Reference to the network that providing the type of coverage.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param network
              *     What networks provide coverage

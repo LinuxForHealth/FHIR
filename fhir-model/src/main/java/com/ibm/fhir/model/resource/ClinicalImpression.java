@@ -91,6 +91,7 @@ public class ClinicalImpression extends DomainResource {
     @ReferenceTarget({ "ClinicalImpression" })
     private final Reference previous;
     @Summary
+    @ReferenceTarget({ "Condition", "AllergyIntolerance" })
     private final List<Reference> problem;
     private final List<Investigation> investigation;
     private final List<Uri> protocol;
@@ -103,6 +104,7 @@ public class ClinicalImpression extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-prognosis"
     )
     private final List<CodeableConcept> prognosisCodeableConcept;
+    @ReferenceTarget({ "RiskAssessment" })
     private final List<Reference> prognosisReference;
     private final List<Reference> supportingInfo;
     private final List<Annotation> note;
@@ -135,6 +137,12 @@ public class ClinicalImpression extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
+        for (Reference r : problem) {
+            ValidationSupport.checkReferenceType(r, "problem", "Condition", "AllergyIntolerance");
+        }
+        for (Reference r : prognosisReference) {
+            ValidationSupport.checkReferenceType(r, "prognosisReference", "RiskAssessment");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -939,6 +947,12 @@ public class ClinicalImpression extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link AllergyIntolerance}</li>
+         * </ul>
+         * 
          * @param problem
          *     Relevant impressions of patient state
          * 
@@ -956,6 +970,12 @@ public class ClinicalImpression extends DomainResource {
          * A list of the relevant problems/conditions for a patient.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link AllergyIntolerance}</li>
+         * </ul>
          * 
          * @param problem
          *     Relevant impressions of patient state
@@ -1129,6 +1149,11 @@ public class ClinicalImpression extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link RiskAssessment}</li>
+         * </ul>
+         * 
          * @param prognosisReference
          *     RiskAssessment expressing likely outcome
          * 
@@ -1146,6 +1171,11 @@ public class ClinicalImpression extends DomainResource {
          * RiskAssessment expressing likely outcome.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link RiskAssessment}</li>
+         * </ul>
          * 
          * @param prognosisReference
          *     RiskAssessment expressing likely outcome
@@ -1287,6 +1317,7 @@ public class ClinicalImpression extends DomainResource {
         )
         @Required
         private final CodeableConcept code;
+        @ReferenceTarget({ "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media" })
         private final List<Reference> item;
 
         private volatile int hashCode;
@@ -1295,6 +1326,9 @@ public class ClinicalImpression extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            for (Reference r : item) {
+                ValidationSupport.checkReferenceType(r, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1518,6 +1552,17 @@ public class ClinicalImpression extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Observation}</li>
+             * <li>{@link QuestionnaireResponse}</li>
+             * <li>{@link FamilyMemberHistory}</li>
+             * <li>{@link DiagnosticReport}</li>
+             * <li>{@link RiskAssessment}</li>
+             * <li>{@link ImagingStudy}</li>
+             * <li>{@link Media}</li>
+             * </ul>
+             * 
              * @param item
              *     Record of a specific investigation
              * 
@@ -1535,6 +1580,17 @@ public class ClinicalImpression extends DomainResource {
              * A record of a specific investigation that was undertaken.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Observation}</li>
+             * <li>{@link QuestionnaireResponse}</li>
+             * <li>{@link FamilyMemberHistory}</li>
+             * <li>{@link DiagnosticReport}</li>
+             * <li>{@link RiskAssessment}</li>
+             * <li>{@link ImagingStudy}</li>
+             * <li>{@link Media}</li>
+             * </ul>
              * 
              * @param item
              *     Record of a specific investigation

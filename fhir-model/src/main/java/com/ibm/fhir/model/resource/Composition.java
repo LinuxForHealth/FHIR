@@ -127,6 +127,7 @@ public class Composition extends DomainResource {
     @Required
     private final DateTime date;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization" })
     @Required
     private final List<Reference> author;
     @Summary
@@ -169,6 +170,9 @@ public class Composition extends DomainResource {
         event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
         section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        for (Reference r : author) {
+            ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+        }
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
         ValidationSupport.requireChildren(this);
     }
@@ -821,6 +825,16 @@ public class Composition extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param author
          *     Who and/or what authored the composition
          * 
@@ -840,6 +854,16 @@ public class Composition extends DomainResource {
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param author
          *     Who and/or what authored the composition
@@ -1411,6 +1435,7 @@ public class Composition extends DomainResource {
         )
         @Required
         private final DocumentRelationshipType code;
+        @ReferenceTarget({ "Composition" })
         @Choice({ Identifier.class, Reference.class })
         @Required
         private final Element target;
@@ -1421,6 +1446,9 @@ public class Composition extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
+            if (target instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) target, "target", "Composition");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1644,6 +1672,11 @@ public class Composition extends DomainResource {
              * <ul>
              * <li>{@link Identifier}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Composition}</li>
              * </ul>
              * 
              * @param target
@@ -2050,6 +2083,7 @@ public class Composition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/doc-section-codes"
         )
         private final CodeableConcept code;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization" })
         private final List<Reference> author;
         private final Reference focus;
         private final Narrative text;
@@ -2091,6 +2125,9 @@ public class Composition extends DomainResource {
             entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
             emptyReason = builder.emptyReason;
             section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
+            for (Reference r : author) {
+                ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2452,6 +2489,16 @@ public class Composition extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param author
              *     Who and/or what authored the section
              * 
@@ -2469,6 +2516,16 @@ public class Composition extends DomainResource {
              * Identifies who is responsible for the information in this section, not necessarily who typed it in.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param author
              *     Who and/or what authored the section

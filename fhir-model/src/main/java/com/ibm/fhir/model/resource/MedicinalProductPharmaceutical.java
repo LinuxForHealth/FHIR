@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -45,8 +46,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     @Summary
     private final CodeableConcept unitOfPresentation;
     @Summary
+    @ReferenceTarget({ "MedicinalProductIngredient" })
     private final List<Reference> ingredient;
     @Summary
+    @ReferenceTarget({ "DeviceDefinition" })
     private final List<Reference> device;
     @Summary
     private final List<Characteristics> characteristics;
@@ -65,6 +68,12 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
         characteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristics, "characteristics"));
         routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
+        for (Reference r : ingredient) {
+            ValidationSupport.checkReferenceType(r, "ingredient", "MedicinalProductIngredient");
+        }
+        for (Reference r : device) {
+            ValidationSupport.checkReferenceType(r, "device", "DeviceDefinition");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -517,6 +526,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductIngredient}</li>
+         * </ul>
+         * 
          * @param ingredient
          *     Ingredient
          * 
@@ -535,6 +549,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductIngredient}</li>
+         * </ul>
+         * 
          * @param ingredient
          *     Ingredient
          * 
@@ -550,6 +569,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * Accompanying device.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DeviceDefinition}</li>
+         * </ul>
          * 
          * @param device
          *     Accompanying device
@@ -568,6 +592,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * Accompanying device.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DeviceDefinition}</li>
+         * </ul>
          * 
          * @param device
          *     Accompanying device

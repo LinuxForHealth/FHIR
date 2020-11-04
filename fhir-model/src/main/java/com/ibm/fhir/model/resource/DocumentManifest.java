@@ -65,7 +65,9 @@ public class DocumentManifest extends DomainResource {
     private final Reference subject;
     private final DateTime created;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson" })
     private final List<Reference> author;
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization" })
     private final List<Reference> recipient;
     private final Uri source;
     @Summary
@@ -92,6 +94,12 @@ public class DocumentManifest extends DomainResource {
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
+        for (Reference r : author) {
+            ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+        }
+        for (Reference r : recipient) {
+            ValidationSupport.checkReferenceType(r, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -681,6 +689,16 @@ public class DocumentManifest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param author
          *     Who and/or what authored the DocumentManifest
          * 
@@ -699,6 +717,16 @@ public class DocumentManifest extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param author
          *     Who and/or what authored the DocumentManifest
          * 
@@ -714,6 +742,15 @@ public class DocumentManifest extends DomainResource {
          * A patient, practitioner, or organization for which this set of documents is intended.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param recipient
          *     Intended to get notified about this set of documents
@@ -732,6 +769,15 @@ public class DocumentManifest extends DomainResource {
          * A patient, practitioner, or organization for which this set of documents is intended.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param recipient
          *     Intended to get notified about this set of documents

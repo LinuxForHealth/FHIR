@@ -123,6 +123,7 @@ public class RequestGroup extends DomainResource {
     @ReferenceTarget({ "Device", "Practitioner", "PractitionerRole" })
     private final Reference author;
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Action> action;
@@ -152,6 +153,9 @@ public class RequestGroup extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole");
+        for (Reference r : reasonReference) {
+            ValidationSupport.checkReferenceType(r, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1067,6 +1071,14 @@ public class RequestGroup extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why the request group is needed
          * 
@@ -1084,6 +1096,14 @@ public class RequestGroup extends DomainResource {
          * Indicates another resource whose existence justifies this request group.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why the request group is needed
@@ -1230,6 +1250,7 @@ public class RequestGroup extends DomainResource {
         private final List<RelatedAction> relatedAction;
         @Choice({ DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class })
         private final Element timing;
+        @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device" })
         private final List<Reference> participant;
         @Binding(
             bindingName = "ActionType",
@@ -1299,6 +1320,9 @@ public class RequestGroup extends DomainResource {
             cardinalityBehavior = builder.cardinalityBehavior;
             resource = builder.resource;
             action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+            for (Reference r : participant) {
+                ValidationSupport.checkReferenceType(r, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1995,6 +2019,15 @@ public class RequestGroup extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Device}</li>
+             * </ul>
+             * 
              * @param participant
              *     Who should perform the action
              * 
@@ -2012,6 +2045,15 @@ public class RequestGroup extends DomainResource {
              * The participant that should perform or be responsible for this action.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param participant
              *     Who should perform the action

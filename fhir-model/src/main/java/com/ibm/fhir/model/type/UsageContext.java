@@ -14,6 +14,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
@@ -45,6 +46,7 @@ public class UsageContext extends Element {
     @Required
     private final Coding code;
     @Summary
+    @ReferenceTarget({ "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization" })
     @Choice({ CodeableConcept.class, Quantity.class, Range.class, Reference.class })
     @Binding(
         bindingName = "UsageContextValue",
@@ -61,6 +63,9 @@ public class UsageContext extends Element {
         super(builder);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
+        if (value instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
+        }
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -237,6 +242,17 @@ public class UsageContext extends Element {
          * <li>{@link Quantity}</li>
          * <li>{@link Range}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link PlanDefinition}</li>
+         * <li>{@link ResearchStudy}</li>
+         * <li>{@link InsurancePlan}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Organization}</li>
          * </ul>
          * 
          * @param value

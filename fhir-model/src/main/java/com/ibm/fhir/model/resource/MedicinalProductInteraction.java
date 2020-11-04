@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductInteraction extends DomainResource {
     @Summary
+    @ReferenceTarget({ "MedicinalProduct", "Medication", "Substance" })
     private final List<Reference> subject;
     @Summary
     private final String description;
@@ -61,6 +63,9 @@ public class MedicinalProductInteraction extends DomainResource {
         effect = builder.effect;
         incidence = builder.incidence;
         management = builder.management;
+        for (Reference r : subject) {
+            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct", "Medication", "Substance");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -449,6 +454,13 @@ public class MedicinalProductInteraction extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * </ul>
+         * 
          * @param subject
          *     The medication for which this is a described interaction
          * 
@@ -466,6 +478,13 @@ public class MedicinalProductInteraction extends DomainResource {
          * The medication for which this is a described interaction.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * </ul>
          * 
          * @param subject
          *     The medication for which this is a described interaction
@@ -613,6 +632,7 @@ public class MedicinalProductInteraction extends DomainResource {
      */
     public static class Interactant extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "MedicinalProduct", "Medication", "Substance", "ObservationDefinition" })
         @Choice({ Reference.class, CodeableConcept.class })
         @Required
         private final Element item;
@@ -622,6 +642,9 @@ public class MedicinalProductInteraction extends DomainResource {
         private Interactant(Builder builder) {
             super(builder);
             item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
+            if (item instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -814,6 +837,14 @@ public class MedicinalProductInteraction extends DomainResource {
              * <ul>
              * <li>{@link Reference}</li>
              * <li>{@link CodeableConcept}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link MedicinalProduct}</li>
+             * <li>{@link Medication}</li>
+             * <li>{@link Substance}</li>
+             * <li>{@link ObservationDefinition}</li>
              * </ul>
              * 
              * @param item

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -93,6 +94,7 @@ public class EventDefinition extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -175,6 +177,9 @@ public class EventDefinition extends DomainResource {
         endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
         relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
         trigger = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.trigger, "trigger"));
+        if (subject instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1042,6 +1047,11 @@ public class EventDefinition extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
          * </ul>
          * 
          * @param subject

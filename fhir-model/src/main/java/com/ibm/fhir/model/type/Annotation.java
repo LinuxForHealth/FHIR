@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -23,6 +24,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Annotation extends Element {
     @Summary
+    @ReferenceTarget({ "Practitioner", "Patient", "RelatedPerson", "Organization" })
     @Choice({ Reference.class, String.class })
     private final Element author;
     @Summary
@@ -38,6 +40,9 @@ public class Annotation extends Element {
         author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);
         time = builder.time;
         text = ValidationSupport.requireNonNull(builder.text, "text");
+        if (author instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
+        }
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -207,6 +212,14 @@ public class Annotation extends Element {
          * <ul>
          * <li>{@link Reference}</li>
          * <li>{@link String}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
          * </ul>
          * 
          * @param author

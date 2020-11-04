@@ -114,6 +114,7 @@ public class DocumentReference extends DomainResource {
     @Summary
     private final Instant date;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson" })
     private final List<Reference> author;
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference authenticator;
@@ -158,6 +159,9 @@ public class DocumentReference extends DomainResource {
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         context = builder.context;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
+        for (Reference r : author) {
+            ValidationSupport.checkReferenceType(r, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+        }
         ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
         ValidationSupport.requireChildren(this);
@@ -858,6 +862,16 @@ public class DocumentReference extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param author
          *     Who and/or what authored the document
          * 
@@ -875,6 +889,16 @@ public class DocumentReference extends DomainResource {
          * Identifies who is responsible for adding the information to the document.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param author
          *     Who and/or what authored the document
@@ -1677,6 +1701,7 @@ public class DocumentReference extends DomainResource {
      * The clinical context in which the document was prepared.
      */
     public static class Context extends BackboneElement {
+        @ReferenceTarget({ "Encounter", "EpisodeOfCare" })
         private final List<Reference> encounter;
         @Binding(
             bindingName = "DocumentEventType",
@@ -1716,6 +1741,9 @@ public class DocumentReference extends DomainResource {
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
             related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+            for (Reference r : encounter) {
+                ValidationSupport.checkReferenceType(r, "encounter", "Encounter", "EpisodeOfCare");
+            }
             ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1999,6 +2027,12 @@ public class DocumentReference extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Encounter}</li>
+             * <li>{@link EpisodeOfCare}</li>
+             * </ul>
+             * 
              * @param encounter
              *     Context of the document content
              * 
@@ -2016,6 +2050,12 @@ public class DocumentReference extends DomainResource {
              * Describes the clinical encounter or type of care that the document content is associated with.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Encounter}</li>
+             * <li>{@link EpisodeOfCare}</li>
+             * </ul>
              * 
              * @param encounter
              *     Context of the document content

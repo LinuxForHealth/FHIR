@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -142,6 +143,7 @@ public class Measure extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -283,6 +285,9 @@ public class Measure extends DomainResource {
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
         supplementalData = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplementalData, "supplementalData"));
         ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+        if (subject instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1361,6 +1366,11 @@ public class Measure extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
          * </ul>
          * 
          * @param subject

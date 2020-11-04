@@ -790,6 +790,21 @@ public class CodeGenerator {
             cb.javadoc("<p>This element is prohibited.", false);
             cb.javadoc("");
         }
+        if (isRepeating(elementDefinition)) {
+            String fieldType = getFieldType(structureDefinition, elementDefinition);
+            if (fieldType.equals("List<Reference>")) {
+                List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                if (!referenceTypes.isEmpty()) {
+                    cb.javadoc("<p>Allowed resource types for the references:", false);
+                    cb.javadoc("<ul>", false);
+                    for (String typeName : referenceTypes) {
+                        cb.javadoc("<li>{@link " + typeName + "}</li>", false);
+                    }
+                    cb.javadoc("</ul>", false);
+                    cb.javadoc("");
+                }
+            }
+        }
         if (isChoiceElement(elementDefinition)) {
             cb.javadoc("<p>This is a choice element with the following allowed types:", false);
             cb.javadoc("<ul>", false);
@@ -798,6 +813,19 @@ public class CodeGenerator {
             }
             cb.javadoc("</ul>", false);
             cb.javadoc("");
+            if (getChoiceTypeNames(elementDefinition).contains("Reference")) {
+                List<String> referenceTypes = getReferenceTypes(elementDefinition);
+
+                if (!referenceTypes.isEmpty()) {
+                    cb.javadoc("When of type {@link Reference}, the allowed resource types for this reference are:", false);
+                    cb.javadoc("<ul>", false);
+                    for (String typeName : referenceTypes) {
+                        cb.javadoc("<li>{@link " + typeName + "}</li>", false);
+                    }
+                    cb.javadoc("</ul>", false);
+                    cb.javadoc("");
+                }
+            }
         }
         if (isReferenceElement(structureDefinition, elementDefinition)) {
             List<String> referenceTypes = getReferenceTypes(elementDefinition);
@@ -986,8 +1014,24 @@ public class CodeGenerator {
                     if (isSummary(elementDefinition)) {
                         cb.annotation("Summary");
                     }
+                    if (isRepeating(elementDefinition)) {
+                        if (fieldType.equals("List<Reference>")) {
+                            List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                            if (!referenceTypes.isEmpty()) {
+                                String referenceTypesString = getReferenceTypes(elementDefinition).stream().collect(Collectors.joining("\", \""));
+                                cb.annotation("ReferenceTarget", "{ \"" + referenceTypesString + "\" }");
+                            }
+                        }
+                    }
                     if (isChoiceElement(elementDefinition)) {
                         String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
+                        if (types.contains("Reference")) {
+                            List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                            if (!referenceTypes.isEmpty()) {
+                                String referenceTypesString = getReferenceTypes(elementDefinition).stream().collect(Collectors.joining("\", \""));
+                                cb.annotation("ReferenceTarget", "{ \"" + referenceTypesString + "\" }");
+                            }
+                        }
                         cb.annotation("Choice", "{ " + types + " }");
                     }
                     if (isReferenceElement(structureDefinition, elementDefinition)) {
@@ -1161,6 +1205,27 @@ public class CodeGenerator {
             for (JsonObject elementDefinition : elementDefinitions) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
+                if (isRepeating(elementDefinition)) {
+                    String fieldType = getFieldType(structureDefinition, elementDefinition);
+                    if (fieldType.equals("List<Reference>")) {
+                        List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                        if (!referenceTypes.isEmpty()) {
+                            cb._foreach("Reference r", fieldName)
+                                .invoke("ValidationSupport", "checkReferenceType", args("r", quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))))
+                                .end();
+                        }
+                    }
+                }
+                if (isChoiceElement(elementDefinition)) {
+                    if (getChoiceTypeNames(elementDefinition).contains("Reference")) {
+                        List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                        if (!referenceTypes.isEmpty()) {
+                            cb._if(fieldName + " instanceof Reference")
+                                .invoke("ValidationSupport", "checkReferenceType", args("(Reference) " + fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))))
+                                .end();
+                        }
+                    }
+                }
                 if (isReferenceElement(structureDefinition, elementDefinition)) {
                     List<String> referenceTypes = getReferenceTypes(elementDefinition);
                     if (!referenceTypes.isEmpty()) {
@@ -1418,7 +1483,7 @@ public class CodeGenerator {
         }
         return sb.toString();
     }
-    
+
     private void generateConstraintAnnotations(JsonObject structureDefinition, CodeBuilder cb, String className) {
         String name = structureDefinition.getString("name");
 
@@ -1483,14 +1548,14 @@ public class CodeGenerator {
             }
             cb.annotation("Constraint", valueMap);
         }
-                
+
         // Generate constraint annotations from extensible and preferred bindings
         generateVocabularyConstraints(structureDefinition, cb, className, lastId);
     }
-    
+
     /**
      * Generates constraint annotations from extensible and preferred bindings.
-     * 
+     *
      * @param structureDefinition
      *            the structure definition
      * @param cb
@@ -1537,7 +1602,7 @@ public class CodeGenerator {
 
     /**
      * Generates the FHIRPath expression for the constraint.
-     * 
+     *
      * @param elementDefinition
      *            the element definition
      * @param elementName
@@ -1598,7 +1663,7 @@ public class CodeGenerator {
 
     /**
      * Gets the next generated constraint ID.
-     * 
+     *
      * @param lastId
      *            the last ID
      * @param className
@@ -1620,7 +1685,7 @@ public class CodeGenerator {
 
     /**
      * Determines if the structure definition contains any elements with an extensible or preferred binding.
-     * 
+     *
      * @param structureDefinition
      *            the structure definition
      * @return true or false
@@ -1642,7 +1707,7 @@ public class CodeGenerator {
         }
         return false;
     }
-    
+
     private void generateGetterMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
         cb.javadocStart();
@@ -1888,7 +1953,9 @@ public class CodeGenerator {
                 imports.add("com.ibm.fhir.model.annotation.Choice");
             }
 
-            if (isReferenceElement(structureDefinition, elementDefinition)) {
+            if (isReferenceElement(structureDefinition, elementDefinition) ||
+                    isChoiceElement(elementDefinition) && getChoiceTypeNames(elementDefinition).contains("Reference") ||
+                    isRepeating(elementDefinition) && "Reference".equals(getFieldType(structureDefinition, elementDefinition, false))) {
                 if (!getReferenceTypes(elementDefinition).isEmpty()) {
                     imports.add("com.ibm.fhir.model.util.ValidationSupport");
                     imports.add("com.ibm.fhir.model.annotation.ReferenceTarget");
@@ -3599,7 +3666,7 @@ public class CodeGenerator {
     private String getElementName(JsonObject elementDefinition, String path) {
         return elementDefinition.getString("path").replaceFirst(path + ".", "").replace("[x]", "");
     }
-    
+
     /**
      * Gets the element name without the prefix.
      * @param elementName the element name
@@ -3880,7 +3947,7 @@ public class CodeGenerator {
         }
         return false;
     }
-    
+
     /**
      * Determines if the ElementDefinition contains an extensible binding.
      * @param elementDefinition the element definition
@@ -3893,7 +3960,7 @@ public class CodeGenerator {
         }
         return false;
     }
-    
+
     /**
      * Determines if the ElementDefinition contains a preferred binding.
      * @param elementDefinition the element definition
@@ -4096,7 +4163,7 @@ public class CodeGenerator {
     private boolean isRequired(JsonObject elementDefinition) {
         return getMin(elementDefinition) > 0;
     }
-    
+
     private boolean isOptional(JsonObject elementDefinition) {
         return getMin(elementDefinition) == 0 && !isProhibited(elementDefinition);
     }

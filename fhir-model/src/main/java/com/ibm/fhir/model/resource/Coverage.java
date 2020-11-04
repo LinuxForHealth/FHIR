@@ -122,6 +122,7 @@ public class Coverage extends DomainResource {
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Organization", "Patient", "RelatedPerson" })
     @Required
     private final List<Reference> payor;
     private final List<Class> clazz;
@@ -131,6 +132,7 @@ public class Coverage extends DomainResource {
     private final String network;
     private final List<CostToBeneficiary> costToBeneficiary;
     private final Boolean subrogation;
+    @ReferenceTarget({ "Contract" })
     private final List<Reference> contract;
 
     private volatile int hashCode;
@@ -157,6 +159,12 @@ public class Coverage extends DomainResource {
         ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
+        for (Reference r : payor) {
+            ValidationSupport.checkReferenceType(r, "payor", "Organization", "Patient", "RelatedPerson");
+        }
+        for (Reference r : contract) {
+            ValidationSupport.checkReferenceType(r, "contract", "Contract");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -892,6 +900,13 @@ public class Coverage extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param payor
          *     Issuer of the policy
          * 
@@ -912,6 +927,13 @@ public class Coverage extends DomainResource {
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param payor
          *     Issuer of the policy
@@ -1045,6 +1067,11 @@ public class Coverage extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Contract}</li>
+         * </ul>
+         * 
          * @param contract
          *     Contract details
          * 
@@ -1062,6 +1089,11 @@ public class Coverage extends DomainResource {
          * The policy(s) which constitute this insurance coverage.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Contract}</li>
+         * </ul>
          * 
          * @param contract
          *     Contract details

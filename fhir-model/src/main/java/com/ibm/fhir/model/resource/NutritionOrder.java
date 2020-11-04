@@ -99,6 +99,7 @@ public class NutritionOrder extends DomainResource {
     @Summary
     @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference orderer;
+    @ReferenceTarget({ "AllergyIntolerance" })
     private final List<Reference> allergyIntolerance;
     @Binding(
         bindingName = "PatientDiet",
@@ -143,6 +144,9 @@ public class NutritionOrder extends DomainResource {
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
+        for (Reference r : allergyIntolerance) {
+            ValidationSupport.checkReferenceType(r, "allergyIntolerance", "AllergyIntolerance");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -946,6 +950,11 @@ public class NutritionOrder extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link AllergyIntolerance}</li>
+         * </ul>
+         * 
          * @param allergyIntolerance
          *     List of the patient's food and nutrition-related allergies and intolerances
          * 
@@ -963,6 +972,11 @@ public class NutritionOrder extends DomainResource {
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link AllergyIntolerance}</li>
+         * </ul>
          * 
          * @param allergyIntolerance
          *     List of the patient's food and nutrition-related allergies and intolerances

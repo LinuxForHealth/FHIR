@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -1648,6 +1649,7 @@ public class SpecimenDefinition extends DomainResource {
              * Citrate, EDTA.
              */
             public static class Additive extends BackboneElement {
+                @ReferenceTarget({ "Substance" })
                 @Choice({ CodeableConcept.class, Reference.class })
                 @Binding(
                     bindingName = "ContainerAdditive",
@@ -1663,6 +1665,9 @@ public class SpecimenDefinition extends DomainResource {
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
+                    if (additive instanceof Reference) {
+                        ValidationSupport.checkReferenceType((Reference) additive, "additive", "Substance");
+                    }
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -1857,6 +1862,11 @@ public class SpecimenDefinition extends DomainResource {
                      * <ul>
                      * <li>{@link CodeableConcept}</li>
                      * <li>{@link Reference}</li>
+                     * </ul>
+                     * 
+                     * When of type {@link Reference}, the allowed resource types for this reference are:
+                     * <ul>
+                     * <li>{@link Substance}</li>
                      * </ul>
                      * 
                      * @param additive

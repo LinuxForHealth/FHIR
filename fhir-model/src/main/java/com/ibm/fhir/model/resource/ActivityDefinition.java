@@ -107,6 +107,7 @@ public class ActivityDefinition extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -191,6 +192,7 @@ public class ActivityDefinition extends DomainResource {
     @ReferenceTarget({ "Location" })
     private final Reference location;
     private final List<Participant> participant;
+    @ReferenceTarget({ "Medication", "Substance" })
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ActivityProduct",
@@ -208,8 +210,11 @@ public class ActivityDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;
+    @ReferenceTarget({ "SpecimenDefinition" })
     private final List<Reference> specimenRequirement;
+    @ReferenceTarget({ "ObservationDefinition" })
     private final List<Reference> observationRequirement;
+    @ReferenceTarget({ "ObservationDefinition" })
     private final List<Reference> observationResultRequirement;
     private final Canonical transform;
     private final List<DynamicValue> dynamicValue;
@@ -264,7 +269,22 @@ public class ActivityDefinition extends DomainResource {
         observationResultRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationResultRequirement, "observationResultRequirement"));
         transform = builder.transform;
         dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
+        if (subject instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) subject, "subject", "Group");
+        }
         ValidationSupport.checkReferenceType(location, "location", "Location");
+        if (product instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) product, "product", "Medication", "Substance");
+        }
+        for (Reference r : specimenRequirement) {
+            ValidationSupport.checkReferenceType(r, "specimenRequirement", "SpecimenDefinition");
+        }
+        for (Reference r : observationRequirement) {
+            ValidationSupport.checkReferenceType(r, "observationRequirement", "ObservationDefinition");
+        }
+        for (Reference r : observationResultRequirement) {
+            ValidationSupport.checkReferenceType(r, "observationResultRequirement", "ObservationDefinition");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -1418,6 +1438,11 @@ public class ActivityDefinition extends DomainResource {
          * <li>{@link Reference}</li>
          * </ul>
          * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Type of individual the activity definition is intended for
          * 
@@ -2080,6 +2105,12 @@ public class ActivityDefinition extends DomainResource {
          * <li>{@link CodeableConcept}</li>
          * </ul>
          * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * </ul>
+         * 
          * @param product
          *     What's administered/supplied
          * 
@@ -2178,6 +2209,11 @@ public class ActivityDefinition extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link SpecimenDefinition}</li>
+         * </ul>
+         * 
          * @param specimenRequirement
          *     What specimens are required to perform this action
          * 
@@ -2196,6 +2232,11 @@ public class ActivityDefinition extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link SpecimenDefinition}</li>
+         * </ul>
+         * 
          * @param specimenRequirement
          *     What specimens are required to perform this action
          * 
@@ -2211,6 +2252,11 @@ public class ActivityDefinition extends DomainResource {
          * Defines observation requirements for the action to be performed, such as body weight or surface area.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ObservationDefinition}</li>
+         * </ul>
          * 
          * @param observationRequirement
          *     What observations are required to perform this action
@@ -2230,6 +2276,11 @@ public class ActivityDefinition extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ObservationDefinition}</li>
+         * </ul>
+         * 
          * @param observationRequirement
          *     What observations are required to perform this action
          * 
@@ -2245,6 +2296,11 @@ public class ActivityDefinition extends DomainResource {
          * Defines the observations that are expected to be produced by the action.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ObservationDefinition}</li>
+         * </ul>
          * 
          * @param observationResultRequirement
          *     What observations must be produced by this action
@@ -2263,6 +2319,11 @@ public class ActivityDefinition extends DomainResource {
          * Defines the observations that are expected to be produced by the action.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ObservationDefinition}</li>
+         * </ul>
          * 
          * @param observationResultRequirement
          *     What observations must be produced by this action

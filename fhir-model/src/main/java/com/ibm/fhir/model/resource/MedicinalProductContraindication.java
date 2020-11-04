@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductContraindication extends DomainResource {
     @Summary
+    @ReferenceTarget({ "MedicinalProduct", "Medication" })
     private final List<Reference> subject;
     @Summary
     private final CodeableConcept disease;
@@ -45,6 +47,7 @@ public class MedicinalProductContraindication extends DomainResource {
     @Summary
     private final List<CodeableConcept> comorbidity;
     @Summary
+    @ReferenceTarget({ "MedicinalProductIndication" })
     private final List<Reference> therapeuticIndication;
     @Summary
     private final List<OtherTherapy> otherTherapy;
@@ -62,6 +65,12 @@ public class MedicinalProductContraindication extends DomainResource {
         therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
         otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        for (Reference r : subject) {
+            ValidationSupport.checkReferenceType(r, "subject", "MedicinalProduct", "Medication");
+        }
+        for (Reference r : therapeuticIndication) {
+            ValidationSupport.checkReferenceType(r, "therapeuticIndication", "MedicinalProductIndication");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -450,6 +459,12 @@ public class MedicinalProductContraindication extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link Medication}</li>
+         * </ul>
+         * 
          * @param subject
          *     The medication for which this is an indication
          * 
@@ -467,6 +482,12 @@ public class MedicinalProductContraindication extends DomainResource {
          * The medication for which this is an indication.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link Medication}</li>
+         * </ul>
          * 
          * @param subject
          *     The medication for which this is an indication
@@ -546,6 +567,11 @@ public class MedicinalProductContraindication extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductIndication}</li>
+         * </ul>
+         * 
          * @param therapeuticIndication
          *     Information about the use of the medicinal product in relation to other therapies as part of the indication
          * 
@@ -563,6 +589,11 @@ public class MedicinalProductContraindication extends DomainResource {
          * Information about the use of the medicinal product in relation to other therapies as part of the indication.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductIndication}</li>
+         * </ul>
          * 
          * @param therapeuticIndication
          *     Information about the use of the medicinal product in relation to other therapies as part of the indication
@@ -677,6 +708,7 @@ public class MedicinalProductContraindication extends DomainResource {
         @Required
         private final CodeableConcept therapyRelationshipType;
         @Summary
+        @ReferenceTarget({ "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Required
         private final Element medication;
@@ -687,6 +719,9 @@ public class MedicinalProductContraindication extends DomainResource {
             super(builder);
             therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
             medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+            if (medication instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -912,6 +947,14 @@ public class MedicinalProductContraindication extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link MedicinalProduct}</li>
+             * <li>{@link Medication}</li>
+             * <li>{@link Substance}</li>
+             * <li>{@link SubstanceSpecification}</li>
              * </ul>
              * 
              * @param medication

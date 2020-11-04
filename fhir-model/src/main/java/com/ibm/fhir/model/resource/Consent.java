@@ -174,10 +174,13 @@ public class Consent extends DomainResource {
     @Summary
     private final DateTime dateTime;
     @Summary
+    @ReferenceTarget({ "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole" })
     private final List<Reference> performer;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> organization;
     @Summary
+    @ReferenceTarget({ "Consent", "DocumentReference", "Contract", "QuestionnaireResponse" })
     @Choice({ Attachment.class, Reference.class })
     private final Element source;
     private final List<Policy> policy;
@@ -212,6 +215,15 @@ public class Consent extends DomainResource {
         verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
         provision = builder.provision;
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        for (Reference r : performer) {
+            ValidationSupport.checkReferenceType(r, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+        }
+        for (Reference r : organization) {
+            ValidationSupport.checkReferenceType(r, "organization", "Organization");
+        }
+        if (source instanceof Reference) {
+            ValidationSupport.checkReferenceType((Reference) source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -838,6 +850,15 @@ public class Consent extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param performer
          *     Who is agreeing to the policy and rules
          * 
@@ -858,6 +879,15 @@ public class Consent extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param performer
          *     Who is agreeing to the policy and rules
          * 
@@ -873,6 +903,11 @@ public class Consent extends DomainResource {
          * The organization that manages the consent, and the framework within which it is executed.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param organization
          *     Custodian of the consent
@@ -891,6 +926,11 @@ public class Consent extends DomainResource {
          * The organization that manages the consent, and the framework within which it is executed.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param organization
          *     Custodian of the consent
@@ -912,6 +952,14 @@ public class Consent extends DomainResource {
          * <ul>
          * <li>{@link Attachment}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Consent}</li>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link Contract}</li>
+         * <li>{@link QuestionnaireResponse}</li>
          * </ul>
          * 
          * @param source

@@ -2992,6 +2992,7 @@ public class Claim extends DomainResource {
     public static class Diagnosis extends BackboneElement {
         @Required
         private final PositiveInt sequence;
+        @ReferenceTarget({ "Condition" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10",
@@ -3032,6 +3033,9 @@ public class Claim extends DomainResource {
             type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
+            if (diagnosis instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) diagnosis, "diagnosis", "Condition");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3303,6 +3307,11 @@ public class Claim extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Condition}</li>
+             * </ul>
+             * 
              * @param diagnosis
              *     Nature of illness or problem
              * 
@@ -3422,6 +3431,7 @@ public class Claim extends DomainResource {
         )
         private final List<CodeableConcept> type;
         private final DateTime date;
+        @ReferenceTarget({ "Procedure" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10_Procedures",
@@ -3431,6 +3441,7 @@ public class Claim extends DomainResource {
         )
         @Required
         private final Element procedure;
+        @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
 
         private volatile int hashCode;
@@ -3442,6 +3453,12 @@ public class Claim extends DomainResource {
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
             udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
+            if (procedure instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) procedure, "procedure", "Procedure");
+            }
+            for (Reference r : udi) {
+                ValidationSupport.checkReferenceType(r, "udi", "Device");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3760,6 +3777,11 @@ public class Claim extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Procedure}</li>
+             * </ul>
+             * 
              * @param procedure
              *     Specific clinical procedure
              * 
@@ -3775,6 +3797,11 @@ public class Claim extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * <p>Adds new element(s) to the existing list
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param udi
              *     Unique device identifier
@@ -3793,6 +3820,11 @@ public class Claim extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param udi
              *     Unique device identifier
@@ -4330,6 +4362,7 @@ public class Claim extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActIncidentCode"
         )
         private final CodeableConcept type;
+        @ReferenceTarget({ "Location" })
         @Choice({ Address.class, Reference.class })
         private final Element location;
 
@@ -4340,6 +4373,9 @@ public class Claim extends DomainResource {
             date = ValidationSupport.requireNonNull(builder.date, "date");
             type = builder.type;
             location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
+            if (location instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4594,6 +4630,11 @@ public class Claim extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
+             * 
              * @param location
              *     Where the event occurred
              * 
@@ -4682,6 +4723,7 @@ public class Claim extends DomainResource {
         private final List<CodeableConcept> programCode;
         @Choice({ Date.class, Period.class })
         private final Element serviced;
+        @ReferenceTarget({ "Location" })
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
@@ -4694,6 +4736,7 @@ public class Claim extends DomainResource {
         private final Money unitPrice;
         private final Decimal factor;
         private final Money net;
+        @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
         @Binding(
             bindingName = "OralSites",
@@ -4709,6 +4752,7 @@ public class Claim extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
         private final List<CodeableConcept> subSite;
+        @ReferenceTarget({ "Encounter" })
         private final List<Reference> encounter;
         private final List<Detail> detail;
 
@@ -4737,6 +4781,15 @@ public class Claim extends DomainResource {
             subSite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subSite, "subSite"));
             encounter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.encounter, "encounter"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            if (location instanceof Reference) {
+                ValidationSupport.checkReferenceType((Reference) location, "location", "Location");
+            }
+            for (Reference r : udi) {
+                ValidationSupport.checkReferenceType(r, "udi", "Device");
+            }
+            for (Reference r : encounter) {
+                ValidationSupport.checkReferenceType(r, "encounter", "Encounter");
+            }
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5518,6 +5571,11 @@ public class Claim extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
+             * 
              * @param location
              *     Place of service or where product was supplied
              * 
@@ -5592,6 +5650,11 @@ public class Claim extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
+             * 
              * @param udi
              *     Unique device identifier
              * 
@@ -5609,6 +5672,11 @@ public class Claim extends DomainResource {
              * Unique Device Identifiers associated with this line item.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param udi
              *     Unique device identifier
@@ -5674,6 +5742,11 @@ public class Claim extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Encounter}</li>
+             * </ul>
+             * 
              * @param encounter
              *     Encounters related to this billed item
              * 
@@ -5691,6 +5764,11 @@ public class Claim extends DomainResource {
              * The Encounters during which this Claim was created or to which the creation of this record is tightly associated.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Encounter}</li>
+             * </ul>
              * 
              * @param encounter
              *     Encounters related to this billed item
@@ -5829,6 +5907,7 @@ public class Claim extends DomainResource {
             private final Money unitPrice;
             private final Decimal factor;
             private final Money net;
+            @ReferenceTarget({ "Device" })
             private final List<Reference> udi;
             private final List<SubDetail> subDetail;
 
@@ -5848,6 +5927,9 @@ public class Claim extends DomainResource {
                 net = builder.net;
                 udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
                 subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
+                for (Reference r : udi) {
+                    ValidationSupport.checkReferenceType(r, "udi", "Device");
+                }
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -6391,6 +6473,11 @@ public class Claim extends DomainResource {
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Device}</li>
+                 * </ul>
+                 * 
                  * @param udi
                  *     Unique device identifier
                  * 
@@ -6408,6 +6495,11 @@ public class Claim extends DomainResource {
                  * Unique Device Identifiers associated with this line item.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Device}</li>
+                 * </ul>
                  * 
                  * @param udi
                  *     Unique device identifier
@@ -6537,6 +6629,7 @@ public class Claim extends DomainResource {
                 private final Money unitPrice;
                 private final Decimal factor;
                 private final Money net;
+                @ReferenceTarget({ "Device" })
                 private final List<Reference> udi;
 
                 private volatile int hashCode;
@@ -6554,6 +6647,9 @@ public class Claim extends DomainResource {
                     factor = builder.factor;
                     net = builder.net;
                     udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
+                    for (Reference r : udi) {
+                        ValidationSupport.checkReferenceType(r, "udi", "Device");
+                    }
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -7082,6 +7178,11 @@ public class Claim extends DomainResource {
                      * 
                      * <p>Adds new element(s) to the existing list
                      * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Device}</li>
+                     * </ul>
+                     * 
                      * @param udi
                      *     Unique device identifier
                      * 
@@ -7099,6 +7200,11 @@ public class Claim extends DomainResource {
                      * Unique Device Identifiers associated with this line item.
                      * 
                      * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Device}</li>
+                     * </ul>
                      * 
                      * @param udi
                      *     Unique device identifier

@@ -79,10 +79,13 @@ public class EpisodeOfCare extends DomainResource {
     private final Reference managingOrganization;
     @Summary
     private final Period period;
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> referralRequest;
     @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference careManager;
+    @ReferenceTarget({ "CareTeam" })
     private final List<Reference> team;
+    @ReferenceTarget({ "Account" })
     private final List<Reference> account;
 
     private volatile int hashCode;
@@ -103,7 +106,16 @@ public class EpisodeOfCare extends DomainResource {
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        for (Reference r : referralRequest) {
+            ValidationSupport.checkReferenceType(r, "referralRequest", "ServiceRequest");
+        }
         ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
+        for (Reference r : team) {
+            ValidationSupport.checkReferenceType(r, "team", "CareTeam");
+        }
+        for (Reference r : account) {
+            ValidationSupport.checkReferenceType(r, "account", "Account");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -779,6 +791,11 @@ public class EpisodeOfCare extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param referralRequest
          *     Originating Referral Request(s)
          * 
@@ -796,6 +813,11 @@ public class EpisodeOfCare extends DomainResource {
          * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param referralRequest
          *     Originating Referral Request(s)
@@ -833,6 +855,11 @@ public class EpisodeOfCare extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param team
          *     Other practitioners facilitating this episode of care
          * 
@@ -851,6 +878,11 @@ public class EpisodeOfCare extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param team
          *     Other practitioners facilitating this episode of care
          * 
@@ -866,6 +898,11 @@ public class EpisodeOfCare extends DomainResource {
          * The set of accounts that may be used for billing for this EpisodeOfCare.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this EpisodeOfCare
@@ -884,6 +921,11 @@ public class EpisodeOfCare extends DomainResource {
          * The set of accounts that may be used for billing for this EpisodeOfCare.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
          * 
          * @param account
          *     The set of accounts that may be used for billing for this EpisodeOfCare

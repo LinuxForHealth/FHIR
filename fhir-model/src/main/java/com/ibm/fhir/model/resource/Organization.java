@@ -93,6 +93,7 @@ public class Organization extends DomainResource {
     @ReferenceTarget({ "Organization" })
     private final Reference partOf;
     private final List<Contact> contact;
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
     private volatile int hashCode;
@@ -110,6 +111,9 @@ public class Organization extends DomainResource {
         contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
+        for (Reference r : endpoint) {
+            ValidationSupport.checkReferenceType(r, "endpoint", "Endpoint");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -794,6 +798,11 @@ public class Organization extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the organization
          * 
@@ -811,6 +820,11 @@ public class Organization extends DomainResource {
          * Technical endpoints providing access to services operated for the organization.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the organization

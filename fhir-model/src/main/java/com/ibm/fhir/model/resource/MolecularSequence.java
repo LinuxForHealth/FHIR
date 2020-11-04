@@ -108,6 +108,7 @@ public class MolecularSequence extends DomainResource {
     @Summary
     private final List<Repository> repository;
     @Summary
+    @ReferenceTarget({ "MolecularSequence" })
     private final List<Reference> pointer;
     @Summary
     private final List<StructureVariant> structureVariant;
@@ -136,6 +137,9 @@ public class MolecularSequence extends DomainResource {
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(device, "device", "Device");
         ValidationSupport.checkReferenceType(performer, "performer", "Organization");
+        for (Reference r : pointer) {
+            ValidationSupport.checkReferenceType(r, "pointer", "MolecularSequence");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -979,6 +983,11 @@ public class MolecularSequence extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MolecularSequence}</li>
+         * </ul>
+         * 
          * @param pointer
          *     Pointer to next atomic sequence
          * 
@@ -996,6 +1005,11 @@ public class MolecularSequence extends DomainResource {
          * Pointer to next atomic sequence which at most contains one variant.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MolecularSequence}</li>
+         * </ul>
          * 
          * @param pointer
          *     Pointer to next atomic sequence

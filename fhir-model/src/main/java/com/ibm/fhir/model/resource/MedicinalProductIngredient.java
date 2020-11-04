@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -44,6 +45,7 @@ public class MedicinalProductIngredient extends DomainResource {
     @Summary
     private final Boolean allergenicIndicator;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> manufacturer;
     @Summary
     private final List<SpecifiedSubstance> specifiedSubstance;
@@ -60,6 +62,9 @@ public class MedicinalProductIngredient extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         specifiedSubstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specifiedSubstance, "specifiedSubstance"));
         substance = builder.substance;
+        for (Reference r : manufacturer) {
+            ValidationSupport.checkReferenceType(r, "manufacturer", "Organization");
+        }
         ValidationSupport.requireChildren(this);
     }
 
@@ -479,6 +484,11 @@ public class MedicinalProductIngredient extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param manufacturer
          *     Manufacturer of this Ingredient
          * 
@@ -496,6 +506,11 @@ public class MedicinalProductIngredient extends DomainResource {
          * Manufacturer of this Ingredient.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param manufacturer
          *     Manufacturer of this Ingredient
