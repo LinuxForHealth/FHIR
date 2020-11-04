@@ -47,10 +47,10 @@ import com.ibm.fhir.term.spi.ValidationOutcome;
  *
  * <p>This implementation supports an optional second argument (binding strength). The binding strength
  * is used to determine whether or not to add a warning to the evaluation context if the membership check fails.
- * 
+ *
  * <p>In addition, if the optional argument is specified, this implementation will successfully validate a Code, Coding,
  * Quantity, String, or Uri element in which the <a href="http://hl7.org/fhir/StructureDefinition/data-absent-reason">data-absent-reason</a>
- * extension is specified and no value or code+system is specified. 
+ * extension is specified and no value or code+system is specified.
  */
 public class MemberOfFunction extends FHIRPathAbstractFunction {
     public static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
@@ -96,12 +96,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
         ValueSet valueSet = getValueSet(url);
         if (valueSet != null) {
-            
+
             // Validate against data-absent-reason extension (only if using extended version of operation)
             if (strength != null && ValidationSupport.hasOnlyDataAbsentReasonExtension(element)) {
                 return SINGLETON_TRUE;
             }
-            
+
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
 
@@ -165,7 +165,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         String valueSetUrl = valueSet.getUrl() != null ? valueSet.getUrl().getValue() : null;
         return ALL_LANG_VALUE_SET_URL.equals(valueSetUrl) || UCUM_UNITS_VALUE_SET_URL.equals(valueSetUrl);
     }
-    
+
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, Code code, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = service.validateCode(valueSet, code);
         if (Boolean.FALSE.equals(outcome.getResult())) {
@@ -176,6 +176,9 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     }
 
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version, Code code, com.ibm.fhir.model.type.String display, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        if (system == null && version == null && code == null && display == null) {
+            return false;
+        }
         ValidationOutcome outcome = service.validateCode(valueSet, system, version, code, display);
         if (Boolean.FALSE.equals(outcome.getResult())) {
             generateIssue(outcome, evaluationContext, elementNode, strength);
@@ -201,7 +204,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         }
         return true;
     }
-    
+
     /**
      * Adds an issue to the evaluation context.
      * @param outcome the validation outcome containing the message
@@ -214,7 +217,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             generateIssue(outcome.getMessage().getValue(), evaluationContext, elementNode, strength);
         }
     }
-    
+
     /**
      * Adds an issue to the evaluation context.
      * @param message the message
