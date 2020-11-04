@@ -810,7 +810,7 @@ OK         json/spec/devicerequest-left-lens.json
 PARSE      json/spec/devicerequest-questionnaire.json
 OK         json/spec/devicerequest-right-lens.json
 OK         json/spec/deviceusestatement.profile.json
-OK         json/spec/deviceusestatement-example.json
+PARSE      json/spec/deviceusestatement-example.json
 PARSE      json/spec/deviceusestatement-questionnaire.json
 OK         json/spec/diagnosticreport.profile.json
 OK         json/spec/diagnosticreport-example.json
@@ -1662,7 +1662,7 @@ OK         json/spec/observation-example-bmi-using-related.json
 OK         json/spec/observation-example-body-height.json
 OK         json/spec/observation-example-body-length.json
 OK         json/spec/observation-example-body-temperature.json
-OK         json/spec/observation-example-clinical-gender.json
+PARSE      json/spec/observation-example-clinical-gender.json
 OK         json/spec/observation-example-date-lastmp.json
 OK         json/spec/observation-example-diplotype1.json
 OK         json/spec/observation-example-eye-color.json

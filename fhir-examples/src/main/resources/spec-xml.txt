@@ -246,7 +246,7 @@ OK         xml/spec/devicerequest-example-insulinpump.xml
 OK         xml/spec/devicerequest-left-lens.xml
 OK         xml/spec/devicerequest-right-lens.xml
 OK         xml/spec/deviceusestatement.profile.xml
-OK         xml/spec/deviceusestatement-example.xml
+PARSE      xml/spec/deviceusestatement-example.xml
 OK         xml/spec/diagnosticreport.profile.xml
 OK         xml/spec/diagnosticreport-example.xml
 OK         xml/spec/diagnosticreport-example-dxa.xml
@@ -636,7 +636,7 @@ OK         xml/spec/observation-example-bmi-using-related.xml
 OK         xml/spec/observation-example-body-height.xml
 OK         xml/spec/observation-example-body-length.xml
 OK         xml/spec/observation-example-body-temperature.xml
-OK         xml/spec/observation-example-clinical-gender.xml
+PARSE      xml/spec/observation-example-clinical-gender.xml
 OK         xml/spec/observation-example-date-lastmp.xml
 OK         xml/spec/observation-example-diplotype1.xml
 OK         xml/spec/observation-example-eye-color.xml

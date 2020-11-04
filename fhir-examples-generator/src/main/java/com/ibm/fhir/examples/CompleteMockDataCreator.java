@@ -240,9 +240,13 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         argument = Decimal.of(Math.random() * 100);
                     }
 
-                    else if (builder instanceof Reference.Builder && method.getName().equals("type") && referenceTargetProfile != null) {
-                        // References with specific target profiles
-                        argument = Uri.of(referenceTargetProfile);
+                    else if (builder instanceof Reference.Builder && method.getName().equals("type")) {
+                        if (referenceTargetProfile != null) {
+                            // References with specific target profiles
+                            argument = Uri.of(referenceTargetProfile);
+                        } else {
+                            argument = Uri.of("Basic");
+                        }
                     }
                     else if (builder instanceof Reference.Builder && method.getName().equals("reference")) {
                         // References with specific target profiles

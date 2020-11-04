@@ -1,157 +1,157 @@
 <DeviceMetric xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="-buom7GM0L"/>
-    <lastUpdated value="2020-08-11T16:26:56.393-05:00"/>
-    <source value="Zma14CA8ER"/>
-    <profile value="cKBB7ghNuc"/>
+    <versionId value="mnBfPcl8Qg"/>
+    <lastUpdated value="2020-11-04T02:37:46.661751-05:00"/>
+    <source value="HDHNZ0ns9z"/>
+    <profile value="xiSnYh1lAq"/>
     <security>
-      <system value="QGtKyX53SF"/>
-      <version value="y52JK3cAH3"/>
-      <code value="VhLBixJtp2"/>
-      <display value="MEImGzGERn"/>
+      <system value="28erIZrL1F"/>
+      <version value="NK1oFsNVed"/>
+      <code value="KtkAYZIRS0"/>
+      <display value="l60IDEnG70"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="dERWP5tAjY"/>
-      <version value="dtK5I33_aj"/>
-      <code value="KCnyd4K2IS"/>
-      <display value="45eEeqv7Gs"/>
+      <system value="mLoQpZmVnW"/>
+      <version value="x7WIicztof"/>
+      <code value="OZyN4onSVO"/>
+      <display value="Zzvntp8M0W"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="DtFsrMn_fO"/>
+  <implicitRules value="pSz6cykFvT"/>
   <language value="en-US"/>
   <text>
-    <status value="generated"/>
+    <status value="additional"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <identifier>
-    <use value="usual"/>
+    <use value="official"/>
     <type>
       <coding>
-        <system value="Bqebh3jhWi"/>
-        <version value="LaC46NfWsQ"/>
-        <code value="QxNDtOoitT"/>
-        <display value="dafMNAXciT"/>
+        <system value="w6w5zNs1VN"/>
+        <version value="P1t9edPJp6"/>
+        <code value="PuysXXznlW"/>
+        <display value="kt7VZPUxWM"/>
         <userSelected value="true"/>
       </coding>
-      <text value="EClMcMlmN6"/>
+      <text value="ZWF5f2hWAW"/>
     </type>
-    <system value="F0qFq4QLJY"/>
-    <value value="7dfxGyYx6w"/>
+    <system value="Ua4nYHeRSb"/>
+    <value value="i3cK5i89kW"/>
     <period>
-      <start value="2020-08-11T16:26:56.392-05:00"/>
-      <end value="2020-08-11T16:26:56.392-05:00"/>
+      <start value="2020-11-04T02:37:46.664474-05:00"/>
+      <end value="2020-11-04T02:37:46.664649-05:00"/>
     </period>
   </identifier>
   <type>
     <coding>
-      <system value="Qu_zonUOhc"/>
-      <version value="Rf3v5rA6QA"/>
-      <code value="CCyLZQUgb7"/>
-      <display value="DSc3dIbEAM"/>
+      <system value="jYuJLUaW_v"/>
+      <version value="okc1RkSKcF"/>
+      <code value="Uz6XtKoIf7"/>
+      <display value="5PKgYxKy4L"/>
       <userSelected value="true"/>
     </coding>
-    <text value="_3Ebgtrmxp"/>
+    <text value="EdJBVhC0xZ"/>
   </type>
   <unit>
     <coding>
-      <system value="hZu2N4XuBp"/>
-      <version value="VecEAKCYp9"/>
-      <code value="Q8MmdVU5Cb"/>
-      <display value="iesrPJ5o2_"/>
+      <system value="8_s0KwLyua"/>
+      <version value="aKA9PZjOFG"/>
+      <code value="r5mCvIpaal"/>
+      <display value="ImStBu6hU7"/>
       <userSelected value="true"/>
     </coding>
-    <text value="tYnRbjQECj"/>
+    <text value="gioKvULXgs"/>
   </unit>
   <source>
-    <reference value="Device/Fui9afKxpx"/>
+    <reference value="Device/YvlAMxjcVq"/>
     <type value="Device"/>
     <identifier>
-      <use value="secondary"/>
+      <use value="usual"/>
       <type>
         <coding>
-          <system value="K8wrWlCFTj"/>
-          <version value="T4PgABaNct"/>
-          <code value="CBLu_ZFtCh"/>
-          <display value="5rt0B55LkJ"/>
+          <system value="idUel_Cvrl"/>
+          <version value="uRPeRWrzWp"/>
+          <code value="AMlgpPqVPD"/>
+          <display value="jQ51boTlSM"/>
           <userSelected value="true"/>
         </coding>
-        <text value="HQfuxUDjMb"/>
+        <text value="VczMyKZJ9W"/>
       </type>
-      <system value="burOjjUyvJ"/>
-      <value value="apz34kp2dx"/>
+      <system value="VtEhkKow9d"/>
+      <value value="pkw_cOTKGa"/>
       <period>
-        <start value="2020-08-11T16:26:56.39-05:00"/>
-        <end value="2020-08-11T16:26:56.39-05:00"/>
+        <start value="2020-11-04T02:37:46.666424-05:00"/>
+        <end value="2020-11-04T02:37:46.666589-05:00"/>
       </period>
     </identifier>
-    <display value="yFb9zi2Cjs"/>
+    <display value="gw1vfuLaHL"/>
   </source>
   <parent>
-    <reference value="Device/aXmofZhSCC"/>
+    <reference value="Device/7XYVfNEizp"/>
     <type value="Device"/>
     <identifier>
       <use value="temp"/>
       <type>
         <coding>
-          <system value="VM5zQ0WD9x"/>
-          <version value="M3NHyWrLi5"/>
-          <code value="8QNcbNoay_"/>
-          <display value="DZafoV7FnL"/>
+          <system value="shcCd9TnFb"/>
+          <version value="m0WIObbPmf"/>
+          <code value="cX94dBvNHg"/>
+          <display value="oMeZs2BQqf"/>
           <userSelected value="true"/>
         </coding>
-        <text value="nXvkc4z3t1"/>
+        <text value="Dh0T0WMWtE"/>
       </type>
-      <system value="fZgFpZKqn3"/>
-      <value value="aenhEHr9iy"/>
+      <system value="zAx_lCAoV5"/>
+      <value value="Hl0flwkviW"/>
       <period>
-        <start value="2020-08-11T16:26:56.391-05:00"/>
-        <end value="2020-08-11T16:26:56.391-05:00"/>
+        <start value="2020-11-04T02:37:46.66764-05:00"/>
+        <end value="2020-11-04T02:37:46.667902-05:00"/>
       </period>
     </identifier>
-    <display value="UZotOnc0Zd"/>
+    <display value="HHp48jjQiB"/>
   </parent>
-  <operationalStatus value="entered-in-error"/>
-  <color value="black"/>
-  <category value="measurement"/>
+  <operationalStatus value="standby"/>
+  <color value="blue"/>
+  <category value="unspecified"/>
   <measurementPeriod>
-    <event value="2020-08-11T16:26:56.395-05:00"/>
+    <event value="2020-11-04T02:37:46.668287-05:00"/>
     <repeat>
       <boundsPeriod>
-        <start value="2020-08-11T16:26:56.394-05:00"/>
-        <end value="2020-08-11T16:26:56.394-05:00"/>
+        <start value="2020-11-04T02:37:46.668492-05:00"/>
+        <end value="2020-11-04T02:37:46.668646-05:00"/>
       </boundsPeriod>
-      <count value="171830012"/>
-      <countMax value="1856554031"/>
-      <duration value="521673079552"/>
-      <durationMax value="280254818103"/>
-      <durationUnit value="s"/>
-      <frequency value="826597086"/>
-      <frequencyMax value="1381375401"/>
-      <period value="395255905379"/>
-      <periodMax value="431148189022"/>
-      <periodUnit value="min"/>
+      <count value="115749991"/>
+      <countMax value="1153494228"/>
+      <duration value="0.058432659644778651986118944705594913102686405181884765625"/>
+      <durationMax value="0.296710248864390180312256006800453178584575653076171875"/>
+      <durationUnit value="min"/>
+      <frequency value="243403211"/>
+      <frequencyMax value="734157257"/>
+      <period value="0.558879760471853170855638381908647716045379638671875"/>
+      <periodMax value="0.724241634472083006812681560404598712921142578125"/>
+      <periodUnit value="a"/>
       <dayOfWeek value="mon"/>
-      <when value="EVE.late"/>
+      <when value="EVE"/>
     </repeat>
     <code>
       <coding>
-        <system value="fBbIx8Jt5h"/>
-        <version value="jo8066X9ZP"/>
-        <code value="XzJA1TzqS5"/>
-        <display value="goHjlMyABK"/>
+        <system value="Bz1Dcj3MlD"/>
+        <version value="rsysT9OPOL"/>
+        <code value="u4cUNfAkDf"/>
+        <display value="OOXAax2QZu"/>
         <userSelected value="true"/>
       </coding>
-      <text value="fhQYIqGrbR"/>
+      <text value="cuE6xOt2Jm"/>
     </code>
   </measurementPeriod>
   <calibration>
-    <type value="gain"/>
-    <state value="unspecified"/>
-    <time value="2020-08-11T16:26:56.395-05:00"/>
+    <type value="offset"/>
+    <state value="calibrated"/>
+    <time value="2020-11-04T02:37:46.670619-05:00"/>
   </calibration>
 </DeviceMetric>

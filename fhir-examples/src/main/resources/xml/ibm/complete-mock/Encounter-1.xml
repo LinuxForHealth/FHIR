@@ -1,568 +1,568 @@
 <Encounter xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="RigltLPLtc"/>
-    <lastUpdated value="2020-08-11T16:26:56.688-05:00"/>
-    <source value="g7nNGDaZoz"/>
-    <profile value="sFtOkMzUOz"/>
+    <versionId value="WGy4SYNqzZ"/>
+    <lastUpdated value="2020-11-04T02:37:40.330195-05:00"/>
+    <source value="eGUHumRnGM"/>
+    <profile value="MLqsS5jNpH"/>
     <security>
-      <system value="694OucApQX"/>
-      <version value="p5KDhZLoTj"/>
-      <code value="suaBbBVcnB"/>
-      <display value="O16g5nfaeJ"/>
+      <system value="3dT73Ka0gr"/>
+      <version value="BEJfmJXJkT"/>
+      <code value="M9kcGynTON"/>
+      <display value="mO3BZY9VaR"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="JFMqyxhEKV"/>
-      <version value="JG7RmfprRx"/>
-      <code value="UH0Ymk3JKi"/>
-      <display value="t5O0129b9V"/>
+      <system value="EGESHb4_I8"/>
+      <version value="MYkvBX4LLR"/>
+      <code value="ityHVHuXFQ"/>
+      <display value="5OIvtzPXB3"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="KblCEqlqok"/>
+  <implicitRules value="pBWccjZKM6"/>
   <language value="en-US"/>
   <text>
-    <status value="empty"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <identifier>
-    <use value="official"/>
+    <use value="temp"/>
     <type>
       <coding>
-        <system value="soTPpcORhv"/>
-        <version value="QCMtZgPWCj"/>
-        <code value="X8CCf0oHHk"/>
-        <display value="qvXPY2mpPf"/>
+        <system value="8fCgAklJFg"/>
+        <version value="0a5fy9gsQr"/>
+        <code value="sph3DLxB4w"/>
+        <display value="Qau1ATvM1T"/>
         <userSelected value="true"/>
       </coding>
-      <text value="uPggSkJhIb"/>
+      <text value="LKl55VH1Wn"/>
     </type>
-    <system value="RDeocGnSJP"/>
-    <value value="T_GH9R2Thg"/>
+    <system value="V_MvZel7UD"/>
+    <value value="b7c3U8fiiy"/>
     <period>
-      <start value="2020-08-11T16:26:56.687-05:00"/>
-      <end value="2020-08-11T16:26:56.687-05:00"/>
+      <start value="2020-11-04T02:37:40.333273-05:00"/>
+      <end value="2020-11-04T02:37:40.333573-05:00"/>
     </period>
   </identifier>
-  <status value="finished"/>
+  <status value="arrived"/>
   <statusHistory>
-    <status value="cancelled"/>
+    <status value="unknown"/>
     <period>
-      <start value="2020-08-11T16:26:56.689-05:00"/>
-      <end value="2020-08-11T16:26:56.689-05:00"/>
+      <start value="2020-11-04T02:37:40.334076-05:00"/>
+      <end value="2020-11-04T02:37:40.334379-05:00"/>
     </period>
   </statusHistory>
   <class>
-    <system value="Ci1dy8DTeg"/>
-    <version value="crvEQraHv7"/>
-    <code value="VcvZcc_t9F"/>
-    <display value="mZ1n7Wl8fW"/>
+    <system value="Prqev_UzRi"/>
+    <version value="dVCtQlwfuk"/>
+    <code value="pipKgYdI2W"/>
+    <display value="Ph6Elvkh8O"/>
     <userSelected value="true"/>
   </class>
   <classHistory>
     <class>
-      <system value="KqQNBfIOaH"/>
-      <version value="KabaDZ447V"/>
-      <code value="ZWPujueR3d"/>
-      <display value="bdB1iM5Cnv"/>
+      <system value="KLBVFdNkq5"/>
+      <version value="Jx27blIjAg"/>
+      <code value="qo069FUWQJ"/>
+      <display value="eerLwEgMK6"/>
       <userSelected value="true"/>
     </class>
     <period>
-      <start value="2020-08-11T16:26:56.689-05:00"/>
-      <end value="2020-08-11T16:26:56.689-05:00"/>
+      <start value="2020-11-04T02:37:40.336453-05:00"/>
+      <end value="2020-11-04T02:37:40.336661-05:00"/>
     </period>
   </classHistory>
   <type>
     <coding>
-      <system value="RxPoGnlCS6"/>
-      <version value="32EYkl5amW"/>
-      <code value="wn1krPA1qT"/>
-      <display value="CMogw2ruR0"/>
+      <system value="wU7_lsyBqv"/>
+      <version value="cyyMqY3yPf"/>
+      <code value="YMW2wEwY0P"/>
+      <display value="jCwoebu66P"/>
       <userSelected value="true"/>
     </coding>
-    <text value="6mb2t0CYkB"/>
+    <text value="y8SYg3FueL"/>
   </type>
   <serviceType>
     <coding>
-      <system value="YbWEv2SgxS"/>
-      <version value="vX9zdguSyh"/>
-      <code value="aPkweUt57f"/>
-      <display value="EWbbkfA6NC"/>
+      <system value="weiOyIRu4L"/>
+      <version value="h9W3fKTMUe"/>
+      <code value="aWRDDkXSgF"/>
+      <display value="HGNoBjsX_A"/>
       <userSelected value="true"/>
     </coding>
-    <text value="R3WXMa3CRo"/>
+    <text value="_0H7wS9zCs"/>
   </serviceType>
   <priority>
     <coding>
-      <system value="nbIr1ph6UO"/>
-      <version value="U3noy8afuC"/>
-      <code value="p_rdZQ359T"/>
-      <display value="ZPNJ3a51ct"/>
+      <system value="Lh5KXNS_6Z"/>
+      <version value="Inm191C9Vj"/>
+      <code value="jmJls5QStR"/>
+      <display value="vbPzLszLlx"/>
       <userSelected value="true"/>
     </coding>
-    <text value="j7bUgk44LV"/>
+    <text value="Sad1UoXoEr"/>
   </priority>
   <subject>
-    <reference value="Patient/wwG8VgouOH"/>
+    <reference value="Patient/5GgioTUuIw"/>
     <type value="Patient"/>
-    <identifier>
-      <use value="secondary"/>
-      <type>
-        <coding>
-          <system value="ieLZRLwl29"/>
-          <version value="rNDa4TGyAZ"/>
-          <code value="w25tvBlbCO"/>
-          <display value="4qVtlhC4ED"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="JEONsHsCBX"/>
-      </type>
-      <system value="0J0Oqaq77w"/>
-      <value value="eRjDiDnO6r"/>
-      <period>
-        <start value="2020-08-11T16:26:56.673-05:00"/>
-        <end value="2020-08-11T16:26:56.673-05:00"/>
-      </period>
-    </identifier>
-    <display value="lCg_uNtQFg"/>
-  </subject>
-  <episodeOfCare>
-    <reference value="ILxmbsFo_a"/>
-    <type value="v4kKB3SjkJ"/>
-    <identifier>
-      <use value="secondary"/>
-      <type>
-        <coding>
-          <system value="yk0amIZkfz"/>
-          <version value="V7GjCqrqfk"/>
-          <code value="DYyIq6jX0s"/>
-          <display value="XrbpqPUVLH"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="SOm_KGvpCw"/>
-      </type>
-      <system value="XCLeRXMf2S"/>
-      <value value="LBHNBRPJqG"/>
-      <period>
-        <start value="2020-08-11T16:26:56.683-05:00"/>
-        <end value="2020-08-11T16:26:56.683-05:00"/>
-      </period>
-    </identifier>
-    <display value="AmblZPzX9W"/>
-  </episodeOfCare>
-  <basedOn>
-    <reference value="OI3BpZWNrM"/>
-    <type value="lh0S8v2IWv"/>
     <identifier>
       <use value="temp"/>
       <type>
         <coding>
-          <system value="RRRpmBPXoJ"/>
-          <version value="katOxaj79U"/>
-          <code value="zzKy1jVJXg"/>
-          <display value="PeLTzYreyJ"/>
+          <system value="ZP5norWrud"/>
+          <version value="MyCXK1wZSO"/>
+          <code value="kKSUYYEArz"/>
+          <display value="KXrH0FhzOh"/>
           <userSelected value="true"/>
         </coding>
-        <text value="YBPw47N9Ch"/>
+        <text value="M5JQV0Nhpk"/>
       </type>
-      <system value="OL7H0zspnA"/>
-      <value value="vn7NIXvxyg"/>
+      <system value="dSX9IKSN3u"/>
+      <value value="XYcmll_hZP"/>
       <period>
-        <start value="2020-08-11T16:26:56.679-05:00"/>
-        <end value="2020-08-11T16:26:56.679-05:00"/>
+        <start value="2020-11-04T02:37:40.342148-05:00"/>
+        <end value="2020-11-04T02:37:40.342371-05:00"/>
       </period>
     </identifier>
-    <display value="sw16xDYaty"/>
+    <display value="a4O6MQU8X2"/>
+  </subject>
+  <episodeOfCare>
+    <reference value="EpisodeOfCare/FS5AVzbRg1"/>
+    <type value="EpisodeOfCare"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="SI0dvTwEGH"/>
+          <version value="8CjuTg3VND"/>
+          <code value="vnDhYFdV5Z"/>
+          <display value="4InBgETJtT"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="PmotpJGQew"/>
+      </type>
+      <system value="Hu8G6wMyM_"/>
+      <value value="ua_w4AOdg8"/>
+      <period>
+        <start value="2020-11-04T02:37:40.343644-05:00"/>
+        <end value="2020-11-04T02:37:40.343828-05:00"/>
+      </period>
+    </identifier>
+    <display value="pAab6WFsYj"/>
+  </episodeOfCare>
+  <basedOn>
+    <reference value="ServiceRequest/InYyG4zs8A"/>
+    <type value="ServiceRequest"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="g5IZenH1pE"/>
+          <version value="yokc45Gro9"/>
+          <code value="WSPQ__a6Zz"/>
+          <display value="ARN3Eh_dhK"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="BYxynxmzBe"/>
+      </type>
+      <system value="FqMfshy1aS"/>
+      <value value="rCM8lKYA55"/>
+      <period>
+        <start value="2020-11-04T02:37:40.344901-05:00"/>
+        <end value="2020-11-04T02:37:40.345075-05:00"/>
+      </period>
+    </identifier>
+    <display value="KCGF4nmmqb"/>
   </basedOn>
   <participant>
     <type>
       <coding>
-        <system value="vmuC9kYXlQ"/>
-        <version value="gdOwAkZxbC"/>
-        <code value="PH3nRMwVcd"/>
-        <display value="AXorQBINNo"/>
+        <system value="P8lHYkN9q6"/>
+        <version value="5ofv00Tymw"/>
+        <code value="Ys2VFAH8__"/>
+        <display value="bdMiPPHVOY"/>
         <userSelected value="true"/>
       </coding>
-      <text value="FKDdFYHMVI"/>
+      <text value="EPOYtwZg4h"/>
     </type>
     <period>
-      <start value="2020-08-11T16:26:56.675-05:00"/>
-      <end value="2020-08-11T16:26:56.676-05:00"/>
+      <start value="2020-11-04T02:37:40.346079-05:00"/>
+      <end value="2020-11-04T02:37:40.346279-05:00"/>
     </period>
     <individual>
-      <reference value="Practitioner/UjRGjnpUL7"/>
+      <reference value="Practitioner/1DBSdcT7Ej"/>
       <type value="Practitioner"/>
       <identifier>
         <use value="official"/>
         <type>
           <coding>
-            <system value="KCO8zaSQp_"/>
-            <version value="z1zk06NV1v"/>
-            <code value="GpyLLZq4W8"/>
-            <display value="sk5PlzX_8o"/>
+            <system value="jA4Mvrry3r"/>
+            <version value="RlMFIlHwz7"/>
+            <code value="9Ss8Kzs2Mx"/>
+            <display value="ibKu8w6GSd"/>
             <userSelected value="true"/>
           </coding>
-          <text value="kbaVgj_EWK"/>
+          <text value="F8U3VbZHPF"/>
         </type>
-        <system value="cSo6jH__mv"/>
-        <value value="3mfs7szDn4"/>
+        <system value="B1czyo9mj8"/>
+        <value value="hxzfF0k8hn"/>
         <period>
-          <start value="2020-08-11T16:26:56.676-05:00"/>
-          <end value="2020-08-11T16:26:56.676-05:00"/>
+          <start value="2020-11-04T02:37:40.347373-05:00"/>
+          <end value="2020-11-04T02:37:40.347558-05:00"/>
         </period>
       </identifier>
-      <display value="e6gvFtLhKO"/>
+      <display value="7jdY7b1fbv"/>
     </individual>
   </participant>
   <appointment>
-    <reference value="Mt9d7xBDTX"/>
-    <type value="wJJ2TAXA1q"/>
+    <reference value="Appointment/f11xiOHwgX"/>
+    <type value="Appointment"/>
     <identifier>
-      <use value="old"/>
+      <use value="official"/>
       <type>
         <coding>
-          <system value="7ChMtGImwo"/>
-          <version value="uylfIcFZ8e"/>
-          <code value="FiSTXDuE17"/>
-          <display value="FOkcImTjDV"/>
+          <system value="M1P2jca8WM"/>
+          <version value="UVlcSmni07"/>
+          <code value="eTMThcVQdx"/>
+          <display value="vbGlKF_NXH"/>
           <userSelected value="true"/>
         </coding>
-        <text value="PljAZpHoAW"/>
+        <text value="yr0HEu8jCf"/>
       </type>
-      <system value="90BPZwcDf0"/>
-      <value value="zpDNjrN03U"/>
+      <system value="SmmdFFYJc5"/>
+      <value value="FWTaZAyBnn"/>
       <period>
-        <start value="2020-08-11T16:26:56.682-05:00"/>
-        <end value="2020-08-11T16:26:56.682-05:00"/>
+        <start value="2020-11-04T02:37:40.348717-05:00"/>
+        <end value="2020-11-04T02:37:40.348895-05:00"/>
       </period>
     </identifier>
-    <display value="0PqYQbbJ3K"/>
+    <display value="HZxaejcoVE"/>
   </appointment>
   <period>
-    <start value="2020-08-11T16:26:56.671-05:00"/>
-    <end value="2020-08-11T16:26:56.671-05:00"/>
+    <start value="2020-11-04T02:37:40.349147-05:00"/>
+    <end value="2020-11-04T02:37:40.349322-05:00"/>
   </period>
   <length>
-    <value value="324076512592"/>
-    <comparator value="&lt;="/>
-    <unit value="Oz0GjA1kAK"/>
+    <value value="0.5303911293859240316805880866013467311859130859375"/>
+    <comparator value="&lt;"/>
+    <unit value="h3MJLIeRhd"/>
     <system value="http://unitsofmeasure.org"/>
     <code value="h"/>
   </length>
   <reasonCode>
     <coding>
-      <system value="8jbIWfWM12"/>
-      <version value="ZR0376VVsF"/>
-      <code value="cCnvweqULr"/>
-      <display value="XajYdfNjYf"/>
+      <system value="Uqdu_CtIzG"/>
+      <version value="SgPP8g1tvN"/>
+      <code value="eyF8uPr9sN"/>
+      <display value="g8m9vZe9us"/>
       <userSelected value="true"/>
     </coding>
-    <text value="JvNdcfVgJb"/>
+    <text value="J0G_yLcmz8"/>
   </reasonCode>
   <reasonReference>
-    <reference value="w3mt_3H5KY"/>
-    <type value="z5Pf_DUK74"/>
+    <reference value="Condition/oUAY_vRu0q"/>
+    <type value="Condition"/>
     <identifier>
-      <use value="usual"/>
+      <use value="temp"/>
       <type>
         <coding>
-          <system value="mBTyhJ7K5B"/>
-          <version value="TbmQX3snFz"/>
-          <code value="d9AOKai7V2"/>
-          <display value="8WvSunr8h1"/>
+          <system value="q7AqeLEZkn"/>
+          <version value="hYdxzimYD0"/>
+          <code value="YILPUVaXyo"/>
+          <display value="KnNCkTf49X"/>
           <userSelected value="true"/>
         </coding>
-        <text value="FhtOpkJZKi"/>
+        <text value="G1nNaH5JAU"/>
       </type>
-      <system value="fPDtub5ZeI"/>
-      <value value="j50pPpx7fA"/>
+      <system value="ue_MrcOdWX"/>
+      <value value="Ca3tmH4jXN"/>
       <period>
-        <start value="2020-08-11T16:26:56.678-05:00"/>
-        <end value="2020-08-11T16:26:56.678-05:00"/>
+        <start value="2020-11-04T02:37:40.351245-05:00"/>
+        <end value="2020-11-04T02:37:40.351488-05:00"/>
       </period>
     </identifier>
-    <display value="1YZTUf0a_q"/>
+    <display value="DWnr0s7olC"/>
   </reasonReference>
   <diagnosis>
     <condition>
-      <reference value="Condition/onpnmDHp4Q"/>
+      <reference value="Condition/T0j8CHkUag"/>
       <type value="Condition"/>
       <identifier>
         <use value="official"/>
         <type>
           <coding>
-            <system value="CkXfuNXJp9"/>
-            <version value="29G35GVjuH"/>
-            <code value="r7qyBJWEJY"/>
-            <display value="mlY9qilFN3"/>
+            <system value="7Sm8YzSRDg"/>
+            <version value="fDPS3FBRtD"/>
+            <code value="IydnyJ62rO"/>
+            <display value="ym1v32xmx9"/>
             <userSelected value="true"/>
           </coding>
-          <text value="u0AvJeFctp"/>
+          <text value="8sdWO04_FG"/>
         </type>
-        <system value="6mr302RhB5"/>
-        <value value="hIb1Lf7GTe"/>
+        <system value="DEbjS6elC7"/>
+        <value value="597RI6UMf3"/>
         <period>
-          <start value="2020-08-11T16:26:56.671-05:00"/>
-          <end value="2020-08-11T16:26:56.671-05:00"/>
+          <start value="2020-11-04T02:37:40.353216-05:00"/>
+          <end value="2020-11-04T02:37:40.35343-05:00"/>
         </period>
       </identifier>
-      <display value="1zp6sR4sXB"/>
+      <display value="akSrptyHmg"/>
     </condition>
     <use>
       <coding>
-        <system value="BXT7yMjrxu"/>
-        <version value="AK3jc3TGKy"/>
-        <code value="cyBjLjS8BN"/>
-        <display value="9qoiSKAVaq"/>
+        <system value="LJkzXGt4Bk"/>
+        <version value="PSePyGXLLf"/>
+        <code value="dDu0qbpM0r"/>
+        <display value="5QDxilALgY"/>
         <userSelected value="true"/>
       </coding>
-      <text value="hvk1RzLPbc"/>
+      <text value="fPwepF81v3"/>
     </use>
-    <rank value="904064364"/>
+    <rank value="188625374"/>
   </diagnosis>
   <account>
-    <reference value="MJgLRony_i"/>
-    <type value="KTvS5Qp_Os"/>
-    <identifier>
-      <use value="official"/>
-      <type>
-        <coding>
-          <system value="zVQsWE8mc9"/>
-          <version value="Mffagvyloc"/>
-          <code value="9Qep0f_ObC"/>
-          <display value="7f8ATnPMrq"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="bpBnrDcAft"/>
-      </type>
-      <system value="V6GREEp1Ze"/>
-      <value value="r0fFgGR3YD"/>
-      <period>
-        <start value="2020-08-11T16:26:56.681-05:00"/>
-        <end value="2020-08-11T16:26:56.681-05:00"/>
-      </period>
-    </identifier>
-    <display value="Ef8iqMxwnQ"/>
-  </account>
-  <hospitalization>
-    <preAdmissionIdentifier>
-      <use value="secondary"/>
-      <type>
-        <coding>
-          <system value="LzCGtTACfe"/>
-          <version value="6NhA0yTBsL"/>
-          <code value="8eZ8PA9C24"/>
-          <display value="LJEvvS79HI"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="zPQVF6wGoJ"/>
-      </type>
-      <system value="lzyrK0scjt"/>
-      <value value="SvKycjNfBH"/>
-      <period>
-        <start value="2020-08-11T16:26:56.693-05:00"/>
-        <end value="2020-08-11T16:26:56.693-05:00"/>
-      </period>
-    </preAdmissionIdentifier>
-    <origin>
-      <reference value="Location/pwKw0O8ITG"/>
-      <type value="Location"/>
-      <identifier>
-        <use value="old"/>
-        <type>
-          <coding>
-            <system value="4GCQ3kCnKU"/>
-            <version value="d0ft06WQGq"/>
-            <code value="I1fAs7xjR9"/>
-            <display value="_oN6ER0vx4"/>
-            <userSelected value="true"/>
-          </coding>
-          <text value="bqoZCZ_UP_"/>
-        </type>
-        <system value="d_UPsSvQoe"/>
-        <value value="zxHD55m9uS"/>
-        <period>
-          <start value="2020-08-11T16:26:56.691-05:00"/>
-          <end value="2020-08-11T16:26:56.692-05:00"/>
-        </period>
-      </identifier>
-      <display value="vM2iYzuUD9"/>
-    </origin>
-    <admitSource>
-      <coding>
-        <system value="RcPpTeFzMq"/>
-        <version value="vRoTYO5y8t"/>
-        <code value="1NIueuVIBS"/>
-        <display value="4kDWYUciP1"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="C2d6tt7mvy"/>
-    </admitSource>
-    <reAdmission>
-      <coding>
-        <system value="944SDfsMVc"/>
-        <version value="qe8l1Ef0iM"/>
-        <code value="02OMUruHbJ"/>
-        <display value="2umkw9YkKy"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="8fU52zAlNN"/>
-    </reAdmission>
-    <dietPreference>
-      <coding>
-        <system value="iAywqOxHr8"/>
-        <version value="LIr32uTc3T"/>
-        <code value="maa45fyZ0g"/>
-        <display value="ciXuJhkxIK"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="JdLIBcJjzS"/>
-    </dietPreference>
-    <specialCourtesy>
-      <coding>
-        <system value="q9AJRLh7vy"/>
-        <version value="Yuajkkof7d"/>
-        <code value="qJjXJDPz3j"/>
-        <display value="ATOQzw3ObH"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="U8HYx9yKbf"/>
-    </specialCourtesy>
-    <specialArrangement>
-      <coding>
-        <system value="f5w2Mr14G4"/>
-        <version value="HOnhZDaEjk"/>
-        <code value="oXkADclefW"/>
-        <display value="CSWkrEi9W9"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="E6JR9rVlUg"/>
-    </specialArrangement>
-    <destination>
-      <reference value="Location/62ITVQApux"/>
-      <type value="Location"/>
-      <identifier>
-        <use value="old"/>
-        <type>
-          <coding>
-            <system value="pBvyQ3s2sd"/>
-            <version value="4wAcqfQhTm"/>
-            <code value="9AoIGZBTKj"/>
-            <display value="EAHr4D3ilj"/>
-            <userSelected value="true"/>
-          </coding>
-          <text value="gDMeW7BX9p"/>
-        </type>
-        <system value="dEAQssWdDq"/>
-        <value value="L1E0HIENSv"/>
-        <period>
-          <start value="2020-08-11T16:26:56.69-05:00"/>
-          <end value="2020-08-11T16:26:56.69-05:00"/>
-        </period>
-      </identifier>
-      <display value="Q4gd4q8q0T"/>
-    </destination>
-    <dischargeDisposition>
-      <coding>
-        <system value="inXReMSzWL"/>
-        <version value="F3xtlJlkb4"/>
-        <code value="o0vjtxUoWp"/>
-        <display value="8XRtpZRZQt"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="sKNut79q49"/>
-    </dischargeDisposition>
-  </hospitalization>
-  <location>
-    <location>
-      <reference value="Location/odrrCjVmPe"/>
-      <type value="Location"/>
-      <identifier>
-        <use value="old"/>
-        <type>
-          <coding>
-            <system value="HwrjtyLFLG"/>
-            <version value="VuUW86PlZG"/>
-            <code value="uxbNxwo2kr"/>
-            <display value="9IPR_8mQ4u"/>
-            <userSelected value="true"/>
-          </coding>
-          <text value="s5WhhtKFGo"/>
-        </type>
-        <system value="JTvgyvZ1Fz"/>
-        <value value="G6tfU88Z7W"/>
-        <period>
-          <start value="2020-08-11T16:26:56.686-05:00"/>
-          <end value="2020-08-11T16:26:56.687-05:00"/>
-        </period>
-      </identifier>
-      <display value="eySbYpRJsd"/>
-    </location>
-    <status value="active"/>
-    <physicalType>
-      <coding>
-        <system value="e9Xtoxl29L"/>
-        <version value="PkYgw9rl1D"/>
-        <code value="fI5ECB_L0X"/>
-        <display value="yUIK8oGbd7"/>
-        <userSelected value="true"/>
-      </coding>
-      <text value="aBbQBcnXzk"/>
-    </physicalType>
-    <period>
-      <start value="2020-08-11T16:26:56.685-05:00"/>
-      <end value="2020-08-11T16:26:56.685-05:00"/>
-    </period>
-  </location>
-  <serviceProvider>
-    <reference value="Organization/JihHjECspG"/>
-    <type value="Organization"/>
-    <identifier>
-      <use value="official"/>
-      <type>
-        <coding>
-          <system value="m_hSH7G6oj"/>
-          <version value="vOW5E4w5kq"/>
-          <code value="7Cfv4PmsKf"/>
-          <display value="2gBJC6xvig"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="bZ94RJl0dc"/>
-      </type>
-      <system value="91rlH9EjJx"/>
-      <value value="TmGYqJCCGF"/>
-      <period>
-        <start value="2020-08-11T16:26:56.696-05:00"/>
-        <end value="2020-08-11T16:26:56.696-05:00"/>
-      </period>
-    </identifier>
-    <display value="lBWK8oKP_4"/>
-  </serviceProvider>
-  <partOf>
-    <reference value="Encounter/YOhzgLBe3b"/>
-    <type value="Encounter"/>
+    <reference value="Account/l0H66N5FMy"/>
+    <type value="Account"/>
     <identifier>
       <use value="old"/>
       <type>
         <coding>
-          <system value="Idp9zFMNtU"/>
-          <version value="QsZ5TbRtZg"/>
-          <code value="CFuCxLV7Yn"/>
-          <display value="oa6pHcDfX_"/>
+          <system value="bz7uySUJvz"/>
+          <version value="X6T5tAISSC"/>
+          <code value="j9SY5ak_Fw"/>
+          <display value="_8M5YrOq__"/>
           <userSelected value="true"/>
         </coding>
-        <text value="OCrLL7R3r8"/>
+        <text value="6Z56PvtHgO"/>
       </type>
-      <system value="5yNdYOREcb"/>
-      <value value="SLVxVhaB4B"/>
+      <system value="2PwXzKkPld"/>
+      <value value="aLl8mhZysk"/>
       <period>
-        <start value="2020-08-11T16:26:56.674-05:00"/>
-        <end value="2020-08-11T16:26:56.674-05:00"/>
+        <start value="2020-11-04T02:37:40.355133-05:00"/>
+        <end value="2020-11-04T02:37:40.355316-05:00"/>
       </period>
     </identifier>
-    <display value="ZvRnnKZFDr"/>
+    <display value="39CW9AbFw0"/>
+  </account>
+  <hospitalization>
+    <preAdmissionIdentifier>
+      <use value="temp"/>
+      <type>
+        <coding>
+          <system value="zczHqiU2gU"/>
+          <version value="jiOvGBouPN"/>
+          <code value="zj9NvaNKOh"/>
+          <display value="yu0HeboyQa"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="xc2DqLCqY2"/>
+      </type>
+      <system value="DNQfHlSxWR"/>
+      <value value="66dypPK53i"/>
+      <period>
+        <start value="2020-11-04T02:37:40.356766-05:00"/>
+        <end value="2020-11-04T02:37:40.357069-05:00"/>
+      </period>
+    </preAdmissionIdentifier>
+    <origin>
+      <reference value="Location/ixEIuuid__"/>
+      <type value="Location"/>
+      <identifier>
+        <use value="usual"/>
+        <type>
+          <coding>
+            <system value="QB_RfjFXy8"/>
+            <version value="HPXpHud6MS"/>
+            <code value="0lF0l_lGOX"/>
+            <display value="VY9oPnNXMd"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="9oKOylDS3M"/>
+        </type>
+        <system value="3O1yTjtAmI"/>
+        <value value="HD51usuyB9"/>
+        <period>
+          <start value="2020-11-04T02:37:40.358245-05:00"/>
+          <end value="2020-11-04T02:37:40.35844-05:00"/>
+        </period>
+      </identifier>
+      <display value="ZfpAGjsF8J"/>
+    </origin>
+    <admitSource>
+      <coding>
+        <system value="PdNfX4N0Ge"/>
+        <version value="NMJT6mcTKS"/>
+        <code value="GwqFX58l3_"/>
+        <display value="GPI5jKEHRo"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="IRrb1XqWGX"/>
+    </admitSource>
+    <reAdmission>
+      <coding>
+        <system value="bibSoTyHMF"/>
+        <version value="W9Vk0oBrdn"/>
+        <code value="ftucgAslFM"/>
+        <display value="3MuBX2TO7Q"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="T4BBOt5m8z"/>
+    </reAdmission>
+    <dietPreference>
+      <coding>
+        <system value="oLJzJMVenK"/>
+        <version value="fVoUjUMgT7"/>
+        <code value="Yas7vKYg_o"/>
+        <display value="E6QEdGlCUc"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="zfg5tWc8sN"/>
+    </dietPreference>
+    <specialCourtesy>
+      <coding>
+        <system value="FkxVlE_sd9"/>
+        <version value="ztEK9CtHhB"/>
+        <code value="cX0Cczirjn"/>
+        <display value="9ECu9USGuX"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="QBpd_B1EMX"/>
+    </specialCourtesy>
+    <specialArrangement>
+      <coding>
+        <system value="o24KZ6W793"/>
+        <version value="T9i1gBPg6G"/>
+        <code value="rS0th5M68k"/>
+        <display value="9IEMaMT7A2"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="S8nf4L38Zb"/>
+    </specialArrangement>
+    <destination>
+      <reference value="Location/2ZjzqdfNu1"/>
+      <type value="Location"/>
+      <identifier>
+        <use value="temp"/>
+        <type>
+          <coding>
+            <system value="TkRrlLhGhr"/>
+            <version value="Jt8HBdhPDE"/>
+            <code value="Sk0JvOL8on"/>
+            <display value="m1hiYVwaoZ"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="k0mdVRRQsc"/>
+        </type>
+        <system value="MHpn__w10M"/>
+        <value value="Gz2pZKCtp_"/>
+        <period>
+          <start value="2020-11-04T02:37:40.361925-05:00"/>
+          <end value="2020-11-04T02:37:40.362111-05:00"/>
+        </period>
+      </identifier>
+      <display value="eWs0VzPA_f"/>
+    </destination>
+    <dischargeDisposition>
+      <coding>
+        <system value="9RJNCPY9ic"/>
+        <version value="YUtlee29ng"/>
+        <code value="phEaQRcIFj"/>
+        <display value="iJZhEj_jhu"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="m1gByZfpAu"/>
+    </dischargeDisposition>
+  </hospitalization>
+  <location>
+    <location>
+      <reference value="Location/jqWJo198UV"/>
+      <type value="Location"/>
+      <identifier>
+        <use value="old"/>
+        <type>
+          <coding>
+            <system value="P6XvBH_oXw"/>
+            <version value="6ITAOy2yWU"/>
+            <code value="fKJ2RjVZUu"/>
+            <display value="G9FHdHyw5K"/>
+            <userSelected value="true"/>
+          </coding>
+          <text value="NNdGbiNClp"/>
+        </type>
+        <system value="Qz7HjWR3uv"/>
+        <value value="H0BMBGOnFy"/>
+        <period>
+          <start value="2020-11-04T02:37:40.363933-05:00"/>
+          <end value="2020-11-04T02:37:40.364118-05:00"/>
+        </period>
+      </identifier>
+      <display value="Wa_kXzHltv"/>
+    </location>
+    <status value="active"/>
+    <physicalType>
+      <coding>
+        <system value="7HW383O0vl"/>
+        <version value="KEuZoOI1SZ"/>
+        <code value="xGWLvwTuiK"/>
+        <display value="F7ACsbjxIE"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="hNNnJukk2F"/>
+    </physicalType>
+    <period>
+      <start value="2020-11-04T02:37:40.365689-05:00"/>
+      <end value="2020-11-04T02:37:40.36587-05:00"/>
+    </period>
+  </location>
+  <serviceProvider>
+    <reference value="Organization/GYzB2FQjbO"/>
+    <type value="Organization"/>
+    <identifier>
+      <use value="secondary"/>
+      <type>
+        <coding>
+          <system value="JLFn_IqZv7"/>
+          <version value="1zR4DAAVA1"/>
+          <code value="yIgbpwePiH"/>
+          <display value="Bt1Ji24sTH"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="F0B2nxZrdd"/>
+      </type>
+      <system value="BPzCabaDiw"/>
+      <value value="bYa0B8YplL"/>
+      <period>
+        <start value="2020-11-04T02:37:40.366926-05:00"/>
+        <end value="2020-11-04T02:37:40.367099-05:00"/>
+      </period>
+    </identifier>
+    <display value="vAB396Mglj"/>
+  </serviceProvider>
+  <partOf>
+    <reference value="Encounter/GlEgzD9YP1"/>
+    <type value="Encounter"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="FTsxXGzmFI"/>
+          <version value="GMF8GOvH4n"/>
+          <code value="yZH6l2Rzjo"/>
+          <display value="z9f34jqKmo"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="CgZf4lZgD3"/>
+      </type>
+      <system value="h2Voe8PfHe"/>
+      <value value="wYgRn9prgH"/>
+      <period>
+        <start value="2020-11-04T02:37:40.368438-05:00"/>
+        <end value="2020-11-04T02:37:40.368645-05:00"/>
+      </period>
+    </identifier>
+    <display value="0KoEgAoSPi"/>
   </partOf>
 </Encounter>

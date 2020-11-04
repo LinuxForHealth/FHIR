@@ -1,204 +1,204 @@
 <ImplementationGuide xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="fhz2GXJSi3"/>
-    <lastUpdated value="2020-08-11T16:26:58.36-05:00"/>
-    <source value="FKY5gQdGrK"/>
-    <profile value="ogeEsx0re8"/>
+    <versionId value="anmgHWYJ5-"/>
+    <lastUpdated value="2020-11-04T02:37:40.283083-05:00"/>
+    <source value="ZdKn6pqWPm"/>
+    <profile value="_pUV6w6Wsy"/>
     <security>
-      <system value="NWDL4j0v4p"/>
-      <version value="5qZ9Huxb_O"/>
-      <code value="P7hpIbv1VY"/>
-      <display value="gsYgxriMOm"/>
+      <system value="G976g91Vm7"/>
+      <version value="4AaWD_F0qU"/>
+      <code value="cGvDsw8aMX"/>
+      <display value="cUYYtPx7PH"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="uor3K0QqKo"/>
-      <version value="dCP4KfKeHj"/>
-      <code value="kgl5oyvGj1"/>
-      <display value="hvHOYki9a7"/>
+      <system value="GCgwCmnOHg"/>
+      <version value="suFQRLl_NN"/>
+      <code value="yljz0XMEbo"/>
+      <display value="xraa7mdLXh"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="CKKFYcsqUV"/>
+  <implicitRules value="uVSUYr_OBr"/>
   <language value="en-US"/>
   <text>
     <status value="additional"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
-  <url value="6nYcR20w7M"/>
-  <version value="DZUir3MwWd"/>
-  <name value="IxF7hmuxWF"/>
-  <title value="UTiXrMdu9n"/>
-  <status value="active"/>
+  <url value="l5q9ekaagb"/>
+  <version value="VqUWlZBiF0"/>
+  <name value="crH1qSjVSw"/>
+  <title value="2L6fHKbl8b"/>
+  <status value="retired"/>
   <experimental value="true"/>
-  <date value="2020-08-11T16:26:58.359-05:00"/>
-  <publisher value="g7FqlYwsHd"/>
+  <date value="2020-11-04T02:37:40.285865-05:00"/>
+  <publisher value="ZRcPTfQJMZ"/>
   <contact>
-    <name value="PVLPUe8StG"/>
+    <name value="gd7PXODrSF"/>
     <telecom>
-      <system value="pager"/>
-      <value value="SQoBkNlwVD"/>
+      <system value="phone"/>
+      <value value="h8e9pzIBm8"/>
       <use value="work"/>
-      <rank value="1439316625"/>
+      <rank value="1947873317"/>
       <period>
-        <start value="2020-08-11T16:26:58.358-05:00"/>
-        <end value="2020-08-11T16:26:58.358-05:00"/>
+        <start value="2020-11-04T02:37:40.286368-05:00"/>
+        <end value="2020-11-04T02:37:40.286548-05:00"/>
       </period>
     </telecom>
   </contact>
-  <description value="bPaF0yXeHB"/>
+  <description value="i_gR2is4gl"/>
   <useContext>
     <code>
-      <system value="YiW4jF1X4b"/>
-      <version value="1oABFVuIlr"/>
-      <code value="_MebB1A2b6"/>
-      <display value="N_kGk7BIGT"/>
+      <system value="lrlK7NsGRZ"/>
+      <version value="my3rpl15Gh"/>
+      <code value="QEHMzmfjBG"/>
+      <display value="GeZYRg1xj4"/>
       <userSelected value="true"/>
     </code>
     <valueQuantity>
-      <value value="142161312303"/>
-      <comparator value="&gt;"/>
-      <unit value="TnhuQqrKjt"/>
-      <system value="ee6DoFdF0A"/>
-      <code value="2DKdJ_m1Rz"/>
+      <value value="0.715462558903244172370250453241169452667236328125"/>
+      <comparator value="&lt;="/>
+      <unit value="TmfE0E10FD"/>
+      <system value="MASIWY1paJ"/>
+      <code value="YBzp0Ww3qh"/>
     </valueQuantity>
   </useContext>
   <jurisdiction>
     <coding>
-      <system value="OZyIoPcnAu"/>
-      <version value="dbdBWTPJfo"/>
-      <code value="2YSCIMMj9y"/>
-      <display value="MFiFlvRLSn"/>
+      <system value="FIXAopRLdl"/>
+      <version value="xLcq46kd1O"/>
+      <code value="TachsnOPp3"/>
+      <display value="FfzTc4JmnT"/>
       <userSelected value="true"/>
     </coding>
-    <text value="3oaYkaNa1h"/>
+    <text value="M3moXQ0eys"/>
   </jurisdiction>
-  <copyright value="JDCDTpSou4"/>
-  <packageId value="mlaPjSv7YX"/>
-  <license value="W3C-19980720"/>
-  <fhirVersion value="3.3.0"/>
+  <copyright value="ZAeW6MOgvw"/>
+  <packageId value="3QP-tq5O1H"/>
+  <license value="Interbase-1.0"/>
+  <fhirVersion value="0.01"/>
   <dependsOn>
-    <uri value="xzafme_UXH"/>
-    <packageId value="AkyAoOqDD0"/>
-    <version value="eHG3gKuT8E"/>
+    <uri value="pKv5Us0SkH"/>
+    <packageId value="Ov7hdEINQ2"/>
+    <version value="JHe8Da5KG8"/>
   </dependsOn>
   <global>
-    <type value="ResearchSubject"/>
-    <profile value="yAvUZMZ1es"/>
+    <type value="CommunicationRequest"/>
+    <profile value="oJtXqP7R1Q"/>
   </global>
   <definition>
     <grouping>
-      <name value="91scurGhyq"/>
-      <description value="NJFsm7w6Cd"/>
+      <name value="mfAgP74LJ0"/>
+      <description value="PzKAh7jR9g"/>
     </grouping>
     <resource>
       <reference>
-        <reference value="j7UQVq_Mvg"/>
-        <type value="2lNAqhiL4H"/>
+        <reference value="Basic/yiL4EYiu5F"/>
+        <type value="Basic"/>
         <identifier>
-          <use value="temp"/>
+          <use value="usual"/>
           <type>
             <coding>
-              <system value="516jl5HjMP"/>
-              <version value="oJafeUv5OS"/>
-              <code value="l1xRrNpWqM"/>
-              <display value="K07TXHz0w0"/>
+              <system value="YdoM3y7n0J"/>
+              <version value="QPvjfIrAHx"/>
+              <code value="GqZJLJbK0t"/>
+              <display value="0C0dsppzaO"/>
               <userSelected value="true"/>
             </coding>
-            <text value="qmVx8Ew25F"/>
+            <text value="SdGL_Th89J"/>
           </type>
-          <system value="5BDwuFRXYz"/>
-          <value value="nWTisGImpL"/>
+          <system value="m6sIz58ah6"/>
+          <value value="YgXzrzL2sK"/>
           <period>
-            <start value="2020-08-11T16:26:58.355-05:00"/>
-            <end value="2020-08-11T16:26:58.356-05:00"/>
+            <start value="2020-11-04T02:37:40.290451-05:00"/>
+            <end value="2020-11-04T02:37:40.290648-05:00"/>
           </period>
         </identifier>
-        <display value="N0AtMzfSPs"/>
+        <display value="BAAsxRY71X"/>
       </reference>
-      <fhirVersion value="3.5.0"/>
-      <name value="BAvyJMN1Tx"/>
-      <description value="ZLV16HSfHF"/>
-      <exampleCanonical value="DEudJEcNuF"/>
-      <groupingId value="xv9b0nHUTl"/>
+      <fhirVersion value="1.0.1"/>
+      <name value="VM4VnAbCt4"/>
+      <description value="m5soBATmi0"/>
+      <exampleCanonical value="vfrxfC0X9J"/>
+      <groupingId value="cpEhidKMTp"/>
     </resource>
     <page>
       <nameReference>
-        <reference value="rSNBP9mBdI"/>
-        <type value="oc6nWDNVX0"/>
+        <reference value="Binary/_RFtMHzQs4"/>
+        <type value="Binary"/>
         <identifier>
-          <use value="temp"/>
+          <use value="usual"/>
           <type>
             <coding>
-              <system value="4NCUHH7jeQ"/>
-              <version value="LtjsjJzahp"/>
-              <code value="xiCAy6joku"/>
-              <display value="ZdkMJ1YsSt"/>
+              <system value="ZQHZdUPtAK"/>
+              <version value="5eionL0tYP"/>
+              <code value="J9vpzzNujU"/>
+              <display value="vLfQjPrmSc"/>
               <userSelected value="true"/>
             </coding>
-            <text value="FW2IQWE8B1"/>
+            <text value="ISoY_6pVWR"/>
           </type>
-          <system value="QzZXfAw3fx"/>
-          <value value="nuXj1RNHhX"/>
+          <system value="5rq8jqgNgp"/>
+          <value value="sKPyQBkzQM"/>
           <period>
-            <start value="2020-08-11T16:26:58.357-05:00"/>
-            <end value="2020-08-11T16:26:58.357-05:00"/>
+            <start value="2020-11-04T02:37:40.293079-05:00"/>
+            <end value="2020-11-04T02:37:40.293293-05:00"/>
           </period>
         </identifier>
-        <display value="cdcDUXLKpa"/>
+        <display value="a9lHzSlzSi"/>
       </nameReference>
-      <title value="HQgfEtPkl4"/>
-      <generation value="xml"/>
+      <title value="FxmWzS_Goi"/>
+      <generation value="html"/>
     </page>
     <parameter>
       <code value="html-template"/>
-      <value value="exjUrtVH8c"/>
+      <value value="2Ys9oIybuL"/>
     </parameter>
     <template>
-      <code value="f_gVHAbzFd"/>
-      <source value="T2eODDnsXS"/>
-      <scope value="7qfgs6hFhx"/>
+      <code value="1DYTLPIBmF"/>
+      <source value="3HsfULQ9GL"/>
+      <scope value="DSaqQIiCBp"/>
     </template>
   </definition>
   <manifest>
-    <rendering value="eZkQjqwOoB"/>
+    <rendering value="VyUlNE5wdy"/>
     <resource>
       <reference>
-        <reference value="RZ_kB9O3mM"/>
-        <type value="uNRnOmdYGI"/>
+        <reference value="Basic/C_zqBZg5ev"/>
+        <type value="Basic"/>
         <identifier>
           <use value="temp"/>
           <type>
             <coding>
-              <system value="B_YabL1dSI"/>
-              <version value="Zc7gqY2Pp7"/>
-              <code value="rOr1B8iDNv"/>
-              <display value="kVn8znqOHa"/>
+              <system value="qbHuuAhUIc"/>
+              <version value="zDJzABU3oD"/>
+              <code value="NvKRpRWdT9"/>
+              <display value="Y7aR4_eG2a"/>
               <userSelected value="true"/>
             </coding>
-            <text value="u65iZxqCVD"/>
+            <text value="FztWDvrRZw"/>
           </type>
-          <system value="OKALj_iRex"/>
-          <value value="x7ziKr5WLI"/>
+          <system value="1KvQ3udVg4"/>
+          <value value="Kxyvd0mwFZ"/>
           <period>
-            <start value="2020-08-11T16:26:58.354-05:00"/>
-            <end value="2020-08-11T16:26:58.354-05:00"/>
+            <start value="2020-11-04T02:37:40.295302-05:00"/>
+            <end value="2020-11-04T02:37:40.295488-05:00"/>
           </period>
         </identifier>
-        <display value="2D7j7WNF_6"/>
+        <display value="8U0gxEB6Tv"/>
       </reference>
-      <exampleCanonical value="aCfUGajGuE"/>
-      <relativePath value="cNFiARwz_s"/>
+      <exampleCanonical value="OqQ4xFFLBi"/>
+      <relativePath value="s2TTOQChfN"/>
     </resource>
     <page>
-      <name value="mSbtWUtkGP"/>
-      <title value="Fsqe4SPKR5"/>
-      <anchor value="k9P4DujErm"/>
+      <name value="fmBlVhr0xP"/>
+      <title value="jtgquK6ble"/>
+      <anchor value="1yrdeP1eah"/>
     </page>
-    <image value="rvjqFscel4"/>
-    <other value="8RXzUAQnpf"/>
+    <image value="Ofs8Q1GBMw"/>
+    <other value="NUXWs2Uex7"/>
   </manifest>
 </ImplementationGuide>

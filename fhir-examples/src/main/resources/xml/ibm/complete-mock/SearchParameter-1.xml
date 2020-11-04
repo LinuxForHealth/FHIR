@@ -1,99 +1,99 @@
 <SearchParameter xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="T-dqYPJAUZ"/>
-    <lastUpdated value="2020-08-11T16:27:01.418-05:00"/>
-    <source value="KlwB94T6Wh"/>
-    <profile value="I8APNcrn6f"/>
+    <versionId value="qnSoTonBu9"/>
+    <lastUpdated value="2020-11-04T02:37:41.103063-05:00"/>
+    <source value="oLZQOz8aDC"/>
+    <profile value="ENHPCuhzup"/>
     <security>
-      <system value="bGkNt6bAiO"/>
-      <version value="icGJitBlqm"/>
-      <code value="y_mJv1ISju"/>
-      <display value="wb5XbyNNbe"/>
+      <system value="Ysc_8sk8eP"/>
+      <version value="MalRUuWqvH"/>
+      <code value="nxRpGrGlBi"/>
+      <display value="DVbzpCFdar"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="SmCUsXmjVP"/>
-      <version value="dS4CmjhSCu"/>
-      <code value="fthCnLo2CX"/>
-      <display value="xy1RgRpGi2"/>
+      <system value="4iKu1KEQ6W"/>
+      <version value="LLoGPNNPsg"/>
+      <code value="SACxlENJFd"/>
+      <display value="nLZN3fe22l"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="QGgx7BLct1"/>
+  <implicitRules value="syDZwBNVV1"/>
   <language value="en-US"/>
   <text>
-    <status value="extensions"/>
+    <status value="additional"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
-  <url value="oxzJtRkyXw"/>
-  <version value="_lI5RMn8iP"/>
-  <name value="YL1B6SFA71"/>
-  <derivedFrom value="8em9MwCZP1"/>
+  <url value="DnTeMbxU5P"/>
+  <version value="sGOa1UubTQ"/>
+  <name value="vooqo3OKXU"/>
+  <derivedFrom value="V_uWhxxQ1X"/>
   <status value="retired"/>
   <experimental value="true"/>
-  <date value="2020-08-11T16:27:01.418-05:00"/>
-  <publisher value="bvKHYcHAcE"/>
+  <date value="2020-11-04T02:37:41.106467-05:00"/>
+  <publisher value="gi8OG9SDht"/>
   <contact>
-    <name value="fEPXoNufGv"/>
+    <name value="gJTOHRX_Vu"/>
     <telecom>
       <system value="pager"/>
-      <value value="68fT76snb9"/>
-      <use value="old"/>
-      <rank value="1871602864"/>
+      <value value="TIr3I4uxHa"/>
+      <use value="mobile"/>
+      <rank value="893949349"/>
       <period>
-        <start value="2020-08-11T16:27:01.416-05:00"/>
-        <end value="2020-08-11T16:27:01.417-05:00"/>
+        <start value="2020-11-04T02:37:41.106946-05:00"/>
+        <end value="2020-11-04T02:37:41.107098-05:00"/>
       </period>
     </telecom>
   </contact>
-  <description value="nsAGtJD9Pd"/>
+  <description value="Tru7gwcXv4"/>
   <useContext>
     <code>
-      <system value="nN99uRjO0H"/>
-      <version value="gXCsKsvUX0"/>
-      <code value="2l7q6wvdjU"/>
-      <display value="kNblws8_y_"/>
+      <system value="TS1Yr1Xi8N"/>
+      <version value="jPG2wmGeU0"/>
+      <code value="KL1OQABWG_"/>
+      <display value="CJb_P4ge59"/>
       <userSelected value="true"/>
     </code>
     <valueCodeableConcept>
       <coding>
-        <system value="VwgwoPoYxg"/>
-        <version value="JQHR88kQEu"/>
-        <code value="D7TST374eO"/>
-        <display value="E9lNQdilE8"/>
+        <system value="3jS0VBv83c"/>
+        <version value="5LSkWMhwnB"/>
+        <code value="k5tKuryIxm"/>
+        <display value="dT5MiZ3vLW"/>
         <userSelected value="true"/>
       </coding>
-      <text value="4zLkRh5Rgn"/>
+      <text value="LWJuUCwGFz"/>
     </valueCodeableConcept>
   </useContext>
   <jurisdiction>
     <coding>
-      <system value="FSdi2Ypqlg"/>
-      <version value="3EmCakPGwH"/>
-      <code value="mPtM3wYsmw"/>
-      <display value="GnpomYVy0y"/>
+      <system value="tjSlXgClmk"/>
+      <version value="zmSPVPWeLm"/>
+      <code value="gtBaKGHbm9"/>
+      <display value="vTdFu60y4k"/>
       <userSelected value="true"/>
     </coding>
-    <text value="a_xC6Ksoad"/>
+    <text value="nZYiDwV1AJ"/>
   </jurisdiction>
-  <purpose value="aSqcwvC9xC"/>
-  <code value="wikmkRwgo2"/>
-  <base value="CapabilityStatement"/>
-  <type value="string"/>
-  <expression value="qJlMWp_VLA"/>
-  <xpath value="DDoAQ7o0lj"/>
-  <xpathUsage value="distance"/>
-  <target value="ResearchSubject"/>
+  <purpose value="7Jaborb0ns"/>
+  <code value="ij8p84wSOa"/>
+  <base value="Group"/>
+  <type value="number"/>
+  <expression value="C9wQxHZlXA"/>
+  <xpath value="b1VN33dAK4"/>
+  <xpathUsage value="phonetic"/>
+  <target value="Parameters"/>
   <multipleOr value="true"/>
   <multipleAnd value="true"/>
-  <comparator value="eq"/>
-  <modifier value="above"/>
-  <chain value="K7QEycwJLW"/>
+  <comparator value="sa"/>
+  <modifier value="not"/>
+  <chain value="ZrC6qqoVki"/>
   <component>
-    <definition value="N6dN5DfOW8"/>
-    <expression value="43PXpya29R"/>
+    <definition value="320yKSZrgQ"/>
+    <expression value="yKaJi4zWPW"/>
   </component>
 </SearchParameter>

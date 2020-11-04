@@ -1,27 +1,27 @@
 {
     "resourceType": "TestReport",
     "meta": {
-        "versionId": "XOWOi19TdU",
-        "lastUpdated": "2020-08-11T16:27:04.587-05:00",
-        "source": "0xNWyJafam",
+        "versionId": "gU7hwPgvhJ",
+        "lastUpdated": "2020-11-04T02:37:49.23212-05:00",
+        "source": "Wi8xBNJrSv",
         "profile": [
-            "6hjT9RHyFg"
+            "dozDe1ao76"
         ],
         "security": [
             {
-                "system": "L_JHDYZWEe",
-                "version": "Ur86tqsoco",
-                "code": "JD9iSRzMsW",
-                "display": "dEyIn89d1k",
+                "system": "p2cK67trJj",
+                "version": "pQCRuCLyRB",
+                "code": "SZMS4gvfMS",
+                "display": "SPCxqaSll1",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "PO2PVfxtTp",
-                "version": "Oe1uM6epOg",
-                "code": "Uf_HH9EMgZ",
-                "display": "e0Dhcjx7pm",
+                "system": "CtaXPgLx3T",
+                "version": "bKpbQci0Ln",
+                "code": "eduoHASzaI",
+                "display": "nRlTyKZGzK",
                 "userSelected": true
             },
             {
@@ -29,103 +29,103 @@
             }
         ]
     },
-    "implicitRules": "z2nZB0lVba",
+    "implicitRules": "iqRYfkpXlW",
     "language": "en-US",
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
     "identifier": {
-        "use": "secondary",
+        "use": "temp",
         "type": {
             "coding": [
                 {
-                    "system": "80SFUmF6oa",
-                    "version": "QjbyYXtx8o",
-                    "code": "TyhL10ZwGI",
-                    "display": "CYttCYl1wj",
+                    "system": "JkQGQsaLDv",
+                    "version": "PKu6QQPPxI",
+                    "code": "BKaaVMtTUW",
+                    "display": "OVw7jhCfOP",
                     "userSelected": true
                 }
             ],
-            "text": "5S7qXT1s23"
+            "text": "_hf3NWs_Sf"
         },
-        "system": "q8CudiCqp5",
-        "value": "8KFluELRsn",
+        "system": "Hp1hi9umWc",
+        "value": "1EZe87w_Ue",
         "period": {
-            "start": "2020-08-11T16:27:04.586-05:00",
-            "end": "2020-08-11T16:27:04.586-05:00"
+            "start": "2020-11-04T02:37:49.234318-05:00",
+            "end": "2020-11-04T02:37:49.234485-05:00"
         }
     },
-    "name": "cgRTjSkRBo",
-    "status": "in-progress",
+    "name": "QEWXjb8hX7",
+    "status": "waiting",
     "testScript": {
-        "reference": "TestScript/5FYculrtoc",
+        "reference": "TestScript/OiFBFOlr_O",
         "type": "TestScript",
         "identifier": {
-            "use": "official",
+            "use": "usual",
             "type": {
                 "coding": [
                     {
-                        "system": "fdVCJEtI_N",
-                        "version": "jS1RXM4GeT",
-                        "code": "snaHiDGxDq",
-                        "display": "dVGgBZtXgp",
+                        "system": "B3PVwz9OHD",
+                        "version": "PlEbL5xZTS",
+                        "code": "DfLZdLfhd2",
+                        "display": "r5d1fwTu4U",
                         "userSelected": true
                     }
                 ],
-                "text": "hfkLotNklu"
+                "text": "a0Zf0xDM2W"
             },
-            "system": "bbtMryNiHb",
-            "value": "d7VFs_4BbQ",
+            "system": "JP3cD1hezq",
+            "value": "cPr1RZyQj3",
             "period": {
-                "start": "2020-08-11T16:27:04.582-05:00",
-                "end": "2020-08-11T16:27:04.582-05:00"
+                "start": "2020-11-04T02:37:49.235387-05:00",
+                "end": "2020-11-04T02:37:49.235518-05:00"
             }
         },
-        "display": "vin_h4wAeI"
+        "display": "vUqtqurKNH"
     },
-    "result": "pending",
-    "score": 22903871348,
-    "tester": "nA4_eqUGMr",
-    "issued": "2020-08-11T16:27:04.579-05:00",
+    "result": "fail",
+    "score": 0.68884866668691302482585570032824762165546417236328125,
+    "tester": "p8BZWhrlpp",
+    "issued": "2020-11-04T02:37:49.236092-05:00",
     "participant": [
         {
-            "type": "server",
-            "uri": "BsAor0U_n0",
-            "display": "crDP1yyJB8"
+            "type": "client",
+            "uri": "e1Kr_eGHJn",
+            "display": "4VXVCbYLY5"
         }
     ],
     "setup": {
         "action": [
             {
                 "operation": {
-                    "result": "pass",
-                    "message": "TYgmeHOwLQ",
-                    "detail": "6Jsiqjfn3R"
+                    "result": "skip",
+                    "message": "U54PC1RDQA",
+                    "detail": "8daHDRzNlI"
                 },
                 "assert": {
                     "result": "pass",
-                    "message": "6tC0suw79X",
-                    "detail": "2ZrzUDbbMt"
+                    "message": "_NFXgOgkb0",
+                    "detail": "ABky3euEtC"
                 }
             }
         ]
     },
     "test": [
         {
-            "name": "tno96vcHtB",
-            "description": "Eku1n_UgDO",
+            "name": "bcqbG4ThJi",
+            "description": "Kd1X3V573t",
             "action": [
                 {
                     "operation": {
-                        "result": "error",
-                        "message": "bPFO3bzSPn",
-                        "detail": "Jr_QAk5TgW"
+                        "result": "fail",
+                        "message": "7qBXzyGaJg",
+                        "detail": "AwRuuJqJxf"
                     },
                     "assert": {
-                        "result": "warning",
-                        "message": "q0xUFS7TD6",
-                        "detail": "1r9oHhHq9v"
+                        "result": "pass",
+                        "message": "ZXYvDVMvUd",
+                        "detail": "Ai8YnnZbZJ"
                     }
                 }
             ]
@@ -136,8 +136,8 @@
             {
                 "operation": {
                     "result": "fail",
-                    "message": "jk07rmhTVL",
-                    "detail": "k3im3Tpfnh"
+                    "message": "HRB_t45FQm",
+                    "detail": "vQWSWDfwrF"
                 }
             }
         ]
