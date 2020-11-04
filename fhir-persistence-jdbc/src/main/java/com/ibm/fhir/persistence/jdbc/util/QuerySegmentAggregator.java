@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
@@ -566,9 +567,12 @@ public class QuerySegmentAggregator {
                                         .append(LEFT_PAREN);
                             whereClause.append(querySegment.getQueryString());
                             whereClause.append(RIGHT_PAREN)
-                                        .append(" AS " + paramTableAlias)
+                                        .append(AS)
+                                        .append(paramTableAlias)
                                         .append(ON)
-                                        .append("LR.LOGICAL_ID = " + paramTableAlias + ".LOGICAL_ID");
+                                        .append("LR.LOGICAL_ID = ")
+                                        .append(paramTableAlias)
+                                        .append(".LOGICAL_ID");
                         } else {
                             // Join a standard parameter table
                             //   JOIN Observation_TOKEN_VALUES AS param0
@@ -577,12 +581,15 @@ public class QuerySegmentAggregator {
 
                             final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
 
-                            whereClause.append(JOIN);
-                            whereClause.append(tableName(overrideType, param));
-                            whereClause.append(" AS " + paramTableAlias);
-                            whereClause.append(ON);
-                            whereClause.append(onFilter);
-                            whereClause.append(" AND LR.LOGICAL_RESOURCE_ID = " + paramTableAlias + ".LOGICAL_RESOURCE_ID");
+                            whereClause.append(JOIN)
+                                        .append(tableName(overrideType, param))
+                                        .append(AS)
+                                        .append(paramTableAlias)
+                                        .append(ON)
+                                        .append(onFilter)
+                                        .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                        .append(paramTableAlias)
+                                        .append(".LOGICAL_RESOURCE_ID");
                         }
                     } else {
                         // add an alias for the composite table

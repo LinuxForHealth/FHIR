@@ -342,6 +342,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
      * One observation is found, thus one encounter is returned.
      * @throws Exception
      */
+    // TODO: uncomment when issue #1669 is fixed.
 //    @Test
 //    public void testReverseChainSingleResultWithCompositeParm() throws Exception {
 //        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();

@@ -9,6 +9,7 @@ package com.ibm.fhir.search.util;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class SearchUtil {
     private static final String SEARCH_PARAM_COMBINATION_DELIMITER = "\\+";
     private static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
     private static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
+    private static final String HAS_DELIMITER = SearchConstants.COLON_DELIMITER_STR + SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR;
 
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
@@ -1382,8 +1384,8 @@ public class SearchUtil {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
     }
 
-    public static boolean isReverseChainedParameter(String name) {
-        return name.startsWith(SearchConstants.HAS);
+    public static boolean isReverseChainedParameter(String code) {
+        return code.startsWith(SearchConstants.HAS);
     }
 
     private static QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
@@ -1539,7 +1541,7 @@ public class SearchUtil {
                     if (modifier != null && !Modifier.TYPE.equals(modifier)
                             && currentIndex < lastIndex) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier));
+                                String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier.value()));
                     }
                     parameterName = parameterName.substring(0, parameterName.indexOf(":"));
                 } else {
@@ -1551,7 +1553,7 @@ public class SearchUtil {
 
                 if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
+                            String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type.value()));
                 }
 
                 List<ResourceType> targets = searchParameter.getTarget();
@@ -1608,12 +1610,14 @@ public class SearchUtil {
     /**
      * Transforms the passed string representing reverse chain search criteria, into
      * an actual chain of QueryParameter objects. This method consumes strings of this form:
+     * @formatter:off
      * <pre>
      *      +-------------------------------------------------------------------+
      *      |                                                                   |
      *      V                                                                   |
      * >>---+--- "_has:{referenced-by-resource-type}:{reference-parameter}:" ---+--- "{search-parameter}" ---><
      * </pre>
+     * @formatter:on
      * See the FHIR specification for details:
      * <a href="https://www.hl7.org/fhir/search.html#has</a>
      *
@@ -1632,9 +1636,7 @@ public class SearchUtil {
 
         try {
             // Strip leading '_has:' and then split by ':_has:'
-            List<String> components = Arrays.asList(reverseChainParameterString
-                .replaceFirst(SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR, "")
-                .split(SearchConstants.COLON_DELIMITER_STR + SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR));
+            List<String> components = Arrays.asList(reverseChainParameterString.substring(HAS_DELIMITER.length()-1).split(HAS_DELIMITER));
 
             if (components.size() == 0) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(INCORRECT_NUMBER_OF_COMPONENTS_FOR_REVERSE_CHAIN_SEARCH);
@@ -1684,12 +1686,10 @@ public class SearchUtil {
                 QueryParameter parameter = new QueryParameter(Type.REFERENCE, referenceSearchParameterName, Modifier.TYPE, referencedByResourceTypeName, false, true);
                 if (rootParameter == null) {
                     rootParameter = parameter;
+                } else if (rootParameter.getChain().isEmpty()) {
+                    rootParameter.setNextParameter(parameter);
                 } else {
-                    if (rootParameter.getChain().isEmpty()) {
-                        rootParameter.setNextParameter(parameter);
-                    } else {
-                        rootParameter.getChain().getLast().setNextParameter(parameter);
-                    }
+                    rootParameter.getChain().getLast().setNextParameter(parameter);
                 }
 
                 if (currentIndex == lastIndex) {
@@ -1728,12 +1728,12 @@ public class SearchUtil {
                                 try {
                                     modifier = Modifier.fromValue(modifierName);
                                 } catch (IllegalArgumentException e) {
-                                    String msg = "Undefined Modifier: " + modifierName;
+                                    String msg = "Undefined Modifier: '" + URLEncoder.encode(modifierName, "UTF-8") + "'";
                                     throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                                 }
                             }
                             if (!isAllowed(type, modifier)) {
-                                String msg = "Unsupported type/modifier combination: " + type.value() + "/" + modifier.value();
+                                String msg = "Unsupported type/modifier combination: '" + type.value() + "'/'" + modifier.value() + "'";
                                 throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                             }
                         }
