@@ -14,6 +14,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -594,8 +595,8 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       assertEquals(null, nextParameter.getModifier());
       assertEquals(null, nextParameter.getModifierResourceTypeName());
       assertNull(nextParameter.getNextParameter());
-      assertEquals(now, nextParameter.getValues().get(0).getValueDateLowerBound());
-      assertEquals(now, nextParameter.getValues().get(0).getValueDateUpperBound());
+      assertEquals(now.truncatedTo(ChronoUnit.MILLIS), nextParameter.getValues().get(0).getValueDateLowerBound().truncatedTo(ChronoUnit.MILLIS));
+      assertEquals(now.truncatedTo(ChronoUnit.MILLIS), nextParameter.getValues().get(0).getValueDateUpperBound().truncatedTo(ChronoUnit.MILLIS));
       assertFalse(nextParameter.isChained());
       assertFalse(nextParameter.isReverseChained());
       assertFalse(nextParameter.isInclusionCriteria());
