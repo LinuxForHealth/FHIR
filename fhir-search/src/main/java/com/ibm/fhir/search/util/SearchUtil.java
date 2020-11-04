@@ -1636,7 +1636,7 @@ public class SearchUtil {
 
         try {
             // Strip leading '_has:' and then split by ':_has:'
-            List<String> components = Arrays.asList(reverseChainParameterString.substring(HAS_DELIMITER.length()-1).split(HAS_DELIMITER));
+            List<String> components = Arrays.asList(reverseChainParameterString.replaceFirst(HAS_DELIMITER.substring(1), "").split(HAS_DELIMITER));
 
             if (components.size() == 0) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(INCORRECT_NUMBER_OF_COMPONENTS_FOR_REVERSE_CHAIN_SEARCH);
