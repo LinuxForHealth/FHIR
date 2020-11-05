@@ -285,10 +285,6 @@ public final class ValidationSupport {
                 List<String> typeNameList = Arrays.stream(types).map(Class::getSimpleName).collect(Collectors.toList());
                 throw new IllegalStateException(String.format("Invalid type: %s for choice element: '%s' must be one of: %s", elementType.getSimpleName(), elementName, typeNameList.toString()));
             }
-            //do other validation here?
-//            if (element instanceof Reference) {
-//                checkReferenceType(element, elementName, ModelSupport.getReferenceTargetTypes(modelClass, elementName));
-//            }
         }
         return element;
     }
