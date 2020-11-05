@@ -30,16 +30,6 @@ public class Constants {
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
     public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
-
-    // Job parameters
-    public static final String COS_API_KEY = "cos.api.key";
-    public static final String COS_SRVINST_ID = "cos.srvinst.id";
-    public static final String COS_ENDPOINT_URL = "cos.endpointurl";
-    public static final String COS_LOCATION = "cos.location";
-    public static final String COS_BUCKET_NAME = "cos.bucket.name";
-    public static final String COS_IS_IBM_CREDENTIAL = "cos.credential.ibm";
-    public static final String COS_BUCKET_FILE_MAX_SIZE = "cos.bucket.filemaxsize";
-    public static final String COS_BUCKET_FILE_MAX_RESOURCES = "cos.bucket.filemaxresources";
     // COS bucket for import OperationOutcomes
     public static final String COS_OPERATIONOUTCOMES_BUCKET_NAME = "cos.operationoutcomes.bucket.name";
     public static final String FHIR_TENANT = "fhir.tenant";
