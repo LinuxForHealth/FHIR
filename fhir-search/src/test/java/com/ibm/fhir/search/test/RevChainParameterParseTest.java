@@ -568,8 +568,8 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       Map<String, List<String>> queryParameters = new HashMap<>();
       FHIRSearchContext searchContext;
       Class<Patient> resourceType = Patient.class;
-      Instant now = Instant.now();
-      String queryString = "&_has:RiskAssessment:subject:date=" + now.toString().substring(0,19);
+      Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+      String queryString = "&_has:RiskAssessment:subject:date=" + now.toString();
 
       queryParameters.put("_has:RiskAssessment:subject:date", Collections.singletonList(now.toString()));
       searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
@@ -595,8 +595,8 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       assertEquals(null, nextParameter.getModifier());
       assertEquals(null, nextParameter.getModifierResourceTypeName());
       assertNull(nextParameter.getNextParameter());
-      assertEquals(now.truncatedTo(ChronoUnit.MILLIS), nextParameter.getValues().get(0).getValueDateLowerBound().truncatedTo(ChronoUnit.MILLIS));
-      assertEquals(now.truncatedTo(ChronoUnit.MILLIS), nextParameter.getValues().get(0).getValueDateUpperBound().truncatedTo(ChronoUnit.MILLIS));
+      assertEquals(now, nextParameter.getValues().get(0).getValueDateLowerBound());
+      assertEquals(now, nextParameter.getValues().get(0).getValueDateUpperBound());
       assertFalse(nextParameter.isChained());
       assertFalse(nextParameter.isReverseChained());
       assertFalse(nextParameter.isInclusionCriteria());

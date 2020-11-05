@@ -558,7 +558,7 @@ public class QuerySegmentAggregator {
                     if (!Type.COMPOSITE.equals(param.getType())) {
                         final String paramTableAlias = "param" + i;
                         if (param.isReverseChained()) {
-                            // Join on a select from logical resource table
+                            // Join on a select from resource type logical resource table
                             //   JOIN (
                             //     SELECT CLR0.LOGICAL_ID FROM Observation_LOGICAL_RESOURCES AS CLR0
                             //       ...

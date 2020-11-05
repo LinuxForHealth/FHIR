@@ -25,7 +25,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
@@ -35,7 +34,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SELECT;
@@ -45,6 +43,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
 import java.sql.Timestamp;
@@ -809,8 +809,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_TOKEN_VALUES_V CP1 WHERE
         whereClauseSegment.append(FROM)
-                .append(resourceTypeName).append(RESOURCES).append(SPACE).append(chainedResourceVar).append(COMMA)
-                .append(resourceTypeName).append(LOGICAL_RESOURCES).append(SPACE).append(chainedLogicalResourceVar);
+                .append(resourceTypeName).append(_RESOURCES).append(SPACE).append(chainedResourceVar).append(COMMA)
+                .append(resourceTypeName).append(_LOGICAL_RESOURCES).append(SPACE).append(chainedLogicalResourceVar);
 
         // If we're dealing with anything other than id, then proceed to add the parameters table.
         if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
@@ -1478,7 +1478,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             StringBuilder whereClauseSegment = new StringBuilder();
 
             if (parmIndex == 0) {
-                // BUild outer select:
+                // Build outer select:
                 // @formatter:off
                 //   SELECT CLR0.LOGICAL_ID
                 //     FROM <resource-type>_LOGICAL_RESOURCES AS CLR0
@@ -1487,8 +1487,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 //     WHERE
                 // @formatter:on
                 selectSegments.append(SELECT).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID)
-                                .append(FROM).append(resourceType.getSimpleName()).append(LOGICAL_RESOURCES).append(AS).append(prevChainedLogicalResourceVar)
-                                .append(JOIN).append(resourceType.getSimpleName()).append(RESOURCES).append(AS).append(prevChainedResourceVar)
+                                .append(FROM).append(resourceType.getSimpleName()).append(_LOGICAL_RESOURCES).append(AS).append(prevChainedLogicalResourceVar)
+                                .append(JOIN).append(resourceType.getSimpleName()).append(_RESOURCES).append(AS).append(prevChainedResourceVar)
                                 .append(ON).append(prevChainedResourceVar).append(DOT).append(RESOURCE_ID).append(EQ)
                                 .append(prevChainedLogicalResourceVar).append(DOT).append(CURRENT_RESOURCE_ID)
                                 .append(AND).append(prevChainedResourceVar).append(DOT ).append(IS_DELETED_NO)
@@ -1508,10 +1508,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     // @formatter:on
                     selectSegments.append(EXISTS).append(LEFT_PAREN).append("SELECT 1")
                                     .append(FROM).append(currentParm.getModifierResourceTypeName()).append("_TOKEN_VALUES_V").append(AS).append(chainedParmVar)
-                                    .append(JOIN).append(currentParm.getModifierResourceTypeName()).append(LOGICAL_RESOURCES).append(AS).append(chainedLogicalResourceVar)
+                                    .append(JOIN).append(currentParm.getModifierResourceTypeName()).append(_LOGICAL_RESOURCES).append(AS).append(chainedLogicalResourceVar)
                                     .append(ON).append(chainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(EQ)
                                     .append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID)
-                                    .append(JOIN).append(currentParm.getModifierResourceTypeName()).append(RESOURCES).append(AS).append(chainedResourceVar)
+                                    .append(JOIN).append(currentParm.getModifierResourceTypeName()).append(_RESOURCES).append(AS).append(chainedResourceVar)
                                     .append(ON).append(chainedResourceVar).append(DOT).append(RESOURCE_ID).append(EQ)
                                     .append(chainedLogicalResourceVar).append(DOT).append(CURRENT_RESOURCE_ID)
                                     .append(AND).append(chainedResourceVar).append(DOT).append(IS_DELETED_NO);
@@ -1527,7 +1527,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         // @formatter:off
                         //   WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
                         //     AND CPx.PARAMETER_NAME_ID = <parm-name-id>
-                        //     AND CPx.CDE_SYSTEM_ID = <code-system-id>
+                        //     AND CPx.CODE_SYSTEM_ID = <code-system-id>
                         //     AND
                         // @formatter:on
                         selectSegments.append(WHERE).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
@@ -1539,7 +1539,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         // @formatter:off
                         //   WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
                         //     AND CPx.PARAMETER_NAME_ID = <parm-name-id>
-                        //     AND CPx.CDE_SYSTEM_ID = <code-system-id>
+                        //     AND CPx.CODE_SYSTEM_ID = <code-system-id>
                         // @formatter:on
                         whereClauseSegment.append(WHERE).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
                                             .append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID).append(AND);
@@ -1602,7 +1602,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         //     ON CLRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
                         //     AND
                         // @formatter:on
-                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(LOGICAL_RESOURCES)
+                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(_LOGICAL_RESOURCES)
                                             .append(AS).append(chainedLogicalResourceVar).append(ON)
                                             .append(chainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID)
                                             .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
