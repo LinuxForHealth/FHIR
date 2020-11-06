@@ -44,7 +44,8 @@ RUN ln -sfn ${FHIR} /output && \
     rm -rf /opt/ol/wlp/output && \
     rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
     mkdir -p /config/configDropins/defaults /config/configDropins/overrides && \
-    chown -R 1001:1001 /config/configDropins/
+    chown -R 1001:1001 /config/configDropins/ && \
+    yum clean all
 
 USER 1001
 CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]
