@@ -309,11 +309,11 @@ Since release 4.3.2 you can use the `search.reopt` query optimizer hint (shown a
 
 Normally, a Liberty application that uses one or more JDBC datastores will require a datasource to be defined within the Liberty server.xml file for each database. One drawback to this approach is that each of the datasources are statically defined in the 'server.xml' file, which means that any updates (modifications, additions, etc.) will require a server re-start.
 
-As part of it's multi-tenant support, the FHIR server provides an alternate mechanism which consists of a single “proxy datasource” along with a set of properties configured in the `fhir-server-config.json` file. This proxy datasource can be used by the JDBC persistence layer implementation to establish connections to either Derby or Db2 databases. This approach allows for new datastores to be configured without the need to restart the FHIR server.
+As part of it's multi-tenant support, the IBM FHIR Server provides an alternate mechanism which consists of a single “proxy datasource” along with a set of properties configured in the `fhir-server-config.json` file. This proxy datasource can be used by the JDBC persistence layer implementation to establish connections to either Derby or Db2 databases. This approach allows for new datastores to be configured without the need to restart the FHIR server.
 
-Since release 4.5.0, the FHIR server supports standard JDBC datasources defined in the server '.xml' files. Datasource elements can be defined in the 'server.xml' file but can also be defined in the 'configDropins/overrides' directory to simplify configuration, especially where automation may need to add multiple datasources.
+Since release 4.5.0, the FHIR server supports standard JDBC datasources defined in the server '.xml' files. Datasource elements should not be defined in the 'server.xml' file but instead should be defined in the 'configDropins/overrides' directory. See the Liberty Profile Server configuration guide for more details and general guidance on creating modular configurations.
 
-The FHIRProxyXADataSource remains the default strategy for defining datasources in the current release. However, the standard JDBC datasource configuration is now considered the preferred approach due to benefits it brings in terms of configuring transaction recovery and monitoring.
+The FHIRProxyXADataSource remains the default strategy for defining datasources in the current release. However, the standard JDBC datasource configuration is now considered the preferred approach due to benefits it brings in terms of configuring pool sizes, transaction recovery and monitoring.
 
 #### 3.4.2.1 Proxy datasource
 The FHIR server's proxy datasource allows us to configure a single statically-defined datasource in the Liberty 'server.xml' file, and then dynamically configure each of the datastores to be used by the FHIR server within the `fhir-server-config.json` file. The datasource definition within `server.xml` looks like this:
@@ -350,26 +350,27 @@ To use standard JDBC datasources, disable the proxy datasource behavior by setti
 
 The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is 'jdbc/fhir_<tenantId>_<dsId>' where '<tenantId>' and '<dsId>' represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
 
-    ```
-    {
-        "fhirServer":{
-            …
-            "persistence":{
-                "datasources": {
-                    "default": {
-                        "tenantKey": "<the-base64-tenant-key>",
-                        "jndiName": "jdbc/fhir_default_default",
-                        "type": "db2",
-                        "hints" : {
-                            "search.reopt": "ONCE"
-                        }
+```
+{
+    "fhirServer":{
+        …
+        "persistence":{
+            "datasources": {
+                "default": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "jndiName": "jdbc/fhir_default_default",
+                    "type": "db2",
+                    "hints" : {
+                        "search.reopt": "ONCE"
                     }
                 }
-            …
             }
+        …
         }
     }
-    ```
+}
+```
+
 When configured explicitly, the jndiName does not have to follow the standard naming convention, although this is not recommended.
 
 Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datastore-default.xml' as follows:
@@ -438,10 +439,16 @@ Note the use of 'jdbc/bootstrap'. How this is used is described below. The corre
     }
 ```
 
-Note 1. The introduction of the new property 'bootstrapDataSourceBase'. This value is required to correctly identify the datasources to use when bootstrapping the Derby databases. The value 'jdbc/bootstrap' is the prefix which should be common to all the Derby datasource JNDI names referencing bootstrapped Derby databases (currently 'default', 'profile', 'reference', 'study1').
+Note the introduction of the new property 'bootstrapDataSourceBase'. This value is required to correctly identify the datasources to use when bootstrapping the Derby databases. The value 'jdbc/bootstrap' is the prefix which should be common to all the Derby datasource JNDI names referencing bootstrapped Derby databases:
 
-Note 2. The 'default' bootstrapped Derby database is called fhirDB. By default these databases are located in the '{serverHome}/derby/' directory.
+Reference | JNDI Name | Derby Database
+--------- | --------- | --------------
+default   | jdbc/bootstrap_default_default | {serverHome}/derby/fhirDB
+profile   | jdbc/bootstrap_default_profile | {serverHome}/derby/profile
+reference | jdbc/bootstrap_default_reference | {serverHome}/derby/reference
+study1    | jdbc/bootstrap_default_study1 | {serverHome}/derby/study1
 
+Where {serverHome} is the 'wlp/usr/servers/fhir-server' directory containing the 'server.xml' file.
 
 #### 3.4.2.3 Datastore configuration examples
 To understand how the configuration properties are defined for one or more datastores, let's start off with a couple of examples.

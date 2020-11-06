@@ -225,7 +225,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
 
-        // Release 4.5.0: Still default to the old proxy datasource configuration so we don't break existing
+        // Issue #916: Still default to the old proxy datasource configuration so we don't break existing
         // configurations. This may change in a future release.
         if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
             this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
