@@ -126,8 +126,10 @@ public class Observation extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -168,6 +170,7 @@ public class Observation extends DomainResource {
     @Summary
     private final Instant issued;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson" })
     private final List<Reference> performer;
     @Summary
     @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
@@ -207,8 +210,10 @@ public class Observation extends DomainResource {
     private final Reference device;
     private final List<ReferenceRange> referenceRange;
     @Summary
+    @ReferenceTarget({ "Observation", "QuestionnaireResponse", "MolecularSequence" })
     private final List<Reference> hasMember;
     @Summary
+    @ReferenceTarget({ "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence" })
     private final List<Reference> derivedFrom;
     @Summary
     private final List<Component> component;
@@ -241,10 +246,15 @@ public class Observation extends DomainResource {
         hasMember = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hasMember, "hasMember"));
         derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
         component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
+        ValidationSupport.checkReferenceType(hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
+        ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
         ValidationSupport.requireChildren(this);
     }
 
@@ -941,6 +951,16 @@ public class Observation extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link DeviceRequest}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link NutritionOrder}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
@@ -960,6 +980,16 @@ public class Observation extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link DeviceRequest}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link NutritionOrder}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
@@ -976,6 +1006,16 @@ public class Observation extends DomainResource {
          * procedure.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link MedicationDispense}</li>
+         * <li>{@link MedicationStatement}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Immunization}</li>
+         * <li>{@link ImagingStudy}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -995,6 +1035,16 @@ public class Observation extends DomainResource {
          * procedure.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link MedicationDispense}</li>
+         * <li>{@link MedicationStatement}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Immunization}</li>
+         * <li>{@link ImagingStudy}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -1204,6 +1254,16 @@ public class Observation extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param performer
          *     Who is responsible for the observation
          * 
@@ -1221,6 +1281,16 @@ public class Observation extends DomainResource {
          * Who was responsible for asserting the observed value as "true".
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param performer
          *     Who is responsible for the observation
@@ -1455,6 +1525,13 @@ public class Observation extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link MolecularSequence}</li>
+         * </ul>
+         * 
          * @param hasMember
          *     Related resource that belongs to the Observation group
          * 
@@ -1474,6 +1551,13 @@ public class Observation extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link MolecularSequence}</li>
+         * </ul>
+         * 
          * @param hasMember
          *     Related resource that belongs to the Observation group
          * 
@@ -1490,6 +1574,16 @@ public class Observation extends DomainResource {
          * calculated anion gap or a fetal measurement based on an ultrasound image.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link ImagingStudy}</li>
+         * <li>{@link Media}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link MolecularSequence}</li>
+         * </ul>
          * 
          * @param derivedFrom
          *     Related measurements the observation is made from
@@ -1509,6 +1603,16 @@ public class Observation extends DomainResource {
          * calculated anion gap or a fetal measurement based on an ultrasound image.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link ImagingStudy}</li>
+         * <li>{@link Media}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link MolecularSequence}</li>
+         * </ul>
          * 
          * @param derivedFrom
          *     Related measurements the observation is made from

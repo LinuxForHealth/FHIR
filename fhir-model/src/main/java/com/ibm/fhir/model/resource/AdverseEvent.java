@@ -91,6 +91,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     private final DateTime recordedDate;
     @Summary
+    @ReferenceTarget({ "Condition" })
     private final List<Reference> resultingCondition;
     @Summary
     @ReferenceTarget({ "Location" })
@@ -123,14 +124,18 @@ public class AdverseEvent extends DomainResource {
     @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference recorder;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Device" })
     private final List<Reference> contributor;
     @Summary
     private final List<SuspectEntity> suspectEntity;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference" })
     private final List<Reference> subjectMedicalHistory;
     @Summary
+    @ReferenceTarget({ "DocumentReference" })
     private final List<Reference> referenceDocument;
     @Summary
+    @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> study;
 
     private volatile int hashCode;
@@ -161,8 +166,13 @@ public class AdverseEvent extends DomainResource {
         ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(resultingCondition, "resultingCondition", "Condition");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+        ValidationSupport.checkReferenceType(contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
+        ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
+        ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
+        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
         ValidationSupport.requireChildren(this);
     }
 
@@ -923,6 +933,11 @@ public class AdverseEvent extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
+         * 
          * @param resultingCondition
          *     Effect on the subject due to this event
          * 
@@ -941,6 +956,11 @@ public class AdverseEvent extends DomainResource {
          * chemical).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
          * 
          * @param resultingCondition
          *     Effect on the subject due to this event
@@ -1045,6 +1065,13 @@ public class AdverseEvent extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param contributor
          *     Who was involved in the adverse event or the potential adverse event
          * 
@@ -1065,6 +1092,13 @@ public class AdverseEvent extends DomainResource {
          * clinical history), or information about what activity was performed (e.g. informant witness).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param contributor
          *     Who was involved in the adverse event or the potential adverse event
@@ -1116,6 +1150,18 @@ public class AdverseEvent extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link AllergyIntolerance}</li>
+         * <li>{@link FamilyMemberHistory}</li>
+         * <li>{@link Immunization}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Media}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param subjectMedicalHistory
          *     AdverseEvent.subjectMedicalHistory
          * 
@@ -1134,6 +1180,18 @@ public class AdverseEvent extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link AllergyIntolerance}</li>
+         * <li>{@link FamilyMemberHistory}</li>
+         * <li>{@link Immunization}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Media}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param subjectMedicalHistory
          *     AdverseEvent.subjectMedicalHistory
          * 
@@ -1149,6 +1207,11 @@ public class AdverseEvent extends DomainResource {
          * AdverseEvent.referenceDocument.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param referenceDocument
          *     AdverseEvent.referenceDocument
@@ -1168,6 +1231,11 @@ public class AdverseEvent extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param referenceDocument
          *     AdverseEvent.referenceDocument
          * 
@@ -1183,6 +1251,11 @@ public class AdverseEvent extends DomainResource {
          * AdverseEvent.study.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
          * 
          * @param study
          *     AdverseEvent.study
@@ -1201,6 +1274,11 @@ public class AdverseEvent extends DomainResource {
          * AdverseEvent.study.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
          * 
          * @param study
          *     AdverseEvent.study

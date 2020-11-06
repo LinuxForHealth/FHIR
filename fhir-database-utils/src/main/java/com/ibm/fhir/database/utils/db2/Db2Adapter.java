@@ -6,9 +6,12 @@
 
 package com.ibm.fhir.database.utils.db2;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +48,8 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
  */
 public class Db2Adapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(Db2Adapter.class.getName());
+
+    private static final String DROP_SPECIFIC = "SELECT SPECIFICNAME FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ?";
 
     /**
      * Public constructor
@@ -153,7 +158,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             try {
                 // Get the current partition info
                 loadPartitionInfoMap(partitionInfoMap, schemaName);
-                
+
                 logger.info("Creating tablespace: " + tablespaceName);
                 Db2CreateTablespace createTablespace = new Db2CreateTablespace(tablespaceName, extentSizeKB);
                 runStatement(createTablespace);
@@ -186,11 +191,11 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 throw x;
             }
         }
-        
+
         final String tablespaceName = "TS_TENANT" + newTenantId;
         addNewTenantPartitions(tables, partitionInfoMap, newTenantId, tablespaceName);
     }
-    
+
     /**
      * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
      * be run to add partitions for existing tenants to new tables
@@ -207,7 +212,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             poolSize = 40;
         }
         final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
-        
+
         final AtomicInteger taskCount = new AtomicInteger();
         for (Table t: tables) {
             String qualifiedName = t.getQualifiedName();
@@ -233,7 +238,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 });
             }
         }
-        
+
         // Wait for all the tasks to complete
         pool.shutdown();
         try {
@@ -245,9 +250,9 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             // Not cool. This means that only some of the tables will have the partition assigned
             throw new DataAccessException("Tenant partition creation did not complete");
         }
-        
+
     }
-    
+
     /**
      * Ensure that the given table has all the partitions necessary up to and
      * including the max tenant id
@@ -371,13 +376,35 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
-        final String pname = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
-        final String ddl = "DROP PROCEDURE " + pname;
-        try {
-            runStatement(ddl);
+        List<String> existingStoredProcedures = new ArrayList<>();
+        if (connectionProvider != null) {
+            try (Connection c = connectionProvider.getConnection()) {
+                try (PreparedStatement p = c.prepareStatement(DROP_SPECIFIC)) {
+                    p.setString(1, schemaName);
+                    p.setString(2, procedureName);
+                    if (p.execute()) {
+                        // Closes with PreparedStatement
+                        ResultSet rs = p.getResultSet();
+                        while (rs.next()) {
+                            existingStoredProcedures.add(rs.getString(1));
+                        }
+                    }
+                }
+            } catch (SQLException x) {
+                throw getTranslator().translate(x);
+            }
         }
-        catch (UndefinedNameException x) {
-            logger.warning(ddl + "; PROCEDURE not found");
+
+        // As the procedure signatures are mutated, we don't want to be in the situation where the signature change, and
+        // we can't drop.
+        for (String existingStoredProcedure : existingStoredProcedures) {
+            final String pname = DataDefinitionUtil.getQualifiedName(schemaName, existingStoredProcedure);
+            final String ddl = "DROP SPECIFIC PROCEDURE " + pname;
+            try {
+                runStatement(ddl);
+            } catch (UndefinedNameException x) {
+                logger.warning(ddl + "; PROCEDURE not found");
+            }
         }
     }
 
@@ -408,7 +435,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String detachedName = DataDefinitionUtil.getQualifiedName(schemaName, intoTableName);
         final String ddl = "ALTER TABLE " + qname + " DETACH PARTITION " + partitionName + " INTO " + detachedName;
-        
+
         try {
             runStatement(ddl);
         } catch (DataAccessException x) {
@@ -445,7 +472,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Only process tables which are partitioned
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
         loadPartitionInfoMap(partitionInfoMap, schemaName);
-        
+
         for (Table t : tables) {
             PartitionInfo pi = partitionInfoMap.get(t.getObjectName());
             if (pi == null) {
@@ -470,12 +497,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             }
         }
     }
-    
+
     /**
      * Get the name of the table created when the given tenant's partition is
      * dropped (to deprovision a tenant). This is just the table name prefixed with
      * DRP_n_ where n is the tenantId.
-     * 
+     *
      * @param tenantId
      * @return
      */
@@ -582,12 +609,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // SET INTEGRITY FOR child OFF;
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "SET INTEGRITY FOR " + qname + " OFF";
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
-        
+
     }
 
     /* (non-Javadoc)
@@ -598,7 +625,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "SET INTEGRITY FOR " + qname + " ALL IMMEDIATE UNCHECKED";
-        
+
         // so important, we log it
         logger.info(ddl);
 

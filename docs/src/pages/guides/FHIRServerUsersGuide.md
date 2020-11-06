@@ -637,6 +637,11 @@ For a Derby-related datasource definition, any bean property supported by the `E
 
 To disable the multitenant feature for a particular offering add to your `fhirServer/persistence/datasources` entry `multitenant` and set false to disable, and true to enable, only for Db2 is the default set to true.
 
+#### 3.4.2.4 Database Access TransactionManager Timeout
+The TransactionManager controls the timeout of database queries.  
+
+To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s. 
+
 # 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
  * Custom operations framework:  The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.

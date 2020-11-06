@@ -61,8 +61,10 @@ public class QuestionnaireResponse extends DomainResource {
     @Summary
     private final Identifier identifier;
     @Summary
+    @ReferenceTarget({ "CarePlan", "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "Observation", "Procedure" })
     private final List<Reference> partOf;
     @Summary
     private final Canonical questionnaire;
@@ -105,6 +107,8 @@ public class QuestionnaireResponse extends DomainResource {
         author = builder.author;
         source = builder.source;
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Observation", "Procedure");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
@@ -575,6 +579,12 @@ public class QuestionnaireResponse extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Request fulfilled by this QuestionnaireResponse
          * 
@@ -594,6 +604,12 @@ public class QuestionnaireResponse extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Request fulfilled by this QuestionnaireResponse
          * 
@@ -610,6 +626,12 @@ public class QuestionnaireResponse extends DomainResource {
          * a checklist was executed as part of.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * <li>{@link Procedure}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of this action
@@ -629,6 +651,12 @@ public class QuestionnaireResponse extends DomainResource {
          * a checklist was executed as part of.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * <li>{@link Procedure}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of this action

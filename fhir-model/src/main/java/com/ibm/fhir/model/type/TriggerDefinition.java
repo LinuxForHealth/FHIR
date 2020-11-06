@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
@@ -63,6 +64,7 @@ public class TriggerDefinition extends Element {
     @Summary
     private final String name;
     @Summary
+    @ReferenceTarget({ "Schedule" })
     @Choice({ Timing.class, Reference.class, Date.class, DateTime.class })
     private final Element timing;
     @Summary
@@ -79,6 +81,7 @@ public class TriggerDefinition extends Element {
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
         data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
         condition = builder.condition;
+        ValidationSupport.checkReferenceType(timing, "timing", "Schedule");
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -314,6 +317,11 @@ public class TriggerDefinition extends Element {
          * <li>{@link Reference}</li>
          * <li>{@link Date}</li>
          * <li>{@link DateTime}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Schedule}</li>
          * </ul>
          * 
          * @param timing

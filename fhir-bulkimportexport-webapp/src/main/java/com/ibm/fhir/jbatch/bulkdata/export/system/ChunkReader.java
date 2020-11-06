@@ -297,7 +297,12 @@ public class ChunkReader extends AbstractItemReader {
             }
         }
 
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        // We want to put the incomingUrl into the RequestContext so it can be used in reference
+        // based search.
+        FHIRRequestContext context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
+        FHIRRequestContext.set(context);
+        context.setOriginalRequestUri(incomingUrl);
+
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
 

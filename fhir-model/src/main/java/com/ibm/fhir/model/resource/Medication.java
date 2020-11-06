@@ -686,6 +686,7 @@ public class Medication extends DomainResource {
      * Identifies a particular constituent of interest in the product.
      */
     public static class Ingredient extends BackboneElement {
+        @ReferenceTarget({ "Substance", "Medication" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Required
         private final Element item;
@@ -699,6 +700,7 @@ public class Medication extends DomainResource {
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
             isActive = builder.isActive;
             strength = builder.strength;
+            ValidationSupport.checkReferenceType(item, "item", "Substance", "Medication");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -922,6 +924,12 @@ public class Medication extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Substance}</li>
+             * <li>{@link Medication}</li>
              * </ul>
              * 
              * @param item

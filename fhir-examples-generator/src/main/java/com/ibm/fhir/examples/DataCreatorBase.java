@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,14 +40,20 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
  * we can infer the parameter names on the builder method of each model class.
  */
 public abstract class DataCreatorBase {
+    public static final Extension DATA_ABSENT = Extension.builder()
+            .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+            .value(Code.of("unknown"))
+            .build();
+    public static final Coding ABSENT_CODING = Coding.builder().extension(DATA_ABSENT).build();
+    public static final CodeableConcept ABSENT_CODEABLE_CONCEPT = CodeableConcept.builder().coding(ABSENT_CODING).build();
     private String resourcePackageName = "com.ibm.fhir.model.resource";
 
     /**
-     * Compute the maximum number of allowed types across all choice elements of a resource; 
-     * useful for knowing how many examples would be needed in order to cover all the variants. 
+     * Compute the maximum number of allowed types across all choice elements of a resource;
+     * useful for knowing how many examples would be needed in order to cover all the variants.
      * @param resourceName
      * @return
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public int getMaxChoiceCount(String resourceName) throws ClassNotFoundException {
         @SuppressWarnings("unchecked")
@@ -68,10 +74,10 @@ public abstract class DataCreatorBase {
         }
         return maxChoiceCount;
     }
-    
+
     /**
      * Create a resource by name
-     * 
+     *
      * @param resourceName
      * @param choiceIndicator An integer for controlling which type is used for choice elements
      * @return
@@ -157,7 +163,7 @@ public abstract class DataCreatorBase {
                 // Seeing a parameter of type Element is our clue that we have a choice element
                 // There are no repeating choice elements in R4, but handle it just in case
                 String elementName = builderMethod.getParameters()[i].getName();
-                
+
                 Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(owningClass, elementName);
                 for (Class<?> choiceTypeName : choiceElementTypes) {
                     @SuppressWarnings("unchecked")
@@ -166,7 +172,7 @@ public abstract class DataCreatorBase {
                 }
             } else {
                 // Skip Extension so we keep the size more reasonable
-                // Also skip recursive elements like Codesystem.concept, 
+                // Also skip recursive elements like Codesystem.concept,
                 // ExampleScenario.process.step.process
                 // ExampleScenario.process.step.operation.request
                 // ExampleScenario.process.step.operation.response
@@ -180,7 +186,23 @@ public abstract class DataCreatorBase {
                         !PlanDefinition.Action.class.equals(parameterType) &&
                         !QuestionnaireResponse.Item.class.equals(parameterType)) {
                     // Otherwise just create a single element
-                    elementList = Collections.singletonList(createElement((Class<? extends Element>)parameterType, choiceIndicator));
+                    if (Reference.class.equals(parameterType)){
+                        // Handling references specially
+                        String elementName = builderMethod.getParameters()[i].getName();
+                        Set<String> referenceTargetTypes = ModelSupport.getReferenceTargetTypes(owningClass, elementName);
+                        if (!referenceTargetTypes.isEmpty()) {
+                            String[] targetTypes = new String[referenceTargetTypes.size()];
+                            referenceTargetTypes.toArray(targetTypes);
+
+                            // use the "choiceIndicator" to pick the reference type
+                            String targetType = targetTypes[(targetTypes.length - 1) % choiceIndicator];
+                            elementList = Collections.singletonList(createReference(targetType));
+                        } else {
+                            elementList = Collections.singletonList(createElement((Class<? extends Element>)parameterType, choiceIndicator));
+                        }
+                    } else {
+                        elementList = Collections.singletonList(createElement((Class<? extends Element>)parameterType, choiceIndicator));
+                    }
                 }
             }
             return elementList;
@@ -188,15 +210,28 @@ public abstract class DataCreatorBase {
             // Seeing a parameter of type Element is our clue that we have a choice element
             String elementName = builderMethod.getParameters()[i].getName();
             Class<? extends Element> choiceType = null;
-            
+
             Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(owningClass, elementName);
             if (!choiceElementTypes.isEmpty()) {
                 @SuppressWarnings("unchecked")
                 Class<? extends Element>[] choiceTypesArray = new Class[choiceElementTypes.size()];
                 choiceElementTypes.toArray(choiceTypesArray);
-                choiceType = (Class<? extends Element>) choiceTypesArray[(choiceTypesArray.length - 1) % choiceIndicator];
+                choiceType = choiceTypesArray[(choiceTypesArray.length - 1) % choiceIndicator];
             }
-            
+
+            if (Reference.class.equals(choiceType)){
+
+                // Handling references specially
+                Set<String> referenceTargetTypes = ModelSupport.getReferenceTargetTypes(owningClass, elementName);
+                if (!referenceTargetTypes.isEmpty()) {
+                    String[] targetTypes = new String[referenceTargetTypes.size()];
+                    referenceTargetTypes.toArray(targetTypes);
+
+                    // use the "choiceIndicator" to pick the reference type
+                    String targetType = targetTypes[(targetTypes.length - 1) % choiceIndicator];
+                    return createReference(targetType);
+                }
+            }
             return createElement(choiceType, choiceIndicator);
         } else if (Reference.class.equals(parameterType)){
             // Handling references specially
@@ -232,21 +267,7 @@ public abstract class DataCreatorBase {
     }
 
     protected Element.Builder setDataAbsentReason(Element.Builder builder) {
-        Extension e = Extension.builder()
-                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
-                .value(Code.of("unknown"))
-                .build();
-        return builder.extension(e);
-    }
-
-    protected CodeableConcept.Builder setDataAbsentReasonCoding(CodeableConcept.Builder builder) {
-        Coding coding = Coding.builder()
-                .extension(Extension.builder()
-                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
-                .value(Code.of("unknown"))
-                .build())
-                .build();
-        return builder.coding(coding);
+        return builder.extension(DATA_ABSENT);
     }
 
     protected String titleCase(String name) {

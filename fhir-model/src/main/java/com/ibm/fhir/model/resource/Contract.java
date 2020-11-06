@@ -134,8 +134,11 @@ public class Contract extends DomainResource {
     private final CodeableConcept expirationType;
     @Summary
     private final List<Reference> subject;
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> authority;
+    @ReferenceTarget({ "Location" })
     private final List<Reference> domain;
+    @ReferenceTarget({ "Location" })
     private final List<Reference> site;
     @Summary
     private final String name;
@@ -173,11 +176,13 @@ public class Contract extends DomainResource {
     private final ContentDefinition contentDefinition;
     private final List<Term> term;
     private final List<Reference> supportingInfo;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
     private final List<Signer> signer;
     private final List<Friendly> friendly;
     private final List<Legal> legal;
     private final List<Rule> rule;
+    @ReferenceTarget({ "Composition", "DocumentReference", "QuestionnaireResponse", "Contract" })
     @Choice({ Attachment.class, Reference.class })
     private final Element legallyBinding;
 
@@ -219,7 +224,12 @@ public class Contract extends DomainResource {
         rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
         legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
         ValidationSupport.checkReferenceType(instantiatesCanonical, "instantiatesCanonical", "Contract");
+        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
+        ValidationSupport.checkReferenceType(domain, "domain", "Location");
+        ValidationSupport.checkReferenceType(site, "site", "Location");
         ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
+        ValidationSupport.checkReferenceType(legallyBinding, "legallyBinding", "Composition", "DocumentReference", "QuestionnaireResponse", "Contract");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1240,6 +1250,11 @@ public class Contract extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param authority
          *     Authority under which this Contract has standing
          * 
@@ -1260,6 +1275,11 @@ public class Contract extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param authority
          *     Authority under which this Contract has standing
          * 
@@ -1277,6 +1297,11 @@ public class Contract extends DomainResource {
          * relative to resources.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param domain
          *     A sphere of control governed by an authoritative jurisdiction, organization, or person
@@ -1298,6 +1323,11 @@ public class Contract extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param domain
          *     A sphere of control governed by an authoritative jurisdiction, organization, or person
          * 
@@ -1313,6 +1343,11 @@ public class Contract extends DomainResource {
          * Sites in which the contract is complied with, exercised, or in force.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param site
          *     Specific Location
@@ -1331,6 +1366,11 @@ public class Contract extends DomainResource {
          * Sites in which the contract is complied with, exercised, or in force.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param site
          *     Specific Location
@@ -1624,6 +1664,11 @@ public class Contract extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
+         * 
          * @param relevantHistory
          *     Key event in Contract History
          * 
@@ -1644,6 +1689,11 @@ public class Contract extends DomainResource {
          * html#Provenance.entity.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param relevantHistory
          *     Key event in Contract History
@@ -1810,6 +1860,14 @@ public class Contract extends DomainResource {
          * <ul>
          * <li>{@link Attachment}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Composition}</li>
+         * <li>{@link DocumentReference}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link Contract}</li>
          * </ul>
          * 
          * @param legallyBinding
@@ -4096,6 +4154,7 @@ public class Contract extends DomainResource {
              * Offer Recipient.
              */
             public static class Party extends BackboneElement {
+                @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization" })
                 @Required
                 private final List<Reference> reference;
                 @Binding(
@@ -4113,6 +4172,7 @@ public class Contract extends DomainResource {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
                     role = ValidationSupport.requireNonNull(builder.role, "role");
+                    ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -4318,6 +4378,17 @@ public class Contract extends DomainResource {
                      * 
                      * <p>This element is required.
                      * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Patient}</li>
+                     * <li>{@link RelatedPerson}</li>
+                     * <li>{@link Practitioner}</li>
+                     * <li>{@link PractitionerRole}</li>
+                     * <li>{@link Device}</li>
+                     * <li>{@link Group}</li>
+                     * <li>{@link Organization}</li>
+                     * </ul>
+                     * 
                      * @param reference
                      *     Referenced entity
                      * 
@@ -4337,6 +4408,17 @@ public class Contract extends DomainResource {
                      * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * <p>This element is required.
+                     * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Patient}</li>
+                     * <li>{@link RelatedPerson}</li>
+                     * <li>{@link Practitioner}</li>
+                     * <li>{@link PractitionerRole}</li>
+                     * <li>{@link Device}</li>
+                     * <li>{@link Group}</li>
+                     * <li>{@link Organization}</li>
+                     * </ul>
                      * 
                      * @param reference
                      *     Referenced entity
@@ -6670,6 +6752,7 @@ public class Contract extends DomainResource {
             private final List<String> contextLinkId;
             @Choice({ DateTime.class, Period.class, Timing.class })
             private final Element occurrence;
+            @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization" })
             private final List<Reference> requester;
             private final List<String> requesterLinkId;
             @Binding(
@@ -6696,6 +6779,7 @@ public class Contract extends DomainResource {
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
             )
             private final List<CodeableConcept> reasonCode;
+            @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Questionnaire", "QuestionnaireResponse" })
             private final List<Reference> reasonReference;
             private final List<String> reason;
             private final List<String> reasonLinkId;
@@ -6728,7 +6812,9 @@ public class Contract extends DomainResource {
                 note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
                 securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
                 ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
+                ValidationSupport.checkReferenceType(requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                 ValidationSupport.checkReferenceType(performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
+                ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Questionnaire", "QuestionnaireResponse");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -7433,6 +7519,17 @@ public class Contract extends DomainResource {
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link RelatedPerson}</li>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * <li>{@link Device}</li>
+                 * <li>{@link Group}</li>
+                 * <li>{@link Organization}</li>
+                 * </ul>
+                 * 
                  * @param requester
                  *     Who asked for action
                  * 
@@ -7450,6 +7547,17 @@ public class Contract extends DomainResource {
                  * Who or what initiated the action and has responsibility for its activation.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link RelatedPerson}</li>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * <li>{@link Device}</li>
+                 * <li>{@link Group}</li>
+                 * <li>{@link Organization}</li>
+                 * </ul>
                  * 
                  * @param requester
                  *     Who asked for action
@@ -7648,6 +7756,16 @@ public class Contract extends DomainResource {
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Condition}</li>
+                 * <li>{@link Observation}</li>
+                 * <li>{@link DiagnosticReport}</li>
+                 * <li>{@link DocumentReference}</li>
+                 * <li>{@link Questionnaire}</li>
+                 * <li>{@link QuestionnaireResponse}</li>
+                 * </ul>
+                 * 
                  * @param reasonReference
                  *     Why is action (not) needed?
                  * 
@@ -7665,6 +7783,16 @@ public class Contract extends DomainResource {
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Condition}</li>
+                 * <li>{@link Observation}</li>
+                 * <li>{@link DiagnosticReport}</li>
+                 * <li>{@link DocumentReference}</li>
+                 * <li>{@link Questionnaire}</li>
+                 * <li>{@link QuestionnaireResponse}</li>
+                 * </ul>
                  * 
                  * @param reasonReference
                  *     Why is action (not) needed?
@@ -7866,6 +7994,7 @@ public class Contract extends DomainResource {
              * Entity of the action.
              */
             public static class Subject extends BackboneElement {
+                @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization" })
                 @Required
                 private final List<Reference> reference;
                 @Binding(
@@ -7882,6 +8011,7 @@ public class Contract extends DomainResource {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
                     role = builder.role;
+                    ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -8087,6 +8217,17 @@ public class Contract extends DomainResource {
                      * 
                      * <p>This element is required.
                      * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Patient}</li>
+                     * <li>{@link RelatedPerson}</li>
+                     * <li>{@link Practitioner}</li>
+                     * <li>{@link PractitionerRole}</li>
+                     * <li>{@link Device}</li>
+                     * <li>{@link Group}</li>
+                     * <li>{@link Organization}</li>
+                     * </ul>
+                     * 
                      * @param reference
                      *     Entity of the action
                      * 
@@ -8106,6 +8247,17 @@ public class Contract extends DomainResource {
                      * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * <p>This element is required.
+                     * 
+                     * <p>Allowed resource types for the references:
+                     * <ul>
+                     * <li>{@link Patient}</li>
+                     * <li>{@link RelatedPerson}</li>
+                     * <li>{@link Practitioner}</li>
+                     * <li>{@link PractitionerRole}</li>
+                     * <li>{@link Device}</li>
+                     * <li>{@link Group}</li>
+                     * <li>{@link Organization}</li>
+                     * </ul>
                      * 
                      * @param reference
                      *     Entity of the action
@@ -8518,6 +8670,7 @@ public class Contract extends DomainResource {
      * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
      */
     public static class Friendly extends BackboneElement {
+        @ReferenceTarget({ "Composition", "DocumentReference", "QuestionnaireResponse" })
         @Choice({ Attachment.class, Reference.class })
         @Required
         private final Element content;
@@ -8527,6 +8680,7 @@ public class Contract extends DomainResource {
         private Friendly(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
+            ValidationSupport.checkReferenceType(content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -8723,6 +8877,13 @@ public class Contract extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Composition}</li>
+             * <li>{@link DocumentReference}</li>
+             * <li>{@link QuestionnaireResponse}</li>
+             * </ul>
+             * 
              * @param content
              *     Easily comprehended representation of this Contract
              * 
@@ -8764,6 +8925,7 @@ public class Contract extends DomainResource {
      * List of Legal expressions or representations of this Contract.
      */
     public static class Legal extends BackboneElement {
+        @ReferenceTarget({ "Composition", "DocumentReference", "QuestionnaireResponse" })
         @Choice({ Attachment.class, Reference.class })
         @Required
         private final Element content;
@@ -8773,6 +8935,7 @@ public class Contract extends DomainResource {
         private Legal(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
+            ValidationSupport.checkReferenceType(content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -8967,6 +9130,13 @@ public class Contract extends DomainResource {
              * <li>{@link Reference}</li>
              * </ul>
              * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Composition}</li>
+             * <li>{@link DocumentReference}</li>
+             * <li>{@link QuestionnaireResponse}</li>
+             * </ul>
+             * 
              * @param content
              *     Contract Legal Text
              * 
@@ -9008,6 +9178,7 @@ public class Contract extends DomainResource {
      * List of Computable Policy Rule Language Representations of this Contract.
      */
     public static class Rule extends BackboneElement {
+        @ReferenceTarget({ "DocumentReference" })
         @Choice({ Attachment.class, Reference.class })
         @Required
         private final Element content;
@@ -9017,6 +9188,7 @@ public class Contract extends DomainResource {
         private Rule(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
+            ValidationSupport.checkReferenceType(content, "content", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -9209,6 +9381,11 @@ public class Contract extends DomainResource {
              * <ul>
              * <li>{@link Attachment}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
              * </ul>
              * 
              * @param content

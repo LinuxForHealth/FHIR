@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -104,6 +105,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -208,6 +210,7 @@ public class ResearchElementDefinition extends DomainResource {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         variableType = builder.variableType;
         characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1176,6 +1179,11 @@ public class ResearchElementDefinition extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
          * </ul>
          * 
          * @param subject

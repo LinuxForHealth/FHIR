@@ -23,3 +23,7 @@ java -jar schema/fhir-persistence-schema-*-cli.jar \
 # And make sure that the new tables have partitions for existing tenants
 java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --refresh-tenants
+
+java -jar schema/fhir-persistence-schema-*-cli.jar \
+  --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER \
+  --pool-size 20 

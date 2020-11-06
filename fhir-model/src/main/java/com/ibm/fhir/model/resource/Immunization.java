@@ -141,6 +141,7 @@ public class Immunization extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport" })
     private final List<Reference> reasonReference;
     @Summary
     private final Boolean isSubpotent;
@@ -205,6 +206,7 @@ public class Immunization extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1312,6 +1314,13 @@ public class Immunization extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why immunization occurred
          * 
@@ -1329,6 +1338,13 @@ public class Immunization extends DomainResource {
          * Condition, Observation or DiagnosticReport that supports why the immunization was administered.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why immunization occurred

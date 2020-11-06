@@ -121,6 +121,7 @@ public class Location extends DomainResource {
     private final Reference partOf;
     private final List<HoursOfOperation> hoursOfOperation;
     private final String availabilityExceptions;
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
     private volatile int hashCode;
@@ -146,6 +147,7 @@ public class Location extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1032,6 +1034,11 @@ public class Location extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the location
          * 
@@ -1049,6 +1056,11 @@ public class Location extends DomainResource {
          * Technical endpoints providing access to services operated for the location.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the location

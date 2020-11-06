@@ -97,9 +97,11 @@ public class MedicationRequest extends DomainResource {
     @Summary
     private final Boolean doNotPerform;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization" })
     @Choice({ Boolean.class, Reference.class })
     private final Element reported;
     @Summary
+    @ReferenceTarget({ "Medication" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -140,12 +142,14 @@ public class MedicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation" })
     private final List<Reference> reasonReference;
     @Summary
     private final List<Canonical> instantiatesCanonical;
     @Summary
     private final List<Uri> instantiatesUri;
     @Summary
+    @ReferenceTarget({ "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation" })
     private final List<Reference> basedOn;
     @Summary
     private final Identifier groupIdentifier;
@@ -156,6 +160,7 @@ public class MedicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
     )
     private final CodeableConcept courseOfTherapyType;
+    @ReferenceTarget({ "Coverage", "ClaimResponse" })
     private final List<Reference> insurance;
     private final List<Annotation> note;
     private final List<Dosage> dosageInstruction;
@@ -163,7 +168,9 @@ public class MedicationRequest extends DomainResource {
     private final Substitution substitution;
     @ReferenceTarget({ "MedicationRequest" })
     private final Reference priorPrescription;
+    @ReferenceTarget({ "DetectedIssue" })
     private final List<Reference> detectedIssue;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
     private volatile int hashCode;
@@ -202,12 +209,19 @@ public class MedicationRequest extends DomainResource {
         priorPrescription = builder.priorPrescription;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.checkReferenceType(reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
         ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation");
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
         ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
+        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
+        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1146,6 +1160,15 @@ public class MedicationRequest extends DomainResource {
          * <li>{@link Reference}</li>
          * </ul>
          * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param reported
          *     Reported rather than primary record
          * 
@@ -1168,6 +1191,11 @@ public class MedicationRequest extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Medication}</li>
          * </ul>
          * 
          * @param medication
@@ -1393,6 +1421,12 @@ public class MedicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Condition or observation that supports why the prescription is being written
          * 
@@ -1410,6 +1444,12 @@ public class MedicationRequest extends DomainResource {
          * Condition or observation that supports why the medication was ordered.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Condition or observation that supports why the prescription is being written
@@ -1499,6 +1539,14 @@ public class MedicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     What request fulfills
          * 
@@ -1516,6 +1564,14 @@ public class MedicationRequest extends DomainResource {
          * A plan or request that is fulfilled in whole or in part by this medication request.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * </ul>
          * 
          * @param basedOn
          *     What request fulfills
@@ -1563,6 +1619,12 @@ public class MedicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
+         * 
          * @param insurance
          *     Associated insurance coverage
          * 
@@ -1581,6 +1643,12 @@ public class MedicationRequest extends DomainResource {
          * the requested service.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1719,6 +1787,11 @@ public class MedicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
+         * </ul>
+         * 
          * @param detectedIssue
          *     Clinical Issue with action
          * 
@@ -1738,6 +1811,11 @@ public class MedicationRequest extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
+         * </ul>
+         * 
          * @param detectedIssue
          *     Clinical Issue with action
          * 
@@ -1755,6 +1833,11 @@ public class MedicationRequest extends DomainResource {
          * resource.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param eventHistory
          *     A list of events of interest in the lifecycle
@@ -1775,6 +1858,11 @@ public class MedicationRequest extends DomainResource {
          * resource.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param eventHistory
          *     A list of events of interest in the lifecycle

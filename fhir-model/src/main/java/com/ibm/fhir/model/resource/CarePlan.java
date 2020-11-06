@@ -66,10 +66,13 @@ public class CarePlan extends DomainResource {
     @Summary
     private final List<Uri> instantiatesUri;
     @Summary
+    @ReferenceTarget({ "CarePlan" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "CarePlan" })
     private final List<Reference> replaces;
     @Summary
+    @ReferenceTarget({ "CarePlan" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -115,11 +118,15 @@ public class CarePlan extends DomainResource {
     @Summary
     @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam" })
     private final Reference author;
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam" })
     private final List<Reference> contributor;
+    @ReferenceTarget({ "CareTeam" })
     private final List<Reference> careTeam;
     @Summary
+    @ReferenceTarget({ "Condition" })
     private final List<Reference> addresses;
     private final List<Reference> supportingInfo;
+    @ReferenceTarget({ "Goal" })
     private final List<Reference> goal;
     private final List<Activity> activity;
     private final List<Annotation> note;
@@ -151,9 +158,16 @@ public class CarePlan extends DomainResource {
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
+        ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
+        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
+        ValidationSupport.checkReferenceType(goal, "goal", "Goal");
         ValidationSupport.requireChildren(this);
     }
 
@@ -897,6 +911,11 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills CarePlan
          * 
@@ -915,6 +934,11 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills CarePlan
          * 
@@ -930,6 +954,11 @@ public class CarePlan extends DomainResource {
          * Completed or terminated care plan whose function is taken by this new care plan.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * </ul>
          * 
          * @param replaces
          *     CarePlan replaced by this CarePlan
@@ -949,6 +978,11 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * </ul>
+         * 
          * @param replaces
          *     CarePlan replaced by this CarePlan
          * 
@@ -964,6 +998,11 @@ public class CarePlan extends DomainResource {
          * A larger care plan of which this particular care plan is a component or step.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced CarePlan
@@ -982,6 +1021,11 @@ public class CarePlan extends DomainResource {
          * A larger care plan of which this particular care plan is a component or step.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced CarePlan
@@ -1190,6 +1234,17 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param contributor
          *     Who provided the content of the care plan
          * 
@@ -1208,6 +1263,17 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param contributor
          *     Who provided the content of the care plan
          * 
@@ -1223,6 +1289,11 @@ public class CarePlan extends DomainResource {
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CareTeam}</li>
+         * </ul>
          * 
          * @param careTeam
          *     Who's involved in plan?
@@ -1242,6 +1313,11 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param careTeam
          *     Who's involved in plan?
          * 
@@ -1257,6 +1333,11 @@ public class CarePlan extends DomainResource {
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
          * 
          * @param addresses
          *     Health issues this plan addresses
@@ -1275,6 +1356,11 @@ public class CarePlan extends DomainResource {
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
          * 
          * @param addresses
          *     Health issues this plan addresses
@@ -1328,6 +1414,11 @@ public class CarePlan extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Goal}</li>
+         * </ul>
+         * 
          * @param goal
          *     Desired outcome of plan
          * 
@@ -1345,6 +1436,11 @@ public class CarePlan extends DomainResource {
          * Describes the intended objective(s) of carrying out the care plan.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Goal}</li>
+         * </ul>
          * 
          * @param goal
          *     Desired outcome of plan
@@ -1953,7 +2049,9 @@ public class CarePlan extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
             )
             private final List<CodeableConcept> reasonCode;
+            @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
             private final List<Reference> reasonReference;
+            @ReferenceTarget({ "Goal" })
             private final List<Reference> goal;
             @Binding(
                 bindingName = "CarePlanActivityStatus",
@@ -1969,7 +2067,9 @@ public class CarePlan extends DomainResource {
             private final Element scheduled;
             @ReferenceTarget({ "Location" })
             private final Reference location;
+            @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device" })
             private final List<Reference> performer;
+            @ReferenceTarget({ "Medication", "Substance" })
             @Choice({ CodeableConcept.class, Reference.class })
             @Binding(
                 bindingName = "CarePlanProduct",
@@ -2003,7 +2103,11 @@ public class CarePlan extends DomainResource {
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
+                ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+                ValidationSupport.checkReferenceType(goal, "goal", "Goal");
                 ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
+                ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2581,6 +2685,14 @@ public class CarePlan extends DomainResource {
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Condition}</li>
+                 * <li>{@link Observation}</li>
+                 * <li>{@link DiagnosticReport}</li>
+                 * <li>{@link DocumentReference}</li>
+                 * </ul>
+                 * 
                  * @param reasonReference
                  *     Why activity is needed
                  * 
@@ -2600,6 +2712,14 @@ public class CarePlan extends DomainResource {
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Condition}</li>
+                 * <li>{@link Observation}</li>
+                 * <li>{@link DiagnosticReport}</li>
+                 * <li>{@link DocumentReference}</li>
+                 * </ul>
+                 * 
                  * @param reasonReference
                  *     Why activity is needed
                  * 
@@ -2615,6 +2735,11 @@ public class CarePlan extends DomainResource {
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * 
                  * <p>Adds new element(s) to the existing list
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Goal}</li>
+                 * </ul>
                  * 
                  * @param goal
                  *     Goals this activity relates to
@@ -2633,6 +2758,11 @@ public class CarePlan extends DomainResource {
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Goal}</li>
+                 * </ul>
                  * 
                  * @param goal
                  *     Goals this activity relates to
@@ -2735,6 +2865,18 @@ public class CarePlan extends DomainResource {
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * <li>{@link Organization}</li>
+                 * <li>{@link RelatedPerson}</li>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link CareTeam}</li>
+                 * <li>{@link HealthcareService}</li>
+                 * <li>{@link Device}</li>
+                 * </ul>
+                 * 
                  * @param performer
                  *     Who will be responsible?
                  * 
@@ -2752,6 +2894,18 @@ public class CarePlan extends DomainResource {
                  * Identifies who's expected to be involved in the activity.
                  * 
                  * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>Allowed resource types for the references:
+                 * <ul>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * <li>{@link Organization}</li>
+                 * <li>{@link RelatedPerson}</li>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link CareTeam}</li>
+                 * <li>{@link HealthcareService}</li>
+                 * <li>{@link Device}</li>
+                 * </ul>
                  * 
                  * @param performer
                  *     Who will be responsible?
@@ -2771,6 +2925,12 @@ public class CarePlan extends DomainResource {
                  * <ul>
                  * <li>{@link CodeableConcept}</li>
                  * <li>{@link Reference}</li>
+                 * </ul>
+                 * 
+                 * When of type {@link Reference}, the allowed resource types for this reference are:
+                 * <ul>
+                 * <li>{@link Medication}</li>
+                 * <li>{@link Substance}</li>
                  * </ul>
                  * 
                  * @param product

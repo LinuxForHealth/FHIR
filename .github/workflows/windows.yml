@@ -15,9 +15,9 @@ jobs:
         java: [ 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.3
     - name: Set up OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
@@ -66,7 +66,7 @@ jobs:
         Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results

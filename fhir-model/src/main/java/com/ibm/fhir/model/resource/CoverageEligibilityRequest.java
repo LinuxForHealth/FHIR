@@ -2259,6 +2259,7 @@ public class CoverageEligibilityRequest extends DomainResource {
          * Patient diagnosis for which care is sought.
          */
         public static class Diagnosis extends BackboneElement {
+            @ReferenceTarget({ "Condition" })
             @Choice({ CodeableConcept.class, Reference.class })
             @Binding(
                 bindingName = "ICD10",
@@ -2273,6 +2274,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             private Diagnosis(Builder builder) {
                 super(builder);
                 diagnosis = ValidationSupport.choiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2463,6 +2465,11 @@ public class CoverageEligibilityRequest extends DomainResource {
                  * <ul>
                  * <li>{@link CodeableConcept}</li>
                  * <li>{@link Reference}</li>
+                 * </ul>
+                 * 
+                 * When of type {@link Reference}, the allowed resource types for this reference are:
+                 * <ul>
+                 * <li>{@link Condition}</li>
                  * </ul>
                  * 
                  * @param diagnosis

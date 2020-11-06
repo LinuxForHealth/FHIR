@@ -88,6 +88,7 @@ public class DeviceRequest extends DomainResource {
     )
     private final RequestPriority priority;
     @Summary
+    @ReferenceTarget({ "Device" })
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "DeviceRequestCode",
@@ -133,10 +134,13 @@ public class DeviceRequest extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
+    @ReferenceTarget({ "Coverage", "ClaimResponse" })
     private final List<Reference> insurance;
     private final List<Reference> supportingInfo;
     private final List<Annotation> note;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
     private volatile int hashCode;
@@ -167,10 +171,14 @@ public class DeviceRequest extends DomainResource {
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        ValidationSupport.checkReferenceType(code, "code", "Device");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
+        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1059,6 +1067,11 @@ public class DeviceRequest extends DomainResource {
          * <li>{@link CodeableConcept}</li>
          * </ul>
          * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param code
          *     Device requested
          * 
@@ -1285,6 +1298,14 @@ public class DeviceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Linked Reason for request
          * 
@@ -1303,6 +1324,14 @@ public class DeviceRequest extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Linked Reason for request
          * 
@@ -1319,6 +1348,12 @@ public class DeviceRequest extends DomainResource {
          * the requested service.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1338,6 +1373,12 @@ public class DeviceRequest extends DomainResource {
          * the requested service.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1427,6 +1468,11 @@ public class DeviceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
+         * 
          * @param relevantHistory
          *     Request provenance
          * 
@@ -1444,6 +1490,11 @@ public class DeviceRequest extends DomainResource {
          * Key events in the history of the request.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param relevantHistory
          *     Request provenance

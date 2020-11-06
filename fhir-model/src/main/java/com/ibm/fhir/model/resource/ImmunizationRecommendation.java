@@ -641,6 +641,7 @@ public class ImmunizationRecommendation extends DomainResource {
         private final Element doseNumber;
         @Choice({ PositiveInt.class, String.class })
         private final Element seriesDoses;
+        @ReferenceTarget({ "Immunization", "ImmunizationEvaluation" })
         private final List<Reference> supportingImmunization;
         private final List<Reference> supportingPatientInformation;
 
@@ -660,6 +661,7 @@ public class ImmunizationRecommendation extends DomainResource {
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             supportingImmunization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingImmunization, "supportingImmunization"));
             supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingPatientInformation, "supportingPatientInformation"));
+            ValidationSupport.checkReferenceType(supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1248,6 +1250,12 @@ public class ImmunizationRecommendation extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Immunization}</li>
+             * <li>{@link ImmunizationEvaluation}</li>
+             * </ul>
+             * 
              * @param supportingImmunization
              *     Past immunizations supporting recommendation
              * 
@@ -1265,6 +1273,12 @@ public class ImmunizationRecommendation extends DomainResource {
              * Immunization event history and/or evaluation that supports the status and recommendation.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Immunization}</li>
+             * <li>{@link ImmunizationEvaluation}</li>
+             * </ul>
              * 
              * @param supportingImmunization
              *     Past immunizations supporting recommendation

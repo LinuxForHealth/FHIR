@@ -64,6 +64,7 @@ public class ChargeItem extends DomainResource {
     )
     @Required
     private final ChargeItemStatus status;
+    @ReferenceTarget({ "ChargeItem" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -116,7 +117,9 @@ public class ChargeItem extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
     )
     private final List<CodeableConcept> reason;
+    @ReferenceTarget({ "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery" })
     private final List<Reference> service;
+    @ReferenceTarget({ "Device", "Medication", "Substance" })
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ChargeItemProduct",
@@ -126,6 +129,7 @@ public class ChargeItem extends DomainResource {
     )
     private final Element product;
     @Summary
+    @ReferenceTarget({ "Account" })
     private final List<Reference> account;
     private final List<Annotation> note;
     private final List<Reference> supportingInformation;
@@ -160,12 +164,16 @@ public class ChargeItem extends DomainResource {
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
         ValidationSupport.checkReferenceType(performingOrganization, "performingOrganization", "Organization");
         ValidationSupport.checkReferenceType(requestingOrganization, "requestingOrganization", "Organization");
         ValidationSupport.checkReferenceType(costCenter, "costCenter", "Organization");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
+        ValidationSupport.checkReferenceType(service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
+        ValidationSupport.checkReferenceType(product, "product", "Device", "Medication", "Substance");
+        ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.requireChildren(this);
     }
 
@@ -958,6 +966,11 @@ public class ChargeItem extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ChargeItem}</li>
+         * </ul>
+         * 
          * @param partOf
          *     Part of referenced ChargeItem
          * 
@@ -975,6 +988,11 @@ public class ChargeItem extends DomainResource {
          * ChargeItems can be grouped to larger ChargeItems covering the whole set.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ChargeItem}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced ChargeItem
@@ -1325,6 +1343,18 @@ public class ChargeItem extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link ImagingStudy}</li>
+         * <li>{@link Immunization}</li>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link MedicationDispense}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link SupplyDelivery}</li>
+         * </ul>
+         * 
          * @param service
          *     Which rendered service is being charged?
          * 
@@ -1342,6 +1372,18 @@ public class ChargeItem extends DomainResource {
          * Indicated the rendered service that caused this charge.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link ImagingStudy}</li>
+         * <li>{@link Immunization}</li>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link MedicationDispense}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link SupplyDelivery}</li>
+         * </ul>
          * 
          * @param service
          *     Which rendered service is being charged?
@@ -1363,6 +1405,13 @@ public class ChargeItem extends DomainResource {
          * <li>{@link CodeableConcept}</li>
          * </ul>
          * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * </ul>
+         * 
          * @param product
          *     Product charged
          * 
@@ -1378,6 +1427,11 @@ public class ChargeItem extends DomainResource {
          * Account into which this ChargeItems belongs.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
          * 
          * @param account
          *     Account to place this charge
@@ -1396,6 +1450,11 @@ public class ChargeItem extends DomainResource {
          * Account into which this ChargeItems belongs.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
          * 
          * @param account
          *     Account to place this charge

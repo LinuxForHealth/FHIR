@@ -58,6 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class DiagnosticReport extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
+    @ReferenceTarget({ "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
     @Binding(
@@ -97,11 +98,16 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     private final Instant issued;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam" })
     private final List<Reference> performer;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam" })
     private final List<Reference> resultsInterpreter;
+    @ReferenceTarget({ "Specimen" })
     private final List<Reference> specimen;
+    @ReferenceTarget({ "Observation" })
     private final List<Reference> result;
+    @ReferenceTarget({ "ImagingStudy" })
     private final List<Reference> imagingStudy;
     @Summary
     private final List<Media> media;
@@ -137,8 +143,14 @@ public class DiagnosticReport extends DomainResource {
         conclusion = builder.conclusion;
         conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
         presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+        ValidationSupport.checkReferenceType(result, "result", "Observation");
+        ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
         ValidationSupport.requireChildren(this);
     }
 
@@ -735,6 +747,15 @@ public class DiagnosticReport extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link NutritionOrder}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     What was requested
          * 
@@ -752,6 +773,15 @@ public class DiagnosticReport extends DomainResource {
          * Details concerning a service requested.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link NutritionOrder}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param basedOn
          *     What was requested
@@ -916,6 +946,14 @@ public class DiagnosticReport extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param performer
          *     Responsible Diagnostic Service
          * 
@@ -934,6 +972,14 @@ public class DiagnosticReport extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param performer
          *     Responsible Diagnostic Service
          * 
@@ -949,6 +995,14 @@ public class DiagnosticReport extends DomainResource {
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
          * 
          * @param resultsInterpreter
          *     Primary result interpreter
@@ -968,6 +1022,14 @@ public class DiagnosticReport extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
+         * 
          * @param resultsInterpreter
          *     Primary result interpreter
          * 
@@ -983,6 +1045,11 @@ public class DiagnosticReport extends DomainResource {
          * Details about the specimens on which this diagnostic report is based.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
          * 
          * @param specimen
          *     Specimens this report is based on
@@ -1002,6 +1069,11 @@ public class DiagnosticReport extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
+         * 
          * @param specimen
          *     Specimens this report is based on
          * 
@@ -1017,6 +1089,11 @@ public class DiagnosticReport extends DomainResource {
          * [Observations](observation.html) that are part of this diagnostic report.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * </ul>
          * 
          * @param result
          *     Observations
@@ -1036,6 +1113,11 @@ public class DiagnosticReport extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Observation}</li>
+         * </ul>
+         * 
          * @param result
          *     Observations
          * 
@@ -1053,6 +1135,11 @@ public class DiagnosticReport extends DomainResource {
          * information to provide views of the source images.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ImagingStudy}</li>
+         * </ul>
          * 
          * @param imagingStudy
          *     Reference to full details of imaging associated with the diagnostic report
@@ -1073,6 +1160,11 @@ public class DiagnosticReport extends DomainResource {
          * information to provide views of the source images.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ImagingStudy}</li>
+         * </ul>
          * 
          * @param imagingStudy
          *     Reference to full details of imaging associated with the diagnostic report

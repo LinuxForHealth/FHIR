@@ -161,6 +161,7 @@ public class Appointment extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Procedure", "Observation", "ImmunizationRecommendation" })
     private final List<Reference> reasonReference;
     private final UnsignedInt priority;
     private final String description;
@@ -170,10 +171,12 @@ public class Appointment extends DomainResource {
     @Summary
     private final Instant end;
     private final PositiveInt minutesDuration;
+    @ReferenceTarget({ "Slot" })
     private final List<Reference> slot;
     private final DateTime created;
     private final String comment;
     private final String patientInstruction;
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> basedOn;
     @Required
     private final List<Participant> participant;
@@ -205,6 +208,9 @@ public class Appointment extends DomainResource {
         basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
         requestedPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestedPeriod, "requestedPeriod"));
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+        ValidationSupport.checkReferenceType(slot, "slot", "Slot");
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1058,6 +1064,14 @@ public class Appointment extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Reason the appointment is to take place (resource)
          * 
@@ -1077,6 +1091,14 @@ public class Appointment extends DomainResource {
          * be a Condition (with other resources referenced in the evidence.detail), or a Procedure.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link ImmunizationRecommendation}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Reason the appointment is to take place (resource)
@@ -1203,6 +1225,11 @@ public class Appointment extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Slot}</li>
+         * </ul>
+         * 
          * @param slot
          *     The slots that this appointment is filling
          * 
@@ -1220,6 +1247,11 @@ public class Appointment extends DomainResource {
          * The slots from the participants' schedules that will be filled by the appointment.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Slot}</li>
+         * </ul>
          * 
          * @param slot
          *     The slots that this appointment is filling
@@ -1282,6 +1314,11 @@ public class Appointment extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     The service request this appointment is allocated to assess
          * 
@@ -1299,6 +1336,11 @@ public class Appointment extends DomainResource {
          * The service request this appointment is allocated to assess (e.g. incoming referral or procedure request).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param basedOn
          *     The service request this appointment is allocated to assess

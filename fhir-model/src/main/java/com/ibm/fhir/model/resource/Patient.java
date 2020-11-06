@@ -117,6 +117,7 @@ public class Patient extends DomainResource {
     private final List<Attachment> photo;
     private final List<Contact> contact;
     private final List<Communication> communication;
+    @ReferenceTarget({ "Organization", "Practitioner", "PractitionerRole" })
     private final List<Reference> generalPractitioner;
     @Summary
     @ReferenceTarget({ "Organization" })
@@ -144,6 +145,7 @@ public class Patient extends DomainResource {
         generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
         managingOrganization = builder.managingOrganization;
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
@@ -1016,6 +1018,13 @@ public class Patient extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param generalPractitioner
          *     Patient's nominated primary care provider
          * 
@@ -1033,6 +1042,13 @@ public class Patient extends DomainResource {
          * Patient's nominated care provider.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param generalPractitioner
          *     Patient's nominated primary care provider

@@ -61,16 +61,22 @@ public class MedicinalProduct extends DomainResource {
     @Summary
     private final List<MarketingStatus> marketingStatus;
     @Summary
+    @ReferenceTarget({ "MedicinalProductPharmaceutical" })
     private final List<Reference> pharmaceuticalProduct;
     @Summary
+    @ReferenceTarget({ "MedicinalProductPackaged" })
     private final List<Reference> packagedMedicinalProduct;
     @Summary
+    @ReferenceTarget({ "DocumentReference" })
     private final List<Reference> attachedDocument;
     @Summary
+    @ReferenceTarget({ "DocumentReference" })
     private final List<Reference> masterFile;
     @Summary
+    @ReferenceTarget({ "Organization", "PractitionerRole" })
     private final List<Reference> contact;
     @Summary
+    @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> clinicalTrial;
     @Summary
     @Required
@@ -106,6 +112,12 @@ public class MedicinalProduct extends DomainResource {
         crossReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.crossReference, "crossReference"));
         manufacturingBusinessOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturingBusinessOperation, "manufacturingBusinessOperation"));
         specialDesignation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialDesignation, "specialDesignation"));
+        ValidationSupport.checkReferenceType(pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
+        ValidationSupport.checkReferenceType(packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
+        ValidationSupport.checkReferenceType(attachedDocument, "attachedDocument", "DocumentReference");
+        ValidationSupport.checkReferenceType(masterFile, "masterFile", "DocumentReference");
+        ValidationSupport.checkReferenceType(contact, "contact", "Organization", "PractitionerRole");
+        ValidationSupport.checkReferenceType(clinicalTrial, "clinicalTrial", "ResearchStudy");
         ValidationSupport.requireChildren(this);
     }
 
@@ -909,6 +921,11 @@ public class MedicinalProduct extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductPharmaceutical}</li>
+         * </ul>
+         * 
          * @param pharmaceuticalProduct
          *     Pharmaceutical aspects of product
          * 
@@ -927,6 +944,11 @@ public class MedicinalProduct extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductPharmaceutical}</li>
+         * </ul>
+         * 
          * @param pharmaceuticalProduct
          *     Pharmaceutical aspects of product
          * 
@@ -942,6 +964,11 @@ public class MedicinalProduct extends DomainResource {
          * Package representation for the product.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductPackaged}</li>
+         * </ul>
          * 
          * @param packagedMedicinalProduct
          *     Package representation for the product
@@ -961,6 +988,11 @@ public class MedicinalProduct extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductPackaged}</li>
+         * </ul>
+         * 
          * @param packagedMedicinalProduct
          *     Package representation for the product
          * 
@@ -976,6 +1008,11 @@ public class MedicinalProduct extends DomainResource {
          * Supporting documentation, typically for regulatory submission.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param attachedDocument
          *     Supporting documentation, typically for regulatory submission
@@ -995,6 +1032,11 @@ public class MedicinalProduct extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param attachedDocument
          *     Supporting documentation, typically for regulatory submission
          * 
@@ -1010,6 +1052,11 @@ public class MedicinalProduct extends DomainResource {
          * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param masterFile
          *     A master file for to the medicinal product (e.g. Pharmacovigilance System Master File)
@@ -1029,6 +1076,11 @@ public class MedicinalProduct extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param masterFile
          *     A master file for to the medicinal product (e.g. Pharmacovigilance System Master File)
          * 
@@ -1044,6 +1096,12 @@ public class MedicinalProduct extends DomainResource {
          * A product specific contact, person (in a role), or an organization.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param contact
          *     A product specific contact, person (in a role), or an organization
@@ -1063,6 +1121,12 @@ public class MedicinalProduct extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param contact
          *     A product specific contact, person (in a role), or an organization
          * 
@@ -1078,6 +1142,11 @@ public class MedicinalProduct extends DomainResource {
          * Clinical trials or studies that this product is involved in.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
          * 
          * @param clinicalTrial
          *     Clinical trials or studies that this product is involved in
@@ -1096,6 +1165,11 @@ public class MedicinalProduct extends DomainResource {
          * Clinical trials or studies that this product is involved in.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
          * 
          * @param clinicalTrial
          *     Clinical trials or studies that this product is involved in
@@ -2232,6 +2306,7 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         private final CodeableConcept confidentialityIndicator;
         @Summary
+        @ReferenceTarget({ "Organization" })
         private final List<Reference> manufacturer;
         @Summary
         @ReferenceTarget({ "Organization" })
@@ -2247,6 +2322,7 @@ public class MedicinalProduct extends DomainResource {
             confidentialityIndicator = builder.confidentialityIndicator;
             manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
             regulator = builder.regulator;
+            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
             ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2567,6 +2643,11 @@ public class MedicinalProduct extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param manufacturer
              *     The manufacturer or establishment associated with the process
              * 
@@ -2584,6 +2665,11 @@ public class MedicinalProduct extends DomainResource {
              * The manufacturer or establishment associated with the process.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param manufacturer
              *     The manufacturer or establishment associated with the process
@@ -2652,6 +2738,7 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         private final CodeableConcept intendedUse;
         @Summary
+        @ReferenceTarget({ "MedicinalProductIndication" })
         @Choice({ CodeableConcept.class, Reference.class })
         private final Element indication;
         @Summary
@@ -2672,6 +2759,7 @@ public class MedicinalProduct extends DomainResource {
             status = builder.status;
             date = builder.date;
             species = builder.species;
+            ValidationSupport.checkReferenceType(indication, "indication", "MedicinalProductIndication");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3014,6 +3102,11 @@ public class MedicinalProduct extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link MedicinalProductIndication}</li>
              * </ul>
              * 
              * @param indication
