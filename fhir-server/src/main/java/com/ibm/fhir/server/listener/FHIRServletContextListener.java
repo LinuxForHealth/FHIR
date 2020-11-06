@@ -226,9 +226,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             UserTransaction utx = (UserTransaction)ctxt.lookup(TXN_JNDI_NAME);
 
-            if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.FALSE)) {
+            if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
                 // Bootstrap using the legacy proxy datasource mechanism
-                String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
+                String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME);
                 DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
 
                 bootstrapFhirDb(utx, "default", "default", ds, true);
