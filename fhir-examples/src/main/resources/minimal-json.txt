@@ -33,7 +33,7 @@ OK         json/spec/devicedefinition-example.json
 OK         json/spec/device-example.json
 PARSE      json/spec/devicemetric-example.json
 OK         json/spec/devicerequest-example.json
-OK         json/spec/deviceusestatement-example.json
+PARSE      json/spec/deviceusestatement-example.json
 OK         json/spec/diagnosticreport-example.json
 OK         json/spec/diagnosticreport-hla-genetics-results-example.json
 OK         json/spec/documentmanifest-example.json
@@ -107,9 +107,9 @@ OK         json/spec/paymentnotice-example.json
 OK         json/spec/paymentreconciliation-example.json
 OK         json/spec/person-example.json
 PARSE      json/spec/plandefinition-example.json
-VALIDATION json/spec/plandefinition-options-example.json
+OK         json/spec/plandefinition-options-example.json
 OK         json/spec/plandefinition-predecessor-example.json
-VALIDATION json/spec/plandefinition-protocol-example.json
+OK         json/spec/plandefinition-protocol-example.json
 OK         json/spec/practitioner-example.json
 OK         json/spec/practitionerrole-example.json
 OK         json/spec/procedure-example.json
@@ -118,7 +118,7 @@ OK         json/spec/questionnaire-cqf-example.json
 OK         json/spec/questionnaire-example.json
 OK         json/spec/questionnaireresponse-example.json
 OK         json/spec/relatedperson-example.json
-VALIDATION json/spec/requestgroup-example.json
+OK         json/spec/requestgroup-example.json
 OK         json/spec/requestgroup-kdn5-example.json
 OK         json/spec/researchdefinition-example.json
 OK         json/spec/researchelementdefinition-example.json

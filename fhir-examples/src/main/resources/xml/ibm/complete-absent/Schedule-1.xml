@@ -64,11 +64,6 @@
           <valueCode value="unknown"/>
         </extension>
       </coding>
-      <text>
-        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-          <valueCode value="unknown"/>
-        </extension>
-      </text>
     </type>
     <system>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -104,11 +99,6 @@
         <valueCode value="unknown"/>
       </extension>
     </coding>
-    <text>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </text>
   </serviceCategory>
   <serviceType>
     <coding>
@@ -116,11 +106,6 @@
         <valueCode value="unknown"/>
       </extension>
     </coding>
-    <text>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </text>
   </serviceType>
   <specialty>
     <coding>
@@ -128,11 +113,6 @@
         <valueCode value="unknown"/>
       </extension>
     </coding>
-    <text>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </text>
   </specialty>
   <actor>
     <reference>
@@ -157,11 +137,6 @@
             <valueCode value="unknown"/>
           </extension>
         </coding>
-        <text>
-          <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-            <valueCode value="unknown"/>
-          </extension>
-        </text>
       </type>
       <system>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

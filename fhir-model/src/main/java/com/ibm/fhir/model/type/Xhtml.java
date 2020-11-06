@@ -14,12 +14,17 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
+import org.owasp.encoder.Encode;
 
 /**
  * XHTML
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Xhtml extends Element {
+    private static final java.lang.String DIV_OPEN = "<div xmlns=\"http://www.w3.org/1999/xhtml\">";
+
+    private static final java.lang.String DIV_CLOSE = "</div>";
+
     @Required
     private final java.lang.String value;
 
@@ -52,12 +57,37 @@ public class Xhtml extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Xhtml objects from an XHTML java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String with valid XHTML content
+     */
     public static Xhtml of(java.lang.String value) {
         return Xhtml.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Xhtml objects from an XHTML java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String with valid XHTML content
+     */
     public static Xhtml xhtml(java.lang.String value) {
         return Xhtml.builder().value(value).build();
+    }
+
+    /**
+     * Factory method for creating Xhtml objects from a plain text string
+     * 
+     * <p>This method will automatically encode the passed string for use within XHTML,
+     * then wrap it in an XHTML {@code <div>} element with a namespace of {@code http://www.w3.org/1999/xhtml}
+     * 
+     * @param plainText
+     *     The text to encode and wrap for use within a Narrative
+     */
+    public static Xhtml from(java.lang.String plainText) {
+        return Xhtml.builder().value(DIV_OPEN + Encode.forHtmlContent(plainText) + DIV_CLOSE).build();
     }
 
     @Override

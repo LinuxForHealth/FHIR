@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,42 +45,41 @@ public class MinimalDataCreator extends DataCreatorBase {
         if (builder instanceof Resource.Builder) {
             tag((Resource.Builder) builder, "ibm/minimal");
         }
-        
+
         if (builder instanceof CodeableConcept.Builder){
             // we have a CodeableConcept type - add Coding with data-absent-reason extension due to validation rules
-            setDataAbsentReasonCoding((CodeableConcept.Builder) builder);
-            return builder;
+            return ((CodeableConcept.Builder) builder).coding(ABSENT_CODING);
         }
 
         boolean empty = true;
-        
+
         Method[] methods = builder.getClass().getDeclaredMethods();
         for (Method method : methods) {
             String name = reverseJavaEncoding(method.getName());
-            
+
             if (isRequiredElement(builder.getClass().getEnclosingClass(), name)) {
-                
+
                 Class<?>[] parameterClasses = method.getParameterTypes();
-                
+
                 if (parameterClasses.length != 1) {
                     throw new RuntimeException("Error adding data via builder " + builder.getClass() + "; expected 1 parameter, but found " + parameterClasses.length);
                 }
-                
+
                 Class<?> parameterType = parameterClasses[0];
                 // Special case to avoid infinite recursion
                 if (builder instanceof Identifier.Builder && Reference.class.isAssignableFrom(parameterType)) {
                     continue;
                 }
-                
+
                 // Special case for Narrative
                 if (builder instanceof Narrative.Builder && method.getName().equals("div")) {
                     ((Narrative.Builder) builder).div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"));
                     continue;
                 }
-                
+
                 if (Element.class.isAssignableFrom(parameterType)
                     || Collection.class.isAssignableFrom(parameterType)) {
-                
+
                     Object argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
                     if (argument != null && !(argument instanceof Collection && ((Collection<?>) argument).isEmpty())) {
                         method.invoke(builder, argument);
@@ -89,7 +88,7 @@ public class MinimalDataCreator extends DataCreatorBase {
                 }
             }
         }
-        
+
         if (empty) {
             if (builder instanceof Element.Builder){
                 // We have a primitive type (i.e. an edge node)
@@ -98,7 +97,7 @@ public class MinimalDataCreator extends DataCreatorBase {
         }
         return builder;
     }
-    
+
     private boolean isRequiredElement(Class<?> clazz, String name) {
         // Special case for AllergyIntolerance
         if (AllergyIntolerance.class.isAssignableFrom(clazz) && "clinicalStatus".equals(name)) {
@@ -119,10 +118,10 @@ public class MinimalDataCreator extends DataCreatorBase {
 
     /**
      * Tag the resource
-     * 
-     * @param resource 
+     *
+     * @param resource
      *      the resource to tag
-     * @param tag 
+     * @param tag
      *      the tag to tag it with
      * @return
      */

@@ -63,6 +63,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
+    @ReferenceTarget({ "Procedure" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -73,6 +74,7 @@ public class MedicationDispense extends DomainResource {
     )
     @Required
     private final MedicationDispenseStatus status;
+    @ReferenceTarget({ "DetectedIssue" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationDispenseStatusReason",
@@ -89,6 +91,7 @@ public class MedicationDispense extends DomainResource {
     )
     private final CodeableConcept category;
     @Summary
+    @ReferenceTarget({ "Medication" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -107,6 +110,7 @@ public class MedicationDispense extends DomainResource {
     private final List<Performer> performer;
     @ReferenceTarget({ "Location" })
     private final Reference location;
+    @ReferenceTarget({ "MedicationRequest" })
     private final List<Reference> authorizingPrescription;
     @Binding(
         bindingName = "MedicationDispenseType",
@@ -122,11 +126,14 @@ public class MedicationDispense extends DomainResource {
     private final DateTime whenHandedOver;
     @ReferenceTarget({ "Location" })
     private final Reference destination;
+    @ReferenceTarget({ "Patient", "Practitioner" })
     private final List<Reference> receiver;
     private final List<Annotation> note;
     private final List<Dosage> dosageInstruction;
     private final Substitution substitution;
+    @ReferenceTarget({ "DetectedIssue" })
     private final List<Reference> detectedIssue;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
     private volatile int hashCode;
@@ -157,10 +164,17 @@ public class MedicationDispense extends DomainResource {
         substitution = builder.substitution;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
+        ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
         ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(authorizingPrescription, "authorizingPrescription", "MedicationRequest");
         ValidationSupport.checkReferenceType(destination, "destination", "Location");
+        ValidationSupport.checkReferenceType(receiver, "receiver", "Patient", "Practitioner");
+        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
+        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -854,6 +868,11 @@ public class MedicationDispense extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Procedure}</li>
+         * </ul>
+         * 
          * @param partOf
          *     Event that dispense is part of
          * 
@@ -871,6 +890,11 @@ public class MedicationDispense extends DomainResource {
          * The procedure that trigger the dispense.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Procedure}</li>
+         * </ul>
          * 
          * @param partOf
          *     Event that dispense is part of
@@ -906,6 +930,11 @@ public class MedicationDispense extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
          * </ul>
          * 
          * @param statusReason
@@ -944,6 +973,11 @@ public class MedicationDispense extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Medication}</li>
          * </ul>
          * 
          * @param medication
@@ -1089,6 +1123,11 @@ public class MedicationDispense extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
+         * 
          * @param authorizingPrescription
          *     Medication order that authorizes the dispense
          * 
@@ -1106,6 +1145,11 @@ public class MedicationDispense extends DomainResource {
          * Indicates the medication order that is being dispensed against.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
          * 
          * @param authorizingPrescription
          *     Medication order that authorizes the dispense
@@ -1214,6 +1258,12 @@ public class MedicationDispense extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * </ul>
+         * 
          * @param receiver
          *     Who collected the medication
          * 
@@ -1232,6 +1282,12 @@ public class MedicationDispense extends DomainResource {
          * exist where it can be a healthcare professional.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * </ul>
          * 
          * @param receiver
          *     Who collected the medication
@@ -1334,6 +1390,11 @@ public class MedicationDispense extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
+         * </ul>
+         * 
          * @param detectedIssue
          *     Clinical issue with action
          * 
@@ -1353,6 +1414,11 @@ public class MedicationDispense extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link DetectedIssue}</li>
+         * </ul>
+         * 
          * @param detectedIssue
          *     Clinical issue with action
          * 
@@ -1368,6 +1434,11 @@ public class MedicationDispense extends DomainResource {
          * A summary of the events of interest that have occurred, such as when the dispense was verified.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param eventHistory
          *     A list of relevant lifecycle events
@@ -1386,6 +1457,11 @@ public class MedicationDispense extends DomainResource {
          * A summary of the events of interest that have occurred, such as when the dispense was verified.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param eventHistory
          *     A list of relevant lifecycle events
@@ -1758,6 +1834,7 @@ public class MedicationDispense extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
         )
         private final List<CodeableConcept> reason;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final List<Reference> responsibleParty;
 
         private volatile int hashCode;
@@ -1768,6 +1845,7 @@ public class MedicationDispense extends DomainResource {
             type = builder.type;
             reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
             responsibleParty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.responsibleParty, "responsibleParty"));
+            ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2065,6 +2143,12 @@ public class MedicationDispense extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
+             * 
              * @param responsibleParty
              *     Who is responsible for the substitution
              * 
@@ -2082,6 +2166,12 @@ public class MedicationDispense extends DomainResource {
              * The person or organization that has primary responsibility for the substitution.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
              * 
              * @param responsibleParty
              *     Who is responsible for the substitution

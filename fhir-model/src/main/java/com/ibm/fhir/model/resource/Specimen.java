@@ -85,7 +85,9 @@ public class Specimen extends DomainResource {
     private final Reference subject;
     @Summary
     private final DateTime receivedTime;
+    @ReferenceTarget({ "Specimen" })
     private final List<Reference> parent;
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> request;
     private final Collection collection;
     private final List<Processing> processing;
@@ -118,6 +120,8 @@ public class Specimen extends DomainResource {
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
+        ValidationSupport.checkReferenceType(parent, "parent", "Specimen");
+        ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
         ValidationSupport.requireChildren(this);
     }
 
@@ -718,6 +722,11 @@ public class Specimen extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
+         * 
          * @param parent
          *     Specimen from which this specimen originated
          * 
@@ -737,6 +746,11 @@ public class Specimen extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
+         * 
          * @param parent
          *     Specimen from which this specimen originated
          * 
@@ -752,6 +766,11 @@ public class Specimen extends DomainResource {
          * Details concerning a service request that required a specimen to be collected.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param request
          *     Why the specimen was collected
@@ -770,6 +789,11 @@ public class Specimen extends DomainResource {
          * Details concerning a service request that required a specimen to be collected.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param request
          *     Why the specimen was collected
@@ -1449,6 +1473,7 @@ public class Specimen extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-processing-procedure"
         )
         private final CodeableConcept procedure;
+        @ReferenceTarget({ "Substance" })
         private final List<Reference> additive;
         @Choice({ DateTime.class, Period.class })
         private final Element time;
@@ -1461,6 +1486,7 @@ public class Specimen extends DomainResource {
             procedure = builder.procedure;
             additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1723,6 +1749,11 @@ public class Specimen extends DomainResource {
              * 
              * <p>Adds new element(s) to the existing list
              * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Substance}</li>
+             * </ul>
+             * 
              * @param additive
              *     Material used in the processing step
              * 
@@ -1740,6 +1771,11 @@ public class Specimen extends DomainResource {
              * Material used in the processing step.
              * 
              * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>Allowed resource types for the references:
+             * <ul>
+             * <li>{@link Substance}</li>
+             * </ul>
              * 
              * @param additive
              *     Material used in the processing step
@@ -1814,6 +1850,7 @@ public class Specimen extends DomainResource {
         private final CodeableConcept type;
         private final SimpleQuantity capacity;
         private final SimpleQuantity specimenQuantity;
+        @ReferenceTarget({ "Substance" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SpecimenContainerAdditive",
@@ -1833,6 +1870,7 @@ public class Specimen extends DomainResource {
             capacity = builder.capacity;
             specimenQuantity = builder.specimenQuantity;
             additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2193,6 +2231,11 @@ public class Specimen extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Substance}</li>
              * </ul>
              * 
              * @param additive

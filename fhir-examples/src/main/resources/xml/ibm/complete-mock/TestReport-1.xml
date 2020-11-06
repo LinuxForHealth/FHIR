@@ -1,123 +1,123 @@
 <TestReport xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="XOWOi19TdU"/>
-    <lastUpdated value="2020-08-11T16:27:04.587-05:00"/>
-    <source value="0xNWyJafam"/>
-    <profile value="6hjT9RHyFg"/>
+    <versionId value="bQePh6B1cG"/>
+    <lastUpdated value="2020-11-04T11:22:45.02702-05:00"/>
+    <source value="AjLutKZJEk"/>
+    <profile value="T1Oy29b7ub"/>
     <security>
-      <system value="L_JHDYZWEe"/>
-      <version value="Ur86tqsoco"/>
-      <code value="JD9iSRzMsW"/>
-      <display value="dEyIn89d1k"/>
+      <system value="OWR5zKfeNX"/>
+      <version value="OqO9n6yrTT"/>
+      <code value="nange70QYE"/>
+      <display value="NFIE2_9DXU"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="PO2PVfxtTp"/>
-      <version value="Oe1uM6epOg"/>
-      <code value="Uf_HH9EMgZ"/>
-      <display value="e0Dhcjx7pm"/>
+      <system value="UpwYMAj00O"/>
+      <version value="kp_iF2i5M3"/>
+      <code value="XzAhTMfjGY"/>
+      <display value="PigKqFIGRM"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="z2nZB0lVba"/>
+  <implicitRules value="LutkcX1Cww"/>
   <language value="en-US"/>
   <text>
-    <status value="empty"/>
+    <status value="additional"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <identifier>
-    <use value="secondary"/>
+    <use value="official"/>
     <type>
       <coding>
-        <system value="80SFUmF6oa"/>
-        <version value="QjbyYXtx8o"/>
-        <code value="TyhL10ZwGI"/>
-        <display value="CYttCYl1wj"/>
+        <system value="4QkfhG2CG0"/>
+        <version value="mzE4p8YuIb"/>
+        <code value="hpOze_6loo"/>
+        <display value="VOUxENx8ld"/>
         <userSelected value="true"/>
       </coding>
-      <text value="5S7qXT1s23"/>
+      <text value="JTym_iBHDm"/>
     </type>
-    <system value="q8CudiCqp5"/>
-    <value value="8KFluELRsn"/>
+    <system value="VD7x1pqcK9"/>
+    <value value="KIZ05VdedS"/>
     <period>
-      <start value="2020-08-11T16:27:04.586-05:00"/>
-      <end value="2020-08-11T16:27:04.586-05:00"/>
+      <start value="2020-11-04T11:22:45.031897-05:00"/>
+      <end value="2020-11-04T11:22:45.03222-05:00"/>
     </period>
   </identifier>
-  <name value="cgRTjSkRBo"/>
+  <name value="YwBBW27vd6"/>
   <status value="in-progress"/>
   <testScript>
-    <reference value="TestScript/5FYculrtoc"/>
+    <reference value="TestScript/m1aB2ZYNwF"/>
     <type value="TestScript"/>
     <identifier>
-      <use value="official"/>
+      <use value="secondary"/>
       <type>
         <coding>
-          <system value="fdVCJEtI_N"/>
-          <version value="jS1RXM4GeT"/>
-          <code value="snaHiDGxDq"/>
-          <display value="dVGgBZtXgp"/>
+          <system value="VA2lud6VFJ"/>
+          <version value="_dRIEyn17w"/>
+          <code value="tgphhpC9VM"/>
+          <display value="9vNQVjNvzC"/>
           <userSelected value="true"/>
         </coding>
-        <text value="hfkLotNklu"/>
+        <text value="FLMblM1zYg"/>
       </type>
-      <system value="bbtMryNiHb"/>
-      <value value="d7VFs_4BbQ"/>
+      <system value="u7yIiulYmz"/>
+      <value value="iB_t1ep5PE"/>
       <period>
-        <start value="2020-08-11T16:27:04.582-05:00"/>
-        <end value="2020-08-11T16:27:04.582-05:00"/>
+        <start value="2020-11-04T11:22:45.034847-05:00"/>
+        <end value="2020-11-04T11:22:45.035079-05:00"/>
       </period>
     </identifier>
-    <display value="vin_h4wAeI"/>
+    <display value="srREeCI_kM"/>
   </testScript>
   <result value="pending"/>
-  <score value="22903871348"/>
-  <tester value="nA4_eqUGMr"/>
-  <issued value="2020-08-11T16:27:04.579-05:00"/>
+  <score value="0.69991787287011042462125942620332352817058563232421875"/>
+  <tester value="Dcj3otT6yO"/>
+  <issued value="2020-11-04T11:22:45.036436-05:00"/>
   <participant>
-    <type value="server"/>
-    <uri value="BsAor0U_n0"/>
-    <display value="crDP1yyJB8"/>
+    <type value="test-engine"/>
+    <uri value="5Krm6ouVov"/>
+    <display value="lBasHn9baV"/>
   </participant>
   <setup>
     <action>
       <operation>
-        <result value="pass"/>
-        <message value="TYgmeHOwLQ"/>
-        <detail value="6Jsiqjfn3R"/>
+        <result value="fail"/>
+        <message value="w9gDbxBqpT"/>
+        <detail value="WVY9ejbJOl"/>
       </operation>
       <assert>
-        <result value="pass"/>
-        <message value="6tC0suw79X"/>
-        <detail value="2ZrzUDbbMt"/>
+        <result value="warning"/>
+        <message value="gvnsj9F27z"/>
+        <detail value="UF0HjiHXiu"/>
       </assert>
     </action>
   </setup>
   <test>
-    <name value="tno96vcHtB"/>
-    <description value="Eku1n_UgDO"/>
+    <name value="qPdhq8WKPr"/>
+    <description value="TK9hpvmAPO"/>
     <action>
       <operation>
         <result value="error"/>
-        <message value="bPFO3bzSPn"/>
-        <detail value="Jr_QAk5TgW"/>
+        <message value="RZNFACyIo1"/>
+        <detail value="1vVRUIUhul"/>
       </operation>
       <assert>
-        <result value="warning"/>
-        <message value="q0xUFS7TD6"/>
-        <detail value="1r9oHhHq9v"/>
+        <result value="fail"/>
+        <message value="wxFlO6NDIG"/>
+        <detail value="tFYTSwnaib"/>
       </assert>
     </action>
   </test>
   <teardown>
     <action>
       <operation>
-        <result value="fail"/>
-        <message value="jk07rmhTVL"/>
-        <detail value="k3im3Tpfnh"/>
+        <result value="warning"/>
+        <message value="zYVyhkYPZL"/>
+        <detail value="f_ydYyeIHF"/>
       </operation>
     </action>
   </teardown>

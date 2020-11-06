@@ -44,8 +44,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class SupplyDelivery extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "SupplyRequest" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "SupplyDelivery", "Contract" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -72,6 +74,7 @@ public class SupplyDelivery extends DomainResource {
     private final Reference supplier;
     @ReferenceTarget({ "Location" })
     private final Reference destination;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final List<Reference> receiver;
 
     private volatile int hashCode;
@@ -90,9 +93,12 @@ public class SupplyDelivery extends DomainResource {
         destination = builder.destination;
         receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
         ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(destination, "destination", "Location");
+        ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 
@@ -576,6 +582,11 @@ public class SupplyDelivery extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link SupplyRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
@@ -594,6 +605,11 @@ public class SupplyDelivery extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link SupplyRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfills plan, proposal or order
          * 
@@ -609,6 +625,12 @@ public class SupplyDelivery extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link SupplyDelivery}</li>
+         * <li>{@link Contract}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -627,6 +649,12 @@ public class SupplyDelivery extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link SupplyDelivery}</li>
+         * <li>{@link Contract}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -767,6 +795,12 @@ public class SupplyDelivery extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param receiver
          *     Who collected the Supply
          * 
@@ -784,6 +818,12 @@ public class SupplyDelivery extends DomainResource {
          * Identifies the person who picked up the Supply.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param receiver
          *     Who collected the Supply
@@ -831,6 +871,7 @@ public class SupplyDelivery extends DomainResource {
      */
     public static class SuppliedItem extends BackboneElement {
         private final SimpleQuantity quantity;
+        @ReferenceTarget({ "Medication", "Substance", "Device" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SupplyDeliveryItem",
@@ -846,6 +887,7 @@ public class SupplyDelivery extends DomainResource {
             super(builder);
             quantity = builder.quantity;
             item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1067,6 +1109,13 @@ public class SupplyDelivery extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Medication}</li>
+             * <li>{@link Substance}</li>
+             * <li>{@link Device}</li>
              * </ul>
              * 
              * @param item
