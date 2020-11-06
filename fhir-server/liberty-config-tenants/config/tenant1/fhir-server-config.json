@@ -23,17 +23,29 @@
                 "profile": {
                     "jndiName": "jdbc/bootstrap_tenant1_profile",
                     "type": "derby",
-                    "currentSchema": "APP"
+                    "currentSchema": "APP",
+                    "connectionProperties": {
+                        "databaseName": "derby/profile",
+                        "createDatabase": "create"
+                    }
                 },
                 "reference": {
                     "jndiName": "jdbc/bootstrap_tenant1_reference",
                     "type": "derby",
-                    "currentSchema": "APP"
+                    "currentSchema": "APP",
+                    "connectionProperties": {
+                        "databaseName": "derby/reference",
+                        "createDatabase": "create"
+                    }
                 },
                 "study1": {
                     "jndiName": "jdbc/bootstrap_tenant1_study1",
                     "type": "derby",
-                    "currentSchema": "APP"
+                    "currentSchema": "APP",
+                    "connectionProperties": {
+                        "databaseName": "derby/study1",
+                        "createDatabase": "create"
+                    }
                 }
             }
         }
