@@ -23,7 +23,7 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
 FROM openliberty/open-liberty:20.0.0.9-full-java8-openj9-ubi
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
-MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
+LABEL MAINTAINER="Lee Surprenant <lmsurpre@us.ibm.com>"
 
 ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
 
@@ -36,15 +36,15 @@ ENV WLP_OUTPUT_DIR=/opt/ol/wlp/usr/servers
 # Tell liberty not to worry about a keystore since we provide our own at a different path
 ENV KEYSTORE_REQUIRED "false"
 
-# Replace links to defaultServer with links to fhir-server
+# Replace links to defaultServer with links to fhir-server and 
+# create the configDropins directories for the fhir-server
 USER root
 RUN ln -sfn ${FHIR} /output && \
     ln -sfn ${FHIR} /config && \
     rm -rf /opt/ol/wlp/output && \
-    rm -rf /opt/ol/wlp/usr/servers/defaultServer
+    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
+    mkdir -p /config/configDropins/defaults /config/configDropins/overrides && \
+    chown -R 1001:1001 /config/configDropins/
 
 USER 1001
-
-# Create the configDropins directories for the fhir-server
-RUN mkdir -p /config/configDropins/defaults /config/configDropins/overrides
 CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]
