@@ -48,20 +48,20 @@ ENV KEYSTORE_REQUIRED "false"
 WORKDIR ${FHIR}
 
 # Replace links to defaultServer with links to fhir-server
+# Create the configDropins directories for the fhir-server
 USER root
 RUN ln -sfn ${FHIR} /output && \
     ln -sfn ${FHIR} /config && \
     rm -rf /opt/ol/wlp/output && \
-    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \ 
+    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
+    mkdir -p /config/configDropins/defaults /config/configDropins/overrides && \
+    chown -R 1001:1001 /config/configDropins/ && \
     microdnf update -y && \
     microdnf clean all
 
 USER 1001
 
 EXPOSE 9443
-
-# Create the configDropins directories for the fhir-server
-RUN mkdir -p /config/configDropins/defaults /config/configDropins/overrides
 
 # Entrypoint followed by a command
 ENTRYPOINT ["/opt/ibm/helpers/runtime/docker-server.sh"]
