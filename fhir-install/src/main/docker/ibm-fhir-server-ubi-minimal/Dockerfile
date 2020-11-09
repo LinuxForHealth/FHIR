@@ -15,11 +15,20 @@ RUN yum update -y --nobest && \
 
 USER 1001
 COPY target/fhir-server-distribution.zip /tmp/
-RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
-    /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp
+RUN set +x && \
+    unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
+    /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp && \
+    rm -rf /opt/ol/wlp/output && \
+    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
+    rm -f /opt/ol/wlp/usr/servers/fhir-server/apps/fhir-bulkimportexport.war && \
+    rm /opt/ol/wlp/usr/servers/fhir-server/apps/fhir-openapi.war && \
+    rm -rf /opt/ol/wlp/usr/shared/resources/lib/derby
+
+# Turn off bootstrapping
+# Copy over Specific Profile
 
 # ----------------------------------------------------------------------------
-FROM adoptopenjdk/openjdk11:ubi-minimal
+FROM adoptopenjdk/openjdk11:ubi-minimal-jre
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
@@ -50,10 +59,11 @@ WORKDIR ${FHIR}
 # Replace links to defaultServer with links to fhir-server
 # Create the configDropins directories for the fhir-server
 USER root
-RUN ln -sfn ${FHIR} /output && \
+RUN set +x && \
+    ln -sfn ${FHIR} /output && \
     ln -sfn ${FHIR} /config && \
-    rm -rf /opt/ol/wlp/output && \
-    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
+    mkdir -p /logs && \
+    chown -R 1001:1001 /logs && \
     mkdir -p /config/configDropins/defaults /config/configDropins/overrides && \
     chown -R 1001:1001 /config/configDropins/ && \
     microdnf update -y && \
@@ -64,5 +74,4 @@ USER 1001
 EXPOSE 9443
 
 # Entrypoint followed by a command
-ENTRYPOINT ["/opt/ibm/helpers/runtime/docker-server.sh"]
 CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]
