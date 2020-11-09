@@ -100,7 +100,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
 
-    private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
+    public static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     private static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));

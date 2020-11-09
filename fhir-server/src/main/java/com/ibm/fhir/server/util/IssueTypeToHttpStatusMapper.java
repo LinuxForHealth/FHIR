@@ -29,6 +29,11 @@ public class IssueTypeToHttpStatusMapper {
     private static final String EXTENSION_URL_NOT_SUPPORTED_DETAIL = "http://ibm.com/fhir/extension/not-supported-detail";
 
     /**
+     * Custom extension used by the IBM FHIR Server for marking which code was not found
+     */
+    private static final String EXTENSION_URL_NOT_FOUND_DETAIL = "http://ibm.com/fhir/extension/not-found-detail";
+
+    /**
      * @return an HTTP response status based on the first issue contained within the OperationOutcome with a code;
      *         Response.Status.INTERNAL_SERVER_ERROR if it is null or empty
      */
@@ -56,6 +61,9 @@ public class IssueTypeToHttpStatusMapper {
                     } else if (issueType == IssueType.ValueSet.NOT_SUPPORTED &&
                             "resource".equals(FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_SUPPORTED_DETAIL))) {
                         return Status.NOT_FOUND;
+                    } else if (issueType == IssueType.ValueSet.NOT_FOUND && 
+                            FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_FOUND_DETAIL ) != null ) {
+                        return Status.BAD_REQUEST;
                     }
                     return issueTypeToResponseCode(issueType);
                 }
