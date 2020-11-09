@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-10-05 01:00:00 -0400
+date:   2020-11-03 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -109,11 +109,14 @@ In addition, the following search parameters are supported on all resources:
 * `_security`
 * `_source`
 * `_type`
+* `_has`
 
 These parameters can be used while searching any single resource type or while searching across resource types (whole system search).
-The `_type` parameter is special in that it is only applicable for whole system search.
+The `_type` parameter is special in that it is only applicable for whole system search. The `_has` parameter has two restrictions:
+* `_has` cannot be used in combination with the `_type` parameter.
+* The search parameter specified at the end of its chain cannot be a search result parameter.
 
-The `_text`, `_content`, `_list`, `_has`, `_query`, and `_filter` parameters are not supported at this time.
+The `_text`, `_content`, `_list`, `_query`, and `_filter` parameters are not supported at this time.
 
 Finally, the specification defines a set of "Search result parameters" for controlling the search behavior. The IBM FHIR Server supports the following:
 * `_sort`
