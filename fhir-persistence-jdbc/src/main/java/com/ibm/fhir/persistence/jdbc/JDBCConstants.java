@@ -96,7 +96,7 @@ public class JDBCConstants {
     public static final String ASCENDING = "ASC";
     public static final String DESCENDING = "DESC";
 
-    public static final String DEFAULT_ORDERING = " ORDER BY RESOURCE_ID ASC ";
+    public static final String DEFAULT_ORDERING = " ORDER BY LOGICAL_RESOURCE_ID ASC ";
     public static final String DEFAULT_ORDERING_WITH_TABLE = " ORDER BY R.RESOURCE_ID ASC ";
 
     // MIN / MAX
