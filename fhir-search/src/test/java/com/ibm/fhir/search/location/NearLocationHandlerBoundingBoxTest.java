@@ -39,10 +39,10 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        assertEquals(boundingBox.getMinLatitude(), 30.98662700557291);
-        assertEquals(boundingBox.getMinLongitude(), -51.7266732000822);
-        assertEquals(boundingBox.getMaxLatitude(), 49.01337299442709);
-        assertEquals(boundingBox.getMaxLongitude(), -28.2733267999178);
+        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("30.98662700557291"));
+        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-51.7266732000822"));
+        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("49.01337299442709"));
+        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("-28.2733267999178"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
 
         // The resulting diagnoal is ~2807.48 km
@@ -59,10 +59,10 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        assertEquals(boundingBox.getMinLatitude(), -0.09013372994427096);
-        assertEquals(boundingBox.getMinLongitude(), -0.08983152841195216);
-        assertEquals(boundingBox.getMaxLatitude(), 0.09013372994427096);
-        assertEquals(boundingBox.getMaxLongitude(), 0.08983152841195216);
+        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-0.09013372994427096"));
+        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-0.08983152841195216"));
+        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("0.09013372994427096"));
+        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("0.08983152841195216"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
 
@@ -75,10 +75,10 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        assertEquals(boundingBox.getMinLatitude(), 0.0);
-        assertEquals(boundingBox.getMinLongitude(), 0.0);
-        assertEquals(boundingBox.getMaxLatitude(), 0.0);
-        assertEquals(boundingBox.getMaxLongitude(), 0.0);
+        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("0.0"));
+        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("0.0"));
+        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("0.0"));
+        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("0.0"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
 
@@ -92,10 +92,10 @@ public class NearLocationHandlerBoundingBoxTest {
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
         // At the high latitudes it's going to cover most of the area. 
-        assertEquals(boundingBox.getMinLatitude(), 89.99098662700558);
-        assertEquals(boundingBox.getMinLongitude(), -180.0);
-        assertEquals(boundingBox.getMaxLatitude(), 90.0);
-        assertEquals(boundingBox.getMaxLongitude(), 180.0);
+        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("89.99098662700558"));
+        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
+        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("90.0"));
+        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("180.0"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
 
@@ -109,10 +109,10 @@ public class NearLocationHandlerBoundingBoxTest {
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
         // At the low latitudes it's going to cover most of the area. 
-        assertEquals(boundingBox.getMinLatitude(), -90.0);
-        assertEquals(boundingBox.getMinLongitude(), -180.0);
-        assertEquals(boundingBox.getMaxLatitude(), -89.99098662700558);
-        assertEquals(boundingBox.getMaxLongitude(), 180.0);
+        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-90.0"));
+        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
+        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.99098662700558"));
+        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("180.0"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
 
@@ -137,10 +137,10 @@ public class NearLocationHandlerBoundingBoxTest {
 
         BoundingBox boundingBox = (BoundingBox) bounding.get(0);
         // At the low latitudes it's going to cover most of the area. 
-        assertEquals(boundingBox.getMinLatitude(), -90.0);
-        assertEquals(boundingBox.getMinLongitude(), -180.0);
-        assertEquals(boundingBox.getMaxLatitude(), -89.99098662700558);
-        assertEquals(boundingBox.getMaxLongitude(), 180.0);
+        assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-90.0"));
+        assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
+        assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.99098662700558"));
+        assertEquals(boundingBox.getMaxLongitude(), Double.valueOf("180.0"));
         assertEquals(boundingBox.getType(), BoundingType.BOX);
     }
 }

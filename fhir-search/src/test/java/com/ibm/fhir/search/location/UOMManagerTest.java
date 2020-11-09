@@ -20,17 +20,17 @@ public class UOMManagerTest {
 
     @Test
     public void testLocationUnitFoundUS() {
-        assertEquals(UOMManager.getUnitToMetersFactor("mi_us"), 1609.344);
+        assertEquals(UOMManager.getUnitToMetersFactor("mi_us").doubleValue(), 1609.344);
     }
 
     @Test
     public void testLocationUnitFoundBR() {
-        assertEquals(UOMManager.getUnitToMetersFactor("mi_br"), 1609.3427328000002);
+        assertEquals(UOMManager.getUnitToMetersFactor("mi_br").doubleValue(), 1609.3427328000002);
     }
 
     @Test
     public void testLocationUnitFoundBRWithBrackets() {
-        assertEquals(UOMManager.getUnitToMetersFactor("[mi_br]"), 1609.3427328000002);
+        assertEquals(UOMManager.getUnitToMetersFactor("[mi_br]").doubleValue(), 1609.3427328000002);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class UOMManagerTest {
 
     @Test
     public void testLocations() {
-        assertEquals(UOMManager.getUnitToMetersFactor("km"), 1000.0);
+        assertEquals(UOMManager.getUnitToMetersFactor("km").doubleValue(), 1000.0);
     }
 
     @Test
@@ -60,17 +60,17 @@ public class UOMManagerTest {
 
     @Test
     public void testStatuteLengthUnitsFactor() {
-        assertEquals(StatuteLengthUnits.FOOT.factor(), 1.0);
+        assertEquals(StatuteLengthUnits.FOOT.factor().doubleValue(), 1.0);
     }
 
     @Test
     public void testImperialUnitsFactor() {
-        assertEquals(ImperialUnits.MILE.factor(), 1609.3427328000002);
+        assertEquals(ImperialUnits.MILE.factor().doubleValue(), 1609.3427328000002);
     }
 
     @Test
     public void testMetricUnitsFactor() {
-        assertEquals(MetricUnits.ATTOMETRE.factor(), -18.0);
+        assertEquals(MetricUnits.ATTOMETRE.factor().doubleValue(), -18.0);
     }
 
     @Test(expectedExceptions = { IllegalArgumentException.class })
@@ -95,7 +95,7 @@ public class UOMManagerTest {
 
     @Test
     public void testConvertUnitToValue() {
-        assertEquals(UOMManager.convertUnitsToMeters("km", 1.0), 1000.0);
+        assertEquals(UOMManager.convertUnitsToMeters("km", 1.0).doubleValue(), 1000.0);
     }
 
     @Test
@@ -105,8 +105,8 @@ public class UOMManagerTest {
 
     @Test
     public void testConvertUnitToKiloValue() {
-        assertEquals(UOMManager.convertUnitsToKiloMeters("km", 1.0), 1.0);
-        assertEquals(UOMManager.convertUnitsToKiloMeters("m", 1.0), 0.001);
+        assertEquals(UOMManager.convertUnitsToKiloMeters("km", 1.0).doubleValue(), 1.0);
+        assertEquals(UOMManager.convertUnitsToKiloMeters("m", 1.0).doubleValue(), 0.001);
     }
 
     @Test
