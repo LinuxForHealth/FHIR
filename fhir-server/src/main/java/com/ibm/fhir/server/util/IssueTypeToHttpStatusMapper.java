@@ -61,7 +61,7 @@ public class IssueTypeToHttpStatusMapper {
                     } else if (issueType == IssueType.ValueSet.NOT_SUPPORTED &&
                             "resource".equals(FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_SUPPORTED_DETAIL))) {
                         return Status.NOT_FOUND;
-                    } else if (issueType == IssueType.ValueSet.NOT_FOUND && 
+                    } else if (issueType == IssueType.ValueSet.NOT_FOUND &&
                             FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_FOUND_DETAIL ) != null ) {
                         return Status.BAD_REQUEST;
                     }
