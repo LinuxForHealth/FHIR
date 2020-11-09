@@ -44,7 +44,6 @@ public class LookupOperationTest extends FHIRServerTestBase {
     // Test Specific
     public static final String TEST_GROUP_NAME = "terminology";
     public static final String FORMAT = "application/json";
-    private static boolean ON = false;
     public static final boolean DEBUG = false;
 
     // URLs to call against the instance
@@ -55,17 +54,14 @@ public class LookupOperationTest extends FHIRServerTestBase {
     @BeforeClass
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
-        ON = Boolean.parseBoolean(testProperties.getProperty("test.terminology.lookup.enabled", "false"));
-        System.out.println("Tests enabled " + ON);
         setUp(testProperties);
         
-        if( ON ) {
-	        JsonObject jsonObject = TestUtil.readJsonObject("testdata/CodeSystem.json");
-	        Entity<JsonObject> entity = Entity.entity(jsonObject,  FHIRMediaType.APPLICATION_FHIR_JSON);
-	        
-	        Response response = getWebTarget().request().post(entity,Response.class);
-	        assertEquals( response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL );
-        }
+        JsonObject jsonObject = TestUtil.readJsonObject("testdata/CodeSystem.json");
+        Entity<JsonObject> entity = Entity.entity(jsonObject,  FHIRMediaType.APPLICATION_FHIR_JSON);
+        
+        Response response = getWebTarget().path("/CodeSystem/1749c179cd5-bfbb6872-3f47-4f7d-97f6-fc4231e5cba5")
+                .request().put(entity,Response.class);
+        assertEquals( response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL );
     }
 
     public Response doGet(String path, String mimeType, String system, String code) {
@@ -79,35 +75,23 @@ public class LookupOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { TEST_GROUP_NAME })
     public void testLookupBySystemAndCodeValid() throws Exception {
-        if (ON) {
-            Response response = doGet(BASE_VALID_URL, FORMAT, EXAMPLE_SYSTEM, EXAMPLE_CODE);
-            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
-        } else {
-            System.out.println("Lookup Tests Disabled, Skipping");
-        }
+        Response response = doGet(BASE_VALID_URL, FORMAT, EXAMPLE_SYSTEM, EXAMPLE_CODE);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     @Test(groups = { TEST_GROUP_NAME })
     public void testLookupBySystemAndCodeInvalidSystem() throws Exception {
-        if (ON) {
-            Response response = doGet(BASE_VALID_URL, FORMAT, "INVALID", EXAMPLE_CODE);
-            assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
-            String entity = response.readEntity(String.class);
-            assertTrue( entity.contains("not-found"), entity );
-        } else {
-            System.out.println("Lookup Tests Disabled, Skipping");
-        }
+        Response response = doGet(BASE_VALID_URL, FORMAT, "INVALID", EXAMPLE_CODE);
+        assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        String entity = response.readEntity(String.class);
+        assertTrue( entity.contains("not-found"), entity );
     }
 
     @Test(groups = { TEST_GROUP_NAME })
     public void testLookupBySystemAndCodeInvalidCode() throws Exception {
-        if (ON) {
-            Response response = doGet(BASE_VALID_URL, FORMAT, EXAMPLE_SYSTEM, "INVALID");
-            assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
-            String entity = response.readEntity(String.class);
-            assertTrue( entity.contains("not-found"), entity );
-        } else {
-            System.out.println("Lookup Tests Disabled, Skipping");
-        }
+        Response response = doGet(BASE_VALID_URL, FORMAT, EXAMPLE_SYSTEM, "INVALID");
+        assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        String entity = response.readEntity(String.class);
+        assertTrue( entity.contains("not-found"), entity );
     }
 }
