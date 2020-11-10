@@ -60,7 +60,7 @@
     </test>
     <test name="TerminologyTests">
         <packages>
-            <!-- All of these terminology tests are disabled by default, and enabled in test.properties -->
+            <!-- All of these tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.terminology" />
         </packages>
     </test>
