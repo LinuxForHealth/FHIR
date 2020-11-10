@@ -612,6 +612,7 @@ public class QuerySegmentAggregator {
                                 String alias = compositeAlias + "_p" + componentNum;
                                 QueryParameter component = components.get(componentNum - 1);
                                 String tableName = tableName(overrideType, component);
+                                // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
                                 if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
                                     tableName = overrideType + "_TOKEN_VALUES ";
                                 }

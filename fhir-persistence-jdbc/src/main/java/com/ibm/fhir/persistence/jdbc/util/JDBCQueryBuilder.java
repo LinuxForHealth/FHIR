@@ -827,6 +827,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     String alias = chainedParmVar + "_p" + componentNum;
                     QueryParameter component = components.get(componentNum - 1);
                     String tableName = QuerySegmentAggregator.tableName(resourceTypeName, component);
+                    // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
                     if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
                         tableName = resourceTypeName + "_TOKEN_VALUES ";
                     }
@@ -1607,6 +1608,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                                     String alias = chainedParmVar + "_p" + componentNum;
                                     QueryParameter component = components.get(componentNum - 1);
                                     String tableName = QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), component);
+                                    // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
                                     if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
                                         tableName = previousParm.getModifierResourceTypeName() + "_TOKEN_VALUES ";
                                     }
