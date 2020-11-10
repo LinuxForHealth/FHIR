@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.util;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
@@ -610,11 +611,15 @@ public class QuerySegmentAggregator {
                             for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                                 String alias = compositeAlias + "_p" + componentNum;
                                 QueryParameter component = components.get(componentNum - 1);
-                                whereClause.append(JOIN + tableName(overrideType, component) + alias)
+                                String tableName = tableName(overrideType, component);
+                                if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
+                                    tableName = overrideType + "_TOKEN_VALUES ";
+                                }
+                                whereClause.append(JOIN).append(tableName).append(alias)
                                         .append(ON)
-                                        .append(compositeAlias + ".COMP" + componentNum + abbr(component))
-                                        .append("=")
-                                        .append(alias + ".ROW_ID");
+                                        .append(compositeAlias).append(".COMP").append(componentNum).append(abbr(component))
+                                        .append(EQ)
+                                        .append(alias).append(".ROW_ID");
                                 whereClauseSegment =
                                         whereClauseSegment.replaceAll(
                                                 PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");

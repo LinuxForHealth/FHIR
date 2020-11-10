@@ -31,10 +31,12 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCSortTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCPagingTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCIncludeRevincludeTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCReverseChainTest" />
         </classes>
     </test>
     <test name="JDBCSearchTests">
         <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchCompositeTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchDateTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchNumberTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchQuantityTest" />

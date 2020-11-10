@@ -342,17 +342,16 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
      * One observation is found, thus one encounter is returned.
      * @throws Exception
      */
-    // TODO: uncomment when issue #1669 is fixed.
-//    @Test
-//    public void testReverseChainSingleResultWithCompositeParm() throws Exception {
-//        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-//        queryParms.put("_has:Observation:encounter:code-value-string", Collections.singletonList("code$test"));
-//         List<Resource> resources = runQueryTest(Encounter.class, queryParms);
-//        assertNotNull(resources);
-//        assertEquals(1, resources.size());
-//        assertEquals("Encounter", resources.get(0).getClass().getSimpleName());
-//        assertEquals(savedEncounter1.getId(), resources.get(0).getId());
-//    }
+    @Test
+    public void testReverseChainSingleResultWithCompositeParm() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_has:Observation:encounter:code-value-string", Collections.singletonList("code$test"));
+         List<Resource> resources = runQueryTest(Encounter.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Encounter", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedEncounter1.getId(), resources.get(0).getId());
+    }
 
     private Reference reference(String reference) {
         return Reference.builder().reference(string(reference)).build();
