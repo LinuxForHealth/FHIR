@@ -95,7 +95,7 @@ public class PopulateParameterNames implements IDatabaseStatement {
                     Integer curVal = Integer.parseInt((String) valueEntry.getValue());
                     String code = (String) valueEntry.getKey();
 
-                    if (values.containsKey(code)) {
+                    if (!values.containsKey(code)) {
                         batch.setLong(1, curVal);
                         batch.setString(2, code);
                         batch.addBatch();
@@ -114,7 +114,7 @@ public class PopulateParameterNames implements IDatabaseStatement {
                         }
                     }
                     if (errorCodes > 0) {
-                        String msg = "at least one of the Paramater Name/Codes are not populated [" + errorCodes + "]";
+                        String msg = "at least one of the Parameter Name/Codes are not populated [" + errorCodes + "]";
                         LOGGER.severe(msg);
                         throw new IllegalArgumentException(msg);
                     }

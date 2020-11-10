@@ -87,7 +87,7 @@ public class PopulateResourceTypes implements IDatabaseStatement {
                     Integer curVal = Integer.parseInt((String) valueEntry.getValue());
                     String resource = (String) valueEntry.getKey();
 
-                    if (values.containsKey(resource)) {
+                    if (!values.containsKey(resource)) {
                         batch.setInt(1, curVal);
                         batch.setString(2, resource);
                         batch.addBatch();
