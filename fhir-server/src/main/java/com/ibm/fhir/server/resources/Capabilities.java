@@ -516,9 +516,15 @@ public class Capabilities extends FHIRResource {
         List<Canonical> instantiates = new ArrayList<>();
         for (CapabilityStatement registeredCapability : registeredCapabilities) {
             if (registeredCapability != null && registeredCapability.getUrl() != null) {
+                boolean isServerCS = false;
+                for(Rest r : registeredCapability.getRest()) {
+                    if (RestfulCapabilityMode.ValueSet.SERVER == r.getMode().getValueAsEnumConstant()) {
+                        isServerCS = true;
+                    }
+                }
                 String url = registeredCapability.getUrl().getValue();
                 // BASE_CAPABILITY_URL and BASE_2_CAPABILITY_URL come from the core spec and shouldn't be advertised
-                if (url != null && !BASE_CAPABILITY_URL.equals(url) && !BASE_2_CAPABILITY_URL.equals(url)) {
+                if (url != null && isServerCS && !BASE_CAPABILITY_URL.equals(url) && !BASE_2_CAPABILITY_URL.equals(url)) {
                     String canonicalValue = url;
                     if (registeredCapability.getVersion() != null && registeredCapability.getVersion().getValue() != null) {
                         canonicalValue = canonicalValue + "|" + registeredCapability.getVersion().getValue();
