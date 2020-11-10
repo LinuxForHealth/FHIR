@@ -7,7 +7,7 @@
       "name": "Creative Commons Zero v1.0 Universal",
       "url": "http://spdx.org/licenses/CC0-1.0.html"
     },
-    "version": "0.1.5",
+    "version": "0.1.7",
     "contact": {
       "name": "HL7 Financial Management Working Group",
       "email": "fm@lists.HL7.org",
@@ -1674,14 +1674,16 @@
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Select Practitioners with the specified family name"
           },
           {
             "name": "given",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Select Practitioners with the specified given name"
           }
         ]
       }
