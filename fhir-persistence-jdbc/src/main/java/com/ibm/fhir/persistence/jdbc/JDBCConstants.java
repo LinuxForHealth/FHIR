@@ -36,6 +36,14 @@ public class JDBCConstants {
     public static final String DATE_END = "DATE_END";
     public static final String LATITUDE_VALUE = "LATITUDE_VALUE";
     public static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
+    public static final String _RESOURCES = "_RESOURCES";
+    public static final String _LOGICAL_RESOURCES = "_LOGICAL_RESOURCES";
+    public static final String RESOURCE_ID = "RESOURCE_ID";
+    public static final String LOGICAL_ID = "LOGICAL_ID";
+    public static final String LOGICAL_RESOURCE_ID = "LOGICAL_RESOURCE_ID";
+    public static final String CURRENT_RESOURCE_ID = "CURRENT_RESOURCE_ID";
+    public static final String PARAMETER_NAME_ID = "PARAMETER_NAME_ID";
+    public static final String IS_DELETED_NO = "IS_DELETED = 'N'";
 
     // Generic SQL query string constants
     public static final String DOT = ".";
@@ -68,6 +76,8 @@ public class JDBCConstants {
     public static final char COMMA_CHAR = ',';
     public static final char QUOTE = '\'';
     public static final char PATH_CHAR = '/';
+    public static final String SELECT = " SELECT ";
+    public static final String AS = " AS ";
 
     // JDBC Operators
     public static final String EQ = " = ";
@@ -86,13 +96,13 @@ public class JDBCConstants {
     public static final String ASCENDING = "ASC";
     public static final String DESCENDING = "DESC";
 
-    public static final String DEFAULT_ORDERING = " ORDER BY RESOURCE_ID ASC ";
+    public static final String DEFAULT_ORDERING = " ORDER BY LOGICAL_RESOURCE_ID ASC ";
     public static final String DEFAULT_ORDERING_WITH_TABLE = " ORDER BY R.RESOURCE_ID ASC ";
 
     // MIN / MAX
     public static final String MAX = "MAX";
     public static final String MIN = "MIN";
-    
+
     // Db2 optimization hints
     public static final String SEARCH_REOPT = "search.reopt";
 

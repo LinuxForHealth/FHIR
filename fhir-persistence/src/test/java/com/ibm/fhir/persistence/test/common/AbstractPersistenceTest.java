@@ -51,7 +51,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 public abstract class AbstractPersistenceTest {
     // common logger to make things a little easier on subclass implementations
     protected static final Logger logger = Logger.getLogger(AbstractPersistenceTest.class.getName());
-    
+
     // The persistence layer instance to be used by the tests.
     protected static FHIRPersistence persistence = null;
 
@@ -63,10 +63,10 @@ public abstract class AbstractPersistenceTest {
 
     // A hook for subclasses to override and provide specific test database shutdown functionality if required.
     protected void shutdownDatabase() throws Exception {}
-    
+
     // A hook for subclasses to close any pools they may have created. Called after all tests in the class have been run
     protected void shutdownPools() throws Exception {}
-    
+
     // A hook for subclasses to debug locks in the case of a lock timeout in the current transaction
     protected void debugLocks() {}
 
@@ -111,7 +111,7 @@ public abstract class AbstractPersistenceTest {
             persistence.getTransaction().end();
         }
     }
-    
+
     @AfterClass(alwaysRun = true)
     public void closeClass() throws Exception {
         shutdownPools();
@@ -154,7 +154,10 @@ public abstract class AbstractPersistenceTest {
             expectedCount++;
             if (!SearchUtil.isSearchResultParameter(key) && !SearchUtil.isGeneralParameter(key)) {
                 String paramName = key;
-                if (SearchUtil.isChainedParameter(key)) {
+                if (SearchUtil.isReverseChainedParameter(key)) {
+                    // ignore the reference type and just verify the reference param is there
+                    paramName = key.split(":")[2];
+                } else if (SearchUtil.isChainedParameter(key)) {
                     // ignore the chained part and just verify the reference param is there
                     paramName = key.split("\\.")[0];
                 }
@@ -170,7 +173,7 @@ public abstract class AbstractPersistenceTest {
             searchContext.setPageSize(maxPageSize);
         }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        
+
         try {
             MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
             assertNotNull(result.getResource());

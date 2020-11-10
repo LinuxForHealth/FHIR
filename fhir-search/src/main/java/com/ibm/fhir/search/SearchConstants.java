@@ -87,6 +87,9 @@ public class SearchConstants {
     // _type
     public static final String RESOURCE_TYPE = "_type";
 
+    // _has
+    public static final String HAS = "_has";
+
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
