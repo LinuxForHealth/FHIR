@@ -64,6 +64,9 @@ jobs:
         $SRC_ST='./fhir-server-test/target/surefire-reports'
         $DST_ST_F=$it_results + '/' + $DST_ST
         Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force
+
+        Copy-Item -Path stdout.txt -Destination $DST_ST_F -Force
+        Copy-Item -Path stderr.txt -Destination $DST_ST_F -Force
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2.2.0

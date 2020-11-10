@@ -53,9 +53,15 @@
     </test>
     <test name="PerformanceTests">
         <packages>
-            <!-- All of these performance tests are automatically executed and 
+            <!-- All of these performance tests are automatically executed and
                  the number of iterations is controlled in test.properties -->
             <package name="com.ibm.fhir.server.test.performance" />
+        </packages>
+    </test>
+    <test name="TerminologyTests">
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.server.test.terminology" />
         </packages>
     </test>
 </suite>
