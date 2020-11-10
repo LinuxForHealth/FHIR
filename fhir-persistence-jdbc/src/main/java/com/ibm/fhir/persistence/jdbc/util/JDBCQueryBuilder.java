@@ -621,14 +621,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * <pre>
      * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
      * FROM Observation_LOGICAL_RESOURCES LR
-     * JOIN Observation_RESOURCES R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'
+     * JOIN Observation_RESOURCES R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED = 'N'
      * JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES
      * WHERE(P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN
      *    (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
-     *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *          CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN
      *                 (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE
-     *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
+     *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED = 'N' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
      *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')))
      * TMP0 ON TMP0.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID;
      * </pre>
@@ -838,7 +838,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         whereClauseSegment.append(WHERE);
 
-        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND
+        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N' AND
         // CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
         whereClauseSegment.append(chainedResourceTableAlias).append(RESOURCE_ID).append(EQ)
                 .append(chainedLogicalResourceTableAlias).append(CURRENT_RESOURCE_ID)
@@ -935,7 +935,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *    SELECT COUNT(R.RESOURCE_ID) FROM
      *    AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR , AuditEvent_STR_VALUES P1 WHERE
      *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *    R.IS_DELETED <> 'Y' AND
+     *    R.IS_DELETED = 'N' AND
      *    P1.RESOURCE_ID = R.RESOURCE_ID AND
      *    ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
      *     ((P1.PARAMETER_NAME_ID=13 AND
@@ -943,7 +943,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *        (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *            Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
      *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *            CR1.IS_DELETED <> 'Y' AND
+     *            CR1.IS_DELETED = 'N' AND
      *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
      *    ((P1.PARAMETER_NAME_ID=13 AND
@@ -951,7 +951,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *        (SELECT 'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM
      *            RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES CLR1, RelatedPerson_STR_VALUES CP1 WHERE
      *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *            CR1.IS_DELETED <> 'Y' AND
+     *            CR1.IS_DELETED = 'N' AND
      *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
      *     ((P1.PARAMETER_NAME_ID=16 AND
@@ -959,14 +959,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *        (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
      *            auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE
      *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *            CR1.IS_DELETED <> 'Y' AND
+     *            CR1.IS_DELETED = 'N' AND
      *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?
      *            UNION
      *            SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *                device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE
      *                CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *                CR1.IS_DELETED <> 'Y' AND
+     *                CR1.IS_DELETED = 'N' AND
      *                CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *                CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
      * </pre>

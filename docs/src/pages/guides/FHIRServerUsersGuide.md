@@ -78,20 +78,20 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use a single-tenant Embedded Derby database. For more information, see [Section 3.4 Persistence layer configuration](#34-persistence-layer-configuration).
 
 8.  To start and stop the server, use the Liberty server command:
-    ```
+```
     <WLP_HOME>/bin/server start fhir-server
     <WLP_HOME>/bin/server stop fhir-server
-    ```
+```
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
-    ```
+```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
-    ```
+```
     where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
     Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
 
     One should see `All OK` in the response.  The preceding command should produce output similar to the following:
-    ```
+```
     {
     "resourceType": "OperationOutcome",
     "issue": [
@@ -104,7 +104,7 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
         }
     ]
     }
-    ```
+```
 
 For more information about the capabilities of the implementation, see [Conformance](https://ibm.github.io/FHIR/Conformance).
 
@@ -137,7 +137,7 @@ The output of this command can then be copied and pasted into your `server.xml` 
 ## 3.2 Property names
 Configuration properties stored within a `fhir-server-config.json` file are structured in a hierarchical manner. Here is an example:
 
-    ```
+```
     {
         "fhirServer":{
             "core":{
@@ -145,7 +145,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
             }
         }
     }
-    ```
+```
 
 Throughout this document, we use a path notation to refer to property names. For example, the name of the `defaultPrettyPrint` property in the preceding example would be `fhirServer/core/defaultPrettyPrint`.
 
@@ -172,9 +172,9 @@ The FHIR server is delivered with a default configuration that is already config
 Before you can configure the FHIR server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use.
 
 ##### 3.4.1.1.1 Embedded Derby (default)
-If you are configuring the FHIR server to use a single embedded Derby database, then you can configure it to create the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
+If you are configuring the FHIR server to use a single embedded Derby database, then you can configure it to create (bootstrap) the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
 
-    ```
+```
     {
         "fhirServer":{
             …
@@ -188,9 +188,62 @@ If you are configuring the FHIR server to use a single embedded Derby database, 
             }
         }
     }
-    ```
+```
 
 This database bootstrap step is only performed for a Derby database.
+
+The default configuration above assumes use of the IBM FHIR Server proxy datasource. To use standard JEE datasources instead you need to explicitly disable the proxy datasource behavior and provide a base name used by the bootstrap mechanism to calculate the JNDI names.
+
+```
+    {
+        "fhirServer":{
+            "persistence": {
+                ...
+                "jdbc": {
+                    "bootstrapDb": true,
+                    "enableProxyDatasource": false,
+                    "bootstrapDataSourceBase": "jdbc/bootstrap"
+                    ...
+                },
+                "datasources": {
+                    "default": {
+                        "jndiName": "jdbc/bootstrap_default_default",
+                        "type": "derby",
+                        "currentSchema": "APP"
+                    },
+                    ...
+                }
+            }
+        }
+    }
+```
+
+Property Name | Type | Default Value | Description
+------------- | ---- | ------------- | --------------
+bootstrapDb   | Boolean | false | Bootstrap the Derby built-in databases
+enableProxyDatasource   | Boolean | true | Use IBM FHIR Server proxy datasource
+bootstrapDataSourceBase | String | | JNDI base name prefix for bootstrapped databases
+jndiName | String | | The JNDI name referencing the JEE datasource to use for the fhir-server-config datasource (required for bootstrapped Derby databases)
+
+The "jndiName" property value points to a JEE datasource which must also be configured. JEE datasources are typically defined in the Liberty Profile '.xml' files added to configDropins/overrides, for example datasource-bootstrap.xml:
+
+```
+<server>
+    <!-- ============================================================== -->
+    <!-- This datasources is used by the FHIR server Derby bootstrap  -->
+    <!-- process. We have to name them differently so they do not       -->
+    <!-- clash with other datasources which may be assigned JNDI names  -->
+    <!-- like "jdbc/fhir_default_default"                               -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirDatasourceBootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+            <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+    ...
+```
+
+When bootstrapping is enabled, four Derby databases are created to help demonstrate the IBM FHIR Server support for multiple tenants and multiple datastores per tenant.
 
 ##### 3.4.1.1.2 Db2
 If you configure the FHIR server to use an IBM Db2 database, you must:
@@ -224,7 +277,7 @@ https://ibm.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-ano
 The IBM FHIR Server persistence configuration is split between two files:  `fhir-server-config.json` and `server.xml`.
 
 1.  The value of the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` is used to instantiate a FHIRPersistence object. By default, the server is configured to use the FHIRPersistenceJDBCFactory:
-    ```
+```
     {
         "fhirServer": {
             …
@@ -233,10 +286,10 @@ The IBM FHIR Server persistence configuration is split between two files:  `fhir
                 …
             }
     }
-    ```
+```
 
 2.  When the FHIRPersistenceJDBCFactory is in use, the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` specifies the JNDI name of the target datasource. By default, the server uses a dataSourceJndiName of `jdbc/fhirProxyDataSource`:
-    ```
+```
     {
         "fhirServer": {
             …
@@ -249,11 +302,11 @@ The IBM FHIR Server persistence configuration is split between two files:  `fhir
                 …
             }
     }
-    ```
+```
     The `jdbc/fhirProxyDataSource` datasource is defined in the server's `server.xml` config file and, by default, specifies the `FHIRProxyXADataSource` which supports "Liberty-managed" distributed transactions across disaparate datasources defined in the `fhir-server-config.json` config.
 
 3.  When the FHIRProxyXADataSource is in use, modify the `fhirServer/persistence/datasources` property group to reflect the datastore(s) that you want to use. The following example defines the `default` datastore as an embedded derby database located in `wlp/usr/servers/fhir-server/derby/fhirDB`:
-    ```
+```
     {
         "fhirServer":{
             …
@@ -269,10 +322,10 @@ The IBM FHIR Server persistence configuration is split between two files:  `fhir
                 …
             }
     }
-    ```
+```
 
 The next example defines the `default` datastore as a Db2 database accessible on the `db2server1` host:
-    ```
+```
     {
         "fhirServer":{
             …
@@ -299,7 +352,7 @@ The next example defines the `default` datastore as a Db2 database accessible on
             }
         }
     }
-    ```
+```
 
 For more information on how to configure datastore properties, see [Section 3.4.2.2 Datastore configuration examples](#3422-datastore-configuration-examples).
 
@@ -307,9 +360,13 @@ Since release 4.3.2 you can use the `search.reopt` query optimizer hint (shown a
 
 ### 3.4.2 Properties-based datastore configuration
 
-Normally, a Liberty application that uses one or more Derby or Db2 datastores will require a datasource to be defined within the Liberty server.xml file for each database. One drawback to this approach is that each of the datasources are statically defined in the 'server.xml' file, which means that any updates (modifications, additions, etc.) will require a server re-start.
+Normally, a Liberty application that uses one or more JDBC datastores will require a datasource to be defined within the Liberty server.xml file for each database. One drawback to this approach is that each of the datasources are statically defined in the 'server.xml' file, which means that any updates (modifications, additions, etc.) will require a server re-start.
 
-As part of it's multi-tenant support, the FHIR server provides an alternate mechanism which consists of a single “proxy datasource” along with a set of properties configured in the `fhir-server-config.json` file. This proxy datasource can be used by the JDBC persistence layer implementation to establish connections to either Derby or Db2 databases. This approach allows for new datastores to be configured without the need to restart the FHIR server.
+As part of it's multi-tenant support, the IBM FHIR Server provides an alternate mechanism which consists of a single “proxy datasource” along with a set of properties configured in the `fhir-server-config.json` file. This proxy datasource can be used by the JDBC persistence layer implementation to establish connections to either Derby or Db2 databases. This approach allows for new datastores to be configured without the need to restart the FHIR server.
+
+Since issue #916, the FHIR server supports standard JDBC datasources defined in the server '.xml' files. Datasource elements should not be defined in the main 'server.xml' file but instead should be defined in the 'configDropins/overrides' directory. See the Liberty Profile Server configuration guide for more details and general guidance on creating modular configurations.
+
+The FHIRProxyXADataSource remains the default strategy for defining datasources in the current release. However, the standard JDBC datasource configuration is now considered the preferred approach due to benefits it brings in terms of configuring pool sizes, transaction recovery and monitoring.
 
 #### 3.4.2.1 Proxy datasource
 The FHIR server's proxy datasource allows us to configure a single statically-defined datasource in the Liberty 'server.xml' file, and then dynamically configure each of the datastores to be used by the FHIR server within the `fhir-server-config.json` file. The datasource definition within `server.xml` looks like this:
@@ -325,16 +382,141 @@ When the proxy datasource is obtained via a JNDI lookup by the JDBC persistence 
 
 The proxy datasource relies on the presence of the tenant-id and datastore-id information within the thread-local `FHIRRequestContext` information. In a simple configuration of the FHIR server that involves the use of the JDBC persistence layer implementation, the `FHIRRequestContext` information is obtained via request headers from the incoming REST API request. The tenant-id is obtained from the `X-FHIR-TENANT-ID` request header and the datastore-id is obtained from the `X-FHIR-DSID` request header<sup id="a3">[3](#f3)</sup>.
 
-#### 3.4.2.2 Datastore configuration examples
+#### 3.4.2.2 Standard JDBC Datasources
+
+To use standard JDBC datasources, disable the proxy datasource behavior by setting the 'enableProxyDatasource' flag to false (default is true):
+
+```
+    {
+        "fhirServer": {
+            …
+            "persistence": {
+                …
+                "jdbc": {
+                    …
+                    "enableProxyDatasource": false
+                }
+                …
+            }
+    }
+```
+
+The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is 'jdbc/fhir_<tenantId>_<dsId>' where '<tenantId>' and '<dsId>' represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
+
+```
+{
+    "fhirServer":{
+        …
+        "persistence":{
+            "datasources": {
+                "default": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "jndiName": "jdbc/fhir_default_default",
+                    "type": "db2",
+                    "hints" : {
+                        "search.reopt": "ONCE"
+                    }
+                }
+            }
+        …
+        }
+    }
+}
+```
+
+When configured explicitly, the jndiName does not have to follow the standard naming convention, although this is not recommended.
+
+Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datastore-default.xml' as follows:
+
+```
+<server>
+    <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+            <properties.db2.jcc
+                 serverName="db2"
+                 portNumber="*****"
+                 user="*****"
+                 password="*****"
+                 databaseName="*****"
+                 currentSchema="*****"
+                 driverType="4"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+</server>
+```
+
+This file is picked up when the server starts as indicated by the following AUDIT message:
+
+```
+[AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: /fhir/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-default.xml
+```
+
+A special case exists for configuring the Derby 'bootstrapped' datasources. To avoid naming conflicts, these datasources must use custom JNDI names, not the default naming pattern. For example, a Derby datasource defined in configDropins/overrides/datasource-bootstrap.xml' might look like this:
+
+```
+<server>
+    <dataSource id="fhirDatasourceBootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+            <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+</server>
+```
+
+Note the use of 'jdbc/bootstrap'. How this is used is described below. The corresponding definition in 'fhir-server-config.json' must be configured like this:
+
+```
+    {
+        "fhirServer":{
+
+            "persistence": {
+                ...
+                "jdbc": {
+                    "bootstrapDb": true,
+                    "enableProxyDatasource": false,
+                    "bootstrapDataSourceBase": "jdbc/bootstrap"
+                    ...
+                },
+                "datasources": {
+                    "default": {
+                        "jndiName": "jdbc/bootstrap_default_default",
+                        "type": "derby",
+                        "currentSchema": "APP"
+                    },
+                    ...
+                }
+            }
+        }
+    }
+```
+
+Note the introduction of the new property 'bootstrapDataSourceBase'. This value is required to correctly identify the datasources to use when bootstrapping the Derby databases. The value 'jdbc/bootstrap' is the prefix which should be common to all the Derby datasource JNDI names referencing bootstrapped Derby databases:
+
+Reference | JNDI Name | Derby Database
+--------- | --------- | --------------
+default   | jdbc/bootstrap_default_default | {serverHome}/derby/fhirDB
+profile   | jdbc/bootstrap_default_profile | {serverHome}/derby/profile
+reference | jdbc/bootstrap_default_reference | {serverHome}/derby/reference
+study1    | jdbc/bootstrap_default_study1 | {serverHome}/derby/study1
+
+Where {serverHome} is the 'wlp/usr/servers/fhir-server' directory containing the 'server.xml' file.
+
+#### 3.4.2.3 Datastore configuration examples
 To understand how the configuration properties are defined for one or more datastores, let's start off with a couple of examples.
 
-##### 3.4.2.2.1 Example 1
-Here is a simple example of a single (default) datastore:
+##### 3.4.2.3.1 Example 1
+Here is a simple example of a single (default) Derby datastore using the proxy mechanism:
 ```
 {
     "fhirServer":{
         "persistence":{
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "jdbc": {
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource"
+            },
+            ...
             "datasources": {
                 "default": {
                     "type": "derby",
@@ -353,7 +535,7 @@ Here is a simple example of a single (default) datastore:
 ```
 In this example, we define an embedded Derby database named `derby/fhirDB` (a location relative to the `<WLP_HOME>/usr/servers/fhir-server` directory. The datastore-id associated with this datastore is `default`, which is the value that is used if no `X-FHIR-DSID` request header is found in the incoming request. So, when only a single database is being used, it's wise to leverage the `default` datastore-id value to allow REST API consumers to avoid having to set the `X-FHIR-DSID` request header on each request.
 
-##### 3.4.2.2.2 Example 2
+##### 3.4.2.3.2 Example 2
 This example shows a slightly more complex scenario. In this scenario, the `acme` tenant would like to store data in one of two study-specific Db2 databases with datastore-id values `study1` and `study2`. All resource types pertaining to a given study will be stored in that study's database so there's no need for a proxy persistence layer or routing rules, and so forth.
 
 Furthermore, the REST API consumers associated with Acme applications will be coded to always set the `X-FHIR-TENANT-ID` request header to be `acme` and the `X-FHIR-DSID` request header to the specific datastore-id associated with each request (either `study1` or `study2`). In this case, the following properties would be configured within the “acme” tenant's `fhir-server-config.json` file<sup id="a4">[4](#f4)</sup> (`$⁠{server.config.dir}/config/acme/fhir-server-config.json`):
@@ -364,6 +546,9 @@ Furthermore, the REST API consumers associated with Acme applications will be co
         …
         "persistence":{
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "jdbc": {
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource"
+            },
             …
             "datasources": {
                 "study1": {
@@ -397,7 +582,79 @@ Furthermore, the REST API consumers associated with Acme applications will be co
 }
 ```
 
-#### 3.4.2.3 Datastore configuration reference
+##### 3.4.2.3.3 Example 3
+Example 3 implements the same configuration as Example 2 using standard Liberty datasource definitions.
+
+```
+{
+    "__comment":"Acme's FHIR server configuration",
+    "fhirServer":{
+        …
+        "persistence":{
+            "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "jdbc": {
+                "enableProxyDatasource": false
+            },
+            …
+            "datasources": {
+                "study1": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "type": "db2"
+                },
+                "study2": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "type": "db2"
+                }
+            }
+            …
+        }
+    }
+}
+```
+
+Note that because this example is using the default FHIR server naming scheme for datasource JNDI names, there is no need to include the 'jndiName' property, although you can specify it should you wish to make the mapping clear. The "type" must match the actual database type referenced by the datasource definition. If the type does not match, the behavior is undefined.
+
+The datasource definitions for the 'acme' tenant are defined as a drop-in configuration in '{serverHome}/configDropins/datasources-acme.xml':
+
+```
+<server>
+    <dataSource id="fhirDatasourceAcmeStudy1" jndiName="jdbc/fhir_acme_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+            <properties.db2.jcc
+                 serverName="dbserver1"
+                 portNumber="50000"
+                 user="db2inst1"
+                 password="change-password"
+                 databaseName="ACMESTUDY1"
+                 currentSchema="DB2INST1"
+                 driverType="4"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+
+    <dataSource id="fhirDatasourceAcmeStudy2" jndiName="jdbc/fhir_acme_study2" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+            <properties.db2.jcc
+                 serverName="dbserver1"
+                 portNumber="50000"
+                 user="db2inst1"
+                 password="change-password"
+                 databaseName="ACMESTUDY2"
+                 currentSchema="DB2INST1"
+                 driverType="4"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+
+</server>
+```
+
+In the above configuration, each datasource gets its own connection pool with properties defined by the 'connectionManager' element.
+
+
+#### 3.4.2.4 Datastore configuration reference
 Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence/datasources` property specifies a map that relates the datastore-id value to a group of properties used to establish a connection to that datasource (database). Each datasource's property group contains properties named `type` and `connectionProperties`. Here is an example depicting a Db2 datasource definition:
 ```
 {

@@ -93,6 +93,7 @@
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
 
+    <!-- issue #916 fhirProxyDataSource remains the default configuration so keep this for now -->
     <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" libraryRef="fhirSharedLib"/>
         <connectionManager/>

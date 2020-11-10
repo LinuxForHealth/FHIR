@@ -21,6 +21,7 @@
         "persistence": {
             "datasources": {
                 "profile": {
+                    "jndiName": "jdbc/bootstrap_tenant1_profile",
                     "type": "derby",
                     "currentSchema": "APP",
                     "connectionProperties": {
@@ -29,6 +30,7 @@
                     }
                 },
                 "reference": {
+                    "jndiName": "jdbc/bootstrap_tenant1_reference",
                     "type": "derby",
                     "currentSchema": "APP",
                     "connectionProperties": {
@@ -37,6 +39,7 @@
                     }
                 },
                 "study1": {
+                    "jndiName": "jdbc/bootstrap_tenant1_study1",
                     "type": "derby",
                     "currentSchema": "APP",
                     "connectionProperties": {

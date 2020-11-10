@@ -108,6 +108,7 @@
             "datasources": {
                 "default": {
                     "type": "db2",
+                    "currentSchema": "fhirdata",
                     "hints" : {
                       "search.reopt": "ONCE"
                     },

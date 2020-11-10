@@ -49,7 +49,8 @@
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
                 "bootstrapDb": true,
-                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
+                "enableProxyDatasource": false,
+                "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
@@ -57,14 +58,7 @@
             "datasources": {
                 "default": {
                     "type": "postgresql",
-                    "connectionProperties": {
-                        "serverName": "postgres_postgres_1",
-                        "portNumber": 5432,
-                        "databaseName": "fhirdb",
-                        "user": "fhirserver",
-                        "password": "change-password",
-                        "currentSchema": "fhirdata"
-                    }
+                    "currentSchema": "fhirdata"
                 }
             }
         },

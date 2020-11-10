@@ -62,7 +62,7 @@ public class QuerySegmentAggregator {
     protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.RESOURCE_ID) ";
     protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
-    protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
+    protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
 
     // Enables the SKIP_WHERE of WHERE clauses.
     public static final String ID = "_id";
@@ -164,7 +164,7 @@ public class QuerySegmentAggregator {
      *      AND pv2.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID) LR
      *       ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
      *      AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID
-     *      AND R.IS_DELETED <> 'Y'
+     *      AND R.IS_DELETED = 'N'
      *
      * The SELECT DISTINCT is required to remove duplicates caused by repeated parameter
      * values.
@@ -196,7 +196,7 @@ public class QuerySegmentAggregator {
             queryString.append(ON);
             queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
             queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-            queryString.append(" AND R.IS_DELETED <> 'Y'");
+            queryString.append(" AND R.IS_DELETED = 'N'");
 
 
             // An important step here is to add _id, _lastUpdated, and then values table bind variables
@@ -362,7 +362,7 @@ public class QuerySegmentAggregator {
                 queryString.append(ON);
                 queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
                 queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-                queryString.append(" AND R.IS_DELETED <> 'Y'");
+                queryString.append(" AND R.IS_DELETED = 'N'");
 
                 // An important step here is to add _id, values table bind variables, and then _lastUpdated
                 allBindVariables.addAll(idsObjects);
@@ -412,7 +412,7 @@ public class QuerySegmentAggregator {
         processFromClauseForLastUpdated(fromClause, simpleName);
         fromClause.append(" R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
         fromClause.append("  AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-        fromClause.append("  AND R.IS_DELETED <> 'Y' ");
+        fromClause.append("  AND R.IS_DELETED = 'N' ");
 
         log.exiting(CLASSNAME, METHODNAME);
     }
