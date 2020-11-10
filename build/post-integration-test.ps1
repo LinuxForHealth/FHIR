@@ -1,6 +1,6 @@
 ###############################################################################
 # (C) Copyright IBM Corp. 2020
-# 
+#
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
@@ -17,7 +17,7 @@ $DIR_WORKSPACE= Split-Path $PSScriptRoot -Parent
 # Stop the fhir server.
 Write-Host 'Stopping the fhir-server'
 $PROC=$SIT + '\wlp\bin\server'
-& $PROC stop fhir-server 
+& $PROC stop fhir-server
 Write-Host 'The fhir-server is stopped'
 
 Write-Host 'Clean up existing integration test results'
@@ -41,6 +41,9 @@ Write-Host 'Gathering integration test output'
 $SRC_ST='./fhir-server-test/target/surefire-reports'
 $DST_ST_F=$it_results + '/' + $DST_ST
 Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force
+
+Copy-Item -Path stdout.txt -Destination $DST_ST_F -Force
+Copy-Item -Path stderr.txt -Destination $DST_ST_F -Force
 
 exit 0
 
