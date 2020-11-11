@@ -401,7 +401,7 @@ To use standard JDBC datasources, disable the proxy datasource behavior by setti
     }
 ```
 
-The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is 'jdbc/fhir_<tenantId>_<dsId>' where '<tenantId>' and '<dsId>' represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
+The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is `jdbc/fhir_<tenantId>_<dsId>` where `<tenantId>` and `<dsId>` represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
 
 ```
 {
