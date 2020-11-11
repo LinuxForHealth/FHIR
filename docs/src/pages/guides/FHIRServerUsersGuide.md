@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-10-27"
+lastupdated: "2020-11-11"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -11,6 +11,7 @@ permalink: /FHIRServerUsersGuide/
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
+  * [2.3 Docker](#22-Docker)
 - [3 Configuration](#3-configuration)
   * [3.1 Encoded passwords](#31-encoded-passwords)
   * [3.2 Property names](#32-property-names)
@@ -120,6 +121,12 @@ Complete the following steps to upgrade the server:
 3. Back up your database.  
 4. Run the migration program (see [Section 3.4.1.1.2 Db2](#34112-db2)).  
 5. Disable traffic to the old server and enable traffic to the new server  
+
+## 2.3 Docker
+
+The IBM FHIR Server includes Docker images [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
+
+Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
 
 # 3 Configuration
 This chapter contains information about the various ways in which the FHIR server can be configured by users.
