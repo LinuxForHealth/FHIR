@@ -21,6 +21,16 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
 # ----------------------------------------------------------------------------
 
 FROM openliberty/open-liberty:20.0.0.9-full-java8-openj9-ubi
+
+ARG FHIR_VERSION=4.5.1
+
+# The following labels are required: 
+LABEL name='IBM FHIR Server'
+LABEL vendor='IBM'
+LABEL version="$FHIR_VERSION"
+LABEL summary="Image for IBM FHIR Server with OpenJ9 and UBI 8"
+LABEL description="The IBM FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability."
+
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
 ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
