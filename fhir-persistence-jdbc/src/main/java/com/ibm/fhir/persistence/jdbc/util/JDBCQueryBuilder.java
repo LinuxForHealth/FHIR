@@ -826,12 +826,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                     String alias = chainedParmVar + "_p" + componentNum;
                     QueryParameter component = components.get(componentNum - 1);
+                    String tableName = QuerySegmentAggregator.tableName(resourceTypeName, component);
+                    // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
+                    if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
+                        tableName = resourceTypeName + "_TOKEN_VALUES ";
+                    }
                     whereClauseSegment
-                            .append(JOIN + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
+                            .append(JOIN).append(tableName).append(alias)
                             .append(ON)
-                            .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component))
+                            .append(chainedParmVar).append(".COMP").append(componentNum).append(QuerySegmentAggregator.abbr(component))
                             .append("=")
-                            .append(alias + ".ROW_ID");
+                            .append(alias).append(".ROW_ID");
                 }
             }
         }
@@ -1582,15 +1587,48 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 SqlQueryData sqlQueryData;
                 if (!"_id".equals(currentParm.getCode())) {
                     if (!chainedParmProcessed) {
-                        // Build this join:
-                        // @formatter:off
-                        //   JOIN <modifierTypeResourceName>_<type>_VALUES AS CPx
-                        //     ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
-                        //     AND
-                        // @formatter:on
-                        whereClauseSegment.append(JOIN).append(QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), currentParm))
+                        if (Type.COMPOSITE.equals(currentParm.getType())) {
+                            // Build this join:
+                            // @formatter:off
+                            //   JOIN <modifierTypeResourceName>_COMPOSITES AS CPx
+                            //     ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                            //   JOIN <modifierTypeResourceName>__<type>_VALUES AS CPx_px
+                            //     ON CPx.COMPx_<type> = CPx_px.ROW_ID
+                            //   JOIN <modifierTypeResourceName>__<type>_VALUES AS CPx_p<x+1>
+                            //     ON CPx.COMP<x+1>_<type> = CPx_p<x+1>.ROW_ID
+                            //     AND
+                            // @formatter:on
+                            whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append("_COMPOSITES")
+                                            .append(AS).append(chainedParmVar).append(ON).append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID);
+                            if (currentParm.getValues() != null && !currentParm.getValues().isEmpty()) {
+                                QueryParameterValue queryParameterValue = currentParm.getValues().get(0);
+                                List<QueryParameter> components = queryParameterValue.getComponent();
+                                for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                                    String alias = chainedParmVar + "_p" + componentNum;
+                                    QueryParameter component = components.get(componentNum - 1);
+                                    String tableName = QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), component);
+                                    // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
+                                    if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
+                                        tableName = previousParm.getModifierResourceTypeName() + "_TOKEN_VALUES ";
+                                    }
+                                    whereClauseSegment.append(JOIN).append(tableName).append(alias).append(ON)
+                                            .append(chainedParmVar).append(".COMP").append(componentNum).append(QuerySegmentAggregator.abbr(component))
+                                            .append(EQ).append(alias).append(".ROW_ID");
+                                }
+                            }
+                            whereClauseSegment.append(AND);
+                        } else {
+                            // Build this join:
+                            // @formatter:off
+                            //   JOIN <modifierTypeResourceName>_<type>_VALUES AS CPx
+                            //     ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                            //     AND
+                            // @formatter:on
+                            whereClauseSegment.append(JOIN).append(QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), currentParm))
                                             .append(AS).append(chainedParmVar).append(ON).append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID)
                                             .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
+                        }
                     }
                     // Build the rest: (CPx.PARAMETER_NAME_ID=<code-id> AND (CPx.<type>_VALUE=<valueCode>))
                     sqlQueryData = buildQueryParm(ModelSupport.getResourceType(previousParm.getModifierResourceTypeName()), currentParm, chainedParmVar);
