@@ -207,7 +207,7 @@ The latest version of the fhir-validation-distribution.zip artifact includes the
 - HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0: STU 1) [http://hl7.org/fhir/us/mcode/STU1/](http://hl7.org/fhir/us/mcode/STU1/)
 - Da Vinci Health Record Exchange (HREX) Implementation Guide (0.2.0 - STU R1 - 2nd ballot) [http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html](http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html)
 - Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v0.1.18: CI Build) [http://build.fhir.org/ig/HL7/davinci-epdx/](http://build.fhir.org/ig/HL7/davinci-epdx)
-- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v0.1.5: STU1 draft) [https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.5/](https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.5/)
+- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v0.1.7: STU1 draft) [https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.7/](https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.7/)
 - Da Vinci Payer Data Exchange (PDex) US Drug Formulary STU 1 [http://hl7.org/fhir/us/davinci-drug-formulary/STU1/](http://hl7.org/fhir/us/davinci-drug-formulary/STU1/)
 
 ## The IBM FHIR Server $validate operation
