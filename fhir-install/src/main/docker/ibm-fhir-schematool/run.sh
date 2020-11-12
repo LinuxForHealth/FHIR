@@ -1,0 +1,568 @@
+#!/usr/bin/env bash
+
+# ----------------------------------------------------------------------------
+# (C) Copyright IBM Corp. 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+# ----------------------------------------------------------------------------
+
+set -e -o pipefail
+
+##############################################################################
+# The global variables used are: 
+
+SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
+
+# Override this when testing locally.
+SCHEMA_TOOL_LOCATION="/opt/schematool"
+
+# Creates the temporary TOOL_INPUT lifecycle is the running script.
+TOOL_INPUT_FILE=$(mktemp) || { echo "Failed to create the temporary properties file"; exit 1; }
+TOOL_INPUT_USED="${ENV_TOOL_INPUT}"
+
+# Tool Input - Acceptable is console or file
+TOOL_OUTPUT_USED=${ENV_TOOL_OUTPUT}
+[ -z "${TOOL_OUTPUT_USED}" ] && TOOL_OUTPUT_USED="file"
+TOOL_OUTPUT_FILE="/opt/schematool/output.`date +%F_%H-%M-%S`"
+
+# Debug - Flags if DEBUG is true or anything else
+TOOL_DEBUG=${ENV_TOOL_DEBUG}
+[ -z "${TOOL_DEBUG}" ] && TOOL_DEBUG="false"
+
+# SKIP - initial value is forced to lowercase
+TOOL_SKIP=`echo "${ENV_SKIP}" | tr '[:upper:]' '[:lower:]'`
+[ -z "${TOOL_SKIP}" ] && TOOL_SKIP="false"
+
+# Arguments:
+TOOL_ARGS="$@"
+
+##############################################################################
+# Helper Functions
+
+# debug - labels messages as debug
+function debug {
+    if [ "$TOOL_DEBUG" = "true" ]
+    then
+        echo "${SCRIPT_NAME} - [DEBUG]: $(date +"%Y-%m-%d_%T") - ${1}" 
+    fi
+}
+
+# info - labels messages as info
+function info {  
+    echo "${SCRIPT_NAME} - [INFO]: $(date +"%Y-%m-%d_%T") - ${1}" 
+}
+
+# error_warn - labels messages as error
+function error_warn {  
+    echo "${SCRIPT_NAME} - [ERROR]: $(date +"%Y-%m-%d_%T") - ${1}" 
+}
+
+# get_property - gets the property value from the input_file
+# returns (echo) the property from the INPUT_FILE
+function get_property {
+    PROP_NAME="${1}"
+    JQ="${2}"
+    PROP_VALUE=`cat ${TOOL_INPUT_FILE} | grep ${PROP_NAME}= | sed 's|=| |' | awk '{print $2}'`
+    if [ ! -z "${PROP_VALUE}" ]
+    then
+        echo ${PROP_VALUE}
+    else 
+        PROP_VALUE=$(/opt/schematool/jq -r ${JQ} /opt/schematool/workarea/persistence.json)
+        echo ${PROP_VALUE}
+    fi
+}
+
+##############################################################################
+# Environment Processing Functions
+
+# process_cmd_properties - takes the environment properties
+# and serializes to a temporary file in the container, which is destroyed at the end of the 
+# schell script.
+function process_cmd_properties {
+    if [ ! -z "${TOOL_INPUT_USED}" ]
+    then 
+        OS_TYPE="$(uname -s)"
+        case "${OS_TYPE}" in
+            Linux*)     echo ${TOOL_INPUT_USED} |  base64 -d > ${TOOL_INPUT_FILE};;
+            Darwin*)    echo ${TOOL_INPUT_USED} |  base64 --decode > ${TOOL_INPUT_FILE};;
+            *)          exit -1;;
+        esac
+    fi
+
+    # Take the commandline and dump it out to the temporary inputfile.
+    echo -n "" > ${TOOL_INPUT_FILE}
+    for TOOL_ARG in ${TOOL_ARGS}
+    do 
+        echo "${TOOL_ARG}" | sed 's|--||g' >> ${TOOL_INPUT_FILE}
+    done
+}
+
+# process_json_file - iterates through a folder 
+# to get a properties file as a local variable
+function process_json_file {
+    if [ ! -z "${TOOL_INPUT_USED}" ]
+    then
+        echo $TOOL_INPUT_USED | base64 -d > /opt/schematool/workarea/persistence.json
+
+        # This is only valid if it's postgres
+        DB_CERT=`cat /opt/schematool/workarea/persistence.json | /opt/schematool/jq -r '.db.certificate_base64'`
+        if [ ! -z $DB_CERT ] && [ $DB_CERT != 'empty' ]
+        then
+            echo ${DB_CERT} | base64 -d > /opt/schematool/workarea/db.cert
+        fi
+    fi
+}
+
+##############################################################################
+# Database Specific Wrapper for Commmon Calls
+
+# _call_db2 - local function to call db2
+# INPUT: Single String of additional parameters
+function _call_db2 {
+    INPUT="$1"
+
+    # Get the variables
+    DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
+    DB_PORT=$(get_property db.port .persistence[0].db.port)
+    DB_NAME=$(get_property db.database .persistence[0].db.database)
+    DB_USER=$(get_property user .persistence[0].db.user)
+    DB_PASSWORD=$(get_property password .persistence[0].db.password)
+
+    # Check the SSL config and create the SSL_STANZA
+    DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
+    SSL_STANZA=""
+    if [ "$DB_SSL_DB2" = "true" ]
+    then
+        SSL_CONNECTION="--prop sslConnection=true "
+    fi
+
+    # since we are generating, we can debug this... with set +x
+    set -x
+    /opt/java/openjdk/bin/java -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
+        --prop "db.host=${DB_HOSTNAME}" \
+        --prop "db.port=${DB_PORT}" \
+        --prop "db.database=${DB_NAME}" \
+        --prop "user=${DB_USER}" \
+        --prop "password=${DB_PASSWORD}" \
+        ${SSL_STANZA} \
+        --db-type db2 \
+        ${INPUT} 2>&1 | tee out.log
+    echo "$?" > response_code
+    set +x
+}
+
+# _call_postgres - local function to call postgres
+function _call_postgres {
+    INPUT="$1"
+
+    # Get the variables
+    DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
+    DB_PORT=$(get_property db.port .persistence[0].db.port)
+    DB_NAME=$(get_property db.database .persistence[0].db.database)
+    DB_USER=$(get_property user .persistence[0].db.user)
+    DB_PASSWORD=$(get_property password .persistence[0].db.password)
+
+    # Check the SSL config and create the SSL_STANZA
+    DB_SSL_PG=$(get_property ssl .persistence[0].db.ssl)
+    SSL_STANZA=""
+    if [ "$DB_SSL_PG" = "true" ]
+    then
+        SSL_CONNECTION="--prop ssl=true --prop sslmode=verify-full --prop sslrootcert=/opt/schematool/workarea/persistence.cert "
+    fi
+
+    # since we are generating, we can debug this... with set +x
+    set -x
+    /opt/java/openjdk/bin/java -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
+        --prop "db.host=${DB_HOSTNAME}" \
+        --prop "db.port=${DB_PORT}" \
+        --prop "db.database=${DB_NAME}" \
+        --prop "user=${USER}" \
+        --prop "password=${PASSWORD}" \
+        ${SSL_STANZA} \
+        --db-type postgresql \
+        ${INPUT} 2>&1 | tee out.log
+    set +x
+}
+
+##############################################################################
+# Db2 Specific Functions
+
+# allocate_tenant - calls the allocation routine for the tenant
+# **Db2 Only*
+function allocate_tenant { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then
+        # Get the variable
+        TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
+        TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
+
+        # Tenant Key
+        TK_FILE_STANZA=""
+        if [ ! -z "${TENANT_KEY}" ]
+        then
+            TK_FILE='/opt/schematool/workarea/persistence.key'
+            echo "${TENANT_KEY}" > ${TK_FILE}
+            TK_FILE_STANZA="--tenant-key-file ${TK_FILE}"
+
+            # Only in the case where we have a file we are loading we hit the issue
+            # where we need to override the default behavior or exiting on failure.
+            set +o errexit
+            set +o pipefail
+        fi
+
+        _call_db2 "--allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
+
+        # Always reset
+        set -o errexit
+        set -o pipefail
+
+        # Tenant Key and Name already exist
+        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" out.log)
+        if [ ! -z "${ALREADY_EXISTS}" ] && [ "$(cat response_code)" != "0" ]
+        then
+            error_warn "Unexpected failure in allocate-tenant"
+            exit 3;
+        fi
+
+        # TenantKey File CHeck
+        if [ ! -z "${TK_FILE}" ]
+        then
+            # From File
+            TENANT_KEY_OUT="${TENANT_KEY}"
+        else
+            # Not from File
+            TENANT_KEY_OUT=`cat out.log | grep 'tenantKey"' | /opt/schematool/jq -r '.tenantKey'`
+        fi
+
+        echo "tenant.key=${TENANT_KEY_OUT}" >> ${TOOL_INPUT_FILE}
+        TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
+    fi
+}
+
+# test_tenant - tests the tenant connectivity and the key are correct
+# **Db2 Only*
+function test_tenant { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then
+        info "Starting the Test Tenant"
+        # Get the variable
+        TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
+        TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
+        _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --pool-size 1"
+    fi
+}
+
+# deallocate_tenant - calls the deallocation routine for the tenant
+# **Db2 Only*
+function deallocate_tenant { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then
+        # Get the variable
+        TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
+        _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1"
+    fi
+}
+
+##############################################################################
+# General Database Functions
+
+# grant_to_dbuser - grant dbuser so the IBM FHIR Server can use it.
+function grant_to_dbuser {
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+
+    # Get the tenant variable
+    TARGET_USER=$(get_property grant.to .persistence[0].grant)
+    if [ "${DB_TYPE}" = "db2" ]
+    then
+        _call_db2 "--grant-to ${TARGET_USER} --pool-size 2"
+    elif [ "${DB_TYPE}" = "postgres" ]
+    then
+        _call_postgres "--grant-to ${TARGET_USER} --pool-size 2"
+    fi
+}
+
+# refresh_tenants - refreshes the tenants so they get the latest partititions.
+function refresh_tenants { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then
+        _call_db2 "--refresh-tenants --pool-size 1"
+    elif [ "${DB_TYPE}" = "postgres" ]
+    then
+        _call_postgres "--refresh-tenants --pool-size 1"
+    fi
+}
+
+# drop_schema - drops the schema
+# SCHEMA - the command to drop the schema
+function drop_schema {
+    SCHEMA=$1
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then 
+        _call_db2 "--create-schemas --pool-size 2"
+    elif [ "${DB_TYPE}" = "postgres" ]
+    then
+        _call_postgres "--create-schemas --pool-size 2"
+    fi
+}
+
+# has_more_tenants - checks the list of tenants are NOT in the allocated state
+function has_more_tenants { 
+    MORE_TENANTS=""
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then 
+        # Check if the database has more tenants left
+        # if there are more tenants, then we don't want  to drop anything
+        MORE_TENANTS="$(_call_db2 \"--list-tenants\" | grep -c ALLOCATED)"
+    fi
+}
+
+# drop_schema_fhir - calls the drop_schema for a specific schema
+function drop_schema_fhir { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    MORE_TENANTS=$(has_more_tenants)
+
+    DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+    if [ -z "${MORE_TENANTS}" ]
+    then
+        drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
+    fi
+}
+
+# drop_schema_oauth - calls the drop_schema for a specific schema
+function drop_schema_oauth { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    MORE_TENANTS=$(has_more_tenants)
+
+    DB_SCHEMA=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+    if [ -z "${MORE_TENANTS}" ]
+    then
+        drop_schema "--drop-schema-oauth --schema-name ${DB_SCHEMA}"
+    fi
+}
+
+# drop_schema_batch - calls the drop_schema for a specific schema
+function drop_schema_batch { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    MORE_TENANTS=$(has_more_tenants)
+
+    DB_SCHEMA=$(get_property schema.name.batch .persistence[0].schema.batch)
+    if [ -z "${MORE_TENANTS}" ]
+    then
+        drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
+    fi
+}
+
+# create_schema 
+function create_schema {
+    info "creating the schema"
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then 
+        _call_db2 "--create-schemas --pool-size 2"
+    elif [ "${DB_TYPE}" = "postgres" ]
+    then
+        _call_postgres "--create-schemas --pool-size 2"
+    fi
+    info "done creating the schema"
+}
+
+# update_schema 
+function update_schema {
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+    if [ "${DB_TYPE}" = "db2" ]
+    then 
+        _call_db2 "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
+    elif [ "${DB_TYPE}" = "postgres" ]
+    then
+        _call_postgres "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
+    fi
+}
+
+# create_database_configuration_file - create the database configuration
+function create_database_configuration_file { 
+    process_cmd_properties $@
+    process_json_file $@
+}
+
+# check_connectivity - checks the following connectivity: 
+# 1 - network CONNECTED
+# 2 - Database Credentials
+function check_connectivity {
+    check_network_path
+    check_database_credentials
+}
+
+# check_network_path - checks the network path, if this fails a network path is not open.
+function check_network_path { 
+    DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
+    DB_PORT=$(get_property db.port .persistence[0].db.port)
+    DB_SSL_PG=$(get_property ssl .persistence[0].db.ssl)
+    DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
+
+    # intentionally using ftp as it's generally available, and make no difference on this check
+    info "Activating Network Path Connection..."
+
+    # Since the pipe is used in a couple places where it can fail
+    # we don't want it to kill this script, and have overriden (temporarily)
+    # the fail on pipe and errexit, we'll control the exits.
+    set +o errexit
+    set +o pipefail
+    CONNECTED=$(echo '' | nc ${DB_HOSTNAME} ${DB_PORT} -v 2>&1)
+    if [ "$(echo $CONNECTED | grep -c Connected)" = "0" ]
+    then 
+        info "[NETWORK_PATH_CHECK] - FAILURE - Unable to connect to database - ${DB_HOSTNAME}:${DB_PORT}"
+        exit 5;
+    else 
+        info "[NETWORK_PATH_CHECK] - SUCCESS - Connected to the database - ${DB_HOSTNAME}:${DB_PORT}"
+    fi
+    set -o errexit
+    set -o pipefail
+}
+
+# check_database_credentials - checks the database credentials using the schema tool
+function check_database_credentials { 
+    DB_TYPE=$(get_property db.type .persistence[0].db.type)
+    if [ "${DB_TYPE}" = "db2" ]
+    then 
+        DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
+        DB_PORT=$(get_property db.port .persistence[0].db.port)
+        DB_USER=$(get_property user .persistence[0].db.user)
+        DB_PASSWORD=$(get_property password .persistence[0].db.password)
+        DB_NAME=$(get_property db.database .persistence[0].db.database)
+
+        DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
+        SSL_CONNECTION="false"
+        if [ "$DB_SSL_DB2" = "true" ]
+        then
+            SSL_CONNECTION="true"
+        fi
+
+        # Eventually, we can pack the jar in here, and call this directly.
+        #/opt/java/openjdk/bin/java -cp ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \ 
+        #    com.ibm.db2.jcc.DB2Jcc -url "jdbc:db2://${DB_HOSTNAME}:${DB_PORT}/${DB_NAME}:sslConnection=${SSL_CONNECTION};" \
+        #    -user "${DB_USER}" -password "${DB_PASSWORD}" -tracing
+    elif [ "${DB_TYPE}" = "postgres" ]
+    then 
+        DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
+        DB_PORT=$(get_property db.port .persistence[0].db.port)
+        DB_USER=$(get_property user .persistence[0].db.user)
+        DB_PASSWORD=$(get_property password .persistence[0].db.password)
+        DB_NAME=$(get_property db.database .persistence[0].db.database)
+
+        DB_SSL_PG=$(get_property ssl .persistence[0].db.ssl)
+        SSL_CONNECTION="false"
+        if [ "$DB_SSL_PG" = "true" ]
+        then
+            SSL_CONNECTION="true"
+            echo "${SSL_CONNECTION} is set"
+        fi
+
+        # TODO: implement a nice little check here that verifies the user,password can connect.
+        debug "postgres doesn't have as easy a tool to use"
+    fi
+}
+
+# onboard_behavior - creates and updates a schema and apply grants
+function onboard_behavior {
+    if [ "${TOOL_SKIP}" != "true" ]
+    then
+        info "Starting the onboard behavior"
+        check_connectivity
+        create_schema
+        update_schema
+        grant_to_dbuser
+
+        # Db2 only
+        allocate_tenant
+        test_tenant
+        refresh_tenants
+    else
+        info "The onboarding deployment flow is skipped"
+    fi
+}
+
+# offboard_behavior - Removes data when there are no tenants left.
+function offboard_behavior {
+    if [ "${TOOL_SKIP}" != "true" ]
+    then
+        info "Starting the offboard behavior"
+        # Db2 only
+        deallocate_tenant
+
+        # All Databases
+        drop_schema_fhir
+        drop_schema_batch
+        drop_schema_oauth
+    else
+        info "The offboarding deployment flow is skipped"
+    fi
+}
+
+# custom_behavior - runs a custom action
+function custom_behavior {
+    if [ "${TOOL_SKIP}" != "true" ]
+    then
+        info "Starting the custom behavior"
+
+        if [ "${DB_TYPE}" = "db2" ]
+        then
+            _call_db2 "$@"
+        elif [ "${DB_TYPE}" = "postgres" ]
+        then
+            _call_postgres "$@"
+        fi
+    else
+        info "The custom behavior flow is skipped"
+    fi
+}
+
+# debug_behavior - runs the debug action 
+function debug_behavior { 
+    info "The files included with the tool are:"
+    ls -alh /opt/schematool
+    echo "The OpenSSL version is:" 
+    openssl version
+}
+
+# process_behavior - translates the identified behavior to lowercase
+# the behavior is picked up from the existing variable
+# 
+# @implNote each behavior that the tool is expected to have must have a case statement.
+function process_behavior { 
+    TOOL_BEHAVIOR=$(get_property tool.behavior .persistence[0].behavior | tr '[:upper:]' '[:lower:]')
+    echo "The tool behavior being executed is $TOOL_BEHAVIOR"
+    case $TOOL_BEHAVIOR in
+    onboard)
+        onboard_behavior
+    ;;
+    offboard)
+        offboard_behavior
+    ;;
+    custom)
+        custom_behavior "$@"
+    ;;
+    debug)
+        debug_behavior
+    ;;
+    *)
+        info "invalid behavior called, dropping through - '${TOOL_BEHAVIOR}'"
+    ;;
+    esac
+}
+
+##############################################################################
+# The logic is activated in the following calls:
+
+debug "Script Name is ${SCRIPT_NAME}"
+
+create_database_configuration_file "$@"
+process_behavior "$@"
+
+# EOF
