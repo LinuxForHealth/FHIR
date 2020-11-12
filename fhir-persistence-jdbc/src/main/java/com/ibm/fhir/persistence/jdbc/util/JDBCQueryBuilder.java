@@ -719,12 +719,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
                 String code = currentParm.getCode();
                 SqlQueryData sqlQueryData;
-                if (!"_id".equals(code)) {
-                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
-                } else {
+                if ("_id".equals(code)) {
                     // The code '_id' is only going to be the end of the change as it is a base element.
                     // We know at this point this is an '_id' and at the tail of the parameter chain
                     sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
+                } else if ("_lastUpdated".equals(code)) {
+                    // Build the rest: (LAST_UPDATED <operator> ?)
+                    LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil();
+                    StringBuilder lastUpdatedWhereClause = new StringBuilder();
+                    util.executeBehavior(lastUpdatedWhereClause, currentParm);
+                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString(), util.getBindVariables());
+                } else {
+                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
                 }
 
                 if (log.isLoggable(Level.FINE)) {
@@ -1585,7 +1591,43 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             } else if (parmIndex == lastParmIndex) {
                 // This logic processes the LAST parameter in the chain.
                 SqlQueryData sqlQueryData;
-                if (!"_id".equals(currentParm.getCode())) {
+                if ("_id".equals(currentParm.getCode())) {
+                    if (!chainedParmProcessed) {
+                        // Build this join:
+                        // @formatter:off
+                        //   JOIN <modifierTypeResourceName>_LOGICAL_RESOURCES AS CLRx
+                        //     ON CLRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        //     AND
+                        // @formatter:on
+                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(_LOGICAL_RESOURCES)
+                                            .append(AS).append(chainedLogicalResourceVar).append(ON)
+                                            .append(chainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
+                    }
+                    // Build the rest: CLRx.LOGICAL_ID IN (?)
+                    sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
+                } else if ("_lastUpdated".equals(currentParm.getCode())) {
+                    if (!chainedParmProcessed) {
+                        // Build this join:
+                        // @formatter:off
+                        //   JOIN <modifierTypeResourceName>_RESOURCES AS CRx
+                        //     ON CRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        //     AND
+                        // @formatter:on
+                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(_RESOURCES)
+                                            .append(AS).append(chainedResourceVar).append(ON)
+                                            .append(chainedResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
+                    }
+                    // Build the rest: (LAST_UPDATED <operator> ?)
+                    LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil();
+                    StringBuilder lastUpdatedWhereClause = new StringBuilder();
+                    util.executeBehavior(lastUpdatedWhereClause, currentParm);
+                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString()
+                        .replaceAll(LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME,
+                            chainedResourceVar + DOT + LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME),
+                        util.getBindVariables());
+                } else {
                     if (!chainedParmProcessed) {
                         if (Type.COMPOSITE.equals(currentParm.getType())) {
                             // Build this join:
@@ -1632,21 +1674,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     }
                     // Build the rest: (CPx.PARAMETER_NAME_ID=<code-id> AND (CPx.<type>_VALUE=<valueCode>))
                     sqlQueryData = buildQueryParm(ModelSupport.getResourceType(previousParm.getModifierResourceTypeName()), currentParm, chainedParmVar);
-                } else {
-                    if (!chainedParmProcessed) {
-                        // Build this join:
-                        // @formatter:off
-                        //   JOIN <modifierTypeResourceName>_LOGICAL_RESOURCES AS CLRx
-                        //     ON CLRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
-                        //     AND
-                        // @formatter:on
-                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(_LOGICAL_RESOURCES)
-                                            .append(AS).append(chainedLogicalResourceVar).append(ON)
-                                            .append(chainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID)
-                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
-                    }
-                    // Build the rest: CLRx.LOGICAL_ID IN (?)
-                    sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
                 }
 
                 if (log.isLoggable(Level.FINE)) {
