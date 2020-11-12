@@ -34,6 +34,12 @@ cp ${WORKSPACE}/LICENSE target/LICENSE
 docker build --tag ibm-fhir-schematool:latest .
 ```
 
+or 
+
+``` shell
+docker build --build-arg FHIR_VERSION=4.5.0 -t ibm-fhir-schematool:4.5.0 .
+```
+
 5. For Db2, change run. (You may have to edit the corresponding examples)
 
 * onboard
