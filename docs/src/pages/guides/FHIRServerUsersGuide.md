@@ -11,7 +11,7 @@ permalink: /FHIRServerUsersGuide/
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
-  * [2.3 Docker](#22-Docker)
+  * [2.3 Docker](#23-Docker)
 - [3 Configuration](#3-configuration)
   * [3.1 Encoded passwords](#31-encoded-passwords)
   * [3.2 Property names](#32-property-names)
