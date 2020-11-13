@@ -160,7 +160,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     try {
                         SearchParameter inclusionParm = SearchUtil.getSearchParameter(resourceType, searchParmCode);
                         if (inclusionParm != null & inclusionParm.getExpression() != null) {
-                            String expression = SearchUtil.getSearchParameter(resourceType, searchParmCode).getExpression().getValue();
+                            String expression = inclusionParm.getExpression().getValue();
                             Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
                             for (FHIRPathNode node : nodes) {
                                 String patientRefVal = getPatientRefVal(node);
