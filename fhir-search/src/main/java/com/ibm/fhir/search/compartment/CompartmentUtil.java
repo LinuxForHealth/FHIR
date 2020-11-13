@@ -179,7 +179,7 @@ public class CompartmentUtil {
      * @param compartment
      * @param resourceType
      * @return
-     * @throws FHIRSearchException
+     * @throws FHIRSearchException if the passed resourceType does not exist within the passed compartment
      */
     public static List<String> getCompartmentResourceTypeInclusionCriteria(final String compartment, final String resourceType) throws FHIRSearchException {
         checkValidCompartmentAndResource(compartment, resourceType);
