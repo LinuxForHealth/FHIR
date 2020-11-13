@@ -574,7 +574,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     stmt.execute();
                     double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
                     if (log.isLoggable(Level.FINE)) {
-                        log.fine("DB search by ids complete. SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2 + "ms");
+                        log.fine("DB update complete. SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2 + "ms");
                     }
                 }
             }
