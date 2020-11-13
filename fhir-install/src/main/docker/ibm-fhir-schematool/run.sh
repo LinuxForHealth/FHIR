@@ -83,9 +83,39 @@ function process_cmd_properties {
     then 
         OS_TYPE="$(uname -s)"
         case "${OS_TYPE}" in
-            Linux*)     echo ${TOOL_INPUT_USED} |  base64 -d > ${TOOL_INPUT_FILE};;
-            Darwin*)    echo ${TOOL_INPUT_USED} |  base64 --decode > ${TOOL_INPUT_FILE};;
-            *)          exit -1;;
+            Linux*)
+                # Since the pipe is used in a couple places where it can fail
+                # we don't want it to kill this script, and have overriden (temporarily)
+                # the fail on pipe and errexit, we'll control the exits.
+                set +o errexit
+                set +o pipefail
+                echo ${TOOL_INPUT_USED} |  base64 -d > ${TOOL_INPUT_FILE}
+                RC=$?
+                if [ "${RC}" != '0' ]
+                then
+                    echo ${TOOL_INPUT_USED} > ${TOOL_INPUT_FILE}
+                fi
+                set -o errexit
+                set -o pipefail
+                ;;
+            Darwin*)
+                # Since the pipe is used in a couple places where it can fail
+                # we don't want it to kill this script, and have overriden (temporarily)
+                # the fail on pipe and errexit, we'll control the exits.
+                set +o errexit
+                set +o pipefail
+                echo ${TOOL_INPUT_USED} |  base64 --decode > ${TOOL_INPUT_FILE}
+                RC=$?
+                if [ "${RC}" != '0' ]
+                then
+                    echo ${TOOL_INPUT_USED} > ${TOOL_INPUT_FILE}
+                fi
+                set -o errexit
+                set -o pipefail
+                ;;
+            *)  
+                exit 1
+                ;;
         esac
     fi
 
