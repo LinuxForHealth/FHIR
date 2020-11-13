@@ -57,6 +57,12 @@ import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     private static final Logger log = Logger.getLogger(ResourceDAOImpl.class.getName());
     private static final String CLASSNAME = ResourceDAOImpl.class.getName();
+
+    // Per issue with private memory in db2, we have set this to 1M.
+    // Anything larger than 1M is then inserted into the db with an update.
+    private static final int SIZE_LIMIT = 1048576;
+    private static final String LARGE_BLOB = "UPDATE %s.%s_RESOURCES SET data = ? WHERE logical_resource_id = ?";
+
     public static final String DEFAULT_VALUE_REINDEX_TSTAMP = "1970-01-01 00:00:00";
 
 
@@ -535,7 +541,16 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
-            stmt.setBytes(3, resource.getData());
+
+            boolean large = false;
+            if (SIZE_LIMIT < resource.getData().length) {
+                // Outside of the normal flow we have a BIG JSON or XML
+                stmt.setNull(3, java.sql.Types.NULL);
+                large = true;
+            } else {
+                // Normal Flow, we set the data
+                stmt.setBytes(3, resource.getData());
+            }
 
             lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated, UTC);
@@ -548,6 +563,19 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
             resource.setId(stmt.getLong(7));
+
+            if (large) {
+                // Use the long id to update the record in the database.
+                String largeStmtString = String.format(LARGE_BLOB, getSchemaName(), resource.getResourceType());
+                PreparedStatement ps = connection.prepareStatement(largeStmtString);
+                ps.setLong(1, stmt.getLong(7));
+                long dbCallStartTime2 = System.nanoTime();
+                stmt.execute();
+                double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("DB search by ids complete. SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2 + "ms");
+                }
+            }
 
             // Parameter time
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
