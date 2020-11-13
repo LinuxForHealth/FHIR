@@ -167,7 +167,9 @@ function _call_postgres {
     SSL_STANZA=""
     if [ "$DB_SSL_PG" = "true" ]
     then
-        SSL_CONNECTION="--prop ssl=true --prop sslmode=verify-full --prop sslrootcert=/opt/schematool/workarea/persistence.cert "
+        SSL_CONNECTION="--prop ssl=true --prop sslmode=verify-full --prop sslrootcert=/opt/schematool/workarea/db.cert "
+        DB_CERT=$(get_property password .persistence[0].db.password)
+        echo $DB_CERT | base64 -d > /opt/schematool/workarea/db.cert
     fi
 
     # since we are generating, we can debug this... with set +x
