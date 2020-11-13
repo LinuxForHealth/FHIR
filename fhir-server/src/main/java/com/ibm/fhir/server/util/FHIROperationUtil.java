@@ -141,15 +141,21 @@ public class FHIROperationUtil {
     }
 
     public static Parameters getOutputParameters(Resource resource) throws Exception {
-        Parameters.Builder parametersBuilder = Parameters.builder();
-        parametersBuilder.parameter(Parameter.builder().name(string("return")).resource(resource).build());
-        return parametersBuilder.build();
+        return Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("return"))
+                    .resource(resource)
+                    .build())
+                .build();
     }
 
     public static Parameters getOutputParameters(String name, Resource resource) throws Exception {
-        Parameters.Builder parametersBuilder = Parameters.builder();
-        parametersBuilder.parameter(Parameter.builder().name(string(name)).resource(resource).build());
-        return parametersBuilder.build();
+        return Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string(name))
+                    .resource(resource)
+                    .build())
+                .build();
     }
 
     public static boolean hasSingleResourceOutputParameter(Parameters parameters) {
@@ -159,8 +165,7 @@ public class FHIROperationUtil {
         return parameters.getParameter().size() == 1 && parameters.getParameter().get(0).getResource() != null;
     }
 
-    public static Resource getSingleResourceOutputParameter(Parameters parameters)
-        throws Exception {
+    public static Resource getSingleResourceOutputParameter(Parameters parameters) throws Exception {
         return parameters.getParameter().get(0).getResource();
     }
 }
