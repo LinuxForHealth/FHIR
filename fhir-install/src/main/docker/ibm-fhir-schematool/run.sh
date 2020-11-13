@@ -89,7 +89,7 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo ${TOOL_INPUT_USED} |  base64 -d > ${TOOL_INPUT_FILE}
+                echo ${TOOL_INPUT_USED} | base64 -d > ${TOOL_INPUT_FILE}
                 RC=$?
                 if [ "${RC}" != '0' ]
                 then
@@ -104,7 +104,7 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo ${TOOL_INPUT_USED} |  base64 --decode > ${TOOL_INPUT_FILE}
+                echo ${TOOL_INPUT_USED} | base64 --decode > ${TOOL_INPUT_FILE}
                 RC=$?
                 if [ "${RC}" != '0' ]
                 then
