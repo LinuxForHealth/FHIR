@@ -11,7 +11,7 @@ permalink: /FHIRServerUsersGuide/
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
-  * [2.3 Docker](#23-Docker)
+  * [2.3 Docker](#23-docker)
 - [3 Configuration](#3-configuration)
   * [3.1 Encoded passwords](#31-encoded-passwords)
   * [3.2 Property names](#32-property-names)
@@ -67,6 +67,8 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
     * Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
     * Configure a server keystore and truststore. The FHIR server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
     * Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
+
+    To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
 
 6.  Make sure that your selected database product is running and ready to accept requests as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. The default config will automatically bootstrap this database and so this step can be skipped. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
@@ -124,7 +126,7 @@ Complete the following steps to upgrade the server:
 
 ## 2.3 Docker
 
-The IBM FHIR Server includes Docker images [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
+The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
 
 Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
 
