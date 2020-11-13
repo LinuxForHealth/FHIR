@@ -567,13 +567,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (large) {
                 // Use the long id to update the record in the database.
                 String largeStmtString = String.format(LARGE_BLOB, getSchemaName(), resource.getResourceType());
-                PreparedStatement ps = connection.prepareStatement(largeStmtString);
-                ps.setLong(1, stmt.getLong(7));
-                long dbCallStartTime2 = System.nanoTime();
-                stmt.execute();
-                double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("DB search by ids complete. SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2 + "ms");
+                try (PreparedStatement ps = connection.prepareStatement(largeStmtString);) {
+                    ps.setBytes(1, resource.getData());
+                    ps.setLong(2, stmt.getLong(7));
+                    long dbCallStartTime2 = System.nanoTime();
+                    stmt.execute();
+                    double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("DB search by ids complete. SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2 + "ms");
+                    }
                 }
             }
 
