@@ -17,7 +17,7 @@
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36 OCTETS),
       IN p_logical_id                    VARCHAR(255 OCTETS), 
-      IN p_payload                          BLOB(1M),
+      IN p_payload                          BLOB(1048576),
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(  1),
       IN p_version                           INT,

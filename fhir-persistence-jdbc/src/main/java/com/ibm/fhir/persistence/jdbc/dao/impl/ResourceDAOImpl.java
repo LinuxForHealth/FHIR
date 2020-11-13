@@ -49,6 +49,7 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * This Data Access Object implements the ResourceDAO interface for creating, updating,
@@ -60,8 +61,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     // Per issue with private memory in db2, we have set this to 1M.
     // Anything larger than 1M is then inserted into the db with an update.
-    private static final int SIZE_LIMIT = 1048576;
-    private static final String LARGE_BLOB = "UPDATE %s.%s_RESOURCES SET data = ? WHERE logical_resource_id = ?";
+    private static final String LARGE_BLOB = "UPDATE %s_RESOURCES SET data = ? WHERE resource_id = ?";
 
     public static final String DEFAULT_VALUE_REINDEX_TSTAMP = "1970-01-01 00:00:00";
 
@@ -542,10 +542,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
 
+            // Check for large objects, and branch around it.
             boolean large = false;
-            if (SIZE_LIMIT < resource.getData().length) {
+            if (FhirSchemaConstants.STORED_PROCEDURE_SIZE_LIMIT < resource.getData().length) {
                 // Outside of the normal flow we have a BIG JSON or XML
-                stmt.setNull(3, java.sql.Types.NULL);
+                stmt.setNull(3, java.sql.Types.BLOB);
                 large = true;
             } else {
                 // Normal Flow, we set the data
@@ -562,14 +563,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(7));
+            long logicalResourceId = stmt.getLong(7);
+            resource.setId(logicalResourceId);
 
             if (large) {
                 // Use the long id to update the record in the database.
-                String largeStmtString = String.format(LARGE_BLOB, getSchemaName(), resource.getResourceType());
-                try (PreparedStatement ps = connection.prepareStatement(largeStmtString);) {
+                String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());
+                try (PreparedStatement ps = connection.prepareStatement(largeStmtString)) {
                     ps.setBytes(1, resource.getData());
-                    ps.setLong(2, stmt.getLong(7));
+                    ps.setLong(2, logicalResourceId);
                     long dbCallStartTime2 = System.nanoTime();
                     stmt.execute();
                     double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
