@@ -28,7 +28,7 @@ The following is read from the properties file:
 | Name       | Purpose  |
 |------------|----------|
 | tool.behavior | Switches from the Onboarding BEHAVIOR to Offboarding BEHAVIOR flow: `[onboard|offboard|debug|custom]`. |
-| db.type | The database type - `[postgres|db2]` |
+| db.type | The database type - `[postgresql|db2]` |
 | db.host | The database server hostname|
 | db.port | The database server port|
 | db.database | The name of the database|
@@ -44,7 +44,7 @@ The following is read from the properties file:
 | grant.to | grants access to a specific user (which is going to run the application) |
 | sslmode | For Postgres, you can set verify-full |
 | sslrootcert | For Postgres, you must set as /opt/schematool/workarea/db.cert |
-| cert | For Postgres, you must set as a base64 encoding of the certificate |
+| db.cert | For Postgres, you must set as a base64 encoding of the certificate |
 
 Further, any property supported by the [fhir-persistence-schema](https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/README.md) module is put into the file and mounted to the system.
 
@@ -86,7 +86,7 @@ Note, tenant only applies to db2 implementations. The tenantKey is limited in si
 It's converted to base64 using `cat persistence.json | base64`. You can run locally using: 
 
 ```
-time docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64) ibm-fhir-schematool:latest`
+time docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64) ibm-fhir-schematool:latest
 ```
 
 An example volume mount: 

@@ -89,11 +89,11 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo ${TOOL_INPUT_USED} | base64 -d > ${TOOL_INPUT_FILE}
-                RC=$?
-                if [ "${RC}" != '0' ]
+                echo "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
+                RC=$(cat "${TOOL_INPUT_FILE}" | wc -l )
+                if [ "${RC}" = "0" ]
                 then
-                    echo ${TOOL_INPUT_USED} > ${TOOL_INPUT_FILE}
+                    echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
                 fi
                 set -o errexit
                 set -o pipefail
@@ -104,11 +104,11 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo ${TOOL_INPUT_USED} | base64 --decode > ${TOOL_INPUT_FILE}
-                RC=$?
-                if [ "${RC}" != '0' ]
+                echo "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
+                RC=$(cat "${TOOL_INPUT_USED}" | wc -l )
+                if [ "${RC}" = "0" ]
                 then
-                    echo ${TOOL_INPUT_USED} > ${TOOL_INPUT_FILE}
+                    echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
                 fi
                 set -o errexit
                 set -o pipefail
@@ -127,19 +127,13 @@ function process_cmd_properties {
     done
 }
 
-# process_json_file - iterates through a folder 
-# to get a properties file as a local variable
-function process_json_file {
-    if [ ! -z "${TOOL_INPUT_USED}" ]
+# process_cert - extracts the cert from the JSON file
+# This is only valid if it's postgres (but may be useful for db2)
+function process_cert {
+    DB_CERT=$(get_property db.cert .persistence[0].db.certificate_base64)
+    if [ ! -z "${DB_CERT}" ] && [ $DB_CERT != 'empty' ]
     then
-        echo $TOOL_INPUT_USED | base64 -d > /opt/schematool/workarea/persistence.json
-
-        # This is only valid if it's postgres
-        DB_CERT=`cat /opt/schematool/workarea/persistence.json | /opt/schematool/jq -r '.db.certificate_base64'`
-        if [ ! -z $DB_CERT ] && [ $DB_CERT != 'empty' ]
-        then
-            echo ${DB_CERT} | base64 -d > /opt/schematool/workarea/db.cert
-        fi
+        echo ${DB_CERT} | base64 -d > /opt/schematool/workarea/db.cert
     fi
 }
 
@@ -161,9 +155,9 @@ function _call_db2 {
     # Check the SSL config and create the SSL_STANZA
     DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
     SSL_STANZA=""
-    if [ "$DB_SSL_DB2" = "true" ]
+    if [ "${DB_SSL_DB2}" = "true" ]
     then
-        SSL_CONNECTION="--prop sslConnection=true "
+        SSL_STANZA="--prop sslConnection=true "
     fi
 
     # since we are generating, we can debug this... with set +x
@@ -195,11 +189,9 @@ function _call_postgres {
     # Check the SSL config and create the SSL_STANZA
     DB_SSL_PG=$(get_property ssl .persistence[0].db.ssl)
     SSL_STANZA=""
-    if [ "$DB_SSL_PG" = "true" ]
+    if [ "${DB_SSL_PG}" = "true" ]
     then
-        SSL_CONNECTION="--prop ssl=true --prop sslmode=verify-full --prop sslrootcert=/opt/schematool/workarea/db.cert "
-        DB_CERT=$(get_property password .persistence[0].db.password)
-        echo $DB_CERT | base64 -d > /opt/schematool/workarea/db.cert
+        SSL_STANZA="--prop ssl=true --prop sslmode=verify-full --prop sslrootcert=/opt/schematool/workarea/db.cert "
     fi
 
     # since we are generating, we can debug this... with set +x
@@ -208,8 +200,8 @@ function _call_postgres {
         --prop "db.host=${DB_HOSTNAME}" \
         --prop "db.port=${DB_PORT}" \
         --prop "db.database=${DB_NAME}" \
-        --prop "user=${USER}" \
-        --prop "password=${PASSWORD}" \
+        --prop "user=${DB_USER}" \
+        --prop "password=${DB_PASSWORD}" \
         ${SSL_STANZA} \
         --db-type postgresql \
         ${INPUT} 2>&1 | tee out.log
@@ -310,7 +302,7 @@ function grant_to_dbuser {
     if [ "${DB_TYPE}" = "db2" ]
     then
         _call_db2 "--grant-to ${TARGET_USER} --pool-size 2"
-    elif [ "${DB_TYPE}" = "postgres" ]
+    elif [ "${DB_TYPE}" = "postgresql" ]
     then
         _call_postgres "--grant-to ${TARGET_USER} --pool-size 2"
     fi
@@ -322,7 +314,7 @@ function refresh_tenants {
     if [ "${DB_TYPE}" = "db2" ]
     then
         _call_db2 "--refresh-tenants --pool-size 1"
-    elif [ "${DB_TYPE}" = "postgres" ]
+    elif [ "${DB_TYPE}" = "postgresql" ]
     then
         _call_postgres "--refresh-tenants --pool-size 1"
     fi
@@ -336,7 +328,7 @@ function drop_schema {
     if [ "${DB_TYPE}" = "db2" ]
     then 
         _call_db2 "--create-schemas --pool-size 2"
-    elif [ "${DB_TYPE}" = "postgres" ]
+    elif [ "${DB_TYPE}" = "postgresql" ]
     then
         _call_postgres "--create-schemas --pool-size 2"
     fi
@@ -397,7 +389,7 @@ function create_schema {
     if [ "${DB_TYPE}" = "db2" ]
     then 
         _call_db2 "--create-schemas --pool-size 2"
-    elif [ "${DB_TYPE}" = "postgres" ]
+    elif [ "${DB_TYPE}" = "postgresql" ]
     then
         _call_postgres "--create-schemas --pool-size 2"
     fi
@@ -411,7 +403,7 @@ function update_schema {
     if [ "${DB_TYPE}" = "db2" ]
     then 
         _call_db2 "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
-    elif [ "${DB_TYPE}" = "postgres" ]
+    elif [ "${DB_TYPE}" = "postgresql" ]
     then
         _call_postgres "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
     fi
@@ -420,7 +412,7 @@ function update_schema {
 # create_database_configuration_file - create the database configuration
 function create_database_configuration_file { 
     process_cmd_properties $@
-    process_json_file $@
+    process_cert
 }
 
 # check_connectivity - checks the following connectivity: 
@@ -480,7 +472,7 @@ function check_database_credentials {
         #/opt/java/openjdk/bin/java -cp ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \ 
         #    com.ibm.db2.jcc.DB2Jcc -url "jdbc:db2://${DB_HOSTNAME}:${DB_PORT}/${DB_NAME}:sslConnection=${SSL_CONNECTION};" \
         #    -user "${DB_USER}" -password "${DB_PASSWORD}" -tracing
-    elif [ "${DB_TYPE}" = "postgres" ]
+    elif [ "${DB_TYPE}" = "postgresql" ]
     then 
         DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
         DB_PORT=$(get_property db.port .persistence[0].db.port)
@@ -546,7 +538,7 @@ function custom_behavior {
         if [ "${DB_TYPE}" = "db2" ]
         then
             _call_db2 "$@"
-        elif [ "${DB_TYPE}" = "postgres" ]
+        elif [ "${DB_TYPE}" = "postgresql" ]
         then
             _call_postgres "$@"
         fi
