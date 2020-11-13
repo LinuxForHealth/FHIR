@@ -60,7 +60,7 @@ public class QuerySegmentAggregator {
     protected static final String SYSTEM_LEVEL_SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
-    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.RESOURCE_ID) ";
+    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.LOGICAL_RESOURCE_ID) ";
     protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
@@ -411,9 +411,8 @@ public class QuerySegmentAggregator {
         // This is requires for the count queries here
         fromClause.append(JOIN);
         processFromClauseForLastUpdated(fromClause, simpleName);
-        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
-        fromClause.append("  AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-        fromClause.append("  AND R.IS_DELETED = 'N' ");
+        fromClause.append(" R ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ")
+                .append(" AND R.IS_DELETED = 'N' ");
 
         log.exiting(CLASSNAME, METHODNAME);
     }

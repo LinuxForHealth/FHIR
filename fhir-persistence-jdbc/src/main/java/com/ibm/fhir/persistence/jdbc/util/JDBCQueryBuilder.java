@@ -615,8 +615,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * Contains special logic for handling chained reference search parameters.
      * <p>
      * Nested sub-selects are built to realize the chaining logic required. Here is
-     * a sample chained query for an
-     * Observation given this search parameter: device:Device.patient.family=Monella
+     * a sample chained query for an Observation given this search parameter:
+     * {@code device:Device.patient.family=Monella}
      *
      * <pre>
      * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
@@ -917,8 +917,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * This method is the entry point for processing inclusion criteria, which
-     * define resources that are part of a
-     * comparment-based search.
+     * define resources that are part of a comparment-based search.
      * Example inclusion criteria for AuditEvent in the Patient compartment:
      *
      * <pre>
