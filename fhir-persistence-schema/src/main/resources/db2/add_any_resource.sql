@@ -13,15 +13,17 @@
 -- p_last_updated the last_updated time given by the FHIR server
 -- p_is_deleted: the soft delete flag
 -- p_version_id: the version id if this is a replicated message
+-- o_logical_resource_id: output field returning the newly assigned logical_resource_id value
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
-    ( IN p_resource_type                 VARCHAR( 36 OCTETS),
-      IN p_logical_id                    VARCHAR(255 OCTETS), 
-      IN p_payload                          BLOB(1048576),
-      IN p_last_updated                TIMESTAMP,
-      IN p_is_deleted                       CHAR(  1),
-      IN p_version                           INT,
-      OUT o_logical_resource_id            BIGINT
+    ( IN p_resource_type                VARCHAR( 36 OCTETS),
+      IN p_logical_id                   VARCHAR(255 OCTETS), 
+      IN p_payload                         BLOB(1048576),
+      IN p_last_updated               TIMESTAMP,
+      IN p_is_deleted                      CHAR(  1),
+      IN p_version                          INT,
+      OUT o_logical_resource_id          BIGINT,
+      OUT o_resource_row_id              BIGINT
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -198,4 +200,7 @@ BEGIN
   -- only the logical_resource_id is the target of any FK, so there's no need to return
   -- the resource_id (which is now private to the _resources tables).
   SET o_logical_resource_id = v_logical_resource_id;
+
+  -- Resource Row Id which is used to set large blobs
+  SET o_resource_row_id = v_resource_id;
 END
