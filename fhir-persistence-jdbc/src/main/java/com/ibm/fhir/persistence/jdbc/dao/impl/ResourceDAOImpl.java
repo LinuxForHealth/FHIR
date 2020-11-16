@@ -142,8 +142,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param trxSyncRegistry
      */
     public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
-            FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
-            ParameterTransactionDataImpl ptdi) {
+        FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
         super(c, schemaName, flavor);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
@@ -187,8 +186,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Resource read(String logicalId, String resourceType)
-        throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public Resource read(String logicalId, String resourceType) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "read";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -209,8 +207,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Resource versionRead(String logicalId, String resourceType, int versionId)
-        throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public Resource versionRead(String logicalId, String resourceType, int versionId) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "versionRead";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -264,8 +261,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults)
-        throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -300,7 +296,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime)
-        throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "historyCount";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -363,7 +359,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public Map<String, Integer> readAllResourceTypeNames()
-        throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+            throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readAllResourceTypeNames";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -551,7 +547,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
             if (log.isLoggable(Level.FINE)) {
                 log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+                    "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
 
             stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
@@ -594,7 +590,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("DB update large blob complete. ROWS=[" + numberOfRows + "] SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2
-                                + "ms");
+                            + "ms");
                     }
                 }
             }
@@ -605,7 +601,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (parameters != null) {
                 JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                        resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
+                    resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
@@ -631,17 +627,17 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
             } else {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
+                throw severe(log, fx, e);
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
             throw severe(log, fx, e);
+        } finally {
+            this.cleanup(stmt);
+            log.exiting(CLASSNAME, METHODNAME);
         }
-    } catch (Throwable e) {
-        FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
-        throw severe(log, fx, e);
-    } finally {
-        this.cleanup(stmt);
-        log.exiting(CLASSNAME, METHODNAME);
-    }
 
-    return resource;
+        return resource;
     }
 
     @Override
@@ -662,7 +658,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public List<Resource> searchByIds(String resourceType, List<Long> resourceIds)
-        throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -739,7 +735,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public List<String> searchStringValues(SqlQueryData queryData)
-        throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchSTR_VALUES";
         log.entering(CLASSNAME, METHODNAME);
 

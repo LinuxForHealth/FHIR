@@ -196,9 +196,7 @@ BEGIN
     -- JDBC statements.
   END IF;
 
-  -- Hand back the id of the logical resource we created earlier. In the new R4 schema
-  -- only the logical_resource_id is the target of any FK, so there's no need to return
-  -- the resource_id (which is now private to the _resources tables).
+  -- Hand back the id of the logical resource we created earlier
   SET o_logical_resource_id = v_logical_resource_id;
 
   -- Resource Row Id which is used to set large blobs
