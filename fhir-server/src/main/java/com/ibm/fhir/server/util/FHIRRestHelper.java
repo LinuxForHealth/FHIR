@@ -52,6 +52,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
@@ -79,6 +80,7 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.provider.util.FHIRUrlParser;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
@@ -218,7 +220,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // If there were no validation errors, then create the resource and return the location header.
-
 
             // First, invoke the 'beforeCreate' interceptor methods.
             FHIRPersistenceEvent event =
@@ -429,7 +430,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     getInterceptorMgr().fireBeforeUpdateEvent(event);
                 }
             }
-
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
@@ -709,7 +709,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
-
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event =
                     new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, requestProperties));
@@ -781,7 +780,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             Class<? extends Resource> resourceType =
                     getResourceType(resourceTypeName);
-
 
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event =
@@ -859,7 +857,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRHistoryContext historyContext =
                     FHIRPersistenceUtil.parseHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
-
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event =
                     new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
@@ -933,7 +930,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             Class<? extends Resource> resourceType =
                     getResourceType(resourceTypeName);
-
 
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event =
@@ -1105,7 +1101,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     private List<OperationOutcome.Issue> validateInput(Resource resource)
             throws FHIRValidationException, FHIROperationException {
-        List<OperationOutcome.Issue> issues = FHIRValidator.validator().validate(resource);
+        List<OperationOutcome.Issue> issues = validateResource(resource);
         if (!issues.isEmpty()) {
             for (OperationOutcome.Issue issue : issues) {
                 if (FHIRUtil.isFailure(issue.getSeverity())) {
@@ -1242,8 +1238,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // If the request entry contains a resource, then validate it now.
                     if (resource != null) {
-                        List<OperationOutcome.Issue> issues =
-                                FHIRValidator.validator().validate(resource);
+                        List<Issue> issues = validateResource(resource);
                         if (!issues.isEmpty()) {
                             if (anyFailureInIssues(issues)) {
                                 if (requestType == BundleType.ValueSet.TRANSACTION) {
@@ -2695,7 +2690,96 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 txn.end();
             }
         } while (attempt++ < TX_ATTEMPTS);
-        
+
         return result;
     }
+
+    /**
+     * Validate a resource. First validate profile assertions for the resource if configured to do so,
+     * then validate the resource itself.
+     *
+     * @param resource
+     *            the resource to be validated
+     * @return A list of validation errors and warnings
+     * @throws FHIRValidationException
+     */
+    private List<Issue>  validateResource(Resource resource) throws FHIRValidationException {
+        List<String> profiles = null;
+
+        // Retrieve the profile configuration
+        try {
+            StringBuilder defaultProfileConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/Resource/")
+                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES).append("/")
+                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
+            StringBuilder resourceSpecificProfileConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/")
+                    .append(resource.getClass().getSimpleName()).append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES)
+                    .append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE);
+
+            // Get the 'atLeastOne' property
+            List<String> resourceSpecificProfiles = FHIRConfigHelper.getStringListProperty(resourceSpecificProfileConfigPath.toString());
+            if (resourceSpecificProfiles != null) {
+                profiles = resourceSpecificProfiles;
+            } else {
+                List<String> defaultProfiles = FHIRConfigHelper.getStringListProperty(defaultProfileConfigPath.toString());
+                if (defaultProfiles != null) {
+                    profiles = defaultProfiles;
+                }
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Required profile list: " + profiles);
+            }
+        } catch (Exception e) {
+            return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.UNKNOWN,
+                "Error retrieving profile configuration."));
+        }
+
+        // If required profiles were configured, perform validation of asserted profiles against required profiles
+        if (profiles != null && !profiles.isEmpty()) {
+
+            // Get the profiles asserted for this resource
+            List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resource);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Asserted profiles: " + resourceAssertedProfiles);
+            }
+
+            // Check if a profile is required but none specified
+            if (resourceAssertedProfiles.isEmpty()) {
+                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.REQUIRED,
+                    "A profile is required but no profile was specified."));
+            }
+
+            // Check if at least one asserted profile is in list of required profiles
+            boolean validProfileFound = false;
+            for (String resourceAssertedProfile : resourceAssertedProfiles) {
+                if (profiles.contains(resourceAssertedProfile)) {
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Valid asserted profile found: '" + resourceAssertedProfile + "'");
+                    }
+                    validProfileFound = true;
+                    break;
+                }
+            }
+            if (!validProfileFound) {
+                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.INVALID,
+                    "A required profile was not specified."));
+            }
+
+            // Check if asserted profiles are supported
+            List<Issue> issues = new ArrayList<>();
+            for (String resourceAssertedProfile : resourceAssertedProfiles) {
+                StructureDefinition profile = ProfileSupport.getProfile(resourceAssertedProfile);
+                if (profile == null) {
+                    issues.add(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED,
+                        "Profile '" + resourceAssertedProfile + "' is not supported"));
+                }
+            }
+            if (!issues.isEmpty()) {
+                return issues;
+            }
+        }
+
+        return FHIRValidator.validator().validate(resource);
+    }
+
 }

@@ -955,9 +955,16 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
+It is also possible to configure a set of profiles, one or more of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server. The FHIR server supports this optional behavior via the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter. If this configuration parameter is set to a non-empty list of profiles, then the FHIR server will perform the following validation, returning FAILURE if not successful:
+ * Validate that at least one profile in the list is specified in the resource's `meta.profile` element
+ * Validate that all profiles specified in the resource's `meta.profile` element are supported by the FHIR server
+ * Validate that the resource's data conforms to all profiles specified in the resource's `meta.profile` element
+
+If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation. 
+
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
-See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implmentation Guide resources and how to load them into the IBM FHIR server.
+See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the IBM FHIR server.
 
 See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
@@ -1794,12 +1801,14 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchIncludes`|string list|A comma-separated list of \_include values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchIncludes`. Omitting this property is equivalent to supporting all \_include values for the supported resources. An empty list, `[]`, can be used to indicate that no \_include values are supported.|
 |`fhirServer/resources/Resource/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchRevIncludes`. Omitting this property is equivalent to supporting all \_revinclude values for the supported resources. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported.|
 |`fhirServer/resources/Resource/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for all resource types. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameterCombinations`. Omitting this property is equivalent to supporting any search parameter combination.|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and successfully validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/atLeastOne`. Omitting this property or specifying an empty list is equivalent to not requiring any profile assertions for a resource.|
 |`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
 |`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
 |`fhirServer/resources/<resourceType>/searchIncludes`|string list|A comma-separated list of \_include values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_include values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchRevIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1884,12 +1893,14 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchIncludes`|null (all \_include values supported)|
 |`fhirServer/resources/Resource/searchRevIncludes`|null (all \_revinclude values supported)|
 |`fhirServer/resources/Resource/searchParameterCombinations`|null (all search parameter combinations supported)|
-|`fhirServer/resources/<resourceType>/interactions`|null (inherets from `fhirServer/resources/Resource/interactions`)|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|null (no resource profile assertions required)|
+|`fhirServer/resources/<resourceType>/interactions`|null (inherits from `fhirServer/resources/Resource/interactions`)|
 |`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
-|`fhirServer/resources/<resourceType>/searchIncludes`|null (inherets from `fhirServer/resources/Resource/searchIncludes`)|
-|`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherets from `fhirServer/resources/Resource/searchRevIncludes`)|
-|`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherets from `fhirServer/resources/Resource/searchParameterCombinations`)|
+|`fhirServer/resources/<resourceType>/searchIncludes`|null (inherits from `fhirServer/resources/Resource/searchIncludes`)|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherits from `fhirServer/resources/Resource/searchRevIncludes`)|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -1966,12 +1977,14 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/Resource/searchIncludes`|Y|Y|
 |`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
