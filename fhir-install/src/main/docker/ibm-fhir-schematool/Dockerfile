@@ -7,8 +7,7 @@
 FROM adoptopenjdk/openjdk11-openj9:ubi-minimal-jre as base
 
 # Create the base working directory
-RUN mkdir -p /opt/schematool/workarea && \
-    mkdir -p /opt/schematool/workarea
+RUN mkdir -p /opt/schematool/workarea
 
 # Copy in the relevant artifacts in a single command
 COPY ./run.sh ./target/fhir-persistence-schema-*-cli.jar ./target/LICENSE /opt/schematool/
@@ -41,7 +40,7 @@ ENV TZ 'UTC'
 
 WORKDIR /opt/schematool
 
-COPY --from=base /opt/ /opt/
+COPY --chown=1001:1001 --from=base /opt/ /opt/
 
 # Per the best practice, we've gone ahead and minimized the layers
 # and we want the command to fail when something in the chain fails
@@ -51,11 +50,16 @@ RUN set +x && \
     mkdir -p /licenses && \
     mv /opt/schematool/LICENSE /licenses && \
     microdnf update -y && \
-    microdnf install -y nc tzdata openssl curl ca-certificates fontconfig glibc-langpack-en gzip tar findutils && \
+    microdnf install -y nc tzdata openssl curl ca-certificates fontconfig glibc-langpack-en gzip tar findutils shadow-utils && \
+    groupadd -r fhirschemaadmin -g 1001 && \
+    useradd -u 1001 -r -g 1001 -m -d /opt/schematool/home -s /sbin/nologin fhirschemaadmin && \
+    chmod -R 755 /opt/schematool && \
     rm -rf /var/cache/yum && \
     rm -f /@System.solv && \
     microdnf clean all && \
     rm -rf /var/tmp/* && \
     rm -rf /tmp/*
+
+USER 1001
 
 ENTRYPOINT ["/opt/schematool/run.sh"]

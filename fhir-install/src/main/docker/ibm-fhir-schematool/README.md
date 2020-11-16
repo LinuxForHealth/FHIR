@@ -18,7 +18,7 @@ The following environment variables:
 
 | Name           | Purpose  |
 |----------------|----------|
-| ENV_SKIP       | Stop the container from making any changes, and passes through with a successful state change: `[empty|true|false]`|
+| ENV_SKIP       | Stop the container from making any changes, and passes through with a successful state change: `[empty\|true\|false]`|
 | ENV_TOOL_INPUT | Encoded String, in most circumstances base64 encoded or well escaped text, of the json|
 | ENV_TOOL_DEBUG | Flags the debug |
 

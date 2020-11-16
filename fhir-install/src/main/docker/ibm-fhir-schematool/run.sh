@@ -548,7 +548,7 @@ function custom_behavior {
 }
 
 # debug_behavior - runs the debug action 
-function debug_behavior { 
+function debug_behavior {
     info "The files included with the tool are:"
     ls -alh /opt/schematool
     echo "The OpenSSL version is:" 
@@ -559,7 +559,7 @@ function debug_behavior {
 # the behavior is picked up from the existing variable
 # 
 # @implNote each behavior that the tool is expected to have must have a case statement.
-function process_behavior { 
+function process_behavior {
     TOOL_BEHAVIOR=$(get_property tool.behavior .persistence[0].behavior | tr '[:upper:]' '[:lower:]')
     echo "The tool behavior being executed is $TOOL_BEHAVIOR"
     case $TOOL_BEHAVIOR in
