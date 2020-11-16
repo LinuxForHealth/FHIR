@@ -113,7 +113,7 @@ In addition, the following search parameters are supported on all resources:
 
 These parameters can be used while searching any single resource type or while searching across resource types (whole system search).
 The `_type` parameter is special in that it is only applicable for whole system search. The `_has` parameter has two restrictions:
-* `_has` cannot be used in combination with the `_type` parameter.
+* `_has` cannot be used with whole system search.
 * The search parameter specified at the end of its chain cannot be a search result parameter.
 
 The `_text`, `_content`, `_list`, `_query`, and `_filter` parameters are not supported at this time.
