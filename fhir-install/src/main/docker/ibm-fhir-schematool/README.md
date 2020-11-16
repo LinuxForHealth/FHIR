@@ -27,8 +27,8 @@ The following is read from the properties file:
 
 | Name       | Purpose  |
 |------------|----------|
-| tool.behavior | Switches from the Onboarding BEHAVIOR to Offboarding BEHAVIOR flow: `[onboard|offboard|debug|custom]`. |
-| db.type | The database type - `[postgresql|db2]` |
+| tool.behavior | Switches from the Onboarding BEHAVIOR to Offboarding BEHAVIOR flow: `[onboard\|offboard\|debug\|custom]`. |
+| db.type | The database type - `[postgresql\|db2]` |
 | db.host | The database server hostname|
 | db.port | The database server port|
 | db.database | The name of the database|
