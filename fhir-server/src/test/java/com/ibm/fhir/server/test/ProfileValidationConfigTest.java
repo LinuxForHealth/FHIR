@@ -11,6 +11,7 @@ import static org.testng.Assert.fail;
 
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -69,6 +70,12 @@ public class ProfileValidationConfigTest {
         FHIRRegistry.getInstance().register(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
         helper = new FHIRRestHelper(persistence);
+    }
+
+    @AfterClass
+    void tearDown() throws FHIRException {
+        FHIRConfiguration.setConfigHome("");
+        FHIRRequestContext.get().setTenantId("default");
     }
 
     /**
