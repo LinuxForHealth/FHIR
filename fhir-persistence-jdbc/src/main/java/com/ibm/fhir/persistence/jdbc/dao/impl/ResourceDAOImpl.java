@@ -142,7 +142,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param trxSyncRegistry
      */
     public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
-        FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
+            FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
         super(c, schemaName, flavor);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
