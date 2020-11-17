@@ -10,6 +10,10 @@ package com.ibm.fhir.schema.control;
  * Constants related to Schema creation and updating.
  */
 public class FhirSchemaConstants {
+
+    // This limit is used to limit db2 size in a stored procedure.
+    public static final int STORED_PROCEDURE_SIZE_LIMIT = 1048576;
+
     // A lower pool size is selected as default to limit the likelihood of contention on the DBMS.
     // Standard connection/thread pool size
     public static final int DEFAULT_POOL_SIZE = 1;
@@ -18,7 +22,7 @@ public class FhirSchemaConstants {
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
     public static final int MAX_TOKEN_VALUE_BYTES = 1024;
     public static final int LOGICAL_ID_BYTES = 255;
-    
+
     // Currently a constant admin schema name
     public static final String FHIR_ADMIN = "FHIR_ADMIN";
 
@@ -43,7 +47,7 @@ public class FhirSchemaConstants {
     public static final int REFERENCES_SEQUENCE_START = 1;
     public static final int REFERENCES_SEQUENCE_CACHE = 1000;
     public static final int REFERENCES_SEQUENCE_INCREMENT = 20;
-    
+
     // Tenant constants
     public static final String MT_ID = "MT_ID";
     public static final String TENANT_HASH = "TENANT_HASH";
@@ -129,7 +133,7 @@ public class FhirSchemaConstants {
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;
     public static final int PART_UPPER = 0;
-    
+
     // Table for Normalization of References (Internal and External)
     public static final String LOCAL_REFERENCES = "LOCAL_REFERENCES";
     public static final String REF_LOGICAL_RESOURCE_ID = "REF_LOGICAL_RESOURCE_ID";
@@ -137,19 +141,19 @@ public class FhirSchemaConstants {
 //    public static final String EXTERNAL_SYSTEM_ID = "EXTERNAL_SYSTEM_ID";
 //    public static final String EXTERNAL_SYSTEM_NAME = "EXTERNAL_SYSTEM_NAME";
 //    public static final String EXTERNAL_REFERENCES = "EXTERNAL_REFERENCES";
-    
+
     // For V0006 (issue #1366) token_values become normalized to improve storage efficiency
     public static final String COMMON_TOKEN_VALUES = "COMMON_TOKEN_VALUES";
     public static final String COMMON_TOKEN_VALUE_ID = "COMMON_TOKEN_VALUE_ID";
-    
+
     // The table mapping a resource to its (shared) token values
     public static final String RESOURCE_TOKEN_REFS = "RESOURCE_TOKEN_REFS";
     public static final String REF_RESOURCE_TYPE_ID = "REF_RESOURCE_TYPE_ID";
     public static final String REF_VERSION_ID = "REF_VERSION_ID";
-    
+
     // View suffix to overlay the new common_token_values and resource_token_refs tables
     public static final String TOKEN_VALUES_V = "TOKEN_VALUES_V";
-    
+
     public static final String LOGICAL_RESOURCE_COMPARTMENTS = "LOGICAL_RESOURCE_COMPARTMENTS";
     public static final String COMPARTMENT_LOGICAL_RESOURCE_ID = "COMPARTMENT_LOGICAL_RESOURCE_ID";
     public static final String COMPARTMENT_NAME_ID = "COMPARTMENT_NAME_ID";
