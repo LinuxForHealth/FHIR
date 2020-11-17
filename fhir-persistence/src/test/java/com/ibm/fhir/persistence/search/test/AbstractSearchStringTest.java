@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -90,6 +91,32 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
         assertSearchReturnsSavedResource("missing-string:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-string:missing", "false");
+    }
+
+    @Test
+    public void testSearchString_string_missing_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("string:missing", Collections.singletonList("false"));
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+        queryParms.clear();
+        queryParms.put("string:missing", Collections.singletonList("true"));
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+
+    @Test
+    public void testSearchString_string_missing_address_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("string:missing", Collections.singletonList("false"));
+        queryParms.put("Address:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("string:missing", Collections.singletonList("false"));
+        queryParms.put("Address:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     @Test

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -153,6 +154,30 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     public void testSearchDate_date_missing() throws Exception {
         assertSearchReturnsSavedResource("composite-date:missing", "false");
         assertSearchDoesntReturnSavedResource("composite-date:missing", "true");
+    }
+
+    @Test
+    public void testSearchDate_date_missing_token_boolean() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("composite-date:missing", Collections.singletonList("false"));
+        queryParms.put("composite-boolean", Collections.singletonList("true$true"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("composite-date:missing", Collections.singletonList("true"));
+        queryParms.put("composite-boolean", Collections.singletonList("true$true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+    }
+
+    @Test
+    public void testSearchDate_date_missing_token_boolean_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("composite-date:missing", Collections.singletonList("false"));
+        queryParms.put("composite-boolean:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("composite-date:missing", Collections.singletonList("false"));
+        queryParms.put("composite-boolean:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     @Test
