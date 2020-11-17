@@ -9,6 +9,8 @@ package com.ibm.fhir.server.test;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import java.time.Instant;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -88,6 +90,20 @@ public class SearchChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Procedure").queryParam("subject:Patient._id", patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchPatientWithLastUpdated() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure").queryParam("subject:Patient._lastUpdated", "gt" + Instant.now().minusSeconds(600).toString())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
