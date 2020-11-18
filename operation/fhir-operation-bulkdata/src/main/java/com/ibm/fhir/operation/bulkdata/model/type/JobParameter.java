@@ -49,7 +49,8 @@ public class JobParameter {
     private String cosBucketName;
     private String cosOperationBucketNameOo;
     private String cosLocation;
-    private String cosEndpointUrl;
+    private String cosEndpointInternal;
+    private String cosEndpointExternal;
     private String cosCredentialIbm;
     private String cosApiKey;
     private String cosSrvInstId;
@@ -111,12 +112,20 @@ public class JobParameter {
         this.cosLocation = cosLocation;
     }
 
-    public String getCosEndpointUrl() {
-        return cosEndpointUrl;
+    public String getCosEndpointInternal() {
+        return cosEndpointInternal;
     }
 
-    public void setCosEndpointUrl(String cosEndpointUrl) {
-        this.cosEndpointUrl = cosEndpointUrl;
+    public String getCosEndpointExternal() {
+        return cosEndpointExternal;
+    }
+
+    public void setCosEndpointInternal(String cosEndpointUrl) {
+        this.cosEndpointInternal = cosEndpointUrl;
+    }
+
+    public void setCosEndpointExternal(String cosEndpointUrl) {
+        this.cosEndpointExternal = cosEndpointUrl;
     }
 
     public String getCosCredentialIbm() {
@@ -240,10 +249,11 @@ public class JobParameter {
                 generator.write("cos.operationoutcomes.bucket.name", parameter.getCosOperationBucketNameOo());
             }
 
-            if (withSensitive) {
-                if (parameter.getCosEndpointUrl() != null) {
-                    generator.write("cos.endpointurl", parameter.getCosEndpointUrl());
-                }
+            if (parameter.getCosEndpointInternal() != null) {
+                generator.write("cos.endpoint.internal", parameter.getCosEndpointInternal());
+            }
+            if (parameter.getCosEndpointExternal() != null) {
+                generator.write("cos.endpoint.external", parameter.getCosEndpointExternal());
             }
             if (parameter.getCosLocation() != null) {
                 generator.write("cos.location", parameter.getCosLocation());
@@ -346,7 +356,9 @@ public class JobParameter {
 
         public Builder cosLocation(String cosLocation);
 
-        public Builder cosEndpointUrl(String cosEndpointUrl);
+        public Builder cosEndpointInternal(String cosEndpointUrl);
+
+        public Builder cosEndpointExternal(String cosEndpointUrl);
 
         public Builder cosCredentialIbm(String cosCredentialIbm);
 
@@ -406,9 +418,14 @@ public class JobParameter {
                 builder.cosLocation(cosLocation);
             }
 
-            if (obj.containsKey("cos.endpointurl")) {
-                String cosEndpointUrl = obj.getString("cos.endpointurl");
-                builder.cosEndpointUrl(cosEndpointUrl);
+            if (obj.containsKey("cos.endpoint.internal")) {
+                String cosEndpointUrl = obj.getString("cos.endpoint.internal");
+                builder.cosEndpointInternal(cosEndpointUrl);
+            }
+
+            if (obj.containsKey("cos.endpoint.external")) {
+                String cosEndpointUrl = obj.getString("cos.endpoint.external");
+                builder.cosEndpointExternal(cosEndpointUrl);
             }
 
             if (obj.containsKey("cos.credential.ibm")) {
@@ -500,23 +517,24 @@ public class JobParameter {
 
     @Override
     public String toString() {
-        return "JobParameter [fhirResourceType=" + fhirResourceType + 
-                ", fhirSearchFromDate=" + fhirSearchFromDate + 
-                ", fhirTenant=" + fhirTenant + 
-                ", fhirDataStoreId=" + fhirDataStoreId + 
-                ", fhirPatientGroupId=" + fhirPatientGroupId + 
-                ", fhirTypeFilters=" + fhirTypeFilters + 
-                ", fhirExportFormat=" + fhirExportFormat + 
-                ", inputs=" + inputs + 
-                ", storageDetail=" + storageDetail + 
-                ", incomingUrl=" + incomingUrl + 
-                ", cosBucketName=" + cosBucketName + 
-                ", cosOperationBucketNameOo=" + cosOperationBucketNameOo + 
-                ", cosLocation=" + cosLocation + 
-                ", cosEndpointUrl=" + cosEndpointUrl + 
-                ", cosCredentialIbm=" + cosCredentialIbm + 
-                ", cosApiKey=" + cosApiKey + 
-                ", cosSrvInstId=" + cosSrvInstId + 
+        return "JobParameter [fhirResourceType=" + fhirResourceType +
+                ", fhirSearchFromDate=" + fhirSearchFromDate +
+                ", fhirTenant=" + fhirTenant +
+                ", fhirDataStoreId=" + fhirDataStoreId +
+                ", fhirPatientGroupId=" + fhirPatientGroupId +
+                ", fhirTypeFilters=" + fhirTypeFilters +
+                ", fhirExportFormat=" + fhirExportFormat +
+                ", inputs=" + inputs +
+                ", storageDetail=" + storageDetail +
+                ", incomingUrl=" + incomingUrl +
+                ", cosBucketName=" + cosBucketName +
+                ", cosOperationBucketNameOo=" + cosOperationBucketNameOo +
+                ", cosLocation=" + cosLocation +
+                ", cosEndpointInternal=" + cosEndpointInternal +
+                ", cosEndpointExternal=" + cosEndpointExternal +
+                ", cosCredentialIbm=" + cosCredentialIbm +
+                ", cosApiKey=" + cosApiKey +
+                ", cosSrvInstId=" + cosSrvInstId +
                 ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";
     }
 }
