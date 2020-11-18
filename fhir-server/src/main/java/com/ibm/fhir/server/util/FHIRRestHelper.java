@@ -2756,8 +2756,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Check if a profile is required but none specified
             if (resourceAssertedProfiles.isEmpty()) {
-                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.REQUIRED,
-                    "A profile is required but no profile was specified."));
+                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
+                    "A required profile was not specified. Resources of type '" +
+                            resource.getClass().getSimpleName() +
+                            "' must declare conformance to at least one of the following profiles: " +
+                            profiles));
             }
 
             // Check if at least one asserted profile is in list of required profiles.
@@ -2783,8 +2786,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
             if (!validProfileFound) {
-                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.INVALID,
-                    "A required profile was not specified."));
+                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
+                    "A required profile was not specified. Resources of type '" +
+                            resource.getClass().getSimpleName() +
+                            "' must declare conformance to at least one of the following profiles: " +
+                            profiles));
             }
 
             // Check if asserted profiles are supported

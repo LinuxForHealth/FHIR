@@ -103,9 +103,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A profile is required but no profile was specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.REQUIRED, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -137,9 +138,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A required profile was not specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -171,9 +173,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A required profile was not specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -332,9 +335,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A profile is required but no profile was specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Encounter' must declare conformance to at least one of the following profiles: [profile4]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.REQUIRED, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -366,9 +370,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A required profile was not specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Encounter' must declare conformance to at least one of the following profiles: [profile4]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -497,9 +502,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A profile is required but no profile was specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.REQUIRED, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -532,9 +538,10 @@ public class ProfileValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(1, issues.size());
-            assertEquals("A required profile was not specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
         }
     }
 
@@ -649,9 +656,10 @@ public class ProfileValidationConfigTest {
             assertEquals("One or more errors were encountered while validating a 'transaction' request bundle.", issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.FATAL, issues.get(0).getSeverity());
             assertEquals(IssueType.INVALID, issues.get(0).getCode());
-            assertEquals("A profile is required but no profile was specified.", issues.get(1).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(1).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
-            assertEquals(IssueType.REQUIRED, issues.get(1).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(1).getCode());
         }
     }
 
@@ -701,9 +709,10 @@ public class ProfileValidationConfigTest {
             assertEquals("One or more errors were encountered while validating a 'transaction' request bundle.", issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.FATAL, issues.get(0).getSeverity());
             assertEquals(IssueType.INVALID, issues.get(0).getCode());
-            assertEquals("A required profile was not specified.", issues.get(1).getDetails().getText().getValue());
+            assertEquals("A required profile was not specified. Resources of type 'Patient' must declare conformance to at least one of the following profiles: [profile1, profile2|1, profile3]",
+                issues.get(1).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(1).getSeverity());
-            assertEquals(IssueType.INVALID, issues.get(1).getCode());
+            assertEquals(IssueType.BUSINESS_RULE, issues.get(1).getCode());
         }
     }
 
