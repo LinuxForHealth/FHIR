@@ -144,6 +144,40 @@ public class ProfileValidationConfigTest {
     }
 
     /**
+     * Test a create with a profile specified, but no version.
+     */
+    @Test
+    public void testCreateWithRequiredProfileSpecifiedButNoVersion() throws Exception {
+        Patient patient = Patient.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile2"))
+                    .build())
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Patient", patient, null, null, true);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("A required profile was not specified.", issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.INVALID, issues.get(0).getCode());
+        }
+    }
+
+    /**
      * Test a create with an unsupported profile specified.
      */
     @Test
@@ -185,6 +219,70 @@ public class ProfileValidationConfigTest {
         Patient patient = Patient.builder()
                 .meta(Meta.builder()
                     .profile(Canonical.of("profile1"))
+                    .build())
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Patient", patient, null, null, true);
+            fail();
+        } catch (FHIRValidationException e) {
+            // Validate results.
+            // Profile assertion validation successful.
+            // Expected FHIRValidator error due to profile not actually being loaded.
+            assertEquals("An error occurred during validation", e.getMessage());
+        }
+    }
+
+    /**
+     * Test a create with a valid required profile with version specified.
+     */
+    @Test
+    public void testCreateWithRequiredProfileWithVersionSpecified() throws Exception {
+        Patient patient = Patient.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile1|3"))
+                    .build())
+                .generalPractitioner(Reference.builder()
+                    .reference(string("Practitioner/1"))
+                    .build())
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Patient", patient, null, null, true);
+            fail();
+        } catch (FHIRValidationException e) {
+            // Validate results.
+            // Profile assertion validation successful.
+            // Expected FHIRValidator error due to profile not actually being loaded.
+            assertEquals("An error occurred during validation", e.getMessage());
+        }
+    }
+
+    /**
+     * Test a create with a valid version specific required profile specified.
+     */
+    @Test
+    public void testCreateWithVersionSpecificRequiredProfileSpecified() throws Exception {
+        Patient patient = Patient.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("profile2|1"))
                     .build())
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
