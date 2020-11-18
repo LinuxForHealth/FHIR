@@ -1031,4 +1031,21 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         assertTrue(resourceIds.contains(procedure1Id));
     }
 
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateLocation"})
+    public void testSearchSingleReverseChainWithLastUpdatedParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_id", organization1Id)
+                .queryParam("_has:Location:organization:_lastUpdated", "gt" + now.minus(1, ChronoUnit.DAYS).toString())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getEntry().size());
+        assertEquals(organization1Id, bundle.getEntry().get(0).getResource().getId());
+    }
+
 }

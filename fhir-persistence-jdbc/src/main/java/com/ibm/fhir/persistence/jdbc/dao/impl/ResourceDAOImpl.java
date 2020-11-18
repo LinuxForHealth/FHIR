@@ -49,59 +49,70 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * This Data Access Object implements the ResourceDAO interface for creating, updating,
  * and retrieving rows in the IBM FHIR Server resource tables.
  */
 public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
+
     private static final Logger log = Logger.getLogger(ResourceDAOImpl.class.getName());
     private static final String CLASSNAME = ResourceDAOImpl.class.getName();
-    public static final String DEFAULT_VALUE_REINDEX_TSTAMP = "1970-01-01 00:00:00";
 
+    // Per issue with private memory in db2, we have set this to 1M.
+    // Anything larger than 1M is then inserted into the db with an update.
+    private static final String LARGE_BLOB = "UPDATE %s_RESOURCES SET DATA = ? WHERE RESOURCE_ID = ?";
+
+    public static final String DEFAULT_VALUE_REINDEX_TSTAMP = "1970-01-01 00:00:00";
 
     // Read the current version of the resource
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
-                                            "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
-                                           "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
+            "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+            "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
 
     // Read a specific version of the resource
-    private static final String SQL_VERSION_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
-                                                      "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
-                                                      "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
+    private static final String SQL_VERSION_READ =
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                    "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
     // @formatter:off
     //                                                                                 0
-    //                                                                                 1 2 3 4 5 6 7
+    //                                                                                 1 2 3 4 5 6 7 8
     // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
-    private static final String SQL_HISTORY = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
-                                                 "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
-                                                 "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
-                                              "ORDER BY R.VERSION_ID DESC ";
+    private static final String SQL_HISTORY =
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                    "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
+                    "ORDER BY R.VERSION_ID DESC ";
 
     // Count the number of versions we have for the resource identified by its logical-id
     private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
-                                                    "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
+            "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
 
-    private static final String SQL_HISTORY_FROM_DATETIME = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
-                                                              "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
-                                                              "LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
-                                                              "ORDER BY R.VERSION_ID DESC ";
+    private static final String SQL_HISTORY_FROM_DATETIME =
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
+                    "LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
+                    "ORDER BY R.VERSION_ID DESC ";
 
-    private static final String SQL_HISTORY_FROM_DATETIME_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
-                                                                  "R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
+    private static final String SQL_HISTORY_FROM_DATETIME_COUNT =
+            "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
+                    "R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
 
     private static final String SQL_READ_ALL_RESOURCE_TYPE_NAMES = "SELECT RESOURCE_TYPE_ID, RESOURCE_TYPE FROM RESOURCE_TYPES";
 
     private static final String SQL_READ_RESOURCE_TYPE = "CALL %s.add_resource_type(?, ?)";
 
-    private static final String SQL_SEARCH_BY_IDS = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
-                                                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
-                                                    "R.RESOURCE_ID IN ";
+    private static final String SQL_SEARCH_BY_IDS =
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
+                    "R.RESOURCE_ID IN ";
 
     private static final String SQL_ORDER_BY_IDS = "ORDER BY CASE R.RESOURCE_ID ";
 
@@ -124,13 +135,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
+     *
      * @param c
      * @param schemaName
      * @param flavor
      * @param trxSyncRegistry
      */
-    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
-        ParameterTransactionDataImpl ptdi) {
+    public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
+            FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
         super(c, schemaName, flavor);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
@@ -141,6 +153,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Constructs a DAO instance for use outside a managed transaction (JEE) environment
+     *
      * @param c
      * @param schemaName
      * @param flavor
@@ -156,6 +169,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Getter for the IResourceReferenceDAO used by this ResourceDAO implementation
+     *
      * @return
      */
     protected IResourceReferenceDAO getResourceReferenceDAO() {
@@ -164,6 +178,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Get the ParameterTransactionDataImpl held by this.
+     *
      * @return the transactionData object. Can be null.
      */
     protected ParameterTransactionDataImpl getTransactionData() {
@@ -171,8 +186,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Resource read(String logicalId, String resourceType)
-            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public Resource read(String logicalId, String resourceType) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "read";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -193,8 +207,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Resource versionRead(String logicalId, String resourceType, int versionId)
-            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public Resource versionRead(String logicalId, String resourceType, int versionId) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "versionRead";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -217,7 +230,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Creates and returns a Resource DTO based on the contents of the passed ResultSet
-     * @param resultSet A ResultSet containing FHIR persistent object data.
+     *
+     * @param resultSet
+     *            A ResultSet containing FHIR persistent object data.
      * @return Resource - A Resource DTO
      * @throws FHIRPersistenceDataAccessException
      */
@@ -246,8 +261,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults)
-                                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -275,13 +289,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 }
             }
         } finally {
-            log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
+            log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] { resources }));
         }
         return resources;
     }
 
     @Override
-    public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public int historyCount(String resourceType, String logicalId, Timestamp fromDateTime)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "historyCount";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -321,7 +336,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public int searchCount(SqlQueryData queryData)     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchCount(SqlQueryData)";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -344,7 +359,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public Map<String, Integer> readAllResourceTypeNames()
-                                         throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+            throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readAllResourceTypeNames";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -367,7 +382,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
 
             if (log.isLoggable(Level.FINE)) {
-                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+                dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
                 log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
             }
         } catch (Throwable e) {
@@ -383,7 +398,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Integer readResourceTypeId(String resourceType) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+    public Integer readResourceTypeId(String resourceType) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
         final String METHODNAME = "readResourceTypeId";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -401,7 +416,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.registerOutParameter(2, Types.INTEGER);
             dbCallStartTime = System.nanoTime();
             stmt.execute();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
             if (log.isLoggable(Level.FINE)) {
                 log.fine("DB read resource type id complete. executionTime=" + dbCallDuration + "ms");
             }
@@ -435,18 +450,18 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             for (int i = 0; i < queryData.getBindVariables().size(); i++) {
                 Object object = queryData.getBindVariables().get(i);
                 if (object instanceof Timestamp) {
-                    stmt.setTimestamp(i+1, (Timestamp) object, JDBCConstants.UTC);
+                    stmt.setTimestamp(i + 1, (Timestamp) object, JDBCConstants.UTC);
                 } else {
-                    stmt.setObject(i+1, object);
+                    stmt.setObject(i + 1, object);
                 }
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
             if (log.isLoggable(Level.FINE)) {
                 log.fine("DB search for ids complete. " + queryData + "  executionTime=" + dbCallDuration + "ms");
             }
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 resourceIds.add(resultSet.getLong(1));
             }
         } catch (Throwable e) {
@@ -460,12 +475,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return resourceIds;
     }
 
-
-     /**
+    /**
      * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache.
      * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
-     * @param resourceType A valid FHIR resource type.
-     * @param resourceTypeId The corresponding id for the resource type.
+     *
+     * @param resourceType
+     *            A valid FHIR resource type.
+     * @param resourceTypeId
+     *            The corresponding id for the resource type.
      * @throws FHIRPersistenceException
      */
     @Override
@@ -480,7 +497,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(rtCacheUpdater);
                     log.fine("Registered ResourceTypeCacheUpdater.");
-                } catch(Throwable e) {
+                } catch (Throwable e) {
                     throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", e);
                 }
             }
@@ -491,11 +508,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
-    protected  Integer getResourceTypeIdFromCaches(String resourceType) {
+    protected Integer getResourceTypeIdFromCaches(String resourceType) {
         // Get resourceTypeId from ResourceTypesCache first.
         Integer resourceTypeId = ResourceTypesCache.getResourceTypeId(resourceType);
-        // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in newResourceTypeIds
-        // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only when the
+        // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in
+        // newResourceTypeIds
+        // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only
+        // when the
         // current transaction is committed.
         if (resourceTypeId == null) {
             resourceTypeId = this.newResourceTypeIds.get(resourceType);
@@ -528,26 +547,53 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
             if (log.isLoggable(Level.FINE)) {
                 log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+                    "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
             }
 
             stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
-            stmt.setBytes(3, resource.getData());
+
+            // Check for large objects, and branch around it.
+            boolean large = FhirSchemaConstants.STORED_PROCEDURE_SIZE_LIMIT < resource.getData().length;
+            if (large) {
+                // Outside of the normal flow we have a BIG JSON or XML
+                stmt.setNull(3, Types.BLOB);
+            } else {
+                // Normal Flow, we set the data
+                stmt.setBytes(3, resource.getData());
+            }
 
             lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated, UTC);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setInt(6, resource.getVersionId());
             stmt.registerOutParameter(7, Types.BIGINT);
+            stmt.registerOutParameter(8, Types.BIGINT);
 
             stmt.execute();
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
             resource.setId(stmt.getLong(7));
+            long versionedResourceRowId = stmt.getLong(8);
+            if (large) {
+                String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());
+                try (PreparedStatement ps = connection.prepareStatement(largeStmtString)) {
+                    // Use the long id to update the record in the database with the large object.
+                    ps.setBytes(1, resource.getData());
+                    ps.setLong(2, versionedResourceRowId);
+                    long dbCallStartTime2 = System.nanoTime();
+                    int numberOfRows = -1;
+                    ps.execute();
+                    double dbCallDuration2 = (System.nanoTime() - dbCallStartTime2) / 1e6;
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("DB update large blob complete. ROWS=[" + numberOfRows + "] SQL=[" + largeStmtString + "]  executionTime=" + dbCallDuration2
+                            + "ms");
+                    }
+                }
+            }
 
             // Parameter time
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
@@ -555,13 +601,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (parameters != null) {
                 JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                        resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
+                    resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
                 }
             }
-
 
             if (log.isLoggable(Level.FINE)) {
                 latestTime = System.nanoTime();
@@ -569,12 +614,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
             }
-        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+        } catch (FHIRPersistenceDBConnectException |
+
+                FHIRPersistenceDataAccessException e) {
             throw e;
-        } catch(SQLIntegrityConstraintViolationException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
             FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
             throw severe(log, fx, e);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             if ("99001".equals(e.getSQLState())) {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
@@ -582,7 +629,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.");
                 throw severe(log, fx, e);
             }
-        } catch(Throwable e) {
+        } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
             throw severe(log, fx, e);
         } finally {
@@ -592,7 +639,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
         return resource;
     }
-
 
     @Override
     public List<Resource> search(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
@@ -611,7 +657,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public List<Resource> searchByIds(String resourceType, List<Long> resourceIds)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -649,12 +696,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt = connection.prepareStatement(idQuery.toString());
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
             if (log.isLoggable(Level.FINE)) {
                 log.fine("DB search by ids complete. SQL=[" + idQuery + "]  executionTime=" + dbCallDuration + "ms");
             }
             resources = this.createDTOs(resultSet);
-        } catch(FHIRPersistenceException e) {
+        } catch (FHIRPersistenceException e) {
             throw e;
         } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resources");
@@ -703,6 +750,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Getter for access to the {@link FHIRPersistenceJDBCCache} from subclasses
+     *
      * @return
      */
     protected FHIRPersistenceJDBCCache getCache() {

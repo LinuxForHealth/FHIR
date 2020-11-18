@@ -11,6 +11,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,6 +59,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     private static Organization savedOrg1;
     private static Organization savedOrg2;
     private static Organization savedOrg3;
+    Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     /**
      * Loads up and saves a bunch of resources with various references to one another
@@ -351,6 +354,23 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         assertEquals(1, resources.size());
         assertEquals("Encounter", resources.get(0).getClass().getSimpleName());
         assertEquals(savedEncounter1.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries for Patients which are referenced by Devices
+     * matching on a _lastUpdated search parameter.
+     * One device is found, thus one patient is returned.
+     * @throws Exception
+     */
+    @Test
+    public void testReverseChainSingleResultWithLastUpdatedParm() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_has:Device:patient:_lastUpdated", Collections.singletonList("gt" + now.toString()));
+        List<Resource> resources = runQueryTest(Patient.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Patient", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedPatient3.getId(), resources.get(0).getId());
     }
 
     private Reference reference(String reference) {

@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-10-27"
+lastupdated: "2020-11-11"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -11,6 +11,7 @@ permalink: /FHIRServerUsersGuide/
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
+  * [2.3 Docker](#23-docker)
 - [3 Configuration](#3-configuration)
   * [3.1 Encoded passwords](#31-encoded-passwords)
   * [3.2 Property names](#32-property-names)
@@ -67,6 +68,8 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
     * Configure a server keystore and truststore. The FHIR server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
     * Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
 
+    To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
+
 6.  Make sure that your selected database product is running and ready to accept requests as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. The default config will automatically bootstrap this database and so this step can be skipped. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
 
@@ -120,6 +123,12 @@ Complete the following steps to upgrade the server:
 3. Back up your database.  
 4. Run the migration program (see [Section 3.4.1.1.2 Db2](#34112-db2)).  
 5. Disable traffic to the old server and enable traffic to the new server  
+
+## 2.3 Docker
+
+The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
+
+Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
 
 # 3 Configuration
 This chapter contains information about the various ways in which the FHIR server can be configured by users.
@@ -401,7 +410,7 @@ To use standard JDBC datasources, disable the proxy datasource behavior by setti
     }
 ```
 
-The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is 'jdbc/fhir_<tenantId>_<dsId>' where '<tenantId>' and '<dsId>' represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
+The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is `jdbc/fhir_<tenantId>_<dsId>` where `<tenantId>` and `<dsId>` represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
 
 ```
 {
@@ -946,9 +955,16 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
+It is also possible to configure a set of profiles, one or more of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server. The FHIR server supports this optional behavior via the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter. If this configuration parameter is set to a non-empty list of profiles, then the FHIR server will perform the following validation, returning FAILURE if not successful:
+ * Validate that at least one profile in the list is specified in the resource's `meta.profile` element
+ * Validate that all profiles specified in the resource's `meta.profile` element are supported by the FHIR server
+ * Validate that the resource's data conforms to all profiles specified in the resource's `meta.profile` element
+
+If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation. 
+
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
-See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implmentation Guide resources and how to load them into the IBM FHIR server.
+See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the IBM FHIR server.
 
 See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
@@ -1785,12 +1801,14 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchIncludes`|string list|A comma-separated list of \_include values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchIncludes`. Omitting this property is equivalent to supporting all \_include values for the supported resources. An empty list, `[]`, can be used to indicate that no \_include values are supported.|
 |`fhirServer/resources/Resource/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchRevIncludes`. Omitting this property is equivalent to supporting all \_revinclude values for the supported resources. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported.|
 |`fhirServer/resources/Resource/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for all resource types. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameterCombinations`. Omitting this property is equivalent to supporting any search parameter combination.|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and successfully validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/atLeastOne`. Omitting this property or specifying an empty list is equivalent to not requiring any profile assertions for a resource.|
 |`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
 |`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
 |`fhirServer/resources/<resourceType>/searchIncludes`|string list|A comma-separated list of \_include values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_include values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchRevIncludes` is used.|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1875,12 +1893,14 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/Resource/searchIncludes`|null (all \_include values supported)|
 |`fhirServer/resources/Resource/searchRevIncludes`|null (all \_revinclude values supported)|
 |`fhirServer/resources/Resource/searchParameterCombinations`|null (all search parameter combinations supported)|
-|`fhirServer/resources/<resourceType>/interactions`|null (inherets from `fhirServer/resources/Resource/interactions`)|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|null (no resource profile assertions required)|
+|`fhirServer/resources/<resourceType>/interactions`|null (inherits from `fhirServer/resources/Resource/interactions`)|
 |`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
-|`fhirServer/resources/<resourceType>/searchIncludes`|null (inherets from `fhirServer/resources/Resource/searchIncludes`)|
-|`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherets from `fhirServer/resources/Resource/searchRevIncludes`)|
-|`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherets from `fhirServer/resources/Resource/searchParameterCombinations`)|
+|`fhirServer/resources/<resourceType>/searchIncludes`|null (inherits from `fhirServer/resources/Resource/searchIncludes`)|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherits from `fhirServer/resources/Resource/searchRevIncludes`)|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -1957,12 +1977,14 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/Resource/searchIncludes`|Y|Y|
 |`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|
 |`fhirServer/resources/<resourceType>/interactions`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
