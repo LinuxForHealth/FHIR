@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
@@ -17,6 +18,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
 
 import java.util.ArrayList;
@@ -539,7 +541,7 @@ public class QuerySegmentAggregator {
             overrideType = this.resourceType.getSimpleName();
         }
 
-        String whereClauseSegment;
+        StringBuilder missingModifierWhereClause = new StringBuilder();
 
         for (int i = 0; i < this.querySegments.size(); i++) {
             SqlQueryData querySegment = this.querySegments.get(i);
@@ -552,8 +554,13 @@ public class QuerySegmentAggregator {
             if (!SKIP_WHERE.contains(code)) {
 
                 if (Modifier.MISSING.equals(param.getModifier())) {
-                    whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
-                    whereClause.append(whereClauseSegment);
+                    // Append queryString to a separate StringBuilder which will get appended to the where clause last.
+                    if (missingModifierWhereClause.length() == 0) {
+                        missingModifierWhereClause.append(querySegment.getQueryString());
+                    } else {
+                        // If not the first param with a :missing modifier, replace the WHERE with an AND
+                        missingModifierWhereClause.append(querySegment.getQueryString().replaceFirst(WHERE, AND));
+                    }
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
                         final String paramTableAlias = "param" + i;
@@ -594,7 +601,7 @@ public class QuerySegmentAggregator {
                     } else {
                         // add an alias for the composite table
                         String compositeAlias = "comp" + (i + 1);
-                        whereClauseSegment =
+                        String whereClauseSegment =
                                 querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.",
                                         compositeAlias + ".");
 
@@ -633,6 +640,11 @@ public class QuerySegmentAggregator {
                 }
             } // end if SKIP_WHERE
         } // end for
+
+        // If there were any query parameters with :missing modifier, append the missingModifierWhereClause
+        if (missingModifierWhereClause.length() > 0) {
+            whereClause.append(missingModifierWhereClause.toString());
+        }
 
         log.exiting(CLASSNAME, METHODNAME);
     }

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -285,6 +286,30 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
         assertSearchReturnsSavedResource("missing-Quantity:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Quantity:missing", "false");
+    }
+
+    @Test
+    public void testSearchQuantity_Quantity_missing_range() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("Quantity:missing", Collections.singletonList("false"));
+        queryParms.put("Range", Collections.singletonList("ge4||s"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("Quantity:missing", Collections.singletonList("true"));
+        queryParms.put("Range", Collections.singletonList("ge4||s"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+    }
+
+    @Test
+    public void testSearchQuantity_Quantity_missing_range_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("Quantity:missing", Collections.singletonList("false"));
+        queryParms.put("Range:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("Quantity:missing", Collections.singletonList("false"));
+        queryParms.put("Range:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     // Range is 5-10 seconds

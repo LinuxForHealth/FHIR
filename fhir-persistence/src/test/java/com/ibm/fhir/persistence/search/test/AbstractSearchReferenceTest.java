@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -34,7 +35,7 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("reference");
-        
+
         // Need to set reference before storing the resource. The server-url
         // is now used to determine if an absolute reference is local (can be served
         // from this FHIR server).
@@ -98,6 +99,30 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
 
         assertSearchReturnsSavedResource("missing-Reference:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Reference:missing", "false");
+    }
+
+    @Test
+    public void testSearchReference_Reference_missing_uri() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<>(1);
+        queryParms.put("Reference:missing", Collections.singletonList("false"));
+        queryParms.put("uri", Collections.singletonList("urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("Reference:missing", Collections.singletonList("true"));
+        queryParms.put("uri", Collections.singletonList("urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+    }
+
+    @Test
+    public void testSearchReference_Reference_missing_uri_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<>(1);
+        queryParms.put("Reference:missing", Collections.singletonList("false"));
+        queryParms.put("uri:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("Reference:missing", Collections.singletonList("false"));
+        queryParms.put("uri:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     @Test
