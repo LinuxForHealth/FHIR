@@ -120,6 +120,7 @@ import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -138,9 +139,14 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.reference.value.CompartmentReference;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -1227,6 +1233,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
+    private List<ExtractedParameterValue> extractCompartmentValues(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) throws Exception {
+
+        List<ExtractedParameterValue> result = null;
+
+        Map<String, Set<java.lang.String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(fhirResource.getClass().getSimpleName());
+
+        if (!compartmentRefParams.isEmpty()) {
+            //result = SearchUtil.extractCompartmentParameterValues(fhirResource, compartmentRefParams);
+        } else {
+            result = Collections.emptyList();
+        }
+
+        return result;
+    }
+
     /**
      * Extracts search parameters for the passed FHIR Resource.
      * @param fhirResource - Some FHIR Resource
@@ -1442,10 +1463,46 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     }
                 }
             }
+
+            // Augment the extracted parameter list with special values we use to represent compartment relationships.
+            // These references are stored as tokens and are used by the search query builder
+            // for compartment-based searches
+            addCompartmentParams(allParameters, fhirResource);
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
+    }
+
+    /**
+     * Augment the given list with additional reference values
+     * @param allParameters
+     */
+    protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, Resource fhirResource) throws FHIRSearchException {
+        final String resourceType = fhirResource.getClass().getSimpleName();
+        Map<String,Set<String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
+        Map<String, Set<CompartmentReference>> compartmentMap = SearchUtil.extractCompartmentParameterValues(fhirResource, compartmentRefParams);
+
+        for (Map.Entry<String, Set<CompartmentReference>> entry: compartmentMap.entrySet()) {
+            final String compartmentName = entry.getKey();
+            final String parameterName = CompartmentUtil.makeCompartmentParamName(compartmentName);
+
+            // Create a reference parameter value for each CompartmentReference extracted from the resource
+            for (CompartmentReference compartmentRef: entry.getValue()) {
+                ReferenceParmVal pv = new ReferenceParmVal();
+                pv.setName(parameterName);
+                pv.setResourceType(resourceType);
+
+                // ReferenceType doesn't really matter here, but LITERAL_RELATIVE is appropriate
+                ReferenceValue rv = new ReferenceValue(compartmentName, compartmentRef.getReferenceResourceValue(), ReferenceType.LITERAL_RELATIVE, null);
+                pv.setRefValue(rv);
+
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Adding compartment reference parameter: [" + resourceType + "] "+ parameterName + " = " + rv.getTargetResourceType() + "/" + rv.getValue());
+                }
+                allParameters.add(pv);
+            }
+        }
     }
 
     /**

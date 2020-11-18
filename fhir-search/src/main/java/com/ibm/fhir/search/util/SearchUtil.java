@@ -38,6 +38,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
@@ -66,8 +67,10 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
 import com.ibm.fhir.search.reference.ReferenceParameterHandler;
+import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * Search Utility<br>
@@ -114,6 +117,9 @@ public class SearchUtil {
     private static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
     private static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
     private static final String HAS_DELIMITER = SearchConstants.COLON_DELIMITER_STR + SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR;
+
+    // compartment parameter reference which can be ignore
+    private static final String COMPARTMENT_PARM_DEF = "{def}";
 
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
@@ -2133,5 +2139,63 @@ public class SearchUtil {
         Set<String> summaryTextList = new HashSet<>();
         summaryTextList.add("text");
         return Collections.unmodifiableSet(summaryTextList);
+    }
+
+    /**
+     * Extracts the parameter values defining compartment membership.
+     * @param fhirResource
+     * @param compartmentRefParams a map of parameter names to a set of compartment names (resource types)
+     * @return a map of compartment name to a set of unique compartment reference values
+     */
+    public static Map<String, Set<CompartmentReference>> extractCompartmentParameterValues(Resource fhirResource, Map<String, Set<java.lang.String>> compartmentRefParams) throws FHIRSearchException {
+        final Map<String, Set<CompartmentReference>> result = new HashMap<>();
+        final String resourceType = fhirResource.getClass().getSimpleName();
+
+        // TODO, probably should use a Bundle.Entry value here if we are processing a bundle
+        final String baseUrl = ReferenceUtil.getBaseUrl(null);
+
+        try {
+            EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(fhirResource);
+
+            // Extract any references we find matching parameters representing compartment membership.
+            // For example CareTeam.participant can be used to refer to a Patient or RelatedPerson resource:
+            // "participant": { "reference": "Patient/abc123" }
+            // "participant": { "reference": "RelatedPerson/abc456" }
+            for (Map.Entry<String, Set<String>> paramEntry : compartmentRefParams.entrySet()) {
+                final String searchParm = paramEntry.getKey();
+
+                // Ignore {def} which is used in the compartment definition where
+                // no other search parm is given (e.g. Encounter->Encounter).
+                if (!COMPARTMENT_PARM_DEF.equals(searchParm)) {
+                    String expression = SearchUtil.getSearchParameter(resourceType, searchParm).getExpression().getValue();
+
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("searchParam = [" + resourceType + "] " + searchParm + "; expression = " + expression);
+                    }
+                    Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
+                    for (FHIRPathNode node : nodes) {
+                        Reference reference = node.asElementNode().element().as(Reference.class);
+                        ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
+                        if (rv.getType() != ReferenceType.DISPLAY_ONLY && rv.getType() != ReferenceType.INVALID) {
+                            // Check that the target resource type of the reference matches one of the
+                            // target resource types in the compartment definition.
+                            final String compartmentName = rv.getTargetResourceType();
+                            if (paramEntry.getValue().contains(compartmentName)) {
+                                // Add this reference to the set of references we're collecting for each compartment
+                                CompartmentReference cref = new CompartmentReference(searchParm, compartmentName, rv.getValue());
+                                Set<CompartmentReference> references = result.computeIfAbsent(compartmentName, k -> new HashSet<>());
+                                references.add(cref);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            final String msg = "Unexpected exception extracting compartment references "
+                    + " for resource type " + resourceType;
+            log.log(Level.WARNING, msg, e);
+            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+        }
+        return result;
     }
 }
