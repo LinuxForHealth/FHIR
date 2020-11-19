@@ -35,6 +35,7 @@
     </test>
     <test name="JDBCSearchTests">
         <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchCompartmentTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchCompositeTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchDateTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchNumberTest" />

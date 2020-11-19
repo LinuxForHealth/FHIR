@@ -159,7 +159,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
 Throughout this document, we use a path notation to refer to property names. For example, the name of the `defaultPrettyPrint` property in the preceding example would be `fhirServer/core/defaultPrettyPrint`.
 
 ## 3.3 Tenant-specific configuration properties
-The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
+The IBM FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
 
 In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.
 
@@ -170,6 +170,20 @@ Similarly, tenant-specific search parameters are found at `<WLP_HOME>/usr/server
 Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters as defined at [FHIRSearchConfiguration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration).
 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
+
+## 3.3.1 Compartment Search Performance
+
+The IBM FHIR Server now supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to the latest version and run a reindex operation. See the release notes for Release 4.5.0 for details. The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the following configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
+
+```
+    {
+        "fhirServer": {
+            "search": {
+                "useStoredCompartmentParam": true
+            }
+        }
+    }
+```
 
 ## 3.4 Persistence layer configuration
 The IBM FHIR server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
@@ -1848,6 +1862,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
+|`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using latest IBM FHIR Server version before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
 |`fhirServer/bulkdata/moduleName`|string| Fixed value, always set to fhir-bulkimportexport.war |
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|string|Object store bucket name |

@@ -1,0 +1,48 @@
+{
+  "resourceType": "Basic",
+  "code": {
+    "text": "test"
+  },
+  "author": {
+    "reference": "Patient/123"
+  },
+  "extension": [
+    {
+      "url": "http://example.org/uri",
+      "valueUri": "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"
+    },
+    {
+      "url": "http://example.org/Reference",
+      "valueReference": {
+        "reference": "Basic/123"
+      }
+    },
+    {
+      "url": "http://example.org/Reference-id",
+      "valueReference": {
+        "identifier": {
+          "system": "http://example.org/identifier",
+          "value": "123"
+        }
+      }
+    },
+    {
+      "url": "http://example.org/Reference-relative",
+      "valueReference": {
+        "reference": "Patient/123"
+      }
+    },
+    {
+      "url": "http://example.org/Reference-absolute",
+      "valueReference": {
+        "reference": "https://example.com/Patient/123"
+      }
+    },
+    {
+      "url": "http://example.org/Reference-display",
+      "valueReference": {
+        "display": "text alternative for the resource"
+      }
+    }
+  ]
+}

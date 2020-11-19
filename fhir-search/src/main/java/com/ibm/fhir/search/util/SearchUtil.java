@@ -1279,6 +1279,35 @@ public class SearchUtil {
     }
 
     /**
+     * Check the configuration to see if the flag enabling the compartment search
+     * optimization. Defaults to false so the behavior won't change unless it
+     * is explicitly enabled in fhir-server-config. This is important, because
+     * existing data must be reindexed (see $reindex custom operation) to
+     * generate values for the ibm-internal compartment relationship params.
+     * @return
+     */
+    public static boolean useStoredCompartmentParam() {
+        boolean result = false;
+        try {
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
+            if (fhirConfig == null) {
+                // fall back to default config (when unit tests don't provide config for a tenant)
+                fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            }
+
+            if (fhirConfig != null) {
+                result = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, false);
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Issue loading the fhir configuration - assuming " + FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM
+                + " is false", e);
+        }
+
+        return result;
+    }
+
+    /**
      * @param lenient
      *                Whether to ignore unknown or unsupported parameter
      * @return
@@ -1295,9 +1324,20 @@ public class SearchUtil {
             // The inclusion criteria are represented as a chain of parameters, each with a value of the
             // compartmentLogicalId.
             // The query parsers will OR these parameters to achieve the compartment search.
-            List<String> inclusionCriteria =
-                    CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
-                            resourceType.getSimpleName());
+            List<String> inclusionCriteria;
+
+            if (useStoredCompartmentParam()) {
+                // issue #1708. When enabled, use the ibm-internal-... compartment parameter. This
+                // results in faster queries because only a single parameter is used to represent the
+                // compartment membership.
+                inclusionCriteria = Collections.singletonList(CompartmentUtil.makeCompartmentParamName(compartmentName));
+            } else {
+                // pre #1708 behavior, which is the default
+                inclusionCriteria =
+                        CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
+                                resourceType.getSimpleName());
+            }
+
             for (String criteria : inclusionCriteria) {
                 parameter = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
                 value     = new QueryParameterValue();
