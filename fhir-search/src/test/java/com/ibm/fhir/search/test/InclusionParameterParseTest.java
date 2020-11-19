@@ -34,7 +34,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * This TestNG test class contains methods that test the parsing of search result inclusion parameters (_include and
  * _revinclude) in the SearchUtil class.
- * 
+ *
  * @author markd
  * @author pbastide
  *
@@ -46,8 +46,33 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("xxx"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
+    }
+
+    @Test
+    public void testIncludeInvalidSyntax_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+        String validQueryString = "&_include=Patient:organization";
+        String invalidQueryString = "&_include=xxx";
+
+        // In lenient mode, the invalid parameter should be ignored
+        queryParameters.put("_include", Collections.singletonList("xxx"));
+        queryParameters.put("_include", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasIncludeParameters());
+        assertEquals(1, searchContext.getIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -55,6 +80,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_sort", Collections.singletonList("birthDate"));
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
@@ -65,17 +91,33 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Resource> resourceType = Resource.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("Resource:xxx"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
 
-    @Test(expectedExceptions = FHIRSearchException.class)
+    @Test
     public void testIncludeInvalidJoinResourceTypeLenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
+        String validQueryString = "&_include=Patient:organization";
+        String invalidQueryString = "&_include=MedicationOrder:patient";
 
+        // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("MedicationOrder:patient"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        queryParameters.put("_include", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasIncludeParameters());
+        assertEquals(1, searchContext.getIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -83,26 +125,33 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("MedicationOrder:patient"));
-        // inherently applies true
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
-        System.out.println(searchContext);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
     @Test
     public void testIncludeUnknownParameterName_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
-        String queryString = "&_include=Patient:bogus";
+        String validQueryString = "&_include=Patient:organization";
+        String invalidQueryString = "&_include=Patient:bogus";
 
-        // In lenient mode, the unknown parameter should be ignored
+        // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("Patient:bogus"));
+        queryParameters.put("_include", Collections.singletonList("Patient:organization"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(searchContext);
-        assertFalse(searchContext.hasIncludeParameters());
+        assertTrue(searchContext.hasIncludeParameters());
+        assertEquals(1, searchContext.getIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
-        assertFalse(selfUri.contains(queryString));
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -115,11 +164,36 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
+    @Test
+    public void testIncludeInvalidParameterType_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+        String validQueryString = "&_include=Patient:organization";
+        String invalidQueryString = "&_include=Patient:active";
+
+        // In lenient mode, the invalid parameter should be ignored
+        queryParameters.put("_include", Collections.singletonList("Patient:active"));
+        queryParameters.put("_include", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasIncludeParameters());
+        assertEquals(1, searchContext.getIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
+    }
+
     @Test(expectedExceptions = FHIRSearchException.class)
     public void testIncludeInvalidParameterType() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("Patient:active"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
@@ -173,11 +247,36 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertTrue(selfUri.contains(queryString));
     }
 
+    @Test
+    public void testIncludeInvalidTargetType_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+        String validQueryString = "&_include=Patient:organization";
+        String invalidQueryString = "&_include=Patient:careprovider:Contract";
+
+        // In lenient mode, the invalid parameter should be ignored
+        queryParameters.put("_include", Collections.singletonList("Patient:careprovider:Contract"));
+        queryParameters.put("_include", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasIncludeParameters());
+        assertEquals(1, searchContext.getIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
+    }
+
     @Test(expectedExceptions = FHIRSearchException.class)
     public void testIncludeInvalidTargetType() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("Patient:careprovider:Contract"));
         System.out.println(SearchUtil.parseQueryParameters(resourceType, queryParameters, false));
     }
@@ -207,29 +306,96 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertTrue(selfUri.contains(queryString));
     }
 
+    @Test
+    public void testRevIncludeInvalidJoinResourceType_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Organization> resourceType = Organization.class;
+        String validQueryString = "&_revinclude=Patient:organization:Organization";
+        String invalidQueryString = "&_revinclude=Invalid:general-practitioner";
+
+        // In lenient mode, the invalid parameter should be ignored
+        queryParameters.put("_revinclude", Collections.singletonList("Invalid:general-practitioner"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasRevIncludeParameters());
+        assertEquals(1, searchContext.getRevIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getRevIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
+    }
+
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testRevIncludeInvalidJoinResourceType() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        // In strict mode, the query should throw a FHIRSearchException
+        queryParameters.put("_revinclude", Collections.singletonList("Invalid:general-practitioner"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+    }
+
+    @Test
+    public void testRevIncludeInvalidTargetType_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Organization> resourceType = Organization.class;
+        String validQueryString = "&_revinclude=Patient:organization:Organization";
+        String invalidQueryString = "&_revinclude=Patient:general-practitioner:Practitioner";
+
+        // In lenient mode, the invalid parameter should be ignored
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:general-practitioner:Practitioner"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasRevIncludeParameters());
+        assertEquals(1, searchContext.getRevIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getRevIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
+    }
+
     @Test(expectedExceptions = FHIRSearchException.class)
     public void testRevIncludeInvalidTargetType() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Organization> resourceType = Organization.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_revinclude", Collections.singletonList("Patient:general-practitioner:Practitioner"));
-        System.out.println(SearchUtil.parseQueryParameters(resourceType, queryParameters));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test
     public void testRevIncludeUnknownParameterName_lenient() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Organization> resourceType = Organization.class;
-        String queryString = "&_revinclude=Patient:bogus";
+        String validQueryString = "&_revinclude=Patient:organization:Organization";
+        String invalidQueryString = "&_revinclude=Patient:bogus";
 
-        // In lenient mode, the unknown parameter should be ignored
+        // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_revinclude", Collections.singletonList("Patient:bogus"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(searchContext);
-        assertFalse(searchContext.hasIncludeParameters());
+        assertTrue(searchContext.hasRevIncludeParameters());
+        assertEquals(1, searchContext.getRevIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getRevIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
-        assertFalse(selfUri.contains(queryString));
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -239,6 +405,40 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_revinclude", Collections.singletonList("Patient:bogus"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+    }
+
+    @Test
+    public void testRevIncludeInvalidParameterType_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Organization> resourceType = Organization.class;
+        String validQueryString = "&_revinclude=Patient:organization:Organization";
+        String invalidQueryString = "&_revinclude=Patient:active";
+
+        // In lenient mode, the invalid parameter should be ignored
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:active"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+        assertTrue(searchContext.hasRevIncludeParameters());
+        assertEquals(1, searchContext.getRevIncludeParameters().size());
+        InclusionParameter incParm = searchContext.getRevIncludeParameters().get(0);
+        assertEquals("Patient", incParm.getJoinResourceType());
+        assertEquals("organization", incParm.getSearchParameter());
+        assertEquals("Organization", incParm.getSearchParameterTargetType());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(validQueryString));
+        assertFalse(selfUri.contains(invalidQueryString));
+    }
+
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testRevIncludeInvalidParameterType() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Organization> resourceType = Organization.class;
+
+        // In strict mode, the query should throw a FHIRSearchException
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:active"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
@@ -292,6 +492,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Organization> resourceType = Organization.class;
 
+        // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_revinclude", Collections.singletonList("Patient:link"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
@@ -335,7 +536,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
-        
+
         assertTrue(selfUri.contains(include3));
         assertTrue(selfUri.contains(include4));
     }
@@ -603,19 +804,19 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
 
         assertNotNull(searchContext);
-        
+
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(expectedIncludeParms.size(), searchContext.getIncludeParameters().size());
         for (InclusionParameter includeParm : expectedIncludeParms) {
             assertTrue(expectedIncludeParms.contains(includeParm));
         }
-        
+
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(expectedRevIncludeParms.size(), searchContext.getRevIncludeParameters().size());
         for (InclusionParameter includeParm : expectedRevIncludeParms) {
             assertTrue(expectedRevIncludeParms.contains(includeParm));
         }
-        
+
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
