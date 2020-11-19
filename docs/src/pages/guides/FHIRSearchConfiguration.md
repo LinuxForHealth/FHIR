@@ -13,7 +13,7 @@ Specifically, the IBM FHIR Server supports searching on additional fields, inclu
 * fields that are defined in the base specification, which are not configured for search; and
 * extension elements that a tenant may add to a standard FHIR resource type
 
-The IBM FHIR Server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant to share an instance of the FHIR server while maintaining the ability to have their own set of search parameters. Additionally, specificatin-defined search parameters can be filtered out in order to avoid the cost of extracting and storing the corresponding indices.
+The IBM FHIR Server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant to share an instance of the FHIR server while maintaining the ability to have their own set of search parameters. Additionally, specification-defined search parameters can be filtered out in order to avoid the cost of extracting and storing the corresponding indices.
 
 Tenant search parameters are defined via a [Bundle](https://www.hl7.org/fhir/r4/bundle.html) of [SearchParameter](https://www.hl7.org/fhir/r4/searchparameter.html) resources that define the additional search parameters which describe the searchable field and define the FHIRPath expression for extraction.  \For example, a tenant that extends the `Patient` resource type with the `favorite-color` extension, enables search on `favorite-color` by defining a SearchParameter as part of this bundle.
 
