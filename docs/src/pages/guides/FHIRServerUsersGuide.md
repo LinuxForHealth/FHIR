@@ -960,6 +960,8 @@ It is also possible to configure a set of profiles, one or more of which a resou
  * Validate that all profiles specified in the resource's `meta.profile` element are supported by the FHIR server
  * Validate that the resource's data conforms to all profiles specified in the resource's `meta.profile` element
 
+If a profile in the list specified by the configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the list specified by the configuration parameter does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
+
 If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation. 
 
 The IBM FHIR Server pre-packages all conformance resources from the core specification.

@@ -2705,6 +2705,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     private List<Issue>  validateResource(Resource resource) throws FHIRValidationException {
         List<String> profiles = null;
+        List<String> profilesWithoutVersion = null;
 
         // Retrieve the profile configuration
         try {
@@ -2729,6 +2730,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Required profile list: " + profiles);
             }
+
+            // Build the list of profiles that didn't specify a version
+            if (profiles != null && !profiles.isEmpty()) {
+                profilesWithoutVersion = new ArrayList<>();
+                for (String profile : profiles) {
+                    if (!profile.contains("|")) {
+                        profilesWithoutVersion.add(profile);
+                    }
+                }
+            }
         } catch (Exception e) {
             return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.UNKNOWN,
                 "Error retrieving profile configuration."));
@@ -2745,14 +2756,28 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Check if a profile is required but none specified
             if (resourceAssertedProfiles.isEmpty()) {
-                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.REQUIRED,
-                    "A profile is required but no profile was specified."));
+                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
+                    "A required profile was not specified. Resources of type '" +
+                            resource.getClass().getSimpleName() +
+                            "' must declare conformance to at least one of the following profiles: " +
+                            profiles));
             }
 
-            // Check if at least one asserted profile is in list of required profiles
+            // Check if at least one asserted profile is in list of required profiles.
+            // If a required profile specifies a version, an asserted profile must be an exact match.
+            // If a required profile does not specify a version, any asserted profile of the same name
+            // will be a match regardless if it specifies a version or not.
             boolean validProfileFound = false;
             for (String resourceAssertedProfile : resourceAssertedProfiles) {
-                if (profiles.contains(resourceAssertedProfile)) {
+                // Check if asserted profile contains a version
+                String strippedAssertedProfile = null;
+                int index = resourceAssertedProfile.indexOf("|");
+                if (index != -1) {
+                    strippedAssertedProfile = resourceAssertedProfile.substring(0, index);
+                }
+
+                // Look for exact match or match after stripping version from asserted profile
+                if (profiles.contains(resourceAssertedProfile) || profilesWithoutVersion.contains(strippedAssertedProfile)) {
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Valid asserted profile found: '" + resourceAssertedProfile + "'");
                     }
@@ -2761,8 +2786,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
             if (!validProfileFound) {
-                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.INVALID,
-                    "A required profile was not specified."));
+                return Collections.singletonList(buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.BUSINESS_RULE,
+                    "A required profile was not specified. Resources of type '" +
+                            resource.getClass().getSimpleName() +
+                            "' must declare conformance to at least one of the following profiles: " +
+                            profiles));
             }
 
             // Check if asserted profiles are supported
