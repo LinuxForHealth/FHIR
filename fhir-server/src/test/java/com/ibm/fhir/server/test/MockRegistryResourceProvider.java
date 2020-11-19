@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -153,7 +154,7 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
      */
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -164,7 +165,7 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
      */
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources() {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -177,7 +178,7 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
      */
     @Override
     public Collection<FHIRRegistryResource> getProfileResources(String type) {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -191,6 +192,17 @@ public class MockRegistryResourceProvider implements FHIRRegistryResourceProvide
      */
     @Override
     public Collection<FHIRRegistryResource> getSearchParameterResources(String type) {
-        return null;
+        return Collections.emptyList();
     }
+
+    /**
+     * Get the profiles for all of the resources.
+     *
+     * @return
+     *  the profile resources from this provider that constrain the resource types
+     */
+    @Override
+    public Collection<FHIRRegistryResource> getProfileResources() {
+        return Collections.emptyList();
+    };
 }
