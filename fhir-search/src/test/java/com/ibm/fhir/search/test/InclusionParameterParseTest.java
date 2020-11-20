@@ -35,9 +35,6 @@ import com.ibm.fhir.search.util.SearchUtil;
  * This TestNG test class contains methods that test the parsing of search result inclusion parameters (_include and
  * _revinclude) in the SearchUtil class.
  *
- * @author markd
- * @author pbastide
- *
  */
 public class InclusionParameterParseTest extends BaseSearchTest {
 
