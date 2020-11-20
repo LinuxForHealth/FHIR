@@ -706,14 +706,8 @@ public class SearchUtil {
                         if (ModelSupport.isResourceType(resType)) {
                             resourceTypes.add(resType);
                         } else {
-                            String msg = "_type search parameter has invalid resource type:" + resType;
-                            if (lenient) {
-                                // TODO add this to the list of supplemental warnings?
-                                log.log(Level.FINE, msg);
-                                continue;
-                            } else {
-                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                            }
+                            manageException("_type search parameter has invalid resource type:" + resType, lenient);
+                            continue;
                         }
                     }
                 }
@@ -1913,7 +1907,8 @@ public class SearchUtil {
             // Parse value into 3 parts: joinResourceType, searchParameterName, searchParameterTargetType
             inclusionValueParts = inclusionValue.split(":");
             if (inclusionValueParts.length < 2) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException("A value for _include or _revinclude must have at least 2 parts separated by a colon.");
+                manageException("A value for _include or _revinclude must have at least 2 parts separated by a colon.", lenient);
+                continue;
             }
             joinResourceType = inclusionValueParts[0];
             searchParameterName = inclusionValueParts[1];
@@ -1923,28 +1918,37 @@ public class SearchUtil {
 
                 // For _include parameter, join resource type must match resource type being searched
                 if (!joinResourceType.equals(resourceType.getSimpleName())) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            "The join resource type must match the resource type being searched.");
+                    manageException("The join resource type must match the resource type being searched.", lenient);
+                    continue;
                 }
 
                 // Check allowed _include values
                 if (allowedIncludes != null && !allowedIncludes.contains(inclusionValue)) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException("'" + inclusionValue
-                            + "' is not a valid _include parameter value for resource type '" + resourceType.getSimpleName() + "'");
+                    manageException("'" + inclusionValue + "' is not a valid _include parameter value for resource type '"
+                            + resourceType.getSimpleName() + "'", lenient);
+                    continue;
                 }
             }
 
             if (SearchConstants.REVINCLUDE.equals(inclusionKeyword)) {
 
+                // For _revinclude parameter, join resource type must be valid resource type
+                if (!ModelSupport.isResourceType(joinResourceType)) {
+                    manageException("'" + joinResourceType + "' is not a valid resource type.", lenient);
+                    continue;
+                }
+
                 // For _revinclude parameter, target resource type, if specified, must match resource type being searched
                 if (searchParameterTargetType != null && !searchParameterTargetType.equals(resourceType.getSimpleName())) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException("The search parameter target type must match the resource type being searched.");
+                    manageException("The search parameter target type must match the resource type being searched.", lenient);
+                    continue;
                 }
 
                 // Check allowed _revinclude values
                 if (allowedRevIncludes != null && !allowedRevIncludes.contains(inclusionValue)) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException("'" + inclusionValue
-                            + "' is not a valid _revinclude parameter value for resource type '" + resourceType.getSimpleName() + "'");
+                    manageException("'" + inclusionValue + "' is not a valid _revinclude parameter value for resource type '"
+                            + resourceType.getSimpleName() + "'", lenient);
+                    continue;
                 }
             }
 
@@ -1958,29 +1962,34 @@ public class SearchUtil {
             } else {
                 searchParm = getSearchParameter(joinResourceType, searchParameterName);
                 if (searchParm == null) {
-                    String msg = "Undefined Inclusion Parameter: " + inclusionValue;
-                    if (lenient) {
-                        log.fine(msg);
-                        continue;
-                    } else {
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
-                    }
+                    manageException("Undefined Inclusion Parameter: " + inclusionValue, lenient);
+                    continue;
                 }
                 if (!SearchParamType.REFERENCE.equals(searchParm.getType())) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException("Inclusion Parameter must be of type 'reference'. "
-                            + "The passed Inclusion Parameter is of type: '" + searchParm.getType().getValue() + "'");
+                    manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type: '"
+                            + searchParm.getType().getValue() + "'" + inclusionValue, lenient);
+                    continue;
                 }
                 searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
             }
-            for (Map.Entry<String, SearchParameter> entry : searchParametersMap.entrySet()) {
-                if (inclusionKeyword.equals(SearchConstants.INCLUDE)) {
-                    newInclusionParms =
-                            buildIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
-                    context.getIncludeParameters().addAll(newInclusionParms);
+            try {
+                for (Map.Entry<String, SearchParameter> entry : searchParametersMap.entrySet()) {
+                    if (inclusionKeyword.equals(SearchConstants.INCLUDE)) {
+                        newInclusionParms =
+                                buildIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
+                        context.getIncludeParameters().addAll(newInclusionParms);
+                    } else {
+                        newInclusionParm =
+                                buildRevIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
+                        context.getRevIncludeParameters().add(newInclusionParm);
+                    }
+                }
+            } catch (FHIRSearchException e) {
+                if (lenient) {
+                    log.fine(e.getMessage());
+                    continue;
                 } else {
-                    newInclusionParm =
-                            buildRevIncludeParameter(resourceType, joinResourceType, entry.getValue(), entry.getKey(), searchParameterTargetType);
-                    context.getRevIncludeParameters().add(newInclusionParm);
+                    throw e;
                 }
             }
         }
@@ -2136,14 +2145,8 @@ public class SearchUtil {
                     throw SearchExceptionUtil.buildNewInvalidSearchException("Invalid element name: " + elementName);
                 }
                 if (!resourceFieldNames.contains(elementName)) {
-                    if (lenient) {
-                        // TODO add this to the list of supplemental warnings?
-                        log.fine("Skipping unknown element name: " + elementName);
-                        continue;
-                    } else {
-                        throw SearchExceptionUtil
-                                .buildNewInvalidSearchException("Unknown element name: " + elementName);
-                    }
+                    manageException("Unknown element name: " + elementName, lenient);
+                    continue;
                 }
                 context.addElementsParameter(elementName);
             }
@@ -2182,6 +2185,24 @@ public class SearchUtil {
     }
 
     /**
+     * Either throw a FHIRSearchException or log the error message, depending on if
+     * we are in strict or lenient mode.
+     *
+     * @param message
+     *          The error message.
+     * @param lenient
+     *          A flag indicating lenient or strict mode.
+     * @throws FHIRSearchException
+     */
+    private static void manageException(String message, boolean lenient) throws FHIRSearchException {
+        if (lenient) {
+            log.fine(message);
+        } else {
+            throw SearchExceptionUtil.buildNewInvalidSearchException(message);
+        }
+    }
+
+    /**
      * Extracts the parameter values defining compartment membership.
      * @param fhirResource
      * @param compartmentRefParams a map of parameter names to a set of compartment names (resource types)
@@ -2207,26 +2228,31 @@ public class SearchUtil {
                 // Ignore {def} which is used in the compartment definition where
                 // no other search parm is given (e.g. Encounter->Encounter).
                 if (!COMPARTMENT_PARM_DEF.equals(searchParm)) {
-                    String expression = SearchUtil.getSearchParameter(resourceType, searchParm).getExpression().getValue();
+                    SearchParameter sp = SearchUtil.getSearchParameter(resourceType, searchParm);
+                    if (sp != null && sp.getExpression() != null) {
+                        String expression = sp.getExpression().getValue();
 
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("searchParam = [" + resourceType + "] " + searchParm + "; expression = " + expression);
-                    }
-                    Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
-                    for (FHIRPathNode node : nodes) {
-                        Reference reference = node.asElementNode().element().as(Reference.class);
-                        ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
-                        if (rv.getType() != ReferenceType.DISPLAY_ONLY && rv.getType() != ReferenceType.INVALID) {
-                            // Check that the target resource type of the reference matches one of the
-                            // target resource types in the compartment definition.
-                            final String compartmentName = rv.getTargetResourceType();
-                            if (paramEntry.getValue().contains(compartmentName)) {
-                                // Add this reference to the set of references we're collecting for each compartment
-                                CompartmentReference cref = new CompartmentReference(searchParm, compartmentName, rv.getValue());
-                                Set<CompartmentReference> references = result.computeIfAbsent(compartmentName, k -> new HashSet<>());
-                                references.add(cref);
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine("searchParam = [" + resourceType + "] '" + searchParm + "'; expression = '" + expression + "'");
+                        }
+                        Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
+                        for (FHIRPathNode node : nodes) {
+                            Reference reference = node.asElementNode().element().as(Reference.class);
+                            ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
+                            if (rv.getType() != ReferenceType.DISPLAY_ONLY && rv.getType() != ReferenceType.INVALID) {
+                                // Check that the target resource type of the reference matches one of the
+                                // target resource types in the compartment definition.
+                                final String compartmentName = rv.getTargetResourceType();
+                                if (paramEntry.getValue().contains(compartmentName)) {
+                                    // Add this reference to the set of references we're collecting for each compartment
+                                    CompartmentReference cref = new CompartmentReference(searchParm, compartmentName, rv.getValue());
+                                    Set<CompartmentReference> references = result.computeIfAbsent(compartmentName, k -> new HashSet<>());
+                                    references.add(cref);
+                                }
                             }
                         }
+                    } else {
+                       log.warning("Compartment parameter not found: [" + resourceType + "] '" + searchParm + "'. This will stop compartment searches from working correctly.");
                     }
                 }
             }
