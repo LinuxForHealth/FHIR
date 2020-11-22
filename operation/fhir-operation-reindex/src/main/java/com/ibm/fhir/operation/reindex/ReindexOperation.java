@@ -37,8 +37,9 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
 public class ReindexOperation extends AbstractOperation {
     private static final Logger logger = Logger.getLogger(ReindexOperation.class.getName());
 
-    private static final String PARAM_TSTAMP = "_tstamp";
-    private static final String PARAM_RESOURCE_COUNT = "_resourceCount";
+    private static final String PARAM_TSTAMP = "tstamp";
+    private static final String PARAM_RESOURCE_COUNT = "resourceCount";
+    private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
 
     static final DateTimeFormatter DAY_FORMAT = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd")
@@ -73,6 +74,7 @@ public class ReindexOperation extends AbstractOperation {
         try {
             Instant tstamp = Instant.now();
             int resourceCount = 10;
+            String resourceLogicalId = null;
 
             if (parameters != null) {
                 for (Parameters.Parameter parameter : parameters.getParameter()) {
@@ -92,12 +94,14 @@ public class ReindexOperation extends AbstractOperation {
                             // assume full ISO format
                             tstamp = Instant.parse(val);
                         }
-
                     } else if (PARAM_RESOURCE_COUNT.equals(parameter.getName().getValue())) {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
                         if (val != null) {
                             resourceCount = val;
                         }
+                    } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
+                        // reindex a specific resource (useful for debug/testing)
+                        resourceLogicalId = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                     }
                 }
             }
@@ -107,7 +111,7 @@ public class ReindexOperation extends AbstractOperation {
             int totalProcessed = 0;
             int processed = 1;
             for (int i=0; i<resourceCount && processed > 0; i++) {
-                processed = resourceHelper.doReindex(operationContext, result, tstamp);
+                processed = resourceHelper.doReindex(operationContext, result, tstamp, resourceLogicalId);
                 totalProcessed += processed;
             }
 

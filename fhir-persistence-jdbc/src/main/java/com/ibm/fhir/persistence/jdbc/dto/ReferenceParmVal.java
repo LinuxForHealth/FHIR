@@ -21,9 +21,6 @@ public class ReferenceParmVal implements ExtractedParameterValue {
     // The name of the parameter (key into PARAMETER_NAMES)
     private String name;
 
-    // The reference value
-    //private String valueString;
-
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
 
@@ -44,14 +41,6 @@ public class ReferenceParmVal implements ExtractedParameterValue {
     public String getName() {
         return name;
     }
-
-//    public String getValueString() {
-//        return valueString;
-//    }
-
-//    public void setValueString(String valueString) {
-//        this.valueString = valueString;
-//    }
 
     /**
      * Get the refValue

@@ -11,6 +11,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMET
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.io.ByteArrayInputStream;
@@ -1233,28 +1234,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
-    private List<ExtractedParameterValue> extractCompartmentValues(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) throws Exception {
-
-        List<ExtractedParameterValue> result = null;
-
-        Map<String, Set<java.lang.String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(fhirResource.getClass().getSimpleName());
-
-        if (!compartmentRefParams.isEmpty()) {
-            //result = SearchUtil.extractCompartmentParameterValues(fhirResource, compartmentRefParams);
-        } else {
-            result = Collections.emptyList();
-        }
-
-        return result;
-    }
-
     /**
      * Extracts search parameters for the passed FHIR Resource.
      * @param fhirResource - Some FHIR Resource
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
      * @throws Exception
      */
-    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO)
+    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTOx)
                  throws Exception {
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -1275,14 +1261,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 // As not to inject any other special handling logic, this is a simple inline check to see if
                 // _id or _lastUpdated are used, and ignore those extracted values.
-                if(SPECIAL_HANDLING.contains(code)) {
+                if (SPECIAL_HANDLING.contains(code)) {
                     continue;
                 }
                 type = sp.getType().getValue();
                 expression = sp.getExpression().getValue();
 
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
+                    log.fine("Processing SearchParameter resource: " + fhirResource.getClass().getSimpleName() + ", code: " + code + ", type: " + type + ", expression: " + expression);
                 }
 
                 List<FHIRPathNode> values = entry.getValue();
@@ -1484,6 +1470,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, Resource fhirResource) throws FHIRSearchException {
         final String resourceType = fhirResource.getClass().getSimpleName();
+        log.fine("Processing compartment parameters for resourceType: " + resourceType);
         Map<String,Set<String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
         Map<String, Set<CompartmentReference>> compartmentMap = SearchUtil.extractCompartmentParameterValues(fhirResource, compartmentRefParams);
 
@@ -1794,7 +1781,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp)
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId)
         throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
@@ -1802,13 +1789,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         int result = 0;
 
         if (log.isLoggable(Level.FINE)) {
-            log.fine("reindex _tstamp=" + tstamp.toString());
+            log.fine("reindex tstamp=" + tstamp.toString());
         }
 
         if (tstamp.isAfter(java.time.Instant.now())) {
             // protect against setting a future timestamp, which could otherwise
             // disable the ability to reindex anything
-            throw new FHIRPersistenceException("Reindex _tstamp cannot be in the future");
+            throw new FHIRPersistenceException("Reindex tstamp cannot be in the future");
         }
 
         try (Connection connection = openConnection()) {
@@ -1817,8 +1804,27 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
             // Obtain a resource we will reindex in this request/transaction. The record is locked as part
             // of its selection, so we avoid a lot of (but not all) deadlock issues
+            Integer resourceTypeId = null;
+            String resourceType = null;
+            String logicalId = null;
+            if (resourceLogicalId != null) {
+                // Restrict reindex to a specific resource type or resource e.g. "Patient" or "Patient/abc123"
+                String[] parts = resourceLogicalId.split("/");
+                if (parts.length == 1) {
+                    // Limit to resource type
+                    resourceType = parts[0];
+                } else if (parts.length == 2) {
+                    // Limit to a single resource
+                    resourceType = parts[0];
+                    logicalId = parts[1];
+                }
+
+                // Look up the resourceTypeId for the given resourceType
+                resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
+            }
+
             long start = System.nanoTime();
-            ResourceIndexRecord rir = reindexDAO.getResourceToReindex(tstamp);
+            ResourceIndexRecord rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
             long end = System.nanoTime();
 
             if (log.isLoggable(Level.FINER)) {
@@ -1836,21 +1842,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 // Read the current resource
                 com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
-                if (existingResourceDTO != null) {
-                    List<String> elements = Collections.emptyList();
-                    Resource existingResource = this.convertResourceDTO(existingResourceDTO, Resource.class, elements);
-
-                    reindexDAO.setPersistenceContext(context);
-                    reindexDAO.updateParameters(rir.getResourceType(), this.extractSearchParameters(existingResource, existingResourceDTO), rir.getLogicalId(), rir.getLogicalResourceId());
-
-                    // Use an OperationOutcome Issue to let the caller know that some work was performed
-                    final String diag = "Processed " + rir.getResourceType() + "/" + rir.getLogicalId();
-                    operationOutcomeResult.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
-                } else {
-                    // Reasonable to assume that this resource was deleted because we can't read it
-                    final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
-                    operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
-                }
+                Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
+                reindexDAO.setPersistenceContext(context);
+                updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
             }
 
         } catch(FHIRPersistenceFKVException e) {
@@ -1884,6 +1878,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         return result;
+    }
+
+    /**
+     * Update the parameters for the resource described by the given DTO
+     * @param <T>
+     * @param rir
+     * @param resourceTypeClass
+     * @param existingResourceDTO
+     * @param reindexDAO
+     * @param operationOutcomeResult
+     * @throws Exception
+     */
+    public <T extends Resource> void updateParameters(ResourceIndexRecord rir, Class<T> resourceTypeClass, com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO,
+        ReindexResourceDAO reindexDAO, OperationOutcome.Builder operationOutcomeResult) throws Exception {
+        if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
+            List<String> elements = Collections.emptyList();
+            T existingResource = this.convertResourceDTO(existingResourceDTO, resourceTypeClass, null);
+
+            // Extract parameters from the resource payload we just read and store them, replacing
+            // the existing set
+            reindexDAO.updateParameters(rir.getResourceType(), this.extractSearchParameters(existingResource, existingResourceDTO), rir.getLogicalId(), rir.getLogicalResourceId());
+
+            // Use an OperationOutcome Issue to let the caller know that some work was performed
+            final String diag = "Processed " + rir.getResourceType() + "/" + rir.getLogicalId();
+            operationOutcomeResult.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+        } else {
+            // Reasonable to assume that this resource was deleted because we can't read it
+            final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
+            operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+        }
+
     }
 
     @Override

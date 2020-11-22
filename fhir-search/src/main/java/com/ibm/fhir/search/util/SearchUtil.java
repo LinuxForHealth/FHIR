@@ -1281,24 +1281,7 @@ public class SearchUtil {
      * @return
      */
     public static boolean useStoredCompartmentParam() {
-        boolean result = false;
-        try {
-            String tenantId = FHIRRequestContext.get().getTenantId();
-            PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
-            if (fhirConfig == null) {
-                // fall back to default config (when unit tests don't provide config for a tenant)
-                fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
-            }
-
-            if (fhirConfig != null) {
-                result = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, false);
-            }
-        } catch (Exception e) {
-            log.log(Level.WARNING, "Issue loading the fhir configuration - assuming " + FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM
-                + " is false", e);
-        }
-
-        return result;
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, false);
     }
 
     /**
@@ -2225,6 +2208,8 @@ public class SearchUtil {
             for (Map.Entry<String, Set<String>> paramEntry : compartmentRefParams.entrySet()) {
                 final String searchParm = paramEntry.getKey();
 
+                log.finest("searchParam = [" + resourceType + "] '" + searchParm + "'");
+
                 // Ignore {def} which is used in the compartment definition where
                 // no other search parm is given (e.g. Encounter->Encounter).
                 if (!COMPARTMENT_PARM_DEF.equals(searchParm)) {
@@ -2236,10 +2221,18 @@ public class SearchUtil {
                             log.fine("searchParam = [" + resourceType + "] '" + searchParm + "'; expression = '" + expression + "'");
                         }
                         Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
+
+                        if (log.isLoggable(Level.FINEST)) {
+                            log.finest("Expression [" + expression + "], parameter-code ["
+                                    + searchParm + "], size [" + nodes.size() + "]");
+                        }
+
                         for (FHIRPathNode node : nodes) {
                             Reference reference = node.asElementNode().element().as(Reference.class);
                             ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
                             if (rv.getType() != ReferenceType.DISPLAY_ONLY && rv.getType() != ReferenceType.INVALID) {
+                                log.finest("reference value = [" + rv.getTargetResourceType() + "] '" + rv.getValue() + "'");
+
                                 // Check that the target resource type of the reference matches one of the
                                 // target resource types in the compartment definition.
                                 final String compartmentName = rv.getTargetResourceType();
@@ -2258,7 +2251,7 @@ public class SearchUtil {
             }
         } catch (Exception e) {
             final String msg = "Unexpected exception extracting compartment references "
-                    + " for resource type " + resourceType;
+                    + " for resource type '" + resourceType + "'";
             log.log(Level.WARNING, msg, e);
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }

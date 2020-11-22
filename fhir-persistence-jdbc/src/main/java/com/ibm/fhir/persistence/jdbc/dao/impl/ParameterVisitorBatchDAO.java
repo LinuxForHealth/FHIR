@@ -766,7 +766,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         if (refValue.getType() == ReferenceType.DISPLAY_ONLY || refValue.getType() == ReferenceType.INVALID) {
             // protect against code regression. Invalid/improper references should be
             // filtered out already.
-            logger.warning("Invalid reference parameter type: " + resourceType + "." + rpv.getName() + " type=" + refValue.getType().name());
+            logger.warning("Invalid reference parameter type: '" + resourceType + "." + rpv.getName() + "' type=" + refValue.getType().name());
             throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
         }
 

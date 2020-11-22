@@ -135,7 +135,7 @@ public interface FHIRPersistence {
 
     /**
      * Generates a resource ID.
-     * 
+     *
      * @return resource ID
      */
     String generateResourceId();
@@ -147,7 +147,7 @@ public interface FHIRPersistence {
     default boolean isReindexSupported() {
         return false;
     }
-    
+
     /**
      * Initiates reindexing for resources not yet processed. Limits the number of resources
      * processed to resourceCount. The number processed is returned in the OperationOutcome.
@@ -158,9 +158,10 @@ public interface FHIRPersistence {
      * @param context the FHIRPersistenceContext instance associated with the current request.
      * @param operationOutcomeResult accumulate issues in this {@link Builder}
      * @param tstamp reindex any resources with an index_tstamp less than this.
+     * @param resourceLogicalId optional resourceType/logicalId value to reindex a specific resource
      * @return count of the number of resources reindexed by this call (0 or 1)
      * @throws FHIRPersistenceException
      */
-    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp)
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId)
             throws FHIRPersistenceException;
 }

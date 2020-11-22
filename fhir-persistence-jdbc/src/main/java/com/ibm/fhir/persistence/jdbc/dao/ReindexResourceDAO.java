@@ -12,20 +12,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
@@ -49,7 +44,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
-    
+
     private final ParameterDAO parameterDao;
 
     /**
@@ -93,7 +88,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     protected IDatabaseTranslator getTranslator() {
         return this.translator;
     }
-    
+
     /**
      * Pick the next resource to process resource and lock it. Specializations for different
      * databases may use different techniques to optimize locking/concurrency control
@@ -101,23 +96,50 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @return
      * @throws Exception
      */
-    protected ResourceIndexRecord getNextResource(SecureRandom random, Instant reindexTstamp) throws Exception {
+    protected ResourceIndexRecord getNextResource(SecureRandom random, Instant reindexTstamp, Integer resourceTypeId, String logicalId) throws Exception {
         ResourceIndexRecord result = null;
-        
+
         // no need to close
         Connection connection = getConnection();
         IDatabaseTranslator translator = getTranslator();
-        
+
         // Derby can only do select for update with simple queries, so we need to select first,
         // then try and lock, but we also have to try and cover the race condition which can
         // occur here, using an optimistic locking pattern
-        final String SELECT = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
-            + "    FROM logical_resources lr "
-            + "   WHERE lr.reindex_tstamp < ? "
-            + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
-            ;
-        
+        String select;
+
+        if (resourceTypeId != null && logicalId != null) {
+            // Just pick the requested resource
+            select = ""
+                    + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+                    + "    FROM logical_resources lr "
+                    + "   WHERE lr.resource_type_id = ? "
+                    + "     AND lr.logical_id = ? "
+                    + "     AND lr.reindex_tstamp < ? "
+                    ;
+
+        } else if (resourceTypeId != null) {
+            // Limit to the given resource type
+            select = ""
+                    + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+                    + "    FROM logical_resources lr "
+                    + "   WHERE lr.resource_type_id = ? "
+                    + "     AND lr.reindex_tstamp < ? "
+                    + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
+                    ;
+
+        } else if (resourceTypeId == null && logicalId == null) {
+            select = ""
+                + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+                + "    FROM logical_resources lr "
+                + "   WHERE lr.reindex_tstamp < ? "
+                + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
+                ;
+        } else {
+            // programming error
+            throw new IllegalArgumentException("logicalId specified without a resourceType");
+        }
+
         // Randomly pick an offset, but if we get no rows, reduce the range
         // until we hit 0. This will ensure we get the last few rows more
         // quickly
@@ -125,15 +147,25 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         do {
             // random offset in [0, offsetRange)
             int offset = random.nextInt(offsetRange);
-            try (PreparedStatement stmt = connection.prepareStatement(SELECT)) {
-                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
-                stmt.setInt(2, offset);
+            try (PreparedStatement stmt = connection.prepareStatement(select)) {
+                if (resourceTypeId != null && logicalId != null) {
+                    stmt.setInt(1, resourceTypeId);
+                    stmt.setString(2, logicalId);
+                    stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
+                } else if (resourceTypeId != null) {
+                    stmt.setInt(1, resourceTypeId);
+                    stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+                    stmt.setInt(3, offset);
+                } else {
+                    stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                    stmt.setInt(2, offset);
+                }
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
                 }
             } catch (SQLException x) {
-                logger.log(Level.SEVERE, SELECT, x);
+                logger.log(Level.SEVERE, select, x);
                 throw translator.translate(x);
             }
 
@@ -146,7 +178,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                         + "        reindex_txid = ? "
                         + "  WHERE logical_resource_id = ? "
                         + "    AND reindex_txid = ? "; // make sure we have the txid we selected above
-                        
+
                 try (PreparedStatement stmt = connection.prepareStatement(UPDATE)) {
                     stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
                     stmt.setLong(2, result.getTransactionId() + 1L);
@@ -170,10 +202,10 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 offsetRange /= 2;
             }
         } while (offsetRange > 0 && result == null);
-        
+
         return result;
     }
-    
+
     /**
      * Get the resource record we want to reindex. This might take a few attempts, because
      * there could be hundreds of threads all trying to do the same thing, and we may see
@@ -183,14 +215,14 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @return
      * @throws Exception
      */
-    public ResourceIndexRecord getResourceToReindex(Instant reindexTstamp) throws Exception {
+    public ResourceIndexRecord getResourceToReindex(Instant reindexTstamp, Integer resourceTypeId, String logicalId) throws Exception {
         ResourceIndexRecord result = null;
-        
+
         // no need to close
         Connection connection = getConnection();
 
         // Get a resource which needs to be reindexed
-        result = getNextResource(this.random, reindexTstamp);
+        result = getNextResource(this.random, reindexTstamp, resourceTypeId, logicalId);
 
         if (result != null) {
 
@@ -219,7 +251,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 throw translator.translate(x);
             }
         }
-        
+
         return result;
     }
 
@@ -241,7 +273,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
         final String METHODNAME = "updateParameters() for " + tablePrefix + "/" + logicalId;
         logger.entering(CLASSNAME, METHODNAME);
-        
+
         // no need to close
         Connection connection = getConnection();
 

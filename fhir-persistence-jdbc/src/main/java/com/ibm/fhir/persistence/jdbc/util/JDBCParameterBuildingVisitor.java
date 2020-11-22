@@ -618,18 +618,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             // Log the error, but skip it because we're not supposed to throw exceptions here
             log.log(Level.WARNING, "Error processing reference", x);
         }
-
-        // Make sure we process the identifier if there is one.
-//        Identifier identifier = reference.getIdentifier();
-//        if (reference.getIdentifier() != null) {
-//            TokenParmVal p = new TokenParmVal();
-//            p.setName(searchParamCode);
-//            if (identifier.getSystem() != null) {
-//                p.setValueSystem(identifier.getSystem().getValue());
-//            }
-//            p.setValueCode(identifier.getValue().getValue());
-//            result.add(p);
-//        }
         return false;
     }
 

@@ -18,7 +18,7 @@
 	"instance": false,
         "parameter": [
           {
-            "name": "_resourceCount",
+            "name": "resourceCount",
             "use": "in",
             "min": 0,
             "max": "1",
@@ -26,11 +26,19 @@
             "type": "integer"
           },
           {
-            "name": "_tstamp",
+            "name": "tstamp",
             "use": "in",
             "min": 0,
             "max": "1",
             "documentation": "Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.",
+            "type": "string"
+          },
+          {
+            "name": "resourceLogicalId",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient",
             "type": "string"
           }
         ]

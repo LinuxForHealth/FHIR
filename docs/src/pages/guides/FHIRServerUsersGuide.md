@@ -173,7 +173,7 @@ More information about multi-tenant support can be found in [Section 4.9 Multi-t
 
 ## 3.3.1 Compartment Search Performance
 
-The IBM FHIR Server now supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to the latest version and run a reindex operation. See the release notes for Release 4.5.0 for details. The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the following configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
+The IBM FHIR Server now supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server at least version 4.5.1 and run a reindex operation as described in the release notes for Release 4.5.0. The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
 
 ```
     {
@@ -186,9 +186,9 @@ The IBM FHIR Server now supports the ability to compute and store compartment me
 ```
 
 ## 3.4 Persistence layer configuration
-The IBM FHIR server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
+The IBM FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
 
-The FHIR server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
+The IBM FHIR Server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
 
 ### 3.4.1 Configuring the JDBC persistence layer
 #### 3.4.1.1 Database preparation
@@ -1864,7 +1864,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
-|`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using latest IBM FHIR Server version before this feature is enabled |
+|`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
 |`fhirServer/bulkdata/moduleName`|string| Fixed value, always set to fhir-bulkimportexport.war |
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|string|Object store bucket name |

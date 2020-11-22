@@ -116,7 +116,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, Builder operationOutcomeResult, java.time.Instant tstamp) throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
     }
 }
