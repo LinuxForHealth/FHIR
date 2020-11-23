@@ -33,6 +33,48 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 public class PostgresReindexResourceDAO extends ReindexResourceDAO {
     private static final Logger logger = Logger.getLogger(PostgresReindexResourceDAO.class.getName());
 
+    private static final String PICK_SINGLE_RESOURCE = ""
+            + "   UPDATE logical_resources "
+            + "      SET reindex_tstamp = ?,"
+            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
+            + "    WHERE logical_resource_id = ( "
+            + "       SELECT lr.logical_resource_id "
+            + "         FROM logical_resources lr "
+            + "        WHERE lr.resource_type_id = ? "
+            + "          AND lr.logical_id = ? "
+            + "          AND lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            ;
+
+    private static final String PICK_SINGLE_RESOURCE_TYPE = ""
+            + "   UPDATE logical_resources "
+            + "      SET reindex_tstamp = ?, "
+            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
+            + "    WHERE logical_resource_id = ( "
+            + "       SELECT lr.logical_resource_id "
+            + "         FROM logical_resources lr "
+            + "        WHERE lr.resource_type_id = ? "
+            + "          AND lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            ;
+
+    private static final String PICK_ANY_RESOURCE = ""
+            + "   UPDATE logical_resources "
+            + "      SET reindex_tstamp = ?,"
+            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
+            + "    WHERE logical_resource_id = ( "
+            + "       SELECT lr.logical_resource_id "
+            + "         FROM logical_resources lr "
+            + "        WHERE lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            ;
+
     /**
      * Public constructor
      * @param connection
@@ -58,15 +100,15 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
      * @param cache
      * @param rrd
      */
-    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, 
+    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
         ParameterTransactionDataImpl ptdi) {
         super(connection, translator, parameterDao, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
-    
+
     @Override
-    public ResourceIndexRecord getNextResource(SecureRandom random, Instant reindexTstamp) throws Exception {
+    public ResourceIndexRecord getNextResource(SecureRandom random, Instant reindexTstamp, Integer resourceTypeId, String logicalId) throws Exception {
         ResourceIndexRecord result = null;
-        
+
         // no need to close
         Connection connection = getConnection();
         IDatabaseTranslator translator = getTranslator();
@@ -76,33 +118,49 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
         // by existing locks. The ORDER BY is included to persuade[force] Postgres to always
         // use the index instead of switching to a full tablescan when the distribution stats
         // confuse the optimizer.
-        final String UPDATE = ""
-            + "   UPDATE logical_resources "
-            + "      SET reindex_tstamp = ?,"
-            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
-            + "    WHERE logical_resource_id = ( "
-            + "       SELECT lr.logical_resource_id "
-            + "         FROM logical_resources lr "
-            + "        WHERE lr.reindex_tstamp < ? "
-            + "     ORDER BY lr.reindex_tstamp DESC "
-            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
-            ;
-        
-        try (PreparedStatement stmt = connection.prepareStatement(UPDATE)) {
-            stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
-            stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+        final String update;
+        if (resourceTypeId != null && logicalId != null) {
+            // Limit to one resource
+            update = PICK_SINGLE_RESOURCE;
+        } else if (resourceTypeId != null) {
+            // Limit to one type of resource
+            update = PICK_SINGLE_RESOURCE_TYPE;
+        } else if (resourceTypeId == null && logicalId == null) {
+            // Pick the next resource needing to be reindexed regardless of type
+            update = PICK_ANY_RESOURCE;
+        } else {
+            // programming error
+            throw new IllegalArgumentException("logicalId specified without a resourceType");
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(update)) {
+            if (resourceTypeId != null && logicalId != null) {
+                // specific resource
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                stmt.setInt(2, resourceTypeId);
+                stmt.setString(3, logicalId);
+                stmt.setTimestamp(4, Timestamp.from(reindexTstamp));
+            } else if (resourceTypeId != null) {
+                // limit to resource type
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                stmt.setInt(2, resourceTypeId);
+                stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
+            } else {
+                // any resource type
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+            }
+
             stmt.execute();
             ResultSet rs = stmt.getResultSet();
             if (rs.next()) {
                 result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
             }
         } catch (SQLException x) {
-            logger.log(Level.SEVERE, UPDATE, x);
+            logger.log(Level.SEVERE, update, x);
             throw translator.translate(x);
         }
-        
+
         return result;
     }
-
 }

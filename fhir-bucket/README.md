@@ -377,3 +377,5 @@ java \
 ```
 
 The format of the reindex timestamp can be a date `YYYY-MM-DD` representing midnight UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.
+
+Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time. 

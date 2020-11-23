@@ -300,7 +300,7 @@ public class DummyImportExportImplTest {
             }
 
             @Override
-            public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder oob, java.time.Instant tstamp) throws Exception {
+            public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws Exception {
                 return 0;
             }
         };

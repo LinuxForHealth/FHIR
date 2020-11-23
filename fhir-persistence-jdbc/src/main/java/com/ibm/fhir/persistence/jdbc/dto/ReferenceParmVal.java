@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.dto;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.util.ReferenceValue;
 
 /**
  * DTO representing external and local reference parameters
@@ -20,11 +21,11 @@ public class ReferenceParmVal implements ExtractedParameterValue {
     // The name of the parameter (key into PARAMETER_NAMES)
     private String name;
 
-    // The reference value
-    private String valueString;
-
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
+
+    // The value of the reference after it has been processed to determine target resource type, version etc.
+    private ReferenceValue refValue;
 
     /**
      * Public constructor
@@ -41,19 +42,32 @@ public class ReferenceParmVal implements ExtractedParameterValue {
         return name;
     }
 
-    public String getValueString() {
-        return valueString;
+    /**
+     * Get the refValue
+     * @return
+     */
+    public ReferenceValue getRefValue() {
+        return this.refValue;
     }
 
-    public void setValueString(String valueString) {
-        this.valueString = valueString;
+    /**
+     * Set the refValue
+     * @param refValue
+     */
+    public void setRefValue(ReferenceValue refValue) {
+        this.refValue = refValue;
     }
 
-
+    /**
+     * Get the reference type of the parameter (the origin, not the target of the reference)
+     */
     public String getResourceType() {
         return resourceType;
     }
 
+    /**
+     * Set the reference type of the parameter (the origin, not the target of the reference)
+     */
     public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }

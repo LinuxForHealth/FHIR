@@ -57,6 +57,10 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.search.date.DateTimeHandler;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * This class is the JDBC persistence layer implementation for transforming
@@ -597,23 +601,22 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (!REFERENCE.equals(searchParamType)) {
             throw invalidComboException(searchParamType, reference);
         }
-        if (reference.getReference() != null) {
-            ReferenceParmVal p = new ReferenceParmVal();
-            p.setName(searchParamCode);
-            p.setValueString(reference.getReference().getValue());
-            result.add(p);
-        }
 
-        // Make sure we process the identifier if there is one.
-        Identifier identifier = reference.getIdentifier();
-        if (reference.getIdentifier() != null) {
-            TokenParmVal p = new TokenParmVal();
-            p.setName(searchParamCode);
-            if (identifier.getSystem() != null) {
-                p.setValueSystem(identifier.getSystem().getValue());
+        // TODO pass in the bundle if we want to support "a relative URL, which is relative to
+        // the Service Base URL, or, if processing a resource from a bundle, which is relative
+        // to the base URL implied by the Bundle.entry.fullUrl (see Resolving References in Bundles)"
+        try {
+            final String baseUrl = ReferenceUtil.getBaseUrl(null);
+            ReferenceValue refValue = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
+            if (refValue.getType() != ReferenceType.INVALID && refValue.getType() != ReferenceType.DISPLAY_ONLY) {
+                ReferenceParmVal p = new ReferenceParmVal();
+                p.setRefValue(refValue);
+                p.setName(searchParamCode);
+                result.add(p);
             }
-            p.setValueCode(identifier.getValue().getValue());
-            result.add(p);
+        } catch (FHIRSearchException x) {
+            // Log the error, but skip it because we're not supposed to throw exceptions here
+            log.log(Level.WARNING, "Error processing reference", x);
         }
         return false;
     }

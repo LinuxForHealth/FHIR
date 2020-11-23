@@ -22,8 +22,8 @@ import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Drives the $reindex custom operation in parallel. Each thread keeps running
@@ -31,30 +31,30 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
  */
 public class DriveReindexOperation {
     private static final Logger logger = Logger.getLogger(DriveReindexOperation.class.getName());
-    
+
     // the maximum number of requests we permit
     private final int maxConcurrentRequests;
 
     // flag to indicate if we should be running
     private volatile boolean running = true;
-    
+
     private volatile boolean active = false;
 
     // count of how many threads are currently running
     private AtomicInteger currentlyRunning = new AtomicInteger();
-    
+
     // thread pool for processing requests
     private final ExecutorService pool = Executors.newCachedThreadPool();
 
     private final FHIRBucketClient fhirClient;
-    
+
     private final String url = "$reindex";
-    
+
     // The serialized Parameters resource sent with each POST
     private final String requestBody;
-    
+
     private Thread monitorThread;
-    
+
     /**
      * Public constructor
      * @param client the FHIR client
@@ -65,13 +65,13 @@ public class DriveReindexOperation {
         this.maxConcurrentRequests = maxConcurrentRequests;
 
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder().name(str("_tstamp")).value(str(tstampParam)).build())
-                .parameter(Parameter.builder().name(str("_resourceCount")).value(intValue(resourceCountParam)).build())
+                .parameter(Parameter.builder().name(str("tstamp")).value(str(tstampParam)).build())
+                .parameter(Parameter.builder().name(str("resourceCount")).value(intValue(resourceCountParam)).build())
                 .build();
-        
+
         // Serialize into the requestBody string used by all the threads
         this.requestBody = FHIRBucketClientUtil.resourceToString(parameters);
-        
+
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Reindex request parameters: " + requestBody);
         }
@@ -85,7 +85,7 @@ public class DriveReindexOperation {
     private static com.ibm.fhir.model.type.String str(String str) {
         return com.ibm.fhir.model.type.String.of(str);
     }
-    
+
     private static com.ibm.fhir.model.type.Integer intValue(int val) {
         return com.ibm.fhir.model.type.Integer.of(val);
     }
@@ -97,7 +97,7 @@ public class DriveReindexOperation {
         if (!running) {
             throw new IllegalStateException("Already shutdown");
         }
-        
+
         // Initiate the monitorThread. This will fill the pool
         // with worker threads, and monitor for completion or failure
         logger.info("Starting monitor thread");
@@ -106,7 +106,7 @@ public class DriveReindexOperation {
     }
 
     /**
-     * The main monitor loop. 
+     * The main monitor loop.
      */
     public void monitorLoop() {
         while (this.running) {
@@ -121,11 +121,11 @@ public class DriveReindexOperation {
                         // should be OK now to fill the pool with workers
                         logger.info("Test probe successful - filling worker pool");
                         this.active = true;
-                        
+
                         for (int i=0; i<this.maxConcurrentRequests && this.running && this.active; i++) {
                             this.currentlyRunning.addAndGet(1);
                             pool.execute(() -> callReindexOperation());
-                            
+
                             // Slow down the ramp-up so we don't hit a new server with
                             // hundreds of requests in one go
                             safeSleep(1000);
@@ -140,7 +140,7 @@ public class DriveReindexOperation {
                     logger.info("Waiting for current threads to complete before restart: " + currentThreadCount);
                     safeSleep(5000);
                 }
-                
+
             } else { // active
                 // worker threads are active, so sleep for a bit before we check again
                 safeSleep(5000);
@@ -165,11 +165,11 @@ public class DriveReindexOperation {
      */
     public void signalStop() {
         this.running = false;
-        
+
         // make sure the pool doesn't start new work
         pool.shutdown();
     }
-    
+
     /**
      * Wait until things are stopped
      */
@@ -177,13 +177,13 @@ public class DriveReindexOperation {
         if (this.running) {
             signalStop();
         }
-        
+
         try {
             pool.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException x) {
             logger.warning("Wait for pool shutdown interrupted");
         }
-        
+
         try {
             // break any sleep inside the monitorThread
             this.monitorThread.interrupt();
@@ -205,25 +205,25 @@ public class DriveReindexOperation {
                 this.active = false;
             }
         }
-        
+
         this.currentlyRunning.decrementAndGet();
     }
-    
+
     /**
      * Make one call to the FHIR server $reindex operation
      * @return true if the call was successful (200 OK)
      */
     private boolean callOnce() {
         boolean result = false;
-        
+
         // tell the FHIR Server to reindex a number of resources
         long start = System.nanoTime();
         FhirServerResponse response = fhirClient.post(url, requestBody);
         long end = System.nanoTime();
-        
+
         double elapsed = (end - start) / 1e9;
         logger.info(String.format("called $reindex: %d %s [took %5.3f s]", response.getStatusCode(), response.getStatusMessage(), elapsed));
-        
+
         if (response.getStatusCode() == HttpStatus.SC_OK) {
             Resource resource = response.getResource();
             if (resource != null) {
@@ -243,7 +243,7 @@ public class DriveReindexOperation {
             // Stop as soon as we hit an error
             logger.severe("FHIR Server reindex operation returned an error: " + response.getStatusCode() + " " + response.getStatusMessage());
         }
-        
+
         return result;
     }
 
@@ -257,7 +257,7 @@ public class DriveReindexOperation {
             Issue one = issues.get(0);
             if ("Reindex complete".equals(one.getDiagnostics().getValue())) {
                 logger.info("Reindex - all done");
-                
+
                 // tell all the running threads they can stop now
                 this.running = false;
             }

@@ -38,7 +38,7 @@ public class NearLocationHandler {
     private static final String CLASSNAME = NearLocationHandler.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
-    // Radix for the Earth: 
+    // Radix for the Earth:
     private static final double RADIUS_MERIDIAN = 6378.137;
     private static final double RADIUS_EQUATORIAL = 6356.7523;
 
@@ -49,13 +49,13 @@ public class NearLocationHandler {
     public static final double DEFAULT_DISTANCE = 5.0;
     public static final String DEFAULT_UNIT = "km";
 
-    // Turns on the use of the bounding raidus, if it's configured. 
+    // Turns on the use of the bounding raidus, if it's configured.
     boolean boundingRadius = false;
 
     public NearLocationHandler() {
         try {
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
-            fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE,
+            this.boundingRadius = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE,
                     false);
         } catch (Exception e) {
             logger.fine("Issue loading the fhir configuration, defaulting to BoundingBox");
@@ -64,7 +64,7 @@ public class NearLocationHandler {
 
     /**
      * degrees to radians
-     * 
+     *
      * @param deg
      * @return
      */
@@ -74,7 +74,7 @@ public class NearLocationHandler {
 
     /**
      * radians to degrees
-     * 
+     *
      * @param rad
      * @return
      */
@@ -88,7 +88,7 @@ public class NearLocationHandler {
      * WGS84 format
      * [latitude]|[longitude]|[distance]|[units]
      * <br>
-     * 
+     *
      * @param latitude
      * @param longitude
      * @param distance
@@ -118,7 +118,7 @@ public class NearLocationHandler {
             double minLongitude = longitude;
             double maxLongitude = longitude;
 
-            // If distance is not zero, we're going for boxed match. 
+            // If distance is not zero, we're going for boxed match.
             if (distance != 0) {
                 // Convert to Radians to do the ARC calculation
                 // Based on https://stackoverflow.com/a/238558/1873438
@@ -127,14 +127,14 @@ public class NearLocationHandler {
                 double lonRad = degree2radians(longitude);
 
                 // build bounding box points
-                // The max/min ensures we don't loop infinitely over the pole, and are not taking silly. 
+                // The max/min ensures we don't loop infinitely over the pole, and are not taking silly.
                 // latitude parameters when calculated with the distance.
                 double latMin = latRad - distance / RADIUS_EQUATORIAL;
                 double latMax = latRad + distance / RADIUS_EQUATORIAL;
                 double lonMin = lonRad - distance / (RADIUS_MERIDIAN * Math.cos(latRad));
                 double lonMax = lonRad + distance / (RADIUS_MERIDIAN * Math.cos(latRad));
 
-                // Convert back to degrees, and minimize the box. 
+                // Convert back to degrees, and minimize the box.
                 minLatitude  = Math.max(-90, radians2degrees(latMin));
                 maxLatitude  = Math.min(90, radians2degrees(latMax));
                 minLongitude = Math.max(-180, radians2degrees(lonMin));
@@ -158,7 +158,7 @@ public class NearLocationHandler {
 
     /**
      * generates location positions for processing from parameters.
-     * 
+     *
      * @param queryParameters
      * @return
      * @throws FHIRSearchException
@@ -191,7 +191,7 @@ public class NearLocationHandler {
                     boundingAreas.add(missing);
                 } else {
                     for (QueryParameterValue value : queryParm.getValues()) {
-                        // Make sure that the prefixes are properly defined. 
+                        // Make sure that the prefixes are properly defined.
                         Prefix prefix = value.getPrefix();
                         if (prefix != null && Prefix.EQ.compareTo(prefix) != 0) {
                             throw new FHIRSearchException(
@@ -209,7 +209,7 @@ public class NearLocationHandler {
                             String[] components =
                                     value.getValueString().split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
 
-                            // If less than 2, it's going to generate an NPE (caught in the outer exception). 
+                            // If less than 2, it's going to generate an NPE (caught in the outer exception).
                             latitude  = Double.parseDouble(components[0]);
                             longitude = Double.parseDouble(components[1]);
 
@@ -218,7 +218,7 @@ public class NearLocationHandler {
                                 distance = Double.parseDouble(components[2]);
                             }
 
-                            // The user has set the units value. 
+                            // The user has set the units value.
                             if (components.length >= 3) {
                                 unit = components[3];
                             }
@@ -250,7 +250,7 @@ public class NearLocationHandler {
 
     /**
      * create bounding radius.
-     * 
+     *
      * @param latitude
      * @param longitude
      * @param distance
@@ -291,7 +291,7 @@ public class NearLocationHandler {
 
     /**
      * overrides the bounding functionality.
-     * 
+     *
      * @param boundingRadius
      */
     public void setBounding(boolean boundingRadius) {

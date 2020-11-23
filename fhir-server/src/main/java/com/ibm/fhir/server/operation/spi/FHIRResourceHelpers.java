@@ -246,8 +246,9 @@ public interface FHIRResourceHelpers {
      * @param operationContext
      * @param operationOutcomeResult
      * @param tstamp
+     * @param resourceLogicalId a reference to a resource e.g. "Patient/abc123". Can be null
      * @return number of resources reindexed (0 if no resources were found to reindex)
      * @throws Exception
      */
-    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp) throws Exception;
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
 }
