@@ -2208,8 +2208,6 @@ public class SearchUtil {
             for (Map.Entry<String, Set<String>> paramEntry : compartmentRefParams.entrySet()) {
                 final String searchParm = paramEntry.getKey();
 
-                log.finest("searchParam = [" + resourceType + "] '" + searchParm + "'");
-
                 // Ignore {def} which is used in the compartment definition where
                 // no other search parm is given (e.g. Encounter->Encounter).
                 if (!COMPARTMENT_PARM_DEF.equals(searchParm)) {
@@ -2231,7 +2229,6 @@ public class SearchUtil {
                             Reference reference = node.asElementNode().element().as(Reference.class);
                             ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
                             if (rv.getType() != ReferenceType.DISPLAY_ONLY && rv.getType() != ReferenceType.INVALID) {
-                                log.finest("reference value = [" + rv.getTargetResourceType() + "] '" + rv.getValue() + "'");
 
                                 // Check that the target resource type of the reference matches one of the
                                 // target resource types in the compartment definition.
