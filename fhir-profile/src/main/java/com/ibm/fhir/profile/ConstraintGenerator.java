@@ -643,7 +643,15 @@ public class ConstraintGenerator {
     private List<Type> getTypes(ElementDefinition elementDefinition) {
         if (elementDefinition.getContentReference() != null) {
             String contentReference = elementDefinition.getContentReference().getValue();
-            return elementDefinitionMap.get(contentReference.substring(1)).getType();
+            int index = contentReference.indexOf("#");
+            if (index == -1 || index >= contentReference.length() - 1) {
+                throw new IllegalArgumentException("Invalid content reference: " + contentReference);
+            }
+            contentReference = contentReference.substring(index + 1);
+            if (!elementDefinitionMap.containsKey(contentReference)) {
+                throw new IllegalArgumentException("Element definition not found for content reference: " + contentReference);
+            }
+            elementDefinition = elementDefinitionMap.get(contentReference);
         }
         return elementDefinition.getType();
     }
