@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
  * Index creation definition for creating new indexes after the table has been defined
@@ -25,6 +26,8 @@ public class CreateIndex extends BaseObject {
     
     // The name of the tenant column when used for multi-tenant databases
     private final String tenantColumnName;
+    
+    private final String tableName;
 
     /**
      * Protected constructor. Use the Builder to create instance.
@@ -32,8 +35,9 @@ public class CreateIndex extends BaseObject {
      * @param indexName
      * @param version
      */
-    protected CreateIndex(String schemaName, String indexName, int version, IndexDef indexDef, String tenantColumnName) {
-        super(schemaName, indexName, DatabaseObjectType.INDEX, version);
+    protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName) {
+        super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
+        this.tableName = tableName;
         this.indexDef = indexDef;
         this.tenantColumnName = tenantColumnName;
     }
@@ -46,10 +50,43 @@ public class CreateIndex extends BaseObject {
         return new Builder();
     }
     
+    /**
+     * Build a CreateIndexStatement from this CreateIndex object
+     * @return
+     */
+    public CreateIndexStatement createStatement() {
+        return indexDef.createStatement(getSchemaName(), this.tableName, this.tenantColumnName);
+    }
+    
+
+    /**
+     * Get the name of the table this index is built on
+     * @return
+     */
+    public String getTableName() {
+        return this.tableName;
+    }
+    
+    @Override
+    public String getTypeNameVersion() {
+        // for cases where this CreateIndex object is defined standalone (as opposed to
+        // being defined inside a Table definition), we need to make sure it gets a
+        // unique name for the task collector. Note that the index name needs to be
+        // unique, so we don't need to qualify with the table name.
+        StringBuilder result = new StringBuilder();
+        result.append(getObjectType().name());
+        result.append(":");
+        result.append(getQualifiedName());
+        result.append(":");
+        result.append(this.version);
+        return result.toString();
+    }
+
+    
     @Override
     public void apply(IDatabaseAdapter target) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getObjectName(), tenantColumnName, target);
+        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -106,10 +143,13 @@ public class CreateIndex extends BaseObject {
         private int version;
         
         // The list of columns to index
-        private final List<String> indexCols = new ArrayList<>();
+        private final List<OrderedColumnDef> indexCols = new ArrayList<>();
         
         // Is this a unique index?
         private boolean unique;
+        
+        // Special case to handle a previous defect where indexes were tracked using tableName in version_history
+        private String versionTrackingName;
 
         
         /**
@@ -138,6 +178,11 @@ public class CreateIndex extends BaseObject {
             return this;
         }
         
+        public Builder setVersionTrackingName(String name) {
+            this.versionTrackingName = name;
+            return this;
+        }
+        
         /**
          * @param version the version to set
          */
@@ -161,7 +206,20 @@ public class CreateIndex extends BaseObject {
          * @return
          */
         public Builder addColumn(String column) {
-            this.indexCols.add(column);
+            this.indexCols.add(new OrderedColumnDef(column, null, null));
+            return this;
+        }
+
+        /**
+         * Add the named column to the index, with specific order and null value
+         * collation rules
+         * @param column
+         * @param direction
+         * @param nullOrder
+         * @return
+         */
+        public Builder addColumn(String column, OrderedColumnDef.Direction direction, OrderedColumnDef.NullOrder nullOrder) {
+            this.indexCols.add(new OrderedColumnDef(column, direction, nullOrder));
             return this;
         }
 
@@ -173,7 +231,12 @@ public class CreateIndex extends BaseObject {
             if (this.indexCols.isEmpty()) {
                 throw new IllegalStateException("no index columns defined for index '" + indexName + "'");
             }
-            return new CreateIndex(schemaName, tableName, version,
+            
+            String versionTrackingName = this.versionTrackingName;
+            if (versionTrackingName == null) {
+                versionTrackingName = this.indexName;
+            }
+            return new CreateIndex(schemaName, versionTrackingName, tableName, version,
                 new IndexDef(indexName, indexCols, unique), tenantColumnName);
         }
         

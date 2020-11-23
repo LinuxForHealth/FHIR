@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -154,6 +155,7 @@ public class PlanDefinition extends DomainResource {
     private final PublicationStatus status;
     @Summary
     private final Boolean experimental;
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -238,6 +240,7 @@ public class PlanDefinition extends DomainResource {
         library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1172,6 +1175,11 @@ public class PlanDefinition extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
          * </ul>
          * 
          * @param subject
@@ -2644,6 +2652,7 @@ public class PlanDefinition extends DomainResource {
         private final List<CodeableConcept> reason;
         private final List<RelatedArtifact> documentation;
         private final List<Id> goalId;
+        @ReferenceTarget({ "Group" })
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubjectType",
@@ -2739,6 +2748,7 @@ public class PlanDefinition extends DomainResource {
             transform = builder.transform;
             dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
             action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+            ValidationSupport.checkReferenceType(subject, "subject", "Group");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3542,6 +3552,11 @@ public class PlanDefinition extends DomainResource {
              * <ul>
              * <li>{@link CodeableConcept}</li>
              * <li>{@link Reference}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Group}</li>
              * </ul>
              * 
              * @param subject

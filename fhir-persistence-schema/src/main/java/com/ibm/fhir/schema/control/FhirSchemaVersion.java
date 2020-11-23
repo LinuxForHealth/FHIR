@@ -20,6 +20,7 @@ public enum FhirSchemaVersion {
     ,V0003(3, "issue-1263 fhir_ref_sequence start with 20000")
     ,V0004(4, "row_id sequence cache 20 to 1000")
     ,V0005(5, "issue-1331 add index for resource.last_updated")
+    ,V0006(6, "issue-1366 normalized schema for storing resource references")
     ;
     
     // The version number recorded in the VERSION_HISTORY

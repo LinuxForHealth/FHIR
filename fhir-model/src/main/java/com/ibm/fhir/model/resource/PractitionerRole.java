@@ -81,13 +81,16 @@ public class PractitionerRole extends DomainResource {
     )
     private final List<CodeableConcept> specialty;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final List<Reference> location;
+    @ReferenceTarget({ "HealthcareService" })
     private final List<Reference> healthcareService;
     @Summary
     private final List<ContactPoint> telecom;
     private final List<AvailableTime> availableTime;
     private final List<NotAvailable> notAvailable;
     private final String availabilityExceptions;
+    @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
     private volatile int hashCode;
@@ -110,6 +113,9 @@ public class PractitionerRole extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
         ValidationSupport.checkReferenceType(practitioner, "practitioner", "Practitioner");
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
+        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.requireChildren(this);
     }
 
@@ -772,6 +778,11 @@ public class PractitionerRole extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     The location(s) at which this practitioner provides care
          * 
@@ -790,6 +801,11 @@ public class PractitionerRole extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     The location(s) at which this practitioner provides care
          * 
@@ -805,6 +821,11 @@ public class PractitionerRole extends DomainResource {
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param healthcareService
          *     The list of healthcare services that this worker provides for this role's Organization/Location(s)
@@ -823,6 +844,11 @@ public class PractitionerRole extends DomainResource {
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param healthcareService
          *     The list of healthcare services that this worker provides for this role's Organization/Location(s)
@@ -957,6 +983,11 @@ public class PractitionerRole extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
+         * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the practitioner with this role
          * 
@@ -974,6 +1005,11 @@ public class PractitionerRole extends DomainResource {
          * Technical endpoints providing access to services operated for the practitioner with this role.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Endpoint}</li>
+         * </ul>
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the practitioner with this role

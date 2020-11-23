@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -95,6 +96,30 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
         assertSearchReturnsSavedResource("missing-code:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-code:missing", "false");
+    }
+
+    @Test
+    public void testSearchToken_code_missing_boolean() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("code:missing", Collections.singletonList("false"));
+        queryParms.put("boolean", Collections.singletonList("true"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("code:missing", Collections.singletonList("true"));
+        queryParms.put("boolean", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+    }
+
+    @Test
+    public void testSearchToken_code_missing_boolean_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("code:missing", Collections.singletonList("false"));
+        queryParms.put("boolean:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("code:missing", Collections.singletonList("false"));
+        queryParms.put("boolean:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     @Test

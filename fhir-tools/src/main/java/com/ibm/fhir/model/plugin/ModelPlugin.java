@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,27 +25,29 @@ import com.ibm.fhir.model.plugin.generator.ModelGenerator;
 
 /**
  * This class coordinates the calls to the fhir-tool plugin
- * 
+ *
  * The phase is initialize. To find a list of phases -
  * https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference
- * 
- * Run the following to setup the plugin: 
+ *
+ * Run the following to setup the plugin:
  * <pre>
  * mvn clean package install -f fhir-tools/pom.xml
  * </pre>
- * 
- * Run the following to create/update the classes in the fhir-model project: 
- * <pre> 
+ *
+ * Run the following to create/update the classes in the fhir-model project:
+ * <pre>
  * mvn com.ibm.fhir:fhir-tools:generate-model -f ./fhir-model/pom.xml
  * </pre>
- * 
- * @author PBastide
- * 
- * @requiresDependencyResolution runtime
  *
+ * @requiresDependencyResolution runtime
  */
 @Mojo(name = "generate-model", //$NON-NLS-1$
-        requiresProject = true, requiresDependencyResolution = ResolutionScope.RUNTIME_PLUS_SYSTEM, requiresDependencyCollection = ResolutionScope.RUNTIME_PLUS_SYSTEM, defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresOnline = false, threadSafe = false)
+        requiresProject = true,
+        requiresDependencyResolution = ResolutionScope.RUNTIME_PLUS_SYSTEM,
+        requiresDependencyCollection = ResolutionScope.RUNTIME_PLUS_SYSTEM,
+        defaultPhase = LifecyclePhase.GENERATE_SOURCES,
+        requiresOnline = false,
+        threadSafe = false)
 @Execute(phase = LifecyclePhase.GENERATE_SOURCES)
 public class ModelPlugin extends AbstractMojo {
 

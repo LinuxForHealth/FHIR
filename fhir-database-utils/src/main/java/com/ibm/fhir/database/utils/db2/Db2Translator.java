@@ -258,4 +258,15 @@ public class Db2Translator implements IDatabaseTranslator {
     public String currentTimestampString() {
         return "CURRENT TIMESTAMP";
     }
+    
+    @Override
+    public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
+        return "ALTER TABLE " + qualifiedTableName + " DROP FOREIGN KEY " + constraintName;
+    }
+
+    @Override
+    public String nextValue(String schemaName, String sequenceName) {
+        String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "NEXT VALUE FOR " + qname;
+    }
 }

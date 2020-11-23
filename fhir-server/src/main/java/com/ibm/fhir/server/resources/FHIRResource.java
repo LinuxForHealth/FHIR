@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -54,9 +55,12 @@ import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * The base class for JAX-RS "Resource" classes which implement the FHIR HTTP API
  */
+@NotThreadSafe
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
@@ -77,7 +81,7 @@ public class FHIRResource {
     private FHIRPersistence persistence = null;
 
     @Context
-    private ServletContext context;
+    protected ServletContext context;
 
     @Context
     protected HttpServletRequest httpServletRequest;
@@ -298,7 +302,7 @@ public class FHIRResource {
     /**
      * Retrieves the shared persistence helper object from the servlet context.
      */
-    private synchronized PersistenceHelper getPersistenceHelper() {
+    private PersistenceHelper getPersistenceHelper() {
         if (persistenceHelper == null) {
             persistenceHelper =
                     (PersistenceHelper) context.getAttribute(FHIRPersistenceHelper.class.getName());
@@ -314,7 +318,7 @@ public class FHIRResource {
      * Retrieves the persistence implementation to use for the current request.
      * @see {@link PersistenceHelper#getFHIRPersistenceImplementation()}
      */
-    protected synchronized FHIRPersistence getPersistenceImpl() throws FHIRPersistenceException {
+    protected FHIRPersistence getPersistenceImpl() throws FHIRPersistenceException {
         if (persistence == null) {
             persistence = getPersistenceHelper().getFHIRPersistenceImplementation();
             if (log.isLoggable(Level.FINE)) {
@@ -329,7 +333,7 @@ public class FHIRResource {
     }
 
     protected Boolean isUpdateCreateEnabled() {
-        return fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
+        return FHIRConfigHelper.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
     }
 
     /**

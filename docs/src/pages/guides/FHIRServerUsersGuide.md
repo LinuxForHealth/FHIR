@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-10-12"
+lastupdated: "2020-11-11"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -11,6 +11,7 @@ permalink: /FHIRServerUsersGuide/
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
+  * [2.3 Docker](#23-docker)
 - [3 Configuration](#3-configuration)
   * [3.1 Encoded passwords](#31-encoded-passwords)
   * [3.2 Property names](#32-property-names)
@@ -44,7 +45,7 @@ This FHIR server is intended to be a common component for providing FHIR capabil
 ## 2.1 Installing a new server
 0.  Prereqs: The IBM FHIR Server requires Java 8 or higher and has been tested with OpenJDK 8, OpenJDK 11, and the IBM SDK, Java Technology Edition, Version 8. To install Java on your system, we recommend downloading and installing OpenJDK 8 from https://adoptopenjdk.net/.
 
-1.  To install the FHIR server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
+1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
@@ -54,18 +55,20 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
         unzip fhir-server-distribution.zip
     ```
 
-3.  Determine an install location for the OpenLiberty server and the FHIR server webapp. Example:  `/opt/ibm/fhir-server`
+3.  Determine an install location for the OpenLiberty server and the IBM FHIR Server webapp. Example:  `/opt/ibm/fhir-server`
 
 4.  Run the `install.sh/.bat` script to install the server:
     ```
         ./fhir-server-dist/install.sh /opt/ibm/fhir-server
     ```
-    This step installs the OpenLiberty runtime and the FHIR server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
+    This step installs the OpenLiberty runtime and the IBM FHIR Server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
 
 5.  Configure the fhir-server's `server.xml` file as needed by completing the following steps:
     * Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
-    * Configure a server keystore and truststore. The FHIR server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
+    * Configure a server keystore and truststore. The IBM FHIR Server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
     * Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
+
+    To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
 
 6.  Make sure that your selected database product is running and ready to accept requests as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. The default config will automatically bootstrap this database and so this step can be skipped. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
@@ -78,20 +81,20 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use a single-tenant Embedded Derby database. For more information, see [Section 3.4 Persistence layer configuration](#34-persistence-layer-configuration).
 
 8.  To start and stop the server, use the Liberty server command:
-    ```
+```
     <WLP_HOME>/bin/server start fhir-server
     <WLP_HOME>/bin/server stop fhir-server
-    ```
+```
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
-    ```
+```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
-    ```
+```
     where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
     Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
 
     One should see `All OK` in the response.  The preceding command should produce output similar to the following:
-    ```
+```
     {
     "resourceType": "OperationOutcome",
     "issue": [
@@ -104,14 +107,14 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
         }
     ]
     }
-    ```
+```
 
 For more information about the capabilities of the implementation, see [Conformance](https://ibm.github.io/FHIR/Conformance).
 
 ## 2.2 Upgrading an existing server
-The FHIR server does not include an upgrade installer. To upgrade a server to the next version, you can run the installer on a separate server, and then copy the resulting configuration files over to the existing server.
+The IBM FHIR Server does not include an upgrade installer. To upgrade a server to the next version, you can run the installer on a separate server, and then copy the resulting configuration files over to the existing server.
 
-To manage database updates over time, the FHIR server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database and apply any new changes that are needed to bring the database to the current level.
+To manage database updates over time, the IBM FHIR Server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database and apply any new changes that are needed to bring the database to the current level.
 
 Complete the following steps to upgrade the server:
 
@@ -121,8 +124,14 @@ Complete the following steps to upgrade the server:
 4. Run the migration program (see [Section 3.4.1.1.2 Db2](#34112-db2)).  
 5. Disable traffic to the old server and enable traffic to the new server  
 
+## 2.3 Docker
+
+The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
+
+Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
+
 # 3 Configuration
-This chapter contains information about the various ways in which the FHIR server can be configured by users.
+This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
 
 ## 3.1 Encoded passwords
 In the examples within the following sections, you'll see the default password `change-password`. In order to secure your server, these values should be changed.
@@ -137,7 +146,7 @@ The output of this command can then be copied and pasted into your `server.xml` 
 ## 3.2 Property names
 Configuration properties stored within a `fhir-server-config.json` file are structured in a hierarchical manner. Here is an example:
 
-    ```
+```
     {
         "fhirServer":{
             "core":{
@@ -145,12 +154,12 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
             }
         }
     }
-    ```
+```
 
 Throughout this document, we use a path notation to refer to property names. For example, the name of the `defaultPrettyPrint` property in the preceding example would be `fhirServer/core/defaultPrettyPrint`.
 
 ## 3.3 Tenant-specific configuration properties
-The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
+The IBM FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
 
 In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.
 
@@ -162,19 +171,34 @@ Search parameters are handled like a single configuration properly; providing a 
 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
-## 3.4 Persistence layer configuration
-The IBM FHIR server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
+## 3.3.1 Compartment Search Performance
 
-The FHIR server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
+The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/master/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/master/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
+
+```
+    {
+        "fhirServer": {
+            "search": {
+                "useStoredCompartmentParam": true
+            }
+        }
+    }
+```
+Note that this parameter only enables or disables the compartment search query optimization feature. The compartment membership values are always computed and stored during ingestion or reindexing, regardless of the setting of this value. After the reindex operation is complete, it is recommended to set `useStoredCompartmentParam` to true. No reindex is required if this value is subsequently set to false.
+
+## 3.4 Persistence layer configuration
+The IBM FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
+
+The IBM FHIR Server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup. The sections that follow in this chapter will focus on how to configure the JDBC persistence layer implementation with either Embedded Derby or Db2.
 
 ### 3.4.1 Configuring the JDBC persistence layer
 #### 3.4.1.1 Database preparation
 Before you can configure the FHIR server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use.
 
 ##### 3.4.1.1.1 Embedded Derby (default)
-If you are configuring the FHIR server to use a single embedded Derby database, then you can configure it to create the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
+If you are configuring the FHIR server to use a single embedded Derby database, then you can configure it to create (bootstrap) the database and the schema and tables during startup. To configure the FHIR server to “bootstrap” the database in this way, modify the `fhirServer/persistence/jdbc/bootstrapDb` property in `fhir-server-config.json` as in the following example:
 
-    ```
+```
     {
         "fhirServer":{
             …
@@ -188,9 +212,62 @@ If you are configuring the FHIR server to use a single embedded Derby database, 
             }
         }
     }
-    ```
+```
 
 This database bootstrap step is only performed for a Derby database.
+
+The default configuration above assumes use of the IBM FHIR Server proxy datasource. To use standard JEE datasources instead you need to explicitly disable the proxy datasource behavior and provide a base name used by the bootstrap mechanism to calculate the JNDI names.
+
+```
+    {
+        "fhirServer":{
+            "persistence": {
+                ...
+                "jdbc": {
+                    "bootstrapDb": true,
+                    "enableProxyDatasource": false,
+                    "bootstrapDataSourceBase": "jdbc/bootstrap"
+                    ...
+                },
+                "datasources": {
+                    "default": {
+                        "jndiName": "jdbc/bootstrap_default_default",
+                        "type": "derby",
+                        "currentSchema": "APP"
+                    },
+                    ...
+                }
+            }
+        }
+    }
+```
+
+Property Name | Type | Default Value | Description
+------------- | ---- | ------------- | --------------
+bootstrapDb   | Boolean | false | Bootstrap the Derby built-in databases
+enableProxyDatasource   | Boolean | true | Use IBM FHIR Server proxy datasource
+bootstrapDataSourceBase | String | | JNDI base name prefix for bootstrapped databases
+jndiName | String | | The JNDI name referencing the JEE datasource to use for the fhir-server-config datasource (required for bootstrapped Derby databases)
+
+The "jndiName" property value points to a JEE datasource which must also be configured. JEE datasources are typically defined in the Liberty Profile '.xml' files added to configDropins/overrides, for example datasource-bootstrap.xml:
+
+```
+<server>
+    <!-- ============================================================== -->
+    <!-- This datasources is used by the FHIR server Derby bootstrap  -->
+    <!-- process. We have to name them differently so they do not       -->
+    <!-- clash with other datasources which may be assigned JNDI names  -->
+    <!-- like "jdbc/fhir_default_default"                               -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirDatasourceBootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+            <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+    ...
+```
+
+When bootstrapping is enabled, four Derby databases are created to help demonstrate the IBM FHIR Server support for multiple tenants and multiple datastores per tenant.
 
 ##### 3.4.1.1.2 Db2
 If you configure the FHIR server to use an IBM Db2 database, you must:
@@ -210,7 +287,7 @@ If you configure the FHIR server to use a PostgreSQL database, you must:
 
 1. create the database if it doesn't already exist
 
-2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, stored procedures, etc)
+2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, functions, etc)
 
 An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
 
@@ -224,7 +301,7 @@ https://ibm.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-ano
 The IBM FHIR Server persistence configuration is split between two files:  `fhir-server-config.json` and `server.xml`.
 
 1.  The value of the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` is used to instantiate a FHIRPersistence object. By default, the server is configured to use the FHIRPersistenceJDBCFactory:
-    ```
+```
     {
         "fhirServer": {
             …
@@ -233,10 +310,10 @@ The IBM FHIR Server persistence configuration is split between two files:  `fhir
                 …
             }
     }
-    ```
+```
 
 2.  When the FHIRPersistenceJDBCFactory is in use, the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` specifies the JNDI name of the target datasource. By default, the server uses a dataSourceJndiName of `jdbc/fhirProxyDataSource`:
-    ```
+```
     {
         "fhirServer": {
             …
@@ -249,11 +326,11 @@ The IBM FHIR Server persistence configuration is split between two files:  `fhir
                 …
             }
     }
-    ```
+```
     The `jdbc/fhirProxyDataSource` datasource is defined in the server's `server.xml` config file and, by default, specifies the `FHIRProxyXADataSource` which supports "Liberty-managed" distributed transactions across disaparate datasources defined in the `fhir-server-config.json` config.
 
 3.  When the FHIRProxyXADataSource is in use, modify the `fhirServer/persistence/datasources` property group to reflect the datastore(s) that you want to use. The following example defines the `default` datastore as an embedded derby database located in `wlp/usr/servers/fhir-server/derby/fhirDB`:
-    ```
+```
     {
         "fhirServer":{
             …
@@ -269,10 +346,10 @@ The IBM FHIR Server persistence configuration is split between two files:  `fhir
                 …
             }
     }
-    ```
+```
 
 The next example defines the `default` datastore as a Db2 database accessible on the `db2server1` host:
-    ```
+```
     {
         "fhirServer":{
             …
@@ -299,7 +376,7 @@ The next example defines the `default` datastore as a Db2 database accessible on
             }
         }
     }
-    ```
+```
 
 For more information on how to configure datastore properties, see [Section 3.4.2.2 Datastore configuration examples](#3422-datastore-configuration-examples).
 
@@ -307,9 +384,13 @@ Since release 4.3.2 you can use the `search.reopt` query optimizer hint (shown a
 
 ### 3.4.2 Properties-based datastore configuration
 
-Normally, a Liberty application that uses one or more Derby or Db2 datastores will require a datasource to be defined within the Liberty server.xml file for each database. One drawback to this approach is that each of the datasources are statically defined in the 'server.xml' file, which means that any updates (modifications, additions, etc.) will require a server re-start.
+Normally, a Liberty application that uses one or more JDBC datastores will require a datasource to be defined within the Liberty server.xml file for each database. One drawback to this approach is that each of the datasources are statically defined in the 'server.xml' file, which means that any updates (modifications, additions, etc.) will require a server re-start.
 
-As part of it's multi-tenant support, the FHIR server provides an alternate mechanism which consists of a single “proxy datasource” along with a set of properties configured in the `fhir-server-config.json` file. This proxy datasource can be used by the JDBC persistence layer implementation to establish connections to either Derby or Db2 databases. This approach allows for new datastores to be configured without the need to restart the FHIR server.
+As part of it's multi-tenant support, the IBM FHIR Server provides an alternate mechanism which consists of a single “proxy datasource” along with a set of properties configured in the `fhir-server-config.json` file. This proxy datasource can be used by the JDBC persistence layer implementation to establish connections to either Derby or Db2 databases. This approach allows for new datastores to be configured without the need to restart the FHIR server.
+
+Since issue #916, the FHIR server supports standard JDBC datasources defined in the server '.xml' files. Datasource elements should not be defined in the main 'server.xml' file but instead should be defined in the 'configDropins/overrides' directory. See the Liberty Profile Server configuration guide for more details and general guidance on creating modular configurations.
+
+The FHIRProxyXADataSource remains the default strategy for defining datasources in the current release. However, the standard JDBC datasource configuration is now considered the preferred approach due to benefits it brings in terms of configuring pool sizes, transaction recovery and monitoring.
 
 #### 3.4.2.1 Proxy datasource
 The FHIR server's proxy datasource allows us to configure a single statically-defined datasource in the Liberty 'server.xml' file, and then dynamically configure each of the datastores to be used by the FHIR server within the `fhir-server-config.json` file. The datasource definition within `server.xml` looks like this:
@@ -325,16 +406,141 @@ When the proxy datasource is obtained via a JNDI lookup by the JDBC persistence 
 
 The proxy datasource relies on the presence of the tenant-id and datastore-id information within the thread-local `FHIRRequestContext` information. In a simple configuration of the FHIR server that involves the use of the JDBC persistence layer implementation, the `FHIRRequestContext` information is obtained via request headers from the incoming REST API request. The tenant-id is obtained from the `X-FHIR-TENANT-ID` request header and the datastore-id is obtained from the `X-FHIR-DSID` request header<sup id="a3">[3](#f3)</sup>.
 
-#### 3.4.2.2 Datastore configuration examples
+#### 3.4.2.2 Standard JDBC Datasources
+
+To use standard JDBC datasources, disable the proxy datasource behavior by setting the 'enableProxyDatasource' flag to false (default is true):
+
+```
+    {
+        "fhirServer": {
+            …
+            "persistence": {
+                …
+                "jdbc": {
+                    …
+                    "enableProxyDatasource": false
+                }
+                …
+            }
+    }
+```
+
+The 'dataSourceJndiName' property can be removed as it is only used when 'enableProxyDatasource' is true. The 'connectionProperties' element can also be removed (these properties are defined in the Liberty JDBC datasource definition). By default, the JNDI name of the datasource is `jdbc/fhir_<tenantId>_<dsId>` where `<tenantId>` and `<dsId>` represent the tenant and datastore ids respectively. The JNDI address of the datasource can also be provided explicitly using the 'jndiName' property as shown in the following example:
+
+```
+{
+    "fhirServer":{
+        …
+        "persistence":{
+            "datasources": {
+                "default": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "jndiName": "jdbc/fhir_default_default",
+                    "type": "db2",
+                    "hints" : {
+                        "search.reopt": "ONCE"
+                    }
+                }
+            }
+        …
+        }
+    }
+}
+```
+
+When configured explicitly, the jndiName does not have to follow the standard naming convention, although this is not recommended.
+
+Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datastore-default.xml' as follows:
+
+```
+<server>
+    <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+            <properties.db2.jcc
+                 serverName="db2"
+                 portNumber="*****"
+                 user="*****"
+                 password="*****"
+                 databaseName="*****"
+                 currentSchema="*****"
+                 driverType="4"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+</server>
+```
+
+This file is picked up when the server starts as indicated by the following AUDIT message:
+
+```
+[AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: /fhir/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-default.xml
+```
+
+A special case exists for configuring the Derby 'bootstrapped' datasources. To avoid naming conflicts, these datasources must use custom JNDI names, not the default naming pattern. For example, a Derby datasource defined in configDropins/overrides/datasource-bootstrap.xml' might look like this:
+
+```
+<server>
+    <dataSource id="fhirDatasourceBootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+            <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+</server>
+```
+
+Note the use of 'jdbc/bootstrap'. How this is used is described below. The corresponding definition in 'fhir-server-config.json' must be configured like this:
+
+```
+    {
+        "fhirServer":{
+
+            "persistence": {
+                ...
+                "jdbc": {
+                    "bootstrapDb": true,
+                    "enableProxyDatasource": false,
+                    "bootstrapDataSourceBase": "jdbc/bootstrap"
+                    ...
+                },
+                "datasources": {
+                    "default": {
+                        "jndiName": "jdbc/bootstrap_default_default",
+                        "type": "derby",
+                        "currentSchema": "APP"
+                    },
+                    ...
+                }
+            }
+        }
+    }
+```
+
+Note the introduction of the new property 'bootstrapDataSourceBase'. This value is required to correctly identify the datasources to use when bootstrapping the Derby databases. The value 'jdbc/bootstrap' is the prefix which should be common to all the Derby datasource JNDI names referencing bootstrapped Derby databases:
+
+Reference | JNDI Name | Derby Database
+--------- | --------- | --------------
+default   | jdbc/bootstrap_default_default | {serverHome}/derby/fhirDB
+profile   | jdbc/bootstrap_default_profile | {serverHome}/derby/profile
+reference | jdbc/bootstrap_default_reference | {serverHome}/derby/reference
+study1    | jdbc/bootstrap_default_study1 | {serverHome}/derby/study1
+
+Where {serverHome} is the 'wlp/usr/servers/fhir-server' directory containing the 'server.xml' file.
+
+#### 3.4.2.3 Datastore configuration examples
 To understand how the configuration properties are defined for one or more datastores, let's start off with a couple of examples.
 
-##### 3.4.2.2.1 Example 1
-Here is a simple example of a single (default) datastore:
+##### 3.4.2.3.1 Example 1
+Here is a simple example of a single (default) Derby datastore using the proxy mechanism:
 ```
 {
     "fhirServer":{
         "persistence":{
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "jdbc": {
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource"
+            },
+            ...
             "datasources": {
                 "default": {
                     "type": "derby",
@@ -353,7 +559,7 @@ Here is a simple example of a single (default) datastore:
 ```
 In this example, we define an embedded Derby database named `derby/fhirDB` (a location relative to the `<WLP_HOME>/usr/servers/fhir-server` directory. The datastore-id associated with this datastore is `default`, which is the value that is used if no `X-FHIR-DSID` request header is found in the incoming request. So, when only a single database is being used, it's wise to leverage the `default` datastore-id value to allow REST API consumers to avoid having to set the `X-FHIR-DSID` request header on each request.
 
-##### 3.4.2.2.2 Example 2
+##### 3.4.2.3.2 Example 2
 This example shows a slightly more complex scenario. In this scenario, the `acme` tenant would like to store data in one of two study-specific Db2 databases with datastore-id values `study1` and `study2`. All resource types pertaining to a given study will be stored in that study's database so there's no need for a proxy persistence layer or routing rules, and so forth.
 
 Furthermore, the REST API consumers associated with Acme applications will be coded to always set the `X-FHIR-TENANT-ID` request header to be `acme` and the `X-FHIR-DSID` request header to the specific datastore-id associated with each request (either `study1` or `study2`). In this case, the following properties would be configured within the “acme” tenant's `fhir-server-config.json` file<sup id="a4">[4](#f4)</sup> (`$⁠{server.config.dir}/config/acme/fhir-server-config.json`):
@@ -364,6 +570,9 @@ Furthermore, the REST API consumers associated with Acme applications will be co
         …
         "persistence":{
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "jdbc": {
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource"
+            },
             …
             "datasources": {
                 "study1": {
@@ -397,7 +606,79 @@ Furthermore, the REST API consumers associated with Acme applications will be co
 }
 ```
 
-#### 3.4.2.3 Datastore configuration reference
+##### 3.4.2.3.3 Example 3
+Example 3 implements the same configuration as Example 2 using standard Liberty datasource definitions.
+
+```
+{
+    "__comment":"Acme's FHIR server configuration",
+    "fhirServer":{
+        …
+        "persistence":{
+            "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "jdbc": {
+                "enableProxyDatasource": false
+            },
+            …
+            "datasources": {
+                "study1": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "type": "db2"
+                },
+                "study2": {
+                    "tenantKey": "<the-base64-tenant-key>",
+                    "type": "db2"
+                }
+            }
+            …
+        }
+    }
+}
+```
+
+Note that because this example is using the default FHIR server naming scheme for datasource JNDI names, there is no need to include the 'jndiName' property, although you can specify it should you wish to make the mapping clear. The "type" must match the actual database type referenced by the datasource definition. If the type does not match, the behavior is undefined.
+
+The datasource definitions for the 'acme' tenant are defined as a drop-in configuration in '{serverHome}/configDropins/datasources-acme.xml':
+
+```
+<server>
+    <dataSource id="fhirDatasourceAcmeStudy1" jndiName="jdbc/fhir_acme_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+            <properties.db2.jcc
+                 serverName="dbserver1"
+                 portNumber="50000"
+                 user="db2inst1"
+                 password="change-password"
+                 databaseName="ACMESTUDY1"
+                 currentSchema="DB2INST1"
+                 driverType="4"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+
+    <dataSource id="fhirDatasourceAcmeStudy2" jndiName="jdbc/fhir_acme_study2" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+            <properties.db2.jcc
+                 serverName="dbserver1"
+                 portNumber="50000"
+                 user="db2inst1"
+                 password="change-password"
+                 databaseName="ACMESTUDY2"
+                 currentSchema="DB2INST1"
+                 driverType="4"
+             />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+    </dataSource>
+
+</server>
+```
+
+In the above configuration, each datasource gets its own connection pool with properties defined by the 'connectionManager' element.
+
+
+#### 3.4.2.4 Datastore configuration reference
 Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence/datasources` property specifies a map that relates the datastore-id value to a group of properties used to establish a connection to that datasource (database). Each datasource's property group contains properties named `type` and `connectionProperties`. Here is an example depicting a Db2 datasource definition:
 ```
 {
@@ -431,6 +712,11 @@ The `connectionProperties` property is a set of driver-specific properties neede
 For a Derby-related datasource definition, any bean property supported by the `EmbeddedXADataSource` class can be specified within the `connectionProperties` property group. For more information about the properties supported by the `EmbeddedXADataSource` class, and its super classes, see the [Apache Derby documentation](https://db.apache.org/derby/docs/10.13/publishedapi/org/apache/derby/jdbc/EmbeddedXADataSource.html).
 
 To disable the multitenant feature for a particular offering add to your `fhirServer/persistence/datasources` entry `multitenant` and set false to disable, and true to enable, only for Db2 is the default set to true.
+
+#### 3.4.2.4 Database Access TransactionManager Timeout
+The TransactionManager controls the timeout of database queries.  
+
+To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s. 
 
 # 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
@@ -684,9 +970,18 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 }
 ```
 
+It is also possible to configure a set of profiles, one or more of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server. The FHIR server supports this optional behavior via the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter. If this configuration parameter is set to a non-empty list of profiles, then the FHIR server will perform the following validation, returning FAILURE if not successful:
+ * Validate that at least one profile in the list is specified in the resource's `meta.profile` element
+ * Validate that all profiles specified in the resource's `meta.profile` element are supported by the FHIR server
+ * Validate that the resource's data conforms to all profiles specified in the resource's `meta.profile` element
+
+If a profile in the list specified by the configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the list specified by the configuration parameter does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
+
+If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation. 
+
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
-See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implmentation Guide resources and how to load them into the IBM FHIR server.
+See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the IBM FHIR server.
 
 See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
@@ -1509,14 +1804,28 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/tenantIdHeaderName`|string|The name of the request header that will be used to specify the tenant-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/originalRequestUriHeaderName`|string|The name of the request header that will be used to indicate the original, end-user-facing, request URI for a given request. This optional config parameter is provided for cases where the server is deployed behind a reverse proxy that overwrites the host and/or path portions of the original request.|
-|`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
+|`fhirServer/core/defaultHandling`|string|The default handling preference of the server (*strict* or *lenient*) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
-|`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
+|`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
+|`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
+|`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
+|`fhirServer/resources/Resource/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>`. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameters/<code>`|
+|`fhirServer/resources/Resource/searchIncludes`|string list|A comma-separated list of \_include values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchIncludes`. Omitting this property is equivalent to supporting all \_include values for the supported resources. An empty list, `[]`, can be used to indicate that no \_include values are supported.|
+|`fhirServer/resources/Resource/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for all resource types. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchRevIncludes`. Omitting this property is equivalent to supporting all \_revinclude values for the supported resources. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported.|
+|`fhirServer/resources/Resource/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for all resource types. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. Individual resource types may override this value via `fhirServer/resources/<resourceType>/searchParameterCombinations`. Omitting this property is equivalent to supporting any search parameter combination.|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and successfully validated against in order for a resource to be persisted to the FHIR server. Individual resource types may override this value via `fhirServer/resources/<resourceType>/profiles/atLeastOne`. Omitting this property or specifying an empty list is equivalent to not requiring any profile assertions for a resource.|
+|`fhirServer/resources/<resourceType>/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) to support for this resource type. For resources without the property, the value of `fhirServer/resources/Resource/interactions` is used.|
+|`fhirServer/resources/<resourceType>/searchParameters`|object|The set of search parameters to support for this resource type. Global search parameters defined on the `Resource` resource can be overridden on a per-resourceType basis.|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|string|The URL of the search parameter definition to use for the search parameter `<code>` on resources of type `<resourceType>`.|
+|`fhirServer/resources/<resourceType>/searchIncludes`|string list|A comma-separated list of \_include values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_include values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchIncludes` is used.|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|string list|A comma-separated list of \_revinclude values supported for this resource type. An empty list, `[]`, can be used to indicate that no \_revinclude values are supported. For resources without the property, the value of `fhirServer/resources/Resource/searchRevIncludes` is used.|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
@@ -1537,8 +1846,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.4.2.3 Datastore configuration reference](#3423-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
 |`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
+|`fhirServer/security/cors`|boolean|Used to convey to clients whether cors is supported or not; actual cors support is configured separately in the Liberty server.xml configuration|
 |`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
-|`fhirServer/security/cert/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
+|`fhirServer/security/certificates/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
 |`fhirServer/security/oauth/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/regUrl`|string|The registration URL associated with the OAuth 2.0 authentication/authorization support.|
 |`fhirServer/security/oauth/authUrl`|string|The authorization URL associated with the OAuth 2.0 authentication/authorization support.|
@@ -1555,6 +1865,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
+|`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
 |`fhirServer/bulkdata/moduleName`|string| Fixed value, always set to fhir-bulkimportexport.war |
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|string|Object store bucket name |
@@ -1578,8 +1889,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
-|`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g
-through the shared lib at `wlp/user/shared/resources/lib`) |
+|`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`) |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -1595,7 +1905,20 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
-|`fhirServer/searchParameterFilter`|`"*": [*]`|
+|`fhirServer/resources/open`|true|
+|`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
+|`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
+|`fhirServer/resources/Resource/searchIncludes`|null (all \_include values supported)|
+|`fhirServer/resources/Resource/searchRevIncludes`|null (all \_revinclude values supported)|
+|`fhirServer/resources/Resource/searchParameterCombinations`|null (all search parameter combinations supported)|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|null (no resource profile assertions required)|
+|`fhirServer/resources/<resourceType>/interactions`|null (inherits from `fhirServer/resources/Resource/interactions`)|
+|`fhirServer/resources/<resourceType>/searchParameters`|null (all type-specific search parameters supported)|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|null|
+|`fhirServer/resources/<resourceType>/searchIncludes`|null (inherits from `fhirServer/resources/Resource/searchIncludes`)|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|null (inherits from `fhirServer/resources/Resource/searchRevIncludes`)|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
@@ -1616,8 +1939,9 @@ through the shared lib at `wlp/user/shared/resources/lib`) |
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
+|`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
-|`fhirServer/security/cert/enabled`|boolean|false|
+|`fhirServer/security/certificates/enabled`|boolean|false|
 |`fhirServer/security/oauth/enabled`|boolean|false|
 |`fhirServer/security/oauth/regUrl`|""|
 |`fhirServer/security/oauth/authUrl`|""|
@@ -1664,7 +1988,21 @@ must restart the server for that change to take effect.
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
-|`fhirServer/searchParameterFilter`|Y|Y|
+|`fhirServer/resources/open`|Y|Y|
+|`fhirServer/resources/Resource/interactions`|Y|Y|
+|`fhirServer/resources/Resource/searchParameters`|Y|Y|
+|`fhirServer/resources/Resource/searchParameters/<code>`|Y|Y|
+|`fhirServer/resources/Resource/searchIncludes`|Y|Y|
+|`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|
+|`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|
+|`fhirServer/resources/<resourceType>/interactions`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameters`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
@@ -1685,15 +2023,17 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources`|Y|N|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
-|`fhirServer/security/basic/enabled`|N|N|
-|`fhirServer/security/cert/enabled`|N|N|
-|`fhirServer/security/oauth/regUrl`|N|N|
-|`fhirServer/security/oauth/authUrl`|N|N|
-|`fhirServer/security/oauth/tokenUrl`|N|N|
-|`fhirServer/security/oauth/manageUrl`|N|N|
-|`fhirServer/security/oauth/introspectUrl`|N|N|
-|`fhirServer/security/oauth/revokeUrl`|N|N|
-|`fhirServer/security/oauth/smart/enabled`|N|N|
+|`fhirServer/security/cors`|Y|Y|
+|`fhirServer/security/basic/enabled`|Y|Y|
+|`fhirServer/security/certificates/enabled`|Y|Y|
+|`fhirServer/security/oauth/enabled`|Y|Y|
+|`fhirServer/security/oauth/regUrl`|Y|Y|
+|`fhirServer/security/oauth/authUrl`|Y|Y|
+|`fhirServer/security/oauth/tokenUrl`|Y|Y|
+|`fhirServer/security/oauth/manageUrl`|Y|Y|
+|`fhirServer/security/oauth/introspectUrl`|Y|Y|
+|`fhirServer/security/oauth/revokeUrl`|Y|Y|
+|`fhirServer/security/oauth/smart/enabled`|Y|Y|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|
 |`fhirServer/security/oauth/smart/capabilities`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|

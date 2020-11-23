@@ -65,8 +65,10 @@ public class ServiceRequest extends DomainResource {
     @Summary
     private final List<Uri> instantiatesUri;
     @Summary
+    @ReferenceTarget({ "CarePlan", "ServiceRequest", "MedicationRequest" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "ServiceRequest" })
     private final List<Reference> replaces;
     @Summary
     private final Identifier requisition;
@@ -158,6 +160,7 @@ public class ServiceRequest extends DomainResource {
     )
     private final CodeableConcept performerType;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson" })
     private final List<Reference> performer;
     @Summary
     @Binding(
@@ -168,6 +171,7 @@ public class ServiceRequest extends DomainResource {
     )
     private final List<CodeableConcept> locationCode;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final List<Reference> locationReference;
     @Summary
     @Binding(
@@ -178,10 +182,13 @@ public class ServiceRequest extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
+    @ReferenceTarget({ "Coverage", "ClaimResponse" })
     private final List<Reference> insurance;
     private final List<Reference> supportingInfo;
     @Summary
+    @ReferenceTarget({ "Specimen" })
     private final List<Reference> specimen;
     @Summary
     @Binding(
@@ -194,6 +201,7 @@ public class ServiceRequest extends DomainResource {
     private final List<Annotation> note;
     @Summary
     private final String patientInstruction;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
     private volatile int hashCode;
@@ -233,9 +241,17 @@ public class ServiceRequest extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         patientInstruction = builder.patientInstruction;
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
+        ValidationSupport.checkReferenceType(replaces, "replaces", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+        ValidationSupport.checkReferenceType(locationReference, "locationReference", "Location");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
+        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1138,6 +1154,13 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     What request fulfills
          * 
@@ -1156,6 +1179,13 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     What request fulfills
          * 
@@ -1171,6 +1201,11 @@ public class ServiceRequest extends DomainResource {
          * The request takes the place of the referenced completed or terminated request(s).
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param replaces
          *     What request replaces
@@ -1189,6 +1224,11 @@ public class ServiceRequest extends DomainResource {
          * The request takes the place of the referenced completed or terminated request(s).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
          * 
          * @param replaces
          *     What request replaces
@@ -1528,6 +1568,18 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param performer
          *     Requested performer
          * 
@@ -1545,6 +1597,18 @@ public class ServiceRequest extends DomainResource {
          * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param performer
          *     Requested performer
@@ -1599,6 +1663,11 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param locationReference
          *     Requested location
          * 
@@ -1617,6 +1686,11 @@ public class ServiceRequest extends DomainResource {
          * care center.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param locationReference
          *     Requested location
@@ -1671,6 +1745,14 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Explanation/Justification for service or service
          * 
@@ -1690,6 +1772,14 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Explanation/Justification for service or service
          * 
@@ -1706,6 +1796,12 @@ public class ServiceRequest extends DomainResource {
          * the requested service.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1725,6 +1821,12 @@ public class ServiceRequest extends DomainResource {
          * the requested service.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1784,6 +1886,11 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
+         * 
          * @param specimen
          *     Procedure Samples
          * 
@@ -1801,6 +1908,11 @@ public class ServiceRequest extends DomainResource {
          * One or more specimens that the laboratory procedure will use.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
          * 
          * @param specimen
          *     Procedure Samples
@@ -1900,6 +2012,11 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
+         * 
          * @param relevantHistory
          *     Request provenance
          * 
@@ -1917,6 +2034,11 @@ public class ServiceRequest extends DomainResource {
          * Key events in the history of the request.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param relevantHistory
          *     Request provenance

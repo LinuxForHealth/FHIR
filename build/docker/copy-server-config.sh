@@ -21,4 +21,16 @@ cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-db2.json ${CONFIG}/default/fhir-server-config.json
 
+echo "Replacing datasource content in server configDropins..."
+OVERRIDES="${WORKSPACE}/build/docker/fhir-server/volumes/overrides"
+rm -f $OVERRIDES/datasource-*.xml 2> /dev/null
+mkdir -p $OVERRIDES
+
+# Currently, the fhir-server-config-db2.json configuration uses the legacy
+# proxy datasource connection strategy.
+# Uncomment the next two lines when the Db2 fhir-server-config (above) is switched
+# over to use the standard datasource configuration (see fhir-server-config-postgres.json).
+#cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-bootstrap.xml $OVERRIDES
+#cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-db2.xml $OVERRIDES
+
 echo "Finished copying the server config."

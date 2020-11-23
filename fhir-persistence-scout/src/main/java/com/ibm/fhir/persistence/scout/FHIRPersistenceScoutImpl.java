@@ -10,24 +10,16 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABL
 import static com.ibm.fhir.model.type.String.string;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.time.ZoneOffset;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -36,21 +28,15 @@ import java.util.zip.GZIPOutputStream;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.api.core.CqlSessionBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
-import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Element;
@@ -72,16 +58,12 @@ import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.scout.SearchParameters;
 import com.ibm.fhir.persistence.scout.SearchParameters.ParameterBlock;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValue;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValueList;
 import com.ibm.fhir.persistence.scout.SearchParameters.TokenValue;
 import com.ibm.fhir.persistence.scout.SearchParameters.TokenValueList;
 import com.ibm.fhir.persistence.scout.cql.DatasourceSessions;
-import com.ibm.fhir.search.SearchConstants.Type;
-import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -93,44 +75,44 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPersistenceScoutImpl.class.getName());
     private static final String CLASSNAME = FHIRPersistenceScoutImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
-        
+
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
-    
+
     // TODO. Shouldn't be necessary
     private static final int MAX_NUM_OF_COMPOSITE_COMPONENTS = 3;
-    
+
     private TransactionSynchronizationRegistry trxSynchRegistry;
-    
+
     private boolean updateCreateEnabled;
-    
+
     private List<OperationOutcome.Issue> supplementalIssues = new ArrayList<>();
-    
+
 
     /**
-     * Constructor for use when running as web application in WLP. 
-     * @throws Exception 
+     * Constructor for use when running as web application in WLP.
+     * @throws Exception
      */
     public FHIRPersistenceScoutImpl() throws Exception {
         super();
         final String METHODNAME = "FHIRPersistenceCloudantImpl()";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
         log.exiting(CLASSNAME, METHODNAME);
     }
-    
+
     /**
      * Constructor for use when running standalone, outside of any web container.
-     * @throws Exception 
+     * @throws Exception
      */
     @SuppressWarnings("rawtypes")
     public FHIRPersistenceScoutImpl(Properties configProps) throws Exception {
         final String METHODNAME = "FHIRPersistenceCloudantImpl(Properties)";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-        
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -156,10 +138,10 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             String logicalId;
-    
+
             // We need to update the meta in the resource, so we need a modifiable version
             Resource.Builder resultResourceBuilder = resource.toBuilder();
-    
+
             // This create() operation is only called by a REST create. If the given resource
             // contains an id, then for R4 we need to ignore it and replace it with our
             // system-generated value. For the update-or-create scenario, see update().
@@ -169,7 +151,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
             }
-    
+
             // Set the resource id and meta fields.
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
             resultResourceBuilder.id(logicalId);
@@ -178,25 +160,25 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
             metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
             metaBuilder.lastUpdated(lastUpdated);
             resultResourceBuilder.meta(metaBuilder.build());
-    
+
             // rebuild the resource with updated meta
             @SuppressWarnings("unchecked")
             T updatedResource = (T) resultResourceBuilder.build();
-    
+
             // Create the parameter block we will populate with all the parameters
             // extracted from the resource. This parameter block gets serialized
             // and pushed into Redis
             Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
             ParameterBlock.Builder pb = ParameterBlock.newBuilder();
-    
+
             pb.setLogicalId(logicalId);
             pb.setVersionId(newVersionNumber);
             pb.setLastUpdated(timestamp.toInstant().toEpochMilli());
             pb.setResourceType(updatedResource.getClass().getSimpleName());
-            
+
             // Extract parameters into the ParameterBlock
-            
-    
+
+
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
             FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
@@ -207,18 +189,18 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
             // Save the data
             List<Issue> supplementalIssues = new ArrayList<>();
             persist(pb.build(), payload);
-                
+
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .resource(updatedResource);
-    
+
             // Add supplemental issues to the OperationOutcome
             if (!supplementalIssues.isEmpty()) {
                 resultBuilder.outcome(OperationOutcome.builder()
                     .issue(supplementalIssues)
                     .build());
             }
-    
+
             return resultBuilder.build();
         } catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a create operation.");
@@ -237,7 +219,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
      */
     protected void persist(ParameterBlock pb, byte[] payload) {
         try (CqlSession session = getCqlSession()) {
-            
+
         }
     }
 
@@ -282,17 +264,17 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
 
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
-        
+
         StrValue.Builder builder = StrValue.newBuilder();
         builder.setStrValue("hello");
-        
+
         StrValueList.Builder slBuilder = StrValueList.newBuilder();
         slBuilder.addStringValues(builder.build());
-        
+
         SearchParameters.ParameterBlock.Builder pb = SearchParameters.ParameterBlock.newBuilder();
 
         pb.putStringValues("strParam", slBuilder.build());
-        
+
         // Let's try creating a token
         TokenValue.Builder tokenBuilder = TokenValue.newBuilder();
         tokenBuilder.setCodeSystem("system");
@@ -301,12 +283,12 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
         tvListBuilder.addTokenValues(tokenBuilder.build());
 
         pb.putTokenValues("token1", tvListBuilder.build());
-        
+
         // TODO Check that we can connect to Redis and Cassandra
         return buildOKOperationOutcome();
         // return buildErrorOperationOutcome();
     }
-    
+
     private OperationOutcome buildOKOperationOutcome() {
         return FHIRUtil.buildOperationOutcome("All OK", IssueType.INFORMATIONAL, IssueSeverity.INFORMATION);
     }
@@ -321,7 +303,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
 
     /**
      * Extracts search parameters for the passed FHIR Resource.
@@ -422,7 +404,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
      * Create a Parameter DTO from the primitive value.
      * Note: this method only sets the value;
      * caller is responsible for setting all other fields on the created Parameter.
-        builder, value.asSystemValue(), code, fhirResource.getClass().getSimpleName());     
+        builder, value.asSystemValue(), code, fhirResource.getClass().getSimpleName());
      */
     private void processPrimitiveValue(ParameterBlockBuilderHelper parameters, String name, FHIRPathSystemValue systemValue, String code, String resourceType) {
 
@@ -435,12 +417,12 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
                 parameters.addTokenParam(name, "false", system);
             }
         } else if (systemValue.isTemporalValue()) {
-            
+
             TemporalAccessor v = systemValue.asTemporalValue().temporal();
             java.time.Instant inst = DateTimeHandler.generateValue(v);
             long t = DateTimeHandler.generateTimestamp(inst).getTime();
             parameters.addDateParam(name, t, t);
-            
+
         } else if (systemValue.isStringValue()) {
             parameters.addStrParam(name, systemValue.asStringValue().string());
         } else if (systemValue.isNumberValue()) {
@@ -463,9 +445,14 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
                 .expression(Arrays.stream(expression).map(com.ibm.fhir.model.type.String::string).collect(Collectors.toList()))
                 .build());
     }
-    
+
     @Override
     public String generateResourceId() {
         return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
+        return 0;
     }
 }

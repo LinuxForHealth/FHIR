@@ -30,6 +30,7 @@ public class QueryParameter {
     private List<QueryParameterValue> values = null;
     private QueryParameter nextParameter = null;
     private boolean isInclusionCriteria = false;
+    private boolean isReverseChained = false;
 
     public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
         this.type = type;
@@ -42,6 +43,11 @@ public class QueryParameter {
     public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
         this(type, code, modifier, modifierResourceTypeName);
         this.isInclusionCriteria = isInclusionCriteria;
+    }
+
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria, boolean isReverseChained) {
+        this(type, code, modifier, modifierResourceTypeName, isInclusionCriteria);
+        this.isReverseChained = isReverseChained;
     }
 
     public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<QueryParameterValue> parmValues) {
@@ -104,6 +110,11 @@ public class QueryParameter {
         boolean chained = isChained();
         buffer.append("chained: ");
         buffer.append(chained);
+        buffer.append(NL);
+
+        boolean reverseChained = isReverseChained();
+        buffer.append("reverseChained: ");
+        buffer.append(reverseChained);
         buffer.append(NL);
 
         boolean inclusionCriteria = this.isInclusionCriteria();
@@ -175,5 +186,9 @@ public class QueryParameter {
 
     public boolean isInclusionCriteria() {
         return isInclusionCriteria;
+    }
+
+    public boolean isReverseChained() {
+        return isReverseChained;
     }
 }

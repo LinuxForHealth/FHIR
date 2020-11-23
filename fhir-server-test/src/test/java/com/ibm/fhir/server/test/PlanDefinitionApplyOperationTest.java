@@ -21,7 +21,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
@@ -39,16 +38,17 @@ import com.ibm.fhir.model.type.Coding;
 
 /**
  * Test cases for the <b>$apply</b> operation
- * 
+ *
  * @link http://hl7.org/fhir/plandefinition-operation-apply.html
- * 
+ *
  * The scenarios below model the FHIR Connectathon track:
  * @link https://confluence.hl7.org/display/FHIR/2019-09+Care+Planning+and+Management+Track
  * @link http://hl7.org/fhir/plandefinition-examples.html
  * @link http://hl7.org/fhir/activitydefinition-order-serum-zika-dengue-virus-igm.json
  */
 public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
-    public static Boolean DEBUG_APPLY = Boolean.FALSE;
+
+    public static Boolean DEBUG_APPLY = Boolean.TRUE;
     public static final String TEST_GROUP_NAME = "plan-defintion-apply-operation";
 
     // URL Pattern:
@@ -65,7 +65,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     private PlanDefinition planDefinitionResource = null;
 
-    @BeforeGroups(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME })
     public void loadTestData() throws Exception {
         // Subject - Patient
         final String PATIENT_JSON = "Patient_DavidOrtiz.json";
@@ -148,7 +148,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
     public void testSubjectPatient() {
         List<String> subjects = Arrays.asList(patientId);
 
@@ -214,7 +214,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         return target.request(mimeType).post(entity, Response.class);
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
     public void testEmptySubjectPatient() {
         List<String> subjects = Arrays.asList("");
 
@@ -226,7 +226,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
     public void testEmptyPlanDefinitionPatient() {
         List<String> subjects = Arrays.asList(patientId);
 
@@ -238,7 +238,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
     public void testWrongPlanDefinitionPatient() {
         List<String> subjects = Arrays.asList(patientId);
 
@@ -327,7 +327,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     /**
      * Runs the valid tests
-     * 
+     *
      * @param planDefinition
      * @param subject
      * @param encounter
@@ -363,7 +363,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     /**
      * Runs the invalid tests
-     * 
+     *
      * @param planDefinition
      * @param subject
      * @param encounter
@@ -395,7 +395,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     /**
      * runs the individual plan definition call
-     * 
+     *
      * @param mimeType
      * @param root
      * @param invalid
@@ -457,7 +457,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     /**
      * add query parameter list
-     * 
+     *
      * @param target
      * @param header
      * @param vals
@@ -477,7 +477,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     /**
      * adds the query parameter
-     * 
+     *
      * @param target
      * @param header
      * @param val

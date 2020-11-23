@@ -52,6 +52,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "CommunicationRequest" })
     private final List<Reference> replaces;
     @Summary
     private final Identifier groupIdentifier;
@@ -109,6 +110,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
     private final Reference requester;
+    @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService" })
     private final List<Reference> recipient;
     @Summary
     @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService" })
@@ -122,6 +124,7 @@ public class CommunicationRequest extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
 
@@ -151,10 +154,13 @@ public class CommunicationRequest extends DomainResource {
         reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(replaces, "replaces", "CommunicationRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+        ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
         ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 
@@ -845,6 +851,11 @@ public class CommunicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CommunicationRequest}</li>
+         * </ul>
+         * 
          * @param replaces
          *     Request(s) replaced by this request
          * 
@@ -862,6 +873,11 @@ public class CommunicationRequest extends DomainResource {
          * Completed or terminated request(s) whose function is taken by this new request.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link CommunicationRequest}</li>
+         * </ul>
          * 
          * @param replaces
          *     Request(s) replaced by this request
@@ -1190,6 +1206,19 @@ public class CommunicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
+         * 
          * @param recipient
          *     Message recipient
          * 
@@ -1208,6 +1237,19 @@ public class CommunicationRequest extends DomainResource {
          * target of the communication.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param recipient
          *     Message recipient
@@ -1285,6 +1327,14 @@ public class CommunicationRequest extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why is communication needed?
          * 
@@ -1302,6 +1352,14 @@ public class CommunicationRequest extends DomainResource {
          * Indicates another resource whose existence justifies this request.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why is communication needed?

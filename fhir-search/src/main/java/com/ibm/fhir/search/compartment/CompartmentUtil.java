@@ -64,7 +64,7 @@ public class CompartmentUtil {
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.children()";
     public static final String RESOURCE = "/compartments.json";
 
-    // List of compartmentDefintions.
+    // List of compartmentDefinitions.
     private static final Set<String> compartmentDefinitions = new HashSet<String>() {
 
         private static final long serialVersionUID = 7152515293380769882L;
@@ -77,6 +77,18 @@ public class CompartmentUtil {
             add("/compartments/compartmentdefinition-relatedperson.json");
         }
     };
+
+    // Map of Compartment name to CompartmentCache
+    private static final Map<String, CompartmentCache> compartmentMap = new HashMap<>();
+
+    // Map of Resource type to ResourceCompartmentCache
+    private static final Map<String, ResourceCompartmentCache> resourceCompartmentMap = new HashMap<>();
+
+    static {
+        // make one pass over the configuration to build both maps
+        buildMaps(compartmentMap, resourceCompartmentMap);
+    }
+
 
     /**
      * Loads the class in the classloader to initialize static members. Call this before using the class in order to
@@ -97,68 +109,83 @@ public class CompartmentUtil {
         // No Operation
     }
 
-    private static final Map<String, CompartmentCache> compartmentMap = buildCompartmentMap();
+    /**
+     * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
+     * FHIR searches.
+     * @implNote the maps being built are passed in as arguments to aid unit testing
+     * @param compMap map of compartment name to CompartmentCache
+     * @param resourceCompMap map of resource type name to ResourceCompartmentCache
+     * @throws IOException
+     */
+    public static final void buildMaps(Map<String, CompartmentCache> compMap, Map<String, ResourceCompartmentCache> resourceCompMap) {
+        buildMaps(RESOURCE, compMap, resourceCompMap);
+    }
 
     /**
      * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
      * FHIR searches.
-     *
-     * @return a map of compartment caches
+     * @implNote the maps being built are passed in as arguments to aid unit testing
+     * @param the source resource to be read using getResourceAsStream
+     * @param compMap map of compartment name to CompartmentCache
+     * @param resourceCompMap map of resource type name to ResourceCompartmentCache
      * @throws IOException
      */
-    public static final Map<String, CompartmentCache> buildCompartmentMap() {
-        Map<String, CompartmentCache> cachedCompartmentMap = compartmentMap;
-
-        if (cachedCompartmentMap == null) {
-            // If cachedCompartmentMap is empty, there is something else going on.
-
-            cachedCompartmentMap = new HashMap<>();
-
-            try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(RESOURCE))) {
-                Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
-
-                FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-                EvaluationContext evaluationContext = new EvaluationContext(bundle);
-
-                Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, FHIR_PATH_BUNDLE_ENTRY);
-
-                Iterator<FHIRPathNode> iter = result.iterator();
-                while (iter.hasNext()) {
-                    FHIRPathResourceNode node = iter.next().asResourceNode();
-
-                    // Convert to Resource and lookup.
-                    CompartmentDefinition compartmentDefinition = node.resource().as(CompartmentDefinition.class);
-
-                    // The cached object (a smaller/lighter lookup resource) used for point lookups
-                    CompartmentCache compartmentDefinitionCache = new CompartmentCache();
-
-                    // Iterates over the resources embedded in the CompartmentDefinition.
-                    for (Resource resource : compartmentDefinition.getResource()) {
-                        String inclusionCode = resource.getCode().getValue();
-                        List<com.ibm.fhir.model.type.String> params = resource.getParam();
-                        // Make sure to only add the valid resource types (at least with one inclusion) instead of all types.
-                        if (!params.isEmpty()) {
-                            compartmentDefinitionCache.add(inclusionCode, params);
-                        }
-                    }
-
-                    String codeCacheName = compartmentDefinition.getCode().getValue();
-                    cachedCompartmentMap.put(codeCacheName, compartmentDefinitionCache);
-
-                }
-
-                // Make unmodifiable.
-                cachedCompartmentMap = Collections.unmodifiableMap(cachedCompartmentMap);
-
-            } catch (FHIRException e) {
-                log.warning(String.format(PARSE_EXCEPTION, FROM_STREAM));
-            } catch (IOException e1) {
-                log.warning(String.format(IO_EXCEPTION, FROM_STREAM));
-            }
+    public static final void buildMaps(String source, Map<String, CompartmentCache> compMap, Map<String, ResourceCompartmentCache> resourceCompMap) {
+        if (compMap == null) {
+            throw new IllegalArgumentException("compMap must not be null");
         }
 
-        return cachedCompartmentMap;
+        if (resourceCompMap == null) {
+            throw new IllegalArgumentException("resourceCompMap must not be null");
+        }
 
+        try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(source))) {
+            Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
+
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            EvaluationContext evaluationContext = new EvaluationContext(bundle);
+
+            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, FHIR_PATH_BUNDLE_ENTRY);
+
+            Iterator<FHIRPathNode> iter = result.iterator();
+            while (iter.hasNext()) {
+                FHIRPathResourceNode node = iter.next().asResourceNode();
+
+                // Convert to Resource and lookup.
+                CompartmentDefinition compartmentDefinition = node.resource().as(CompartmentDefinition.class);
+                String compartmentName = compartmentDefinition.getCode().getValue();
+
+                // The cached object (a smaller/lighter lookup resource) used for point lookups
+                CompartmentCache compartmentDefinitionCache = new CompartmentCache();
+
+                // Iterates over the resources embedded in the CompartmentDefinition.
+                for (Resource resource : compartmentDefinition.getResource()) {
+                    String inclusionCode = resource.getCode().getValue();
+                    List<com.ibm.fhir.model.type.String> params = resource.getParam();
+                    // Make sure to only add the valid resource types (at least with one inclusion) instead of all types.
+                    if (!params.isEmpty()) {
+                        compartmentDefinitionCache.add(inclusionCode, params);
+
+                        // Look up the ResourceCompartmentCache and create a new one if needed
+                        ResourceCompartmentCache rcc = resourceCompMap.get(inclusionCode);
+                        if (rcc == null) {
+                            rcc = new ResourceCompartmentCache();
+                            resourceCompMap.put(inclusionCode, rcc);
+                        }
+
+                        // Add the mapping for this parameter to the target compartment name
+                        rcc.add(params, compartmentName);
+                    }
+                }
+
+                compMap.put(compartmentName, compartmentDefinitionCache);
+            }
+
+        } catch (FHIRException e) {
+            log.warning(String.format(PARSE_EXCEPTION, FROM_STREAM));
+        } catch (IOException e1) {
+            log.warning(String.format(IO_EXCEPTION, FROM_STREAM));
+        }
     }
 
     /**
@@ -179,7 +206,7 @@ public class CompartmentUtil {
      * @param compartment
      * @param resourceType
      * @return
-     * @throws FHIRSearchException
+     * @throws FHIRSearchException if the passed resourceType does not exist within the passed compartment
      */
     public static List<String> getCompartmentResourceTypeInclusionCriteria(final String compartment, final String resourceType) throws FHIRSearchException {
         checkValidCompartmentAndResource(compartment, resourceType);
@@ -242,4 +269,37 @@ public class CompartmentUtil {
 
     }
 
+    /**
+     * Get the map of parameter names used as compartment references for the
+     * given resource type. For example for CareTeam:
+     *   participant -> {RelatedPerson, Patient}
+     *   patient -> {Patient}
+     *   encounter -> {Encounter}
+     *   ...
+     * etc.
+     * @param resourceType the resource type name
+     * @return a map of parameter name to set of compartment names
+     */
+    public static Map<String, Set<java.lang.String>> getCompartmentParamsForResourceType(java.lang.String resourceType) {
+        ResourceCompartmentCache rcc = resourceCompartmentMap.get(resourceType);
+        if (rcc != null) {
+            return rcc.getCompartmentReferenceParams();
+        } else {
+            return Collections.emptyMap();
+        }
+    }
+
+    /**
+     * Create the special parameter name used for references to the given
+     * compartment (e.g. Patient, RelatedPerson etc).
+     * @param compartmentName
+     * @return
+     */
+    public static String makeCompartmentParamName(String compartmentName) {
+        final StringBuilder result = new StringBuilder();
+        result.append("ibm-internal-")
+            .append(compartmentName)
+            .append("-Compartment");
+        return result.toString();
+    }
 }

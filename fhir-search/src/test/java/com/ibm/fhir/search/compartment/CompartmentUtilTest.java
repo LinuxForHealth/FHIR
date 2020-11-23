@@ -14,8 +14,10 @@ import static org.testng.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -24,12 +26,12 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
  * CompartmentUtil is tested in this class.
- * 
+ *
  * @author pbastide
  *
  */
 public class CompartmentUtilTest extends BaseSearchTest {
-    
+
     @Test()
     public void testInit() {
         CompartmentUtil.init();
@@ -38,19 +40,13 @@ public class CompartmentUtilTest extends BaseSearchTest {
 
     @Test()
     public void testBuildCompartmentMap() {
-        Map<String, CompartmentCache> cache = CompartmentUtil.buildCompartmentMap();
+        Map<String, CompartmentCache> cache = new HashMap<>();
+        Map<String, ResourceCompartmentCache> resourceCompartmentCache = new HashMap<>();
+        CompartmentUtil.buildMaps(cache, resourceCompartmentCache);
 
         // There should be 5 compartment definitions.
         // Detailed behavior of the individual cache are tested in the CompartmentCache.
         assertEquals(5, cache.keySet().size());
-
-    }
-
-    @Test(expectedExceptions = { UnsupportedOperationException.class }, dependsOnMethods = { "testBuildCompartmentMap" })
-    public void testBuildCompartmentMapWithModification() {
-        // Verifies the cache is unmodifiable.
-        Map<String, CompartmentCache> cache = CompartmentUtil.buildCompartmentMap();
-        cache.clear();
 
     }
 
@@ -119,6 +115,33 @@ public class CompartmentUtilTest extends BaseSearchTest {
             e.printStackTrace();
             fail();
         }
+    }
 
+    @Test()
+    public void testParamListForExplanationOfBenefit() {
+        Map<String, Set<java.lang.String>> pmap = CompartmentUtil.getCompartmentParamsForResourceType("ExplanationOfBenefit");
+        assertNotNull(pmap);
+
+        // EOB may belong to Patient, Encounter, Practitioner, RelatedPerson and Device compartments
+        assertEquals(pmap.size(), 10);
+
+        assertTrue(pmap.get("procedure-udi").contains("Device"));
+        assertTrue(pmap.get("item-udi").contains("Device"));
+        assertTrue(pmap.get("detail-udi").contains("Device"));
+        assertTrue(pmap.get("subdetail-udi").contains("Device"));
+        assertTrue(pmap.get("enterer").contains("Practitioner"));
+        assertTrue(pmap.get("provider").contains("Practitioner"));
+        assertTrue(pmap.get("payee").contains("Practitioner"));
+        assertTrue(pmap.get("payee").contains("RelatedPerson"));
+        assertTrue(pmap.get("care-team").contains("Practitioner"));
+        assertTrue(pmap.get("patient").contains("Patient"));
+        assertTrue(pmap.get("encounter").contains("Encounter"));
+    }
+
+    @Test()
+    public void testParamListForInvalidResource() {
+        Map<String, Set<java.lang.String>> pmap = CompartmentUtil.getCompartmentParamsForResourceType("not-a-resource");
+        assertNotNull(pmap);
+        assertTrue(pmap.isEmpty());
     }
 }

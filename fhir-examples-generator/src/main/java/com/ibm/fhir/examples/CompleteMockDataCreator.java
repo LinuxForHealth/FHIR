@@ -110,7 +110,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
 
     private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
         Method[] methods = builder.getClass().getDeclaredMethods();
-        
+
         boolean empty = true;
         for (Method method : methods) {
             if (method.getName().equals("build") ||
@@ -122,13 +122,13 @@ public class CompleteMockDataCreator extends DataCreatorBase {
 
                 continue;
             }
-            
+
             Class<?>[] parameterClasses = method.getParameterTypes();
-            
+
             if (parameterClasses.length != 1) {
                 throw new RuntimeException("Error adding data via builder " + builder.getClass() + "; expected 1 parameter, but found " + parameterClasses.length);
             }
-            
+
             Class<?> parameterType = parameterClasses[0];
             // Special case to avoid infinite recursion
             if (builder instanceof Identifier.Builder && Reference.class.isAssignableFrom(parameterType)) {
@@ -139,14 +139,14 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 ((Narrative.Builder) builder).div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"));
                 continue;
             }
-            
+
             Object argument = null;
             if (Element.class.isAssignableFrom(parameterType)
                 || Collection.class.isAssignableFrom(parameterType)) {
-            
+
                 // filter out inhereted methods like Code.Builder.extension and String.Builder.extension
                 if (builder.getClass().equals(method.getReturnType())) {
-                    
+
                     ////////
                     // Skips
                     ////////
@@ -192,7 +192,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         builder instanceof Measure.Group.Stratifier.Builder && method.getName().equals("component") ||
                         // cpl-3: Provide a reference or detail, not both
                         builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail")) {
-                        
+
                         continue;
                     }
                     /////////////////
@@ -211,12 +211,12 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                             || (builder instanceof Patient.Communication.Builder && "language".equals(method.getName()))
                             || (builder instanceof RelatedPerson.Communication.Builder && "language".equals(method.getName()))) {
                         argument = CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build();
-                    }                    
+                    }
                     // Must contain a valid BCP-47 system and code (List<CodeableConcept>)
                     else if ((builder instanceof HealthcareService.Builder && "communication".equals(method.getName()))
                             || (builder instanceof Practitioner.Builder && "communication".equals(method.getName()))) {
                         argument = Collections.singletonList(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build());
-                    }                    
+                    }
                     // drt-1: There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.
                     else if (builder instanceof Duration.Builder && method.getName().equals("code")) {
                         argument = Code.of("h");
@@ -240,14 +240,23 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         argument = Decimal.of(Math.random() * 100);
                     }
 
-                    // References with specific target profiles
-                    else if (builder instanceof Reference.Builder && method.getName().equals("type") && referenceTargetProfile != null) {
-                        argument = Uri.of(referenceTargetProfile);
+                    else if (builder instanceof Reference.Builder && method.getName().equals("type")) {
+                        if (referenceTargetProfile != null) {
+                            // References with specific target profiles
+                            argument = Uri.of(referenceTargetProfile);
+                        } else {
+                            argument = Uri.of("Basic");
+                        }
                     }
-                    else if (builder instanceof Reference.Builder && method.getName().equals("reference") && referenceTargetProfile != null) {
-                        argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class));
+                    else if (builder instanceof Reference.Builder && method.getName().equals("reference")) {
+                        // References with specific target profiles
+                        if (referenceTargetProfile != null) {
+                            argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class));
+                        } else {
+                            argument = string("Basic/" + podam.manufacturePojo(String.class));
+                        }
                     }
-                    
+
                     // CodeableConcepts with required bindings
                     else if (builder instanceof AdverseEvent.Builder && method.getName().equals("severity")) {
                         String value = "mild";
@@ -382,14 +391,14 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                                 .text(string(value))
                                 .build();
                     }
-                    
+
                     /////////////////
                     // Everything else
                     /////////////////
                     else {
                         argument = createArgument(builder.getClass().getEnclosingClass(), method, parameterType, 0, choiceIndicator);
                     }
-                    
+
                     if (argument != null && !(argument instanceof Collection && ((Collection<?>) argument).isEmpty())) {
                         method.invoke(builder, argument);
                         empty = false;
@@ -397,7 +406,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 }
             }
         }
-        
+
         if (empty) {
             if (builder instanceof Element.Builder){
                 // We have a primitive type (i.e. an edge node)
@@ -408,7 +417,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
         }
         return builder;
     }
-    
+
     protected Element.Builder createPrimitive(Element.Builder builder) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         if (builder instanceof com.ibm.fhir.model.type.Boolean.Builder) {
             handleBoolean((com.ibm.fhir.model.type.Boolean.Builder) builder);
@@ -453,49 +462,49 @@ public class CompleteMockDataCreator extends DataCreatorBase {
         }
         return builder;
     }
-    
+
     protected void handleBoolean(com.ibm.fhir.model.type.Boolean.Builder bool) {
         bool.value(podam.manufacturePojo(Boolean.class));
     }
-    
+
     protected void handleId(com.ibm.fhir.model.type.Id.Builder string) {
         string.value(podam.manufacturePojo(String.class).replace("_", "-"));
     }
-    
+
     protected void handleString(com.ibm.fhir.model.type.String.Builder string) {
         string.value(podam.manufacturePojo(String.class));
     }
-    
+
     protected void handleInteger(com.ibm.fhir.model.type.Integer.Builder integer) {
         integer.value(podam.manufacturePojo(Integer.class));
     }
-    
+
     protected void handleDecimal(com.ibm.fhir.model.type.Decimal.Builder decimal) {
         decimal.value(podam.manufacturePojo(BigDecimal.class));
     }
-    
+
     private void handleUuid(com.ibm.fhir.model.type.Uuid.Builder uuid) {
         uuid.value("urn:uuid:" + UUID.randomUUID().toString());
     }
-    
+
     private void handleOid(com.ibm.fhir.model.type.Oid.Builder oid) {
         oid.value("urn:oid:2.16.840.1.113883.3.18");
     }
-    
+
     protected void handleUri(Uri.Builder uri) {
         uri.value(podam.manufacturePojo(URI.class).toString());
     }
-    
+
     protected void handleCode(Code.Builder code) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Class<?> elementClass = code.getClass().getEnclosingClass();
-        
+
         Class<?>[] classes = elementClass.getClasses();
         // If the element has a ValueSet, set one of the values randomly
         for (Class<?> clazz : classes) {
             if ("ValueSet".equals(clazz.getSimpleName())) {
                 Object[] enumConstants = clazz.getEnumConstants();
                 Object enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(0, enumConstants.length)];
-                
+
                 // que-1: Group items must have nested items, display items cannot have nested items
                 // que-3: Display items cannot have a "code" asserted (Questionnaire.item[0])
                 // que-6: Required and repeat aren't permitted for display items (Questionnaire.item[0])
@@ -533,7 +542,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         enumConstant = TriggerType.ValueSet.DATA_MODIFIED;
                     }
                 }
-                
+
                 String enumValue = (String) clazz.getMethod("value").invoke(enumConstant);
                 code.value(enumValue);
                 return;
@@ -542,25 +551,25 @@ public class CompleteMockDataCreator extends DataCreatorBase {
         // Otherwise just set it to a random string
         code.value(podam.manufacturePojo(String.class));
     }
-    
+
     protected void handleBase64Binary(Base64Binary.Builder base64Binary) {
         base64Binary.value(podam.manufacturePojo(byte[].class));
     }
-    
+
     protected void handleInstant(Instant.Builder element) throws DatatypeConfigurationException {
         element.value(podam.manufacturePojo(ZonedDateTime.class));
     }
-    
+
     protected void handleDate(Date.Builder element) {
         element.value(podam.manufacturePojo(LocalDate.class));
 //        element.value(randomInt(1900, 2020).toString() + "-" + randomInt(10, 11) + "-" + randomInt(10,28));
     }
-    
+
     protected void handleDateTime(DateTime.Builder element) {
         element.value(podam.manufacturePojo(ZonedDateTime.class));
 //        element.value(randomInt(1900, 2020).toString() + "-" + randomInt(10, 11) + "-" + randomInt(10,28));
     }
-    
+
     protected void handleTime(Time.Builder element) throws DatatypeConfigurationException {
         element.value(podam.manufacturePojo(LocalTime.class));
     }

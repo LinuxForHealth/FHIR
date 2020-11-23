@@ -6,12 +6,14 @@
 
 package com.ibm.fhir.server.operation.spi;
 
+import java.time.Instant;
 import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 
@@ -237,4 +239,16 @@ public interface FHIRResourceHelpers {
     public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception;
 
     public FHIRPersistenceTransaction getTransaction() throws Exception;
+
+    /**
+     * Invoke the FHIR persistence reindex operation for a randomly chosen resource which was
+     * last reindexed before the given date
+     * @param operationContext
+     * @param operationOutcomeResult
+     * @param tstamp
+     * @param resourceLogicalId a reference to a resource e.g. "Patient/abc123". Can be null
+     * @return number of resources reindexed (0 if no resources were found to reindex)
+     * @throws Exception
+     */
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
 }

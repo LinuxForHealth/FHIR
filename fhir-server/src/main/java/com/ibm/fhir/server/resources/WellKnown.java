@@ -18,7 +18,6 @@ import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToSt
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +32,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -100,22 +100,17 @@ public class WellKnown extends FHIRResource {
         List<String> capabilities = null;
 
         try {
-            authURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
-            tokenURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
-            regURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
-            manageURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
-            introspectURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
-            revokeURLTemplate = fhirConfig.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
-            Object[] smartScopeObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_OAUTH_SMART_SCOPES);
-            Object[] capabilityObjs = fhirConfig.getArrayProperty(PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES);
-            if (smartScopeObjs != null) {
-                supportedScopes = Arrays.asList(Arrays.copyOf(smartScopeObjs, smartScopeObjs.length, String[].class));
-            }
-            if (capabilityObjs != null) {
-                capabilities = Arrays.asList(Arrays.copyOf(capabilityObjs, capabilityObjs.length, String[].class));
-            } else {
+            authURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
+            tokenURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
+            regURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
+            manageURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
+            introspectURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
+            revokeURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
+            supportedScopes = FHIRConfigHelper.getStringListProperty(PROPERTY_SECURITY_OAUTH_SMART_SCOPES);
+            capabilities = FHIRConfigHelper.getStringListProperty(PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES);
+            if (capabilities == null) {
                 // Set an empty list since capabilities is a required field
-                capabilities = new ArrayList<String>();
+                capabilities = new ArrayList<>();
             }
         } catch (Exception e) {
             log.log(Level.SEVERE, "An error occurred while reading the OAuth/SMART properties", e);

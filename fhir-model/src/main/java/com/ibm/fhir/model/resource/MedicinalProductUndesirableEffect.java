@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductUndesirableEffect extends DomainResource {
     @Summary
+    @ReferenceTarget({ "MedicinalProduct", "Medication" })
     private final List<Reference> subject;
     @Summary
     private final CodeableConcept symptomConditionEffect;
@@ -51,6 +53,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
         classification = builder.classification;
         frequencyOfOccurrence = builder.frequencyOfOccurrence;
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.requireChildren(this);
     }
 
@@ -409,6 +412,12 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link Medication}</li>
+         * </ul>
+         * 
          * @param subject
          *     The medication for which this is an indication
          * 
@@ -426,6 +435,12 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * The medication for which this is an indication.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link Medication}</li>
+         * </ul>
          * 
          * @param subject
          *     The medication for which this is an indication

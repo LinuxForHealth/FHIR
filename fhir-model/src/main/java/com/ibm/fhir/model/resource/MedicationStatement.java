@@ -68,8 +68,10 @@ public class MedicationStatement extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "MedicationRequest", "CarePlan", "ServiceRequest" })
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -96,6 +98,7 @@ public class MedicationStatement extends DomainResource {
     )
     private final CodeableConcept category;
     @Summary
+    @ReferenceTarget({ "Medication" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -127,6 +130,7 @@ public class MedicationStatement extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport" })
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Dosage> dosage;
@@ -152,9 +156,13 @@ public class MedicationStatement extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
+        ValidationSupport.checkReferenceType(basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
         ValidationSupport.checkReferenceType(informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         ValidationSupport.requireChildren(this);
     }
 
@@ -741,6 +749,13 @@ public class MedicationStatement extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfils plan, proposal or order
          * 
@@ -759,6 +774,13 @@ public class MedicationStatement extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param basedOn
          *     Fulfils plan, proposal or order
          * 
@@ -774,6 +796,15 @@ public class MedicationStatement extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link MedicationDispense}</li>
+         * <li>{@link MedicationStatement}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -792,6 +823,15 @@ public class MedicationStatement extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link MedicationDispense}</li>
+         * <li>{@link MedicationStatement}</li>
+         * <li>{@link Procedure}</li>
+         * <li>{@link Observation}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -879,6 +919,11 @@ public class MedicationStatement extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Medication}</li>
          * </ul>
          * 
          * @param medication
@@ -1068,6 +1113,13 @@ public class MedicationStatement extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Condition or observation that supports why the medication is being/was taken
          * 
@@ -1085,6 +1137,13 @@ public class MedicationStatement extends DomainResource {
          * Condition or observation that supports why the medication is being/was taken.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Condition or observation that supports why the medication is being/was taken

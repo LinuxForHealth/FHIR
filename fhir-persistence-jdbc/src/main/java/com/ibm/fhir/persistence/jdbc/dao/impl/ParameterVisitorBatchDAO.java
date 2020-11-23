@@ -16,14 +16,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -31,10 +32,14 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValueVisitor;
 import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * Batch insert into the parameter values tables. Avoids having to create one stored procedure
@@ -95,11 +100,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final PreparedStatement resourceTokens;
     private int resourceTokenCount;
 
-    // For looking up parameter name ids
-    private final IParameterNameCache parameterNameCache;
+    // DAO for handling parameters stored as token values
+    private final IResourceReferenceDAO resourceReferenceDAO;
 
-    // For looking up code system ids
-    private final ICodeSystemCache codeSystemCache;
+    // Collect a list of token values to process in one go
+    private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
+
+    // The table prefix (resourceType)
+    private final String tablePrefix;
+
+    // The common cache for all our identity lookup needs
+    private final JDBCIdentityCache identityCache;
+
+    // If not null, we stash certain parameter data here for insertion later
+    private final ParameterTransactionDataImpl transactionData;
 
     /**
      * Public constructor
@@ -107,7 +121,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      * @param resourceId
      */
     public ParameterVisitorBatchDAO(Connection c, String adminSchemaName, String tablePrefix, boolean multitenant, long logicalResourceId, int batchSize,
-            IParameterNameCache pnc, ICodeSystemCache csc) throws SQLException {
+            JDBCIdentityCache identityCache, IResourceReferenceDAO resourceReferenceDAO, ParameterTransactionDataImpl ptdi) throws SQLException {
         if (batchSize < 1) {
             throw new IllegalArgumentException("batchSize must be >= 1");
         }
@@ -115,8 +129,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         this.connection = c;
         this.logicalResourceId = logicalResourceId;
         this.batchSize = batchSize;
-        this.parameterNameCache = pnc;
-        this.codeSystemCache = csc;
+        this.identityCache = identityCache;
+        this.resourceReferenceDAO = resourceReferenceDAO;
+        this.tablePrefix = tablePrefix;
+        this.transactionData = ptdi;
 
         insertString = multitenant ?
                 "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
@@ -194,17 +210,16 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
      * @return
      */
     protected int getParameterNameId(String parameterName) throws FHIRPersistenceException {
-        return parameterNameCache.readOrAddParameterNameId(parameterName);
-
+        return identityCache.getParameterNameId(parameterName);
     }
 
     /**
-     * Look up the code system
+     * Looks up the code system. If it doesn't exist, adds it to the database
      * @param codeSystem
      * @return
      */
     protected int getCodeSystemId(String codeSystem) throws FHIRPersistenceException {
-        return codeSystemCache.readOrAddCodeSystem(codeSystem);
+        return identityCache.getCodeSystemId(codeSystem);
     }
 
     @Override
@@ -370,9 +385,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String tokenValue = param.getValueCode();
         try {
             int parameterNameId = getParameterNameId(parameterName);
-            int codeSystemId = getCodeSystemId(codeSystem);
 
+            // handle base (non-resource-specific) token values for issue #1366
             if (isBase(param)) {
+                int codeSystemId = getCodeSystemId(codeSystem);
+
                 // store in the base (resource) table
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseTokenValue: " + parameterName + "[" + parameterNameId + "], "
@@ -393,15 +410,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             else {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], "
-                            + codeSystem + "[" + codeSystemId + "], " + tokenValue);
+                            + codeSystem + ", " + tokenValue);
                 }
 
-                setTokenParms(tokens, parameterNameId, codeSystemId, tokenValue);
-                tokens.addBatch();
+                // Add the new token value to the collection we're building...what's the resourceTypeId?
+                final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
+                if (tokenValue == null) {
+                    logger.info("tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
+                }
 
-                if (++tokenCount == this.batchSize) {
-                    tokens.executeBatch();
-                    tokenCount = 0;
+                ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue);
+                if (this.transactionData != null) {
+                    this.transactionData.addValue(rec);
+                } else {
+                    this.tokenValueRecs.add(rec);
                 }
             }
         }
@@ -669,6 +691,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 resourceTokens.executeBatch();
                 resourceTokenCount = 0;
             }
+
         }
         catch (SQLException x) {
             SQLException batchException = x.getNextException();
@@ -679,6 +702,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             else {
                 throw x;
             }
+        }
+
+        // Process any tokens and references we've collected along the way
+        if (!tokenValueRecs.isEmpty()) {
+            this.resourceReferenceDAO.addCommonTokenValues(this.tablePrefix, tokenValueRecs);
         }
 
         closeStatement(strings);
@@ -707,5 +735,53 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     private boolean isBase(ExtractedParameterValue param) {
         return "Resource".equals(param.getBase());
+    }
+
+    @Override
+    public void visit(ReferenceParmVal rpv) throws FHIRPersistenceException {
+        if (rpv.getRefValue() == null) {
+            return;
+        }
+
+        final String resourceType = this.tablePrefix;
+        int parameterNameId = getParameterNameId(rpv.getName());
+        Integer resourceTypeId = identityCache.getResourceTypeId(resourceType);
+        if (resourceTypeId == null) {
+            // resourceType is not sensitive, so it's OK to include in the exception message
+            throw new FHIRPersistenceException("Resource type not found in cache: '" + resourceType + "'");
+        }
+
+
+        // The ReferenceValue has already been processed to convert the reference to
+        // the required standard form, ready for insertion as a token value.
+        ReferenceValue refValue = rpv.getRefValue();
+
+        // Ignore references containing only a "display" element (apparently supported by the spec,
+        // but contains nothing useful to store because there's no searchable value).
+        String refResourceType = refValue.getTargetResourceType();
+        String refLogicalId = refValue.getValue();
+        Integer refVersion = refValue.getVersion();
+        ResourceTokenValueRec rec;
+
+        if (refValue.getType() == ReferenceType.DISPLAY_ONLY || refValue.getType() == ReferenceType.INVALID) {
+            // protect against code regression. Invalid/improper references should be
+            // filtered out already.
+            logger.warning("Invalid reference parameter type: '" + resourceType + "." + rpv.getName() + "' type=" + refValue.getType().name());
+            throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
+        }
+
+        if (refResourceType != null) {
+            // Store a token value configured as a reference to another resource
+            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion);
+        } else {
+            // stored as a token with the default system
+            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, refLogicalId);
+        }
+
+        if (this.transactionData != null) {
+            this.transactionData.addValue(rec);
+        } else {
+            this.tokenValueRecs.add(rec);
+        }
     }
 }

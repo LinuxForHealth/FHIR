@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="JDBCUnitTestsSuite">
     <test name="ParameterTests">
         <classes>
@@ -35,6 +35,8 @@
     </test>
     <test name="JDBCSearchTests">
         <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchCompartmentTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchCompositeTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchDateTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchNumberTest" />
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCSearchQuantityTest" />

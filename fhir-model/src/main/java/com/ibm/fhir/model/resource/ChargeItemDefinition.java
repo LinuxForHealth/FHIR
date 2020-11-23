@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -123,6 +124,7 @@ public class ChargeItemDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
     private final CodeableConcept code;
+    @ReferenceTarget({ "Medication", "Substance", "Device" })
     private final List<Reference> instance;
     private final List<Applicability> applicability;
     private final List<PropertyGroup> propertyGroup;
@@ -154,6 +156,7 @@ public class ChargeItemDefinition extends DomainResource {
         instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
         applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
         propertyGroup = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.propertyGroup, "propertyGroup"));
+        ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1254,6 +1257,13 @@ public class ChargeItemDefinition extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param instance
          *     Instances this definition applies to
          * 
@@ -1271,6 +1281,13 @@ public class ChargeItemDefinition extends DomainResource {
          * The defined billing details in this resource pertain to the given product instance(s).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * <li>{@link Substance}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param instance
          *     Instances this definition applies to

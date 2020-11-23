@@ -14,7 +14,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.4.1-SNAPSHOT</version>
+        <version>4.5.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -103,6 +103,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-term</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-operation-reindex</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

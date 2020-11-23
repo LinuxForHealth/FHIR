@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
  * Definition of an index on a table
@@ -22,7 +23,7 @@ public class IndexDef {
     private final String indexName;
     
     // The list of columns comprising the index
-    private final List<String> indexColumns = new ArrayList<>();
+    private final List<OrderedColumnDef> indexColumns = new ArrayList<>();
     
     // Is this a unique index?
     private final boolean unique;
@@ -32,10 +33,10 @@ public class IndexDef {
     
     @Override
     public String toString() {
-        return this.indexName + "(" + indexColumns.stream().collect(Collectors.joining(",")) + ")";
+        return this.indexName + "(" + indexColumns.stream().map(c -> c.toString()).collect(Collectors.joining(",")) + ")";
     }
     
-    public IndexDef(String indexName, Collection<String> indexColumns, boolean unique) {
+    public IndexDef(String indexName, Collection<OrderedColumnDef> indexColumns, boolean unique) {
         this.indexName = indexName;
         this.unique = unique;
         this.indexColumns.addAll(indexColumns);
@@ -48,7 +49,7 @@ public class IndexDef {
      * @param indexColumns
      * @param includeColumns
      */
-    public IndexDef(String indexName, Collection<String> indexColumns, Collection<String> includeColumns) {
+    public IndexDef(String indexName, Collection<OrderedColumnDef> indexColumns, Collection<String> includeColumns) {
         this.indexName = indexName;
         this.unique = true;
         this.indexColumns.addAll(indexColumns);
@@ -87,5 +88,16 @@ public class IndexDef {
      */
     public void drop(String schemaName, IDatabaseAdapter target) {
         target.dropIndex(schemaName, indexName);
+    }
+
+    /**
+     * Create a statement which can be used to create vendor-specific DDL
+     * @param schemaName
+     * @param tableName
+     * @param tenantColumnName
+     * @return
+     */
+    public CreateIndexStatement createStatement(String schemaName, String tableName, String tenantColumnName) {
+        return new CreateIndexStatement(schemaName, indexName, tableName, tenantColumnName, indexColumns);
     }
 }

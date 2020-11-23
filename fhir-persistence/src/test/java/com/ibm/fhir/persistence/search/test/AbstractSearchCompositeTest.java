@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -25,10 +26,12 @@ import com.ibm.fhir.model.test.TestUtil;
  */
 public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
 
+    @Override
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicComposite.json");
     }
 
+    @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("composite");
     }
@@ -43,7 +46,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("composite-boolean", "true$false");
         assertSearchDoesntReturnSavedResource("composite-boolean", "false$false");
     }
-    
+
     @Test
     public void testSearchToken_boolean_or() throws Exception {
         assertSearchReturnsSavedResource("composite-boolean", "true$true,true$true");
@@ -51,7 +54,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("composite-boolean", "true$true,false$false");
         assertSearchDoesntReturnSavedResource("composite-boolean", "false$false,false$false");
     }
-    
+
     @Test
     public void testSearchToken_boolean_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.composite-boolean", "true$true");
@@ -115,7 +118,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     @Test
     public void testSearchQuantity_Range() throws Exception {
         // Range is 5-10 seconds
-        
+
         assertSearchReturnsSavedResource("composite-Range", "gt4||s$lt11||s");
     }
 
@@ -125,21 +128,21 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date() throws Exception {
         // "date" is 2018-10-29
-        
+
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$2018-10-29");
-        
+
         assertSearchDoesntReturnSavedResource("composite-date", "ne2018-10-29$2018-10-29");
-        assertSearchDoesntReturnSavedResource("composite-date", "lt2018-10-29$2018-10-29");
-        assertSearchDoesntReturnSavedResource("composite-date", "gt2018-10-29$2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "lt2018-10-29$2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "gt2018-10-29$2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "le2018-10-29$2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "ge2018-10-29$2018-10-29");
         assertSearchDoesntReturnSavedResource("composite-date", "sa2018-10-29$2018-10-29");
         assertSearchDoesntReturnSavedResource("composite-date", "eb2018-10-29$2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "ap2018-10-29$2018-10-29");
-        
+
         assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$ne2018-10-29");
-        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$lt2018-10-29");
-        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$gt2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$lt2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$gt2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$le2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$ge2018-10-29");
         assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$sa2018-10-29");
@@ -151,6 +154,30 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     public void testSearchDate_date_missing() throws Exception {
         assertSearchReturnsSavedResource("composite-date:missing", "false");
         assertSearchDoesntReturnSavedResource("composite-date:missing", "true");
+    }
+
+    @Test
+    public void testSearchDate_date_missing_token_boolean() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("composite-date:missing", Collections.singletonList("false"));
+        queryParms.put("composite-boolean", Collections.singletonList("true$true"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("composite-date:missing", Collections.singletonList("true"));
+        queryParms.put("composite-boolean", Collections.singletonList("true$true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+    }
+
+    @Test
+    public void testSearchDate_date_missing_token_boolean_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("composite-date:missing", Collections.singletonList("false"));
+        queryParms.put("composite-boolean:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("composite-date:missing", Collections.singletonList("false"));
+        queryParms.put("composite-boolean:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     @Test
@@ -167,7 +194,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
         assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
-    
+
     @Test
     public void testSearchDate_date_or() throws Exception {
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$2018-10-29,9999-01-01$2018-10-29");
@@ -179,7 +206,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         // "dateTime" is 2018-10-29T17:12:00-04:00
         assertSearchReturnsSavedResource("composite-dateTime", "2018-10-29$2018-10-29");
     }
-    
+
     @Test
     public void testSearchDate_instant() throws Exception {
         // "instant" is 2018-10-29T17:12:00-04:00
@@ -199,7 +226,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     public void testSearchNumber_integer() throws Exception {
         assertSearchReturnsSavedResource("composite-integer", "12$12");
     }
-    
+
     @Test
     public void testSearchNumber_decimal() throws Exception {
         // Targeted Value is 99.99

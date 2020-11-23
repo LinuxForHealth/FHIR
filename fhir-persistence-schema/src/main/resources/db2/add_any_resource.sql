@@ -13,16 +13,17 @@
 -- p_last_updated the last_updated time given by the FHIR server
 -- p_is_deleted: the soft delete flag
 -- p_version_id: the version id if this is a replicated message
+-- o_logical_resource_id: output field returning the newly assigned logical_resource_id value
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
-    ( IN p_resource_type                 VARCHAR( 36 OCTETS),
-      IN p_logical_id                    VARCHAR(255 OCTETS), 
-      IN p_payload                          BLOB(2147483647),
-      IN p_last_updated                TIMESTAMP,
-      IN p_is_deleted                       CHAR(  1),
-      IN p_source_key                    VARCHAR( 64),
-      IN p_version                           INT,
-      OUT o_logical_resource_id            BIGINT
+    ( IN p_resource_type                VARCHAR( 36 OCTETS),
+      IN p_logical_id                   VARCHAR(255 OCTETS), 
+      IN p_payload                         BLOB(1048576),
+      IN p_last_updated               TIMESTAMP,
+      IN p_is_deleted                      CHAR(  1),
+      IN p_version                          INT,
+      OUT o_logical_resource_id          BIGINT,
+      OUT o_resource_row_id              BIGINT
     )
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -69,9 +70,9 @@ BEGIN
   THEN
     VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_logical_resource_id;
     PREPARE stmt FROM
-       'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id) '
-    || '     VALUES (?, ?, ?, ?)';
-    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id;
+       'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id, reindex_tstamp) '
+    || '     VALUES (?, ?, ?, ?, ?)';
+    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01-00.00.00.0';
 
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
@@ -146,19 +147,21 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites      WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values      WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values   WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values     WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values   WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values    WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values WHERE logical_resource_id = ?';
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
     END IF;
 
@@ -193,8 +196,9 @@ BEGIN
     -- JDBC statements.
   END IF;
 
-  -- Hand back the id of the logical resource we created earlier. In the new R4 schema
-  -- only the logical_resource_id is the target of any FK, so there's no need to return
-  -- the resource_id (which is now private to the _resources tables).
+  -- Hand back the id of the logical resource we created earlier
   SET o_logical_resource_id = v_logical_resource_id;
+
+  -- Resource Row Id which is used to set large blobs
+  SET o_resource_row_id = v_resource_id;
 END

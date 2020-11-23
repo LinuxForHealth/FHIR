@@ -33,7 +33,7 @@ public class SetSchemaAction extends ChainedAction {
     }
 
     @Override
-    public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
+    public void performOn(FHIRDbFlavor flavor, Connection c) throws FHIRPersistenceDBConnectException {
         // this is being called the first time we've seen a connection for this
         // particular datastore. Find out which schema is configured, and make
         // sure it is set as the current schema.
@@ -55,6 +55,6 @@ public class SetSchemaAction extends ChainedAction {
         }
         
         // call the next action in the chain
-        super.performOn(c);
+        super.performOn(flavor, c);
     }
 }

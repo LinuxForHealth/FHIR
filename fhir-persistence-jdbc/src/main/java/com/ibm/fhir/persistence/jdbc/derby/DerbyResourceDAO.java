@@ -24,10 +24,12 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameCacheAdapter;
+import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -35,6 +37,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
@@ -57,8 +60,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
     private static final DerbyTranslator translator = new DerbyTranslator();
 
-    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor) {
-        super(connection, schemaName, flavor);
+    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
+        super(connection, schemaName, flavor, cache, rrd);
     }
 
     /**
@@ -67,8 +70,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param strat the connection strategy
      * @param trxSynchRegistry
      */
-    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(connection, schemaName, flavor, trxSynchRegistry);
+    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
 
     /**
@@ -250,12 +253,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             try {
                 // insert the system-wide logical resource record.
-                final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id) VALUES (?, ?, ?)";
+                final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
                     stmt.setInt(2, v_resource_type_id);
                     stmt.setString(3, p_logical_id);
+                    stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP));
                     stmt.executeUpdate();
                 }
             } catch (SQLException e) {
@@ -361,10 +365,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 // delete composites first, or else the foreign keys there restrict deletes on referenced tables
                 deleteFromParameterTable(conn, tablePrefix + "_composites", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id); // still used for composites
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // non-composite token values
                 deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
             }
         }
@@ -426,8 +431,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
                 // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao);
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
-                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
+                    identityCache, getResourceReferenceDAO(), getTransactionData())) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }

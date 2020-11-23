@@ -1,0 +1,2 @@
+Source - https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.7/
+- Modified CapabilityStatement-plan-net.json to remove <br/> tags between list items in the narrative text (which is invalid XHTML)

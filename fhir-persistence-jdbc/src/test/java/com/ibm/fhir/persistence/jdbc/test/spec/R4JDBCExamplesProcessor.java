@@ -23,6 +23,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 
@@ -53,6 +54,8 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
     
     // Adapter used by the persistence layer to access certain fhir-server-config properties
     private final FHIRConfigProvider configProvider;
+    
+    private final FHIRPersistenceJDBCCache cache;
 
     /**
      * Public constructor. Uses a defaultlist of operations
@@ -64,11 +67,12 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
     public R4JDBCExamplesProcessor(FHIRPersistence persistence,
             Supplier<FHIRPersistenceContext> persistenceContextSupplier,
             Supplier<FHIRPersistenceContext> historyContextSupplier,
-            FHIRConfigProvider configProvider) {
+            FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
         this.persistence = persistence;
         this.persistenceContextSupplier = persistenceContextSupplier;
         this.historyContextSupplier = historyContextSupplier;
         this.configProvider = configProvider;
+        this.cache = cache;
 
         // The sequence of operations we want to apply to each resource
         operations.add(new CreateOperation());
@@ -95,11 +99,12 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
      * @param configProvider
      */
     public R4JDBCExamplesProcessor(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier,
-            Supplier<FHIRPersistenceContext> historyContextSupplier, Collection<ITestResourceOperation> operations, FHIRConfigProvider configProvider) {
+            Supplier<FHIRPersistenceContext> historyContextSupplier, Collection<ITestResourceOperation> operations, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
         this.persistence = persistence;
         this.persistenceContextSupplier = persistenceContextSupplier;
         this.historyContextSupplier = historyContextSupplier;
         this.configProvider = configProvider;
+        this.cache = cache;
 
         // The sequence of operations we want to apply to each resource
         this.operations.addAll(operations);
@@ -116,7 +121,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
      * @param configProvider
      */
     public R4JDBCExamplesProcessor(Collection<ITestResourceOperation> operations,
-            Properties configProps, IConnectionProvider cp, String tenantName, String tenantKey, ITransactionProvider transactionProvider, FHIRConfigProvider configProvider) {
+            Properties configProps, IConnectionProvider cp, String tenantName, String tenantKey, ITransactionProvider transactionProvider, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
         this.persistence = null;
         this.persistenceContextSupplier = null;
         this.historyContextSupplier = null;
@@ -126,6 +131,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         this.tenantKey = tenantKey;
         this.transactionProvider = transactionProvider;
         this.configProvider = configProvider;
+        this.cache = cache;
 
         // The sequence of operations we want to apply to each resource
         this.operations.addAll(operations);
@@ -149,7 +155,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
                 rc.setTenantId(this.tenantName);
             }
 
-            tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp, configProvider);
+            tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp, configProvider, this.cache);
 
             context = new TestContext(tmpPersistence,
                     () -> createPersistenceContext(),

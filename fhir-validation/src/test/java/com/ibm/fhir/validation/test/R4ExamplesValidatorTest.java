@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,11 +28,11 @@ public class R4ExamplesValidatorTest {
     }
 
     @Test
-    public void serializationTest() throws Exception {
+    public void validationTest() throws Exception {
         driver.setProcessor(new SerializationProcessor());
         driver.setValidator(new ValidationProcessor());
         String index = System.getProperty(this.getClass().getName()
-            + ".index", Index.MINIMAL_JSON.name());
+                + ".index", Index.MINIMAL_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
 

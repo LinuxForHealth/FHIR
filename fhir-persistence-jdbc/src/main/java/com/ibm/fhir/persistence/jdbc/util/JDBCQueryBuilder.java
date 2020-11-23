@@ -7,9 +7,11 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CURRENT_RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
@@ -18,22 +20,31 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IS_DELETED_NO;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SELECT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
 import java.sql.Timestamp;
@@ -52,6 +63,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -108,13 +120,29 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     private final ParameterDAO parameterDao;
     private final ResourceDAO resourceDao;
 
+    // For id lookups
+    private final JDBCIdentityCache identityCache;
+
     // Hints to use for certain queries
     private final QueryHints queryHints;
 
-    public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao, QueryHints queryHints) {
+    // Table alias prefixes
+    private static final String CR = "CR";
+    private static final String CLR = "CLR";
+    private static final String CP = "CP";
+
+    /**
+     * Public constructor
+     * @param parameterDao
+     * @param resourceDao
+     * @param queryHints
+     * @param identityCache
+     */
+    public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao, QueryHints queryHints, JDBCIdentityCache identityCache) {
         this.parameterDao = parameterDao;
         this.resourceDao  = resourceDao;
         this.queryHints = queryHints;
+        this.identityCache = identityCache;
     }
 
     /**
@@ -209,7 +237,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         helper =
                 QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
-                        this.parameterDao, this.resourceDao, searchContext, this.queryHints);
+                        this.parameterDao, this.resourceDao, searchContext, this.queryHints, this.identityCache);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
@@ -343,7 +371,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processStringParm(queryParm, tableAlias);
                     break;
                 case REFERENCE:
-                    if (queryParm.isChained()) {
+                    if (queryParm.isReverseChained()) {
+                        databaseQueryParm = this.processReverseChainedReferenceParm(resourceType, queryParm);
+                    } else if (queryParm.isChained()) {
                         databaseQueryParm = this.processChainedReferenceParm(queryParm);
                     } else if (queryParm.isInclusionCriteria()) {
                         databaseQueryParm = this.processInclusionCriteria(queryParm);
@@ -500,6 +530,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         return processReferenceParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
 
+    /**
+     * Get the code system id, reading from the database if necessary
+     * @param codeSystemValue
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private Integer getCodeSystemId(String codeSystemValue) throws FHIRPersistenceException {
+        return identityCache.getCodeSystemId(codeSystemValue);
+    }
+
     private SqlQueryData processReferenceParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
             throws Exception {
         final String METHODNAME = "processReferenceParm";
@@ -520,9 +560,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
-            // Handle query parm representing this name/value pair construct:
-            // <code> {name} = {resource-type/resource-id}</code>
+            String targetResourceType = null;
             searchValue = SqlParameterEncoder.encode(value.getValueString());
+
+            // Make sure we split out the resource type if it is included in the search value
+            String[] parts = value.getValueString().split("/");
+            if (parts.length == 2) {
+                targetResourceType = parts[0];
+                searchValue = parts[1];
+            }
 
             // Handle query parm representing this name/value pair construct:
             // <code>{name}:{Resource Type} = {resource-id}</code>
@@ -534,8 +580,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                                     + SqlParameterEncoder.encode(value.getValueString());
                 } else {
                     // This is a Reference type.
-                    // As of versions greater than 4.4.0, we defer to the Search Layer to append the value.
-                    searchValue = SqlParameterEncoder.encode(value.getValueString());
+                    if (parts.length != 2) {
+                        // fallback to get the target resource type using the modifier
+                        targetResourceType = queryParm.getModifierResourceTypeName();
+                    }
                 }
             }
 
@@ -545,9 +593,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             } else {
                 parmValueProcessed = true;
             }
-            // Build this piece: pX.str_value {operator} search-attribute-value
-            whereClauseSegment.append(tableAlias).append(DOT).append(STR_VALUE).append(operator).append(BIND_VAR);
+            // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
+            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
             bindVariables.add(searchValue);
+
+            // add the [optional] condition for the resource type if we have one
+            if (targetResourceType != null) {
+                // Use a literal for the resource type code-system-id, not a parameter marker. Helps the cost-based optimizer
+                int codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
+            }
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
@@ -560,20 +615,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * Contains special logic for handling chained reference search parameters.
      * <p>
      * Nested sub-selects are built to realize the chaining logic required. Here is
-     * a sample chained query for an
-     * Observation given this search parameter: device:Device.patient.family=Monella
+     * a sample chained query for an Observation given this search parameter:
+     * {@code device:Device.patient.family=Monella}
      *
      * <pre>
      * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
      * FROM Observation_LOGICAL_RESOURCES LR
-     * JOIN Observation_RESOURCES R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'
+     * JOIN Observation_RESOURCES R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED = 'N'
      * JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES
      * WHERE(P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN
      *    (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
-     *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
+     *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *          CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN
      *                 (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE
-     *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
+     *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED = 'N' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
      *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')))
      * TMP0 ON TMP0.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID;
      * </pre>
@@ -590,9 +645,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         final String METHODNAME = "processChainedReferenceParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
-        final String CR = "CR";
-        final String CLR = "CLR";
-        final String CP = "CP";
         QueryParameter currentParm;
         int refParmIndex = 0;
         String chainedResourceVar = null;
@@ -609,14 +661,28 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             if (nextParameter != null) {
                 if (refParmIndex == 0) {
                     // Must build this first piece using px placeholder table alias, which will be replaced with a
-                    // generated value in the buildQuery() method.
-                    // Build this piece:P1.PARAMETER_NAME_ID = x AND (p1.STR_VALUE IN
+                    // generated value in the buildQuery() method. The CODE_SYSTEM_ID filter is added for issue #1366
+                    // due to the normalization of token values
+                    // Build this piece:P1.PARAMETER_NAME_ID = x AND AND P1.CODE_SYSTEM_ID = x AND (p1.TOKEN_VALUE IN
                     this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
+
+                    // The resource type of the reference is encoded as the code system associated with the token value
+                    // so we need to add a filter to ensure we don't match logical-ids for other resource types
+                    // Note if the match is for any resource, we simply don't filter on the resource type
+                    final String codeSystemName = currentParm.getModifierResourceTypeName();
+                    if (codeSystemName != null && !codeSystemName.equals("*")) {
+                        Integer codeSystemId = identityCache.getCodeSystemId(codeSystemName);
+                        if (codeSystemId != null) {
+                            whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
+                                    .append(codeSystemId);
+                        }
+                    }
+
                     whereClauseSegment.append(AND);
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(IN);
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(IN);
                 } else {
-                    // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.STR_VALUE IN
+                    // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.TOKEN_VALUE IN
                     appendMidChainParm(whereClauseSegment, currentParm, chainedParmVar);
                 }
 
@@ -638,12 +704,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 }
                 resourceTypeName = currentParm.getModifierResourceTypeName();
                 // Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
+                // since #1366, we no longer need to prepend the resource-type-name
                 whereClauseSegment.append(LEFT_PAREN);
                 appendInnerSelect(whereClauseSegment, currentParm, resourceTypeName,
                         chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
             } else {
                 // This logic processes the LAST parameter in the chain.
-                // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
+                // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.TOKEN_VALUE = ?
+                // TODO do we need to filter the code-system here too?
                 if (chainedParmVar == null) {
                     chainedParmVar = CP + 1;
                 }
@@ -651,12 +719,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
                 String code = currentParm.getCode();
                 SqlQueryData sqlQueryData;
-                if (!"_id".equals(code)) {
-                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
-                } else {
+                if ("_id".equals(code)) {
                     // The code '_id' is only going to be the end of the change as it is a base element.
                     // We know at this point this is an '_id' and at the tail of the parameter chain
                     sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
+                } else if ("_lastUpdated".equals(code)) {
+                    // Build the rest: (LAST_UPDATED <operator> ?)
+                    LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil();
+                    StringBuilder lastUpdatedWhereClause = new StringBuilder();
+                    util.executeBehavior(lastUpdatedWhereClause, currentParm);
+                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString(), util.getBindVariables());
+                } else {
+                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar);
                 }
 
                 if (log.isLoggable(Level.FINE)) {
@@ -690,7 +764,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         List<Object> bindVariables = new ArrayList<>();
 
         whereClauseSegment
-            .append(chainedParmVar.replace("CP", "CLR")).append(DOT).append("LOGICAL_ID").append(" IN (");
+            .append(chainedParmVar.replace("CP", "CLR")).append(DOT).append(LOGICAL_ID).append(" IN (");
 
         List<QueryParameterValue> vals = currentParm.getValues();
         boolean add = false;
@@ -710,39 +784,43 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     private void appendMidChainParm(StringBuilder whereClauseSegment, QueryParameter currentParm, String chainedParmVar)
             throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException, FHIRPersistenceException {
-        Integer parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getCode());
-        if (parameterNameId == null) {
-            parameterNameId = this.parameterDao.readParameterNameId(currentParm.getCode());
-            if (parameterNameId != null) {
-                this.parameterDao.addParameterNamesCacheCandidate(currentParm.getCode(), parameterNameId);
+        Integer parameterNameId = identityCache.getParameterNameId(currentParm.getCode());
+        whereClauseSegment.append(chainedParmVar).append(DOT).append(PARAMETER_NAME_ID).append(EQ)
+                .append(parameterNameId);
+
+        // TODO handle code system lookup failures here. Perhaps = NULL to make the query return no rows?
+        final String codeSystemName = currentParm.getModifierResourceTypeName();
+        if (codeSystemName != null && !codeSystemName.equals("*")) {
+            Integer codeSystemId = identityCache.getCodeSystemId(codeSystemName);
+            if (codeSystemId != null) {
+                whereClauseSegment.append(AND).append(chainedParmVar).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
+                        .append(codeSystemId);
             }
         }
-        whereClauseSegment.append(chainedParmVar).append(DOT).append("PARAMETER_NAME_ID").append(EQ)
-                .append(parameterNameId)
-                .append(AND).append(chainedParmVar).append(DOT).append(STR_VALUE).append(IN);
+
+        whereClauseSegment.append(AND).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(IN);
     }
 
     private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm,
             String resourceTypeName, String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
-        String chainedResourceTableAlias = chainedResourceVar + ".";
-        String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + ".";
-        String chainedParmTableAlias = chainedParmVar + ".";
+        String chainedResourceTableAlias = chainedResourceVar + DOT;
+        String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + DOT;
+        String chainedParmTableAlias = chainedParmVar + DOT;
 
         // Build this piece: SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID
-        whereClauseSegment.append("SELECT ").append("'" + resourceTypeName
-                + "'").append(" || ").append("'/'").append(" || ").append(chainedLogicalResourceTableAlias)
-                .append("LOGICAL_ID");
+        // Note since #1366, we no longer need to prepend the resourceTypeName
+        whereClauseSegment.append(SELECT).append(chainedLogicalResourceTableAlias).append(LOGICAL_ID);
 
         QueryParameter nextParameter = currentParm.getNextParameter();
 
-        // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
+        // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_TOKEN_VALUES_V CP1 WHERE
         whereClauseSegment.append(FROM)
-                .append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ")
-                .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar);
+                .append(resourceTypeName).append(_RESOURCES).append(SPACE).append(chainedResourceVar).append(COMMA)
+                .append(resourceTypeName).append(_LOGICAL_RESOURCES).append(SPACE).append(chainedLogicalResourceVar);
 
         // If we're dealing with anything other than id, then proceed to add the parameters table.
         if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
-            whereClauseSegment.append(", ")
+            whereClauseSegment.append(COMMA)
                 .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter()))
                 .append(chainedParmVar);
         }
@@ -754,29 +832,34 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                     String alias = chainedParmVar + "_p" + componentNum;
                     QueryParameter component = components.get(componentNum - 1);
+                    String tableName = QuerySegmentAggregator.tableName(resourceTypeName, component);
+                    // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
+                    if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
+                        tableName = resourceTypeName + "_TOKEN_VALUES ";
+                    }
                     whereClauseSegment
-                            .append(JOIN + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
+                            .append(JOIN).append(tableName).append(alias)
                             .append(ON)
-                            .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component))
+                            .append(chainedParmVar).append(".COMP").append(componentNum).append(QuerySegmentAggregator.abbr(component))
                             .append("=")
-                            .append(alias + ".ROW_ID");
+                            .append(alias).append(".ROW_ID");
                 }
             }
         }
 
-        whereClauseSegment.append(" WHERE ");
+        whereClauseSegment.append(WHERE);
 
-        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND
+        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N' AND
         // CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-        whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ")
-                .append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID")
+        whereClauseSegment.append(chainedResourceTableAlias).append(RESOURCE_ID).append(EQ)
+                .append(chainedLogicalResourceTableAlias).append(CURRENT_RESOURCE_ID)
                 .append(AND)
                 .append(chainedResourceTableAlias)
-                .append("IS_DELETED").append(" <> 'Y'")
+                .append(IS_DELETED_NO)
                 .append(AND);
         if (currentParm.getNextParameter() != null && !"_id".equals(currentParm.getNextParameter().getCode())) {
-            whereClauseSegment.append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
-                .append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID")
+            whereClauseSegment.append(chainedParmTableAlias).append(LOGICAL_RESOURCE_ID).append(EQ)
+                .append(chainedResourceTableAlias).append(LOGICAL_RESOURCE_ID)
                 .append(AND);
         }
     }
@@ -840,8 +923,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * This method is the entry point for processing inclusion criteria, which
-     * define resources that are part of a
-     * comparment-based search.
+     * define resources that are part of a comparment-based search.
      * Example inclusion criteria for AuditEvent in the Patient compartment:
      *
      * <pre>
@@ -863,7 +945,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *    SELECT COUNT(R.RESOURCE_ID) FROM
      *    AuditEvent_RESOURCES R, AuditEvent_LOGICAL_RESOURCES LR , AuditEvent_STR_VALUES P1 WHERE
      *    R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-     *    R.IS_DELETED <> 'Y' AND
+     *    R.IS_DELETED = 'N' AND
      *    P1.RESOURCE_ID = R.RESOURCE_ID AND
      *    ((P1.PARAMETER_NAME_ID=14 AND P1.STR_VALUE = ?) OR
      *     ((P1.PARAMETER_NAME_ID=13 AND
@@ -871,7 +953,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *        (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *            Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
      *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *            CR1.IS_DELETED <> 'Y' AND
+     *            CR1.IS_DELETED = 'N' AND
      *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
      *    ((P1.PARAMETER_NAME_ID=13 AND
@@ -879,7 +961,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *        (SELECT 'RelatedPerson' || '/' || CLR1.LOGICAL_ID FROM
      *            RelatedPerson_RESOURCES CR1, RelatedPerson_LOGICAL_RESOURCES CLR1, RelatedPerson_STR_VALUES CP1 WHERE
      *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *            CR1.IS_DELETED <> 'Y' AND
+     *            CR1.IS_DELETED = 'N' AND
      *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))) OR
      *     ((P1.PARAMETER_NAME_ID=16 AND
@@ -887,14 +969,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *        (SELECT 'AuditEvent' || '/' || CLR1.LOGICAL_ID FROM
      *            auditevent_RESOURCES CR1, auditevent_LOGICAL_RESOURCES CLR1, auditevent_STR_VALUES CP1 WHERE
      *            CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *            CR1.IS_DELETED <> 'Y' AND
+     *            CR1.IS_DELETED = 'N' AND
      *            CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *            CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?
      *            UNION
      *            SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM
      *                device_RESOURCES CR1, device_LOGICAL_RESOURCES CLR1, device_STR_VALUES CP1 WHERE
      *                CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND
-     *                CR1.IS_DELETED <> 'Y' AND
+     *                CR1.IS_DELETED = 'N' AND
      *                CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *                CP1.PARAMETER_NAME_ID=14 AND CP1.STR_VALUE = ?)))));
      * </pre>
@@ -936,9 +1018,23 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 // (pX.PARAMETER_NAME_ID = x AND
                 this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                 whereClauseSegment.append(AND);
-                // Build this piece: pX.str_value = search-attribute-value
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator)
+
+                // split the resource type name out (since issue #1366)
+                String resourceTypeName = null;
+                String[] parts = currentParmValue.split("/");
+                if (parts.length == 2) {
+                    resourceTypeName = parts[0];
+                    currentParmValue = parts[1];
+                }
+
+                // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
+                whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(operator)
                         .append(BIND_VAR);
+                if (resourceTypeName != null) {
+                    int codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
+                    whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
+                        .append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
+                }
                 whereClauseSegment.append(RIGHT_PAREN);
                 bindVariables.add(currentParmValue);
             }
@@ -1021,15 +1117,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     } else {
                         whereClauseSegment.append(AND);
                     }
-                    whereClauseSegment.append(tableAlias + DOT).append(CODE_SYSTEM_ID).append(operator)
+                    whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
                             .append(BIND_VAR);
-                    codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
-                    if (codeSystemId == null) {
-                        codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                        if (codeSystemId != null) {
-                            this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
-                        }
-                    }
+
+                    codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
+
                     // must be able to handle nulls
                     bindVariables.add(codeSystemId);
                 }
@@ -1208,6 +1300,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *
      * @param whereClauseSegment
      * @param queryParmName
+     * @param parameterTableAlias the alias for the parameter table e.g. pX
+     * @param resourceTypeName the resource type of the reference being followed
      * @throws FHIRPersistenceException
      */
     private void populateNameIdSubSegment(StringBuilder whereClauseSegment, String queryParmName,
@@ -1219,17 +1313,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x
-        parameterNameId = ParameterNamesCache.getParameterNameId(queryParmName);
-        if (parameterNameId == null) {
-            // only try to read, not create
-            parameterNameId = this.parameterDao.readParameterNameId(queryParmName);
+        parameterNameId = identityCache.getParameterNameId(queryParmName);
 
-            if (parameterNameId != null) {
-                this.parameterDao.addParameterNamesCacheCandidate(queryParmName, parameterNameId);
-            }
-        }
         whereClauseSegment.append(LEFT_PAREN);
-        whereClauseSegment.append(parameterTableAlias + DOT).append("PARAMETER_NAME_ID=")
+        whereClauseSegment.append(parameterTableAlias + DOT).append(PARAMETER_NAME_ID).append(EQ)
                 .append(nullCheck(parameterNameId));
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -1314,7 +1401,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + WHERE);
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
-        whereClauseSegment.append(" AND " + valuesTable + ".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
+        whereClauseSegment.append(AND).append(valuesTable).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
         List<Object> bindVariables = new ArrayList<>();
@@ -1322,4 +1409,314 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
     }
+
+    /**
+     * Contains special logic for handling reverse chained reference search parameters.
+     * <p>
+     * A select statement is built to realize the reverse chaining logic required. Here is a sample
+     * reverse chained query for a Patient given this search parameter: _has:Observation:patient:code=1234
+     *
+     * <pre>
+     * SELECT
+     *   CLR0.LOGICAL_ID
+     * FROM
+     *   Patient_LOGICAL_RESOURCES AS CLR0
+     *   JOIN Patient_RESOURCES AS CR0 ON CR0.RESOURCE_ID = CLR0.CURRENT_RESOURCE_ID AND CR0.IS_DELETED = 'N'
+     * WHERE
+     *   EXISTS (
+     *     SELECT
+     *       1
+     *     FROM
+     *       Observation_TOKEN_VALUES_V AS CP1
+     *       JOIN Observation_LOGICAL_RESOURCES AS CLR1 ON CLR1.LOGICAL_RESOURCE_ID = CP1.LOGICAL_RESOURCE_ID
+     *       JOIN Observation_RESOURCES AS CR1 ON CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N'
+     *       JOIN Observation_TOKEN_VALUES_V AS CP2 ON CP2.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID
+     *       AND (
+     *         CP2.PARAMETER_NAME_ID = 1073
+     *         AND ((CP2.TOKEN_VALUE = ?))
+     *       )
+     *     WHERE
+     *       CP1.TOKEN_VALUE = CLR0.LOGICAL_ID
+     *       AND CP1.PARAMETER_NAME_ID = 1274
+     *       AND CP1.CODE_SYSTEM_ID = 20004
+     *   )
+     * </pre>
+     *
+     * @see https://www.hl7.org/fhir/search.html#has
+     * @param resourceType
+     *                  - The resource type being searched.
+     * @param queryParm
+     *                  - A Parameter representing a reverse chained query.
+     * @return SqlQueryData
+     *                  - The query segment for a reverse chained parameter reference search.
+     * @throws Exception
+     */
+    @Override
+    protected SqlQueryData processReverseChainedReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
+        final String METHODNAME = "processReverseChainedReferenceParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+
+        String prevChainedResourceVar = null;
+        String prevChainedLogicalResourceVar = null;
+        String chainedResourceVar = null;
+        String chainedLogicalResourceVar = null;
+        String chainedParmVar = null;
+        String nextChainedResourceVar = null;
+        String nextChainedLogicalResourceVar = null;
+        String nextChainedParmVar = null;
+        QueryParameter previousParm = null;;
+        int parmIndex = 0;
+        int lastParmIndex = queryParm.getChain().size();
+        boolean chainedParmProcessed = false;
+        StringBuilder selectSegments = new StringBuilder();
+        StringBuilder whereClauseSegments = new StringBuilder();
+        List<Object> bindVariables = new ArrayList<>();
+
+        // Loop through the chained query parameters in order
+        List<QueryParameter> queryParms = queryParm.getChain();
+        queryParms.add(0, queryParm);
+        for (QueryParameter currentParm : queryParms) {
+
+            prevChainedResourceVar        = CR + parmIndex;
+            prevChainedLogicalResourceVar = CLR + parmIndex;
+            chainedResourceVar        = CR + (parmIndex + 1);
+            chainedLogicalResourceVar = CLR + (parmIndex + 1);
+            chainedParmVar            = CP + (parmIndex + 1);
+            nextChainedResourceVar        = CR + (parmIndex + 2);
+            nextChainedLogicalResourceVar = CLR + (parmIndex + 2);
+            nextChainedParmVar        = CP + (parmIndex + 2);
+            StringBuilder whereClauseSegment = new StringBuilder();
+
+            if (parmIndex == 0) {
+                // Build outer select:
+                // @formatter:off
+                //   SELECT CLR0.LOGICAL_ID
+                //     FROM <resource-type>_LOGICAL_RESOURCES AS CLR0
+                //     JOIN <resource-type>_RESOURCES AS CR0
+                //       ON CR0.RESOURCE_ID = CLR0.CURRENT_RESOURCE_ID AND CR0.IS_DELETED = 'N'
+                //     WHERE
+                // @formatter:on
+                selectSegments.append(SELECT).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID)
+                                .append(FROM).append(resourceType.getSimpleName()).append(_LOGICAL_RESOURCES).append(AS).append(prevChainedLogicalResourceVar)
+                                .append(JOIN).append(resourceType.getSimpleName()).append(_RESOURCES).append(AS).append(prevChainedResourceVar)
+                                .append(ON).append(prevChainedResourceVar).append(DOT).append(RESOURCE_ID).append(EQ)
+                                .append(prevChainedLogicalResourceVar).append(DOT).append(CURRENT_RESOURCE_ID)
+                                .append(AND).append(prevChainedResourceVar).append(DOT ).append(IS_DELETED_NO)
+                                .append(WHERE);
+            }
+
+            if (parmIndex < lastParmIndex) {
+                if (currentParm.isReverseChained()) {
+                    // Build inner select joins:
+                    // @formatter:off
+                    //   EXISTS (SELECT 1
+                    //     FROM <modifierTypeResourceName>_TOKEN_VALUES_V AS CPx
+                    //     JOIN <modifierTypeResourceName>_LOGICAL_RESOURCES AS CLRx
+                    //       ON CLRx.LOGICAL_RESOURCE_ID = CPx.LOGICAL_RESOURCE_ID
+                    //     JOIN <modifierTypeResourceName>_RESOURCES AS CRx
+                    //       ON CRx.RESOURCE_ID = CLRx.CURRENT_RESOURCE_ID AND CRx.IS_DELETED = 'N'
+                    // @formatter:on
+                    selectSegments.append(EXISTS).append(LEFT_PAREN).append("SELECT 1")
+                                    .append(FROM).append(currentParm.getModifierResourceTypeName()).append("_TOKEN_VALUES_V").append(AS).append(chainedParmVar)
+                                    .append(JOIN).append(currentParm.getModifierResourceTypeName()).append(_LOGICAL_RESOURCES).append(AS).append(chainedLogicalResourceVar)
+                                    .append(ON).append(chainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(EQ)
+                                    .append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                    .append(JOIN).append(currentParm.getModifierResourceTypeName()).append(_RESOURCES).append(AS).append(chainedResourceVar)
+                                    .append(ON).append(chainedResourceVar).append(DOT).append(RESOURCE_ID).append(EQ)
+                                    .append(chainedLogicalResourceVar).append(DOT).append(CURRENT_RESOURCE_ID)
+                                    .append(AND).append(chainedResourceVar).append(DOT).append(IS_DELETED_NO);
+
+                    String referencedResourceType = null;
+                    if (parmIndex == 0) {
+                        referencedResourceType = resourceType.getSimpleName();
+                    } else {
+                        referencedResourceType = previousParm.getModifierResourceTypeName();
+                    }
+                    if (parmIndex < lastParmIndex - 1 && currentParm.getNextParameter().isReverseChained()) {
+                        // Build inner select where clause:
+                        // @formatter:off
+                        //   WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
+                        //     AND CPx.PARAMETER_NAME_ID = <parm-name-id>
+                        //     AND CPx.CODE_SYSTEM_ID = <code-system-id>
+                        //     AND
+                        // @formatter:on
+                        selectSegments.append(WHERE).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
+                                        .append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID).append(AND);
+                        populateReferenceNameAndCodeSystemIdSubSegment(selectSegments, currentParm.getCode(), referencedResourceType, chainedParmVar);
+                        selectSegments.append(AND);
+                    } else {
+                        // Build final inner select where clause:
+                        // @formatter:off
+                        //   WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
+                        //     AND CPx.PARAMETER_NAME_ID = <parm-name-id>
+                        //     AND CPx.CODE_SYSTEM_ID = <code-system-id>
+                        // @formatter:on
+                        whereClauseSegment.append(WHERE).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
+                                            .append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID).append(AND);
+                        populateReferenceNameAndCodeSystemIdSubSegment(whereClauseSegment, currentParm.getCode(), referencedResourceType, chainedParmVar);
+                    }
+
+                    // Add closing right paren for EXISTS
+                    whereClauseSegment.append(RIGHT_PAREN);
+                } else if (currentParm.isChained()) {
+                    // Build chained query
+                    if (!chainedParmProcessed) {
+                        // Build initial chain join and select:
+                        //   SELECT CPx.LOGICAL_RESOURCE_ID FROM <modifierTypeResourceName>_TOKEN_VALUES_V AS CPx WHERE
+                        selectSegments.append(JOIN ).append(LEFT_PAREN)
+                                        .append(SELECT).append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(FROM)
+                                        .append(previousParm.getModifierResourceTypeName()).append("_TOKEN_VALUES_V AS ").append(chainedParmVar)
+                                        .append(WHERE);
+                    }
+
+                    // Build this piece: CPx.PARAMETER_NAME_ID = <code-id> AND CPx.STR_VALUE IN
+                    appendMidChainParm(selectSegments, currentParm, chainedParmVar);
+
+                    // Build this piece: (SELECT 'resource-type-name' || '/' || CLR<x+1>.LOGICAL_ID ...
+                    selectSegments.append(LEFT_PAREN);
+                    appendInnerSelect(selectSegments, currentParm, currentParm.getModifierResourceTypeName(),
+                        nextChainedResourceVar, nextChainedLogicalResourceVar, nextChainedParmVar);
+                    whereClauseSegment.append(RIGHT_PAREN);
+
+                    if (!chainedParmProcessed) {
+                        chainedParmProcessed = true;
+
+                        // Builds ON clause for join: ) AS CPx ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        whereClauseSegment.append(RIGHT_PAREN).append(AS).append(chainedParmVar).append(ON)
+                                            .append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(EQ)
+                                            .append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID);
+                    }
+                }
+            } else if (parmIndex == lastParmIndex) {
+                // This logic processes the LAST parameter in the chain.
+                SqlQueryData sqlQueryData;
+                if ("_id".equals(currentParm.getCode())) {
+                    if (!chainedParmProcessed) {
+                        // Build this join:
+                        // @formatter:off
+                        //   JOIN <modifierTypeResourceName>_LOGICAL_RESOURCES AS CLRx
+                        //     ON CLRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        //     AND
+                        // @formatter:on
+                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(_LOGICAL_RESOURCES)
+                                            .append(AS).append(chainedLogicalResourceVar).append(ON)
+                                            .append(chainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
+                    }
+                    // Build the rest: CLRx.LOGICAL_ID IN (?)
+                    sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
+                } else if ("_lastUpdated".equals(currentParm.getCode())) {
+                    if (!chainedParmProcessed) {
+                        // Build this join:
+                        // @formatter:off
+                        //   JOIN <modifierTypeResourceName>_RESOURCES AS CRx
+                        //     ON CRx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                        //     AND
+                        // @formatter:on
+                        whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append(_RESOURCES)
+                                            .append(AS).append(chainedResourceVar).append(ON)
+                                            .append(chainedResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
+                    }
+                    // Build the rest: (LAST_UPDATED <operator> ?)
+                    LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil();
+                    StringBuilder lastUpdatedWhereClause = new StringBuilder();
+                    util.executeBehavior(lastUpdatedWhereClause, currentParm);
+                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString()
+                        .replaceAll(LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME,
+                            chainedResourceVar + DOT + LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME),
+                        util.getBindVariables());
+                } else {
+                    if (!chainedParmProcessed) {
+                        if (Type.COMPOSITE.equals(currentParm.getType())) {
+                            // Build this join:
+                            // @formatter:off
+                            //   JOIN <modifierTypeResourceName>_COMPOSITES AS CPx
+                            //     ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                            //   JOIN <modifierTypeResourceName>__<type>_VALUES AS CPx_px
+                            //     ON CPx.COMPx_<type> = CPx_px.ROW_ID
+                            //   JOIN <modifierTypeResourceName>__<type>_VALUES AS CPx_p<x+1>
+                            //     ON CPx.COMP<x+1>_<type> = CPx_p<x+1>.ROW_ID
+                            //     AND
+                            // @formatter:on
+                            whereClauseSegment.append(JOIN).append(previousParm.getModifierResourceTypeName()).append("_COMPOSITES")
+                                            .append(AS).append(chainedParmVar).append(ON).append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID);
+                            if (currentParm.getValues() != null && !currentParm.getValues().isEmpty()) {
+                                QueryParameterValue queryParameterValue = currentParm.getValues().get(0);
+                                List<QueryParameter> components = queryParameterValue.getComponent();
+                                for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                                    String alias = chainedParmVar + "_p" + componentNum;
+                                    QueryParameter component = components.get(componentNum - 1);
+                                    String tableName = QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), component);
+                                    // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
+                                    if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
+                                        tableName = previousParm.getModifierResourceTypeName() + "_TOKEN_VALUES ";
+                                    }
+                                    whereClauseSegment.append(JOIN).append(tableName).append(alias).append(ON)
+                                            .append(chainedParmVar).append(".COMP").append(componentNum).append(QuerySegmentAggregator.abbr(component))
+                                            .append(EQ).append(alias).append(".ROW_ID");
+                                }
+                            }
+                            whereClauseSegment.append(AND);
+                        } else {
+                            // Build this join:
+                            // @formatter:off
+                            //   JOIN <modifierTypeResourceName>_<type>_VALUES AS CPx
+                            //     ON CPx.LOGICAL_RESOURCE_ID = CLR<x-1>.LOGICAL_RESOURCE_ID
+                            //     AND
+                            // @formatter:on
+                            whereClauseSegment.append(JOIN).append(QuerySegmentAggregator.tableName(previousParm.getModifierResourceTypeName(), currentParm))
+                                            .append(AS).append(chainedParmVar).append(ON).append(chainedParmVar).append(DOT).append(LOGICAL_RESOURCE_ID)
+                                            .append(EQ).append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_RESOURCE_ID).append(AND);
+                        }
+                    }
+                    // Build the rest: (CPx.PARAMETER_NAME_ID=<code-id> AND (CPx.<type>_VALUE=<valueCode>))
+                    sqlQueryData = buildQueryParm(ModelSupport.getResourceType(previousParm.getModifierResourceTypeName()), currentParm, chainedParmVar);
+                }
+
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("chained sqlQueryData[" + chainedParmVar + "] = " + sqlQueryData.getQueryString());
+                }
+                whereClauseSegment.append(sqlQueryData.getQueryString());
+                bindVariables.addAll(sqlQueryData.getBindVariables());
+           }
+
+            // Insert where clause segment in whole
+            whereClauseSegments.insert(0, whereClauseSegment.toString());
+
+            previousParm = currentParm;
+            parmIndex++;
+        }
+
+        SqlQueryData queryData = new SqlQueryData(whereClauseSegments.insert(0, selectSegments.toString()).toString(), bindVariables);
+        log.exiting(CLASSNAME, METHODNAME, queryData.getQueryString());
+        return queryData;
+    }
+
+    /**
+     * Populates the reference parameter name ID and code system ID sub-segment of the passed where clause segment.
+     *
+     * @param whereClauseSegment - the segment to which the sub-segment will be added
+     * @param queryParmName - the search parameter name
+     * @param resourceTypeName - the resource type of the reference being followed
+     * @param parameterTableAlias - the alias for the parameter table e.g. CPx
+     * @throws FHIRPersistenceException
+     */
+    private void populateReferenceNameAndCodeSystemIdSubSegment(StringBuilder whereClauseSegment, String queryParmName,
+            String resourceTypeName, String parameterTableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "populateReferenceNameAndCodeSystemIdSubSegment";
+        log.entering(CLASSNAME, METHODNAME, queryParmName);
+
+        Integer parameterNameId = identityCache.getParameterNameId(queryParmName);
+        Integer codeSystemId = getCodeSystemId(resourceTypeName);
+
+        // Build the segment:
+        // CPx.PARAMETER_NAME_ID = <parameter-name-id> AND CPx.CODE_SYSTEM_ID = <code-system_id>
+        whereClauseSegment.append(parameterTableAlias).append(DOT).append(PARAMETER_NAME_ID).append(EQ).append(nullCheck(parameterNameId))
+                            .append(AND).append(parameterTableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemId));
+
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+
 }

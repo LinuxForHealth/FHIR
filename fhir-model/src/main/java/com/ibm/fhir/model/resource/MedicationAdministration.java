@@ -67,6 +67,7 @@ public class MedicationAdministration extends DomainResource {
     @Summary
     private final List<Uri> instantiates;
     @Summary
+    @ReferenceTarget({ "MedicationAdministration", "Procedure" })
     private final List<Reference> partOf;
     @Summary
     @Binding(
@@ -92,6 +93,7 @@ public class MedicationAdministration extends DomainResource {
     )
     private final CodeableConcept category;
     @Summary
+    @ReferenceTarget({ "Medication" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
@@ -121,12 +123,15 @@ public class MedicationAdministration extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-given-codes"
     )
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport" })
     private final List<Reference> reasonReference;
     @ReferenceTarget({ "MedicationRequest" })
     private final Reference request;
+    @ReferenceTarget({ "Device" })
     private final List<Reference> device;
     private final List<Annotation> note;
     private final Dosage dosage;
+    @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
     private volatile int hashCode;
@@ -152,9 +157,14 @@ public class MedicationAdministration extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = builder.dosage;
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "Procedure");
+        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         ValidationSupport.checkReferenceType(request, "request", "MedicationRequest");
+        ValidationSupport.checkReferenceType(device, "device", "Device");
+        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         ValidationSupport.requireChildren(this);
     }
 
@@ -806,6 +816,12 @@ public class MedicationAdministration extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link Procedure}</li>
+         * </ul>
+         * 
          * @param partOf
          *     Part of referenced event
          * 
@@ -823,6 +839,12 @@ public class MedicationAdministration extends DomainResource {
          * A larger event of which this particular event is a component or step.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicationAdministration}</li>
+         * <li>{@link Procedure}</li>
+         * </ul>
          * 
          * @param partOf
          *     Part of referenced event
@@ -911,6 +933,11 @@ public class MedicationAdministration extends DomainResource {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Medication}</li>
          * </ul>
          * 
          * @param medication
@@ -1098,6 +1125,13 @@ public class MedicationAdministration extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Condition or observation that supports why the medication was administered
          * 
@@ -1115,6 +1149,13 @@ public class MedicationAdministration extends DomainResource {
          * Condition or observation that supports why the medication was administered.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Condition or observation that supports why the medication was administered
@@ -1151,6 +1192,11 @@ public class MedicationAdministration extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param device
          *     Device used to administer
          * 
@@ -1168,6 +1214,11 @@ public class MedicationAdministration extends DomainResource {
          * The device used in administering the medication to the patient. For example, a particular infusion pump.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param device
          *     Device used to administer
@@ -1233,6 +1284,11 @@ public class MedicationAdministration extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
+         * 
          * @param eventHistory
          *     A list of events of interest in the lifecycle
          * 
@@ -1250,6 +1306,11 @@ public class MedicationAdministration extends DomainResource {
          * A summary of the events of interest that have occurred, such as when the administration was verified.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Provenance}</li>
+         * </ul>
          * 
          * @param eventHistory
          *     A list of events of interest in the lifecycle

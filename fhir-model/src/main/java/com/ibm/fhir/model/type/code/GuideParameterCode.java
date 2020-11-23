@@ -111,6 +111,9 @@ public class GuideParameterCode extends Code {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
+    /**
+     * Factory method for creating GuideParameterCode objects from a passed enum value.
+     */
     public static GuideParameterCode of(ValueSet value) {
         switch (value) {
         case APPLY:
@@ -138,14 +141,38 @@ public class GuideParameterCode extends Code {
         }
     }
 
+    /**
+     * Factory method for creating GuideParameterCode objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static GuideParameterCode of(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating GuideParameterCode objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static String string(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating GuideParameterCode objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static Code code(java.lang.String value) {
         return of(ValueSet.from(value));
     }
@@ -311,10 +338,22 @@ public class GuideParameterCode extends Code {
             this.value = value;
         }
 
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
         public java.lang.String value() {
             return value;
         }
 
+        /**
+         * Factory method for creating GuideParameterCode.ValueSet values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
                 if (c.value.equals(value)) {

@@ -11,6 +11,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMET
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.io.ByteArrayInputStream;
@@ -50,6 +51,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -57,6 +59,7 @@ import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
@@ -87,11 +90,15 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheUtil;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
+import com.ibm.fhir.persistence.jdbc.connection.CreateTempTablesAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionAdapter;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
@@ -99,14 +106,22 @@ import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
+import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
+import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -121,12 +136,18 @@ import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.reference.value.CompartmentReference;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -142,6 +163,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
+    private static final String TXN_DATA_KEY = "transactionDataKey/" + CLASSNAME;
 
     // The following are filtered as they are handled specifically by the persistence layer:
     private static final List<String> SPECIAL_HANDLING = Arrays.asList("_id", "_lastUpdated");
@@ -167,13 +189,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // Logical identity string provider
     private final LogicalIdentityProvider logicalIdentityProvider = new TimestampPrefixedUUID();
 
+    // The shared cache, used by all requests for the same tenant/datasource
+    private final FHIRPersistenceJDBCCache cache;
+
+    // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
+    private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl() throws Exception {
+    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
+
+        // The cache holding ids (private to the current tenant).
+        this.cache = cache;
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         if (fhirConfig == null) {
@@ -195,12 +226,23 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
 
+
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
-        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
-        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction);
+
+        // Issue #916: Still default to the old proxy datasource configuration so we don't break existing
+        // configurations. This may change in a future release.
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
+            this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
+        } else {
+            //  use separate JNDI datasources for each tenant/dsId (preferred approach)
+            boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
+            this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
+        }
+
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -215,8 +257,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param cp
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
-        this(configProps, cp, new DefaultFHIRConfigProvider());
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRPersistenceJDBCCache cache) throws Exception {
+        this(configProps, cp, new DefaultFHIRConfigProvider(), cache);
     }
 
     /**
@@ -235,10 +277,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param configProvider adapter to provide access to FHIR configuration
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider) throws Exception {
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider, FHIRConfigProvider)";
         log.entering(CLASSNAME, METHODNAME);
 
+        this.cache = cache;
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
@@ -256,6 +299,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
         this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
 
+        // TODO connect the transactionAdapter to our cache so that we can handle tx events in a non-JEE world
+        this.transactionDataImpl = null;
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -267,7 +312,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     protected Action buildActionChain() {
         // Note: do not call setSchema on a connection. It exposes a bug in Liberty.
-        return new SetTenantAction(this.configProvider);
+
+        // Configure an action to set the tenant global variable the
+        // first time we start using a connection in a transaction
+        Action result = new SetTenantAction(this.configProvider);
+
+        // For Derby, we also need to make sure that the declared global temporary tables
+        // are created for the current session (connection). TODO. discuss if we only
+        // want to invoke this for ingestion calls. These tables are not required for
+        // reads/searches.
+        result = new CreateTempTablesAction(result);
+
+        return result;
     }
 
 
@@ -375,11 +431,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceDataAccessException
      */
     private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+
+        // The resourceDAO is made before any database interaction, so this is a great spot
+        // to prefill the caches if needed
+        doCachePrefill(connection);
+
         if (this.trxSynchRegistry != null) {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry);
+            String datastoreId = FHIRRequestContext.get().getDataStoreId();
+            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
         } else {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
+            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
         }
+    }
+
+    private IResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+        return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
     }
 
     /**
@@ -544,9 +610,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
+            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao);
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
-            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints());
+            queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints(), identityCache);
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {
@@ -1054,7 +1121,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // This loop builds a Map where key=resourceId, and value=its proper position in the returned sorted collection.
         for(int i = 0; i < sortedIdList.size(); i++) {
             resourceId = sortedIdList.get(i);
-            idPositionMap.put(new Long(resourceId), new Integer(i));
+            idPositionMap.put(Long.valueOf(resourceId), Integer.valueOf(i));
         }
 
         resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList);
@@ -1173,7 +1240,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
      * @throws Exception
      */
-    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO)
+    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTOx)
                  throws Exception {
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -1194,14 +1261,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 // As not to inject any other special handling logic, this is a simple inline check to see if
                 // _id or _lastUpdated are used, and ignore those extracted values.
-                if(SPECIAL_HANDLING.contains(code)) {
+                if (SPECIAL_HANDLING.contains(code)) {
                     continue;
                 }
                 type = sp.getType().getValue();
                 expression = sp.getExpression().getValue();
 
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
+                    log.fine("Processing SearchParameter resource: " + fhirResource.getClass().getSimpleName() + ", code: " + code + ", type: " + type + ", expression: " + expression);
                 }
 
                 List<FHIRPathNode> values = entry.getValue();
@@ -1382,10 +1449,51 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     }
                 }
             }
+
+            // Augment the extracted parameter list with special values we use to represent compartment relationships.
+            // These references are stored as tokens and are used by the search query builder
+            // for compartment-based searches
+            addCompartmentParams(allParameters, fhirResource);
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
+    }
+
+    /**
+     * Augment the given allParameters list with ibm-internal parameters represents relationships
+     * of the fhirResource to its compartments. These parameter values are subsequently used
+     * to improve the performance of compartment-based FHIR search queries. See
+     * {@link CompartmentUtil#makeCompartmentParamName(String)} for details on how the
+     * parameter name is composed for each relationship.
+     * @param allParameters
+     */
+    protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, Resource fhirResource) throws FHIRSearchException {
+        final String resourceType = fhirResource.getClass().getSimpleName();
+        log.fine("Processing compartment parameters for resourceType: " + resourceType);
+        Map<String,Set<String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
+        Map<String, Set<CompartmentReference>> compartmentMap = SearchUtil.extractCompartmentParameterValues(fhirResource, compartmentRefParams);
+
+        for (Map.Entry<String, Set<CompartmentReference>> entry: compartmentMap.entrySet()) {
+            final String compartmentName = entry.getKey();
+            final String parameterName = CompartmentUtil.makeCompartmentParamName(compartmentName);
+
+            // Create a reference parameter value for each CompartmentReference extracted from the resource
+            for (CompartmentReference compartmentRef: entry.getValue()) {
+                ReferenceParmVal pv = new ReferenceParmVal();
+                pv.setName(parameterName);
+                pv.setResourceType(resourceType);
+
+                // ReferenceType doesn't really matter here, but LITERAL_RELATIVE is appropriate
+                ReferenceValue rv = new ReferenceValue(compartmentName, compartmentRef.getReferenceResourceValue(), ReferenceType.LITERAL_RELATIVE, null);
+                pv.setRefValue(rv);
+
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Adding compartment reference parameter: [" + resourceType + "] "+ parameterName + " = " + rv.getTargetResourceType() + "/" + rv.getValue());
+                }
+                allParameters.add(pv);
+            }
+        }
     }
 
     /**
@@ -1614,22 +1722,32 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         String datastoreId = FHIRRequestContext.get().getDataStoreId();
 
         // Retrieve the property group pertaining to the specified datastore.
-        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/connectionProperties";
+        // Backup plan. Since release 4.5.0 we are no longer using the FHIR
+        // proxy datasource mechanism which means there won't be a connectionProperties
+        // property group in the datasource configuration. The currentSchema must
+        // therefore be provided as the datasource property group level.
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+
         if (dsPG != null) {
             try {
-                // If the currentSchema parameter isn't given, we have to
-                // get it from the database when we have a connection.
                 String currentSchema = dsPG.getStringProperty("currentSchema", null);
-
                 if (currentSchema == null) {
-                    // Backup plan. Try getting it from the parent (datasource) property group
-                    dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+                    // If we're using legacy proxy datastore configuration, then the schema
+                    // name might come from the connectionProperties group
+                    dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/connectionProperties";
                     dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
-                    currentSchema = dsPG.getStringProperty("currentSchema", null);
+                    if (dsPG != null) {
+                        currentSchema = dsPG.getStringProperty("currentSchema", null);
+                    }
                 }
 
-                // can be null
+                if (currentSchema == null) {
+                    log.log(Level.SEVERE, "Mandatory currentSchema value missing for datastore '" + datastoreId + "'");
+                    throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
+                }
+
+                // never null at this point
                 return currentSchema;
             } catch (Exception x) {
                 log.log(Level.SEVERE, "Datastore configuration issue for '" + datastoreId + "'", x);
@@ -1640,9 +1758,225 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
         }
     }
-    
+
+    /**
+     * Prefill the caches
+     */
+    public void doCachePrefill(Connection connection) throws FHIRPersistenceException {
+        // Perform the cache prefill just once (for a given tenant). This isn't synchronous, so
+        // there's a chance for other threads to slip in before the prefill completes. Those threads
+        // just end up having cache-misses for the names they need.
+        // Note - this is done as the first thing in a transaction so there's no concern about reading
+        // uncommitted values.
+        if (cache.needToPrefill()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
+            FHIRPersistenceJDBCCacheUtil.prefill(resourceDao, parameterDao, cache);
+        }
+    }
+
+    @Override
+    public boolean isReindexSupported() {
+        return true;
+    }
+
+    @Override
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId)
+        throws FHIRPersistenceException {
+        final String METHODNAME = "reindex";
+        log.entering(CLASSNAME, METHODNAME);
+
+        int result = 0;
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("reindex tstamp=" + tstamp.toString());
+        }
+
+        if (tstamp.isAfter(java.time.Instant.now())) {
+            // protect against setting a future timestamp, which could otherwise
+            // disable the ability to reindex anything
+            throw new FHIRPersistenceException("Reindex tstamp cannot be in the future");
+        }
+
+        try (Connection connection = openConnection()) {
+            ResourceDAO resourceDao = makeResourceDAO(connection);
+            ParameterDAO parameterDao = makeParameterDAO(connection);
+            ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
+            // Obtain a resource we will reindex in this request/transaction. The record is locked as part
+            // of its selection, so we avoid a lot of (but not all) deadlock issues
+            Integer resourceTypeId = null;
+            String resourceType = null;
+            String logicalId = null;
+            if (resourceLogicalId != null) {
+                // Restrict reindex to a specific resource type or resource e.g. "Patient" or "Patient/abc123"
+                String[] parts = resourceLogicalId.split("/");
+                if (parts.length == 1) {
+                    // Limit to resource type
+                    resourceType = parts[0];
+                } else if (parts.length == 2) {
+                    // Limit to a single resource
+                    resourceType = parts[0];
+                    logicalId = parts[1];
+                }
+
+                // Look up the resourceTypeId for the given resourceType
+                resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
+            }
+
+            long start = System.nanoTime();
+            ResourceIndexRecord rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
+            long end = System.nanoTime();
+
+            if (log.isLoggable(Level.FINER)) {
+                double elapsed = (end-start)/1e6;
+                log.finer(String.format("Selected %d resource for reindexing in %.3f ms ", rir != null ? 1 : 0, elapsed));
+            }
+
+            if (rir != null) {
+                // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
+                // there's nothing left to do
+                result = 1;
+
+                // This is important so we log it as info
+                log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+
+                // Read the current resource
+                com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
+                Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
+                reindexDAO.setPersistenceContext(context);
+                updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
+            }
+
+        } catch(FHIRPersistenceFKVException e) {
+            getTransaction().setRollbackOnly();
+            throw e;
+        } catch(FHIRPersistenceException e) {
+            getTransaction().setRollbackOnly();
+            throw e;
+        } catch (DataAccessException dax) {
+            getTransaction().setRollbackOnly();
+
+            // It's possible this is a deadlock exception, in which case it could be considered retryable
+            if (dax.isTransactionRetryable()) {
+                log.log(Level.SEVERE, "retryable error", dax);
+                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
+                fpx.setTransactionRetryable(true);
+                throw fpx;
+            } else {
+                log.log(Level.SEVERE, "non-retryable error", dax);
+                throw new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
+            }
+        } catch(Throwable e) {
+            getTransaction().setRollbackOnly();
+            // don't chain the exception to avoid leaking secrets
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a reindex operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return result;
+    }
+
+    /**
+     * Update the parameters for the resource described by the given DTO
+     * @param <T>
+     * @param rir
+     * @param resourceTypeClass
+     * @param existingResourceDTO
+     * @param reindexDAO
+     * @param operationOutcomeResult
+     * @throws Exception
+     */
+    public <T extends Resource> void updateParameters(ResourceIndexRecord rir, Class<T> resourceTypeClass, com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO,
+        ReindexResourceDAO reindexDAO, OperationOutcome.Builder operationOutcomeResult) throws Exception {
+        if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
+            T existingResource = this.convertResourceDTO(existingResourceDTO, resourceTypeClass, null);
+
+            // Extract parameters from the resource payload we just read and store them, replacing
+            // the existing set
+            reindexDAO.updateParameters(rir.getResourceType(), this.extractSearchParameters(existingResource, existingResourceDTO), rir.getLogicalId(), rir.getLogicalResourceId());
+
+            // Use an OperationOutcome Issue to let the caller know that some work was performed
+            final String diag = "Processed " + rir.getResourceType() + "/" + rir.getLogicalId();
+            operationOutcomeResult.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+        } else {
+            // Reasonable to assume that this resource was deleted because we can't read it
+            final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
+            operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(string(diag)).build());
+        }
+
+    }
+
     @Override
     public String generateResourceId() {
         return logicalIdentityProvider.createNewIdentityValue();
+    }
+
+    /**
+     * Each datasource involved in a transaction gets its own TransactionData impl object
+     * which is used to hold parameter data to be inserted into the datbase just prior to
+     * commit.
+     * @param datasourceId
+     * @return the ParameterTransactionDataImpl used to hold onto data to persist at the end of the current transaction
+     */
+    @SuppressWarnings("unchecked")
+    private ParameterTransactionDataImpl getTransactionDataForDatasource(String datasourceId) {
+        ParameterTransactionDataImpl result = null;
+
+        // The trxSyncRegistry is transaction-scope, and may span multiple instances of this class. Only
+        // add the TransactionData impl if it doesn't already exist. No synchronization necessary...this is
+        // all in one thread
+        if (this.trxSynchRegistry != null) {
+            Object tdi = this.trxSynchRegistry.getResource(TXN_DATA_KEY);
+            if (tdi == null) {
+                this.transactionDataImpl = new TransactionDataImpl<ParameterTransactionDataImpl>(k -> createTransactionData(k));
+                this.trxSynchRegistry.putResource(TXN_DATA_KEY, this.transactionDataImpl);
+            } else if (tdi instanceof TransactionDataImpl<?>) {
+                this.transactionDataImpl = (TransactionDataImpl<ParameterTransactionDataImpl>)tdi;
+            } else {
+                throw new IllegalStateException(TXN_DATA_KEY + " invalid class"); // basic coding error
+            }
+
+            // Now ask the TransactionDataImpl to return the ParameterTransactionDataImpl for the
+            // current transaction, or create and stash a new instance if one doesn't yet exist
+            result = transactionDataImpl.findOrCreate(datasourceId);
+        }
+
+        return result;
+    }
+
+    /**
+     * Factory function to create a new instance of the TransactionData implementation
+     * used to store parameter data collected during this transaction
+     * @param datasourceId
+     * @return
+     */
+    private ParameterTransactionDataImpl createTransactionData(String datasourceId) {
+        return new ParameterTransactionDataImpl(datasourceId, this, this.userTransaction);
+    }
+
+    /**
+     * Called just prior to commit so that we can persist all the token value records
+     * that have been accumulated during the transaction. This collection therefore
+     * contains multiple resource types, which have to be processed separately.
+     * @param records
+     */
+    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records) throws FHIRPersistenceException {
+        try (Connection connection = openConnection()) {
+            IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
+            rrd.persist(records);
+        } catch(FHIRPersistenceFKVException e) {
+            log.log(Level.SEVERE, "FK violation", e);
+            throw e;
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
     }
 }

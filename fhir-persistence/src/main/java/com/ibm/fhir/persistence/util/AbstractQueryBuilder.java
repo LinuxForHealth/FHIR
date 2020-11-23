@@ -33,9 +33,9 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
      * Examines the passed ParamaterValue, and checks to see if the value is a URL.
      * If it is, the {ResourceType/id} part of the URL path is extracted and returned.
      * For example:
-     * If the input value is http://localhost:8080/fhir/Patient/123, 
+     * If the input value is http://localhost:8080/fhir/Patient/123,
      * then Patient/123 is returned.
-     * 
+     *
      * @param parmValue A valid String parameter value that may or may not contain a
      *                  URL.
      * @return String - The last 2 segments of the URL path is returned if the
@@ -73,13 +73,13 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Builds a query segment for the passed query parameter.
-     * 
+     *
      * @param resourceType - A valid FHIR Resource type
      * @param queryParm - A Parameter object describing the name, value and type of search parm.
      * @return T1 - An object representing the selector query segment for the passed search parm.
-     * @throws Exception 
+     * @throws Exception
      */
-    protected T1 buildQueryParm(Class<?> resourceType, QueryParameter queryParm) 
+    protected T1 buildQueryParm(Class<?> resourceType, QueryParameter queryParm)
             throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -136,7 +136,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a String type parameter.
-     * 
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      */
@@ -144,17 +144,17 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a Reference type parameter.
-     * 
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
-     * @throws Exception 
+     * @throws Exception
      */
     protected abstract T1 processReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
 
     /**
      * Contains special logic for handling chained reference search parameters.
-     * 
-     * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
+     *
+     * @see https://www.hl7.org/fhir/search.html#chaining
      * @param queryParm - The query parameter.
      * @return T1 - An object containing a query segment.
      * @throws FHIRPersistenceException
@@ -162,8 +162,19 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     protected abstract T1 processChainedReferenceParm(QueryParameter queryParm) throws Exception;
 
     /**
+     * Contains special logic for handling reverse chained reference search parameters.
+     *
+     * @see https://www.hl7.org/fhir/search.html#has
+     * @param resourceType - The resource type.
+     * @param queryParm - The query parameter.
+     * @return T1 - An object containing a query segment.
+     * @throws FHIRPersistenceException
+     */
+    protected abstract T1 processReverseChainedReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
+
+    /**
      * Contains special logic for handling Compartment based searches.
-     * 
+     *
      * @see https://www.hl7.org/fhir/compartments.html
      * @param queryParm - The query parameter.
      * @return T1 - An object containing a query segment.
@@ -173,7 +184,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a Date type parameter.
-     * 
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws Exception
@@ -182,7 +193,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a Token type parameter.
-     * 
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      */
@@ -190,7 +201,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a Number type parameter.
-     * 
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws FHIRPersistenceException
@@ -199,7 +210,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a Quantity type parameter.
-     * 
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws Exception
@@ -208,8 +219,8 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a URI type parameter.
-     * 
-     * 
+     *
+     *
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws FHIRPersistenceException
@@ -218,7 +229,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     /**
      * Creates a query segment for a Composite type parameter.
-     * 
+     *
      * @param queryParm - The query parameter
      * @return T1 - An object containing query segment
      * @throws FHIRPersistenceException
@@ -228,7 +239,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * This method executes special logic for a Token type query that maps to a
      * LocationPosition data type.
-     * 
+     *
      * @param queryParameters The entire collection of query input parameters
      * @return T1 - A query segment related to a LocationPosition
      * @throws FHIRPersistenceException
@@ -257,7 +268,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * Builds a query segment for the passed parameter name using the geospatial
      * data contained with the passed BoundingBox
-     * 
+     *
      * @param parmName    - The name of the search parameter
      * @param boundingAreas - Container for the geospatial data needed to construct
      *                    the query segment.

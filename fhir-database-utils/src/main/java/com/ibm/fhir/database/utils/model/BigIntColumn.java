@@ -20,9 +20,18 @@ public class BigIntColumn extends ColumnBase {
         super(name, nullable);
     }
 
+    /**
+     * Public constructor with a default value
+     * @param name
+     * @param nullable
+     * @param defaultValue
+     */
+    public BigIntColumn(String name, boolean nullable, String defaultValue) {
+        super(name, nullable, defaultValue);
+    }
+
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
         return "BIGINT";
     }
-
 }

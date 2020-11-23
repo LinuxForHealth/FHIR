@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -44,6 +45,9 @@ public class JdbcConnectionProvider implements IConnectionProvider {
             // Configure the default schema to use on the connection
             String schema = properties.getDefaultSchema();
             if (schema != null && schema.length() > 0) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Setting schema: " + schema);
+                }
                 connection.setSchema(schema);
             }
         } catch (SQLException x) {

@@ -54,6 +54,7 @@ import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -102,7 +103,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing FHIROperationRegistry...");
             FHIROperationRegistry.getInstance();
-            
+
             log.fine("Initializing LanguageRegistryUtil...");
             LanguageRegistryUtil.init();
 
@@ -216,19 +217,38 @@ public class FHIRServletContextListener implements ServletContextListener {
         if (performDbBootstrap) {
             log.info("Performing Derby database bootstrapping...");
 
-            String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
-            DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
+
+            // Need to use the correct datasource/connection strategy for all databases,
+            // including the "demo/test" schemas we build here. Each of these tenant/datasources
+            // requires a supporting configuration and (if no longer using the legacy
+            // proxy datasource) a matching JNDI datasource.
+
             UserTransaction utx = (UserTransaction)ctxt.lookup(TXN_JNDI_NAME);
 
-            bootstrapFhirDb(utx, "default", "default", ds);
-            bootstrapFhirDb(utx, "tenant1", "profile", ds);
-            bootstrapFhirDb(utx, "tenant1", "reference", ds);
-            bootstrapFhirDb(utx, "tenant1", "study1", ds);
+            if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
+                // Bootstrap using the legacy proxy datasource mechanism
+                String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME);
+                DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
 
-            datasourceJndiName = "jdbc/OAuth2DB";
+                bootstrapFhirDb(utx, "default", "default", ds, true);
+                bootstrapFhirDb(utx, "tenant1", "profile", ds, true);
+                bootstrapFhirDb(utx, "tenant1", "reference", ds, true);
+                bootstrapFhirDb(utx, "tenant1", "study1", ds, true);
+
+                checkFhirDb(utx, "default", "default", ds);
+            } else {
+                // Bootstrap using dedicated datasources
+                String jndiBase = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DATASOURCE_BASE, "jdbc/bootstrap");
+                bootstrapFhirDb(utx, jndiBase, "default", "default");
+                bootstrapFhirDb(utx, jndiBase, "tenant1", "profile");
+                bootstrapFhirDb(utx, jndiBase, "tenant1", "reference");
+                bootstrapFhirDb(utx, jndiBase, "tenant1", "study1");
+            }
+
+            String datasourceJndiName = "jdbc/OAuth2DB";
             try {
-                ds = (DataSource) ctxt.lookup(datasourceJndiName);
+                DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
                 if (ds != null) {
                     log.info("Found '" + datasourceJndiName + "'; bootstrapping the OAuth client tables");
                     utx.begin();
@@ -250,7 +270,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             try {
                 // Check the batch database, if the batch database configuration is there, and available.
                 // Note, in the boostrap code we conditionally bootstrap if and only if it's targeting derby.
-                ds = (DataSource) ctxt.lookup(datasourceJndiName);
+                DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
                 if (ds != null) {
                     log.info("Found '" + datasourceJndiName + "'; bootstrapping the Java Batch tables");
                     utx.begin();
@@ -275,10 +295,26 @@ public class FHIRServletContextListener implements ServletContextListener {
     }
 
     /**
+     * Bootstrap the FHIR database by looking up the JNDI datasource configured for the
+     * given tenant and dsId values
+     * @param utx
+     * @param tenantId the tenant name/identifier
+     * @param dsId the datasource identifier
+     * @throws Exception
+     */
+    private void bootstrapFhirDb(UserTransaction utx, String jndiBase, String tenantId, String dsId) throws Exception {
+        InitialContext ctxt = new InitialContext();
+
+        final String jndiName = FHIRDbTenantDatasourceConnectionStrategy.makeTenantDatasourceJNDIName(jndiBase, tenantId, dsId, false);
+        DataSource ds = (DataSource) ctxt.lookup(jndiName);
+        bootstrapFhirDb(utx, tenantId, dsId, ds, false);
+    }
+
+    /**
      * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
      * retrieved from the configuration.
      */
-    private void bootstrapFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds) throws Exception {
+    private void bootstrapFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds, boolean useProxy) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
         PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
         if (pg != null) {
@@ -287,10 +323,44 @@ public class FHIRServletContextListener implements ServletContextListener {
                 utx.begin();
                 try {
                     log.info("Bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
-                    DerbyBootstrapper.bootstrapDb(ds);
+                    DerbyBootstrapper.bootstrapDb(ds, useProxy);
                     log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
-                    
+
                     log.fine("Committing transaction");
+                    utx.commit();
+                    utx = null;
+                } finally {
+                    if (utx != null) {
+                        safeRollback(utx);
+                    }
+                }
+            }
+        }
+
+        FHIRRequestContext.remove();
+    }
+
+    /**
+     * Schema bootstrap migration can be impacted by Liberty/Derby defect
+     * https://github.com/OpenLiberty/open-liberty/issues/14537. This check
+     * is in place to catch the failure during startup, instead of failing
+     * on the first request.
+     * @param utx
+     * @param tenantId
+     * @param dsId
+     * @param ds
+     * @throws Exception
+     */
+    private void checkFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds) throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
+        if (pg != null) {
+            String type = pg.getStringProperty("type");
+            if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
+                utx.begin();
+                try {
+                    log.info("Checking connection after schema bootstrap/migration");
+                    DerbyBootstrapper.checkDatabase(ds);
                     utx.commit();
                     utx = null;
                 } finally {

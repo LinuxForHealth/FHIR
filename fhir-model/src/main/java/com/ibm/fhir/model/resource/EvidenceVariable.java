@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -1588,6 +1589,7 @@ public class EvidenceVariable extends DomainResource {
     public static class Characteristic extends BackboneElement {
         private final String description;
         @Summary
+        @ReferenceTarget({ "Group", "ActivityDefinition" })
         @Choice({ Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class })
         @Required
         private final Element definition;
@@ -1615,6 +1617,7 @@ public class EvidenceVariable extends DomainResource {
             participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
             timeFromStart = builder.timeFromStart;
             groupMeasure = builder.groupMeasure;
+            ValidationSupport.checkReferenceType(definition, "definition", "Group", "ActivityDefinition");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1921,6 +1924,12 @@ public class EvidenceVariable extends DomainResource {
              * <li>{@link Expression}</li>
              * <li>{@link DataRequirement}</li>
              * <li>{@link TriggerDefinition}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link Group}</li>
+             * <li>{@link ActivityDefinition}</li>
              * </ul>
              * 
              * @param definition

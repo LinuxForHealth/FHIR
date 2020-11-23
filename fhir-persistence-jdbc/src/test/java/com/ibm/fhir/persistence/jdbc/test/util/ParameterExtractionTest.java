@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,6 +60,7 @@ import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
@@ -72,7 +73,9 @@ public class ParameterExtractionTest {
     private static final String SAMPLE_STRING = "test";
     private static final String SAMPLE_URI = "http://example.com";
     private static final String SAMPLE_UNIT = "s";
-    private static final String SAMPLE_REF = "abc";
+    private static final String SAMPLE_REF_RESOURCE_TYPE = "Patient";
+    private static final String SAMPLE_REF_ID = "abc";
+    private static final String SAMPLE_REF = SAMPLE_REF_RESOURCE_TYPE + "/" + SAMPLE_REF_ID;
     private static final String SAMPLE_DATE_START = "2016-01-01T00:00:00.000000Z";
     private static final String SAMPLE_DATE_END = "2016-01-02T00:00:00.000000Z";
     private static final String UNITSOFMEASURE = "http://unitsofmeasure.org";
@@ -85,7 +88,7 @@ public class ParameterExtractionTest {
             .appendFraction(ChronoField.MICRO_OF_SECOND, 6, 6, true)
             .appendPattern("XXX")
             .toFormatter();
-    
+
     private static final SearchParameter.Builder searchParamBuilder = SearchParameter.builder()
             .url(Uri.of("http://ibm.com/fhir/test"))
             .name(string("test-param"))
@@ -100,12 +103,12 @@ public class ParameterExtractionTest {
     private static final SearchParameter uriSearchParam = searchParamBuilder.type(SearchParamType.URI).build();
     private static final SearchParameter stringSearchParam = searchParamBuilder.type(SearchParamType.STRING).build();
     private static final SearchParameter tokenSearchParam = searchParamBuilder.type(SearchParamType.TOKEN).build();
-    
+
     @BeforeClass
     public void setSystemTimeZone() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
-    
+
     @Test
     public void testBoolean() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -113,40 +116,40 @@ public class ParameterExtractionTest {
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "true");
-        
+
         assertNullValueReturnsNoParameters(tokenSearchParam, com.ibm.fhir.model.type.Boolean.builder());
     }
-    
+
     @Test
     public void testBoolean_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, com.ibm.fhir.model.type.Boolean.builder());
     }
-    
+
     @Test
     public void testCanonical() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder;
         Canonical canonical = Canonical.of(SAMPLE_URI);
         List<ExtractedParameterValue> params;
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
     }
-    
+
     @Test
     public void testCanonical_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(referenceSearchParam, Canonical.builder());
         assertNullValueReturnsNoParameters(uriSearchParam, Canonical.builder());
     }
-    
+
     @Test
     public void testCode() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -155,12 +158,12 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
     }
-    
+
     @Test
     public void testCode_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, Code.builder());
     }
-    
+
     @Test
     public void testDate() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
@@ -172,7 +175,7 @@ public class ParameterExtractionTest {
             assertEquals(timestampToString(dateParam.getValueDateStart()), SAMPLE_DATE_START);
         }
     }
-    
+
     @Test
     public void testDate_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(dateSearchParam, Date.builder());
@@ -187,12 +190,12 @@ public class ParameterExtractionTest {
             assertEquals(timestampToString(((DateParmVal) param).getValueDateStart()), "2016-01-01T06:10:10.100000Z");
         }
     }
-    
+
     @Test
     public void testDateTime_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(dateSearchParam, DateTime.builder());
     }
-    
+
     @Test
     public void testDecimal() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(numberSearchParam);
@@ -203,12 +206,12 @@ public class ParameterExtractionTest {
         assertEquals(((NumberParmVal) params.get(0)).getValueNumberLow().doubleValue(), 99.985);
         assertEquals(((NumberParmVal) params.get(0)).getValueNumberHigh().doubleValue(), 99.995);
     }
-    
+
     @Test
     public void testDecimal_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(numberSearchParam, Decimal.builder());
     }
-    
+
     @Test
     public void testId() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -217,12 +220,12 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "x");
     }
-    
+
     @Test
     public void testId_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, Id.builder());
     }
-    
+
     @Test
     public void testInstant() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
@@ -232,12 +235,12 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateStart()), TIMESTAMP_FORMATTER.format(now.getValue()));
     }
-    
+
     @Test
     public void testInstant_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(dateSearchParam, Instant.builder());
     }
-    
+
     @Test
     public void testInteger() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(numberSearchParam);
@@ -246,70 +249,70 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((NumberParmVal) params.get(0)).getValueNumber().intValue(), 13);
     }
-    
+
     @Test
     public void testInteger_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(numberSearchParam, Integer.builder());
     }
-    
+
     @Test
     public void testString() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder;
         com.ibm.fhir.model.type.String stringVal = string(SAMPLE_STRING);
         List<ExtractedParameterValue> params;
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
         stringVal.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_STRING);
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
         stringVal.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
     }
-    
+
     @Test
     public void testString_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(stringSearchParam, com.ibm.fhir.model.type.String.builder());
         assertNullValueReturnsNoParameters(tokenSearchParam, com.ibm.fhir.model.type.String.builder());
     }
-    
+
     @Test
     public void testUri() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder;
         Uri uri = Uri.of(SAMPLE_URI);
         List<ExtractedParameterValue> params;
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
-        
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_URI);
+
         parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
     }
-    
+
     @Test
     public void testUri_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(referenceSearchParam, Uri.builder());
         assertNullValueReturnsNoParameters(uriSearchParam, Uri.builder());
     }
-    
+
     private void assertNullValueReturnsNoParameters(SearchParameter sp, Element.Builder builder) {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
         builder.extension(SAMPLE_EXTENSION).build().accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 0, "Number of extracted parameters");
     }
-    
-    
+
+
     @Test
     public void testAddress() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
@@ -329,12 +332,12 @@ public class ParameterExtractionTest {
         assertEquals(((StringParmVal) params.get(3)).getValueString(), "27703");
         assertEquals(((StringParmVal) params.get(4)).getValueString(), "4025 S. Miami Blvd., Durham, NC 27703");
     }
-    
+
     @Test
     public void testAddress_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(stringSearchParam, Address.builder());
     }
-    
+
     @Test
     public void testAge() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -352,12 +355,12 @@ public class ParameterExtractionTest {
         assertEquals(quantParam.getValueSystem(), UNITSOFMEASURE);
         assertEquals(quantParam.getValueCode(), "a");
     }
-    
+
     @Test
     public void testAge_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(quantitySearchParam, Age.builder());
     }
-    
+
     @Test
     public void testCodeableConcept() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -376,12 +379,12 @@ public class ParameterExtractionTest {
         assertEquals(((TokenParmVal) params.get(2)).getValueCode(), "c");
         assertEquals(((TokenParmVal) params.get(2)).getValueSystem(), SAMPLE_URI);
     }
-    
+
     @Test
     public void testCodeableConcept_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, CodeableConcept.builder());
     }
-    
+
     @Test
     public void testCoding() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -395,12 +398,12 @@ public class ParameterExtractionTest {
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
     }
-    
+
     @Test
     public void testCoding_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, Coding.builder());
     }
-    
+
     @Test
     public void testContactPoint() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -413,12 +416,12 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "5558675309");
     }
-    
+
     @Test
     public void testContactPoint_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, ContactPoint.builder());
     }
-    
+
     @Test
     public void testDuration() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -434,12 +437,12 @@ public class ParameterExtractionTest {
         assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), UNITSOFMEASURE);
         assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), SAMPLE_UNIT);
     }
-    
+
     @Test
     public void testDuration_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(quantitySearchParam, Duration.builder());
     }
-    
+
     @Test
     public void testHumanName() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
@@ -459,12 +462,12 @@ public class ParameterExtractionTest {
         assertEquals(((StringParmVal) params.get(3)).getValueString(), "III");
         assertEquals(((StringParmVal) params.get(4)).getValueString(), "Dr. Nick");
     }
-    
+
     @Test
     public void testHumanName_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(stringSearchParam, HumanName.builder());
     }
-    
+
     @Test
     public void testIdentifier() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
@@ -478,12 +481,12 @@ public class ParameterExtractionTest {
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "abc123");
     }
-    
+
     @Test
     public void testIdentifier_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(tokenSearchParam, Identifier.builder());
     }
-    
+
     @Test
     public void testMoney() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -497,12 +500,12 @@ public class ParameterExtractionTest {
         assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), "USD");
         assertEquals(((QuantityParmVal) params.get(0)).getValueNumber().intValue(), 100);
     }
-    
+
     @Test
     public void testMoney_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(quantitySearchParam, Money.builder());
     }
-    
+
     @Test
     public void testPeriod() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
@@ -516,7 +519,7 @@ public class ParameterExtractionTest {
         assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateStart()), SAMPLE_DATE_START);
         assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateEnd()), SAMPLE_DATE_END);
     }
-    
+
     @Test
     public void testPeriod_nullStart() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
@@ -528,7 +531,7 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateEnd()), SAMPLE_DATE_END);
     }
-    
+
     @Test
     public void testPeriod_nullEnd() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
@@ -540,12 +543,12 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateStart()), SAMPLE_DATE_START);
     }
-    
+
     @Test
     public void testPeriod_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(dateSearchParam, Period.builder());
     }
-    
+
     @Test
     public void testQuantity() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -561,12 +564,12 @@ public class ParameterExtractionTest {
         assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), UNITSOFMEASURE);
         assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), SAMPLE_UNIT);
     }
-    
+
     @Test
     public void testQuantity_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(quantitySearchParam, Quantity.builder());
     }
-    
+
     @Test
     public void testRange() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -593,7 +596,7 @@ public class ParameterExtractionTest {
         assertNull(quantParam.getValueNumber());
         assertEquals(quantParam.getValueNumberHigh(), BigDecimal.valueOf(2));
     }
-    
+
     @Test
     public void testRange_nullHigh() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -614,7 +617,7 @@ public class ParameterExtractionTest {
         assertNull(quantParam.getValueNumber());
         assertNull(quantParam.getValueNumberHigh());
     }
-    
+
     @Test
     public void testRange_nullLow() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
@@ -635,12 +638,12 @@ public class ParameterExtractionTest {
         assertNull(quantParam.getValueNumber());
         assertEquals(quantParam.getValueNumberHigh(), BigDecimal.valueOf(1));
     }
-    
+
     @Test
     public void testRange_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(quantitySearchParam, Range.builder());
     }
-    
+
     @Test
     public void testReference() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
@@ -650,14 +653,15 @@ public class ParameterExtractionTest {
                  .accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_REF);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getValue(), SAMPLE_REF_ID);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getTargetResourceType(), SAMPLE_REF_RESOURCE_TYPE);
     }
-    
+
     @Test
     public void testReference_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(referenceSearchParam, Reference.builder());
     }
-    
+
     @Test
     public void testTimingBounds() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
@@ -675,12 +679,12 @@ public class ParameterExtractionTest {
         assertEquals(timestampToString(((DateParmVal) param).getValueDateStart()), SAMPLE_DATE_START);
         assertEquals(timestampToString(((DateParmVal) param).getValueDateEnd()), SAMPLE_DATE_END);
     }
-    
+
     @Test
     public void testTiming_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(dateSearchParam, Timing.builder());
     }
-    
+
     // Timing doesn't currently extract from "events"
 //    @Test
 //    public void testTimingEvents() throws FHIRPersistenceProcessorException {
@@ -696,7 +700,7 @@ public class ParameterExtractionTest {
 //        assertEquals(timestampToString(((DateParameter) param).getValueDateStart()), SAMPLE_DATE_START);
 //        assertEquals(timestampToString(((DateParameter) param).getValueDateEnd()), SAMPLE_DATE_END);
 //    }
-    
+
     /**
      * Formats the given tstamp value as a string. Does not use Timestamp#toString()
      * because this adjusts the displayed string to local time

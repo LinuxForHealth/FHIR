@@ -68,8 +68,10 @@ public class GuidanceResponse extends DomainResource {
     @ReferenceTarget({ "Device" })
     private final Reference performer;
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
+    @ReferenceTarget({ "OperationOutcome" })
     private final List<Reference> evaluationMessage;
     @ReferenceTarget({ "Parameters" })
     private final Reference outputParameters;
@@ -99,6 +101,8 @@ public class GuidanceResponse extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(performer, "performer", "Device");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
         ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
         ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
         ValidationSupport.requireChildren(this);
@@ -823,6 +827,14 @@ public class GuidanceResponse extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why guidance is needed
          * 
@@ -842,6 +854,14 @@ public class GuidanceResponse extends DomainResource {
          * indication of the cause for the response.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why guidance is needed
@@ -894,6 +914,11 @@ public class GuidanceResponse extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link OperationOutcome}</li>
+         * </ul>
+         * 
          * @param evaluationMessage
          *     Messages resulting from the evaluation of the artifact or artifacts
          * 
@@ -912,6 +937,11 @@ public class GuidanceResponse extends DomainResource {
          * produce informational or warning messages. These messages will be provided by this element.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link OperationOutcome}</li>
+         * </ul>
          * 
          * @param evaluationMessage
          *     Messages resulting from the evaluation of the artifact or artifacts

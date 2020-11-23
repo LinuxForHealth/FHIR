@@ -1313,6 +1313,7 @@ public class Invoice extends DomainResource {
      */
     public static class LineItem extends BackboneElement {
         private final PositiveInt sequence;
+        @ReferenceTarget({ "ChargeItem" })
         @Choice({ Reference.class, CodeableConcept.class })
         @Required
         private final Element chargeItem;
@@ -1325,6 +1326,7 @@ public class Invoice extends DomainResource {
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
             priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
+            ValidationSupport.checkReferenceType(chargeItem, "chargeItem", "ChargeItem");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1566,6 +1568,11 @@ public class Invoice extends DomainResource {
              * <ul>
              * <li>{@link Reference}</li>
              * <li>{@link CodeableConcept}</li>
+             * </ul>
+             * 
+             * When of type {@link Reference}, the allowed resource types for this reference are:
+             * <ul>
+             * <li>{@link ChargeItem}</li>
              * </ul>
              * 
              * @param chargeItem

@@ -93,6 +93,7 @@
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
 
+    <!-- issue #916 fhirProxyDataSource remains the default configuration so keep this for now -->
     <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" libraryRef="fhirSharedLib"/>
         <connectionManager/>
@@ -106,10 +107,14 @@
         allowedHeaders="*"
         maxAge="3600" />
 
+    <!-- Variables for the users so they can be overriden by environment variables -->
+    <variable name="FHIR_USER_PASSWORD" defaultValue="change-password"/>
+    <variable name="FHIR_ADMIN_PASSWORD" defaultValue="change-password"/>
+
     <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm">
-        <user name="fhiruser" password="change-password"/>
-        <user name="fhiradmin" password="change-password"/>
+        <user name="fhiruser" password="${FHIR_USER_PASSWORD}"/>
+        <user name="fhiradmin" password="${FHIR_ADMIN_PASSWORD}"/>
         <group name="FHIRUsers">
             <member name="fhiruser"/>
         </group>

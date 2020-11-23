@@ -11,11 +11,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.Status;
+import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.impl.CacheTransactionSync;
 
 
 /**
@@ -28,6 +31,15 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     // The connection strategy handling the underlying transaction object
     private final UserTransaction userTransaction;
     
+    // The sync registry to send tx commit events to the cache
+    private final TransactionSynchronizationRegistry syncRegistry;
+    
+    // The cache which needs to be notified when a commit completes
+    private final FHIRPersistenceJDBCCache cache;
+    
+    // The resource key used for the TransactionData object in held in the TransactionSynchronizationRegistry
+    private final String transactionDataKey;
+    
     // Did this instance start the transaction?
     private boolean startedByThis;
     
@@ -38,8 +50,12 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
      * Public constructor
      * @param tx
      */
-    public FHIRUserTransactionAdapter(UserTransaction tx) {
+    public FHIRUserTransactionAdapter(UserTransaction tx, TransactionSynchronizationRegistry syncRegistry, FHIRPersistenceJDBCCache cache, 
+        String transactionDataKey) {
         this.userTransaction = tx;
+        this.syncRegistry = syncRegistry;
+        this.cache = cache;
+        this.transactionDataKey = transactionDataKey;
         startedByThis = false;
     }
 
@@ -59,6 +75,12 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
                 userTransaction.begin();
                 startedByThis = true;
                 this.startCount++;
+                
+                // On starting a new transaction, we need to register a callback so that
+                // the cache is informed when the transaction commits it can promote thread-local
+                // ids to the shared caches.
+                syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey));
+                
             } catch (Exception x) {
                 log.log(Level.SEVERE, "failed to start transaction", x);
                 throw new FHIRPersistenceDataAccessException("Start global transaction failed. See server log for details");

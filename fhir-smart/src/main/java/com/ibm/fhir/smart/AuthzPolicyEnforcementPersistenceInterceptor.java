@@ -23,6 +23,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -155,22 +156,25 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
                 EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(resource);
 
-                for (String searchParm : inclusionCriteria) {
+                for (String searchParmCode : inclusionCriteria) {
                     try {
-                        String expression = SearchUtil.getSearchParameter(resourceType, searchParm).getExpression().getValue();
-                        Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
-                        for (FHIRPathNode node : nodes) {
-                            String patientRefVal = getPatientRefVal(node);
-                            if (patientRefVal != null && contextIds.contains(patientRefVal)) {
-                                if (log.isLoggable(Level.FINE)) {
-                                    log.fine("Interaction is permitted via scope " + approvedScopeMap.get(ContextType.PATIENT) +
-                                        " with patient context '" + patientRefVal + "'");
+                        SearchParameter inclusionParm = SearchUtil.getSearchParameter(resourceType, searchParmCode);
+                        if (inclusionParm != null & inclusionParm.getExpression() != null) {
+                            String expression = inclusionParm.getExpression().getValue();
+                            Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
+                            for (FHIRPathNode node : nodes) {
+                                String patientRefVal = getPatientRefVal(node);
+                                if (patientRefVal != null && contextIds.contains(patientRefVal)) {
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine("Interaction is permitted via scope " + approvedScopeMap.get(ContextType.PATIENT) +
+                                            " with patient context '" + patientRefVal + "'");
+                                    }
+                                    return;
                                 }
-                                return;
                             }
                         }
                     } catch (Exception e) {
-                        log.log(Level.WARNING, "Unexpected exception while processing inclusionCriteria '" + searchParm +
+                        log.log(Level.WARNING, "Unexpected exception while processing inclusionCriteria '" + searchParmCode +
                                 "' in the Patient compartment for resource type " + resourceType, e);
                     }
                 }

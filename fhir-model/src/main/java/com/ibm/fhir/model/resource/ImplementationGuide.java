@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -3004,6 +3005,7 @@ public class ImplementationGuide extends DomainResource {
          * A page / section in the implementation guide. The root page is the implementation guide home page.
          */
         public static class Page extends BackboneElement {
+            @ReferenceTarget({ "Binary" })
             @Choice({ Url.class, Reference.class })
             @Required
             private final Element name;
@@ -3027,6 +3029,7 @@ public class ImplementationGuide extends DomainResource {
                 title = ValidationSupport.requireNonNull(builder.title, "title");
                 generation = ValidationSupport.requireNonNull(builder.generation, "generation");
                 page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
+                ValidationSupport.checkReferenceType(name, "name", "Binary");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3264,6 +3267,11 @@ public class ImplementationGuide extends DomainResource {
                  * <ul>
                  * <li>{@link Url}</li>
                  * <li>{@link Reference}</li>
+                 * </ul>
+                 * 
+                 * When of type {@link Reference}, the allowed resource types for this reference are:
+                 * <ul>
+                 * <li>{@link Binary}</li>
                  * </ul>
                  * 
                  * @param name

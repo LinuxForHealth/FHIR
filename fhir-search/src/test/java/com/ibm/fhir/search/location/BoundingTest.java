@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,13 +25,13 @@ public class BoundingTest {
                 BoundingBox.builder().maxLatitude(10.0).minLatitude(-10.0).maxLongitude(20.0).minLongitude(-10.0)
                         .build();
         assertNotNull(bounding);
-        assertEquals(bounding.getMinLatitude(), -10.0);
-        assertEquals(bounding.getMinLongitude(), -10.0);
-        assertEquals(bounding.getMaxLatitude(), 10.0);
-        assertEquals(bounding.getMaxLongitude(), 20.0);
+        assertEquals(bounding.getMinLatitude(), Double.valueOf("-10.0"));
+        assertEquals(bounding.getMinLongitude(), Double.valueOf("-10.0"));
+        assertEquals(bounding.getMaxLatitude(), Double.valueOf("10.0"));
+        assertEquals(bounding.getMaxLongitude(), Double.valueOf("20.0"));
         assertEquals(bounding.toString(),
                 "BoundingBox [minLatitude=-10.0, maxLatitude=10.0, minLongitude=-10.0, maxLongitude=20.0, instance=0]");
-        assertEquals(bounding.getDataPoints(), Arrays.asList(-10.0,  -10.0, 10.0, 20.0));
+        assertEquals(bounding.getDataPoints(), Arrays.asList(-10.0, -10.0, 10.0, 20.0));
         assertEquals(bounding.getType(), BoundingType.BOX);
     }
 
@@ -119,9 +119,9 @@ public class BoundingTest {
     public void testBoundingRadius() {
         BoundingRadius bounding = BoundingRadius.builder().latitude(10.0).longitude(20.0).radius(4.0).build();
         assertNotNull(bounding);
-        assertEquals(bounding.getLatitude(), 10.0);
-        assertEquals(bounding.getLongitude(), 20.0);
-        assertEquals(bounding.getRadius(), 4.0);
+        assertEquals(bounding.getLatitude(), Double.valueOf("10.0"));
+        assertEquals(bounding.getLongitude(), Double.valueOf("20.0"));
+        assertEquals(bounding.getRadius(), Double.valueOf("4.0"));
         assertEquals(bounding.toString(), "BoundingRadius [latitude=10.0, longitude=20.0, instance=0]");
         assertEquals(bounding.getDataPoints(), Arrays.asList(10.0, 20.0, 4.0));
         assertEquals(bounding.getType(), BoundingType.RADIUS);

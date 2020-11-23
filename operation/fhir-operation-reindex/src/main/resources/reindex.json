@@ -1,0 +1,45 @@
+{
+	"resourceType": "OperationDefinition",
+	"id": "reindex",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>Reindex</h2><p>OPERATION: Reindex existing resources in the database</p><p>The reindex operation reads resources from the database and extracts and stores search parameters according to the latest configuration of the server.</p><p>URL: [base]/$reindex</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome does not list any errors, then the server expected to be healthy.</p></td></tr></table></div>"
+	  },
+	"url": "http://ibm.com/fhir/OperationDefinition/reindex",
+	"name": "Reindex",
+	"status": "draft",
+	"kind": "operation",
+	"publisher": "IBM FHIR Server",
+	"date": "2020-10-05",
+	"description": "The reindex operation recomputes and stores search parameters.",
+	"code": "reindex",
+	"system": true,
+	"type": false,
+	"instance": false,
+        "parameter": [
+          {
+            "name": "resourceCount",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.",
+            "type": "integer"
+          },
+          {
+            "name": "tstamp",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.",
+            "type": "string"
+          },
+          {
+            "name": "resourceLogicalId",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient",
+            "type": "string"
+          }
+        ]
+}

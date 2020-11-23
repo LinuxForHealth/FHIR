@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -106,17 +106,17 @@ public class LocationUtilTest {
 
     @Test
     public void testCheckAndLimitMaximumLatitude() {
-        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(990.0), 90.0);
-        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(-990.0), -90.0);
-        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(-9.0), -9.0);
-        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(9.0), 9.0);
+        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(990.0), Double.valueOf("90.0"));
+        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(-990.0), Double.valueOf("-90.0"));
+        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(-9.0), Double.valueOf("-9.0"));
+        assertEquals(LocationUtil.checkAndLimitMaximumLatitude(9.0), Double.valueOf("9.0"));
     }
 
     @Test
     public void testCheckAndLimitMaximumLongitude() {
-        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(990.0), 180.0);
-        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(-990.0), -180.0);
-        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(9.0), 9.0);
-        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(-9.0), -9.0);
+        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(990.0), Double.valueOf("180.0"));
+        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(-990.0), Double.valueOf("-180.0"));
+        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(9.0), Double.valueOf("9.0"));
+        assertEquals(LocationUtil.checkAndLimitMaximumLongitude(-9.0), Double.valueOf("-9.0"));
     }
 }

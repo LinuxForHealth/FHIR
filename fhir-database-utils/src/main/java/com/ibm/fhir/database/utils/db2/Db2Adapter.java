@@ -6,6 +6,10 @@
 
 package com.ibm.fhir.database.utils.db2;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,6 +48,8 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
  */
 public class Db2Adapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(Db2Adapter.class.getName());
+
+    private static final String DROP_SPECIFIC = "SELECT SPECIFICNAME FROM SYSCAT.ROUTINES WHERE ROUTINESCHEMA = ? AND ROUTINENAME = ?";
 
     /**
      * Public constructor
@@ -144,13 +150,15 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Make sure each of our partitioned tables includes partitions up to and including
         // the maxTenantId value. Get the current values, and then fill in the gaps.
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
-        loadPartitionInfoMap(partitionInfoMap, schemaName);
 
         // Make sure there's a tablespace available for this tenant before we
         // try to create the actual partitions
         final String tablespaceName = "TS_TENANT" + newTenantId;
         try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
             try {
+                // Get the current partition info
+                loadPartitionInfoMap(partitionInfoMap, schemaName);
+
                 logger.info("Creating tablespace: " + tablespaceName);
                 Db2CreateTablespace createTablespace = new Db2CreateTablespace(tablespaceName, extentSizeKB);
                 runStatement(createTablespace);
@@ -162,6 +170,41 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             }
         }
 
+        addNewTenantPartitions(tables, partitionInfoMap, newTenantId, tablespaceName);
+    }
+
+    @Override
+    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
+        DataDefinitionUtil.assertValidName(schemaName);
+
+        // Make sure each of our partitioned tables includes partitions up to and including
+        // the maxTenantId value. Get the current values, and then fill in the gaps.
+        Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
+            try {
+                // Get the current partition info
+                loadPartitionInfoMap(partitionInfoMap, schemaName);
+            }
+            catch (RuntimeException x) {
+                logger.severe("Get partition info failed for schema " + schemaName + ": " + x.getMessage());
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+
+        final String tablespaceName = "TS_TENANT" + newTenantId;
+        addNewTenantPartitions(tables, partitionInfoMap, newTenantId, tablespaceName);
+    }
+
+    /**
+     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
+     * be run to add partitions for existing tenants to new tables
+     * @param tables
+     * @param partitionInfoMap
+     * @param newTenantId
+     * @param tablespaceName
+     */
+    public void addNewTenantPartitions(Collection<Table> tables, Map<String, PartitionInfo> partitionInfoMap, int newTenantId, String tablespaceName) {
         // Thread pool for parallelizing requests
         int poolSize = connectionProvider.getPoolSize();
         if (poolSize == -1) {
@@ -227,10 +270,15 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                     throw new IllegalArgumentException("Missing upper partition information");
                 }
 
-                logger.info("Adding tenant partition: TENANT" + newTenantId + " to " + t.getName());
-                Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
-                runStatement(cmd);
-                logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
+                if (newTenantId > Integer.parseInt(pi.getHighValue())) {
+                    logger.info("Adding tenant partition: TENANT" + newTenantId + " to " + t.getName());
+                    Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
+                    runStatement(cmd);
+                    logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
+                } else {
+                    // Not an error, because we want to make this idempotent
+                    logger.info("Partition already exists: TENANT" + newTenantId + " for " + t.getName());
+                }
             } catch (RuntimeException x) {
                 logger.severe("Rolling back transaction after tenant creation failed for table " + t.getName());
                 tx.setRollbackOnly();
@@ -328,13 +376,35 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
-        final String pname = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
-        final String ddl = "DROP PROCEDURE " + pname;
-        try {
-            runStatement(ddl);
+        List<String> existingStoredProcedures = new ArrayList<>();
+        if (connectionProvider != null) {
+            try (Connection c = connectionProvider.getConnection()) {
+                try (PreparedStatement p = c.prepareStatement(DROP_SPECIFIC)) {
+                    p.setString(1, schemaName);
+                    p.setString(2, procedureName);
+                    if (p.execute()) {
+                        // Closes with PreparedStatement
+                        ResultSet rs = p.getResultSet();
+                        while (rs.next()) {
+                            existingStoredProcedures.add(rs.getString(1));
+                        }
+                    }
+                }
+            } catch (SQLException x) {
+                throw getTranslator().translate(x);
+            }
         }
-        catch (UndefinedNameException x) {
-            logger.warning(ddl + "; PROCEDURE not found");
+
+        // As the procedure signatures are mutated, we don't want to be in the situation where the signature change, and
+        // we can't drop.
+        for (String existingStoredProcedure : existingStoredProcedures) {
+            final String pname = DataDefinitionUtil.getQualifiedName(schemaName, existingStoredProcedure);
+            final String ddl = "DROP SPECIFIC PROCEDURE " + pname;
+            try {
+                runStatement(ddl);
+            } catch (UndefinedNameException x) {
+                logger.warning(ddl + "; PROCEDURE not found");
+            }
         }
     }
 
@@ -365,7 +435,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String detachedName = DataDefinitionUtil.getQualifiedName(schemaName, intoTableName);
         final String ddl = "ALTER TABLE " + qname + " DETACH PARTITION " + partitionName + " INTO " + detachedName;
-        
+
         try {
             runStatement(ddl);
         } catch (DataAccessException x) {
@@ -402,7 +472,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Only process tables which are partitioned
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
         loadPartitionInfoMap(partitionInfoMap, schemaName);
-        
+
         for (Table t : tables) {
             PartitionInfo pi = partitionInfoMap.get(t.getObjectName());
             if (pi == null) {
@@ -427,12 +497,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             }
         }
     }
-    
+
     /**
      * Get the name of the table created when the given tenant's partition is
      * dropped (to deprovision a tenant). This is just the table name prefixed with
      * DRP_n_ where n is the tenantId.
-     * 
+     *
      * @param tenantId
      * @return
      */
@@ -539,12 +609,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // SET INTEGRITY FOR child OFF;
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "SET INTEGRITY FOR " + qname + " OFF";
-        
+
         // so important, we log it
         logger.info(ddl);
-        
+
         runStatement(ddl);
-        
+
     }
 
     /* (non-Javadoc)
@@ -555,10 +625,16 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "SET INTEGRITY FOR " + qname + " ALL IMMEDIATE UNCHECKED";
-        
+
         // so important, we log it
         logger.info(ddl);
 
         runStatement(ddl);
+    }
+
+    @Override
+    public void reorgTable(String schemaName, String tableName) {
+        Db2Reorg cmd = new Db2Reorg(schemaName, tableName);
+        runStatement(cmd);
     }
 }

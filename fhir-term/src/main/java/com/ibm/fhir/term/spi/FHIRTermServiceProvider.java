@@ -288,6 +288,8 @@ public interface FHIRTermServiceProvider {
      *     the validation parameters
      * @return
      *     the outcome of validation
+     * @throws
+     *     IllegalStateException if a coding cannot be constructed from the passed arguments
      */
     default ValidationOutcome validateCode(ValueSet valueSet, Uri system, String version, Code code, String display, ValidationParameters parameters) {
         Coding coding = Coding.builder()

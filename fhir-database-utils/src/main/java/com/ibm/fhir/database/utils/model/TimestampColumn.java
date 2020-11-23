@@ -21,9 +21,9 @@ public class TimestampColumn extends ColumnBase {
         super(name, nullable);
         this.precision = null;
     }
-    
-    public TimestampColumn(String name, boolean nullable, Integer precision) {
-        super(name, nullable);
+
+    public TimestampColumn(String name, boolean nullable, Integer precision, String defaultValue) {
+        super(name, nullable, defaultValue);
         this.precision = precision;
     }
 

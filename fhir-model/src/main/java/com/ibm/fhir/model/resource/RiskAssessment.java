@@ -99,6 +99,7 @@ public class RiskAssessment extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Device" })
     private final Reference performer;
     private final List<CodeableConcept> reasonCode;
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     private final List<Reference> basis;
     private final List<Prediction> prediction;
@@ -130,6 +131,7 @@ public class RiskAssessment extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(condition, "condition", "Condition");
         ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 
@@ -910,6 +912,14 @@ public class RiskAssessment extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why the assessment was necessary?
          * 
@@ -927,6 +937,14 @@ public class RiskAssessment extends DomainResource {
          * Resources supporting the reason the risk assessment was performed.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why the assessment was necessary?

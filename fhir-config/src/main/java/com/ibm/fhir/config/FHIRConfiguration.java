@@ -39,14 +39,19 @@ public class FHIRConfiguration {
     // Resources properties
     public static final String PROPERTY_RESOURCES = "fhirServer/resources";
     public static final String PROPERTY_FIELD_RESOURCES_OPEN = "open";
+    public static final String PROPERTY_FIELD_RESOURCES_INTERACTIONS = "interactions";
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETERS = "searchParameters";
-    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_URL = "url";
-    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_REQUIRED = "required";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES = "searchIncludes";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES = "searchRevIncludes";
+    public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_COMBINATIONS = "searchParameterCombinations";
+    public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
+    public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
+    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
     public static final String PROPERTY_SECURITY_BASIC_ENABLED = "fhirServer/security/basic/enabled";
-    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/cert/enabled";
+    public static final String PROPERTY_SECURITY_CERT_ENABLED = "fhirServer/security/certificates/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_ENABLED = "fhirServer/security/oauth/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_REG_URL = "fhirServer/security/oauth/regUrl";
     public static final String PROPERTY_SECURITY_OAUTH_AUTH_URL = "fhirServer/security/oauth/authUrl";
@@ -89,10 +94,15 @@ public class FHIRConfiguration {
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
+    public static final String PROPERTY_JDBC_BOOTSTRAP_DATASOURCE_BASE = "fhirServer/persistence/jdbc/bootstrapDataSourceBase";
     public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
+    public static final String PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE = "fhirServer/persistence/jdbc/enableProxyDatasource";
+    public static final String PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS = "fhirServer/persistence/jdbc/enableReadOnlyReplicas";
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
+    public static final String PROPERTY_JDBC_EXTERNAL_REF_SYSTEM_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefSystemCacheSize";
+    public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
 
     // fhir-search - Bounding area
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";

@@ -27,6 +27,7 @@ import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
 
@@ -86,7 +87,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
             List<String> includeColumns) {
 
         // Derby doesn't support include columns, so we just have to create a normal index
@@ -183,7 +184,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache, int incrementBy) {
         /* Example syntax
          * CREATE SEQUENCE <sequence-name>
          *     AS BIGINT
@@ -192,7 +193,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
          */
         // Derby doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
+                + " START WITH " + startWith 
+                + " INCREMENT BY " + incrementBy
+                + " NO CYCLE";
         runStatement(ddl);
     }
     
@@ -211,7 +215,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     
     @Override
-    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy) {
         // Derby doesn't support ALTER SEQUENCE, so we have to drop and create again with the start value.
         // But we should only allow the sequence to be increased, never decreased (to avoid any chance
         // of corrupting the database).
@@ -226,7 +230,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         logger.info("Recreating sequence '" + sname + "' START WITH " + restartWith);
         dropSequence(schemaName, sequenceName);
-        createSequence(schemaName, sequenceName, restartWith, cache);
+        createSequence(schemaName, sequenceName, restartWith, cache, incrementBy);
     }
     
     @Override
@@ -279,7 +283,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    protected List<String> prefixTenantColumn(String tenantColumnName, List<String> columns) {
+    protected List<OrderedColumnDef> prefixTenantColumn(String tenantColumnName, List<OrderedColumnDef> columns) {
         // No tenant support, so simply return the columns list unchanged, without prefixing
         // the tenanteColumnName
         return columns;
@@ -349,5 +353,16 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
+    }
+    
+    @Override
+    public void createOrReplaceView(String schemaName, String viewName, String selectClause) {
+        // Derby doesn't support CREATE OR REPLACE VIEW, so we have to try and drop the view first
+        try {
+            dropView(schemaName, viewName);
+        } catch (Exception x) {
+            // NOP
+        }
+        createView(schemaName, viewName, selectClause);
     }
 }

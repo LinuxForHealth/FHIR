@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -282,6 +283,30 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 
         assertSearchReturnsSavedResource("missing-decimal:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-decimal:missing", "false");
+    }
+
+    @Test
+    public void testSearchNumber_decimal_missing_integer() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("decimal:missing", Collections.singletonList("false"));
+        queryParms.put("integer", Collections.singletonList("12"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("decimal:missing", Collections.singletonList("true"));
+        queryParms.put("integer", Collections.singletonList("12"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+    }
+
+    @Test
+    public void testSearchNumber_decimal_missing_integer_missing() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("decimal:missing", Collections.singletonList("false"));
+        queryParms.put("integer:missing", Collections.singletonList("false"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        queryParms.clear();
+        queryParms.put("decimal:missing", Collections.singletonList("false"));
+        queryParms.put("integer:missing", Collections.singletonList("true"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
     }
 
     @Test

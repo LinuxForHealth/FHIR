@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.4.1-SNAPSHOT</version>
+    <version>4.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -33,8 +33,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.4.1-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.4.1-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>4.5.0-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.5.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
@@ -69,6 +69,7 @@
         <module>../operation/fhir-operation-bulkdata</module>
         <module>../operation/fhir-operation-convert</module>
         <module>../operation/fhir-operation-term</module>
+        <module>../operation/fhir-operation-reindex</module>
         <module>../fhir-bulkimportexport-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
@@ -219,7 +220,7 @@
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>6.14.3</version>
+                <version>7.3.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

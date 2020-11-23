@@ -10,6 +10,7 @@ package com.ibm.fhir.server.test;
 import java.util.ArrayList;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Builder;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Id;
@@ -66,6 +67,10 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
         T updatedResource;
+        OperationOutcome operationOutcome = null;
+        if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
+            operationOutcome = FHIRRestHelperTest.ID_SPECIFIED;
+        }
         if (resource.getId().startsWith("generated")) {
             updatedResource = (T) resource.toBuilder().meta(Meta.builder().versionId(Id.of("1")).build()).build();
         } else {
@@ -73,7 +78,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
         }
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
-                .resource(updatedResource);
+                .resource(updatedResource)
+                .outcome(operationOutcome);
         return resultBuilder.build();
     }
 
@@ -107,5 +113,10 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public String generateResourceId() {
         return "generated-" + id++;
+    }
+
+    @Override
+    public int reindex(FHIRPersistenceContext context, Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
+        return 0;
     }
 }

@@ -48,6 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class DeviceDefinition extends DomainResource {
     private final List<Identifier> identifier;
     private final List<UdiDeviceIdentifier> udiDeviceIdentifier;
+    @ReferenceTarget({ "Organization" })
     @Choice({ String.class, Reference.class })
     private final Element manufacturer;
     private final List<DeviceName> deviceName;
@@ -111,6 +112,7 @@ public class DeviceDefinition extends DomainResource {
         quantity = builder.quantity;
         parentDevice = builder.parentDevice;
         material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
         ValidationSupport.requireChildren(this);
@@ -807,6 +809,11 @@ public class DeviceDefinition extends DomainResource {
          * <ul>
          * <li>{@link String}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Organization}</li>
          * </ul>
          * 
          * @param manufacturer

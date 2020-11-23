@@ -24,11 +24,11 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 
 /**
  * Hides the logic behind obtaining a JDBC {@link Connection} from the DAO code.
- * 
- * This strategy is used for configurations using the FHIR proxy datasource, 
+ *
+ * This strategy is used for configurations using the FHIR proxy datasource,
  * which supports dynamic configurations of datasources without requiring
  * the application server to restart.
- * 
+ *
  * @implNote Refactored from {@link FHIRDbDAOImpl}. Improves separation of
  *           concerns by removing connection management code from the DAO
  *           and injecting it as a strategy instead. This not only simplifies
@@ -36,16 +36,17 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
  *           such as using a JEE datasource directly instead of the FHIR
  *           proxy datasource used here.
  */
+@Deprecated
 public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStrategyBase {
     private static final Logger log = Logger.getLogger(FHIRDbProxyDatasourceConnectionStrategy.class.getName());
     private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
 
     // number of nanoseconds in a millisecond
     private static final double NANOMS = 1e6;
-    
+
     // The (proxy) datasource
     private final DataSource datasource;
-    
+
     // JNDI address of the (proxy) datasource
     private final String datasourceJndiName;
     /**
@@ -61,7 +62,7 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
             this.datasourceJndiName =
                     FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(
                         FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbConstants.FHIRDB_JNDI_NAME_DEFAULT);
-            
+
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Using datasource JNDI name: " + datasourceJndiName);
             }
@@ -70,7 +71,7 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
             log.log(Level.SEVERE, fx.addProbeId("Failure to find proxy datasource in FHIR server configuration"), e);
             throw fx;
         }
-        
+
         // JNDI lookup. May fail if the server configuration is incorrect
         try {
             InitialContext ctxt = new InitialContext();
@@ -100,7 +101,7 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
             // set on the context.
             String tenantId = FHIRRequestContext.get().getTenantId();
             String dsId = FHIRRequestContext.get().getDataStoreId();
-            
+
             long start = System.nanoTime();
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Getting connection for tenantId/dsId: [" + tenantId + "/" + dsId + "]...");
@@ -124,19 +125,19 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
                 log.exiting(CLASSNAME, METHODNAME);
             }
         }
-        
+
         return connection;
     }
-    
+
     @Override
     protected Connection getConnection(DataSource datasource, String tenantId, String dsId) throws SQLException, FHIRPersistenceException {
         // Now use the dsId/tenantId specific JEE datasource to get a connection
         Connection connection = datasource.getConnection(tenantId, dsId);
-        
+
         try {
             // always
             connection.setAutoCommit(false);
-            
+
             // configure the connection if it's the first time we've accessed it in this transaction
             configure(connection, tenantId, dsId);
         } catch (Throwable t) {
@@ -153,7 +154,7 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
             }
             throw t;
         }
-        
+
         return connection;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -212,7 +212,9 @@ public class UriBuilder {
         }
 
         StringBuilder returnString = new StringBuilder(SearchConstants.AND_CHAR);
-        if (param.isChained()) {
+        if (param.isReverseChained()) {
+            appendReverseChainedParm(param, returnString);
+        } else if (param.isChained()) {
             appendChainedParm(param, returnString);
 
             // Param is never null at this point, and isChained is known to be true.
@@ -224,7 +226,7 @@ public class UriBuilder {
                 if (param != null) {
                     returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER);
                     if (param.isChained()) {
-                        returnString.append(param.getCode());
+                        appendChainedParm(param, returnString);
                     } else {
                         appendNormalParameter(param, returnString);
                     }
@@ -276,6 +278,40 @@ public class UriBuilder {
         if (param.getModifierResourceTypeName() != null && !param.getModifierResourceTypeName().isEmpty()) {
             returnString.append(SearchConstants.COLON_DELIMITER);
             returnString.append(param.getModifierResourceTypeName());
+        }
+    }
+
+    /*
+     * creates a reverse chained parameter
+     *
+     * @param param
+     *
+     * @param returnString
+     */
+    private void appendReverseChainedParm(QueryParameter param, StringBuilder returnString) {
+        // Build initial string: "_has:<reference-resource-type>:<refernece-search-parm>:
+        returnString.append(SearchConstants.HAS)
+                    .append(SearchConstants.COLON_DELIMITER)
+                    .append(param.getModifierResourceTypeName())
+                    .append(SearchConstants.COLON_DELIMITER)
+                    .append(param.getCode())
+                    .append(SearchConstants.COLON_DELIMITER);
+
+        // Loop through chained parms to build chained strings
+        for (QueryParameter revChainParam : param.getChain()) {
+            if (revChainParam.isReverseChained()) {
+                returnString.append(SearchConstants.HAS)
+                            .append(SearchConstants.COLON_DELIMITER)
+                            .append(revChainParam.getModifierResourceTypeName())
+                            .append(SearchConstants.COLON_DELIMITER)
+                            .append(revChainParam.getCode())
+                            .append(SearchConstants.COLON_DELIMITER);
+            } else if (revChainParam.isChained()) {
+                appendChainedParm(revChainParam, returnString);
+                returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER);
+            } else {
+                appendNormalParameter(revChainParam, returnString);
+            }
         }
     }
 

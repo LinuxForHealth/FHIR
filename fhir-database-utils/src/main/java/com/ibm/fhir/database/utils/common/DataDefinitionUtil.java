@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 
 /**
  * Handles common syntax for generating DDL
@@ -32,7 +33,7 @@ public class DataDefinitionUtil {
      * @param includeColumns
      * @return
      */
-    public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns,
+    public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
             List<String> includeColumns, boolean isUseSchemaPrefix) {
 
         StringBuilder result = new StringBuilder();
@@ -53,7 +54,7 @@ public class DataDefinitionUtil {
      * @param isUseSchemaPrefix
      * @return
      */
-    public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns, boolean isUseSchemaPrefix) {
+    public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns, boolean isUseSchemaPrefix) {
 
         StringBuilder result = new StringBuilder();
         result.append("CREATE UNIQUE INDEX ");
@@ -65,7 +66,7 @@ public class DataDefinitionUtil {
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));
         result.append("(");
-        result.append(join(indexColumns));
+        result.append(joinOrderedColumnDefs(indexColumns));
         result.append(")");
 
         return result.toString();
@@ -82,7 +83,7 @@ public class DataDefinitionUtil {
      * @param isUseSchemaPrefix
      * @return
      */
-    public static String createIndex(String schemaName, String tableName, String indexName, List<String> indexColumns, boolean isUseSchemaPrefix) {
+    public static String createIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns, boolean isUseSchemaPrefix) {
 
         StringBuilder result = new StringBuilder();
         result.append("CREATE INDEX ");
@@ -94,7 +95,7 @@ public class DataDefinitionUtil {
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));
         result.append("(");
-        result.append(join(indexColumns));
+        result.append(joinOrderedColumnDefs(indexColumns));
         result.append(")");
 
         return result.toString();
@@ -108,6 +109,16 @@ public class DataDefinitionUtil {
     public static String join(Collection<String> things) {
         return things.stream().collect(Collectors.joining(","));
     }
+
+    /**
+     * Join the ordered column definitions
+     * @param things
+     * @return
+     */
+    public static String joinOrderedColumnDefs(Collection<OrderedColumnDef> things) {
+        return things.stream().map(c -> c.toString()).collect(Collectors.joining(","));
+    }
+
 
     /**
      * Create a comma-separated list of the given strings

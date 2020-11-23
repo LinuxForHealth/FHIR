@@ -25,6 +25,9 @@ public class LockException extends DataAccessException {
     public LockException(Throwable t, boolean deadlock) {
         super(t);
         this.deadlock = deadlock;
+
+        // For deadlocks or lock timeouts, the transaction is probably retryable
+        setTransactionRetryable(true);
     }
 
     public boolean isDeadlock() {

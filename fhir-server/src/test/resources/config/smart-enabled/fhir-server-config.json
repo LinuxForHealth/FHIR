@@ -1,0 +1,60 @@
+{
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "resources": {
+            "open": false,
+            "Patient": {
+                "interactions": ["read", "search"],
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "birthdate": "http://hl7.org/fhir/SearchParameter/individual-birthdate",
+                    "gender": "http://hl7.org/fhir/SearchParameter/individual-gender",
+                    "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
+                    "name": "http://hl7.org/fhir/SearchParameter/Patient-name"
+                },
+                "searchIncludes": ["Patient:general-practitioner"]
+            },
+            "Practitioner": {
+                "searchParameters": {
+                    "name": "http://hl7.org/fhir/SearchParameter/Practitioner-name",
+                    "identifier": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier"
+                },
+                "searchRevIncludes": ["Patient:general-practitioner"]
+            },
+            "Resource": {
+                "interactions": ["read", "vread", "history", "search"],
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id"
+                }
+            }
+        },
+        "security": {
+            "cors": true,
+            "basic": {
+                "enabled": false
+            },
+            "certificates": {
+                "enabled": false
+            },
+            "oauth": {
+                "enabled": true,
+                "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
+                "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
+                "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
+                "smart": {
+                    "enabled": true,
+                    "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
+                    "capabilities": [
+                        "sso-openid-connect",
+                        "launch-standalone", 
+                        "client-public", 
+                        "client-confidential-symmetric", 
+                        "permission-offline",
+                        "context-standalone-patient",
+                        "permission-patient"
+                    ]
+                }
+            }
+        }
+    }
+}

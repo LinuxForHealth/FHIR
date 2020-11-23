@@ -66,7 +66,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
             }
             
             // first time...so we need to apply actions. Will be cleared when the transaction commits
-            newConnectionAction.performOn(connection);
+            newConnectionAction.performOn(this.flavor, connection);
             
             // and register the key so we don't do this again
             trxSyncRegistry.putResource(key, new Object());

@@ -6,8 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
@@ -15,6 +18,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
 
 import java.util.ArrayList;
@@ -58,10 +62,10 @@ public class QuerySegmentAggregator {
     protected static final String SYSTEM_LEVEL_SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
-    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.RESOURCE_ID) ";
+    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.LOGICAL_RESOURCE_ID) ";
     protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
-    protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
+    protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
 
     // Enables the SKIP_WHERE of WHERE clauses.
     public static final String ID = "_id";
@@ -163,7 +167,7 @@ public class QuerySegmentAggregator {
      *      AND pv2.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID) LR
      *       ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
      *      AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID
-     *      AND R.IS_DELETED <> 'Y'
+     *      AND R.IS_DELETED = 'N'
      *
      * The SELECT DISTINCT is required to remove duplicates caused by repeated parameter
      * values.
@@ -195,7 +199,7 @@ public class QuerySegmentAggregator {
             queryString.append(ON);
             queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
             queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-            queryString.append(" AND R.IS_DELETED <> 'Y'");
+            queryString.append(" AND R.IS_DELETED = 'N'");
 
 
             // An important step here is to add _id, _lastUpdated, and then values table bind variables
@@ -361,7 +365,7 @@ public class QuerySegmentAggregator {
                 queryString.append(ON);
                 queryString.append("     R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
                 queryString.append(" AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-                queryString.append(" AND R.IS_DELETED <> 'Y'");
+                queryString.append(" AND R.IS_DELETED = 'N'");
 
                 // An important step here is to add _id, values table bind variables, and then _lastUpdated
                 allBindVariables.addAll(idsObjects);
@@ -409,9 +413,8 @@ public class QuerySegmentAggregator {
         // This is requires for the count queries here
         fromClause.append(JOIN);
         processFromClauseForLastUpdated(fromClause, simpleName);
-        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
-        fromClause.append("  AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-        fromClause.append("  AND R.IS_DELETED <> 'Y' ");
+        fromClause.append(" R ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ")
+                .append(" AND R.IS_DELETED = 'N' ");
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -538,7 +541,7 @@ public class QuerySegmentAggregator {
             overrideType = this.resourceType.getSimpleName();
         }
 
-        String whereClauseSegment;
+        StringBuilder missingModifierWhereClause = new StringBuilder();
 
         for (int i = 0; i < this.querySegments.size(); i++) {
             SqlQueryData querySegment = this.querySegments.get(i);
@@ -551,28 +554,54 @@ public class QuerySegmentAggregator {
             if (!SKIP_WHERE.contains(code)) {
 
                 if (Modifier.MISSING.equals(param.getModifier())) {
-                    whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
-                    whereClause.append(whereClauseSegment);
+                    // Append queryString to a separate StringBuilder which will get appended to the where clause last.
+                    if (missingModifierWhereClause.length() == 0) {
+                        missingModifierWhereClause.append(querySegment.getQueryString());
+                    } else {
+                        // If not the first param with a :missing modifier, replace the WHERE with an AND
+                        missingModifierWhereClause.append(querySegment.getQueryString().replaceFirst(WHERE, AND));
+                    }
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
-                        // Join a standard parameter table
-                        //   JOIN Observation_TOKEN_VALUES AS param0
-                        //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
-                        //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
-
                         final String paramTableAlias = "param" + i;
-                        final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
+                        if (param.isReverseChained()) {
+                            // Join on a select from resource type logical resource table
+                            //   JOIN (
+                            //     SELECT CLR0.LOGICAL_ID FROM Observation_LOGICAL_RESOURCES AS CLR0
+                            //       ...
+                            //   ) AS param0 ON LR.LOGICAL_ID = param0.LOGICAL_ID
+                            whereClause.append(JOIN)
+                                        .append(LEFT_PAREN);
+                            whereClause.append(querySegment.getQueryString());
+                            whereClause.append(RIGHT_PAREN)
+                                        .append(AS)
+                                        .append(paramTableAlias)
+                                        .append(ON)
+                                        .append("LR.LOGICAL_ID = ")
+                                        .append(paramTableAlias)
+                                        .append(".LOGICAL_ID");
+                        } else {
+                            // Join a standard parameter table
+                            //   JOIN Observation_TOKEN_VALUES AS param0
+                            //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                            //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
 
-                        whereClause.append(JOIN);
-                        whereClause.append(tableName(overrideType, param));
-                        whereClause.append(" AS " + paramTableAlias);
-                        whereClause.append(ON);
-                        whereClause.append(onFilter);
-                        whereClause.append(" AND LR.LOGICAL_RESOURCE_ID = " + paramTableAlias + ".LOGICAL_RESOURCE_ID");
+                            final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
+
+                            whereClause.append(JOIN)
+                                        .append(tableName(overrideType, param))
+                                        .append(AS)
+                                        .append(paramTableAlias)
+                                        .append(ON)
+                                        .append(onFilter)
+                                        .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                        .append(paramTableAlias)
+                                        .append(".LOGICAL_RESOURCE_ID");
+                        }
                     } else {
                         // add an alias for the composite table
                         String compositeAlias = "comp" + (i + 1);
-                        whereClauseSegment =
+                        String whereClauseSegment =
                                 querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.",
                                         compositeAlias + ".");
 
@@ -588,11 +617,16 @@ public class QuerySegmentAggregator {
                             for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                                 String alias = compositeAlias + "_p" + componentNum;
                                 QueryParameter component = components.get(componentNum - 1);
-                                whereClause.append(JOIN + tableName(overrideType, component) + alias)
+                                String tableName = tableName(overrideType, component);
+                                // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
+                                if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
+                                    tableName = overrideType + "_TOKEN_VALUES ";
+                                }
+                                whereClause.append(JOIN).append(tableName).append(alias)
                                         .append(ON)
-                                        .append(compositeAlias + ".COMP" + componentNum + abbr(component))
-                                        .append("=")
-                                        .append(alias + ".ROW_ID");
+                                        .append(compositeAlias).append(".COMP").append(componentNum).append(abbr(component))
+                                        .append(EQ)
+                                        .append(alias).append(".ROW_ID");
                                 whereClauseSegment =
                                         whereClauseSegment.replaceAll(
                                                 PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
@@ -607,6 +641,11 @@ public class QuerySegmentAggregator {
             } // end if SKIP_WHERE
         } // end for
 
+        // If there were any query parameters with :missing modifier, append the missingModifierWhereClause
+        if (missingModifierWhereClause.length() > 0) {
+            whereClause.append(missingModifierWhereClause.toString());
+        }
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -614,14 +653,20 @@ public class QuerySegmentAggregator {
         StringBuilder name = new StringBuilder(resourceType);
         switch (param.getType()) {
         case URI:
-        case REFERENCE:
         case STRING:
         case NUMBER:
         case QUANTITY:
         case DATE:
-        case TOKEN:
         case SPECIAL:
             name.append(abbr(param) + "_VALUES ");
+            break;
+        case REFERENCE:
+        case TOKEN:
+            if (param.isReverseChained()) {
+                name.append("_LOGICAL_RESOURCES");
+            } else {
+                name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
+            }
             break;
         case COMPOSITE:
             name.append("_COMPOSITES ");
@@ -630,10 +675,14 @@ public class QuerySegmentAggregator {
         return name.toString();
     }
 
+    /**
+     * Get the abbreviation used for composites
+     * @param param
+     * @return
+     */
     public static String abbr(QueryParameter param) {
         switch (param.getType()) {
         case URI:
-        case REFERENCE:
         case STRING:
             return "_STR";
         case NUMBER:
@@ -642,6 +691,7 @@ public class QuerySegmentAggregator {
             return "_QUANTITY";
         case DATE:
             return "_DATE";
+        case REFERENCE:
         case TOKEN:
             return "_TOKEN";
         case SPECIAL:

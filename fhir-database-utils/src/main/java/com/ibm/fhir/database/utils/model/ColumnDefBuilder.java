@@ -25,6 +25,14 @@ public class ColumnDefBuilder {
         }
     }
 
+    /**
+     * Factory function to create a new instance of this builder
+     * @return
+     */
+    public static ColumnDefBuilder builder() {
+        return new ColumnDefBuilder();
+    }
+
     public ColumnDefBuilder addIntColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
         checkColumnAlreadyExists(cd, columnName);
@@ -58,6 +66,17 @@ public class ColumnDefBuilder {
         return this;
     }
 
+    public ColumnDefBuilder addBigIntColumn(String columnName, boolean nullable, String defaultValue) {
+        ColumnDef cd = new ColumnDef(columnName);
+        checkColumnAlreadyExists(cd, columnName);
+
+        cd.setNullable(nullable);
+        cd.setColumnType(ColumnType.BIGINT);
+        cd.setDefaultVal(defaultValue);
+        columns.add(cd);
+        return this;
+    }
+
     public ColumnDefBuilder addDoubleColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
         checkColumnAlreadyExists(cd, columnName);
@@ -77,6 +96,18 @@ public class ColumnDefBuilder {
         columns.add(cd);
         return this;
     }
+    
+    public ColumnDefBuilder addTimestampColumn(String columnName, boolean nullable, String defaultValue) {
+        ColumnDef cd = new ColumnDef(columnName);
+        checkColumnAlreadyExists(cd, columnName);
+
+        cd.setNullable(nullable);
+        cd.setColumnType(ColumnType.TIMESTAMP);
+        cd.setDefaultVal(defaultValue);
+        columns.add(cd);
+        return this;
+    }
+
 
     public ColumnDefBuilder addVarcharColumn(String columnName, int size, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
@@ -151,7 +182,7 @@ public class ColumnDefBuilder {
             ColumnBase column;
             switch (cd.getColumnType()) {
             case BIGINT:
-                column = new BigIntColumn(cd.getName(), cd.isNullable());
+                column = new BigIntColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
                 break;
             case INT:
                 column = new IntColumn(cd.getName(), cd.isNullable());
@@ -163,7 +194,7 @@ public class ColumnDefBuilder {
                 column = new DoubleColumn(cd.getName(), cd.isNullable());
                 break;
             case TIMESTAMP:
-                column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision());
+                column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision(), cd.getDefaultVal());
                 break;
             case VARCHAR:
                 if (cd.getSize() > Integer.MAX_VALUE) {

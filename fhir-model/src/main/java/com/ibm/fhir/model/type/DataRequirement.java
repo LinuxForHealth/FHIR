@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -66,6 +67,7 @@ public class DataRequirement extends Element {
     @Summary
     private final List<Canonical> profile;
     @Summary
+    @ReferenceTarget({ "Group" })
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
@@ -97,6 +99,7 @@ public class DataRequirement extends Element {
         dateFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateFilter, "dateFilter"));
         limit = builder.limit;
         sort = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sort, "sort"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -401,6 +404,11 @@ public class DataRequirement extends Element {
          * <ul>
          * <li>{@link CodeableConcept}</li>
          * <li>{@link Reference}</li>
+         * </ul>
+         * 
+         * When of type {@link Reference}, the allowed resource types for this reference are:
+         * <ul>
+         * <li>{@link Group}</li>
          * </ul>
          * 
          * @param subject

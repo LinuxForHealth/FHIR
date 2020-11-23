@@ -8,6 +8,7 @@ package com.ibm.fhir.bucket.scanner;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.BucketLoaderJob;
+import com.ibm.fhir.bucket.api.BucketPath;
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
@@ -35,9 +37,11 @@ import com.ibm.fhir.bucket.persistence.RecordLogicalIdList;
 import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
+import com.ibm.fhir.bucket.persistence.GetLogicalIds;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.model.resource.Patient;
 
 /**
  * The data access layer encapsulating interactions with the FHIR bucket schema
@@ -160,7 +164,7 @@ public class DataAccess {
      * @param jobList
      * @param free
      */
-    public void allocateJobs(List<BucketLoaderJob> jobList, FileType fileType, int free, int recycleSeconds) {
+    public void allocateJobs(List<BucketLoaderJob> jobList, FileType fileType, int free, int recycleSeconds, Collection<BucketPath> bucketPaths) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 // First business of the day is to check for liveness and clear
@@ -168,7 +172,7 @@ public class DataAccess {
                 ClearStaleAllocations liveness = new ClearStaleAllocations(loaderInstanceId, HEARTBEAT_TIMEOUT_MS, recycleSeconds);
                 dbAdapter.runStatement(liveness);
                 
-                AllocateJobs cmd = new AllocateJobs(schemaName, jobList, fileType, loaderInstanceId, free);
+                AllocateJobs cmd = new AllocateJobs(schemaName, jobList, fileType, loaderInstanceId, free, bucketPaths);
                 dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
@@ -240,8 +244,19 @@ public class DataAccess {
     public void recordLogicalIds(long resourceBundleLoadId, int lineNumber, List<ResourceIdValue> idValues, int batchSize) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                RecordLogicalIdList cmd = new RecordLogicalIdList(resourceBundleLoadId, lineNumber, idValues, resourceTypeMap, batchSize);
-                dbAdapter.runStatement(cmd);
+                for (ResourceIdValue idv: idValues) {
+                    Integer resourceTypeId = resourceTypeMap.get(idv.getResourceType());
+                    if (resourceTypeId == null) {
+                        // unlikely, unless the map hasn't been initialized properly
+                        throw new IllegalStateException("resourceType not found: " + idv.getResourceType());
+                    }
+
+                    // individual inserts to handle issues with duplicates
+                    RecordLogicalId cmd = new RecordLogicalId(resourceTypeId, idv.getLogicalId(), resourceBundleLoadId, lineNumber, -1);
+                    dbAdapter.runStatement(cmd);
+                }
+                
+                
             } catch (Exception x) {
                 tx.setRollbackOnly();
                 throw x;
@@ -304,6 +319,23 @@ public class DataAccess {
             try {
                 GetResourceRefsForBundleLine cmd = new GetResourceRefsForBundleLine(resourceBundleId, version, lineNumber);
                 return dbAdapter.runStatement(cmd);
+            } catch (Exception x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * @param patientIds
+     * @param patientsPerBatch
+     */
+    public void selectRandomPatientIds(List<String> patientIds, int maxPatients) {
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                // Grab the list of patient logical ids
+                GetLogicalIds cmd = new GetLogicalIds(patientIds, Patient.class.getSimpleName(), maxPatients);
+                dbAdapter.runStatement(cmd);
             } catch (Exception x) {
                 tx.setRollbackOnly();
                 throw x;

@@ -1,0 +1,8 @@
+{
+    "__comment": "FHIR Server configuration extension for the compartment test tenant",
+    "fhirServer": {
+        "search": {
+            "useStoredCompartmentParam": true
+        }
+    }
+}

@@ -10,6 +10,10 @@ services:
         target: /opt/ol/wlp/usr/servers/fhir-server/config
         read_only: true
       - type: bind
+        source: ./fhir-server/volumes/overrides
+        target: /opt/ol/wlp/usr/servers/fhir-server/configDropins/overrides
+        read_only: true
+      - type: bind
         source: ./fhir-server/volumes/userlib
         target: /opt/ol/wlp/usr/servers/fhir-server/userlib
         read_only: true

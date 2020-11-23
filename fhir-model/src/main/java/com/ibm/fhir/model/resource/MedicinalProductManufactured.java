@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -42,8 +43,10 @@ public class MedicinalProductManufactured extends DomainResource {
     @Required
     private final Quantity quantity;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final List<Reference> manufacturer;
     @Summary
+    @ReferenceTarget({ "MedicinalProductIngredient" })
     private final List<Reference> ingredient;
     @Summary
     private final ProdCharacteristic physicalCharacteristics;
@@ -61,6 +64,8 @@ public class MedicinalProductManufactured extends DomainResource {
         ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         physicalCharacteristics = builder.physicalCharacteristics;
         otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+        ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
         ValidationSupport.requireChildren(this);
     }
 
@@ -495,6 +500,11 @@ public class MedicinalProductManufactured extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param manufacturer
          *     Manufacturer of the item (Note that this should be named "manufacturer" but it currently causes technical issues)
          * 
@@ -513,6 +523,11 @@ public class MedicinalProductManufactured extends DomainResource {
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param manufacturer
          *     Manufacturer of the item (Note that this should be named "manufacturer" but it currently causes technical issues)
          * 
@@ -528,6 +543,11 @@ public class MedicinalProductManufactured extends DomainResource {
          * Ingredient.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductIngredient}</li>
+         * </ul>
          * 
          * @param ingredient
          *     Ingredient
@@ -546,6 +566,11 @@ public class MedicinalProductManufactured extends DomainResource {
          * Ingredient.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link MedicinalProductIngredient}</li>
+         * </ul>
          * 
          * @param ingredient
          *     Ingredient

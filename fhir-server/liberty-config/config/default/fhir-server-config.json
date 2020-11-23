@@ -14,12 +14,7 @@
                 "enabled": true
             },
             "certificates": {
-                "enabled": true,
-                "authFilter": {
-                    "enabled": false,
-                    "authorizedClientCertClientCN": "",
-                    "authorizedClientCertIssuerOU": ""
-                }
+                "enabled": true
             },
             "oauth": {
                 "enabled": false,
@@ -106,48 +101,28 @@
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
                 "bootstrapDb": true,
-                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
+                "enableProxyDatasource": false,
+                "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
             },
             "datasources": {
                 "default": {
+                    "jndiName": "jdbc/bootstrap_default_default",
                     "type": "derby",
-                    "currentSchema": "APP",
-                    "connectionProperties": {
-                        "databaseName": "derby/fhirDB",
-                        "createDatabase": "create"
-                    }
+                    "currentSchema": "APP"
                 },
-                "_db2_default": {
+                "_db2sample": {
                     "type": "db2",
+                    "currentSchema": "fhirdata",
                     "hints" : {
                       "search.reopt": "ONCE"
-                    },
-                    "connectionProperties": {
-                        "serverName": "localhost",
-                        "portNumber": 50001,
-                        "user": "FHIRSERVER",
-                        "password": "change-password",
-                        "databaseName": "FHIRDB",
-                        "currentSchema": "FHIRDATA",
-                        "driverType": 4,
-                        "sslConnection": true,
-                        "sslTrustStoreLocation": "resources/security/fhirTrustStore.p12",
-                        "sslTrustStorePassword": "change-password"
                     }
                 },
-                "_postgresql_default": {
+                "_pgsample": {
                     "type": "postgresql",
-                    "connectionProperties": {
-                        "serverName": "localhost",
-                        "portNumber": 5432,
-                        "databaseName": "fhirdata",
-                        "user": "fhirserver",
-                        "password": "change-password",
-                        "currentSchema": "fhirdata"
-                    }
+                    "currentSchema": "fhirdata"
                 }
             }
         },

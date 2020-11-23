@@ -22,8 +22,9 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void testStandardFlow() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();
@@ -33,8 +34,9 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void testRepeatFlow() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();
@@ -52,8 +54,9 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void testNestedFlow() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         
@@ -71,8 +74,9 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void testNestedBeginAfterRollbackOnly() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         
@@ -95,8 +99,9 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void testNestedRollbackOnly() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         
@@ -122,12 +127,13 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void sharedNestedRollback() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         
-        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
         nested.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         
@@ -153,15 +159,16 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void sharedNestedCommit() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
-        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
         nested.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -188,14 +195,15 @@ public class FHIRUserTransactionAdapterTest {
     @Test(groups = {"jdbc"})
     public void sharedNestedAfterRollback() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         adapter.setRollbackOnly();
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
         // now try and start a nested transaction
-        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx);
+        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
         nested.begin();
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
@@ -211,7 +219,5 @@ public class FHIRUserTransactionAdapterTest {
         // now we can end the transaction (rollback to no transaction)
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        
     }
-
 }

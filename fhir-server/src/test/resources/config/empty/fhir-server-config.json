@@ -1,0 +1,40 @@
+{
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "resources": {
+            "open": true,
+            "Patient": {
+                "interactions": [],
+                "searchParameters": {},
+                "searchInclude": [],
+                "searchRevInclude": []
+            },
+            "Resource": {
+                "interactions": [],
+                "searchParameters": {},
+                "searchInclude": [],
+                "searchRevInclude": []
+            }
+        },
+        "security": {
+            "cors": true,
+            "basic": {
+                "enabled": true
+            },
+            "certificates": {
+                "enabled": true
+            },
+            "oauth": {
+                "enabled": true,
+                "regUrl": "",
+                "authUrl": "",
+                "tokenUrl": "",
+                "smart": {
+                    "enabled": true,
+                    "scopes": [],
+                    "capabilities": []
+                }
+            }
+        }
+    }
+}

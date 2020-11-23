@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +39,7 @@ public class ParametersMap {
     /**
      * @implSpec package-private to prevent insertion from outside the package
      */
-    void insert(String code, SearchParameter parameter) {
+    public void insert(String code, SearchParameter parameter) {
         Objects.requireNonNull(code, "cannot insert a null code");
         Objects.requireNonNull(parameter, "cannot insert a null parameter");
 
@@ -95,7 +96,7 @@ public class ParametersMap {
     /**
      * @implSpec package-private to prevent insertion from outside the package
      */
-    void insertAll(ParametersMap map) {
+    public void insertAll(ParametersMap map) {
         for (Entry<String, SearchParameter> entry : map.codeMap.entrySet()) {
             insert(entry.getKey(), entry.getValue());
         }
@@ -119,5 +120,13 @@ public class ParametersMap {
 
     public int size() {
         return codeMap.size();
+    }
+
+    public Set<Entry<String, SearchParameter>> codeEntries() {
+        return codeMap.entrySet();
+    }
+
+    public Set<Entry<String, SearchParameter>> urlEntries() {
+        return urlMap.entrySet();
     }
 }

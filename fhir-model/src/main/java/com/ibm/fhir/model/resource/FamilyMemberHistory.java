@@ -138,6 +138,7 @@ public class FamilyMemberHistory extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Condition> condition;
@@ -165,6 +166,7 @@ public class FamilyMemberHistory extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1058,6 +1060,16 @@ public class FamilyMemberHistory extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link AllergyIntolerance}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why was family member history performed?
          * 
@@ -1076,6 +1088,16 @@ public class FamilyMemberHistory extends DomainResource {
          * history event.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link AllergyIntolerance}</li>
+         * <li>{@link QuestionnaireResponse}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why was family member history performed?

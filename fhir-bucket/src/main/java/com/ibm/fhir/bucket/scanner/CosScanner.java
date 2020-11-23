@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.CosItem;
 import com.ibm.fhir.bucket.api.FileType;
-import com.ibm.fhir.bucket.cos.CosClient;
+import com.ibm.fhir.bucket.cos.COSClient;
 
 /**
  * Active object to periodically scan COS buckets looking for new
@@ -32,7 +32,7 @@ public class CosScanner {
     public static final long HEARTBEAT_INTERVAL_MS = 5000;
 
     // COS connection
-    private final CosClient client;
+    private final COSClient client;
     
     // the list of buckets to scan
     private final List<String> buckets;
@@ -68,7 +68,7 @@ public class CosScanner {
      * @param prefix only scan items with this prefix if set
      * @param scanIntervalMs the number of milliseconds between scans. -1 for automatic
      */
-    public CosScanner(CosClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
+    public CosScanner(COSClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
         int scanIntervalMs) {
         this.client = client;
         this.buckets = new ArrayList<>(buckets);
@@ -138,19 +138,25 @@ public class CosScanner {
         
         while (this.running) {
             long start = System.nanoTime();
-            heartbeat();
             
-            if (nextScanTime == -1 || start >= nextScanTime) {
-                scan();
+            try {
+                heartbeat();
                 
-                double elapsed = (System.nanoTime() - start) / 1e9;
-                logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
-                
-                // roughly schedule the next scan. If the configured scan interval is < 0
-                // then we use an automatic calculation which is 10x the amount of time
-                // it took to complete the previous scan
-                long delayMs = scanIntervalMs >= 0 ? scanIntervalMs : Math.max((long)(10L * 1000L * elapsed), MIN_AUTO_SCAN_DELAY);
-                nextScanTime = start + delayMs * NANO_MS;
+                if (nextScanTime == -1 || start >= nextScanTime) {
+                    scan();
+                    
+                    double elapsed = (System.nanoTime() - start) / 1e9;
+                    logger.info(String.format("Scan complete [took %4.1f s]", elapsed));
+                    
+                    // roughly schedule the next scan. If the configured scan interval is < 0
+                    // then we use an automatic calculation which is 10x the amount of time
+                    // it took to complete the previous scan
+                    long delayMs = scanIntervalMs >= 0 ? scanIntervalMs : Math.max((long)(10L * 1000L * elapsed), MIN_AUTO_SCAN_DELAY);
+                    nextScanTime = start + delayMs * NANO_MS;
+                }
+            } catch (Exception x) {
+                // Just catch and log so we don't break the main loop
+                logger.severe("Error during COS scan: " + x.getMessage());
             }
             
             // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)

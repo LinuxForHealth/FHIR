@@ -55,6 +55,15 @@ public interface IDatabaseTranslator {
     String selectSequenceNextValue(String schemaName, String sequenceName);
 
     /**
+     * Statement for getting the next value (for use in a select list or
+     * insert values)
+     * @param schemaName
+     * @param sequenceName
+     * @return
+     */
+    String nextValue(String schemaName, String sequenceName);
+    
+    /**
      * Check the exception to see if it is reporting a duplicate value constraint violation
      * @param x
      * @return
@@ -174,4 +183,18 @@ public interface IDatabaseTranslator {
      * @return the name of the "DUAL" table for the database, or null if not supported
      */
     String dualTableName();
+
+    /**
+     * Generate the DDL for dropping the named FK constraint from the given table
+     * @param qualifiedTableName such as schema.foo_tab
+     * @param constraintName the constraint name of the FK
+     * @return
+     */
+    String dropForeignKeyConstraint(String qualifiedTableName, String constraintName);
+    
+    /**
+     * Does this database use the schema prefix when defining indexes
+     * @return
+     */
+    default boolean isIndexUseSchemaPrefix() { return true; }
 }

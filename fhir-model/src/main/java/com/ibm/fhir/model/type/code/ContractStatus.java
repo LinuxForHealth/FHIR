@@ -167,6 +167,9 @@ public class ContractStatus extends Code {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
+    /**
+     * Factory method for creating ContractStatus objects from a passed enum value.
+     */
     public static ContractStatus of(ValueSet value) {
         switch (value) {
         case AMENDED:
@@ -204,14 +207,38 @@ public class ContractStatus extends Code {
         }
     }
 
+    /**
+     * Factory method for creating ContractStatus objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static ContractStatus of(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating ContractStatus objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static String string(java.lang.String value) {
         return of(ValueSet.from(value));
     }
 
+    /**
+     * Inherited factory method for creating ContractStatus objects from a passed string value.
+     * 
+     * @param value
+     *     A string that matches one of the allowed code values
+     * @throws IllegalArgumentException
+     *     If the passed string cannot be parsed into an allowed code value
+     */
     public static Code code(java.lang.String value) {
         return of(ValueSet.from(value));
     }
@@ -433,10 +460,22 @@ public class ContractStatus extends Code {
             this.value = value;
         }
 
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
         public java.lang.String value() {
             return value;
         }
 
+        /**
+         * Factory method for creating ContractStatus.ValueSet values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
                 if (c.value.equals(value)) {

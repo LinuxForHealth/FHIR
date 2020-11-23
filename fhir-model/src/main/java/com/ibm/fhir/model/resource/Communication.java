@@ -56,6 +56,7 @@ public class Communication extends DomainResource {
     private final List<Reference> basedOn;
     @Summary
     private final List<Reference> partOf;
+    @ReferenceTarget({ "Communication" })
     private final List<Reference> inResponseTo;
     @Summary
     @Binding(
@@ -112,6 +113,7 @@ public class Communication extends DomainResource {
     private final Reference encounter;
     private final DateTime sent;
     private final DateTime received;
+    @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService" })
     private final List<Reference> recipient;
     @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService" })
     private final Reference sender;
@@ -124,6 +126,7 @@ public class Communication extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     @Summary
+    @ReferenceTarget({ "Condition", "Observation", "DiagnosticReport", "DocumentReference" })
     private final List<Reference> reasonReference;
     private final List<Payload> payload;
     private final List<Annotation> note;
@@ -155,9 +158,12 @@ public class Communication extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(inResponseTo, "inResponseTo", "Communication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
         ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
+        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.requireChildren(this);
     }
 
@@ -971,6 +977,11 @@ public class Communication extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Communication}</li>
+         * </ul>
+         * 
          * @param inResponseTo
          *     Reply to
          * 
@@ -988,6 +999,11 @@ public class Communication extends DomainResource {
          * Prior communication that this communication is in response to.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Communication}</li>
+         * </ul>
          * 
          * @param inResponseTo
          *     Reply to
@@ -1237,6 +1253,19 @@ public class Communication extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
+         * 
          * @param recipient
          *     Message recipient
          * 
@@ -1257,6 +1286,19 @@ public class Communication extends DomainResource {
          * mail-out) or a receipt is captured in aggregate (all emails confirmed received by a particular time).
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param recipient
          *     Message recipient
@@ -1334,6 +1376,14 @@ public class Communication extends DomainResource {
          * 
          * <p>Adds new element(s) to the existing list
          * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
+         * 
          * @param reasonReference
          *     Why was communication done?
          * 
@@ -1351,6 +1401,14 @@ public class Communication extends DomainResource {
          * Indicates another resource whose existence justifies this communication.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>Allowed resource types for the references:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * <li>{@link Observation}</li>
+         * <li>{@link DiagnosticReport}</li>
+         * <li>{@link DocumentReference}</li>
+         * </ul>
          * 
          * @param reasonReference
          *     Why was communication done?

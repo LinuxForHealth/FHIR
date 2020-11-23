@@ -19,11 +19,6 @@ public interface ExtractedParameterValueVisitor {
     void visit(StringParmVal stringParameter) throws FHIRPersistenceException;
 
     /**
-     * Process a reference parameter value
-     */
-//    void visit(ReferenceParameter stringParameter) throws FHIRPersistenceException;
-
-    /**
      * Process a uri parameter value
      */
 //    void visit(UriParameter stringParameter) throws FHIRPersistenceException;
@@ -57,4 +52,10 @@ public interface ExtractedParameterValueVisitor {
      * Process a composite parameter value
      */
     void visit(CompositeParmVal compositeParameter) throws FHIRPersistenceException;
+
+    /**
+     * Process a reference parameter value
+     * @param referenceParmVal
+     */
+    void visit(ReferenceParmVal referenceParmVal) throws FHIRPersistenceException;
 }

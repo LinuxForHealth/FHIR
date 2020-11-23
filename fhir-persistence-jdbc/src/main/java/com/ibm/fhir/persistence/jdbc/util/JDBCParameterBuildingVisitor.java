@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -52,10 +52,15 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.search.date.DateTimeHandler;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * This class is the JDBC persistence layer implementation for transforming
@@ -285,13 +290,23 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(String elementName, int elementIndex, Uri uri) {
         if (uri.hasValue()) {
-            StringParmVal p = new StringParmVal();
             if (!URI.equals(searchParamType) && !REFERENCE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, uri);
             }
-            p.setName(searchParamCode);
-            p.setValueString(uri.getValue());
-            result.add(p);
+
+            // For REFERENCE search parameters, we need to treat Uris as tokens,
+            // not strings.
+            if (REFERENCE.equals(this.searchParamType)) {
+                TokenParmVal p = new TokenParmVal();
+                p.setName(searchParamCode);
+                p.setValueCode(uri.getValue());
+                result.add(p);
+            } else {
+                StringParmVal p = new StringParmVal();
+                p.setName(searchParamCode);
+                p.setValueString(uri.getValue());
+                result.add(p);
+            }
         }
         return false;
     }
@@ -436,23 +451,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
-        if (!TOKEN.equals(searchParamType)) {
-            throw invalidComboException(searchParamType, identifier);
-        }
-        if (identifier != null && identifier.getValue() != null) {
-            TokenParmVal p = new TokenParmVal();
-            p.setName(searchParamCode);
-            if (identifier.getSystem() != null) {
-                p.setValueSystem(identifier.getSystem().getValue());
-            }
-            p.setValueCode(identifier.getValue().getValue());
-            result.add(p);
-        }
-        return false;
-    }
-
-    @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Money money) {
         if (!QUANTITY.equals(searchParamType)) {
             throw invalidComboException(searchParamType, money);
@@ -582,15 +580,43 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
+        if (!TOKEN.equals(searchParamType)) {
+            throw invalidComboException(searchParamType, identifier);
+        }
+        if (identifier != null && identifier.getValue() != null) {
+            TokenParmVal p = new TokenParmVal();
+            p.setName(searchParamCode);
+            if (identifier.getSystem() != null) {
+                p.setValueSystem(identifier.getSystem().getValue());
+            }
+            p.setValueCode(identifier.getValue().getValue());
+            result.add(p);
+        }
+        return false;
+    }
+
+    @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Reference reference) {
         if (!REFERENCE.equals(searchParamType)) {
             throw invalidComboException(searchParamType, reference);
         }
-        if (reference.getReference() != null) {
-            StringParmVal p = new StringParmVal();
-            p.setName(searchParamCode);
-            p.setValueString(reference.getReference().getValue());
-            result.add(p);
+
+        // TODO pass in the bundle if we want to support "a relative URL, which is relative to
+        // the Service Base URL, or, if processing a resource from a bundle, which is relative
+        // to the base URL implied by the Bundle.entry.fullUrl (see Resolving References in Bundles)"
+        try {
+            final String baseUrl = ReferenceUtil.getBaseUrl(null);
+            ReferenceValue refValue = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
+            if (refValue.getType() != ReferenceType.INVALID && refValue.getType() != ReferenceType.DISPLAY_ONLY) {
+                ReferenceParmVal p = new ReferenceParmVal();
+                p.setRefValue(refValue);
+                p.setName(searchParamCode);
+                result.add(p);
+            }
+        } catch (FHIRSearchException x) {
+            // Log the error, but skip it because we're not supposed to throw exceptions here
+            log.log(Level.WARNING, "Error processing reference", x);
         }
         return false;
     }

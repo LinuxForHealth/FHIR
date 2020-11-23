@@ -9,6 +9,8 @@ package com.ibm.fhir.schema.control;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_ALLERGIES_LIST;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_DRUG_ALLERGIES_LIST;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_MEDICATIONS_LIST;
@@ -44,12 +46,15 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_V;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
@@ -77,6 +82,7 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
+import com.ibm.fhir.database.utils.model.View;
 
 /**
  * Utility to create all the tables associated with a particular resource type
@@ -90,6 +96,9 @@ public class FhirResourceTableGroup {
 
     // The session variable we depend on for access control
     private final SessionVariableDef sessionVariable;
+
+    // Build the multitenant variant of the schema
+    private final boolean multitenant;
 
     // All the tables created by this component
     @SuppressWarnings("unused")
@@ -105,6 +114,9 @@ public class FhirResourceTableGroup {
 
     private static final String COMP = "COMP";
     private static final String ROW_ID = "ROW_ID";
+
+    // suffix for the token view
+    private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
 
     /**
      * The maximum number of components we can store in the X_COMPOSITES tables.
@@ -122,10 +134,11 @@ public class FhirResourceTableGroup {
     /**
      * Public constructor
      */
-    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, SessionVariableDef sessionVariable,
+    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, boolean multitenant, SessionVariableDef sessionVariable,
             Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {
         this.model = model;
         this.schemaName = schemaName;
+        this.multitenant = multitenant;
         this.sessionVariable = sessionVariable;
         this.procedureDependencies = procedureDependencies;
         this.fhirTablespace = fhirTablespace;
@@ -163,6 +176,8 @@ public class FhirResourceTableGroup {
         addLatLngValues(group, tablePrefix);
         addQuantityValues(group, tablePrefix);
         addComposites(group, tablePrefix);
+        addResourceTokenRefs(group, tablePrefix);
+        addTokenValuesView(group, tablePrefix);
 
         // group all the tables under one object so that we can perform everything within one
         // transaction. This helps to eliminate deadlocks when adding the FK constraints due to
@@ -258,13 +273,14 @@ public class FhirResourceTableGroup {
 
         group.add(tbl);
         model.addTable(tbl);
-        
+
         // Issue 1331. LAST_UPDATED should be indexed now that we're using it
         // in search queries
         CreateIndex idxLastUpdated = CreateIndex.builder()
                 .setTenantColumnName(MT_ID)
                 .setSchemaName(schemaName)
                 .setTableName(tableName)
+                .setVersionTrackingName(tableName) // cover up a defect in how we name this index in VERSION_HISTORY
                 .setIndexName(IDX + tableName + "_LUPD")
                 .setUnique(false)
                 .setVersion(FhirSchemaVersion.V0005.vid())
@@ -272,7 +288,7 @@ public class FhirResourceTableGroup {
                 .build();
         idxLastUpdated.addDependency(tbl); // dependency to the table on which the index applies
         group.add(idxLastUpdated);
-        
+
     }
 
     /**
@@ -352,7 +368,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
      * @param group
      * @param prefix
      */
-    public void addTokenValues(List<IDatabaseObject> group, String prefix) {
+    public Table addTokenValues(List<IDatabaseObject> group, String prefix) {
         final String tableName = prefix + "_TOKEN_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
@@ -384,7 +400,94 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
         alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
         group.add(alterTable);
+
+        return tbl;
     }
+
+    /**
+     * New schema for issue #1366. Uses a map table to reduce cost of indexing repeated token values
+     * @param pdm
+     * @return
+     */
+    public Table addResourceTokenRefs(List<IDatabaseObject> group, String prefix) {
+
+        final String tableName = prefix + "_" + RESOURCE_TOKEN_REFS;
+
+        // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(               ROW_ID,    false)
+                .addIntColumn(       PARAMETER_NAME_ID,    false)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
+                .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
+                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addPrimaryKey(PK + tableName, ROW_ID)
+                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(model);
+
+        group.add(tbl);
+        model.addTable(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * View created over common_token_values and resource_token_refs to hide the
+     * schema change (V0006 issue 1366) as much as possible from the search query
+     * generation. Search queries simply need to join against this view instead
+     * of the old {resourceType}_token_values table
+     * @param pdm
+     * @return
+     */
+    public void addTokenValuesView(List<IDatabaseObject> group, String prefix) {
+
+        final String viewName = prefix + "_" + TOKEN_VALUES_V;
+
+        // Find the two dependencies we need for this view
+        IDatabaseObject commonTokenValues = model.findTable(schemaName, COMMON_TOKEN_VALUES);
+        IDatabaseObject resourceTokenRefs = model.findTable(schemaName, prefix + "_" + RESOURCE_TOKEN_REFS);
+
+        // We join against the code_systems table because it gives us the code_system_name, which
+        // for reference strings is actually the resource type of the reference - this is useful
+        // for building chained reference queries, and is well worth the minor cost of an extra join
+        StringBuilder select = new StringBuilder();
+        if (this.multitenant) {
+            // Make sure we include MT_ID in both the select list and join condition. It's needed
+            // in the join condition to give the optimizer the best chance at finding a good nested
+            // loop strategy
+            select.append("SELECT ref.").append(MT_ID);
+            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+            select.append(resourceTokenRefs.getName()).append(" AS ref ");
+            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
+            select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
+        } else {
+            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+            select.append(resourceTokenRefs.getName()).append(" AS ref ");
+            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
+        }
+
+        View view = View.builder(schemaName, viewName)
+                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setSelectClause(select.toString())
+                .addPrivileges(resourceTablePrivileges)
+                .addDependency(commonTokenValues)
+                .addDependency(resourceTokenRefs)
+                .build();
+
+        group.add(view);
+    }
+
 
     /**
      * <pre>
@@ -732,6 +835,25 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                         FK + tableName + _TOKEN,
                         FK + tableName + _QUANTITY,
                         FK + tableName + _LATLNG));
+            } else if (priorVersion == FhirSchemaVersion.V0005.vid()) {
+                // Make the change for V0006 (issue 1366 token values refactor). Clear out unused indexes
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_PTTR"));
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_PTQR"));
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTT"));
+                statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTQ"));
+
+                // Add one new index to support access with {logical_resource_id, parameter_name_id}
+                CreateIndex compIdx = CreateIndex.builder()
+                        .setSchemaName(schemaName)
+                        .setTableName(tableName)
+                        .setTenantColumnName(MT_ID)
+                        .setIndexName("IDX_" + tableName + "_LRPN")
+                        .setVersion(FhirSchemaVersion.V0006.vid())
+                        .addColumn(LOGICAL_RESOURCE_ID)
+                        .addColumn(PARAMETER_NAME_ID)
+                        .build();
+
+                statements.add(compIdx.createStatement());
             }
             return statements;
         });

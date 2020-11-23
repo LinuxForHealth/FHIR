@@ -15,9 +15,9 @@ jobs:
         java: [ 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2.3.3
     - name: Set up OpenJDK
-      uses: joschi/setup-jdk@v1
+      uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
@@ -58,15 +58,18 @@ jobs:
         Write-Host 'Gathering post-test server logs'
         $SRC_ST='SIT/wlp/usr/servers/fhir-server/logs'
         $DST_SL_F=$it_results + '/' + $DST_SL
-        Copy-Item -Path $SRC_ST -Destination $DST_SL_F -Recurse -Force
+        Copy-Item -Path $SRC_ST -Destination $DST_SL_F -Recurse -Force -ErrorAction SilentlyContinue
 
         Write-Host 'Gathering integration test output'
         $SRC_ST='./fhir-server-test/target/surefire-reports'
         $DST_ST_F=$it_results + '/' + $DST_ST
-        Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force
+        Copy-Item -Path $SRC_ST -Destination $DST_ST_F -Recurse -Force -ErrorAction SilentlyContinue
+
+        Copy-Item -Path stdout.txt -Destination $DST_ST_F -Force -ErrorAction SilentlyContinue
+        Copy-Item -Path stderr.txt -Destination $DST_ST_F -Force -ErrorAction SilentlyContinue
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v2.2.0
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
