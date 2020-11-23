@@ -41,6 +41,9 @@ public class ReindexOperation extends AbstractOperation {
     private static final String PARAM_RESOURCE_COUNT = "resourceCount";
     private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
 
+    // The max number of resources we allow to be processed by one request
+    private static final int MAX_RESOURCE_COUNT = 1000;
+
     static final DateTimeFormatter DAY_FORMAT = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd")
             .parseDefaulting(ChronoField.NANO_OF_DAY, 0)
@@ -97,6 +100,10 @@ public class ReindexOperation extends AbstractOperation {
                     } else if (PARAM_RESOURCE_COUNT.equals(parameter.getName().getValue())) {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
                         if (val != null) {
+                            if (val > MAX_RESOURCE_COUNT) {
+                                logger.info("Clamping resourceCount " + val + " to max allowed: " + MAX_RESOURCE_COUNT);
+                                val = MAX_RESOURCE_COUNT;
+                            }
                             resourceCount = val;
                         }
                     } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
