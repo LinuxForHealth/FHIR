@@ -1893,7 +1893,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public <T extends Resource> void updateParameters(ResourceIndexRecord rir, Class<T> resourceTypeClass, com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO,
         ReindexResourceDAO reindexDAO, OperationOutcome.Builder operationOutcomeResult) throws Exception {
         if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
-            List<String> elements = Collections.emptyList();
             T existingResource = this.convertResourceDTO(existingResourceDTO, resourceTypeClass, null);
 
             // Extract parameters from the resource payload we just read and store them, replacing
@@ -1906,7 +1905,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } else {
             // Reasonable to assume that this resource was deleted because we can't read it
             final String diag = "Failed to read resource: " + rir.getResourceType() + "/" + rir.getLogicalId();
-            operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+            operationOutcomeResult.issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(string(diag)).build());
         }
 
     }

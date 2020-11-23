@@ -33,6 +33,48 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 public class PostgresReindexResourceDAO extends ReindexResourceDAO {
     private static final Logger logger = Logger.getLogger(PostgresReindexResourceDAO.class.getName());
 
+    private static final String PICK_SINGLE_RESOURCE = ""
+            + "   UPDATE logical_resources "
+            + "      SET reindex_tstamp = ?,"
+            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
+            + "    WHERE logical_resource_id = ( "
+            + "       SELECT lr.logical_resource_id "
+            + "         FROM logical_resources lr "
+            + "        WHERE lr.resource_type_id = ? "
+            + "          AND lr.logical_id = ? "
+            + "          AND lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            ;
+
+    private static final String PICK_SINGLE_RESOURCE_TYPE = ""
+            + "   UPDATE logical_resources "
+            + "      SET reindex_tstamp = ?, "
+            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
+            + "    WHERE logical_resource_id = ( "
+            + "       SELECT lr.logical_resource_id "
+            + "         FROM logical_resources lr "
+            + "        WHERE lr.resource_type_id = ? "
+            + "          AND lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            ;
+
+    private static final String PICK_ANY_RESOURCE = ""
+            + "   UPDATE logical_resources "
+            + "      SET reindex_tstamp = ?,"
+            + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
+            + "    WHERE logical_resource_id = ( "
+            + "       SELECT lr.logical_resource_id "
+            + "         FROM logical_resources lr "
+            + "        WHERE lr.reindex_tstamp < ? "
+            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            ;
+
     /**
      * Public constructor
      * @param connection
@@ -76,54 +118,16 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
         // by existing locks. The ORDER BY is included to persuade[force] Postgres to always
         // use the index instead of switching to a full tablescan when the distribution stats
         // confuse the optimizer.
-        String update;
+        final String update;
         if (resourceTypeId != null && logicalId != null) {
             // Limit to one resource
-            update = ""
-                + "   UPDATE logical_resources "
-                + "      SET reindex_tstamp = ?,"
-                + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
-                + "    WHERE logical_resource_id = ( "
-                + "       SELECT lr.logical_resource_id "
-                + "         FROM logical_resources lr "
-                + "        WHERE lr.resource_type_id = ? "
-                + "          AND lr.logical_id = ? "
-                + "          AND lr.reindex_tstamp < ? "
-                + "     ORDER BY lr.reindex_tstamp DESC "
-                + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-                + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
-                ;
+            update = PICK_SINGLE_RESOURCE;
         } else if (resourceTypeId != null) {
             // Limit to one type of resource
-            update = ""
-                    + "   UPDATE logical_resources "
-                    + "      SET reindex_tstamp = ?, "
-                    + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
-                    + "    WHERE logical_resource_id = ( "
-                    + "       SELECT lr.logical_resource_id "
-                    + "         FROM logical_resources lr "
-                    + "        WHERE lr.resource_type_id = ? "
-                    + "          AND lr.reindex_tstamp < ? "
-                    + "     ORDER BY lr.reindex_tstamp DESC "
-                    + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-                    + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
-                    ;
-
+            update = PICK_SINGLE_RESOURCE_TYPE;
         } else if (resourceTypeId == null && logicalId == null) {
             // Pick the next resource needing to be reindexed regardless of type
-            update = ""
-                    + "   UPDATE logical_resources "
-                    + "      SET reindex_tstamp = ?,"
-                    + "          reindex_txid = COALESCE(reindex_txid + 1, 1) "
-                    + "    WHERE logical_resource_id = ( "
-                    + "       SELECT lr.logical_resource_id "
-                    + "         FROM logical_resources lr "
-                    + "        WHERE lr.reindex_tstamp < ? "
-                    + "     ORDER BY lr.reindex_tstamp DESC "
-                    + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-                    + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
-                    ;
-
+            update = PICK_ANY_RESOURCE;
         } else {
             // programming error
             throw new IllegalArgumentException("logicalId specified without a resourceType");

@@ -47,6 +47,29 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
     private final ParameterDAO parameterDao;
 
+    private static final String PICK_SINGLE_RESOURCE = ""
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "    FROM logical_resources lr "
+            + "   WHERE lr.resource_type_id = ? "
+            + "     AND lr.logical_id = ? "
+            + "     AND lr.reindex_tstamp < ? "
+            ;
+
+    private static final String PICK_SINGLE_RESOURCE_TYPE = ""
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "    FROM logical_resources lr "
+            + "   WHERE lr.resource_type_id = ? "
+            + "     AND lr.reindex_tstamp < ? "
+            + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
+            ;
+
+    private static final String PICK_ANY_RESOURCE = ""
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "    FROM logical_resources lr "
+            + "   WHERE lr.reindex_tstamp < ? "
+            + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
+            ;
+
     /**
      * Public constructor
      * @param connection
@@ -106,35 +129,16 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         // Derby can only do select for update with simple queries, so we need to select first,
         // then try and lock, but we also have to try and cover the race condition which can
         // occur here, using an optimistic locking pattern
-        String select;
+        final String select;
 
         if (resourceTypeId != null && logicalId != null) {
             // Just pick the requested resource
-            select = ""
-                    + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
-                    + "    FROM logical_resources lr "
-                    + "   WHERE lr.resource_type_id = ? "
-                    + "     AND lr.logical_id = ? "
-                    + "     AND lr.reindex_tstamp < ? "
-                    ;
-
+            select = PICK_SINGLE_RESOURCE;
         } else if (resourceTypeId != null) {
             // Limit to the given resource type
-            select = ""
-                    + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
-                    + "    FROM logical_resources lr "
-                    + "   WHERE lr.resource_type_id = ? "
-                    + "     AND lr.reindex_tstamp < ? "
-                    + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
-                    ;
-
+            select = PICK_SINGLE_RESOURCE_TYPE;
         } else if (resourceTypeId == null && logicalId == null) {
-            select = ""
-                + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
-                + "    FROM logical_resources lr "
-                + "   WHERE lr.reindex_tstamp < ? "
-                + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
-                ;
+            select = PICK_ANY_RESOURCE;
         } else {
             // programming error
             throw new IllegalArgumentException("logicalId specified without a resourceType");
