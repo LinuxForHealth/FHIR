@@ -636,7 +636,7 @@ public final class ValueSetSupport {
     }
 
     private static Set<Expansion.Contains> unwrap(Set<Contains> wrapped) {
-        return  wrapped.stream()
+        return wrapped.stream()
             .map(ValueSetSupport::unwrap)
             .collect(Collectors.toCollection(LinkedHashSet::new));
     }
