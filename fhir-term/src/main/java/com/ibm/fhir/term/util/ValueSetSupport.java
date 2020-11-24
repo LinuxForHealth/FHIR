@@ -35,7 +35,6 @@ import com.ibm.fhir.model.resource.ValueSet.Compose;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
-import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -74,7 +73,7 @@ public final class ValueSetSupport {
                 .expansion(Expansion.builder()
                     .total(Integer.of(result.size()))
                     .timestamp(DateTime.now(ZoneOffset.UTC))
-                    .contains(result)
+                    .contains(unwrap(result))
                     .build())
                 .build();
         }
@@ -155,12 +154,12 @@ public final class ValueSetSupport {
      * @return
      *     flattened set of Contains instances for the given expansion
      */
-    public static Set<Contains> getContains(Expansion expansion) {
+    public static Set<Expansion.Contains> getContains(Expansion expansion) {
         if (expansion == null) {
             return Collections.emptySet();
         }
-        Set<Contains> result = (expansion.getTotal() != null) ? new LinkedHashSet<>(expansion.getTotal().getValue()) : new LinkedHashSet<>();
-        for (Contains contains : expansion.getContains()) {
+        Set<Expansion.Contains> result = (expansion.getTotal() != null) ? new LinkedHashSet<>(expansion.getTotal().getValue()) : new LinkedHashSet<>();
+        for (Expansion.Contains contains : expansion.getContains()) {
             result.addAll(getContains(contains));
         }
         return result;
@@ -229,18 +228,19 @@ public final class ValueSetSupport {
         return conceptFilters;
     }
 
-    private static Contains buildContains(Uri system, String version, Code code) {
-        return Contains.builder()
+    private static Contains buildContains(Uri system, String version, Code code, String display) {
+        return wrap(Expansion.Contains.builder()
             .system(system)
             .version(version)
             .code(code)
-            .build();
+            .display(display)
+            .build());
     }
 
     private static Contains buildContains(Uri system, String version, Concept concept) {
         Code code = (concept.getCode() != null) ? concept.getCode() : null;
         if (code != null) {
-            return buildContains(system, version, code);
+            return buildContains(system, version, code, concept.getDisplay());
         }
         return null;
     }
@@ -315,7 +315,7 @@ public final class ValueSetSupport {
         Code property = filter.getProperty();
         if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
              return new InFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(s -> Code.of(s))
+                 .map(Code::of)
                  .collect(Collectors.toSet()));
         }
         return null;
@@ -345,7 +345,7 @@ public final class ValueSetSupport {
         Code property = filter.getProperty();
         if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
              return new NotInFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(s -> Code.of(s))
+                 .map(Code::of)
                  .collect(Collectors.toSet()));
         }
         return null;
@@ -397,7 +397,7 @@ public final class ValueSetSupport {
                 for (Include.Concept concept : includeOrExclude.getConcept()) {
                     Code code = (concept.getCode() != null) ? concept.getCode() : null;
                     if (code != null) {
-                        systemContains.add(buildContains(system, version, code));
+                        systemContains.add(buildContains(system, version, code, concept.getDisplay()));
                     }
                 }
             } else {
@@ -424,7 +424,7 @@ public final class ValueSetSupport {
         for (Canonical valueSet : includeOrExclude.getValueSet()) {
             java.lang.String url = valueSet.getValue();
             if (hasResource(url, ValueSet.class)) {
-                valueSetContains.addAll(getContains(expand(getValueSet(url)).getExpansion()));
+                valueSetContains.addAll(wrap(getContains(expand(getValueSet(url)).getExpansion())));
             }
         }
 
@@ -437,13 +437,13 @@ public final class ValueSetSupport {
         return !systemContains.isEmpty() ? systemContains : valueSetContains;
     }
 
-    private static Set<Contains> getContains(Contains contains) {
+    private static Set<Expansion.Contains> getContains(Expansion.Contains contains) {
         if (contains == null) {
             return Collections.emptySet();
         }
-        Set<Contains> result = new LinkedHashSet<>();
+        Set<Expansion.Contains> result = new LinkedHashSet<>();
         result.add(contains);
-        for (Contains c : contains.getContains()) {
+        for (Expansion.Contains c : contains.getContains()) {
             result.addAll(getContains(c));
         }
         return result;
@@ -618,6 +618,62 @@ public final class ValueSetSupport {
                 }
             }
             return false;
+        }
+    }
+
+    private static Contains wrap(Expansion.Contains contains) {
+        return new Contains(contains);
+    }
+
+    private static Expansion.Contains unwrap(Contains contains) {
+        return contains.getContains();
+    }
+
+    private static Set<Contains> wrap(Set<Expansion.Contains> unwrapped) {
+        return unwrapped.stream()
+            .map(ValueSetSupport::wrap)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static Set<Expansion.Contains> unwrap(Set<Contains> wrapped) {
+        return  wrapped.stream()
+            .map(ValueSetSupport::unwrap)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private static class Contains {
+        private final Expansion.Contains contains;
+        private final int hashCode;
+
+        public Contains(Expansion.Contains contains) {
+            this.contains = contains;
+            hashCode = Objects.hash(contains.getSystem(), contains.getVersion(), contains.getCode());
+        }
+
+        public Expansion.Contains getContains() {
+            return contains;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Contains other = (Contains) obj;
+            return Objects.equals(contains.getSystem(), other.contains.getSystem()) &&
+                    Objects.equals(contains.getVersion(), other.contains.getVersion()) &&
+                    Objects.equals(contains.getCode(), other.contains.getCode());
+        }
+
+        @Override
+        public int hashCode() {
+            return hashCode;
         }
     }
 }
