@@ -132,7 +132,7 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
     - User ID: FHIRSERVER
 
-    - IBMid: paste the service id (not service id name) from the Service Id created previously. To get that navigate to the service id you created earlier and click on `Details` link (top right side next to Actions Menu).A panel opens on the right-hand side which contains ID. This ID needs to be used as IBMid value. 
+    - IBMid: paste the service id (not service id name) from the Service Id created previously. To get that navigate to the service id you created earlier and click on `Details` link (top right side next to Actions Menu). A panel opens on the right-hand side which contains ID. This ID needs to be used as IBMid value.
 
     - Note (1): The page forces the value to lower-case, so `ServiceId` becomes `serviceid`. Don't be alarmed, it still works.
 
