@@ -23,7 +23,8 @@
                 <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
-                    <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
+                    <property name="cos.endpoint.internal" value="#{jobParameters['cos.endpoint.internal']}"/>
+                    <property name="cos.endpoint.external" value="#{jobParameters['cos.endpoint.external']}"/>
                     <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>

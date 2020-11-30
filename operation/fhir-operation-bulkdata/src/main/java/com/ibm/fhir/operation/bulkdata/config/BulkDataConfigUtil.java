@@ -28,7 +28,8 @@ public class BulkDataConfigUtil {
 
     public static final String JOB_PARAMETERS_BUCKET = "cos.bucket.name";
     public static final String JOB_PARAMETERS_LOCATION = "cos.location";
-    public static final String JOB_PARAMETERS_ENDPOINT = "cos.endpointurl";
+    public static final String JOB_PARAMETERS_ENDPOINT_INTERNAL = "cos.endpoint.internal";
+    public static final String JOB_PARAMETERS_ENDPOINT_EXTERNAL = "cos.endpoint.external";
     public static final String JOB_PARAMETERS_TENANT = "fhir.tenant";
     public static final String JOB_PARAMETERS_IBM = "cos.credential.ibm";
     public static final String JOB_PARAMETERS_KEY = "cos.api.key";
@@ -66,7 +67,8 @@ public class BulkDataConfigUtil {
         if (jobParameters != null) {
             properties.put(JOB_PARAMETERS_BUCKET, jobParameters.getStringProperty(JOB_PARAMETERS_BUCKET));
             properties.put(JOB_PARAMETERS_LOCATION, jobParameters.getStringProperty(JOB_PARAMETERS_LOCATION));
-            properties.put(JOB_PARAMETERS_ENDPOINT, jobParameters.getStringProperty(JOB_PARAMETERS_ENDPOINT));
+            properties.put(JOB_PARAMETERS_ENDPOINT_INTERNAL, jobParameters.getStringProperty(JOB_PARAMETERS_ENDPOINT_INTERNAL));
+            properties.put(JOB_PARAMETERS_ENDPOINT_EXTERNAL, jobParameters.getStringProperty(JOB_PARAMETERS_ENDPOINT_EXTERNAL));
             properties.put(JOB_PARAMETERS_TENANT, jobParameters.getStringProperty(JOB_PARAMETERS_TENANT));
             properties.put(JOB_PARAMETERS_IBM, jobParameters.getStringProperty(JOB_PARAMETERS_IBM));
             properties.put(JOB_PARAMETERS_KEY, jobParameters.getStringProperty(JOB_PARAMETERS_KEY));

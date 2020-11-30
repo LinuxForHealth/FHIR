@@ -39,7 +39,8 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
         "fhir.exportFormat": "application/fhir+ndjson",
         "cos.bucket.name": "fhir-r4-connectathon",
         "cos.location": "us",
-        "cos.endpointurl": "https://fake.cloud",
+        "cos.endpoint.internal": "https://fake.cloud",
+        "cos.endpoint.external": "https://fake.cloud",
         "cos.credential.ibm": "Y",
         "cos.api.key": "key",
         "cos.srvinst.id": "crn:v1:bluemix:public:cloud-object-storage:global:a/fake::",
@@ -137,8 +138,14 @@ public class JobInstanceRequest {
         }
 
         @Override
-        public Builder cosEndpointUrl(String cosEndpointUrl) {
-            jobParameter.setCosEndpointUrl(cosEndpointUrl);
+        public Builder cosEndpointInternal(String cosEndpointUrl) {
+            jobParameter.setCosEndpointInternal(cosEndpointUrl);
+            return this;
+        }
+
+        @Override
+        public Builder cosEndpointExternal(String cosEndpointUrl) {
+            jobParameter.setCosEndpointExternal(cosEndpointUrl);
             return this;
         }
 

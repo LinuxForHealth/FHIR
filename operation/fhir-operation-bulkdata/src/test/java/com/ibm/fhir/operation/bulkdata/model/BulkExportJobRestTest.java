@@ -311,7 +311,8 @@ public class BulkExportJobRestTest {
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
                         "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
                         "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpointurl\": \"https://fake.cloud\",\n" +
+                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
+                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
                         "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"cos.api.key\": \"key\",\n" +
                         "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
@@ -363,7 +364,8 @@ public class BulkExportJobRestTest {
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
                         "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
                         "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpointurl\": \"https://fake.cloud\",\n" +
+                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
+                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
                         "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"cos.api.key\": \"key\",\n" +
                         "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
@@ -713,7 +715,8 @@ public class BulkExportJobRestTest {
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
                         "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
                         "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpointurl\": \"https://fake.cloud\",\n" +
+                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
+                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
                         "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"cos.api.key\": \"key\",\n" +
                         "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
