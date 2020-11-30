@@ -202,6 +202,7 @@ Filtered search parameters are handled exactly the same as undefined search para
 Reindexing is implemented as a custom operation that tells the server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
 
 The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`. By default, the operation will select 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+
 |name|type|description|
 |----|----|-----------|
 |`_tstamp`|string|Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.|
