@@ -6,16 +6,26 @@
 
 package com.ibm.fhir.ig.davinci.hrex.test;
 
-import org.testng.Assert;
+import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collection;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.ig.davinci.hrex.HREXResourceProvider;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class HREXResourceProviderTest {
     @Test
     public void testHREXResourceProvider() {
         FHIRRegistryResourceProvider provider = new HREXResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 19);
+        Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
+        assertNotNull(registryResources);
+        assertTrue(!registryResources.isEmpty());
+        for (FHIRRegistryResource fhirRegistryResource : registryResources) {
+            assertNotNull(fhirRegistryResource.getResource());
+        }
     }
 }
