@@ -3,17 +3,16 @@
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
     <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
-            <properties.db2.jcc
-                 serverName="db2"
-                 portNumber="50000"
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="fhirSharedLib">
+            <properties.postgresql
+                 serverName="postgres_postgres_1"
+                 portNumber="5432"
+                 databaseName="fhirdb"
                  user="fhirserver"
                  password="change-password"
-                 databaseName="FHIRDB"
-                 currentSchema="FHIRDATA"
-                 driverType="4"
+                 currentSchema="fhirdata"
              />
-        />
+        </jdbcDriver>
         <connectionManager maxPoolSize="200" minPoolSize="40"/>
     </dataSource>
 </server>

@@ -50,11 +50,12 @@ copy_server_config(){
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
-    echo "Replacing datasource content in server configDropins..."
-    rm -f $DIST/overrides/datasource-*.xml 2> /dev/null
+    # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides
+    echo "Creating an overrides folder in $DIST"
     mkdir -p $DIST/overrides
-    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-bootstrap.xml $DIST/overrides
-    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-postgresql.xml $DIST/overrides
+    
+    # Copy and rename the postgres override
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/datasource.xml
 
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
