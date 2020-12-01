@@ -216,8 +216,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(minioTokenJson.getBytes());
                 JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
             JsonObject object = jsonReader.readObject();
-            System.out.println(minioTokenJson);
-            return object.getString("token");
+            return object.getJsonObject("result").getString("token");
         } catch(Exception e) {
             throw e;
         }
