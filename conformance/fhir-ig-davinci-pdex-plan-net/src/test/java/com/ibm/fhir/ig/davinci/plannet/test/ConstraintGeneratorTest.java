@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.plan.net.test;
+package com.ibm.fhir.ig.davinci.plannet.test;
 
 import static com.ibm.fhir.path.util.FHIRPathUtil.compile;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.pdex.plan.net.PlanNetResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.plannet.PlanNetResourceProvider;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Extension;

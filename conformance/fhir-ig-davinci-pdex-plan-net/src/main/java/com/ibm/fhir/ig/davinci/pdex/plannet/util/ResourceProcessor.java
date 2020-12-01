@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.pdex.plan.net.util;
+package com.ibm.fhir.ig.davinci.pdex.plannet.util;
 
 import java.io.BufferedReader;
 import java.io.File;

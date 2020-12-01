@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.pdex.plan.net;
+package com.ibm.fhir.ig.davinci.pdex.plannet;
 
 import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
