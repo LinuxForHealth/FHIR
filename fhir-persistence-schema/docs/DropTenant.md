@@ -123,7 +123,7 @@ To reuse a tenant name the old tenant meda-data must first be removed. Run the f
 ```sh
     java -jar schema/fhir-persistence-schema-*-cli.jar \
       --prop-file db2.properties
-      --remove-tenant-meta <tenant-name>
+      --delete-tenant-meta <tenant-name>
 ```
 
 This removes tenant meta-data stored in the `FHIR_ADMIN.TENANTS` and `FHIR_ADMIN.TENANT_KEYS` tables. Only tenants in the `DROPPED` state can be removed. Attempts to remove tenants in other states will throw an error. Use the `--list-tenants` option to check the current state of each tenant.
