@@ -21,7 +21,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
   * [4.4 Resource validation](#44-resource-validation)
-  * [4.5 “Update/Create” feature](#45-updatecreate-feature)
+  * [4.5 "Update/Create" feature](#45-updatecreate-feature)
   * [4.6 FHIR client API](#46-fhir-client-api)
   * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
@@ -124,7 +124,6 @@ Complete the following steps to upgrade the server:
 5. Disable traffic to the old server and enable traffic to the new server  
 
 ## 2.3 Docker
-
 The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
 
 Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
@@ -261,7 +260,7 @@ enableProxyDatasource   | Boolean | true | Use IBM FHIR Server proxy datasource
 bootstrapDataSourceBase | String | | JNDI base name prefix for bootstrapped databases
 jndiName | String | | The JNDI name referencing the JEE datasource to use for the fhir-server-config datasource (required for bootstrapped Derby databases)
 
-The "jndiName" property value points to a JEE datasource which must also be configured. JEE datasources are typically defined in the Liberty Profile '.xml' files added to configDropins/overrides, for example datasource-bootstrap.xml:
+The "jndiName" property value points to a JEE datasource which must also be configured. JEE datasources are typically defined in the Liberty Profile '.xml' files added to configDropins/overrides, for example datasource.xml:
 
 ```
 <server>
@@ -462,7 +461,7 @@ The 'dataSourceJndiName' property can be removed as it is only used when 'enable
 
 When configured explicitly, the jndiName does not have to follow the standard naming convention, although this is not recommended.
 
-Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datastore-default.xml' as follows:
+Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datasource.xml' as follows:
 
 ```
 <server>
@@ -486,10 +485,10 @@ Continuing the above example, configure a drop-in server configuration file 'con
 This file is picked up when the server starts as indicated by the following AUDIT message:
 
 ```
-[AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: /fhir/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-default.xml
+[AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: /fhir/wlp/usr/servers/fhir-server/configDropins/overrides/datasource.xml
 ```
 
-A special case exists for configuring the Derby 'bootstrapped' datasources. To avoid naming conflicts, these datasources must use custom JNDI names, not the default naming pattern. For example, a Derby datasource defined in configDropins/overrides/datasource-bootstrap.xml' might look like this:
+A special case exists for configuring the Derby 'bootstrapped' datasources. To avoid naming conflicts, these datasources must use custom JNDI names, not the default naming pattern. For example, a Derby datasource defined in `configDropins/disabled/datasource-derby.xml` might look like this:
 
 ```
 <server>
