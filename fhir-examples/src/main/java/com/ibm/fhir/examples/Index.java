@@ -20,7 +20,6 @@ public enum Index {
         "/ibm-xml.txt",
         "/profiles-carin-bb-json.txt",
         "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-formulary-xml.txt",
         "/profiles-pdex-plan-net-json.txt",
         "/profiles-pdex-json.txt",
         "/profiles-hrex-json.txt",
@@ -90,11 +89,6 @@ public enum Index {
     PROFILES_PDEX_FORMULARY_JSON("/profiles-pdex-formulary-json.txt"),
 
     /**
-     * Implementation Guides examples in XML
-     */
-    PROFILES_PDEX_FORMULARY_XML("/profiles-pdex-formulary-xml.txt"),
-
-    /**
      * Implementation Guides examples in JSON
      */
     PROFILES_PDEX_PLAN_NET_JSON("/profiles-pdex-plan-net-json.txt"),
@@ -134,8 +128,8 @@ public enum Index {
      * Implementation Guides examples in XML
      */
     ALL_PROFILES_XML(
-        "/profiles-us-core-xml.txt",
-        "/profiles-pdex-formulary-xml.txt"),
+        "/profiles-us-core-xml.txt"
+        ),
 
     /**
      * Bulk Data Location examples in JSON

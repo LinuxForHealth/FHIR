@@ -7,10 +7,6 @@
 package com.ibm.fhir.ig.carin.bb.test;
 
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
 
@@ -34,7 +30,7 @@ public class ExamplesValidationTest {
     }
 
     public static void main(String[] args) throws Exception {
-        Resource r = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-BBEobPharmacy.json");
+        Resource r = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-InpatientEOBExample1.json");
         List<Issue> validate = FHIRValidator.validator().validate(r);
         for (Issue issue : validate) {
             System.out.println(issue);

@@ -6,16 +6,26 @@
 
 package com.ibm.fhir.ig.davinci.plannet.test;
 
-import org.testng.Assert;
+import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collection;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.ig.davinci.pdex.plannet.PlanNetResourceProvider;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class PlanNetResourceProviderTest {
     @Test
     public void testGetResources() {
         FHIRRegistryResourceProvider provider = new PlanNetResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 111);
+        Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
+        assertNotNull(registryResources);
+        assertTrue(!registryResources.isEmpty());
+        for (FHIRRegistryResource fhirRegistryResource : registryResources) {
+            assertNotNull(fhirRegistryResource.getResource());
+        }
     }
 }
