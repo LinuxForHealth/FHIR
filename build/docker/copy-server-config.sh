@@ -33,6 +33,6 @@ rm -f $OVERRIDES/datasource*.xml 2> /dev/null
 # Uncomment the next two lines when the Db2 fhir-server-config (above) is switched
 # over to use the standard datasource configuration (see fhir-server-config-postgres.json).
 #cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml $OVERRIDES/database.xml
-#cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/overrides/datasource-db2.xml $OVERRIDES/database.xml
+#cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml $OVERRIDES/database.xml
 
 echo "Finished copying the server config."

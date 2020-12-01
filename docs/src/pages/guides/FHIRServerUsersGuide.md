@@ -450,7 +450,7 @@ The 'dataSourceJndiName' property can be removed as it is only used when 'enable
 
 When configured explicitly, the jndiName does not have to follow the standard naming convention, although this is not recommended.
 
-Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datastore.xml' as follows:
+Continuing the above example, configure a drop-in server configuration file 'configDropins/overrides/datasource.xml' as follows:
 
 ```
 <server>
@@ -477,7 +477,7 @@ This file is picked up when the server starts as indicated by the following AUDI
 [AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: /fhir/wlp/usr/servers/fhir-server/configDropins/overrides/datasource.xml
 ```
 
-A special case exists for configuring the Derby 'bootstrapped' datasources. To avoid naming conflicts, these datasources must use custom JNDI names, not the default naming pattern. For example, a Derby datasource defined in configDropins/disabled/datasource-derby.xml' might look like this:
+A special case exists for configuring the Derby 'bootstrapped' datasources. To avoid naming conflicts, these datasources must use custom JNDI names, not the default naming pattern. For example, a Derby datasource defined in `configDropins/disabled/datasource-derby.xml` might look like this:
 
 ```
 <server>
@@ -977,7 +977,7 @@ It is also possible to configure a set of profiles, one or more of which a resou
 
 If a profile in the list specified by the configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the list specified by the configuration parameter does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
 
-If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation. 
+If this configuration parameter is not set or is set to an empty list, then the FHIR server will perform its standard validation.
 
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
