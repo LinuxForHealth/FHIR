@@ -30,8 +30,8 @@ import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.cos.COSClient;
-import com.ibm.fhir.bucket.interop.InteropWorkload;
 import com.ibm.fhir.bucket.interop.InteropScenario;
+import com.ibm.fhir.bucket.interop.InteropWorkload;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
@@ -80,10 +80,10 @@ public class Main {
 
     // The type of database we're talking to
     private DbType dbType;
-    
+
     // Connection pool used to work alongside the transaction provider
     private PoolConnectionProvider connectionPool;
-    
+
     // Simple transaction service for use outside of JEE
     private ITransactionProvider transactionProvider;
 
@@ -95,91 +95,91 @@ public class Main {
 
     // How many JSON files can we process at the same time
     private int maxConcurrentJsonFiles = 10;
-    
+
     // How many NDJSON files can we process at the same time (typically 1)
     private int maxConcurrentNdJsonFiles = 1;
 
     // How many FHIR requests should be allowed concurrently
     private int maxConcurrentFhirRequests = DEFAULT_MAX_FHIR_CONCURRENT_REQUESTS;
-    
+
     // Just slightly over 2 minutes, which is just slightly longer than the FHIR default tx timeout
     private int poolShutdownTimeoutSeconds = 130;
 
     // By default we want to periodically scan COS looking for new entries
     private boolean runScanner = true;
-    
+
     // The thread-pool shared by the services for async processing
     private ExecutorService commonPool;
-    
+
     // Configured connection to IBM Cloud Object Storage (S3)
     private COSClient cosClient;
-    
+
     // FHIR server requests go through this client
     private FHIRBucketClient fhirClient;
 
     // The list of buckets to scan for resources to load
     private final List<String> cosBucketList = new ArrayList<>();
-    
+
     // The adapter configured for the type of database we're using
     private IDatabaseAdapter adapter;
-    
+
     // The number of threads to use for the schema creation step
     private int createSchemaThreads = 1;
-    
+
     private int cosScanIntervalMs = DEFAULT_COS_SCAN_INTERVAL_MS;
-    
+
     // The COS scanner active object
     private CosScanner scanner;
-    
+
     // The COS reader handling JSON files
     private COSReader jsonReader;
-    
+
     // The COS reader handling NDJSON files (which are processed one at a time
     private COSReader ndJsonReader;
-    
+
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
-        
+
     // The tenant name
     private String tenantName;
 
     // Set of file types we are interested in
     private Set<FileType> fileTypes = new HashSet<>();
-    
+
     // optional prefix for scanning a subset of the COS bucket
     private String pathPrefix;
-    
+
     // Just create the schema and exit
     private boolean createSchema = false;
-    
+
     // Skip NDJSON rows already processed. Assumes each row is an individual resource or transaction bundle
     private boolean incremental = false;
-    
+
     // Skip NDJSON rows for which we already have processed and recorded logical ids. Requires a lookup per line
     private boolean incrementalExact = false;
-    
+
     // optionally reload the same data after this seconds. -1 == do not recycle
     private int recycleSeconds = -1;
-    
+
     // Assign a higher cost to processing bundles to reduce concurrency and avoid overload/timeouts
     private double bundleCostFactor = 1.0;
-    
+
     // How many payer scenario requests do we want to make at a time.
     private int concurrentPayerRequests = 0;
-    
+
     // Simple scenario to add some read load to a FHIR server
     private InteropWorkload cmsPayerWorkload;
-    
+
     // Special operation to break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket and key prefix:
     private String targetBucket;
     private String targetPrefix;
-    
+
     // The list of bucket-paths we limit reading from
     private List<BucketPath> bucketPaths = new ArrayList<>();
-    
+
     // How many resources should we pack into new bundles
     private int maxResourcesPerBundle = 100;
-    
+
     private DriveReindexOperation driveReindexOperation;
 
     // the _tstamp parameter if we are executing $reindex custom operation calls. Disabled when null
@@ -187,10 +187,10 @@ public class Main {
 
     // the _resourceCount parameter if we are executing $reindex custom operation calls
     private int reindexResourceCount = 10;
-    
+
     // How many reindex calls should we run in parallel
     private int reindexConcurrentRequests = 1;
-    
+
     /**
      * Parse command line arguments
      * @param args
@@ -393,7 +393,7 @@ public class Main {
     }
 
     /**
-     * Add the bucket-name/path-prefix pair to the list we use for filtering 
+     * Add the bucket-name/path-prefix pair to the list we use for filtering
      * @param arg bucket-path specified as <bucket-name>:<path-prefix>
      */
     private void addBucketPath(String arg) {
@@ -454,30 +454,30 @@ public class Main {
             logger.warning("Invalid property value: " + arg);
         }
     }
-    
+
     /**
-     * Rudimentary check of the configuration to make sure the 
+     * Rudimentary check of the configuration to make sure the
      * basics have been provided
      */
     public void checkConfig() {
-        if (dbType == null) {
-            throw new IllegalArgumentException("No --db-type given");
-        }
-        
-        if (dbProperties.isEmpty()) {
-            throw new IllegalArgumentException("No database properties");
+
+        // If we have a COS configuration, then we also need a database configuration
+        if (this.createSchema || !cosProperties.isEmpty()) {
+            if (dbType == null) {
+                throw new IllegalArgumentException("No --db-type given");
+            }
+
+            if (dbProperties.isEmpty()) {
+                throw new IllegalArgumentException("No database properties");
+            }
         }
 
-        
-        if (!this.createSchema && cosProperties.isEmpty()) {
-            throw new IllegalArgumentException("No COS properties");
-        }
-        
         if (!this.createSchema && fhirClientProperties.isEmpty()) {
+            // always need FHIR properties, unless we're in create schema mode
             throw new IllegalArgumentException("No FHIR properties");
         }
     }
-    
+
     /**
      * Set up the database configuration we are going to use to coordinate
      * loading activities. Only one instance should be performing the schema
@@ -485,24 +485,28 @@ public class Main {
      * the schema update process and avoid race conditions.
      */
     public void configure() {
-        
+
         if (fileTypes.isEmpty()) {
             // use NDJSON if the user didn't provide their own choice
             this.fileTypes.add(FileType.NDJSON);
         }
 
-        switch (this.dbType) {
-        case DB2:
-            setupDb2Repository();
-            break;
-        case DERBY:
-            setupDerbyRepository();
-            break;
-        case POSTGRESQL:
-            setupPostgresRepository();
-            break;
-        }        
-        
+        // Having a database is now optional, because we don't need access to the FHIRBUCKET tables
+        // if we're only running the client-load or reindex helper modes
+        if (this.dbType != null) {
+            switch (this.dbType) {
+            case DB2:
+                setupDb2Repository();
+                break;
+            case DERBY:
+                setupDerbyRepository();
+                break;
+            case POSTGRESQL:
+                setupPostgresRepository();
+                break;
+            }
+        }
+
         // We constrain the number of concurrent tasks which are inflight, so a breathable
         // pool works nicely because it cannot grow unbounded
         this.commonPool = Executors.newCachedThreadPool();
@@ -517,7 +521,7 @@ public class Main {
             // use the default schema for Derby
             schemaName = "APP";
         }
-        
+
         DerbyPropertyAdapter propertyAdapter = new DerbyPropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(new DerbyTranslator(), propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
@@ -534,14 +538,14 @@ public class Main {
         if (schemaName == null) {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
-        
+
         IDatabaseTranslator translator = new Db2Translator();
         try {
             Class.forName(translator.getDriverClassName());
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
-        
+
         Db2PropertyAdapter propertyAdapter = new Db2PropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
@@ -557,7 +561,7 @@ public class Main {
         if (schemaName == null) {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
-        
+
         IDatabaseTranslator translator = new PostgreSqlTranslator();
         try {
             Class.forName(translator.getDriverClassName());
@@ -571,11 +575,11 @@ public class Main {
         this.adapter = new PostgreSqlAdapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
-    
+
     /**
      * Create the version history table and a simple service which is used to
      * access information from it.
-     * 
+     *
      * @throws SQLException
      */
     protected VersionHistoryService createVersionHistoryService() {
@@ -594,7 +598,7 @@ public class Main {
                 throw x;
             }
         }
-        
+
         // Current version history for the data schema.
         VersionHistoryService vhs = new VersionHistoryService(schemaName, schemaName);
         vhs.setTransactionProvider(transactionProvider);
@@ -611,13 +615,13 @@ public class Main {
         // The version history service is used to track schema changes
         // so we know which to apply and which to skip
         VersionHistoryService vhs = createVersionHistoryService();
-        
+
         // Create the schema in a managed transaction
         FhirBucketSchema schema = new FhirBucketSchema(schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         schema.constructModel(pdm);
-        
-        // Use the dependency information in the physical data model to 
+
+        // Use the dependency information in the physical data model to
         // build a task tree which can be executed in parallel, if desired
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(this.createSchemaThreads);
@@ -627,7 +631,7 @@ public class Main {
         // FHIR in the hole!
         logger.info("Starting schema updates");
         collector.startAndWait();
-        
+
         pool.shutdown();
 
         Collection<ITaskGroup> failedTaskGroups = collector.getFailedTaskGroups();
@@ -639,14 +643,14 @@ public class Main {
         } else {
             logger.info("Schema update [SUCCEEDED]");
         }
-        
+
         // populate the RESOURCE_TYPES table
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
                         .map(FHIRResourceType.ValueSet::value)
                         .collect(Collectors.toSet());
-                
+
                 if (adapter.getTranslator().getType() == DbType.POSTGRESQL) {
                     // Postgres doesn't support batched merges, so we go with a simpler UPSERT
                     MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(resourceTypes);
@@ -679,34 +683,35 @@ public class Main {
         if (this.scanner != null) {
             this.scanner.signalStop();
         }
-        
+
         if (driveReindexOperation != null) {
             driveReindexOperation.signalStop();
         }
-        
+
         if (cmsPayerWorkload != null) {
             cmsPayerWorkload.signalStop();
         }
-        
+
         if (this.jsonReader != null) {
             this.jsonReader.signalStop();
         }
-        
+
         if (this.ndJsonReader != null) {
             this.ndJsonReader.signalStop();
         }
 
-        this.resourceHandler.signalStop();
-        
-        
+        if (this.resourceHandler != null) {
+            this.resourceHandler.signalStop();
+        }
+
         if (this.scanner != null) {
             this.scanner.waitForStop();
         }
-        
+
         if (driveReindexOperation != null) {
             driveReindexOperation.waitForStop();
         }
-        
+
         if (cmsPayerWorkload != null) {
             cmsPayerWorkload.waitForStop();
         }
@@ -714,16 +719,19 @@ public class Main {
         if (this.jsonReader != null) {
             this.jsonReader.waitForStop();
         }
-        
+
         if (this.ndJsonReader != null) {
             this.ndJsonReader.waitForStop();
         }
-        this.resourceHandler.waitForStop();
-        
+
+        if (this.resourceHandler != null) {
+            this.resourceHandler.waitForStop();
+        }
+
         if (fhirClient != null) {
             this.fhirClient.shutdown();
         }
-        
+
         // Finally we can ask the common thread-pool to close up shop. Typically we
         // should wait for at least as long as the FHIR server transaction timeout
         // so that we don't lose any responses (and therefore fail to record the
@@ -749,7 +757,7 @@ public class Main {
             scanAndLoad();
         }
     }
-    
+
     /**
      * Start the processing threads and wait until we get told to stop
      */
@@ -757,49 +765,59 @@ public class Main {
 
         // Set up the shutdown hook to keep things orderly when asked to terminate
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
-        
-        cosClient = new COSClient(cosProperties);
-                
-        // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
-        DataAccess dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
-        dataAccess.init();
-        
-        // Set up the scanner to look for new COS objects and register them in our database
-        if (this.runScanner) {
-            this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
-            scanner.init();
-        }
 
-        // Decide how we want to process resource bundles
-        IResourceEntryProcessor resourceEntryProcessor;
-        if (this.targetBucket != null && this.targetBucket.length() > 0) {
-            resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
-        } else {
+        // FHIR client is always needed, unless we're running the bundle-breaker special mode
+        if (this.targetBucket == null || this.targetBucket.length() == 0) {
             // Set up the client we use to send requests to the FHIR server
             fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
             fhirClient.init(this.tenantName);
-            resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
-        }
-        
-        // Set up the handler to process resources as they are read from COS
-        // Uses an internal pool to parallelize NDJSON work
-        this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
-        
-        // Set up the COS reader and wire it to the resourceHandler
-        if (fileTypes.contains(FileType.JSON)) {
-            this.jsonReader = new COSReader(commonPool, FileType.JSON, cosClient, 
-                resource -> resourceHandler.process(resource), 
-                this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds, 
-                incrementalExact, this.bundleCostFactor, bucketPaths);
-            this.jsonReader.init();
         }
 
-        if (fileTypes.contains(FileType.NDJSON)) {
-            this.jsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient, 
-                resource -> resourceHandler.process(resource), 
-                this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds, 
-                incrementalExact, this.bundleCostFactor, bucketPaths);
-            this.jsonReader.init();
+        // Only need to initialize the DataAccess layer if we're loading from COS
+        DataAccess dataAccess = null;
+        if (cosProperties != null && cosProperties.size() > 0) {
+            cosClient = new COSClient(cosProperties);
+
+            // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
+            dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
+            dataAccess.init();
+
+            // Set up the scanner to look for new COS objects and register them in our database
+            if (this.runScanner) {
+                this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
+                scanner.init();
+            }
+
+            // Decide how we want to process resource bundles
+            IResourceEntryProcessor resourceEntryProcessor;
+            if (this.targetBucket != null && this.targetBucket.length() > 0) {
+                // No fhirClient required here...process each resource locally
+                resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
+            } else {
+                // Process resources by sending them to a FHIR server
+                resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
+            }
+
+            // Set up the handler to process resources as they are read from COS
+            // Uses an internal pool to parallelize NDJSON work
+            this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
+
+            // Set up the COS reader and wire it to the resourceHandler
+            if (fileTypes.contains(FileType.JSON)) {
+                this.jsonReader = new COSReader(commonPool, FileType.JSON, cosClient,
+                    resource -> resourceHandler.process(resource),
+                    this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds,
+                    incrementalExact, this.bundleCostFactor, bucketPaths);
+                this.jsonReader.init();
+            }
+
+            if (fileTypes.contains(FileType.NDJSON)) {
+                this.jsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient,
+                    resource -> resourceHandler.process(resource),
+                    this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds,
+                    incrementalExact, this.bundleCostFactor, bucketPaths);
+                this.jsonReader.init();
+            }
         }
 
         // Optionally apply a read-based workload to stress the FHIR server and database
@@ -810,7 +828,7 @@ public class Main {
             cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, 500000);
             cmsPayerWorkload.init();
         }
-        
+
         // Optionally start the $reindex loops
         if (this.reindexTstampParam != null) {
             this.driveReindexOperation = new DriveReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
@@ -822,7 +840,7 @@ public class Main {
     }
 
     /**
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
