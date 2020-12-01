@@ -21,10 +21,9 @@ import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 
 /**
- * This class fixes two issues with the packaged DaVinci PDEX Plan Net artifacts:
+ * This class fixes the following issues with the packaged DaVinci PDEX Plan Net artifacts:
  * <ol>
- * <li>The provided structure definitions contain invalid XHTML</li>
- * <li>The provided structure definitions do not contain a version element</li>
+ * <li>The provided CapabilityStatement contains invalid XHTML</li>
  * </ol>
  */
 public class ResourceProcessor {
@@ -50,14 +49,9 @@ public class ResourceProcessor {
                 if (text != null) {
                     JsonObjectBuilder textBuilder = jsonBuilderFactory.createObjectBuilder(text);
                     String div = text.getString("div");
-                    div = div.replace("<p><pre>", "<pre>").replace("</pre></p>", "</pre>");
+                    div = div.replace("</li><br/>", "</li>");
                     textBuilder.add("div", div);
                     jsonObjectBuilder.add("text", textBuilder);
-                }
-
-                if (!jsonObject.containsKey("version")) {
-                    System.out.println("file: " + file + " does not have a version");
-                    jsonObjectBuilder.add("version", "0.1.0");
                 }
 
                 jsonObject = jsonObjectBuilder.build();
