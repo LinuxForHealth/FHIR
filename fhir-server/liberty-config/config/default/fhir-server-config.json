@@ -134,7 +134,8 @@
             "jobParameters": {
                 "cos.bucket.name": "fhir-r4-connectathon",
                 "cos.location": "us",
-                "cos.endpointurl": "fake",
+                "cos.endpoint.internal": "fake",
+                "cos.endpoint.external": "fake",
                 "cos.credential.ibm": "N",
                 "cos.access.key": "fake",
                 "cos.secret.key": "fake"

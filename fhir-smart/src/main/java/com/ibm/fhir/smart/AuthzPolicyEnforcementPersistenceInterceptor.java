@@ -137,7 +137,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             // If the target resource is the Patient resource which matches the in-context patient, allow it
             if (resource instanceof Patient && resource.getId() != null && contextIds.contains(resource.getId())) {
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Interaction is permitted via scope " + approvedScopeMap.get(ContextType.PATIENT) +
+                    log.fine(requiredPermission.value() + " permission for 'Patient/" + resource.getId() +
+                        "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT) +
                         " with patient context '" + resource.getId() + "'");
                 }
                 return;
@@ -166,7 +167,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                                 String patientRefVal = getPatientRefVal(node);
                                 if (patientRefVal != null && contextIds.contains(patientRefVal)) {
                                     if (log.isLoggable(Level.FINE)) {
-                                        log.fine("Interaction is permitted via scope " + approvedScopeMap.get(ContextType.PATIENT) +
+                                        log.fine(requiredPermission.value() + " permission for '" + resource.getClass().getSimpleName() + "/" + resource.getId() +
+                                            "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT) +
                                             " with patient context '" + patientRefVal + "'");
                                     }
                                     return;
@@ -189,6 +191,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
 
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(requiredPermission.value() + " permission for '" + resource.getClass().getSimpleName() + "/" + resource.getId() +
+                    "' is not granted by any of the provided scopes: " + approvedScopes +
+                    " with context id(s): " + contextIds);
+        }
         String msg = "Requested interaction is not permitted by any of the passed scopes.";
         throw new FHIRPersistenceInterceptorException(msg)
                 .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));

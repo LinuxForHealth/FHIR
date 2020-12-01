@@ -56,7 +56,7 @@ public class Constants {
     // Job parameters
     public static final String COS_API_KEY = "cos.api.key";
     public static final String COS_SRVINST_ID = "cos.srvinst.id";
-    public static final String COS_ENDPOINT_URL = "cos.endpointurl";
+    public static final String COS_ENDPOINT_URL = "cos.endpoint.internal";
     public static final String COS_LOCATION = "cos.location";
     public static final String COS_BUCKET_NAME = "cos.bucket.name";
     public static final String COS_IS_IBM_CREDENTIAL = "cos.credential.ibm";

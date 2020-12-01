@@ -56,6 +56,8 @@ public class AuthzPolicyEnforcementTest {
 
     @BeforeClass
     public void setup() throws Exception {
+        System.setProperty("java.util.logging.config.file", ClassLoader.getSystemResource("logging.properties").getPath());
+
         FHIRRequestContext requestContext = new FHIRRequestContext();
         requestContext.setTenantId("default");
         FHIRRequestContext.set(requestContext);

@@ -722,7 +722,7 @@ To disable the multitenant feature for a particular offering add to your `fhirSe
 #### 3.4.2.4 Database Access TransactionManager Timeout
 The TransactionManager controls the timeout of database queries.  
 
-To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s. 
+To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s.
 
 # 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
@@ -1554,7 +1554,8 @@ BulkData web application writes the exported FHIR resources to an IBM Cloud Obje
     "jobParameters": {
         "cos.bucket.name": "exports",
         "cos.location": "us",
-        "cos.endpointurl": "fake",
+        "cos.endpoint.internal": "fake",
+        "cos.endpoint.external": "fake",
         "cos.credential.ibm": "N",
         "cos.api.key": "fake",
         "cos.srvinst.id": "fake"
@@ -1877,7 +1878,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/moduleName`|string| Fixed value, always set to fhir-bulkimportexport.war |
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|string|Object store bucket name |
 |`fhirServer/bulkdata/jobParameters/cos.location`|string|Object store location |
-|`fhirServer/bulkdata/jobParameters/cos.endpointurl`|string|Object store end point url |
+|`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|string|Object store end point url used to read/write from COS |
+|`fhirServer/bulkdata/jobParameters/cos.endpoint.external`|string|Object store end point url used in the constructed download URLs|
 |`fhirServer/bulkdata/jobParameters/credential.ibm`|string|If use IBM credential, "Y" or "N" |
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|string|API key for accessing IBM COS |
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|string|Service instance Id for accessing IBM COS |
@@ -2051,7 +2053,8 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/geoCounty`|N|N|
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/cos.endpointurl`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/cos.endpoint.external`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/credential.ibm`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|Y|Y|
