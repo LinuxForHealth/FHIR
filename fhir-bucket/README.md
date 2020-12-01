@@ -367,15 +367,17 @@ The fhir-bucket main app has been extended to support driving a reindex operatio
 java \
   -Djava.util.logging.config.file=logging.properties \
   -jar "${JAR}" \
-  --fhir-properties fhir.properties \
+  --fhir-properties your-fhir-server.properties \
   --tenant-name your-tenant-name \
-  --max-concurrent-fhir-requests 200 \
+  --max-concurrent-fhir-requests 100 \
   --no-scan \
-  --reindex-tstamp 2020-10-07 \
-  --reindex-resource-count 10 \
-  --reindex-concurrent-requests 200
+  --reindex-tstamp 2020-12-01T00:00:00Z \
+  --reindex-resource-count 50 \
+  --reindex-concurrent-requests 20
 ```
 
 The format of the reindex timestamp can be a date `YYYY-MM-DD` representing midnight UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.
 
-Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time. 
+Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time.
+
+The value for --reindex-concurrent-requests can be increased/decreased to maximize throughput or avoid overloading a system. The number represents the total number of client threads used to invoke the $reindex operation. Each thread uses its own connection to the IBM FHIR Server so you must also set --max-concurrent-fhir-requests to be at least equal to --reindex-concurrent-requests.
