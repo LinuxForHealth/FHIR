@@ -273,8 +273,14 @@ public class JobExecutionResponse {
         }
 
         @Override
-        public Builder cosEndpointUrl(String cosEndpointUrl) {
-            jobParameter.setCosEndpointUrl(cosEndpointUrl);
+        public Builder cosEndpointInternal(String cosEndpointUrl) {
+            jobParameter.setCosEndpointInternal(cosEndpointUrl);
+            return this;
+        }
+
+        @Override
+        public Builder cosEndpointExternal(String cosEndpointUrl) {
+            jobParameter.setCosEndpointExternal(cosEndpointUrl);
             return this;
         }
 

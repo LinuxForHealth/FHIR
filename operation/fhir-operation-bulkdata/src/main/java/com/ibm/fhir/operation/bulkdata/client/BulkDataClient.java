@@ -179,7 +179,8 @@ public class BulkDataClient {
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
-        builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
+        builder.cosEndpointInternal(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT_INTERNAL));
+        builder.cosEndpointExternal(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT_EXTERNAL));
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
@@ -532,7 +533,7 @@ public class BulkDataClient {
         String resourceTypes = response.getJobParameters().getFhirResourceType();
         String cosBucketPathPrefix = response.getJobParameters().getCosBucketPathPrefix();
 
-        String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT);
+        String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT_EXTERNAL);
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
 
         String request = "$import";
@@ -613,7 +614,8 @@ public class BulkDataClient {
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosBucketNameOperationOutcome(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
-        builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
+        builder.cosEndpointInternal(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT_INTERNAL));
+        builder.cosEndpointExternal(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT_EXTERNAL));
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
