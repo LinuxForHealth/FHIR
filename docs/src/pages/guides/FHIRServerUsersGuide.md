@@ -125,7 +125,6 @@ Complete the following steps to upgrade the server:
 5. Disable traffic to the old server and enable traffic to the new server  
 
 ## 2.3 Docker
-
 The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
 
 Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
