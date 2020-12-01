@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -40,10 +41,10 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
 
-public class FHIROperationUtil {
-    public static final String ENV_DISALLOWED_OPERATIONS = "DISALLOWED_OPERATIONS";
+public final class FHIROperationUtil {
+    public static final String ENV_DISABLED_OPERATIONS = "DISABLED_OPERATIONS";
 
-    private static HashSet<String> DISALLOWED_OPERATIONS = new HashSet<>();
+    private static Set<String> DISABLED_OPERATIONS = new HashSet<>();
 
     private FHIROperationUtil() {
         // No Operation
@@ -56,15 +57,15 @@ public class FHIROperationUtil {
      * This is initialized one time for the system.
      */
     public static void init() {
-        String operationStr = System.getenv(ENV_DISALLOWED_OPERATIONS);
+        String operationStr = System.getenv(ENV_DISABLED_OPERATIONS);
         if (operationStr != null) {
-            DISALLOWED_OPERATIONS.addAll(Arrays.asList(operationStr.split(",")));
+            DISABLED_OPERATIONS.addAll(Arrays.asList(operationStr.split(",")));
         }
 
         // Check the Configuration and also add to the Set
-        operationStr = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_DISALLOWED_OPERATIONS, null);
+        operationStr = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_DISABLED_OPERATIONS, null);
         if (operationStr != null) {
-            DISALLOWED_OPERATIONS.addAll(Arrays.asList(operationStr.split(",")));
+            DISABLED_OPERATIONS.addAll(Arrays.asList(operationStr.split(",")));
         }
     }
 
@@ -202,19 +203,19 @@ public class FHIROperationUtil {
      * @throws FHIROperationException
      */
     public static void checkAndVerifyOperationAllowed(String operationName) throws FHIROperationException {
-        if (DISALLOWED_OPERATIONS.contains(operationName)) {
+        if (DISABLED_OPERATIONS.contains(operationName)) {
             throw generateForbiddenOperationException(operationName);
         }
     }
 
     public static FHIROperationException generateForbiddenOperationException(String operationName) {
         FHIROperationException operationException =
-                new FHIROperationException("The access to the operation is forbidden");
+                new FHIROperationException("Access to the operation is forbidden");
 
         List<Issue> issues = new ArrayList<>();
         Issue.Builder builder = Issue.builder();
         builder.code(IssueType.FORBIDDEN);
-        builder.diagnostics(string("The operation is not allowed '$" + operationName +"'"));
+        builder.diagnostics(string("Access to the operation is forbidden - '$" + operationName +"'"));
         builder.severity(IssueSeverity.ERROR);
         issues.add(builder.build());
 

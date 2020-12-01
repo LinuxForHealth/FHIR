@@ -134,7 +134,7 @@ The IBM FHIR Server is configured using Environment variables using:
 
 | Environment Variable | Description |
 |----------------------|-------------|
-|`DISALLOWED_OPERATIONS`|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 
 # 3 Configuration
 This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
@@ -1817,7 +1817,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
-|`fhirServer/core/disallowedOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
 |`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
@@ -1995,7 +1995,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
-|`fhirServer/core/disallowedOperations`|N|N|
+|`fhirServer/core/disabledOperations`|N|N|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|

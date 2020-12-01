@@ -6,7 +6,7 @@
             "datastoreIdHeaderName": "X-FHIR-DSID",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
-            "disallowedOperations": ""
+            "disabledOperations": ""
         },
         "security": {
             "cors": true,
