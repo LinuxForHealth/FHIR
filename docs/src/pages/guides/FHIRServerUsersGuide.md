@@ -13,7 +13,7 @@ permalink: /FHIRServerUsersGuide/
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
   * [2.3 Docker](#23-docker)
 - [3 Configuration](#3-configuration)
-  * [3.1 Liberty server configuraiton](#31-liberty-server-configuration)
+  * [3.1 Liberty server configuration](#31-liberty-server-configuration)
   * [3.2 FHIR server configuration](#32-fhir-server-configuration)
   * [3.3 Persistence layer configuration](#33-persistence-layer-configuration)
 - [4 Customization](#4-customization)
@@ -117,8 +117,8 @@ To manage database updates over time, the IBM FHIR Server uses custom tools from
 
 Complete the following steps to upgrade the server:
 
-1. Run the fhir-installer on a separate server.  
-2. Configure the new server as appropriate (`fhir-server.xml` and anything under the `fhir-server/config` and `fhir-server/userlib` directories).  
+1. Run the fhir-installer on a separate server.
+2. Configure the new server as appropriate (`fhir-server/server.xml` and anything under the `fhir-server/configDropins`, `fhir-server/config`, and `fhir-server/userlib` directories).
 3. Back up your database.  
 4. Run the migration program (see [Section 3.3.1.1.2 Db2](#33112-db2)).  
 5. Disable traffic to the old server and enable traffic to the new server  
@@ -133,6 +133,15 @@ Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and 
 This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
 
 ## 3.1 Liberty server configuration
+The IBM FHIR Server is built on the open source [OpenLiberty project](https://openliberty.io/) but also works on the commercial [IBM WebSphere Liberty](https://www.ibm.com/cloud/websphere-liberty). In documentation and elsewhere, we use `Liberty` to refer to either/or.
+
+As a Liberty application, the IBM FHIR Server is configurable like any other Liberty server. See https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html for more information.
+
+By default, we include:
+* `server.xml` with core server details like the Liberty features, HTTP properties, application info, and a default user registry
+* `jvm.options` with TLS and heap size settings
+* `server.env` with timezone set to UTC
+* `configDropins` with server.xml dropins sorted into `disabled`, `defaults`, and `overrides`
 
 ## 3.1.1 Encoded passwords
 In the examples within the following sections, you'll see the default password `change-password`. In order to secure your server, these values should be changed.
