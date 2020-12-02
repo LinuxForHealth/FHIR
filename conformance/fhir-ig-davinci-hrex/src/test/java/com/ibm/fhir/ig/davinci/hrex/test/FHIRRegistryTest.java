@@ -15,9 +15,8 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public class FHIRRegistryTest {
     @Test
     public void testRegistry() {
-        StructureDefinition definition =
-                FHIRRegistry.getInstance()
-                    .getResource("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-out", StructureDefinition.class);
+        StructureDefinition definition = FHIRRegistry.getInstance()
+                .getResource("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-out", StructureDefinition.class);
         Assert.assertNotNull(definition);
     }
 }

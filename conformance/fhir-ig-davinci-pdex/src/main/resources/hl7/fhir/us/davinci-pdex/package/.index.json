@@ -6,21 +6,30 @@
       "resourceType": "ImplementationGuide",
       "id": "hl7.fhir.us.davinci-pdex",
       "url": "http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex",
-      "version": "0.1.18"
+      "version": "1.0.0"
     },
     {
       "filename": "ImplementationGuide-hl7.fhir.us.davinci-pdex.json",
       "resourceType": "ImplementationGuide",
       "id": "hl7.fhir.us.davinci-pdex",
       "url": "http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex",
-      "version": "0.1.18"
+      "version": "1.0.0"
+    },
+    {
+      "filename": "StructureDefinition-hrex-coverage.json",
+      "resourceType": "StructureDefinition",
+      "id": "hrex-coverage",
+      "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/hrex-coverage",
+      "version": "1.0.0",
+      "kind": "resource",
+      "type": "Coverage"
     },
     {
       "filename": "StructureDefinition-pdex-device.json",
       "resourceType": "StructureDefinition",
       "id": "pdex-device",
       "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-device",
-      "version": "0.1.18",
+      "version": "1.0.0",
       "kind": "resource",
       "type": "Device"
     },
@@ -29,7 +38,7 @@
       "resourceType": "StructureDefinition",
       "id": "pdex-medicationdispense",
       "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-medicationdispense",
-      "version": "0.1.18",
+      "version": "1.0.0",
       "kind": "resource",
       "type": "MedicationDispense"
     },
@@ -38,25 +47,16 @@
       "resourceType": "StructureDefinition",
       "id": "pdex-provenance",
       "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance",
-      "version": "0.1.18",
+      "version": "1.0.0",
       "kind": "resource",
       "type": "Provenance"
-    },
-    {
-      "filename": "StructureDefinition-pdex-server-capabilitystatement.json",
-      "resourceType": "StructureDefinition",
-      "id": "pdex-server-capabilitystatement",
-      "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-server-capabilitystatement",
-      "version": "0.1.18",
-      "kind": "resource",
-      "type": "CapabilityStatement"
     },
     {
       "filename": "StructureDefinition-DispenseRefill.json",
       "resourceType": "StructureDefinition",
       "id": "DispenseRefill",
       "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/DispenseRefill",
-      "version": "0.1.18",
+      "version": "1.0.0",
       "kind": "complex-type",
       "type": "Extension"
     },
@@ -65,7 +65,7 @@
       "resourceType": "StructureDefinition",
       "id": "ProvenanceSourceFrom",
       "url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/ProvenanceSourceFrom",
-      "version": "0.1.18",
+      "version": "1.0.0",
       "kind": "complex-type",
       "type": "Extension"
     },
@@ -74,42 +74,66 @@
       "resourceType": "ValueSet",
       "id": "FDANationalDrugCode",
       "url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/FDANationalDrugCode",
-      "version": "0.1.18"
+      "version": "1.0.0"
     },
     {
       "filename": "ValueSet-ProvenanceAgentType.json",
       "resourceType": "ValueSet",
       "id": "ProvenanceAgentType",
       "url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/ProvenanceAgentType",
-      "version": "0.1.18"
+      "version": "1.0.0"
     },
     {
       "filename": "ValueSet-ProvenancePayerSourceFormat.json",
       "resourceType": "ValueSet",
       "id": "ProvenancePayerSourceFormat",
       "url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/ProvenancePayerSourceFormat",
-      "version": "0.1.18"
+      "version": "1.0.0"
     },
     {
       "filename": "CodeSystem-IdentifierTypeCS.json",
       "resourceType": "CodeSystem",
       "id": "IdentifierTypeCS",
       "url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS",
-      "version": "0.1.18"
+      "version": "1.0.0"
     },
     {
       "filename": "CodeSystem-ProvenanceAgentRoleType.json",
       "resourceType": "CodeSystem",
       "id": "ProvenanceAgentRoleType",
       "url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType",
-      "version": "0.1.18"
+      "version": "1.0.0"
     },
     {
       "filename": "CodeSystem-ProvenancePayerDataSource.json",
       "resourceType": "CodeSystem",
       "id": "ProvenancePayerDataSource",
       "url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenancePayerDataSource",
-      "version": "0.1.18"
+      "version": "1.0.0"
+    },
+    {
+      "filename": "CapabilityStatement-pdex-server.json",
+      "resourceType": "CapabilityStatement",
+      "id": "pdex-server",
+      "url": "http://hl7.org/fhir/us/core/CapabilityStatement/pdex-server",
+      "version": "1.0.0",
+      "kind": "requirements"
+    },
+    {
+      "filename": "SearchParameter-pdex-medicationdispense-patient.json",
+      "resourceType": "SearchParameter",
+      "id": "pdex-medicationdispense-patient",
+      "url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-patient",
+      "version": "1.0.0",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-pdex-medicationdispense-status.json",
+      "resourceType": "SearchParameter",
+      "id": "pdex-medicationdispense-status",
+      "url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-status",
+      "version": "1.0.0",
+      "type": "token"
     }
   ]
 }

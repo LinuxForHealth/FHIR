@@ -6,16 +6,26 @@
 
 package com.ibm.fhir.ig.davinci.pdex.test;
 
-import org.testng.Assert;
+import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collection;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.ig.davinci.pdex.PDEXResourceProvider;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class PDEXResourceProviderTest {
     @Test
     public void testPDEXResourceProvider() {
         FHIRRegistryResourceProvider provider = new PDEXResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 14);
+        Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
+        assertNotNull(registryResources);
+        assertTrue(!registryResources.isEmpty());
+        for (FHIRRegistryResource fhirRegistryResource : registryResources) {
+            assertNotNull(fhirRegistryResource.getResource());
+        }
     }
 }
