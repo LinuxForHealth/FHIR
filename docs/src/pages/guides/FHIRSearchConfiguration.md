@@ -205,30 +205,14 @@ The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`
 
 |name|type|description|
 |----|----|-----------|
-|`_tstamp`|string|Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.|
-|`_resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
+|`tstamp`|string|Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.|
+|`resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
 
-To aid the re-indexing process, the IBM FHIR Server team has introduced some new features into the fhir-bucket resource-loading tool for driving the reindex. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$reindex` custom operation.
+The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 
-To run the reindex step, see this example (using PostgreSQL):
+To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$reindex` custom operation.
 
-```
-JAR="/path/to/fhir-bucket-4.5.0-cli.jar"
-
-java \
-  -Djava.util.logging.config.file=logging.properties \
-  -jar "${JAR}" \
-  --db-type postgresql \
-  --fhir-properties fhir.properties \
-  --tenant-name "YOUR-TENANT-NAME" \
-  --max-concurrent-fhir-requests 200 \
-  --no-scan \
-  --reindex-tstamp YYYY-MM-DD \
-  --reindex-resource-count 10 \
-  --reindex-concurrent-requests 200
-```
-
-The value of YYYY-MM-DD is a date-stamp used to indicate the date on which the resources have been reindexed. The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given YYYY-MM-DD parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given YYYY-MM-DD value indicating it has been processed. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
+For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/master/fhir-bucket#driving-the-reindex-custom-operation.
 
 Reindexing is resource-intensive and can take several hours or even days to complete depending on the number of resources currently in the system and the capability of the hosting platform.
 
