@@ -503,7 +503,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     @Override
     public void createOrReplaceFunction(String schemaName, String functionName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
-        logger.info("Create or replace procedure " + objectName);
+        logger.info("Create or replace function " + objectName);
 
         final StringBuilder ddl = new StringBuilder()
                 .append("CREATE OR REPLACE FUNCTION ")
