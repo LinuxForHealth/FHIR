@@ -33,7 +33,7 @@ popd > /dev/null
 # _mvn - executes mvn with a set goals
 # Reference https://maven.apache.org/plugins/maven-javadoc-plugin/
 # Reference https://maven.apache.org/plugins/maven-source-plugin/
-function _mvn { 
+function _mvn {
     announce "${FUNCNAME[0]}"
     PROJECT_PATH="$1"
     PROFILES="$2"
@@ -46,7 +46,7 @@ function _mvn {
 }
 
 # _mvn2 - executes mvn to prep the install
-function _mvn2 { 
+function _mvn2 {
     announce "${FUNCNAME[0]}"
     PROJECT_PATH="$1"
     PROFILES="$2"
@@ -56,8 +56,8 @@ function _mvn2 {
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 
-# build_all - build all versions 
-function build_all { 
+# build_all - build all versions
+function build_all {
     _mvn 'fhir-tools' '-Pdeploy-bintray,fhir-javadocs'
     _mvn 'fhir-examples' '-Pdeploy-bintray,fhir-javadocs'
     _mvn2 'fhir-parent' '-Pdeploy-bintray'
@@ -69,16 +69,15 @@ function build_all {
     PROFILES_ARR+=(jdbc-all-tests)
     PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
     # To add a profile to the validation zip, append to the string.
-    # fhir-ig-davinci-hrex,fhir-ig-davinci-pdex are temporarily not included.
-    _mvn 'fhir-parent' "-Pdeploy-bintray,fhir-javadocs,fhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex-formulary,fhir-ig-davinci-pdex-plan-net,fhir-ig-mcode,fhir-ig-us-core,fhir-term,${PROFILES}"
+    _mvn 'fhir-parent' "-Pdeploy-bintray,fhir-javadocs,fhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex-formulary,fhir-ig-davinci-pdex-plan-net,fhir-ig-davinci-hrex,fhir-ig-davinci-pdex,fhir-ig-mcode,fhir-ig-us-core,fhir-term,${PROFILES}"
 }
 
 ###############################################################################
 # check to see if mvn exists
 if which mvn | grep -i mvn
-then 
+then
     debugging 'mvn is found!'
-else 
+else
     warn 'mvn is not found!'
 fi
 
