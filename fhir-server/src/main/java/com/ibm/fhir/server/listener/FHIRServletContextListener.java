@@ -60,6 +60,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -103,6 +104,9 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing FHIROperationRegistry...");
             FHIROperationRegistry.getInstance();
+
+            log.fine("Initializing FHIROperationUtil...");
+            FHIROperationUtil.init();
 
             log.fine("Initializing LanguageRegistryUtil...");
             LanguageRegistryUtil.init();

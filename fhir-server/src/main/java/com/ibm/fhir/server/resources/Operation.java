@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIROperationUtil.checkAndVerifyOperationAllowed;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
@@ -73,6 +74,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createSystemOperationContext();
@@ -113,6 +115,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createSystemOperationContext();
@@ -155,6 +158,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
@@ -196,6 +200,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext();
@@ -237,6 +242,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext();
@@ -292,6 +298,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
@@ -334,6 +341,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
@@ -377,6 +385,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
@@ -420,6 +429,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
