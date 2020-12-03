@@ -34,6 +34,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -123,7 +125,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                         buildResponse(
                                 buildOperationOutcome(Collections.singletonList(
                                         buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.EXCEPTION,
-                                                "FHIRProvider: " + e.getMessage(), e.getPath()))),
+                                                "FHIRProvider: " + Encode.forHtml(e.getMessage()), Encode.forHtml(e.getPath())))),
                                 mediaType);
                 throw new WebApplicationException(response);
             }
