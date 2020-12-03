@@ -374,6 +374,10 @@ public class Main {
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
+
+        // Let's refresh the procedures and functions.
+        logger.info("Refreshing procedures and functions");
+        updateProcedures();
     }
 
     /**
@@ -475,7 +479,7 @@ public class Main {
                     tx.setRollbackOnly();
                     throw x;
                 }
-                c.commit();
+                // Reminder: Don't fall into the trap, let the connectionPool and Transaction Management handle the transaction commit.
             } catch (SQLException x) {
                 tx.setRollbackOnly();
                 throw translator.translate(x);
