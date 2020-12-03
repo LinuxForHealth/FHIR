@@ -50,7 +50,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
         final String cols = DataDefinitionUtil.join(SchemaConstants.SCHEMA_NAME, SchemaConstants.OBJECT_TYPE, SchemaConstants.OBJECT_NAME);
         final String sql = "SELECT " + cols
                 + ", max(" + SchemaConstants.VERSION + ") FROM " + tbl
-                + " WHERE " + SchemaConstants.SCHEMA_NAME + " IN (?, ?) "
+                + " WHERE UCASE(" + SchemaConstants.SCHEMA_NAME + ") IN (UCASE(?), UCASE(?)) "
                 + " GROUP BY " + cols;
 
         // Fetch the current version history information for both the admin and specified data schemas
@@ -59,7 +59,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
             ps.setString(2, schemaName);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String schema = rs.getString(1);
+                String schema = rs.getString(1).toUpperCase();
                 String type = rs.getString(2);
                 String name = rs.getString(3);
                 int version = rs.getInt(4);

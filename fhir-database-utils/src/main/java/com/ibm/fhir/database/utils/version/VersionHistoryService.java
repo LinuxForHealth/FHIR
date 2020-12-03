@@ -126,7 +126,7 @@ public class VersionHistoryService implements IVersionHistoryService {
      * @param version
      */
     public void insertVersionHistoryInTx(String objectSchema, String objectType, String objectName, int version) {
-        AddVersionDAO dao = new AddVersionDAO(adminSchemaName, objectSchema, objectType, objectName, version);
+        AddVersionDAO dao = new AddVersionDAO(adminSchemaName, objectSchema.toUpperCase(), objectType, objectName, version);
         target.runStatement(dao);
     }
 
@@ -204,7 +204,7 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     @Override
     public boolean applies(String objectSchema, String objectType, String objectName, int changeVersion) {
-        String key = objectSchema + ":" + objectType + ":" + objectName;
+        String key = objectSchema.toUpperCase() + ":" + objectType + ":" + objectName;
         Integer currentVersion = this.versionHistoryMap.get(key);
         return currentVersion == null || currentVersion < changeVersion;
     }
