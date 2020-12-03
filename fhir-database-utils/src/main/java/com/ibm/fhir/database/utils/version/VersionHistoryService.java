@@ -44,7 +44,7 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     /**
      * For injection of the {@link IConnectionProvider}
-     * 
+     *
      * @param tp
      */
     public void setTransactionProvider(ITransactionProvider tp) {
@@ -53,7 +53,7 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     /**
      * For injection of the {@link IDatabaseTarget}
-     * 
+     *
      * @param tgt
      */
     public void setTarget(IDatabaseAdapter tgt) {
@@ -108,7 +108,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     /**
      * Insert all the entries in the versionHistoryMap. This must be called in the
      * context of an existing transaction
-     * 
+     *
      * @param versionHistories
      */
     public void insertVersionHistoriesInTx(Collection<TypeNameVersion> versionHistories) {
@@ -133,7 +133,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     /**
      * Insert all the entries in the versionHistoryMap in a new transaction (useful
      * for testing).
-     * 
+     *
      * @param versionHistories
      */
     public void insertVersionHistory(Collection<TypeNameVersion> versionHistories) {
