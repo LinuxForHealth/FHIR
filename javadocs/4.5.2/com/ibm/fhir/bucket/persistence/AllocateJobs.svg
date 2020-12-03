@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="231px" preserveAspectRatio="none" style="width:545px;height:231px;" version="1.1" viewBox="0 0 545 231" width="545px" zoomAndPan="magnify"><defs><filter height="300%" id="f1spkhrna3j0it" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[126d6e6d8c0f3529d455fd30e55b72a2]
+class com.ibm.fhir.bucket.persistence.AllocateJobs--><a href="AllocateJobs.html" target="_top" title="AllocateJobs.html" xlink:actuate="onRequest" xlink:href="AllocateJobs.html" xlink:show="new" xlink:title="AllocateJobs.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1spkhrna3j0it)" height="71.5469" id="com.ibm.fhir.bucket.persistence.AllocateJobs" style="stroke: #A80036; stroke-width: 1.5;" width="528" x="6" y="127"/><ellipse cx="188.75" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M191.7188,151.6094 Q191.1406,151.9063 190.5,152.0469 Q189.8594,152.2031 189.1563,152.2031 Q186.6563,152.2031 185.3281,150.5625 Q184.0156,148.9063 184.0156,145.7813 Q184.0156,142.6563 185.3281,141 Q186.6563,139.3438 189.1563,139.3438 Q189.8594,139.3438 190.5,139.5 Q191.1563,139.6563 191.7188,139.9531 L191.7188,142.6719 Q191.0938,142.0938 190.5,141.8281 Q189.9063,141.5469 189.2813,141.5469 Q187.9375,141.5469 187.25,142.625 Q186.5625,143.6875 186.5625,145.7813 Q186.5625,147.875 187.25,148.9531 Q187.9375,150.0156 189.2813,150.0156 Q189.9063,150.0156 190.5,149.75 Q191.0938,149.4688 191.7188,148.8906 L191.7188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="83" x="244.75" y="144.9951">AllocateJobs</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="154" x="209.25" y="157.5791">com.ibm.fhir.bucket.persistence</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="533" y1="164.9375" y2="164.9375"/><ellipse cx="17" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="502" x="26" y="179.1479">AllocateJobs(String, List&lt;BucketLoaderJob&gt;, FileType, long, int, Collection&lt;BucketPath&gt;)</text><ellipse cx="17" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="245" x="26" y="191.9526">run(IDatabaseTranslator, Connection): void</text></a><!--MD5=[a6c3f5e8fad2a12b9c0e8873425ea717]
+class com.ibm.fhir.database.utils.api.IDatabaseStatement--><a href="../../database/utils/api/IDatabaseStatement.html" target="_top" title="../../database/utils/api/IDatabaseStatement.html" xlink:actuate="onRequest" xlink:href="../../database/utils/api/IDatabaseStatement.html" xlink:show="new" xlink:title="../../database/utils/api/IDatabaseStatement.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1spkhrna3j0it)" height="58.7422" id="com.ibm.fhir.database.utils.api.IDatabaseStatement" style="stroke: #A80036; stroke-width: 1.5;" width="271" x="134.5" y="8"/><ellipse cx="191.75" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M187.6719,22.7344 L187.6719,20.5781 L195.0625,20.5781 L195.0625,22.7344 L192.5938,22.7344 L192.5938,30.8125 L195.0625,30.8125 L195.0625,32.9688 L187.6719,32.9688 L187.6719,30.8125 L190.1406,30.8125 L190.1406,22.7344 L187.6719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="141" x="215.75" y="25.9951">IDatabaseStatement</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="148" x="212.25" y="38.5791">com.ibm.fhir.database.utils.api</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="135.5" x2="404.5" y1="45.9375" y2="45.9375"/><ellipse cx="145.5" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="245" x="154.5" y="60.1479">run(IDatabaseTranslator, Connection): void</text></a><!--MD5=[2a527113b68ca0da08352f9257b8f1c7]
+reverse link com.ibm.fhir.database.utils.api.IDatabaseStatement to com.ibm.fhir.bucket.persistence.AllocateJobs--><path d="M270,87.5049 C270,100.6211 270,114.5128 270,126.7555 " fill="none" id="com.ibm.fhir.database.utils.api.IDatabaseStatement&lt;-com.ibm.fhir.bucket.persistence.AllocateJobs" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="263.0001,87.2418,270,67.2417,277.0001,87.2417,263.0001,87.2418" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="183" y="218.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[6520b003e4cfb9da7932792cf3d2f9e3]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>AllocateJobs\n<size:10>com.ibm.fhir.bucket.persistence" as com.ibm.fhir.bucket.persistence.AllocateJobs [[AllocateJobs.html]] {
+        +AllocateJobs(String, List<BucketLoaderJob>, FileType, long, int, Collection<BucketPath>)
+        +run(IDatabaseTranslator, Connection): void
+    }
+
+    interface "<size:14>IDatabaseStatement\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.IDatabaseStatement [[../../database/utils/api/IDatabaseStatement.html]] {
+        {abstract} +run(IDatabaseTranslator, Connection): void
+    }
+
+    com.ibm.fhir.database.utils.api.IDatabaseStatement <|.. com.ibm.fhir.bucket.persistence.AllocateJobs
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.9.1+1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

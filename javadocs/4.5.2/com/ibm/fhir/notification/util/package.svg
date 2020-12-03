@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="165px" preserveAspectRatio="none" style="width:368px;height:165px;" version="1.1" viewBox="0 0 368 165" width="368px" zoomAndPan="magnify"><defs><filter height="300%" id="f1co5yj6jxcn0q" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[c0278fa4d36f7258fc75ab1a1f92a53f]
+cluster com.ibm.fhir.notification.util--><polygon fill="#FFFFFF" filter="url(#f1co5yj6jxcn0q)" points="14,16,240,16,247,38.2969,346,38.2969,346,125,14,125,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="247" y1="38.2969" y2="38.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="220" x="18" y="30.9951">com.ibm.fhir.notification.util</text><!--MD5=[01371df656ef4e48c2660e6190e08768]
+class com.ibm.fhir.notification.util.FHIRNotificationUtil--><a href="FHIRNotificationUtil.html" target="_top" title="FHIRNotificationUtil.html" xlink:actuate="onRequest" xlink:href="FHIRNotificationUtil.html" xlink:show="new" xlink:title="FHIRNotificationUtil.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1co5yj6jxcn0q)" height="73.6094" id="com.ibm.fhir.notification.util.FHIRNotificationUtil" style="stroke: #A80036; stroke-width: 1.5;" width="316" x="22" y="43"/><ellipse cx="116.75" cy="59" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M119.7188,64.6406 Q119.1406,64.9375 118.5,65.0781 Q117.8594,65.2344 117.1563,65.2344 Q114.6563,65.2344 113.3281,63.5938 Q112.0156,61.9375 112.0156,58.8125 Q112.0156,55.6875 113.3281,54.0313 Q114.6563,52.375 117.1563,52.375 Q117.8594,52.375 118.5,52.5313 Q119.1563,52.6875 119.7188,52.9844 L119.7188,55.7031 Q119.0938,55.125 118.5,54.8594 Q117.9063,54.5781 117.2813,54.5781 Q115.9375,54.5781 115.25,55.6563 Q114.5625,56.7188 114.5625,58.8125 Q114.5625,60.9063 115.25,61.9844 Q115.9375,63.0469 117.2813,63.0469 Q117.9063,63.0469 118.5,62.7813 Q119.0938,62.5 119.7188,61.9219 L119.7188,64.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="118" x="137.25" y="63.1543">FHIRNotificationUtil</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="337" y1="75" y2="75"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="337" y1="83" y2="83"/><ellipse cx="33" cy="94" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="273" x="42" y="97.2104">toNotificationEvent(String): FHIRNotificationEvent</text><ellipse cx="33" cy="106.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="290" x="42" y="110.0151">toJsonString(FHIRNotificationEvent, boolean): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="93" y="152.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[963048315e172c8c9304b477e25905af]
+@startuml
+    namespace com.ibm.fhir.notification.util {
+
+        class FHIRNotificationUtil [[FHIRNotificationUtil.html]] {
+            {static} +toNotificationEvent(String): FHIRNotificationEvent
+            {static} +toJsonString(FHIRNotificationEvent, boolean): String
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.9.1+1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
