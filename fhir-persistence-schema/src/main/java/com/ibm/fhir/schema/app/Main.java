@@ -77,6 +77,7 @@ import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
 import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.model.ResourceType;
+import com.ibm.fhir.schema.model.Schema;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -110,17 +111,8 @@ public class Main {
     public static final String BATCH_SCHEMANAME = "FHIR_JBATCH";
     public static final String DATA_SCHEMANAME = "FHIRDATA";
 
-    // The schema used for administration of tenants
-    private String adminSchemaName = ADMIN_SCHEMANAME;
-
-    // The schema used for administration of OAuth 2.0 clients
-    private String oauthSchemaName = OAUTH_SCHEMANAME;
-
-    // The schema used for Java Batch
-    private String javaBatchSchemaName = BATCH_SCHEMANAME;
-
-    // The schema we will use for all the FHIR data tables
-    private String schemaName = DATA_SCHEMANAME;
+    // Force upper-case to avoid tricky-to-catch errors related to quoting names
+    private Schema schema = new Schema();
 
     // Arguments requesting we drop the objects from the schema
     private boolean dropAdmin = false;
@@ -145,11 +137,6 @@ public class Main {
     private boolean updateJavaBatchSchema = false;
     private boolean dropJavaBatchSchema = false;
     private boolean grantJavaBatchSchema = false;
-
-    // By default, the dryRun option is OFF, and FALSE
-    // When overridden, it simulates the actions.
-    @SuppressWarnings("unused")
-    private boolean dryRun = false;
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
@@ -227,7 +214,7 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
             gen.buildSchema(pdm);
             switch (dbType) {
             case DB2:
@@ -246,13 +233,13 @@ public class Main {
 
         // Build/update the Liberty OAuth-related tables
         if (oauthSchema) {
-            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
+            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(schema.getOauthSchemaName());
             oauthSchemaGenerator.buildOAuthSchema(pdm);
         }
 
         // Build/update the Liberty JBatch related tables
         if (javaBatchSchema) {
-            JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(javaBatchSchemaName);
+            JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(schema.getJavaBatchSchemaName());
             javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
         }
     }
@@ -291,7 +278,7 @@ public class Main {
     protected boolean checkCompatibility() {
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            return adapter.checkCompatibility(this.adminSchemaName);
+            return adapter.checkCompatibility(schema.getAdminSchemaName());
         }
     }
 
@@ -306,22 +293,22 @@ public class Main {
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
 
                     // We always create the 'admin' schema to track to the changes to any of the other schemas.
-                    adapter.createSchema(adminSchemaName);
+                    adapter.createSchema(schema.getAdminSchemaName());
 
                     // FHIR Data Schema
                     if (createFhirSchema) {
-                        adapter.createSchema(schemaName);
+                        adapter.createSchema(schema.getSchemaName());
                         c.commit();
                     }
 
                     // OAuth Schema
                     if (createOauthSchema) {
-                        adapter.createSchema(oauthSchemaName);
+                        adapter.createSchema(schema.getOauthSchemaName());
                     }
 
                     // Java Batch Schema
                     if (createJavaBatchSchema) {
-                        adapter.createSchema(javaBatchSchemaName);
+                        adapter.createSchema(schema.getJavaBatchSchemaName());
                     }
                 } catch (Exception x) {
                     c.rollback();
@@ -354,17 +341,17 @@ public class Main {
         // tables are in place. There's only a single history table, which
         // resides in the admin schema and handles the history of all objects
         // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
+        CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName, javaBatchSchemaName);
+        VersionHistoryService vhs = new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();
 
         // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
-                vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
+        boolean newDb = vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
+                vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
         // There is a working data model at this point.
@@ -392,11 +379,11 @@ public class Main {
                 String logTenantId = tenantId != null ? Integer.toString(tenantId) : "default";
                 logger.info("tenantId [" + logTenantId + "] is being pre-populated with lookup table data.");
                 PopulateResourceTypes populateResourceTypes =
-                        new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
+                        new PopulateResourceTypes(schema.getAdminSchemaName(), schema.getSchemaName(), tenantId);
                 populateResourceTypes.run(translator, c);
 
                 PopulateParameterNames populateParameterNames =
-                        new PopulateParameterNames(adminSchemaName, schemaName, tenantId);
+                        new PopulateParameterNames(schema.getAdminSchemaName(), schema.getSchemaName(), tenantId);
                 populateParameterNames.run(translator, c);
                 logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
             } catch (SQLException ex) {
@@ -561,13 +548,13 @@ public class Main {
         checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                GetTenantDAO tid = new GetTenantDAO(adminSchemaName, addKeyForTenant);
+                GetTenantDAO tid = new GetTenantDAO(schema.getAdminSchemaName(), addKeyForTenant);
                 Tenant tenant = adapter.runStatement(tid);
 
                 if (tenant != null) {
                     // Attach the new tenant key to the tenant:
                     AddTenantKeyDAO adder =
-                            new AddTenantKeyDAO(adminSchemaName, tenant.getTenantId(), tenantKey, tenantSalt,
+                            new AddTenantKeyDAO(schema.getAdminSchemaName(), tenant.getTenantId(), tenantKey, tenantSalt,
                                     FhirSchemaConstants.TENANT_SEQUENCE);
                     adapter.runStatement(adder);
                 } else {
@@ -672,7 +659,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 tenantId =
-                        adapter.allocateTenant(adminSchemaName, schemaName, tenantName, tenantKey, tenantSalt,
+                        adapter.allocateTenant(schema.getAdminSchemaName(), schema.getSchemaName(), tenantName, tenantKey, tenantSalt,
                                 FhirSchemaConstants.TENANT_SEQUENCE);
 
                 // The tenant-id is important because this is also used to identify the partition number
@@ -685,7 +672,7 @@ public class Main {
         }
 
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -694,7 +681,7 @@ public class Main {
         // that logic out of the adapter and handle it at a higher level. Note...the extent size used
         // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
         // so this must be constant.
-        pdm.addTenantPartitions(adapter, schemaName, tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
+        pdm.addTenantPartitions(adapter, schema.getSchemaName(), tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
 
         // Fill any static data tables (which are also partitioned by tenant)
         // Prepopulate the Resource Type Tables and Parameters Name/Code Table
@@ -703,7 +690,7 @@ public class Main {
         // Now all the table partitions have been allocated, we can mark the tenant as ready
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                adapter.updateTenantStatus(adminSchemaName, tenantId, TenantStatus.ALLOCATED);
+                adapter.updateTenantStatus(schema.getAdminSchemaName(), tenantId, TenantStatus.ALLOCATED);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -732,7 +719,7 @@ public class Main {
         }
 
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName, isMultitenant());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -743,7 +730,7 @@ public class Main {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                GetTenantList rtListGetter = new GetTenantList(adminSchemaName);
+                GetTenantList rtListGetter = new GetTenantList(schema.getAdminSchemaName());
                 tenants = adapter.runStatement(rtListGetter);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -771,7 +758,7 @@ public class Main {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                GetTenantList rtListGetter = new GetTenantList(adminSchemaName);
+                GetTenantList rtListGetter = new GetTenantList(schema.getAdminSchemaName());
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
 
                 System.out.println(TenantInfo.getHeader());
@@ -818,10 +805,10 @@ public class Main {
                 // the admin schema. The data access user only has execute privileges on the
                 // set_tenant procedure and read access to the variable. The variable can
                 // only be set by calling the stored procedure
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
+                Db2SetTenantVariable cmd = new Db2SetTenantVariable(schema.getAdminSchemaName(), tenantName, tenantKey);
                 adapter.runStatement(cmd);
 
-                Db2GetTenantVariable getter = new Db2GetTenantVariable(adminSchemaName);
+                Db2GetTenantVariable getter = new Db2GetTenantVariable(schema.getAdminSchemaName());
                 Integer tid = adapter.runStatement(getter);
                 if (tid == null) {
                     throw new IllegalStateException("SV_TENANT_ID not set!");
@@ -832,7 +819,7 @@ public class Main {
 
                 // Now let's check we can run a select against one our tenant-based
                 // tables
-                GetResourceTypeList rtListGetter = new GetResourceTypeList(schemaName);
+                GetResourceTypeList rtListGetter = new GetResourceTypeList(schema.getSchemaName());
                 List<ResourceType> rtList = adapter.runStatement(rtListGetter);
                 rtList.forEach(rt -> logger.info("ResourceType: " + rt.toString()));
             } catch (DataAccessException x) {
@@ -854,12 +841,12 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
 
             try {
-                GetTenantInfo command = new GetTenantInfo(adminSchemaName, tenantName);
+                GetTenantInfo command = new GetTenantInfo(schema.getAdminSchemaName(), tenantName);
                 result = adapter.runStatement(command);
 
                 if (result == null) {
                     logger.info("Use --list-tenants to display the current tenants");
-                    throw new IllegalArgumentException("Tenant '" + tenantName + "' not found in admin schema " + adminSchemaName);
+                    throw new IllegalArgumentException("Tenant '" + tenantName + "' not found in admin schema " + schema.getAdminSchemaName());
                 }
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -874,15 +861,15 @@ public class Main {
         if (tenantSchema == null || tenantSchema.isEmpty()) {
             // the schema can no longer be derived from the database, so we
             // need it to be provided on the command line.
-            if (schemaName == null || schemaName.isEmpty()) {
+            if (schema.getSchemaName() == null || schema.getSchemaName().isEmpty()) {
                 throw new IllegalArgumentException("Must provide the tenant schema with --schema-name");
             }
-            result.setTenantSchema(schemaName);
+            result.setTenantSchema(schema.getSchemaName());
         } else {
             // if a schema name was provided on the command line, let's double-check it matches
             // the schema used for this tenant in the database
-            if (!tenantSchema.equalsIgnoreCase(schemaName)) {
-                throw new IllegalArgumentException("--schema-name '" + this.schemaName + "' argument does not match tenant schema: '"
+            if (!tenantSchema.equalsIgnoreCase(schema.getSchemaName())) {
+                throw new IllegalArgumentException("--schema-name '" + schema.getSchemaName() + "' argument does not match tenant schema: '"
                     + tenantSchema + "'");
             }
         }
@@ -911,7 +898,7 @@ public class Main {
             try {
                 // Mark the tenant as frozen before we proceed with dropping anything
                 if (result.getTenantStatus() == TenantStatus.ALLOCATED) {
-                    adapter.updateTenantStatus(adminSchemaName, result.getTenantId(), TenantStatus.FROZEN);
+                    adapter.updateTenantStatus(schema.getAdminSchemaName(), result.getTenantId(), TenantStatus.FROZEN);
                 }
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -968,7 +955,7 @@ public class Main {
         TenantInfo tenantInfo = freezeTenant();
 
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -988,7 +975,7 @@ public class Main {
     protected void dropDetachedPartitionTables() {
 
         TenantInfo tenantInfo = getTenantInfo();
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, tenantInfo.getTenantSchema(), isMultitenant());
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), isMultitenant());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
@@ -1035,7 +1022,7 @@ public class Main {
         // Now all the table partitions have been allocated, we can mark the tenant as dropped
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                adapter.updateTenantStatus(adminSchemaName, tenantInfo.getTenantId(), TenantStatus.DROPPED);
+                adapter.updateTenantStatus(schema.getAdminSchemaName(), tenantInfo.getTenantId(), TenantStatus.DROPPED);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -1097,7 +1084,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 if (tenantInfo.getTenantStatus() == TenantStatus.DROPPED) {
-                    adapter.deleteTenantMeta(adminSchemaName, tenantInfo.getTenantId());
+                    adapter.deleteTenantMeta(schema.getAdminSchemaName(), tenantInfo.getTenantId());
                 } else {
                     throw new IllegalStateException("Cannot delete tenant meta data until status is " + TenantStatus.DROPPED.name());
                 }
@@ -1136,9 +1123,7 @@ public class Main {
             case "--schema-name":
                 if (++i < args.length) {
                     DataDefinitionUtil.assertValidName(args[i]);
-
-                    // Force upper-case to avoid tricky-to-catch errors related to quoting names
-                    this.schemaName = args[i];
+                    schema.setSchemaName(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
@@ -1163,7 +1148,7 @@ public class Main {
                         if (tmp.startsWith("BATCH")) {
                             this.grantJavaBatchSchema = true;
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                                this.javaBatchSchemaName = args[nextIdx];
+                                schema.setJavaBatchSchemaName(args[nextIdx]);
                                 i++;
                             } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -1171,7 +1156,7 @@ public class Main {
                         } else if (tmp.startsWith("OAUTH")){
                             this.grantOauthSchema = true;
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                                this.oauthSchemaName = args[nextIdx];
+                                schema.setOauthSchemaName(args[nextIdx]);
                                 i++;
                             } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -1179,7 +1164,7 @@ public class Main {
                         } else if (tmp.startsWith("DATA")){
                             this.grantFhirSchema = true;
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                                this.schemaName = args[nextIdx];
+                                schema.setSchemaName(args[nextIdx]);
                                 i++;
                             } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -1241,23 +1226,23 @@ public class Main {
             case "--update-schema-fhir":
                 this.updateFhirSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                    this.schemaName = args[nextIdx];
+                    schema.setSchemaName(args[nextIdx]);
                     i++;
                 } else {
-                    this.schemaName = DATA_SCHEMANAME;
+                    schema.setSchemaName(DATA_SCHEMANAME);
                 }
                 break;
             case "--update-schema-batch":
                 this.updateJavaBatchSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                    this.javaBatchSchemaName = args[nextIdx];
+                    schema.setJavaBatchSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
             case "--update-schema-oauth":
                 this.updateOauthSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                    this.oauthSchemaName = args[nextIdx];
+                    schema.setOauthSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
@@ -1269,21 +1254,21 @@ public class Main {
             case "--create-schema-fhir":
                 this.createFhirSchema =  true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                    this.schemaName = args[nextIdx];
+                    schema.setSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
             case "--create-schema-batch":
                 this.createJavaBatchSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                    this.javaBatchSchemaName = args[nextIdx];
+                    schema.setJavaBatchSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
             case "--create-schema-oauth":
                 this.createOauthSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
-                    this.oauthSchemaName = args[nextIdx];
+                    schema.setOauthSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
@@ -1368,9 +1353,6 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
-                break;
-            case "--dry-run":
-                this.dryRun = Boolean.TRUE;
                 break;
             case "--db-type":
                 if (++i < args.length) {
