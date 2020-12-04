@@ -100,7 +100,7 @@ public class VersionHistoryService implements IVersionHistoryService {
         // hidden inside the target adapter implementation
         versionHistoryMap.clear();
         for (String schemaName : schemaNames) {
-            GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
+            GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName.toUpperCase(), schemaName.toUpperCase());
             this.versionHistoryMap.putAll(target.runStatement(dao));
         }
     }
@@ -193,7 +193,7 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     @Override
     public Integer getVersion(String objectSchema, String objectType, String objectName) {
-        String key = objectSchema + ":" + objectType + ":" + objectName;
+        String key = makeKey(objectSchema, objectType, objectName);
         return versionHistoryMap.containsKey(key) ? versionHistoryMap.get(key) : 0;
     }
 
@@ -204,8 +204,26 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     @Override
     public boolean applies(String objectSchema, String objectType, String objectName, int changeVersion) {
-        String key = objectSchema + ":" + objectType + ":" + objectName;
+        String key = makeKey(objectSchema, objectType, objectName);
         Integer currentVersion = this.versionHistoryMap.get(key);
         return currentVersion == null || currentVersion < changeVersion;
+    }
+
+    /**
+     * Build a key String value from the given arguments. Schema and object names are converted
+     * to upper case
+     * @param objectSchema the schema in which the object resides
+     * @param objectType the type of object (TABLE, PROCEDURE etc)
+     * @param objectName the name of the object
+     * @return
+     */
+    private String makeKey(String objectSchema, String objectType, String objectName) {
+        StringBuilder result = new StringBuilder();
+        result.append(objectSchema.toUpperCase());
+        result.append(":");
+        result.append(objectType);
+        result.append(":");
+        result.append(objectName.toUpperCase());
+        return result.toString();
     }
 }
