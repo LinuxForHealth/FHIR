@@ -61,7 +61,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
             while (rs.next()) {
                 String schema = rs.getString(1).toUpperCase();
                 String type = rs.getString(2);
-                String name = rs.getString(3);
+                String name = rs.getString(3).toUpperCase();
                 int version = rs.getInt(4);
 
                 String schemaTypeName = schema + ":" + type + ":" + name;
