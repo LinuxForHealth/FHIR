@@ -273,7 +273,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --prop-file db2.properties
 --create-schemas
 --create-schema-batch FHIR_JBATCH_2ND
---create-schema-oauth FHIR_OUATH_2ND
+--create-schema-oauth FHIR_OAUTH_2ND
 --create-schema-fhir FHIRDATA_2ND
 ```
 
@@ -284,7 +284,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --prop-file db2.properties
 --schema-name FHIRDATA
 --update-schema-batch FHIR_JBATCH_2ND
---update-schema-oauth FHIR_OUATH_2ND
+--update-schema-oauth FHIR_OAUTH_2ND
 --update-schema-fhir FHIRDATA_2ND
 ```
 
