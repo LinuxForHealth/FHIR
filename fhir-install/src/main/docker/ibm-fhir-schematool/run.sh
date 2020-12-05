@@ -343,11 +343,19 @@ function drop_schema {
     SCHEMA=$1
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     if [ "${DB_TYPE}" = "db2" ]
-    then 
-        _call_db2 "--create-schemas --pool-size 2"
+    then
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--create-schemas --pool-size 2"
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_postgres "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
     fi
 }
 
@@ -399,16 +407,25 @@ function drop_schema_batch {
     fi
 }
 
-# create_schema 
+# create_schema - creates the schemas
+# reverts to the default schemas when it is not set.
 function create_schema {
     info "creating the schema"
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     if [ "${DB_TYPE}" = "db2" ]
-    then 
-        _call_db2 "--create-schemas --pool-size 2"
+    then
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--create-schemas --pool-size 2"
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_postgres "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
     fi
     info "done creating the schema"
 }
