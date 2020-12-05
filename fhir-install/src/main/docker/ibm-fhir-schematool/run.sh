@@ -66,9 +66,13 @@ function get_property {
     if [ ! -z "${PROP_VALUE}" ]
     then
         echo ${PROP_VALUE}
-    else 
-        PROP_VALUE=$(/opt/schematool/jq -r ${JQ} /opt/schematool/workarea/persistence.json)
-        echo ${PROP_VALUE}
+    else
+        # only run if the file exists
+        if [ -f /opt/schematool/workarea/persistence.json ]
+        then
+            PROP_VALUE=$(/opt/schematool/jq -r ${JQ} /opt/schematool/workarea/persistence.json)
+            echo ${PROP_VALUE}
+        fi
     fi
 }
 
@@ -89,11 +93,15 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
-                RC=$(cat "${TOOL_INPUT_FILE}" | wc -l )
-                if [ "${RC}" = "0" ]
+                # only run if the file exists
+                if [ -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    echo "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
+                    RC=$(cat "${TOOL_INPUT_FILE}" | wc -l )
+                    if [ "${RC}" = "0" ]
+                    then
+                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    fi
                 fi
                 set -o errexit
                 set -o pipefail
@@ -104,11 +112,15 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
-                RC=$(cat "${TOOL_INPUT_USED}" | wc -l )
-                if [ "${RC}" = "0" ]
+                # only run if the file exists
+                if [ -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    echo "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
+                    RC=$(cat "${TOOL_INPUT_USED}" | wc -l )
+                    if [ "${RC}" = "0" ]
+                    then
+                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    fi
                 fi
                 set -o errexit
                 set -o pipefail
