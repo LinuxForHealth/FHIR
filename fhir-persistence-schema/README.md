@@ -141,6 +141,19 @@ Once the server has determined the tenant id for a given request, it uses this t
 used in conjunction to create or retrieve data for this tenant.
 For more information on multi-tenancy, see section [4.9 Multi-tenancy of the IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy).
 
+### Refresh Tenant Following Schema Update (Db2 only)
+
+After a schema update you must run the refresh-tenants command to ensure that any new tables added by the update have the correct partitions. The refresh-tenants process will iterate over each tenant and allocate new partitions as needed. This step is idempotent, so you can run it more than once if required.
+
+
+```
+    java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --prop-file db2.properties --refresh-tenants
+```
+
+If processing completes successfully, the program will report `SCHEMA CHANGE: OK`. If an error occurs, run the step again after correcting the issue.
+
+
 ### Configure tenant-key (example)  (Db2 only)
 
 Edit `wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` and add the tenant-key captured from the add-tenant step above:
