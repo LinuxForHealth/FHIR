@@ -299,12 +299,17 @@ function grant_to_dbuser {
 
     # Get the tenant variable
     TARGET_USER=$(get_property grant.to .persistence[0].grant)
-    if [ "${DB_TYPE}" = "db2" ]
+    if [ -z "${TARGET_USER}" ]
     then
-        _call_db2 "--grant-to ${TARGET_USER} --pool-size 2"
-    elif [ "${DB_TYPE}" = "postgresql" ]
-    then
-        _call_postgres "--grant-to ${TARGET_USER} --pool-size 2"
+        error_warn "Target User is not set and we are skipping the grant phase, it is recommended to run"
+    else
+        if [ "${DB_TYPE}" = "db2" ]
+        then
+            _call_db2 "--grant-to ${TARGET_USER} --pool-size 2"
+        elif [ "${DB_TYPE}" = "postgresql" ]
+        then
+            _call_postgres "--grant-to ${TARGET_USER} --pool-size 2"
+        fi
     fi
 }
 
