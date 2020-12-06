@@ -94,7 +94,7 @@ function process_cmd_properties {
                 set +o errexit
                 set +o pipefail
                 # only run if the file exists
-                if [ -f /opt/schematool/workarea/persistence.json ]
+                if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
                     echo "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
                     RC=$(cat "${TOOL_INPUT_FILE}" | wc -l )
@@ -113,7 +113,7 @@ function process_cmd_properties {
                 set +o errexit
                 set +o pipefail
                 # only run if the file exists
-                if [ -f /opt/schematool/workarea/persistence.json ]
+                if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
                     echo "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
                     RC=$(cat "${TOOL_INPUT_USED}" | wc -l )
