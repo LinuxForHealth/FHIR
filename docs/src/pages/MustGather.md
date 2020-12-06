@@ -126,10 +126,15 @@ oc adm inspect
 
 Executing commands/bash shell inside a pod:
 
+```
 oc exec [flags] -n <YOUR-NAMESPACE> POD [-c CONTAINER] -- COMMAND [args...]
-  
+```
+
 Example: to run a bash shell within the pod and tail the liberty messages.log:
+
+```
      oc exec -ti  ibmfhirserver-as6jql -- /bin/bash 
      bash-4.2$ tail -f /logs/messages.log 
+```
 
 Provide the data to your support team. Note, please review and redact any sensistive data before posting in any issue.
