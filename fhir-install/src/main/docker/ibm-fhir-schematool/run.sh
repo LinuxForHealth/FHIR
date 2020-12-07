@@ -248,6 +248,10 @@ function allocate_tenant {
         fi
 
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
 
         # Always reset
@@ -288,6 +292,10 @@ function test_tenant {
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
         TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --schema-name ${SCHEMA_FHIR} --pool-size 1"
     fi
 }
@@ -301,6 +309,10 @@ function deallocate_tenant {
         # Get the variable
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1 --schema-name ${SCHEMA_FHIR}"
     fi
 }
@@ -321,10 +333,18 @@ function grant_to_dbuser {
         if [ "${DB_TYPE}" = "db2" ]
         then
             SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+            if [ -z "${SCHEMA_FHIR}" ]
+            then
+                SCHEMA_FHIR="FHIRDATA"
+            fi
             _call_db2 "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
         elif [ "${DB_TYPE}" = "postgresql" ]
         then
             SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+            if [ -z "${SCHEMA_FHIR}" ]
+            then
+                SCHEMA_FHIR="FHIRDATA"
+            fi
             _call_postgres "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
         fi
     fi
@@ -336,6 +356,10 @@ function refresh_tenants {
     if [ "${DB_TYPE}" = "db2" ]
     then
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--refresh-tenants --schema-name ${SCHEMA_FHIR} --pool-size 1"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
@@ -352,15 +376,39 @@ function drop_schema {
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_postgres "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
     fi
 }
@@ -385,6 +433,10 @@ function drop_schema_fhir {
     DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
     if [ -z "${MORE_TENANTS}" ]
     then
+        if [ -z "${DB_SCHEMA}" ]
+        then
+            DB_SCHEMA="FHIRDATA"
+        fi
         drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
     fi
 }
@@ -397,6 +449,10 @@ function drop_schema_oauth {
     DB_SCHEMA=$(get_property schema.name.oauth .persistence[0].schema.oauth)
     if [ -z "${MORE_TENANTS}" ]
     then
+        if [ -z "${DB_SCHEMA}" ]
+        then
+            DB_SCHEMA="FHIR_OAUTH"
+        fi
         drop_schema "--drop-schema-oauth --schema-name ${DB_SCHEMA}"
     fi
 }
@@ -409,6 +465,10 @@ function drop_schema_batch {
     DB_SCHEMA=$(get_property schema.name.batch .persistence[0].schema.batch)
     if [ -z "${MORE_TENANTS}" ]
     then
+        if [ -z "${DB_SCHEMA}" ]
+        then
+            DB_SCHEMA="FHIR_JBATCH"
+        fi
         drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
     fi
 }
@@ -422,15 +482,39 @@ function create_schema {
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_postgres "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
     fi
     info "done creating the schema"
@@ -442,14 +526,38 @@ function update_schema {
     if [ "${DB_TYPE}" = "db2" ]
     then
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_db2 "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
         _call_postgres "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
     fi
 }
