@@ -314,7 +314,7 @@ public class RestAuditLogger {
         entry.setDescription("FHIR Bundle request");
 
         // Previously we didn't set the Action which caused the logEntry to
-        // Skip over the actual logging, int his case, we're deciding by default
+        // Skip over the actual logging, in this case, we're deciding by default
         // Read, if Create, it'll dominate, Update if no create and more than one
         // Update action.
         String action = "R";
