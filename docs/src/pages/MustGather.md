@@ -109,7 +109,7 @@ oc get clusterversion -o jsonpath='{.items[].spec.clusterID}{"\n"}'
 1. Provide the Custom Resource(CR) .yaml file used by the operator to configure the environment
 
 ```
-kubectl get icp4acluster -o yaml > config.yaml
+kubectl get <YOUR_CONFIG> -o yaml > config.yaml
 ```
 
 1. Obtain detailed description of a pod
