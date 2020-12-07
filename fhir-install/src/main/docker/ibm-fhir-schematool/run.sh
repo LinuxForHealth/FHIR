@@ -247,7 +247,8 @@ function allocate_tenant {
             set +o pipefail
         fi
 
-        _call_db2 "--allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
 
         # Always reset
         set -o errexit
@@ -286,7 +287,8 @@ function test_tenant {
         # Get the variable
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
         TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
-        _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --schema-name ${SCHEMA_FHIR} --pool-size 1"
     fi
 }
 
@@ -298,7 +300,8 @@ function deallocate_tenant {
     then
         # Get the variable
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
-        _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1 --schema-name ${SCHEMA_FHIR}"
     fi
 }
 
@@ -317,10 +320,12 @@ function grant_to_dbuser {
     else
         if [ "${DB_TYPE}" = "db2" ]
         then
-            _call_db2 "--grant-to ${TARGET_USER} --pool-size 2"
+            SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+            _call_db2 "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
         elif [ "${DB_TYPE}" = "postgresql" ]
         then
-            _call_postgres "--grant-to ${TARGET_USER} --pool-size 2"
+            SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+            _call_postgres "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
         fi
     fi
 }
@@ -330,10 +335,11 @@ function refresh_tenants {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     if [ "${DB_TYPE}" = "db2" ]
     then
-        _call_db2 "--refresh-tenants --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--refresh-tenants --schema-name ${SCHEMA_FHIR} --pool-size 1"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--refresh-tenants --pool-size 1"
+        echo "Skipping refresh-tenants as it's not needed on 'postgresql'"
     fi
 }
 
@@ -433,13 +439,18 @@ function create_schema {
 # update_schema 
 function update_schema {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
     if [ "${DB_TYPE}" = "db2" ]
-    then 
-        _call_db2 "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
+    then
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_db2 "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        _call_postgres "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
     fi
 }
 
