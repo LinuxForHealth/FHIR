@@ -6,7 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-# Issue - https://github.com/IBM/FHIR/issues/1795 
+# Issue - https://github.com/IBM/FHIR/issues/1795
+# Create Schemas should support in multiple ways. 
 
 # Pre Condition:
 # 1 - ibmcom/ibm-fhir-schematool must be built based on the latest.
