@@ -266,13 +266,14 @@ public class RestAuditLogger {
     /**
      * Builds an audit log entry for a 'bundle' REST service invocation.
      * @param request - The HttpServletRequest representation of the REST request.
-     * @param bundle - The Bundle that is returned to the REST service caller.
+     * @param requestBundle - The Bundle that contains the requests.
+     * @param responseBundle - The Bundle that is returned to the REST service caller.
      * @param startTime - The start time of the bundle request execution.
      * @param endTime - The end time of the bundle request execution.
      * @param responseStatus - The response status.
      * @throws Exception
      */
-    public static void logBundle(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
+    public static void logBundle(HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logBundle";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -284,11 +285,13 @@ public class RestAuditLogger {
         HTTPVerb requestMethod;
 
         populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
-        if (bundle != null) {
-            for (Entry bundleEntry : bundle.getEntry()) {
+        if (requestBundle != null) {
+            // We need the requestBundle so we know what the request was for at this point.
+            // We don't have a "request" field otherwise
+            for (Entry bundleEntry : requestBundle.getEntry()) {
                 if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
                     requestMethod = bundleEntry.getRequest().getMethod();
-                    switch (HTTPVerb.ValueSet.from(requestMethod.getValue()))  {
+                    switch (HTTPVerb.ValueSet.from(requestMethod.getValue())) {
                     case GET:
                         readCount++;
                         break;
@@ -300,7 +303,6 @@ public class RestAuditLogger {
                         break;
                     default:
                         break;
-
                     }
                 }
             }
@@ -311,6 +313,21 @@ public class RestAuditLogger {
                 .resourcesUpdated(updateCount).build());
         entry.setDescription("FHIR Bundle request");
 
+        // Previously we didn't set the Action which caused the logEntry to
+        // Skip over the actual logging, in this case, we're deciding by default
+        // Read, if Create, it'll dominate, Update if no create and more than one
+        // Update action.
+        String action = "R";
+        if (createCount > 0) {
+            action = "C";
+        } else if ( updateCount > 0 ){
+            action = "U";
+        }
+        entry.getContext().setAction(action);
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
+        }
         auditLogSvc.logEntry(entry);
         log.exiting(CLASSNAME, METHODNAME);
     }

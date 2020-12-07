@@ -8,9 +8,11 @@ package com.ibm.fhir.audit.logging.impl;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +68,8 @@ public class WhcAuditCadfLogService implements AuditLogService {
     private static String geoState = DEFAULT_AUDIT_GEO_STATE;
     private static String geoCountry = DEFAULT_AUDIT_GEO_COUNTRY;
 
+    private static final Set<String> IGNORED_AUDIT_EVENT_TYPE = createIgnoredLogEventType();
+
     private boolean isEnabled = false;
 
     private static final Map<String, Action> fhir2CadfMap = new HashMap<String, Action>() {
@@ -78,11 +82,21 @@ public class WhcAuditCadfLogService implements AuditLogService {
         }
     };
 
+    /*
+     * creates an internal map of ignored Event Types.
+     */
+    private static Set<String> createIgnoredLogEventType() {
+        Set<String> set = new HashSet<>();
+        set.add(AuditLogEventType.FHIR_CONFIGDATA.value());
+        set.add(AuditLogEventType.FHIR_METADATA.value());
+        return set;
+    }
+
     // Initialize CADF OBSERVER resource object once
     private static CadfResource observerRsrc =
             new CadfResource.Builder("fhir-server", ResourceType.compute_node)
                             .geolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
-                            .name("Fhir Audit")
+                            .name("IBM FHIR Server - Audit")
                             .host(System.getenv("HOSTNAME"))
                             .build();
 
@@ -174,7 +188,6 @@ public class WhcAuditCadfLogService implements AuditLogService {
         }
 
         logger.exiting(CLASSNAME, METHODNAME);
-
     }
 
     @Override
@@ -186,7 +199,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
      * @param logEntry
      * @return
      * @throws IllegalStateException
-     * @throws IOException 
+     * @throws IOException
      */
     public static CadfEvent createCadfEvent(AuditLogEntry logEntry)
             throws IllegalStateException, IOException {
@@ -196,9 +209,11 @@ public class WhcAuditCadfLogService implements AuditLogService {
         CadfEvent event = null;
         Outcome cadfEventOutCome;
 
-        // Cadf does't log config, so skip
-        if ((logEntry.getEventType() != AuditLogEventType.FHIR_CONFIGDATA.value()) && logEntry.getContext() != null
-                && logEntry.getContext().getAction() != null && logEntry.getContext().getApiParameters() != null) {
+        // For CADF we don't log specific event types.
+        if ( !IGNORED_AUDIT_EVENT_TYPE.contains(logEntry.getEventType())
+                && logEntry.getContext() != null
+                && logEntry.getContext().getAction() != null
+                && logEntry.getContext().getApiParameters() != null) {
             // Define resources
             CadfResource initiator =
                     new CadfResource.Builder(logEntry.getTenantId() + "@" + logEntry.getComponentId(),
