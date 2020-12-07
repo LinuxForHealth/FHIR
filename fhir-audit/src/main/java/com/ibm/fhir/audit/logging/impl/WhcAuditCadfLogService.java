@@ -82,7 +82,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
     private static CadfResource observerRsrc =
             new CadfResource.Builder("fhir-server", ResourceType.compute_node)
                             .geolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
-                            .name("Fhir Audit")
+                            .name("IBM FHIR Server - Audit")
                             .host(System.getenv("HOSTNAME"))
                             .build();
 
@@ -174,7 +174,6 @@ public class WhcAuditCadfLogService implements AuditLogService {
         }
 
         logger.exiting(CLASSNAME, METHODNAME);
-
     }
 
     @Override
@@ -186,7 +185,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
      * @param logEntry
      * @return
      * @throws IllegalStateException
-     * @throws IOException 
+     * @throws IOException
      */
     public static CadfEvent createCadfEvent(AuditLogEntry logEntry)
             throws IllegalStateException, IOException {
@@ -197,8 +196,10 @@ public class WhcAuditCadfLogService implements AuditLogService {
         Outcome cadfEventOutCome;
 
         // Cadf does't log config, so skip
-        if ((logEntry.getEventType() != AuditLogEventType.FHIR_CONFIGDATA.value()) && logEntry.getContext() != null
-                && logEntry.getContext().getAction() != null && logEntry.getContext().getApiParameters() != null) {
+        if ((logEntry.getEventType() != AuditLogEventType.FHIR_CONFIGDATA.value())
+                && logEntry.getContext() != null
+                && logEntry.getContext().getAction() != null
+                && logEntry.getContext().getApiParameters() != null) {
             // Define resources
             CadfResource initiator =
                     new CadfResource.Builder(logEntry.getTenantId() + "@" + logEntry.getComponentId(),
