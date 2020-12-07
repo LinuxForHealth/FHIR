@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -631,6 +632,9 @@ public class Main {
             return;
         }
 
+        // IMPORTANT! Check the schema name aligns with the actual schema for this tenant
+        checkSchemaForTenant();
+
         // The key we'll use for this tenant. This key should be used in subsequent
         // activities related to this tenant, such as setting the tenant context.
         if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
@@ -715,17 +719,49 @@ public class Main {
     }
 
     /**
-     * Make sure all the tables has a partition created for the configured tenant
+     * Run a check to make sure that if the tenant already exists its schema
+     * matches the specified schema. This prevents users from accidentally
+     * creating a second instance of a tenant in a different schema
      */
-    protected void refreshTenants() {
+    protected void checkSchemaForTenant() {
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // only relevant for databases which support multiple tenants within one schema (like Db2)
             return;
         }
+        List<TenantInfo> tenants = getTenantList();
 
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+        // Scan over the list to see if the tenant we are working with
+        // already exists
+        for (TenantInfo ti: tenants) {
+            if (ti.getTenantName().equals(this.tenantName)) {
+                if (ti.getTenantSchema() == null) {
+                    // The schema is empty so no chance of adding tenants
+                    throw new IllegalArgumentException("Schema '" + schema.getSchemaName() + "'"
+                        + " for tenant '" + ti.getTenantName() + "'"
+                        + " does not contain a valid IBM FHIR Server schema");
+                } else if (!ti.getTenantSchema().equalsIgnoreCase(schema.getSchemaName())) {
+                    // The given schema name doesn't match where we think this tenant
+                    // should be located, so throw an error before any damage is done
+                    throw new IllegalArgumentException("--schema-name argument '" + schema.getSchemaName()
+                    + "' does not match schema '" + ti.getTenantSchema() + "' for tenant '"
+                    + ti.getTenantName() + "'");
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the list of tenants and the schemas each is currently defined in. Because
+     * this tenant-schema mapping isn't stored directly, it has to be inferred by
+     * looking up the schema from one of the tables we know should exist. The schema
+     * name may therefore be null if the tenant record (in FHIR_ADMIN.TENANTS) exists,
+     * but all the tables from that schema have been dropped.
+     * @return
+     */
+    protected List<TenantInfo> getTenantList() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return Collections.emptyList();
+        }
 
         // Similar to the allocate tenant processing, except in this case we want to
         // make sure that each table has all the tenant partitions required. This is
@@ -743,10 +779,33 @@ public class Main {
             }
         }
 
+        return tenants;
+    }
+
+    /**
+     * Make sure all the tables has a partition created for the configured tenant
+     */
+    protected void refreshTenants() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
+        // Similar to the allocate tenant processing, except in this case we want to
+        // make sure that each table has all the tenant partitions required. This is
+        // to handle the case where a schema update has added a new table.
+        List<TenantInfo> tenants = getTenantList();
+
         // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
         tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
         for (TenantInfo ti: tenants) {
             if (ti.getTenantSchema() != null) {
+                // It's crucial we use the correct schema for each particular tenant, which
+                // is why we have to build the PhysicalDataModel separately for each tenant
+                FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), isMultitenant());
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                gen.buildSchema(pdm);
+
+                Db2Adapter adapter = new Db2Adapter(connectionPool);
                 pdm.addNewTenantPartitions(adapter, ti.getTenantSchema(), ti.getTenantId());
             }
         }
