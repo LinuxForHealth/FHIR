@@ -2,23 +2,18 @@
   "persistence": [
       {
           "db":  {
-              "host": "************.databases.appdomain.cloud",
+              "host": "**********.databases.appdomain.cloud",
               "port": "32195",
               "database": "ibmclouddb",
-              "user": "************",
-              "password": "************",
+              "user": "*****",
+              "password": "*****",
               "type": "postgresql",
               "ssl": "true",
-              "certificate_base64": "************"
+              "certificate_base64": "******="
           },
           "tenant": {
               "name": "default",
               "key": "custom-key-here"
-          },
-          "schema": {
-              "fhir": "fhirdata",
-              "batch": "",
-              "oauth": ""
           },
           "grant":  "fhirserver",
           "behavior": "onboard"

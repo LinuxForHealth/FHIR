@@ -243,7 +243,7 @@ function allocate_tenant {
         fi
 
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -287,7 +287,7 @@ function test_tenant {
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
         TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -304,7 +304,7 @@ function deallocate_tenant {
         # Get the variable
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -329,7 +329,7 @@ function grant_to_dbuser {
         if [ "${DB_TYPE}" = "db2" ]
         then
             SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-            if [ -z "${SCHEMA_FHIR}" ]
+            if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
             then
                 SCHEMA_FHIR="FHIRDATA"
             fi
@@ -337,7 +337,7 @@ function grant_to_dbuser {
         elif [ "${DB_TYPE}" = "postgresql" ]
         then
             SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-            if [ -z "${SCHEMA_FHIR}" ]
+            if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
             then
                 SCHEMA_FHIR="FHIRDATA"
             fi
@@ -352,7 +352,7 @@ function refresh_tenants {
     if [ "${DB_TYPE}" = "db2" ]
     then
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -372,17 +372,17 @@ function drop_schema {
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ]
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
         then
             SCHEMA_OAUTH="FHIR_OAUTH"
         fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ]
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
         then
             SCHEMA_BATCH="FHIR_JBATCH"
         fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -391,17 +391,17 @@ function drop_schema {
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ]
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
         then
             SCHEMA_OAUTH="FHIR_OAUTH"
         fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ]
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
         then
             SCHEMA_BATCH="FHIR_JBATCH"
         fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -426,14 +426,14 @@ function drop_schema_fhir {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     MORE_TENANTS=$(has_more_tenants)
 
-    DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+    SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
     if [ -z "${MORE_TENANTS}" ]
     then
-        if [ -z "${DB_SCHEMA}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
-            DB_SCHEMA="FHIRDATA"
+            SCHEMA_FHIR="FHIRDATA"
         fi
-        drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
+        drop_schema "--drop-schema-fhir --schema-name ${SCHEMA_FHIR}"
     fi
 }
 
@@ -445,7 +445,7 @@ function drop_schema_oauth {
     DB_SCHEMA=$(get_property schema.name.oauth .persistence[0].schema.oauth)
     if [ -z "${MORE_TENANTS}" ]
     then
-        if [ -z "${DB_SCHEMA}" ]
+        if [ -z "${DB_SCHEMA}" ] || [ "null" = "${DB_SCHEMA}" ]
         then
             DB_SCHEMA="FHIR_OAUTH"
         fi
@@ -461,7 +461,7 @@ function drop_schema_batch {
     DB_SCHEMA=$(get_property schema.name.batch .persistence[0].schema.batch)
     if [ -z "${MORE_TENANTS}" ]
     then
-        if [ -z "${DB_SCHEMA}" ]
+        if [ -z "${DB_SCHEMA}" ] || [ "null" = "${DB_SCHEMA}" ]
         then
             DB_SCHEMA="FHIR_JBATCH"
         fi
@@ -478,17 +478,17 @@ function create_schema {
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ]
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
         then
             SCHEMA_OAUTH="FHIR_OAUTH"
         fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ]
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
         then
             SCHEMA_BATCH="FHIR_JBATCH"
         fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -497,17 +497,17 @@ function create_schema {
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ]
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
         then
             SCHEMA_OAUTH="FHIR_OAUTH"
         fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ]
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
         then
             SCHEMA_BATCH="FHIR_JBATCH"
         fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -522,17 +522,17 @@ function update_schema {
     if [ "${DB_TYPE}" = "db2" ]
     then
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ]
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
         then
             SCHEMA_OAUTH="FHIR_OAUTH"
         fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ]
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
         then
             SCHEMA_BATCH="FHIR_JBATCH"
         fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
@@ -540,17 +540,17 @@ function update_schema {
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ]
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
         then
             SCHEMA_OAUTH="FHIR_OAUTH"
         fi
         SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ]
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
         then
             SCHEMA_BATCH="FHIR_JBATCH"
         fi
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ]
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
