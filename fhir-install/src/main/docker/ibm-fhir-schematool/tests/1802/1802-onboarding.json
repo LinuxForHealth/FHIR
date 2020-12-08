@@ -2,25 +2,20 @@
     "persistence": [
         {
             "db":  {
-                "host": "172.17.0.3",
+                "host": "db",
                 "port": "5432",
                 "database": "fhirdb",
-                "user": "posstgres",
+                "user": "postgres",
                 "password": "change-password",
                 "type": "postgresql",
                 "ssl": "false",
                 "certificate_base64": "empty"
-            },
-            "tenant": {
-                "name": "default3",
-                "key": "custom-key-here"
             },
             "schema": {
                 "fhir": "fhirdata",
                 "batch": "",
                 "oauth": ""
             },
-            "grant":  "fhirserver",
             "behavior": "onboard"
         }
     ]

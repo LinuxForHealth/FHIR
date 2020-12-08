@@ -8,6 +8,9 @@
 
 set -e -o pipefail
 
+# When debugging -x is an accepted practice, when not debugging, please comment out.
+# set -x
+
 ##############################################################################
 # The global variables used are: 
 
@@ -84,7 +87,7 @@ function get_property {
 # schell script.
 function process_cmd_properties {
     if [ ! -z "${TOOL_INPUT_USED}" ]
-    then 
+    then
         OS_TYPE="$(uname -s)"
         case "${OS_TYPE}" in
             Linux*)
@@ -96,12 +99,9 @@ function process_cmd_properties {
                 # only run if the file exists
                 if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
-                    RC=$(cat "${TOOL_INPUT_FILE}" | wc -l )
-                    if [ "${RC}" = "0" ]
-                    then
-                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
-                    fi
+                    # originally there was error handling following this to check if the contents are valid json.
+                    # We  have opted to verify inline to each call.
+                    echo -n "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
                 fi
                 set -o errexit
                 set -o pipefail
@@ -115,12 +115,7 @@ function process_cmd_properties {
                 # only run if the file exists
                 if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
-                    RC=$(cat "${TOOL_INPUT_USED}" | wc -l )
-                    if [ "${RC}" = "0" ]
-                    then
-                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
-                    fi
+                    echo -n "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
                 fi
                 set -o errexit
                 set -o pipefail
@@ -326,7 +321,8 @@ function grant_to_dbuser {
 
     # Get the tenant variable
     TARGET_USER=$(get_property grant.to .persistence[0].grant)
-    if [ -z "${TARGET_USER}" ]
+    # null is set here when the value doesn't actually exist.
+    if [ -z "${TARGET_USER}" ] || [ "null" = "${TARGET_USER}" ]
     then
         error_warn "Target User is not set and we are skipping the grant phase, it is recommended to run"
     else

@@ -2,17 +2,17 @@
     "persistence": [
         {
             "db":  {
-                "host": "172.17.0.3",
-                "port": "5432",
-                "database": "fhirdb",
-                "user": "posstgres",
-                "password": "change-password",
-                "type": "postgresql",
-                "ssl": "false",
+                "host": "********.databases.appdomain.cloud",
+                "port": "31707",
+                "database": "bludb",
+                "user": "********",
+                "password": "********",
+                "type": "db2",
+                "ssl": "true",
                 "certificate_base64": "empty"
             },
             "tenant": {
-                "name": "default3",
+                "name": "default",
                 "key": "custom-key-here"
             },
             "schema": {
