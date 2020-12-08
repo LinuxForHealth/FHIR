@@ -35,13 +35,11 @@ The IBM FHIR Server - Must-Gather Information
 3. If possible, please include a trace.log (or snippet) which shows the server activity when the problem occurred.
     The liberty "traceSpecification" string should include `com.ibm.fhir.*=fine`
 
-<hr>
-
 # Gathering logs on Red Hat OpenShift
 
 To help IBM Support troubleshoot any issues with your *IBM FHIR Server instance* on OpenShift, use the `oc adm must-gather` command to capture the must gather logs. The logs are stored in a folder in the current working directory.
 
-To gather diagnostic logs, run the following commands as Cluster Administrator and replace ` <YOUR_NAMESPACE>` with your namespace that the IBM FHIR Server and the IBM FHIR Server Schematool is running.
+To gather diagnostic logs, run the following commands as Cluster Administrator and replace `YOUR_NAMESPACE` with your namespace that the IBM FHIR Server and the IBM FHIR Server Schematool is running.
 
 1. Log in to your Red Hat OpenShift Container Platform as a cluster administrator by using the oc CLI.
 
@@ -60,38 +58,38 @@ kubectl version >> version.txt
 1. Collection information about the nodes.
 
 ```
-oc get nodes -o wide -n <YOUR_NAMESPACE> > nodes.txt
+oc get nodes -o wide -n YOUR_NAMESPACE > nodes.txt
 ```
 
 1. Collect information about the pod statuses
 
 ```
-oc get pods -n <YOUR_NAMESPACE> > pods.txt
+oc get pods -n YOUR_NAMESPACE > pods.txt
 ```
 
 1. Collect information about the pod containers
 
 ```
-oc get pods -o jsonpath="{..image}"  -n <YOUR_NAMESPACE> > containerInfo.txt
+oc get pods -o jsonpath="{..image}"  -n YOUR_NAMESPACE > containerInfo.txt
 ```
 
 1. Collect the defined secrets
 
 ```
-oc get secrets  -n <YOUR_NAMESPACE> > secrets.txt
+oc get secrets  -n YOUR_NAMESPACE > secrets.txt
 ```
 
 1. Collect the defined persistent volume claims
 
 ```
-oc get pvc -n <YOUR_NAMESPACE> > pvcs.txt
+oc get pvc -n YOUR_NAMESPACE > pvcs.txt
 ```
 
 1. Collect the description and log of any pod you are having issues with:
 
 ```
-oc describe pod <pod-name> -n <YOUR_NAMESPACE> > describe-<podname>.txt
-oc logs <podname>  -n <YOUR_NAMESPACE> > log-<podname>.log
+oc describe pod YOUR_POD_NAME -n YOUR_NAMESPACE > describe-YOUR_POD_NAME.txt
+oc logs YOUR_POD_NAME -n YOUR_NAMESPACE > log-YOUR_POD_NAME.log
 ```
 
 1. The oc adm must-gather CLI command collects the information from your cluster that is most likely needed for debugging issues, such as:
@@ -109,13 +107,13 @@ oc get clusterversion -o jsonpath='{.items[].spec.clusterID}{"\n"}'
 1. Provide the Custom Resource(CR) .yaml file used by the operator to configure the environment
 
 ```
-kubectl get <YOUR_CONFIG> -o yaml > config.yaml
+kubectl get YOUR_CONFIG -o yaml > config.yaml
 ```
 
 1. Obtain detailed description of a pod
 
 ```
-oc describe pod -n <YOUR-NAMESPACE> POD_NAME &> POD_NAME_describe.log
+oc describe pod -n YOUR_NAMESPACE POD_NAME &> POD_NAME_describe.log
 ```
 
 1. Run the oc adm inspect
@@ -127,7 +125,7 @@ oc adm inspect
 Executing commands/bash shell inside a pod:
 
 ```
-oc exec [flags] -n <YOUR-NAMESPACE> POD [-c CONTAINER] -- COMMAND [args...]
+oc exec [flags] -n YOUR_NAMESPACE POD [-c CONTAINER] -- COMMAND [args...]
 ```
 
 Example: to run a bash shell within the pod and tail the liberty messages.log:
