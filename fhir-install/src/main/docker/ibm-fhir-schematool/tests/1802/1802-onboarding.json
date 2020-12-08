@@ -2,8 +2,8 @@
     "persistence": [
         {
             "db":  {
-                "host": "172.17.0.3",
-                "port": "50000",
+                "host": "db",
+                "port": "5432",
                 "database": "fhirdb",
                 "user": "postgres",
                 "password": "change-password",
@@ -11,17 +11,12 @@
                 "ssl": "false",
                 "certificate_base64": "empty"
             },
-            "tenant": {
-                "name": "default3",
-                "key": "custom-key-here"
-            },
             "schema": {
                 "fhir": "fhirdata",
                 "batch": "",
                 "oauth": ""
             },
-            "grant":  "fhirserver",
-            "behavior": "offboard"
+            "behavior": "onboard"
         }
     ]
 }
