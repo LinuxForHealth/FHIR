@@ -51,10 +51,24 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        enforceDirectPatientAcess(event);
+    }
+
+    @Override
+    public void beforeVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        enforceDirectPatientAcess(event);
+    }
+
+    @Override
+    public void beforeHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        enforceDirectPatientAcess(event);
+    }
+
+    private void enforceDirectPatientAcess(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         List<String> patientIdFromToken = getPatientIdFromToken(jwt);
         if ("Patient".equals(event.getFhirResourceType()) && !patientIdFromToken.contains(event.getFhirResourceId())) {
-            String msg = "Read of 'Patient/" + event.getFhirResourceId() + "' is not permitted for patient context '" + patientIdFromToken + "'.";
+            String msg = "Interaction with 'Patient/" + event.getFhirResourceId() + "' is not permitted under patient context '" + patientIdFromToken + "'.";
             throw new FHIRPersistenceInterceptorException(msg)
                     .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
