@@ -22,19 +22,18 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
 
 
 /**
- * Postgres-specific extension of the {@link ResourceReferenceDAO} to work around
+ * Db2-specific extension of the {@link ResourceReferenceDAO} to work around
  * some SQL syntax and Postgres concurrency issues
  */
 public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
-    private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
+    private static final Logger logger = Logger.getLogger(Db2ResourceReferenceDAO.class.getName());
 
-    // The name of the admin_schema containing the SV_TENANT_ID variable
+    // The name of the admin schema containing the SV_TENANT_ID variable
     private final String adminSchemaName;
-    
+
     /**
      * Public constructor
      * @param t
@@ -46,18 +45,18 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         super(t, c, schemaName, cache);
         this.adminSchemaName = adminSchemaName;
     }
-    
+
     @Override
     public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
-        
+
         // Derby won't let us use any ORDER BY, even in a sub-select so we need to
         // sort the values externally. It would be better if code_system_id were
         // an identity column, but that's a much bigger change.
         final List<String> sortedNames = new ArrayList<>(systemNames);
         sortedNames.sort((String left, String right) -> left.compareTo(right));
-        
+
         final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO code_systems (mt_id, code_system_id, code_system_name) ");
@@ -67,7 +66,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         insert.append(" LEFT OUTER JOIN code_systems s ");
         insert.append("              ON s.code_system_name = v.name ");
         insert.append("           WHERE s.code_system_name IS NULL ");
-        
+
         // Note, we use PreparedStatement here on purpose. Partly because it's
         // secure coding best practice, but also because many resources will have the
         // same number of parameters, and hopefully we'll therefore share a small subset
@@ -79,7 +78,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             for (String name: sortedNames) {
                 ps.setString(a++, name);
             }
-            
+
             ps.executeUpdate();
         } catch (SQLException x) {
             logger.log(Level.SEVERE, insert.toString(), x);
@@ -98,7 +97,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         insert.append("              ON ctv.token_value = v.token_value ");
         insert.append("             AND ctv.code_system_id = v.code_system_id ");
         insert.append("      WHERE ctv.token_value IS NULL ");
-        
+
         // Note, we use PreparedStatement here on purpose. Partly because it's
         // secure coding best practice, but also because many resources will have the
         // same number of parameters, and hopefully we'll therefore share a small subset
@@ -111,7 +110,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                 ps.setString(a++, tv.getTokenValue());
                 ps.setInt(a++, tv.getCodeSystemId());
             }
-            
+
             ps.executeUpdate();
         } catch (SQLException x) {
             StringBuilder values = new StringBuilder();
@@ -125,12 +124,12 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                 values.append(tv.getCodeSystemId());
                 values.append("}");
             }
-            
+
             logger.log(Level.SEVERE, insert.toString() + "; [" + values.toString() + "]", x);
             throw getTranslator().translate(x);
         }
     }
-    
+
     @Override
     protected void insertResourceTokenRefs(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
         // Now all the values should have ids assigned so we can go ahead and insert them
@@ -150,7 +149,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                 if (xr.getCommonTokenValueId() != null) {
                     ps.setLong(3, xr.getCommonTokenValueId());
                 } else {
-                    ps.setNull(3, Types.BIGINT);                    
+                    ps.setNull(3, Types.BIGINT);
                 }
 
                 // version can be null
@@ -165,7 +164,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                     count = 0;
                 }
             }
-            
+
             if (count > 0) {
                 ps.executeBatch();
             }
