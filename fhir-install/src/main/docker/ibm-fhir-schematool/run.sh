@@ -96,12 +96,18 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                # only run if the file exists
+                # only run if the file doesn't exist (we default to the existing file as it's been mounted)
                 if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
                     # originally there was error handling following this to check if the contents are valid json.
                     # We  have opted to verify inline to each call.
-                    echo -n "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
+                    echo -n "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json 2> /dev/null || true
+                    # This is to check if we have possible plain text.
+                    RC=$(cat /opt/schematool/workarea/persistence.json | wc -l )
+                    if [ "${RC}" = "0" ]
+                    then
+                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    fi
                 fi
                 set -o errexit
                 set -o pipefail
@@ -112,10 +118,16 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                # only run if the file exists
+                # only run if the file doesn't exist (we default to the existing file as it's been mounted)
                 if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo -n "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
+                    echo -n "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json 2> /dev/null || true
+                    # This is to check if we have possible plain text.
+                    RC=$(cat /opt/schematool/workarea/persistence.json | wc -l )
+                    if [ "${RC}" = "0" ]
+                    then
+                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    fi
                 fi
                 set -o errexit
                 set -o pipefail

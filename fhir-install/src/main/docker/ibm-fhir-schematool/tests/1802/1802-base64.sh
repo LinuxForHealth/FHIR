@@ -8,8 +8,6 @@
 
 # Issue - https://github.com/IBM/FHIR/issues/1802
 
-# Don't log out the --pool-size
-
 # Pre Condition:
 # 1 - ibmcom/ibm-fhir-schematool must be built based on the latest.
 #       docker build -t ibmcom/ibm-fhir-schematool:latest .
@@ -23,7 +21,7 @@
 docker-compose up -d db
 
 # 2 - Startup
-docker-compose exec --env ENV_TOOL_INPUT=$(cat 1802-onboarding.json | base64) run.sh
+docker-compose run -e ENV_TOOL_INPUT=$(cat 1802-onboarding.json | base64) tool
 
 # The schemas should exist
 echo SELECT schema_name FROM information_schema.schemata | docker-compose exec -T -e PGPASSWORD=change-password db psql -h db -U postgres fhirdb
