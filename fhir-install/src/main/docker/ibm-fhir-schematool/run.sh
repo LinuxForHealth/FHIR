@@ -121,7 +121,7 @@ function process_cmd_properties {
                 # only run if the file doesn't exist (we default to the existing file as it's been mounted)
                 if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo -n "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json 2> /dev/null || true
+                    echo -n "${TOOL_INPUT_USED}" | base64 --decode > /opt/schematool/workarea/persistence.json 2> /dev/null || true
                     # This is to check if we have possible plain text.
                     RC=$(cat /opt/schematool/workarea/persistence.json | wc -l )
                     if [ "${RC}" = "0" ]
