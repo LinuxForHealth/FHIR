@@ -441,7 +441,7 @@ public class CadfModelTest {
                         CadfResource.builder().typeURI(ResourceType.compute_cpu).id("id").geolocation(geo).build(),
                         "repId", ZonedDateTime.now());
         b.attachments(new CadfAttachment[] {});
-        b.attachments(new ArrayList<>(Arrays.asList(new CadfAttachment[] {})));
+        b.attachments(new ArrayList<>(Arrays.asList()));
         assertNotNull(b.build());
 
         CadfReporterStep.Builder b2 =
@@ -907,7 +907,7 @@ public class CadfModelTest {
         CadfEvent event = eventBuilder.build();
 
         String jsonString = CadfEvent.Writer.generate(event);
-        System.out.println(jsonString);
+
         ByteArrayInputStream bais = new ByteArrayInputStream(jsonString.getBytes());
         event = CadfEvent.Parser.parse(bais);
         assertNotNull(event);
@@ -915,5 +915,10 @@ public class CadfModelTest {
         assertEquals(event.getDuration(), "duration");
         assertEquals(event.getEventTime(), "eventTime");
         assertEquals(event.getEventType().name(), "control");
+    }
+
+    @Test(expectedExceptions = {IllegalArgumentException.class})
+    public void testResourceType() {
+        ResourceType.of("not-valid");
     }
 }

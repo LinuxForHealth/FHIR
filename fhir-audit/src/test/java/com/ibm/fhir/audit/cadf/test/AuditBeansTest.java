@@ -21,7 +21,7 @@ import com.ibm.fhir.audit.logging.beans.Batch;
 import com.ibm.fhir.audit.logging.beans.ConfigData;
 import com.ibm.fhir.audit.logging.beans.Context;
 import com.ibm.fhir.audit.logging.beans.Data;
-import com.ibm.fhir.audit.logging.beans.impl.context.FHIRContext;
+import com.ibm.fhir.audit.logging.beans.FHIRContext;
 import com.ibm.fhir.exception.FHIRException;
 
 public class AuditBeansTest {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.audit.logging.beans.impl.context;
+package com.ibm.fhir.audit.logging.beans;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +21,6 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 
-import com.ibm.fhir.audit.logging.beans.ApiParameters;
-import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.Context;
-import com.ibm.fhir.audit.logging.beans.Data;
 import com.ibm.fhir.exception.FHIRException;
 
 public class FHIRContext extends Context {

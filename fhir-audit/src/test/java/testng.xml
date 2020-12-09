@@ -7,7 +7,26 @@
             <class name="com.ibm.fhir.audit.cadf.test.AuditEnumTest" />
             <class name="com.ibm.fhir.audit.cadf.test.AuditLogServiceTest" />
             <class name="com.ibm.fhir.audit.cadf.test.CadfModelTest" />
-            <class name="com.ibm.fhir.audit.cadf.test.EnvironmentTest" />
+            
         </classes>
+    </test>
+    <test name="EnvironmentTests">
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.audit.logging.api.environment" />
+        </packages>
+    </test>
+    <test name="MapperTests">
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.audit.logging.mapper" />
+            <package name="com.ibm.fhir.audit.logging.mapper.impl" />
+        </packages>
+    </test>
+    <test name="ConfigurationTests">
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.audit.logging.api.configuration" />
+        </packages>
     </test>
 </suite>
