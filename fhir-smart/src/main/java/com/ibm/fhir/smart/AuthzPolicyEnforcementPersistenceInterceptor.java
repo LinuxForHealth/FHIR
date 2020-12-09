@@ -47,6 +47,33 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private static final String BEARER_TOKEN_PREFIX = "Bearer";
     private static final String PATIENT_REF_PREFIX = "Patient/";
 
+    private static final String REQUEST_NOT_PERMITTED = "Requested interaction is not permitted by any of the passed scopes.";
+
+    @Override
+    public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        enforceDirectPatientAcess(event);
+    }
+
+    @Override
+    public void beforeVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        enforceDirectPatientAcess(event);
+    }
+
+    @Override
+    public void beforeHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        enforceDirectPatientAcess(event);
+    }
+
+    private void enforceDirectPatientAcess(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        if ("Patient".equals(event.getFhirResourceType()) && !patientIdFromToken.contains(event.getFhirResourceId())) {
+            String msg = "Interaction with 'Patient/" + event.getFhirResourceId() + "' is not permitted under patient context '" + patientIdFromToken + "'.";
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+        }
+    }
+
     @Override
     public void beforeCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
@@ -196,9 +223,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     "' is not granted by any of the provided scopes: " + approvedScopes +
                     " with context id(s): " + contextIds);
         }
-        String msg = "Requested interaction is not permitted by any of the passed scopes.";
-        throw new FHIRPersistenceInterceptorException(msg)
-                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+        throw new FHIRPersistenceInterceptorException(REQUEST_NOT_PERMITTED)
+                .withIssue(FHIRUtil.buildOperationOutcomeIssue(REQUEST_NOT_PERMITTED, IssueType.FORBIDDEN));
     }
 
     /**

@@ -9,6 +9,7 @@ package com.ibm.fhir.smart.test;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -150,6 +151,47 @@ public class AuthzPolicyEnforcementTest {
             assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+        }
+    }
+
+    @Test
+    public void testDirectPatientInteraction() throws FHIRPersistenceInterceptorException {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read"));
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeRead(event);
+            interceptor.beforeVread(event);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient interaction was not allowed but should have been");
+        }
+
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+        properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "bogus");
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+
+        try {
+            interceptor.beforeRead(event);
+            fail("Patient read was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            interceptor.beforeVread(event);
+            fail("Patient vread was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            interceptor.beforeHistory(event);
+            fail("Patient history was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
         }
     }
 
