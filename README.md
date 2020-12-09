@@ -125,7 +125,7 @@ See [Setting up for development](https://github.com/IBM/FHIR/wiki/Setting-up-for
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contributing your changes back to the project.
 
-See [code_of_conduct.md](code_of_conduct.md) for code of conduct.
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for code of conduct.
 
 ### License
 The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is
