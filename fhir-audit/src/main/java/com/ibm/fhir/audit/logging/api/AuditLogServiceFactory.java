@@ -76,7 +76,6 @@ public class AuditLogServiceFactory {
                         } catch(IllegalAccessException | InstantiationException e) {
                             errMsg.append("Could not instantiate " + serviceClassName + NEWLINE + e.toString());
                         } catch(Throwable e) {
-                            e.printStackTrace();
                             errMsg.append("Failure initializing audit log service: " + serviceClassName + NEWLINE + e.toString());
                         }
                     } else {
