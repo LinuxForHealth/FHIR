@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.errors.InterruptException;
 
 import com.ibm.fhir.audit.logging.api.AuditLogService;
 import com.ibm.fhir.audit.logging.api.configuration.ConfigurationTranslator;
@@ -29,9 +30,8 @@ import com.ibm.fhir.exception.FHIRException;
  * mappers and translators can be swapped out.
  */
 public class KafkaService implements AuditLogService {
-
-    private static final Logger logger = java.util.logging.Logger.getLogger(KafkaService.class.getName());
     private static final String CLASSNAME = KafkaService.class.getName();
+    private static final Logger logger = java.util.logging.Logger.getLogger(CLASSNAME);
 
     private Boolean enabled = Boolean.FALSE;
 
@@ -84,7 +84,7 @@ public class KafkaService implements AuditLogService {
                         .serialize();
 
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("Sending to Topic '" + topic + "'");
+                    logger.fine("Sending to Topic '" + topic + "'" + size(eventString));
                 }
                 ProducerRecord<String, String> record = new ProducerRecord<>(topic, eventString);
                 // Block till the message is sent to kafka server.
@@ -100,6 +100,17 @@ public class KafkaService implements AuditLogService {
 
     @Override
     public void stop(PropertyGroup auditLogProperties) throws Exception {
-        this.producer.close(30, TimeUnit.SECONDS);
+        try{
+            this.producer.close(30, TimeUnit.SECONDS);
+        } catch(InterruptException ie) {
+            logger.warning("During shutdown... stopping the producer");
+        }
+    }
+
+    /*
+     * calculates the length of the eventString and the null is treated as -1
+     */
+    private long size(String eventString) {
+        return eventString == null ? -1 : eventString.length();
     }
 }

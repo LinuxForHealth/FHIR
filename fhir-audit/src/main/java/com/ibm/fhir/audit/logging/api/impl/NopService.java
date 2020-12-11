@@ -14,9 +14,9 @@ import com.ibm.fhir.config.PropertyGroup;
  * This class serves as a no-op audit service logger.
  * It simply allows audit logging to be effectively disabled.
  */
-public class NoOpService implements AuditLogService {
+public class NopService implements AuditLogService {
 
-    public NoOpService() {
+    public NopService() {
         super();
     }
 

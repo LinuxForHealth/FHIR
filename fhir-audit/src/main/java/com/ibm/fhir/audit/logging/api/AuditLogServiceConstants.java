@@ -27,9 +27,12 @@ public final class AuditLogServiceConstants {
     public static final String KAFKA_USERNAME = "token";
 
     public static final String DEFAULT_AUDIT_KAFKA_TOPIC = "FHIR_AUDIT";
-    public static final String DEFAULT_AUDIT_GEO_CITY = "Dallas";
-    public static final String DEFAULT_AUDIT_GEO_STATE = "TX";
-    public static final String DEFAULT_AUDIT_GEO_COUNTRY = "US";
+
+    // These are intentional defaults and accurately describing the state of the
+    // Audit as it doesn't know where it is running, and users should set it.
+    public static final String DEFAULT_AUDIT_GEO_CITY = "UnknownCity";
+    public static final String DEFAULT_AUDIT_GEO_STATE = "UnknownState";
+    public static final String DEFAULT_AUDIT_GEO_COUNTRY = "UnknownCountry";
 
     public static final String FIELD_LOAD = "load";
 

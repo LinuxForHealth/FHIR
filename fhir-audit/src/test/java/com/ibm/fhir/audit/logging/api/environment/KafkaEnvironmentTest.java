@@ -16,6 +16,7 @@ import javax.json.JsonObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.audit.logging.api.configuration.type.KafkaType;
 import com.ibm.fhir.config.PropertyGroup;
 
 /**
@@ -53,24 +54,24 @@ public class KafkaEnvironmentTest {
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testNullCase() throws Exception {
-        KafkaEnvironment.getEnvironment(null);
+        KafkaType.getEnvironment(null);
     }
 
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testNullCaseWithoutKafka() throws Exception {
-        KafkaEnvironment.getEnvironment(new PropertyGroup(jsonObjNoKafka));
+        KafkaType.getEnvironment(new PropertyGroup(jsonObjNoKafka));
     }
 
     @Test
     public void testCaseWithKafka() throws Exception {
-        Properties props = KafkaEnvironment.getEnvironment(new PropertyGroup(jsonObjKafka));
+        Properties props = KafkaType.getEnvironment(new PropertyGroup(jsonObjKafka));
         assertEquals(props.size(),4);
     }
 
     @Test
     public void testCaseWithoutEntriesForKafka() throws Exception {
-        Properties props = KafkaEnvironment.getEnvironment(new PropertyGroup(jsonObjKafkaWithoutEntries));
+        Properties props = KafkaType.getEnvironment(new PropertyGroup(jsonObjKafkaWithoutEntries));
         assertEquals(props.size(),2);
     }
 }

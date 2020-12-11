@@ -96,7 +96,7 @@ public class ConfigurationTest {
     @Test
     public void testRemapping() {
         assertEquals(translator.remap("test"), "test");
-        assertEquals(translator.remap("com.ibm.fhir.audit.logging.impl.DisabledAuditLogService"), "com.ibm.fhir.audit.logging.api.impl.NoOpService");
+        assertEquals(translator.remap("com.ibm.fhir.audit.logging.impl.DisabledAuditLogService"), "com.ibm.fhir.audit.logging.api.impl.NopService");
         assertEquals(translator.remap("com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService"), "com.ibm.fhir.audit.logging.api.impl.KafkaService");
     }
 

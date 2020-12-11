@@ -313,17 +313,10 @@ public class RestAuditLogger {
                 .resourcesUpdated(updateCount).build());
         entry.setDescription("FHIR Bundle request");
 
-        // Previously we didn't set the Action which caused the logEntry to
-        // Skip over the actual logging, in this case, we're deciding by default
-        // Read, if Create, it'll dominate, Update if no create and more than one
-        // Update action.
-        String action = "R";
-        if (createCount > 0) {
-            action = "C";
-        } else if ( updateCount > 0 ){
-            action = "U";
-        }
-        entry.getContext().setAction(action);
+        // Team discussion results in a recommendation of 'E'
+        // New logic should ensure consistency, all R, all U, all D, all C
+        // when mixed default to E
+        entry.getContext().setAction("E");
 
         if (log.isLoggable(Level.FINE)) {
             log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
@@ -498,6 +491,8 @@ public class RestAuditLogger {
                             .append("/")
                             .append(request.getRemoteHost()).toString());
         entry.setContext(new Context());
+
+        // TODO: Unify with the FHIRRequestContext
         requestUrl = request.getRequestURL();
         if (request.getQueryString() != null) {
             requestUrl.append("?");

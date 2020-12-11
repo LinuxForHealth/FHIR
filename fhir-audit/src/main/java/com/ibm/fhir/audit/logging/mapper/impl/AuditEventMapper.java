@@ -307,7 +307,7 @@ public class AuditEventMapper implements Mapper {
             .action(MAP_TO_ACTION.get(entry.getEventType()))
             // Period involves start/end
             .period(period(entry))
-            // Now, when we are crerating this AuditEvent
+            // Now, when we are creating this AuditEvent
             .recorded(Instant.now())
             // Agent is the Actor involved in the event
             .agent(agent(entry))
@@ -358,7 +358,7 @@ public class AuditEventMapper implements Mapper {
     // Agent is loaded, but may end up being more than one agent
     // Data Collector, Data Producer, Data Subject et cetra.
     private List<Agent> agent(AuditLogEntry entry) {
-        Agent requestor = Agent.builder()
+        Agent collector = Agent.builder()
                 .requestor(com.ibm.fhir.model.type.Boolean.TRUE)
                 .role(ROLE_DATA_COLLECTOR)
                 .name(string(entry.getComponentId()))
@@ -367,7 +367,7 @@ public class AuditEventMapper implements Mapper {
                     .address(string(entry.getComponentIp()))
                     .build())
                 .build();
-        return Arrays.asList(requestor);
+        return Arrays.asList(collector);
     }
 
     /*
@@ -428,7 +428,7 @@ public class AuditEventMapper implements Mapper {
     private List<CodeableConcept> purposeOfEvent(AuditLogEntry entry) {
         /*
          * this may be something to make more extensible in the future and is here
-         * as a method
+         * as a method to facilitate.
          *
          * @link https://www.hl7.org/fhir/v3/PurposeOfUse/vs.html
          */
@@ -444,7 +444,7 @@ public class AuditEventMapper implements Mapper {
     }
 
     /*
-     * n the future, we could
+     * in the future, we could
      * enhance this part to log the alternative outcomes.
      * This applies to the next two methods: outcomeDesc, outcome
      */

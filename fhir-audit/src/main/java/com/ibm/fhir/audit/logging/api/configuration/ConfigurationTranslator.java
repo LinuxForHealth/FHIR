@@ -20,8 +20,8 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.audit.logging.api.environment.IBMEventStreamsEnvironment;
-import com.ibm.fhir.audit.logging.api.environment.KafkaEnvironment;
+import com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType;
+import com.ibm.fhir.audit.logging.api.configuration.type.KafkaType;
 import com.ibm.fhir.audit.logging.mapper.MapperType;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.exception.FHIRException;
@@ -46,7 +46,7 @@ public class ConfigurationTranslator {
      */
     private static Map<String, String> generateMap() {
         Map<String, String> mapped = new HashMap<>(2);
-        mapped.put("com.ibm.fhir.audit.logging.impl.DisabledAuditLogService", "com.ibm.fhir.audit.logging.api.impl.NoOpService");
+        mapped.put("com.ibm.fhir.audit.logging.impl.DisabledAuditLogService", "com.ibm.fhir.audit.logging.api.impl.NopService");
         mapped.put("com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService", "com.ibm.fhir.audit.logging.api.impl.KafkaService");
         return mapped;
     }
@@ -72,7 +72,7 @@ public class ConfigurationTranslator {
      * @throws Exception
      */
     public Properties translate(PropertyGroup auditLogProperties) throws Exception {
-        ConfigurationType type = loadFromEnvironment(auditLogProperties);
+        ConfigurationType type = determineConfigurationType(auditLogProperties);
         Properties props = new Properties();
         switch (type) {
         case CONFIG:
@@ -96,7 +96,7 @@ public class ConfigurationTranslator {
      * @throws Exception
      */
     public void config(Properties props, PropertyGroup auditLogProperties) throws Exception {
-        props.putAll(KafkaEnvironment.getEnvironment(auditLogProperties));
+        props.putAll(KafkaType.getEnvironment(auditLogProperties));
     }
 
     /**
@@ -114,11 +114,11 @@ public class ConfigurationTranslator {
         String apiKey = null;
         // Check environment: EVENT_STREAMS_AUDIT_BINDING to obtain configuration parameters for
         // kafka (Kubernetes Container)
-        if (System.getenv(IBMEventStreamsEnvironment.KUB_BINDING) != null) {
-            logger.info("Using the environmental variable '" + IBMEventStreamsEnvironment.KUB_BINDING + "' to set the credentials.");
-            com.ibm.fhir.audit.logging.api.environment.IBMEventStreamsEnvironment.EventStreamsCredentials credentials = IBMEventStreamsEnvironment.getEventStreamsCredentials();
+        if (System.getenv(IBMEventStreamsType.KUB_BINDING) != null) {
+            logger.info("Using the environmental variable '" + IBMEventStreamsType.KUB_BINDING + "' to set the credentials.");
+            com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType.EventStreamsCredentials credentials = IBMEventStreamsType.getEventStreamsCredentials();
             if (credentials != null) {
-                bootstrapServers = IBMEventStreamsEnvironment.stringArrayToCSV(credentials.getKafkaBrokersSasl());
+                bootstrapServers = IBMEventStreamsType.stringArrayToCSV(credentials.getKafkaBrokersSasl());
                 apiKey = credentials.getApiKey();
             }
         }
@@ -185,12 +185,12 @@ public class ConfigurationTranslator {
      * @param auditLogProperties
      * @return
      */
-    public ConfigurationType loadFromEnvironment(PropertyGroup auditLogProperties) {
+    public ConfigurationType determineConfigurationType(PropertyGroup auditLogProperties) {
         checkAuditLogProperties(auditLogProperties);
         // Defaults to Environment.
         ConfigurationType type = ConfigurationType.ENVIRONMENT;
         try {
-            type = ConfigurationType.valueOf(auditLogProperties.getStringProperty(FIELD_LOAD, ConfigurationType.CONFIG.value()));
+            type = ConfigurationType.valueOf(auditLogProperties.getStringProperty(FIELD_LOAD, ConfigurationType.ENVIRONMENT.value()));
         } catch (Exception e) {
             logger.warning("Using FHIR 'environment' to find location to load configuration.");
         }

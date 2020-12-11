@@ -1756,7 +1756,7 @@ For example, the following uses the 'config' in order to config the Kafka publis
 
 ```
 "audit": {
-    "serviceClassName" : "com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService",
+    "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
     "serviceProperties" : {
         "load": "config",
     }
@@ -1766,7 +1766,7 @@ Or, you could load from an environment, note, this is the default behavior.
 
 ```
 "audit": {
-    "serviceClassName" : "com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService",
+    "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
     "serviceProperties" : {
         "load": "environment",
     }
@@ -1817,7 +1817,7 @@ Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-b
 
 ```
 "audit": {
-    "serviceClassName" : "com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService",
+    "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
     "serviceProperties" : {
         "load": "config",
         "mapper": "cadf",
@@ -1839,7 +1839,7 @@ Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-b
     }
 ```
 
-The service may be map to the CADF format or the FHIR AuditEvent resource format by declaring a mapper type - 'cadf' or 'auditevent'. 
+The service can map to the CADF format or the FHIR AuditEvent resource format by declaring a mapper type - 'cadf' or 'auditevent'. 
 
 - *CADF* Example
 ```
@@ -2079,7 +2079,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
-|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.api.impl.NoOpService and com.ibm.fhir.audit.logging.api.impl.KafkaService are the preferred serviceClassName. There is backwards compatibility with `com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService` and `com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.`|
+|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.api.impl.NopService and com.ibm.fhir.audit.logging.api.impl.KafkaService are the preferred serviceClassName.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configured for audit logging service.|
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configured for audit logging service.|
@@ -2088,7 +2088,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/kafkaApiKey`|string|The apikey for the JAAS configuration.|
 |`fhirServer/audit/serviceProperties/mapper`|string|The AuditEventLog mapper that determines the output format - valid types are 'cadf' and 'auditevent'. 'auditevent' refers to the FHIR Resource AuditEvent, and 'cadf' refers to the Cloud logging standard.|
 |`fhirServer/audit/serviceProperties/load`|string|The location that the configuration is loaded from 'environment' or 'config'.|
-|`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service.|
+|`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
@@ -2180,9 +2180,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/capabilities`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
-|`fhirServer/audit/serviceProperties/geoCity`|Dallas|
-|`fhirServer/audit/serviceProperties/geoState`|TX|
-|`fhirServer/audit/serviceProperties/geoCounty`|US|
+|`fhirServer/audit/serviceProperties/geoCity`|UnknownCity|
+|`fhirServer/audit/serviceProperties/geoState`|UnknownState|
+|`fhirServer/audit/serviceProperties/geoCounty`|UnknownCountry|
 |`fhirServer/audit/serviceProperties/mapper`|cadf|
 |`fhirServer/audit/serviceProperties/load`|environment|
 |`fhirServer/bulkdata/isExportPublic`|true|

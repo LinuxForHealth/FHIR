@@ -12,7 +12,7 @@
             "open": true
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",
+            "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.NopService",
             "serviceProperties" : {
             }
         }

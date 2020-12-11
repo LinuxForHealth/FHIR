@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.audit.logging.api.environment;
+package com.ibm.fhir.audit.logging.api.configuration.type;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -31,12 +31,12 @@ import com.ibm.fhir.exception.FHIRException;
  * Helper class to process IBM Event Streams bindings into useful Kafka
  * entries.
  */
-public final class IBMEventStreamsEnvironment {
+public final class IBMEventStreamsType {
 
-    private static final Logger logger = java.util.logging.Logger.getLogger(IBMEventStreamsEnvironment.class.getName());
+    private static final Logger logger = java.util.logging.Logger.getLogger(IBMEventStreamsType.class.getName());
     public static final String KUB_BINDING = "EVENT_STREAMS_AUDIT_BINDING";
 
-    private IBMEventStreamsEnvironment() {
+    private IBMEventStreamsType() {
         // No Operation
     }
 

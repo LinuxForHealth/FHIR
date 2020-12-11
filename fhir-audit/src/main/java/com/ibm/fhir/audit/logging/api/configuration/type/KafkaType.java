@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.audit.logging.api.environment;
+package com.ibm.fhir.audit.logging.api.configuration.type;
 
 import java.util.Objects;
 import java.util.Properties;
@@ -15,9 +15,9 @@ import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 /**
  * Kafka Environment Type
  */
-public final class KafkaEnvironment {
+public final class KafkaType {
 
-    private KafkaEnvironment() {
+    private KafkaType() {
         // No Operation
     }
 

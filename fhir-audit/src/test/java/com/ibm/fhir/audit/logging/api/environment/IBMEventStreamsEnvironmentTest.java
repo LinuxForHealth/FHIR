@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType;
 import com.ibm.fhir.exception.FHIRException;
 
 /**
@@ -25,15 +26,15 @@ public class IBMEventStreamsEnvironmentTest {
         String[] kafkaBrokerSasls = new String[1];
         kafkaBrokerSasls[0] = "test";
 
-        IBMEventStreamsEnvironment.EventStreamsCredentials esc =
-                IBMEventStreamsEnvironment.EventStreamsCredentials.builder().build();
+        IBMEventStreamsType.EventStreamsCredentials esc =
+                IBMEventStreamsType.EventStreamsCredentials.builder().build();
 
         esc =
-                IBMEventStreamsEnvironment.EventStreamsCredentials.builder().apiKey("apiKey")
+                IBMEventStreamsType.EventStreamsCredentials.builder().apiKey("apiKey")
                         .kafkaBrokersSasl(kafkaBrokerSasls).password("password").user("user").build();
 
-        String jsonString = IBMEventStreamsEnvironment.EventStreamsCredentials.Writer.generate(esc);
-        esc = IBMEventStreamsEnvironment.EventStreamsCredentials.Parser.parse(jsonString);
+        String jsonString = IBMEventStreamsType.EventStreamsCredentials.Writer.generate(esc);
+        esc = IBMEventStreamsType.EventStreamsCredentials.Parser.parse(jsonString);
 
         assertEquals(esc.getApiKey(), "apiKey");
         assertEquals(esc.getPassword(), "password");
@@ -41,10 +42,10 @@ public class IBMEventStreamsEnvironmentTest {
         assertEquals(esc.getKafkaBrokersSasl().length, 1);
         assertEquals(esc.getKafkaBrokersSasl()[0], "test");
 
-        esc = IBMEventStreamsEnvironment.getEventStreamsCredentials();
+        esc = IBMEventStreamsType.getEventStreamsCredentials();
         assertNull(esc);
 
-        esc = IBMEventStreamsEnvironment.parseEventStreamsCredentials("{}{\n" +
+        esc = IBMEventStreamsType.parseEventStreamsCredentials("{}{\n" +
                 "    \"api_key\": \"apiKey\",\n" +
                 "    \"password\": \"password\",\n" +
                 "    \"user\": \"user\",\n" +
@@ -54,7 +55,7 @@ public class IBMEventStreamsEnvironmentTest {
                 "}");
         assertNotNull(esc);
 
-        esc = IBMEventStreamsEnvironment.parseEventStreamsCredentials("{\n" +
+        esc = IBMEventStreamsType.parseEventStreamsCredentials("{\n" +
                 "    \"api_key\": \"apiKey\",\n" +
                 "    \"password\": \"password\",\n" +
                 "    \"user\": \"user\",\n" +
@@ -65,7 +66,7 @@ public class IBMEventStreamsEnvironmentTest {
         assertNotNull(esc);
 
         // Invalid
-        esc = IBMEventStreamsEnvironment.parseEventStreamsCredentials("" +
+        esc = IBMEventStreamsType.parseEventStreamsCredentials("" +
                 "    \"api_key\": \"apiKey\",\n" +
                 "        \"test\"\n" +
                 "    ]\n" +
@@ -76,14 +77,14 @@ public class IBMEventStreamsEnvironmentTest {
     @Test
     public void testStringArrayToCSVHasBrokers() {
         String[] arr = new String[] {"broker-1:9093","broker-2:9093"};
-        String output = IBMEventStreamsEnvironment.stringArrayToCSV(arr);
+        String output = IBMEventStreamsType.stringArrayToCSV(arr);
         assertEquals("broker-1:9093,broker-2:9093",output);
     }
 
     @Test
     public void testStringArrayToCSVHasNoBrokers() {
         String[] arr = new String[] {};
-        String output = IBMEventStreamsEnvironment.stringArrayToCSV(arr);
+        String output = IBMEventStreamsType.stringArrayToCSV(arr);
         assertEquals("",output);
     }
 }

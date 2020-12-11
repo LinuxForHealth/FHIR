@@ -21,8 +21,8 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.audit.cadf.model.CadfEvent;
 import com.ibm.fhir.audit.logging.api.AuditLogServiceConstants;
-import com.ibm.fhir.audit.logging.api.environment.IBMEventStreamsEnvironment;
-import com.ibm.fhir.audit.logging.api.environment.IBMEventStreamsEnvironment.EventStreamsCredentials;
+import com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType;
+import com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType.EventStreamsCredentials;
 import com.ibm.fhir.audit.logging.api.impl.KafkaService;
 import com.ibm.fhir.audit.logging.beans.ApiParameters;
 import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
@@ -191,12 +191,12 @@ public class AuditCadfTest {
 
     @Test(groups = { "parser" })
     public void testConfigParser() throws Exception {
-        IBMEventStreamsEnvironment.EventStreamsCredentials esBinding = null;
+        IBMEventStreamsType.EventStreamsCredentials esBinding = null;
         try {
             esBinding = EventStreamsCredentials.Parser.parse(eventStreamBinding);
             assertNotNull(esBinding);
 
-            String bootstrapServers = IBMEventStreamsEnvironment.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
+            String bootstrapServers = IBMEventStreamsType.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
             String apiKey = esBinding.getApiKey();
 
             assertNotNull(bootstrapServers);
