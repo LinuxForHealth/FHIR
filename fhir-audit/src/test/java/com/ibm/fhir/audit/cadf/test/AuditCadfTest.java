@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,17 +19,17 @@ import javax.json.JsonObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.logging.api.AuditLogServiceConstants;
-import com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType;
-import com.ibm.fhir.audit.logging.api.configuration.type.IBMEventStreamsType.EventStreamsCredentials;
-import com.ibm.fhir.audit.logging.api.impl.KafkaService;
-import com.ibm.fhir.audit.logging.beans.ApiParameters;
-import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
-import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.Context;
-import com.ibm.fhir.audit.logging.beans.Data;
-import com.ibm.fhir.audit.logging.mapper.impl.CADFMapper;
+import com.ibm.fhir.audit.AuditLogServiceConstants;
+import com.ibm.fhir.audit.beans.ApiParameters;
+import com.ibm.fhir.audit.beans.AuditLogEntry;
+import com.ibm.fhir.audit.beans.Batch;
+import com.ibm.fhir.audit.beans.Context;
+import com.ibm.fhir.audit.beans.Data;
+import com.ibm.fhir.audit.cadf.CadfEvent;
+import com.ibm.fhir.audit.configuration.type.IBMEventStreamsType;
+import com.ibm.fhir.audit.configuration.type.IBMEventStreamsType.EventStreamsCredentials;
+import com.ibm.fhir.audit.impl.KafkaService;
+import com.ibm.fhir.audit.mapper.impl.CADFMapper;
 import com.ibm.fhir.config.ConfigurationService;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;

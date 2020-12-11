@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,22 +20,22 @@ import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.CadfAttachment;
-import com.ibm.fhir.audit.cadf.model.CadfCredential;
-import com.ibm.fhir.audit.cadf.model.CadfEndpoint;
-import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.cadf.model.CadfGeolocation;
-import com.ibm.fhir.audit.cadf.model.CadfMapItem;
-import com.ibm.fhir.audit.cadf.model.CadfMeasurement;
-import com.ibm.fhir.audit.cadf.model.CadfMetric;
-import com.ibm.fhir.audit.cadf.model.CadfReason;
-import com.ibm.fhir.audit.cadf.model.CadfReporterStep;
-import com.ibm.fhir.audit.cadf.model.CadfResource;
-import com.ibm.fhir.audit.cadf.model.enums.Action;
-import com.ibm.fhir.audit.cadf.model.enums.EventType;
-import com.ibm.fhir.audit.cadf.model.enums.Outcome;
-import com.ibm.fhir.audit.cadf.model.enums.ReporterRole;
-import com.ibm.fhir.audit.cadf.model.enums.ResourceType;
+import com.ibm.fhir.audit.cadf.CadfAttachment;
+import com.ibm.fhir.audit.cadf.CadfCredential;
+import com.ibm.fhir.audit.cadf.CadfEndpoint;
+import com.ibm.fhir.audit.cadf.CadfEvent;
+import com.ibm.fhir.audit.cadf.CadfGeolocation;
+import com.ibm.fhir.audit.cadf.CadfMapItem;
+import com.ibm.fhir.audit.cadf.CadfMeasurement;
+import com.ibm.fhir.audit.cadf.CadfMetric;
+import com.ibm.fhir.audit.cadf.CadfReason;
+import com.ibm.fhir.audit.cadf.CadfReporterStep;
+import com.ibm.fhir.audit.cadf.CadfResource;
+import com.ibm.fhir.audit.cadf.enums.Action;
+import com.ibm.fhir.audit.cadf.enums.EventType;
+import com.ibm.fhir.audit.cadf.enums.Outcome;
+import com.ibm.fhir.audit.cadf.enums.ReporterRole;
+import com.ibm.fhir.audit.cadf.enums.ResourceType;
 import com.ibm.fhir.exception.FHIRException;
 
 public class CadfModelTest {

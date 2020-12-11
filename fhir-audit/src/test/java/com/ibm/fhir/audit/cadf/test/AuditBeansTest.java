@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,13 +15,13 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.logging.beans.ApiParameters;
-import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
-import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.ConfigData;
-import com.ibm.fhir.audit.logging.beans.Context;
-import com.ibm.fhir.audit.logging.beans.Data;
-import com.ibm.fhir.audit.logging.beans.FHIRContext;
+import com.ibm.fhir.audit.beans.ApiParameters;
+import com.ibm.fhir.audit.beans.AuditLogEntry;
+import com.ibm.fhir.audit.beans.Batch;
+import com.ibm.fhir.audit.beans.ConfigData;
+import com.ibm.fhir.audit.beans.Context;
+import com.ibm.fhir.audit.beans.Data;
+import com.ibm.fhir.audit.beans.FHIRContext;
 import com.ibm.fhir.exception.FHIRException;
 
 public class AuditBeansTest {
@@ -84,7 +84,8 @@ public class AuditBeansTest {
         assertNotNull(parameters.getStatus());
 
         assertEquals(parameters.getRequest(), "request");
-        assertEquals(parameters.getStatus().intValue(), 200);
+        int auto = parameters.getStatus();
+        assertEquals(auto, 200);
 
         String jsonString = ApiParameters.Writer.generate(parameters);
         ByteArrayInputStream bais = new ByteArrayInputStream(jsonString.getBytes());
@@ -95,7 +96,8 @@ public class AuditBeansTest {
         assertNotNull(parameters.getStatus());
 
         assertEquals(parameters.getRequest(), "request");
-        assertEquals(parameters.getStatus().intValue(), 200);
+        auto = parameters.getStatus();
+        assertEquals(auto, 200);
     }
 
     @Test
@@ -312,7 +314,7 @@ public class AuditBeansTest {
     public void testApiParametersForcedException() throws FHIRException {
         ApiParameters.Parser.parse(AuditTestUtil.generateExceptionStream());
     }
-    
+
     @Test(expectedExceptions = { FHIRException.class })
     public void testFHIRContextForcedException() throws FHIRException {
         FHIRContext.FHIRParser.parse(AuditTestUtil.generateExceptionStream());
@@ -322,10 +324,10 @@ public class AuditBeansTest {
     public void testFHIRContext() throws IOException, FHIRException {
         FHIRContext emptyContext = FHIRContext.fhirBuilder().build();
         assertNotNull(emptyContext);
-        
+
         FHIRContext ctx = new FHIRContext(emptyContext);
         assertNotNull(ctx);
-        
+
         ApiParameters apiParameters = ApiParameters.builder().request("request").status(200).build();
         FHIRContext.FHIRBuilder builder = FHIRContext.fhirBuilder();
         builder.apiParameters(apiParameters);

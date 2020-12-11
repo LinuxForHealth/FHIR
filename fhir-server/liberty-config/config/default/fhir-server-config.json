@@ -89,7 +89,7 @@
             }
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.NopService",
+            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
             "serviceProperties" : {
             }
         },

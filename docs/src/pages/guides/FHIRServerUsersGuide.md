@@ -1478,7 +1478,7 @@ The global configuration contains non-tenant specific configuration parameters (
             }
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",
+            "serviceClassName" : "com.ibm.fhir.audit.NopService",
             "serviceProperties" : {
             }
         },
@@ -1756,7 +1756,7 @@ For example, the following uses the 'config' in order to config the Kafka publis
 
 ```
 "audit": {
-    "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
+    "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
     "serviceProperties" : {
         "load": "config",
     }
@@ -1766,7 +1766,7 @@ Or, you could load from an environment, note, this is the default behavior.
 
 ```
 "audit": {
-    "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
+    "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
     "serviceProperties" : {
         "load": "environment",
     }
@@ -1817,7 +1817,7 @@ Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-b
 
 ```
 "audit": {
-    "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
+    "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
     "serviceProperties" : {
         "load": "config",
         "mapper": "cadf",
@@ -2079,7 +2079,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
-|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.api.impl.NopService and com.ibm.fhir.audit.logging.api.impl.KafkaService are the preferred serviceClassName.|
+|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.impl.NopService to indicate the logger service is disabled, and com.ibm.fhir.audit.impl.KafkaService to indicate using Kafka as a destination.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configured for audit logging service.|
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configured for audit logging service.|
