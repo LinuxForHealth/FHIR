@@ -1478,7 +1478,7 @@ The global configuration contains non-tenant specific configuration parameters (
             }
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.NopService",
+            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
             "serviceProperties" : {
             }
         },
