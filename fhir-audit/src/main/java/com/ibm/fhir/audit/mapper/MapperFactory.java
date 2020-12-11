@@ -28,7 +28,7 @@ public final class MapperFactory {
      * @throws IllegalArgumentException
      */
     public static Mapper getMapper(MapperType mt) {
-        if(Objects.isNull(mt)) {
+        if (Objects.isNull(mt)) {
             throw new IllegalArgumentException("Expected non-null MapperType");
         }
         switch (mt) {
