@@ -43,7 +43,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "        WHERE lr.resource_type_id = ? "
             + "          AND lr.logical_id = ? "
             + "          AND lr.reindex_tstamp < ? "
-            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
             ;
@@ -57,7 +57,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "         FROM logical_resources lr "
             + "        WHERE lr.resource_type_id = ? "
             + "          AND lr.reindex_tstamp < ? "
-            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
             ;
@@ -70,7 +70,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "       SELECT lr.logical_resource_id "
             + "         FROM logical_resources lr "
             + "        WHERE lr.reindex_tstamp < ? "
-            + "     ORDER BY lr.reindex_tstamp DESC "
+            + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
             ;
