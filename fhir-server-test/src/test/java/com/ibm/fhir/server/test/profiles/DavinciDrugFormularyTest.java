@@ -51,8 +51,8 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     public List<String> getRequiredProfiles() {
         //@formatter:off
         return Arrays.asList(
-            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan|1.0.0",
-            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug|1.0.0");
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan|1.0.1",
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug|1.0.1");
         //@formatter:on
     }
 

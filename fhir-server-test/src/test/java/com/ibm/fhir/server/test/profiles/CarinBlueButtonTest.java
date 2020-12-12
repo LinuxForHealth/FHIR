@@ -72,14 +72,14 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public List<String> getRequiredProfiles() {
         //@formatter:off
         return Arrays.asList(
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|0.1.7",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|0.1.7");
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Coverage|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|1.0.0");
         //@formatter:on
     }
 
@@ -308,11 +308,11 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    // ExplanationOfBenefit-EOBInpatientInstitutionalEx1.json
+    // ExplanationOfBenefit-EOBInpatient1.json
     public void loadExplanationOfBenefitsInpatientInstitutionalEx1() throws Exception {
         WebTarget target = getWebTarget();
 
-        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-EOBProfessional1a.json");
+        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-EOBInpatient1.json");
         Entity<ExplanationOfBenefit> entity = Entity.entity(eob, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("ExplanationOfBenefit").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -575,49 +575,18 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void testExplanationOfBenefitServiceDate_BillablePeriod() throws Exception {
         // Service Date using ExplanationOfBenefit.billablePeriod
         // EoB - Pharmacy Benefits
-        // "start": "2019-01-01T00:00:00+00:00",
-        // "end": "2019-10-31T00:00:00+00:00"
+        // "start": "2019-10-30",
+        // "end": "2019-10-31"
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("service-date", "ge2019-01-01");
-            parameters.searchParam("service-date", "le2019-10-01");
+            parameters.searchParam("service-date", "ge2019-10-01");
+            parameters.searchParam("service-date", "le2019-11-01");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() >= 1);
             assertContainsIds(bundle, this.explanationOfBenefitsPharmacyId);
-        }
-    }
-
-    @Test
-    public void testExplanationOfBenefitServiceDate_ItemServiced_Date() throws Exception {
-        // Service Date using ExplanationOfBenefit.item.serviced as Date
-        //
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("service-date", "ge2017");
-            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, eobInpatientInstitutionalEx1id);
-        }
-    }
-
-    @Test
-    public void testExplanationOfBenefitServiceDate_ItemServiced_Period() throws Exception {
-        // Service Date using ExplanationOfBenefit.item.serviced as Period
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("service-date", "ge2017");
-            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, eobInpatientInstitutionalEx1id);
         }
     }
 
@@ -682,7 +651,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void testCARINBlueButton_ExplanationOfBenefit_Created_SearchParameter() throws Exception {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("created", "2019-07-02T00:00:00+00:00");
+            parameters.searchParam("created", "2019-11-02T00:00:00+00:00");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
