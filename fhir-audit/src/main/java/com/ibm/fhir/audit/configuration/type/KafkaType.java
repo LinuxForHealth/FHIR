@@ -17,6 +17,26 @@ import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
  */
 public final class KafkaType {
 
+    public static final String KAFKA_SASL_JAAS_CONFIG = "sasl.jaas.config";
+    public static final String KAFKA_BOOTSTRAP_SERVERS = "bootstrap.servers";
+
+    public static final String KAFKA_KEY_SERIALIZER = "key.serializer";
+    public static final String KAFKA_VALUE_SERIALIZER = "value.serializer";
+    public static final String KAFKA_DEFAULT_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
+
+    public static final String KAFKA_SASL_MECHANISM = "sasl.mechanism";
+    public static final String KAFKA_DEFAULT_SASL_MECHANISM = "PLAIN";
+
+    public static final String KAFKA_SECURITY_PROTOCOL = "security.protocol";
+    public static final String KAFKA_DEFAULT_SECURITY_PROTOCOL = "SASL_SSL";
+
+    public static final String KAFKA_SSL_PROTOCOLS = "ssl.protocol";
+    public static final String KAFKA_SSL_ENABLED_PROTOCOLS = "ssl.enabled.protocols";
+    public static final String KAFKA_DEFAULT_SSL_PROTOCOL= "TLSv1.2";
+
+    public static final String KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM = "ssl.endpoint.identification.algorithm";
+    public static final String KAFKA_DEFAULT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM = "HTTPS";
+
     private KafkaType() {
         // No Operation
     }
