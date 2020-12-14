@@ -19,15 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import com.ibm.fhir.audit.logging.api.AuditLogEventType;
-import com.ibm.fhir.audit.logging.api.AuditLogService;
-import com.ibm.fhir.audit.logging.api.AuditLogServiceFactory;
-import com.ibm.fhir.audit.logging.beans.ApiParameters;
-import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
-import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.ConfigData;
-import com.ibm.fhir.audit.logging.beans.Context;
-import com.ibm.fhir.audit.logging.beans.Data;
+import com.ibm.fhir.audit.AuditLogEventType;
+import com.ibm.fhir.audit.AuditLogService;
+import com.ibm.fhir.audit.AuditLogServiceFactory;
+import com.ibm.fhir.audit.beans.ApiParameters;
+import com.ibm.fhir.audit.beans.AuditLogEntry;
+import com.ibm.fhir.audit.beans.Batch;
+import com.ibm.fhir.audit.beans.ConfigData;
+import com.ibm.fhir.audit.beans.Context;
+import com.ibm.fhir.audit.beans.Data;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -313,17 +313,10 @@ public class RestAuditLogger {
                 .resourcesUpdated(updateCount).build());
         entry.setDescription("FHIR Bundle request");
 
-        // Previously we didn't set the Action which caused the logEntry to
-        // Skip over the actual logging, in this case, we're deciding by default
-        // Read, if Create, it'll dominate, Update if no create and more than one
-        // Update action.
-        String action = "R";
-        if (createCount > 0) {
-            action = "C";
-        } else if ( updateCount > 0 ){
-            action = "U";
-        }
-        entry.getContext().setAction(action);
+        // Team discussion results in a recommendation of 'E'
+        // New logic should ensure consistency, all R, all U, all D, all C
+        // when mixed default to E
+        entry.getContext().setAction("E");
 
         if (log.isLoggable(Level.FINE)) {
             log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
@@ -474,7 +467,7 @@ public class RestAuditLogger {
         final String METHODNAME = "populateAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 
-        StringBuffer requestUrl;
+        StringBuilder requestUrl;
         String patientIdExtUrl;
         List<String> userList = new ArrayList<>();
 
@@ -498,11 +491,10 @@ public class RestAuditLogger {
                             .append("/")
                             .append(request.getRemoteHost()).toString());
         entry.setContext(new Context());
-        requestUrl = request.getRequestURL();
-        if (request.getQueryString() != null) {
-            requestUrl.append("?");
-            requestUrl.append(request.getQueryString());
-        }
+
+        // Uses the FHIRRestServletFilter to pass the OriginalRequestUri to the backend.
+        requestUrl = new StringBuilder(FHIRRequestContext.get().getOriginalRequestUri());
+
         entry.getContext().setApiParameters(
                  ApiParameters.builder()
                 .request(requestUrl.toString())

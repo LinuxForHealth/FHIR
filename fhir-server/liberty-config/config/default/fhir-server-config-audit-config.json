@@ -89,9 +89,24 @@
             }
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
-            "serviceProperties" : {
-            }
+            "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
+                "load": "config",
+                "mapper": "cadf",
+                "auditTopic": "FHIR_AUDIT",
+                "geoCity": "Dallas",
+                "geoState": "TX",
+                "geoCounty": "US",
+                "kafka" : {
+                        "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"token\" password=\"apiKeyCanGoHere\";",
+                        "bootstrap.servers": "broker-1:9093,broker-2:9093",
+                        "sasl.mechanism": "PLAIN",
+                        "security.protocol": "SASL_SSL",
+                        "ssl.protocol": "TLSv1.2",
+                        "ssl.enabled.protocols": "TLSv1.2",
+                        "ssl.endpoint.identification.algorithm": "HTTPS"
+                },
+                "kafkaServers": "broker-1:9093,broker-2:9093",
+                "kafkaApiKey": "apiKeyCanGoHere"
         },
         "persistence": {
             "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",

@@ -27,7 +27,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
   * [4.9 Multi-tenancy](#49-multi-tenancy)
   * [4.10 Bulk data operations](#410-bulk-data-operations)
-  * [4.11 CADF audit logging service](#411-cadf-audit-logging-service)
+  * [4.11 Audit logging service](#411-audit-logging-service)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -1478,7 +1478,7 @@ The global configuration contains non-tenant specific configuration parameters (
             }
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",
+            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
             "serviceProperties" : {
             }
         },
@@ -1685,10 +1685,16 @@ To enable export to parquet, an administrator must:
 
 One way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkimportexport-webapp pom.xml and rebuild the webapp to include them.
 
-## 4.11 CADF audit logging service
-The CADF audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to the IBM Cloud Event Streams service. Each FHIR operation triggers a CADF audit log entry to be logged. The mapping of FHIR operation to CADF action is as follows:
+## 4.11 Audit logging service
+The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.
 
-| FHIR Operation                                      | CADF Action |
+There is early support for the [FHIR Standard: AuditEvent format](https://www.hl7.org/fhir/auditevent.html).
+
+### 4.11.1 CADF audit log entry
+
+Each FHIR interaction triggers a CADF audit log entry to be logged. The mapping of FHIR interaction to CADF action is as follows:
+
+| FHIR Interaction                                    | CADF Action |
 |-----------------------------------------------------|-------------|
 |`history,metadata,read,search,validate,version read` |   read      |
 |`create`                                             |   create    |
@@ -1696,7 +1702,6 @@ The CADF audit logging service pushes FHIR server audit events for FHIR operatio
 |`delete`                                             |   delete    |
 |`bundle,custom operation,patch`                      |   unknown   |
 
-### 4.11.1 CADF audit log entry
 The following table describes the JSON fields of the CADF audit log entries logged by the FHIR server:
 
 | CADF Audit Log Entry Field                           | Description |
@@ -1740,11 +1745,36 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
 |`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
-### 4.11.2 Enable CADF audit logging service
-Please refer to the property names that start with fhirServer/audit/ in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
+### 4.11.2 Enable audit logging service
+Please refer to the property names that start with `fhirServer/audit/` in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
 
-### 4.11.3 Event Streams configuation of CADF audit logging service
-The CADF audit logging service gets the event streams service credential from environment variable EVENT_STREAMS_AUDIT_BINDING with values like this:
+### 4.11.3 Configuration of audit logging service
+
+There are two types of configuration for the Audit Logging Service. The first type is using the environment variable, and the second is the configuration driven from the fhir-server-config.json.
+
+For example, the following uses the 'config' in order to config the Kafka publisher as part of the audit logging service. 
+
+```
+"audit": {
+    "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
+    "serviceProperties" : {
+        "load": "config",
+    }
+```
+
+Or, you could load from an environment, note, this is the default behavior. 
+
+```
+"audit": {
+    "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
+    "serviceProperties" : {
+        "load": "environment",
+    }
+```
+
+#### 4.11.3.1 Environment Variable Configuration of audit logging service
+
+The audit logging service gets the event streams service credential from environment variable EVENT_STREAMS_AUDIT_BINDING with values like this:
 
 ```
     {
@@ -1762,11 +1792,13 @@ The CADF audit logging service gets the event streams service credential from en
    …
 }
 ```
-The service credential is generated automatically when you run
+
+If you are using the IBM EventStreams on IBM Cloud, the service credential can be generated automatically when you run:
 
 ```
     ibmcloud ks cluster-service-bind --cluster <cluster_name_or_ID> --namespace <namespace> --service <event_streams_service_instance_name> …
 ```
+
 to bind your event streams service instance to your Kubernetes cluster.
 
 And then in the YAML file for your Kubernetes deployment, specify the environment variable EVENT_STREAMS_AUDIT_BINDING that references the binding key of the generated secret(binding-<event_streams_service_instance_name>) as following:
@@ -1778,10 +1810,180 @@ And then in the YAML file for your Kubernetes deployment, specify the environmen
                     key: binding
                     name: binding-<event_streams_service_instance_name>
 ```
+
 Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-binding for detailed instructions if needed.
 
+#### 4.11.3.2 fhir-server-config.json Configuration of audit logging service
+
+```
+"audit": {
+    "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
+    "serviceProperties" : {
+        "load": "config",
+        "mapper": "cadf",
+        "auditTopic": "FHIR_AUDIT",
+        "geoCity": "Dallas",
+        "geoState": "TX",
+        "geoCounty": "US",
+        "kafka" : {
+            "sasl.jaas.config": "********",
+            "bootstrap.servers": "********",
+            "sasl.mechanism": "PLAIN",
+            "security.protocol": "SASL_SSL",
+            "ssl.protocol": "TLSv1.2",
+            "ssl.enabled.protocols": "TLSv1.2",
+            "ssl.endpoint.identification.algorithm": "HTTPS"
+        },
+        "kafkaServers": "********",
+        "kafkaApiKey": "********"
+    }
+```
+
+The service can map to the CADF format or the FHIR AuditEvent resource format by declaring a mapper type - 'cadf' or 'auditevent'. 
+
+- *CADF* Example
+```
+{
+    "action": "create",
+    "eventTime": "2020-12-10 16:49:22.307",
+    "eventType": "activity",
+    "id": "c62ee8f8-be77-49d0-aad0-c0bf52a05fdf",
+    "outcome": "success",
+    "typeURI": "http://schemas.dmtf.org/cloud/audit/1.0/event",
+    "tags": [
+    ],
+    "attachments": [
+        {
+            "contentType": "application/json",
+            "content": "rO0ABXQCUQp7CiAgICAicmVxdWVzdF91bmlxdWVfaWQiOiAiYzYyZWU4ZjgtYmU3Ny00OWQwLWFhZDAtYzBiZjUyYTA1ZmRmIiwKICAgICJhY3Rpb24iOiAiQyIsCiAgICAic3RhcnRfdGltZSI6ICIyMDIwLTEyLTEwIDE2OjQ5OjIyLjE2OCIsCiAgICAiZW5kX3RpbWUiOiAiMjAyMC0xMi0xMCAxNjo0OToyMi4zMDciLAogICAgImFwaV9wYXJhbWV0ZXJzIjogewogICAgICAgICJyZXF1ZXN0IjogImh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvZmhpci1zZXJ2ZXIvYXBpL3Y0L1ZlcmlmaWNhdGlvblJlc3VsdCIsCiAgICAgICAgInJlcXVlc3Rfc3RhdHVzIjogMjAxCiAgICB9LAogICAgImRhdGEiOiB7CiAgICAgICAgInJlc291cmNlX3R5cGUiOiAiVmVyaWZpY2F0aW9uUmVzdWx0IiwKICAgICAgICAiaWQiOiAiMTc2NGQ4ZWEzMGEtYzUxOGMxOWItMWM0Zi00Yjc0LThhMDMtNGM5NjA0YmZkYjZlIiwKICAgICAgICAidmVyc2lvbl9pZCI6ICIxIgogICAgfSwKICAgICJldmVudF90eXBlIjogImZoaXItY3JlYXRlIiwKICAgICJkZXNjcmlwdGlvbiI6ICJGSElSIENyZWF0ZSByZXF1ZXN0IiwKICAgICJsb2NhdGlvbiI6ICIxMjcuMC4wLjEvbG9jYWxob3N0Igp9"
+        }
+    ],
+    "initiator": {
+        "id": "default@fhir-server",
+        "typeURI": "compute/machine",
+        "host": "192.168.86.20",
+        "credential": {
+            "token": "user-fhiruser"
+        },
+        "geolocation": {
+            "city": "Dallas",
+            "state": "TX",
+            "region": "US",
+            "annotations": [
+            ]
+        }
+    },
+    "observer": {
+        "id": "fhir-server",
+        "typeURI": "compute/node",
+        "name": "IBM FHIR Server - Audit",
+        "geolocation": {
+            "city": "Dallas",
+            "state": "TX",
+            "region": "US",
+            "annotations": [
+            ]
+        }
+    }
+}
+```
+
+- *AuditEvent* Example
+
+```
+{
+    "resourceType": "AuditEvent",
+    "type": {
+        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+        "code": "rest",
+        "display": "Restful Operation"
+    },
+    "subtype": [
+        {
+            "system": "http://hl7.org/fhir/restful-interaction",
+            "code": "search",
+            "display": "search"
+        }
+    ],
+    "action": "E",
+    "period": {
+        "start": "2020-12-10T16:38:14.466Z",
+        "end": "2020-12-10T16:38:14.631Z"
+    },
+    "recorded": "2020-12-10T11:38:14.632173-05:00",
+    "outcome": "0",
+    "outcomeDesc": "success",
+    "purposeOfEvent": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                    "code": "PurposeOfUse",
+                    "display": "PurposeOfUse"
+                }
+            ]
+        }
+    ],
+    "agent": [
+        {
+            "role": [
+                {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                            "code": "datacollector",
+                            "display": "datacollector"
+                        }
+                    ]
+                }
+            ],
+            "name": "fhir-server",
+            "requestor": true,
+            "network": {
+                "address": "internal-ip",
+                "type": "1"
+            }
+        }
+    ],
+    "source": {
+        "site": "127.0.0.1/localhost",
+        "observer": {
+            "reference": "fhir-server"
+        },
+        "type": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "4",
+                "display": "Application Server"
+            }
+        ]
+    },
+    "entity": [
+        {
+            "securityLabel": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-Confidentiality",
+                    "code": "N",
+                    "display": "normal"
+                }
+            ],
+            "description": "FHIR Search request",
+            "query": "MTI3LjAuMC4xL2xvY2FsaG9zdC97X3RhZz1baHR0cDovL2libS5jb20vZmhpci90YWd8dGFnMixodHRwOi8vaWJtLmNvbS9maGlyL3RhZ3x0YWddLCBfY291bnQ9WzEwMDBdLCBfcGFnZT1bMV19",
+            "detail": [
+                {
+                    "type": "FHIR Context",
+                    "valueBase64Binary": "CnsKICAgICJyZXF1ZXN0X3VuaXF1ZV9pZCI6ICIzMmJmMDNhNS1kNmQ1LTQ2MTEtYmFjYS0wNjdkMzcwMDYyMzUiLAogICAgImFjdGlvbiI6ICJSIiwKICAgICJzdGFydF90aW1lIjogIjIwMjAtMTItMTAgMTY6Mzg6MTQuNDY2IiwKICAgICJlbmRfdGltZSI6ICIyMDIwLTEyLTEwIDE2OjM4OjE0LjYzMSIsCiAgICAiYXBpX3BhcmFtZXRlcnMiOiB7CiAgICAgICAgInJlcXVlc3QiOiAiaHR0cHM6Ly9sb2NhbGhvc3Q6OTQ0My9maGlyLXNlcnZlci9hcGkvdjQvX3NlYXJjaD9fdGFnPWh0dHAlM0ElMkYlMkZpYm0uY29tJTJGZmhpciUyRnRhZyU3Q3RhZzIlMkNodHRwJTNBJTJGJTJGaWJtLmNvbSUyRmZoaXIlMkZ0YWclN0N0YWcmX2NvdW50PTEwMDAmX3BhZ2U9MSIsCiAgICAgICAgInJlcXVlc3Rfc3RhdHVzIjogMjAwCiAgICB9LAogICAgInF1ZXJ5IjogIntfdGFnPVtodHRwOi8vaWJtLmNvbS9maGlyL3RhZ3x0YWcyLGh0dHA6Ly9pYm0uY29tL2ZoaXIvdGFnfHRhZ10sIF9jb3VudD1bMTAwMF0sIF9wYWdlPVsxXX0iLAogICAgImJhdGNoIjogewogICAgICAgICJyZXNvdXJjZXNfcmVhZCI6IDIKICAgIH0sCiAgICAiZXZlbnRfdHlwZSI6ICJmaGlyLXNlYXJjaCIsCiAgICAiZGVzY3JpcHRpb24iOiAiRkhJUiBTZWFyY2ggcmVxdWVzdCIsCiAgICAibG9jYXRpb24iOiAiMTI3LjAuMC4xL2xvY2FsaG9zdCIKfQ=="
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 4.11.4 Query CADF events in COS
-[Watson studio stream flow](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source) can be created to push those FHIR Audit CADF events from the Event Streams service to a COS bucket (e.g. fhir-audit-dev0) in CSV format. Another option is to configure Event Streams (Kafka) S3 connect to push those CADF events to a COS bucket (e.g. fhir-audit-dev0) but in raw CADF json format.
+
+[Watson Studio stream flow](https://cloud.ibm.com/docs/tutorials?topic=solution-tutorials-big-data-log-analytics#create-a-streams-flow-source) can be created to push those FHIR Audit CADF events from the Event Streams service to a COS bucket (e.g. fhir-audit-dev) in CSV format. Another option is to configure Event Streams (Kafka) S3 connect to push those CADF events to a COS bucket (e.g. fhir-audit-dev) but in raw CADF json format.
+
 A service instance of the [IBM Cloud SQL Query](https://www.ibm.com/cloud/blog/analyzing-data-with-ibm-cloud-sql-query) service can be created to allow you to query those CADF audit events in COS with SQL queries. Before running an SQL query, it's recommended to first create a COS bucket to store your query results, otherwise the query results will be stored in a bucket which is automatically created by the SQL query service.
 
 Sample queries for CSV records expanded from the JSON CADF events:
@@ -1808,7 +2010,6 @@ select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETW
 select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETWEEN "2019-06-01" and "2019-06-06" and ATTACHMENTS[0].CONTENT LIKE '%fhir-read%' into cos://us-south/fhir-audit-dev-res stored as json
 
 ```
-
 
 # 5 Appendix
 
@@ -1878,11 +2079,16 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
-|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService and com.ibm.fhir.audit.logging.impl.DisabledAuditLogService are supported.|
+|`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.impl.NopService to indicate the logger service is disabled, and com.ibm.fhir.audit.impl.KafkaService to indicate using Kafka as a destination.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
-|`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
-|`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
-|`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
+|`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configured for audit logging service.|
+|`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configured for audit logging service.|
+|`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configured for audit logging service.|
+|`fhirServer/audit/serviceProperties/kafkaServers`|string|The CSV list of Kafka brokers.|
+|`fhirServer/audit/serviceProperties/kafkaApiKey`|string|The apikey for the JAAS configuration.|
+|`fhirServer/audit/serviceProperties/mapper`|string|The AuditEventLog mapper that determines the output format - valid types are 'cadf' and 'auditevent'. 'auditevent' refers to the FHIR Resource AuditEvent, and 'cadf' refers to the Cloud logging standard.|
+|`fhirServer/audit/serviceProperties/load`|string|The location that the configuration is loaded from 'environment' or 'config'.|
+|`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
@@ -1974,9 +2180,11 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/capabilities`|array|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
-|`fhirServer/audit/serviceProperties/geoCity`|Dallas|
-|`fhirServer/audit/serviceProperties/geoState`|TX|
-|`fhirServer/audit/serviceProperties/geoCounty`|US|
+|`fhirServer/audit/serviceProperties/geoCity`|UnknownCity|
+|`fhirServer/audit/serviceProperties/geoState`|UnknownState|
+|`fhirServer/audit/serviceProperties/geoCounty`|UnknownCountry|
+|`fhirServer/audit/serviceProperties/mapper`|cadf|
+|`fhirServer/audit/serviceProperties/load`|environment|
 |`fhirServer/bulkdata/isExportPublic`|true|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
 |`fhirServer/bulkdata/cosFileMaxResources`|200000|
@@ -2062,6 +2270,8 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
 |`fhirServer/audit/serviceProperties/geoState`|N|N|
 |`fhirServer/audit/serviceProperties/geoCounty`|N|N|
+|`fhirServer/audit/serviceProperties/mapper`|N|N|
+|`fhirServer/audit/serviceProperties/load`|N|N|
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|Y|Y|

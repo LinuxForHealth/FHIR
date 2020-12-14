@@ -6,6 +6,7 @@
             "datastoreIdHeaderName": "X-FHIR-DSID",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
+            "serverRegistryResourceProviderEnabled": true,
             "disabledOperations": ""
         },
         "security": {
@@ -36,9 +37,64 @@
                 }
             }
         },
+        "notifications": {
+            "common": {
+                "__comment_includeResourceTypes": [
+                    "QuestionnaireResponse",
+                    "CarePlan",
+                    "MedicationAdministration",
+                    "Device",
+                    "DeviceComponent",
+                    "DeviceMetric",
+                    "MedicationOrder",
+                    "Observation"
+                ]
+            },
+            "websocket": {
+                "__comment": "only enable this for single-tenant, single-server deployments",
+                "enabled": false
+            },
+            "kafka": {
+                "enabled": false,
+                "topicName": "fhirNotifications",
+                "connectionProperties": {
+                    "group.id": "securing-kafka-group",
+                    "bootstrap.servers": "localhost:9093",
+                    "security.protocol": "SSL",
+                    "ssl.truststore.location": "resources/security/kafka.client.truststore.p12",
+                    "ssl.truststore.password": "change-password",
+                    "ssl.keystore.location": "resources/security/kafka.client.keystore.p12",
+                    "ssl.keystore.password": "change-password",
+                    "ssl.key.password": "change-password",
+                    "ssl.truststore.type": "PKCS12",
+                    "ssl.keystore.type": "PKCS12",
+                    "acks": "all",
+                    "retries": "60",
+                    "request.timeout.ms": "10000",
+                    "max.block.ms": "60000",
+                    "max.in.flight.requests.per.connection": "5"
+                }
+            },
+            "nats": {
+                "enabled": false,
+                "cluster": "nats-streaming",
+                "channel": "fhirNotifications",
+                "clientId": "fhir-server",
+                "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
+                "useTLS": false,
+                "truststoreLocation": "resources/security/nats.client.truststore.jks",
+                "truststorePassword": "change-password",
+                "keystoreLocation": "resources/security/nats.client.keystore.jks",
+                "keystorePassword": "change-password"
+            }
+        },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
+            "serviceClassName" : "com.ibm.fhir.audit.logging.api.impl.KafkaService",
             "serviceProperties" : {
+                "auditTopic": "FHIR_AUDIT",
+                "geoCity": "Dallas",
+                "geoState": "TX",
+                "geoCounty": "US"
             }
         },
         "persistence": {
@@ -58,6 +114,18 @@
             },
             "datasources": {
                 "default": {
+                    "jndiName": "jdbc/bootstrap_default_default",
+                    "type": "derby",
+                    "currentSchema": "APP"
+                },
+                "_db2sample": {
+                    "type": "db2",
+                    "currentSchema": "fhirdata",
+                    "hints" : {
+                      "search.reopt": "ONCE"
+                    }
+                },
+                "_pgsample": {
                     "type": "postgresql",
                     "currentSchema": "fhirdata"
                 }
@@ -72,9 +140,9 @@
                 "cos.location": "us",
                 "cos.endpoint.internal": "fake",
                 "cos.endpoint.external": "fake",
-                "cos.credential.ibm": "Y",
-                "cos.api.key": "fake",
-                "cos.srvinst.id": "fake"
+                "cos.credential.ibm": "N",
+                "cos.access.key": "fake",
+                "cos.secret.key": "fake"
             },
             "implementation_type": "cos",
             "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",

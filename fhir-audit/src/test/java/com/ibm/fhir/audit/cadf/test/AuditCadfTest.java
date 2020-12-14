@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,18 +12,24 @@ import static org.testng.AssertJUnit.fail;
 
 import java.util.Date;
 
+import javax.json.Json;
+import javax.json.JsonBuilderFactory;
+import javax.json.JsonObject;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.kafka.Environment;
-import com.ibm.fhir.audit.kafka.EventStreamsCredentials;
-import com.ibm.fhir.audit.logging.beans.ApiParameters;
-import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
-import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.Context;
-import com.ibm.fhir.audit.logging.beans.Data;
-import com.ibm.fhir.audit.logging.impl.WhcAuditCadfLogService;
+import com.ibm.fhir.audit.AuditLogServiceConstants;
+import com.ibm.fhir.audit.beans.ApiParameters;
+import com.ibm.fhir.audit.beans.AuditLogEntry;
+import com.ibm.fhir.audit.beans.Batch;
+import com.ibm.fhir.audit.beans.Context;
+import com.ibm.fhir.audit.beans.Data;
+import com.ibm.fhir.audit.cadf.CadfEvent;
+import com.ibm.fhir.audit.configuration.type.IBMEventStreamsType;
+import com.ibm.fhir.audit.configuration.type.IBMEventStreamsType.EventStreamsCredentials;
+import com.ibm.fhir.audit.impl.KafkaService;
+import com.ibm.fhir.audit.mapper.impl.CADFMapper;
 import com.ibm.fhir.config.ConfigurationService;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
@@ -68,6 +74,10 @@ public class AuditCadfTest {
                     + "}\r\n";
     private static final String operationName = "UnitTest";
 
+    private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
+
+    private JsonObject jsonObjKafkaMapper = null;
+
     private AuditLogEntry TestFhirLog1 = null;
 
     public AuditCadfTest() {
@@ -95,9 +105,19 @@ public class AuditCadfTest {
         TestFhirLog1.getContext().setRequestUniqueId(reqUniqueId);
         TestFhirLog1.getContext().setAction("R");
         TestFhirLog1.getContext().setBatch(
-                Batch.builder().resourcesCreated((long) 5).resourcesRead((long) 10).resourcesUpdated((long) 2).build());
+                Batch.builder().resourcesCreated(5).resourcesRead(10).resourcesUpdated(2).build());
         TestFhirLog1.setDescription(description);
         TestFhirLog1.getContext().setOperationName(operationName);
+
+        //@formatter:off
+        jsonObjKafkaMapper = BUILDER_FACTORY.createObjectBuilder()
+                            .add("auditTopic","auditTopicValue")
+                            .add("mapper","cadf")
+                            .add("kafka",
+                                BUILDER_FACTORY.createObjectBuilder()
+                                    .build())
+                        .build();
+        //@formatter:on
     }
 
     // Enable this only if you have kafka properly configured in fhirConfig.json
@@ -114,11 +134,11 @@ public class AuditCadfTest {
 
             if (debug) {
                 System.out.println(
-                        AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS));
-                System.out.println(AuditProps.getStringProperty(WhcAuditCadfLogService.PROPERTY_AUDIT_KAFKA_APIKEY));
+                        AuditProps.getStringProperty(AuditLogServiceConstants.PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS));
+                System.out.println(AuditProps.getStringProperty(AuditLogServiceConstants.PROPERTY_AUDIT_KAFKA_APIKEY));
             }
 
-            WhcAuditCadfLogService logService = new WhcAuditCadfLogService();
+            KafkaService logService = new KafkaService();
             logService.initialize(AuditProps);
 
             logService.logEntry(TestFhirLog1);
@@ -134,7 +154,9 @@ public class AuditCadfTest {
         CadfEvent eventObject = null;
 
         try {
-            eventObject = WhcAuditCadfLogService.createCadfEvent(TestFhirLog1);
+            CADFMapper mapper = new CADFMapper();
+            mapper = (CADFMapper) mapper.init(new PropertyGroup(jsonObjKafkaMapper));
+            eventObject = mapper.createCadfEvent(TestFhirLog1);
 
             assertNotNull(eventObject);
 
@@ -148,7 +170,7 @@ public class AuditCadfTest {
             }
 
             TestFhirLog1.getContext().setEndTime(timestamp);
-            eventObject = WhcAuditCadfLogService.createCadfEvent(TestFhirLog1);
+            eventObject = mapper.createCadfEvent(TestFhirLog1);
 
             assertNotNull(eventObject);
 
@@ -169,12 +191,12 @@ public class AuditCadfTest {
 
     @Test(groups = { "parser" })
     public void testConfigParser() throws Exception {
-        EventStreamsCredentials esBinding = null;
+        IBMEventStreamsType.EventStreamsCredentials esBinding = null;
         try {
             esBinding = EventStreamsCredentials.Parser.parse(eventStreamBinding);
             assertNotNull(esBinding);
 
-            String bootstrapServers = Environment.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
+            String bootstrapServers = IBMEventStreamsType.stringArrayToCSV(esBinding.getKafkaBrokersSasl());
             String apiKey = esBinding.getApiKey();
 
             assertNotNull(bootstrapServers);
