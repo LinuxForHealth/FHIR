@@ -425,14 +425,6 @@ public final class CadfResource {
                 generator.writeEnd();
             }
 
-            if (obj.getAddresses() != null) {
-                generator.writeStartArray("addresses");
-                for (CadfEndpoint endpoint : obj.getAddresses()) {
-                    CadfEndpoint.Writer.generate(endpoint, generator);
-                }
-                generator.writeEnd();
-            }
-
             if (obj.getAttachments() != null) {
                 generator.writeStartArray("attachments");
                 for (CadfAttachment attachment : obj.getAttachments()) {

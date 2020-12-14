@@ -754,6 +754,12 @@ public class CadfEvent {
                 generator.write("severity", obj.getSeverity());
             }
 
+            if (obj.getTarget() != null) {
+                generator.writeStartObject("target");
+                CadfResource.Writer.generate(obj.getTarget(), generator);
+                generator.writeEnd();
+            }
+
             if (obj.getTargetId() != null) {
                 generator.write("targetId", obj.getTargetId());
             }
