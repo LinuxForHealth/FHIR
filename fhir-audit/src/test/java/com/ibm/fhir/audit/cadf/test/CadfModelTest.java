@@ -18,6 +18,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.audit.cadf.CadfAttachment;
@@ -920,5 +921,30 @@ public class CadfModelTest {
     @Test(expectedExceptions = {IllegalArgumentException.class})
     public void testResourceType() {
         ResourceType.of("not-valid");
+    }
+
+    @Test
+    public void testCadfResourceWithAddress() throws IOException {
+        CadfGeolocation geo = CadfGeolocation.builder().city("city").region("regionIcann").build();
+        CadfEndpoint endpoint = CadfEndpoint.builder().name("test").port("80").url("Here").build();
+        CadfResource resource = CadfResource.builder().typeURI(ResourceType.compute_cpu).id("id").geolocation(geo).address(endpoint).build();
+        String output = CadfResource.Writer.generate(resource);
+        JSONAssert.assertEquals("{\n" +
+                "    \"id\": \"id\",\n" +
+                "    \"typeURI\": \"compute/cpu\",\n" +
+                "    \"addresses\": [\n" +
+                "        {\n" +
+                "            \"url\": \"Here\",\n" +
+                "            \"name\": \"test\",\n" +
+                "            \"port\": \"80\"\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"geolocation\": {\n" +
+                "        \"city\": \"city\",\n" +
+                "        \"region\": \"regionIcann\",\n" +
+                "        \"annotations\": [\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}", output, false);
     }
 }
