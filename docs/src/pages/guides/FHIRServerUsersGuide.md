@@ -1852,6 +1852,31 @@ The service can map to the CADF format or the FHIR AuditEvent resource format by
     "typeURI": "http://schemas.dmtf.org/cloud/audit/1.0/event",
     "tags": [
     ],
+    "target": {
+        "id": "176629076d7-ef3e8608-cd07-4c20-8823-ddfe46237052",
+        "typeURI": "data/database",
+        "addresses": [
+            {
+                "url": "https://test.io:443/fhir-server/api/v4/Patient",
+                "name": "",
+                "port": ""
+            }
+        ],
+        "geolocation": {
+            "city": "Hamil",
+            "state": "TEXAS",
+            "region": "USA",
+            "annotations": [
+            ]
+        },
+        "addresses": [
+            {
+                "url": "https://test.io:443/fhir-server/api/v4/Patient",
+                "name": "",
+                "port": ""
+            }
+        ]
+    },
     "attachments": [
         {
             "contentType": "application/json",
