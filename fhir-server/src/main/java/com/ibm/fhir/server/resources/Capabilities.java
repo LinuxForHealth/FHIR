@@ -392,7 +392,7 @@ public class Capabilities extends FHIRResource {
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion()
                 + " build id " + buildInfo.getBuildId() + "";
 
-        List<Code> format = new ArrayList<Code>();
+        List<Code> format = new ArrayList<>();
         format.add(Code.of(Format.JSON.toString().toLowerCase()));
         format.add(Code.of(Format.XML.toString().toLowerCase()));
         format.add(Code.of(FHIRMediaType.APPLICATION_JSON));
@@ -600,7 +600,7 @@ public class Capabilities extends FHIRResource {
 
     private CapabilityStatement addExtensionElements(CapabilityStatement capabilityStatement)
         throws Exception {
-        List<Extension> extentions = new ArrayList<Extension>();
+        List<Extension> extentions = new ArrayList<>();
         Extension extension = Extension.builder()
                 .url(EXTENSION_URL + "/defaultTenantId")
                 .value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID)))
@@ -649,16 +649,6 @@ public class Capabilities extends FHIRResource {
         extension = Extension.builder()
                 .url(EXTENSION_URL + "/auditLogServiceName")
                 .value(string(auditLogServiceName))
-                .build();
-        extentions.add(extension);
-
-        PropertyGroup auditLogProperties =
-                fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
-        String auditLogPropertiesString =
-                auditLogProperties != null ? auditLogProperties.toString() : "<not specified>";
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/auditLogProperties")
-                .value(string(auditLogPropertiesString))
                 .build();
         extentions.add(extension);
 
