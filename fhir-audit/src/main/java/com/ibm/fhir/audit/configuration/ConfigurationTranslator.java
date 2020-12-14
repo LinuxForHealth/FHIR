@@ -13,6 +13,20 @@ import static com.ibm.fhir.audit.AuditLogServiceConstants.PROPERTY_AUDIT_KAFKA_A
 import static com.ibm.fhir.audit.AuditLogServiceConstants.PROPERTY_AUDIT_KAFKA_BOOTSTRAPSERVERS;
 import static com.ibm.fhir.audit.AuditLogServiceConstants.PROPERTY_AUDIT_KAFKA_TOPIC;
 import static com.ibm.fhir.audit.AuditLogServiceConstants.PROPERTY_AUDIT_MAPPER;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_BOOTSTRAP_SERVERS;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_DEFAULT_SASL_MECHANISM;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_DEFAULT_SECURITY_PROTOCOL;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_DEFAULT_SERIALIZER;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_DEFAULT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_DEFAULT_SSL_PROTOCOL;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_KEY_SERIALIZER;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_SASL_JAAS_CONFIG;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_SASL_MECHANISM;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_SECURITY_PROTOCOL;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_SSL_ENABLED_PROTOCOLS;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_SSL_PROTOCOLS;
+import static com.ibm.fhir.audit.configuration.type.KafkaType.KAFKA_VALUE_SERIALIZER;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -141,11 +155,11 @@ public class ConfigurationTranslator {
 
         // We override if we need to
         Object o =
-                props.put("sasl.jaas.config", String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";", KAFKA_USERNAME, apiKey));
+                props.put(KAFKA_SASL_JAAS_CONFIG, String.format("org.apache.kafka.common.security.plain.PlainLoginModule required username=\"%s\" password=\"%s\";", KAFKA_USERNAME, apiKey));
         if (o != null) {
             logger.warning("Environmental properties are overriding fhir-server-config.json for - sasl.jaas.config");
         }
-        o = props.put("bootstrap.servers", bootstrapServers);
+        o = props.put(KAFKA_BOOTSTRAP_SERVERS, bootstrapServers);
         if (o != null) {
             logger.warning("Environmental properties are overriding fhir-server-config.json for - bootstrap.servers");
         }
@@ -155,26 +169,26 @@ public class ConfigurationTranslator {
      * check and load the default serialiers (for example)
      */
     private void checkAndLoadDefaults(Properties props, PropertyGroup auditLogProperties) {
-        if(!props.containsKey("key.serializer")) {
-            props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        if(!props.containsKey(KAFKA_KEY_SERIALIZER)) {
+            props.put(KAFKA_KEY_SERIALIZER, KAFKA_DEFAULT_SERIALIZER);
         }
-        if(!props.containsKey("value.serializer")) {
-            props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        if(!props.containsKey(KAFKA_VALUE_SERIALIZER)) {
+            props.put(KAFKA_VALUE_SERIALIZER, KAFKA_DEFAULT_SERIALIZER);
         }
-        if(!props.containsKey("sasl.mechanism")) {
-            props.put("sasl.mechanism", "PLAIN");
+        if(!props.containsKey(KAFKA_SASL_MECHANISM)) {
+            props.put(KAFKA_SASL_MECHANISM, KAFKA_DEFAULT_SASL_MECHANISM);
         }
-        if(!props.containsKey("security.protocol")) {
-            props.put("security.protocol", "SASL_SSL");
+        if(!props.containsKey(KAFKA_SECURITY_PROTOCOL)) {
+            props.put(KAFKA_SECURITY_PROTOCOL, KAFKA_DEFAULT_SECURITY_PROTOCOL);
         }
-        if(!props.containsKey("ssl.protocol")) {
-            props.put("ssl.protocol", "TLSv1.2");
+        if(!props.containsKey(KAFKA_SSL_PROTOCOLS)) {
+            props.put(KAFKA_SSL_PROTOCOLS, KAFKA_DEFAULT_SSL_PROTOCOL);
         }
-        if(!props.containsKey("ssl.enabled.protocols")) {
-            props.put("ssl.enabled.protocols", "TLSv1.2");
+        if(!props.containsKey(KAFKA_SSL_ENABLED_PROTOCOLS)) {
+            props.put(KAFKA_SSL_ENABLED_PROTOCOLS, KAFKA_DEFAULT_SSL_PROTOCOL);
         }
-        if(!props.containsKey("ssl.endpoint.identification.algorithm")) {
-            props.put("ssl.endpoint.identification.algorithm", "HTTPS");
+        if(!props.containsKey(KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM)) {
+            props.put(KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM, KAFKA_DEFAULT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM);
         }
     }
 
