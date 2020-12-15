@@ -82,6 +82,9 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         management.makePropertyKey("language").dataType(String.class).make();
         management.makePropertyKey("system").dataType(String.class).make();
         management.makePropertyKey("use").dataType(String.class).make();
+        management.makePropertyKey("caseSensitive").dataType(Boolean.class).make();
+        management.makePropertyKey("codeLowerCase").dataType(String.class).make();
+        management.makePropertyKey("displayLowerCase").dataType(String.class).make();
 
         // vertex labels
         management.makeVertexLabel("CodeSystem").make();
