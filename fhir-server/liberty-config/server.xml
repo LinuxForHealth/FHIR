@@ -11,7 +11,6 @@
         <feature>jdbc-4.1</feature>
         <feature>websocket-1.1</feature>
         <feature>localConnector-1.0</feature>
-        <feature>mpOpenAPI-1.0</feature>
         <!-- mpJwt-1.1 isn't used by default,
              but we include it here to avoid NoClassDefFound in our classes that *can* use it -->
         <feature>mpJwt-1.1</feature>
@@ -63,9 +62,6 @@
             </security-role>
         </application-bnd>
     </webApplication>
-
-    <!-- This is the openapi definition for the IBM FHIR Server -->
-    <webApplication id="fhir-openapi" location="fhir-openapi.war" name="fhir-openapi"/>
 
     <!--
         This library element puts a specific directory in the classpath so that it can be used

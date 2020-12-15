@@ -33,7 +33,7 @@ LABEL description="The IBM FHIR Server is a modular Java implementation of versi
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
-COPY licenses/ /licenses
+COPY target/LICENSE /licenses/
 
 ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
 

@@ -89,7 +89,7 @@ public class Batch extends FHIRResource {
             return exceptionResponse(e, status);
         } finally {
             try {
-                RestAuditLogger.logBundle(httpServletRequest, responseBundle, startTime, new Date(), status);
+                RestAuditLogger.logBundle(httpServletRequest, (Bundle) resource, responseBundle, startTime, new Date(), status);
             } catch (Exception e) {
                 log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
             }

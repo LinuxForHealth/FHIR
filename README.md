@@ -8,6 +8,8 @@ The server can be packaged as a set of jar files, a web application archive (war
 ### Running the IBM FHIR Server
 The IBM FHIR Server is available from the [Releases tab](https://github.com/IBM/FHIR/releases) as a zip file with installation scripts for Mac/Linux and Windows or as a docker image at https://hub.docker.com/r/ibmcom/ibm-fhir-server.
 
+Note: The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibmcom/ibm-fhir-schematool) is an early technology preview and is experimental.
+
 More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
@@ -122,6 +124,8 @@ The IBM FHIR Server is under active development. To help develop the server, clo
 See [Setting up for development](https://github.com/IBM/FHIR/wiki/Setting-up-for-development) for more information.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contributing your changes back to the project.
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for code of conduct.
 
 ### License
 The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is

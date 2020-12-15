@@ -69,6 +69,29 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <copy
+                                    todir="${project.build.directory}">
+                                    <fileset
+                                        dir="${project.build.directory}/../../">
+                                        <include name="LICENSE" />
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
@@ -294,7 +317,7 @@
                     <artifactId>fhir-operation-validate</artifactId>
                     <version>${project.version}</version>
                 </dependency>
-                
+
             </dependencies>
             <build>
                 <plugins>

@@ -19,15 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import com.ibm.fhir.audit.logging.api.AuditLogEventType;
-import com.ibm.fhir.audit.logging.api.AuditLogService;
-import com.ibm.fhir.audit.logging.api.AuditLogServiceFactory;
-import com.ibm.fhir.audit.logging.beans.ApiParameters;
-import com.ibm.fhir.audit.logging.beans.AuditLogEntry;
-import com.ibm.fhir.audit.logging.beans.Batch;
-import com.ibm.fhir.audit.logging.beans.ConfigData;
-import com.ibm.fhir.audit.logging.beans.Context;
-import com.ibm.fhir.audit.logging.beans.Data;
+import com.ibm.fhir.audit.AuditLogEventType;
+import com.ibm.fhir.audit.AuditLogService;
+import com.ibm.fhir.audit.AuditLogServiceFactory;
+import com.ibm.fhir.audit.beans.ApiParameters;
+import com.ibm.fhir.audit.beans.AuditLogEntry;
+import com.ibm.fhir.audit.beans.Batch;
+import com.ibm.fhir.audit.beans.ConfigData;
+import com.ibm.fhir.audit.beans.Context;
+import com.ibm.fhir.audit.beans.Data;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -266,13 +266,14 @@ public class RestAuditLogger {
     /**
      * Builds an audit log entry for a 'bundle' REST service invocation.
      * @param request - The HttpServletRequest representation of the REST request.
-     * @param bundle - The Bundle that is returned to the REST service caller.
+     * @param requestBundle - The Bundle that contains the requests.
+     * @param responseBundle - The Bundle that is returned to the REST service caller.
      * @param startTime - The start time of the bundle request execution.
      * @param endTime - The end time of the bundle request execution.
      * @param responseStatus - The response status.
      * @throws Exception
      */
-    public static void logBundle(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
+    public static void logBundle(HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logBundle";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -284,11 +285,13 @@ public class RestAuditLogger {
         HTTPVerb requestMethod;
 
         populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
-        if (bundle != null) {
-            for (Entry bundleEntry : bundle.getEntry()) {
+        if (requestBundle != null) {
+            // We need the requestBundle so we know what the request was for at this point.
+            // We don't have a "request" field otherwise
+            for (Entry bundleEntry : requestBundle.getEntry()) {
                 if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
                     requestMethod = bundleEntry.getRequest().getMethod();
-                    switch (HTTPVerb.ValueSet.from(requestMethod.getValue()))  {
+                    switch (HTTPVerb.ValueSet.from(requestMethod.getValue())) {
                     case GET:
                         readCount++;
                         break;
@@ -300,7 +303,6 @@ public class RestAuditLogger {
                         break;
                     default:
                         break;
-
                     }
                 }
             }
@@ -311,6 +313,14 @@ public class RestAuditLogger {
                 .resourcesUpdated(updateCount).build());
         entry.setDescription("FHIR Bundle request");
 
+        // Team discussion results in a recommendation of 'E'
+        // New logic should ensure consistency, all R, all U, all D, all C
+        // when mixed default to E
+        entry.getContext().setAction("E");
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
+        }
         auditLogSvc.logEntry(entry);
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -457,7 +467,7 @@ public class RestAuditLogger {
         final String METHODNAME = "populateAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 
-        StringBuffer requestUrl;
+        StringBuilder requestUrl;
         String patientIdExtUrl;
         List<String> userList = new ArrayList<>();
 
@@ -481,11 +491,10 @@ public class RestAuditLogger {
                             .append("/")
                             .append(request.getRemoteHost()).toString());
         entry.setContext(new Context());
-        requestUrl = request.getRequestURL();
-        if (request.getQueryString() != null) {
-            requestUrl.append("?");
-            requestUrl.append(request.getQueryString());
-        }
+
+        // Uses the FHIRRestServletFilter to pass the OriginalRequestUri to the backend.
+        requestUrl = new StringBuilder(FHIRRequestContext.get().getOriginalRequestUri());
+
         entry.getContext().setApiParameters(
                  ApiParameters.builder()
                 .request(requestUrl.toString())

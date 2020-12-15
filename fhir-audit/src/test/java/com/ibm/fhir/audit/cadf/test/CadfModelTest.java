@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,24 +18,25 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.audit.cadf.model.CadfAttachment;
-import com.ibm.fhir.audit.cadf.model.CadfCredential;
-import com.ibm.fhir.audit.cadf.model.CadfEndpoint;
-import com.ibm.fhir.audit.cadf.model.CadfEvent;
-import com.ibm.fhir.audit.cadf.model.CadfGeolocation;
-import com.ibm.fhir.audit.cadf.model.CadfMapItem;
-import com.ibm.fhir.audit.cadf.model.CadfMeasurement;
-import com.ibm.fhir.audit.cadf.model.CadfMetric;
-import com.ibm.fhir.audit.cadf.model.CadfReason;
-import com.ibm.fhir.audit.cadf.model.CadfReporterStep;
-import com.ibm.fhir.audit.cadf.model.CadfResource;
-import com.ibm.fhir.audit.cadf.model.enums.Action;
-import com.ibm.fhir.audit.cadf.model.enums.EventType;
-import com.ibm.fhir.audit.cadf.model.enums.Outcome;
-import com.ibm.fhir.audit.cadf.model.enums.ReporterRole;
-import com.ibm.fhir.audit.cadf.model.enums.ResourceType;
+import com.ibm.fhir.audit.cadf.CadfAttachment;
+import com.ibm.fhir.audit.cadf.CadfCredential;
+import com.ibm.fhir.audit.cadf.CadfEndpoint;
+import com.ibm.fhir.audit.cadf.CadfEvent;
+import com.ibm.fhir.audit.cadf.CadfGeolocation;
+import com.ibm.fhir.audit.cadf.CadfMapItem;
+import com.ibm.fhir.audit.cadf.CadfMeasurement;
+import com.ibm.fhir.audit.cadf.CadfMetric;
+import com.ibm.fhir.audit.cadf.CadfReason;
+import com.ibm.fhir.audit.cadf.CadfReporterStep;
+import com.ibm.fhir.audit.cadf.CadfResource;
+import com.ibm.fhir.audit.cadf.enums.Action;
+import com.ibm.fhir.audit.cadf.enums.EventType;
+import com.ibm.fhir.audit.cadf.enums.Outcome;
+import com.ibm.fhir.audit.cadf.enums.ReporterRole;
+import com.ibm.fhir.audit.cadf.enums.ResourceType;
 import com.ibm.fhir.exception.FHIRException;
 
 public class CadfModelTest {
@@ -441,7 +442,7 @@ public class CadfModelTest {
                         CadfResource.builder().typeURI(ResourceType.compute_cpu).id("id").geolocation(geo).build(),
                         "repId", ZonedDateTime.now());
         b.attachments(new CadfAttachment[] {});
-        b.attachments(new ArrayList<>(Arrays.asList(new CadfAttachment[] {})));
+        b.attachments(new ArrayList<>(Arrays.asList()));
         assertNotNull(b.build());
 
         CadfReporterStep.Builder b2 =
@@ -907,7 +908,7 @@ public class CadfModelTest {
         CadfEvent event = eventBuilder.build();
 
         String jsonString = CadfEvent.Writer.generate(event);
-        System.out.println(jsonString);
+
         ByteArrayInputStream bais = new ByteArrayInputStream(jsonString.getBytes());
         event = CadfEvent.Parser.parse(bais);
         assertNotNull(event);
@@ -915,5 +916,35 @@ public class CadfModelTest {
         assertEquals(event.getDuration(), "duration");
         assertEquals(event.getEventTime(), "eventTime");
         assertEquals(event.getEventType().name(), "control");
+    }
+
+    @Test(expectedExceptions = {IllegalArgumentException.class})
+    public void testResourceType() {
+        ResourceType.of("not-valid");
+    }
+
+    @Test
+    public void testCadfResourceWithAddress() throws IOException {
+        CadfGeolocation geo = CadfGeolocation.builder().city("city").region("regionIcann").build();
+        CadfEndpoint endpoint = CadfEndpoint.builder().name("test").port("80").url("Here").build();
+        CadfResource resource = CadfResource.builder().typeURI(ResourceType.compute_cpu).id("id").geolocation(geo).address(endpoint).build();
+        String output = CadfResource.Writer.generate(resource);
+        JSONAssert.assertEquals("{\n" +
+                "    \"id\": \"id\",\n" +
+                "    \"typeURI\": \"compute/cpu\",\n" +
+                "    \"addresses\": [\n" +
+                "        {\n" +
+                "            \"url\": \"Here\",\n" +
+                "            \"name\": \"test\",\n" +
+                "            \"port\": \"80\"\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"geolocation\": {\n" +
+                "        \"city\": \"city\",\n" +
+                "        \"region\": \"regionIcann\",\n" +
+                "        \"annotations\": [\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}", output, false);
     }
 }

@@ -85,8 +85,16 @@ Note, tenant only applies to db2 implementations. The tenantKey is limited in si
 
 It's converted to base64 using `cat persistence.json | base64`. You can run locally using: 
 
+*Mac*
+
 ```
-time docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64) ibm-fhir-schematool:latest
+docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64) ibmcom/ibm-fhir-schematool:latest
+```
+
+*Linux*
+
+```
+docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64 -w 0) ibmcom/ibm-fhir-schematool:latest
 ```
 
 An example volume mount: 
@@ -112,8 +120,9 @@ An example volume mount:
 The debug behavior outputs the details of the running image:
 
 Using an encoded persistence.json
+
 ``` shell
-docker run ibm-fhir-schematool:latest --tool.behavior=debug
+docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=debug
 ```
 
 Output
@@ -133,15 +142,25 @@ OpenSSL 1.1.1g FIPS  21 Apr 2020
 ## Running: Offboard Behavior
 
 Using an encoded persistence.json
+
+*Mac*
+
 ```
-time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` \
-    ibm-fhir-schematool:latest | tee out.log
+docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` \
+    ibmcom/ibm-fhir-schematool:latest | tee out.log
+```
+
+*Linux*
+
+```
+docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64 -w 0` \
+    ibmcom/ibm-fhir-schematool:latest | tee out.log
 ```
 
 Using arguments on the commandline
 
 ``` shell
-docker run ibm-fhir-schematool:latest --tool.behavior=offboard --db.host=172.17.0.3 \
+docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=offboard --db.host=172.17.0.3 \
     --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb \
     --sslConnection=false --db.type=db2 --schema.name.fhir=fhirdata --grant.to=fhirserver \
     --tenant.name=default2 2>&1 | tee out.log
@@ -150,15 +169,25 @@ docker run ibm-fhir-schematool:latest --tool.behavior=offboard --db.host=172.17.
 ## Running: Onboard Behavior
 
 Using an encoded persistence.json
+
+*Mac*
+
 ```
-time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` \
-    ibm-fhir-schematool:latest | tee out.log
+docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` \
+    ibmcom/ibm-fhir-schematool:latest | tee out.log
+```
+
+*Linux*
+
+```
+docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64 -w 0` \
+    ibmcom/ibm-fhir-schematool:latest | tee out.log
 ```
 
 Using arguments on the commandline
 
 ``` shell
-docker run ibm-fhir-schematool:latest --tool.behavior=onboard --db.host=172.17.0.3 \
+docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --db.host=172.17.0.3 \
     --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb \
     --sslConnection=false --db.type=db2 --schema.name.fhir=fhirdata --grant.to=fhirserver \
     --tenant.name=default2 2>&1 | tee out.log
@@ -169,7 +198,7 @@ docker run ibm-fhir-schematool:latest --tool.behavior=onboard --db.host=172.17.0
 The custom behavior only supports commandline arguments:
 
 ``` shell
-docker run ibm-fhir-schematool:latest --tool.behavior=onboard --list-tenants \
+docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --list-tenants \
     --db.host=1000.com --db.password=change-password --db.user=db2inst1
 ```
 

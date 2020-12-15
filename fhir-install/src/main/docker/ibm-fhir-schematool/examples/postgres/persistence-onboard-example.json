@@ -3,9 +3,9 @@
         {
             "db":  {
                 "host": "172.17.0.3",
-                "port": "50000",
+                "port": "5432",
                 "database": "fhirdb",
-                "user": "db2inst1",
+                "user": "postgres",
                 "password": "change-password",
                 "type": "postgresql",
                 "ssl": "false",

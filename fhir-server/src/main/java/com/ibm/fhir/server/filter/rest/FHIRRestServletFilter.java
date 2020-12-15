@@ -351,7 +351,7 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             originalRequestUriHeaderName = config.getStringProperty(FHIRConfiguration.PROPERTY_ORIGINAL_REQUEST_URI_HEADER_NAME,
                     null);
-            log.info("Configured original-request-uri header name is: " +  datastoreIdHeaderName);
+            log.info("Configured original-request-uri header name is: " +  originalRequestUriHeaderName);
 
             defaultTenantId =
                     config.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID);

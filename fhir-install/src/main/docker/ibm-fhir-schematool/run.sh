@@ -8,6 +8,9 @@
 
 set -e -o pipefail
 
+# When debugging -x is an accepted practice, when not debugging, please comment out.
+# set -x
+
 ##############################################################################
 # The global variables used are: 
 
@@ -66,9 +69,13 @@ function get_property {
     if [ ! -z "${PROP_VALUE}" ]
     then
         echo ${PROP_VALUE}
-    else 
-        PROP_VALUE=$(/opt/schematool/jq -r ${JQ} /opt/schematool/workarea/persistence.json)
-        echo ${PROP_VALUE}
+    else
+        # only run if the file exists
+        if [ -f /opt/schematool/workarea/persistence.json ]
+        then
+            PROP_VALUE=$(/opt/schematool/jq -r ${JQ} /opt/schematool/workarea/persistence.json)
+            echo ${PROP_VALUE}
+        fi
     fi
 }
 
@@ -80,7 +87,7 @@ function get_property {
 # schell script.
 function process_cmd_properties {
     if [ ! -z "${TOOL_INPUT_USED}" ]
-    then 
+    then
         OS_TYPE="$(uname -s)"
         case "${OS_TYPE}" in
             Linux*)
@@ -89,11 +96,18 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json || true
-                RC=$(cat "${TOOL_INPUT_FILE}" | wc -l )
-                if [ "${RC}" = "0" ]
+                # only run if the file doesn't exist (we default to the existing file as it's been mounted)
+                if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    # originally there was error handling following this to check if the contents are valid json.
+                    # We  have opted to verify inline to each call.
+                    echo -n "${TOOL_INPUT_USED}" | base64 -d > /opt/schematool/workarea/persistence.json 2> /dev/null || true
+                    # This is to check if we have possible plain text.
+                    RC=$(cat /opt/schematool/workarea/persistence.json | wc -l )
+                    if [ "${RC}" = "0" ]
+                    then
+                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    fi
                 fi
                 set -o errexit
                 set -o pipefail
@@ -104,11 +118,16 @@ function process_cmd_properties {
                 # the fail on pipe and errexit, we'll control the exits.
                 set +o errexit
                 set +o pipefail
-                echo "${TOOL_INPUT_FILE}" | base64 --decode > /opt/schematool/workarea/persistence.json || true
-                RC=$(cat "${TOOL_INPUT_USED}" | wc -l )
-                if [ "${RC}" = "0" ]
+                # only run if the file doesn't exist (we default to the existing file as it's been mounted)
+                if [ ! -f /opt/schematool/workarea/persistence.json ]
                 then
-                    echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    echo -n "${TOOL_INPUT_USED}" | base64 --decode > /opt/schematool/workarea/persistence.json 2> /dev/null || true
+                    # This is to check if we have possible plain text.
+                    RC=$(cat /opt/schematool/workarea/persistence.json | wc -l )
+                    if [ "${RC}" = "0" ]
+                    then
+                        echo "${TOOL_INPUT_USED}" | /opt/schematool/jq -r '.' > /opt/schematool/workarea/persistence.json
+                    fi
                 fi
                 set -o errexit
                 set -o pipefail
@@ -235,7 +254,12 @@ function allocate_tenant {
             set +o pipefail
         fi
 
-        _call_db2 "--allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
 
         # Always reset
         set -o errexit
@@ -274,7 +298,12 @@ function test_tenant {
         # Get the variable
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
         TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
-        _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --schema-name ${SCHEMA_FHIR} --pool-size 1"
     fi
 }
 
@@ -286,7 +315,12 @@ function deallocate_tenant {
     then
         # Get the variable
         TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
-        _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1 --schema-name ${SCHEMA_FHIR}"
     fi
 }
 
@@ -299,12 +333,28 @@ function grant_to_dbuser {
 
     # Get the tenant variable
     TARGET_USER=$(get_property grant.to .persistence[0].grant)
-    if [ "${DB_TYPE}" = "db2" ]
+    # null is set here when the value doesn't actually exist.
+    if [ -z "${TARGET_USER}" ] || [ "null" = "${TARGET_USER}" ]
     then
-        _call_db2 "--grant-to ${TARGET_USER} --pool-size 2"
-    elif [ "${DB_TYPE}" = "postgresql" ]
-    then
-        _call_postgres "--grant-to ${TARGET_USER} --pool-size 2"
+        error_warn "Target User is not set and we are skipping the grant phase, it is recommended to run"
+    else
+        if [ "${DB_TYPE}" = "db2" ]
+        then
+            SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+            if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+            then
+                SCHEMA_FHIR="FHIRDATA"
+            fi
+            _call_db2 "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
+        elif [ "${DB_TYPE}" = "postgresql" ]
+        then
+            SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+            if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+            then
+                SCHEMA_FHIR="FHIRDATA"
+            fi
+            _call_postgres "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
+        fi
     fi
 }
 
@@ -313,10 +363,15 @@ function refresh_tenants {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     if [ "${DB_TYPE}" = "db2" ]
     then
-        _call_db2 "--refresh-tenants --pool-size 1"
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--refresh-tenants --schema-name ${SCHEMA_FHIR} --pool-size 1"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--refresh-tenants --pool-size 1"
+        echo "Skipping refresh-tenants as it's not needed on 'postgresql'"
     fi
 }
 
@@ -326,11 +381,43 @@ function drop_schema {
     SCHEMA=$1
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     if [ "${DB_TYPE}" = "db2" ]
-    then 
-        _call_db2 "--create-schemas --pool-size 2"
+    then
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--create-schemas --pool-size 2"
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_postgres "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
     fi
 }
 
@@ -351,10 +438,14 @@ function drop_schema_fhir {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     MORE_TENANTS=$(has_more_tenants)
 
-    DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+    SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
     if [ -z "${MORE_TENANTS}" ]
     then
-        drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        drop_schema "--drop-schema-fhir --schema-name ${SCHEMA_FHIR}"
     fi
 }
 
@@ -366,6 +457,10 @@ function drop_schema_oauth {
     DB_SCHEMA=$(get_property schema.name.oauth .persistence[0].schema.oauth)
     if [ -z "${MORE_TENANTS}" ]
     then
+        if [ -z "${DB_SCHEMA}" ] || [ "null" = "${DB_SCHEMA}" ]
+        then
+            DB_SCHEMA="FHIR_OAUTH"
+        fi
         drop_schema "--drop-schema-oauth --schema-name ${DB_SCHEMA}"
     fi
 }
@@ -378,20 +473,57 @@ function drop_schema_batch {
     DB_SCHEMA=$(get_property schema.name.batch .persistence[0].schema.batch)
     if [ -z "${MORE_TENANTS}" ]
     then
+        if [ -z "${DB_SCHEMA}" ] || [ "null" = "${DB_SCHEMA}" ]
+        then
+            DB_SCHEMA="FHIR_JBATCH"
+        fi
         drop_schema "--drop-schema-fhir --schema-name ${DB_SCHEMA}"
     fi
 }
 
-# create_schema 
+# create_schema - creates the schemas
+# reverts to the default schemas when it is not set.
 function create_schema {
     info "creating the schema"
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
     if [ "${DB_TYPE}" = "db2" ]
-    then 
-        _call_db2 "--create-schemas --pool-size 2"
+    then
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--create-schemas --pool-size 2"
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_postgres "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
     fi
     info "done creating the schema"
 }
@@ -399,13 +531,42 @@ function create_schema {
 # update_schema 
 function update_schema {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    DB_SCHEMA=$(get_property schema.name.fhir .persistence[0].schema.fhir)
     if [ "${DB_TYPE}" = "db2" ]
-    then 
-        _call_db2 "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
+    then
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_db2 "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
-        _call_postgres "--schema-name ${DB_SCHEMA} --update-schema --pool-size 1"
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+        _call_postgres "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
     fi
 }
 
