@@ -444,9 +444,13 @@ public class SearchUtil {
             // If we found it within the built-in search parameters, apply our filtering rules.
             if (result != null) {
 
+                // Check if this search parameter applies to the base Resource type
                 ResourceType rt = result.getBase().get(0).as(ResourceType.class);
+                if (SearchConstants.RESOURCE_RESOURCE.equals(rt.getValue())) {
+                    resourceType = rt.getValue();
+                }
                 Collection<SearchParameter> filteredResult =
-                        filterSearchParameters(getFilterRules(), rt.getValue(), Collections.singleton(result));
+                        filterSearchParameters(getFilterRules(), resourceType, Collections.singleton(result));
 
                 // If our filtered result is non-empty, then just return the first (and only) item.
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
@@ -509,9 +513,14 @@ public class SearchUtil {
 
             // If we found it within the built-in search parameters, apply our filtering rules.
             if (result != null) {
-                ResourceType rt = result.getBase().get(0);
+
+                // Check if this search parameter applies to the base Resource type
+                ResourceType rt = result.getBase().get(0).as(ResourceType.class);
+                if (SearchConstants.RESOURCE_RESOURCE.equals(rt.getValue())) {
+                    resourceType = rt.getValue();
+                }
                 Collection<SearchParameter> filteredResult =
-                        filterSearchParameters(getFilterRules(), rt.getValue(), Collections.singleton(result));
+                        filterSearchParameters(getFilterRules(), resourceType, Collections.singleton(result));
 
                 // If our filtered result is non-empty, then just return the first (and only) item.
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());

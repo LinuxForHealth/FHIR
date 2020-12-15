@@ -275,6 +275,12 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     }
 
     @Test
+    public void testGetSearchParameter12() throws Exception {
+        SearchParameter result = SearchUtil.getSearchParameter("FamilyMemberHistory", "code");
+        assertNotNull(result);
+    }
+
+    @Test
     void testDynamicSearchParameters1() throws Exception {
         // Test behavior of dynamic updates to search parameters.
         FHIRRequestContext.set(new FHIRRequestContext("tenant2"));
