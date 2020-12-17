@@ -9,7 +9,7 @@ set -ex
 
 run_tests(){
 echo "Run Tests"
-mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true -Dtest=ExampleTest --no-transfer-progress
+mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
 
 docker-compose exec kafka-1 cat << EOF > /etc/kafka/client-ssl.properties
 bootstrap.servers=kafka-1:19092,kafka-2:29092
