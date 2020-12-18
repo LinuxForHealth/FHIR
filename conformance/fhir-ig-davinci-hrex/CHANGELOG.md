@@ -3,3 +3,5 @@
     - From `($this.agent.who.resolve().is Practitioner or Device) implies exists()`
     - To `(($this.agent.who.resolve() is Practitioner) or ($this.agent.who.resolve() is Device)) implies exists()`
 - removed invalid ImplementationGuide parameters `copyrightyear`, `releaselabel`, and more
+
+18 DEC 2020 - Removed invalid entry in the .index.json
