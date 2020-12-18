@@ -5,38 +5,31 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
+# run_tests - executes the standard integration tests, and then checks that we have output
 run_tests(){
-echo "Run Tests"
-mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
 
-docker-compose exec kafka-1 cat << EOF > /etc/kafka/client-ssl.properties
-bootstrap.servers=kafka-1:19092,kafka-2:29092
-security.protocol=SSL
-ssl.protocol=TLSv1.2
-ssl.keystore.filename=kafka.broker1.keystore.jks
-ssl.key.credentials=broker1_sslkey_creds
-ssl.keystore.location=/etc/kafka/secrets/kafka.broker1.keystore.jks
-ssl.truststore.location=/etc/kafka/secrets/kafka.broker1.truststore.jks
-ssl.client.auth=requested
-ssl.keystore.credentials=broker1_keystore_creds
-ssl.keystore.password=change-password
-security.inter.broker.protocol=SSL
-ssl.key.password=change-password
-ssl.truststore.password=change-password
-ssl.truststore.filename=kafka.broker1.truststore.jks
-ssl.truststore.credentials=broker1_truststore_creds
-ssl.endpoint.identification.algorithm=
-EOF
+mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true
 
-timeout 120 docker-compose exec kafka-1 bash /bin/kafka-console-consumer --bootstrap-server=kafka-1:19092,kafka-2:29092 --topic FHIR_AUDIT --max-messages 25 --property print.timestamp=true --consumer.config /etc/kafka/client-ssl.properties > workarea/fhir_audit-messages.log
+# The following test should always Run
+echo "TEST_CONFIGURATION: check that there is output and the configuration works"
+docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /bin/kafka-console-consumer --timeout-ms 60000 --bootstrap-server=kafka-1:19092,kafka-2:29092 \
+    --topic FHIR_AUDIT --max-messages 25 --property print.timestamp=true --offset earliest \
+    --consumer.config /etc/kafka/secrets/client-ssl.properties \
+    --partition 1 > ${WORKSPACE}/build/audit/kafka/workarea/fhir_audit-messages.log || true
 
-if [ "$(wc  -l workarea/fhir_audit-messages.log)" != "25" ]
+# When in doubt check the file /var/lib/kafka/data/FHIR_AUDIT-0/00000000000000000000.log
+if [ "$(cat ${WORKSPACE}/build/audit/kafka/workarea/fhir_audit-messages.log | grep -c 'CreateTime:')" != "25" ]
 then 
     echo "Not FHIR_AUDIT = 25"
-    cat workarea/fhir_audit-messages.log
+    cat ${WORKSPACE}/build/audit/kafka/workarea/fhir_audit-messages.log
     exit 25
+else 
+    echo "Passed 'TEST_CONFIGURATION'!"
 fi
 }
 
@@ -47,7 +40,7 @@ pushd $(pwd) > /dev/null
 # Change to the AUDIT/bin directory
 cd "${WORKSPACE}"
 
-run_tests "${1}"
+run_tests
 
 # Reset to Original Directory
 popd > /dev/null

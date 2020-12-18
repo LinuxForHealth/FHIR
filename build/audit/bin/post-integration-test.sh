@@ -9,10 +9,10 @@
 # audit_post - executes for each AUDIT post integration steps
 audit_post(){
     AUDIT="${1}"
-    if [ ! -z "${AUDIT}" ] && [ -f build/AUDIT/${AUDIT}/post-integration-test.sh ]
+    if [ ! -z "${AUDIT}" ] && [ -f build/audit/${AUDIT}/post-integration-test.sh ]
     then 
         echo "Running [${AUDIT}] post-integration-test"
-        bash build/AUDIT/${AUDIT}/post-integration-test.sh
+        bash build/audit/${AUDIT}/post-integration-test.sh
     fi
 }
 

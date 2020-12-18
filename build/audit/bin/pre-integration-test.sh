@@ -9,10 +9,10 @@
 # audit_pre - executes for each audit pre integration steps
 audit_pre(){
     AUDIT="${1}"
-    if [ ! -z "${AUDIT}" ] && [ -f build/AUDIT/${AUDIT}/pre-integration-test.sh ]
+    if [ ! -z "${AUDIT}" ] && [ -f build/audit/${AUDIT}/pre-integration-test.sh ]
     then 
         echo "Running [${AUDIT}] pre-integration-test"
-        bash build/AUDIT/${AUDIT}/pre-integration-test.sh
+        bash build/audit/${AUDIT}/pre-integration-test.sh
     fi
 }
 

@@ -10,6 +10,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+DIST="${WORKSPACE}/build/audit/kafka/workarea/volumes/dist"
+
 # pre_integration
 pre_integration(){
     cleanup
@@ -19,15 +21,23 @@ pre_integration(){
 
 # config - update configuration
 config(){
+    mkdir -p ${DIST}/userlib
+    mkdir -p ${DIST}/
+
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/ \
-        ${WORKSPACE}/build/audit/kafka/workarea
+
+    echo "Copying test artifacts to install location..."
+    USERLIB="${DIST}/userlib"
+    mkdir -p $USERLIB
+    find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
+    cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
+    echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/audit/kafka/resources/* ${WORKSPACE}/build/audit/kafka/workarea/default/
-    mv ${WORKSPACE}/build/audit/kafka/workarea/default/fhir-server-config-audit-cicd.json mv ${WORKSPACE}/build/audit/kafka/workarea/default/fhir-server-config.json
+    cp -pr ${WORKSPACE}/build/audit/kafka/resources/* ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/
+    mv ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 
 # cleanup - cleanup existing docker
@@ -41,7 +51,7 @@ cleanup(){
 # bringup
 bringup(){
     echo "Bringing up containers"
-    docker-compose up --remove-orphans
+    docker-compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
     # TODO wait for it to be healthy instead of just Sleeping
@@ -59,20 +69,17 @@ bringup(){
     Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep kafka_fhir-server_1 | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]; then
         echo "Warning: Could not find the fhir container!!!"
     else
-        echo "fhir container id: $containerId"
+        echo "fhir container id: ${containerId}"
 
         # Grab the container's console log
-        docker logs $containerId  >& ${pre_it_logs}/docker-console.txt
+        docker logs ${containerId} > ${pre_it_logs}/docker-console.txt
 
-        echo "Gathering pre-test server logs from docker container: $containerId"
-        docker cp -L $containerId:/opt/ol/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
-
-        echo "Zipping up pre-test server logs"
-        zip -r ${zip_file} ${pre_it_logs}
+        echo "Gathering pre-test server logs from docker container: ${containerId}"
+        docker cp -L ${containerId}:/logs ${pre_it_logs}
     fi
 
     # Wait until the fhir server is up and running...
@@ -82,16 +89,18 @@ bringup(){
     status=0
     while [ $status -ne 200 -a $tries -lt 30 ]; do
         tries=$((tries + 1))
+
         set +o errexit
         cmd="curl -k -o ${WORKSPACE}/health.json --max-time 5 -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
         echo "Executing[$tries]: $cmd"
         status=$($cmd)
         set -o errexit
+
         echo "Status code: $status"
         if [ $status -ne 200 ]
         then
-        echo "Sleeping 30 secs..."
-        sleep 30
+            echo "Sleeping 30 secs..."
+            sleep 30
         fi
     done
 
@@ -104,8 +113,9 @@ bringup(){
     echo "The fhir-server appears to be running..."
 
     # Create the FHIR_AUDIT topic
-    docker-compose exec kafka-1 bash /bin/kafka-topics --create --topic=FHIR_AUDIT \
-        --zookeeper=zookeeper-1:22181,zookeeper-2:32181 --partitions=5 --replication-factor=2
+    docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /bin/kafka-topics \
+        --bootstrap-server kafka-1:19092,kafka-2:29092 --command-config /etc/kafka/secrets/client-ssl.properties \
+        --create --topic FHIR_AUDIT --partitions 10 --replication-factor 2
     echo "Topic is created 'FHIR_AUDIT'"
     exit 0
 }

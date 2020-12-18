@@ -42,15 +42,18 @@ services:
     hostname: fhir
     volumes:
       - type: bind
-        source: ./workarea
-        target: /opt/ol/wlp/usr/servers/fhir-server/config/default
+        source: ./workarea/volumes/dist/config
+        target: /opt/ol/wlp/usr/servers/fhir-server/config
+        read_only: true
+      - type: bind
+        source: ./workarea/volumes/dist/userlib/
+        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
         read_only: true
     healthcheck:
       start_period: 60s
       interval: 10s
       timeout: 10s
       retries: 2
-      # https://docs.docker.com/compose/compose-file/#variable-substitution
       test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
     ports:
       - 9443:9443
