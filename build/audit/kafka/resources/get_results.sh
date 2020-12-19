@@ -11,7 +11,7 @@ set -o nounset
 set -o pipefail
 
 /bin/kafka-console-consumer --timeout-ms 120000 --bootstrap-server=kafka-1:19092,kafka-2:29092 \
-    --topic FHIR_AUDIT --max-messages 25 --property print.timestamp=true --offset earliest \
+    --topic FHIR_AUDIT --max-messages 25 --property print.timestamp=true --offset earliest --privileged \
     --consumer.config /etc/kafka/secrets/client-ssl.properties \
     --partition 1 > /home/appuser/fhir_audit-messages.log
 
