@@ -19,6 +19,10 @@ mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=
 echo "TEST_CONFIGURATION: check that there is output and the configuration works"
 docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /etc/kafka/secrets/get_results.sh
 
+echo "Copying from container"
+CONTAINER_ID=$(docker ps | grep kafka_kafka-1_1 |  awk '{print $1}')
+docker cp ${CONTAINER_ID}:/fhir_audit-messages.log ${WORKSPACE}/build/audit/kafka/workarea/output/
+
 # When in doubt check the file /var/lib/kafka/data/FHIR_AUDIT-0/00000000000000000000.log
 if [ "$(cat ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log | grep -c 'CreateTime:')" != "25" ]
 then 
