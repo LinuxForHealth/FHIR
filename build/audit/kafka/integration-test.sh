@@ -24,7 +24,7 @@ if [ "$(cat ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.l
 then 
     echo "Not FHIR_AUDIT = 25"
     echo "Exported Audit Messages"
-    cat ${WORKSPACE}/build/audit/kafka/workarea/fhir_audit-messages.log
+    cat ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     exit 25
 else 
     echo "Passed 'TEST_CONFIGURATION'!"
