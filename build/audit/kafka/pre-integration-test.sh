@@ -23,6 +23,7 @@ pre_integration(){
 config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
+    mkdir -p ${WORKSPACE}/build/audit/kafka/workarea/output
 
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
