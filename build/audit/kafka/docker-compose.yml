@@ -19,7 +19,7 @@ services:
       - zookeeper-2
     volumes:
       - ./resources:/etc/kafka/secrets
-      - ./workarea/output:/output
+      - ./workarea/output:/home/appuser/output
     env_file:
       - ./.kafka-1.env
     networks:
