@@ -24,8 +24,8 @@ services:
       - ./.kafka-1.env
     networks:
       - fhir
-    stdin_open: true
-    tty: true
+    stdin_open: false
+    tty: false
   kafka-2:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -38,8 +38,8 @@ services:
       - ./.kafka-2.env
     networks:
        - fhir
-    stdin_open: true
-    tty: true
+    stdin_open: false
+    tty: false
   fhir-server:
     image: ibmcom/ibm-fhir-server:latest
     depends_on:
