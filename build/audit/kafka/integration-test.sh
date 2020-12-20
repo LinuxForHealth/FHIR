@@ -17,7 +17,10 @@ mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=
 
 # The following test should always Run
 echo "TEST_CONFIGURATION: check that there is output and the configuration works"
-docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /etc/kafka/secrets/get_results.sh > ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
+CONTAINER_ID=$(docker ps | grep kafka_kafka-1_1 |  awk '{print $1}')
+docker exec -it ${CONTAINER_ID} bash /etc/kafka/secrets/get_results.sh > ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
+# The docker-compose does not seem to work in git actions
+# docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /etc/kafka/secrets/get_results.sh > ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
 
 #echo "Copying from container"
 #CONTAINER_ID=$(docker ps | grep kafka_kafka-1_1 |  awk '{print $1}')
