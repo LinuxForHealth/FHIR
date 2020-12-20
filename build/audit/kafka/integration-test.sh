@@ -18,7 +18,7 @@ mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=
 # The following test should always Run
 echo "TEST_CONFIGURATION: check that there is output and the configuration works"
 CONTAINER_ID=$(docker ps | grep kafka_kafka-1_1 |  awk '{print $1}')
-docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-1 chmod +x /etc/kafka/secrets/get_results.sh
+chmod +x ${WORKSPACE}/build/audit/kafka/resources/get_results.sh
 docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-1 /etc/kafka/secrets/get_results.sh
 
 # When in doubt check the file /var/lib/kafka/data/FHIR_AUDIT-0/00000000000000000000.log
