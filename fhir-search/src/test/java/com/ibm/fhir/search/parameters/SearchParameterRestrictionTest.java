@@ -144,13 +144,53 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
     }
 
     @Test
-    public void testIncludeAllowed() throws Exception {
+    public void testIncludeAllowedWithOptionalTargetTypeNotSpecified() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
 
         SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test
+    public void testIncludeAllowedWithOptionalTargetTypeSpecified() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner:Practitioner"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test
+    public void testIncludeAllowedWithRequiredTargetTypeSpecified() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team:Practitioner"));
+
+        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testIncludeNotAllowedWithRequiredTargetTypeNotSpecified() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team"));
+
+        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testIncludeNotAllowedWithRequiredTargetTypeNotMatched() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team:Organization"));
+
+        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test
@@ -214,11 +254,51 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
     }
 
     @Test
-    public void testRevIncludeAllowed() throws Exception {
+    public void testRevIncludeAllowedWithOptionalTargetTypeNotSpecified() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test
+    public void testRevIncludeAllowedWithOptionalTargetTypeSpecified() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer:Patient"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test
+    public void testRevIncludeAllowedWithRequiredTargetTypeSpecified() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee:Patient"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testRevIncludeNotAllowedWithRequiredTargetTypeNotSpecified() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee"));
+
+        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testRevIncludeNotAllowedWithRequiredTargetTypeNotMatched() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee:Practitioner"));
 
         SearchUtil.parseQueryParameters(Patient.class, queryParameters);
     }
