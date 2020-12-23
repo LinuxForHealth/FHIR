@@ -5,10 +5,9 @@
  */
 package com.ibm.fhir.search.parameters;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -24,7 +23,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 public class ParametersMap {
     private static final Logger log = Logger.getLogger(ParametersMap.class.getName());
 
-    private final Map<String, SearchParameter> codeMap;
+    private final Map<String, Set<SearchParameter>> codeMap;
     private final Map<String, SearchParameter> urlMap;
 
     /**
@@ -44,38 +43,13 @@ public class ParametersMap {
         Objects.requireNonNull(parameter, "cannot insert a null parameter");
 
         String url = parameter.getUrl().getValue();
-        if (codeMap.containsKey(code)) {
-            SearchParameter previous = codeMap.get(code);
-            if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
-                if (log.isLoggable(Level.FINE) && !url.equals(previous.getUrl().getValue())) {
-                    log.fine("SearchParameter with code '" + code + "' already exists with the same expression; "
-                            + "adding additional url '" + url + "'");
-                }
-            } else {
-                // Sometimes the base spec defines a search parameter like 'Type1.field | Type2.field' and an IG
-                // will refine that for a single resource, so try splitting on '|' and matching the subcomponents
-                String[] split = previous.getExpression().getValue().split("\\|");
-                List<String> clauses = new ArrayList<>();
-                for (String string : split) {
-                    string = string.trim();
-                    if (string.startsWith(parameter.getBase().get(0).getValue())) {
-                        clauses.add(string);
-                    }
-                }
-                String previousExpressionString = String.join(" | ", clauses);
-                if (previousExpressionString != null && previousExpressionString.equals(parameter.getExpression().getValue())) {
-                    if (!url.equals(previous.getUrl().getValue())) {
-                        log.info("SearchParameter with code '" + code + "' already exists with a similar expression; "
-                                + "adding additional url '" + url + "'");
-                    }
-                } else {
-                    log.warning("SearchParameter with code '" + code + "' already exists with a different expression;\n"
-                            + "replacing [url=" + previous.getUrl().getValue() + ", expression=" + previous.getExpression().getValue()
-                            + "] with [url=" + url + ", expression=" + parameter.getExpression().getValue() + "]");
-                }
+        Set<SearchParameter> previousParams = codeMap.get(code);
+        if (previousParams != null && previousParams.size() > 0) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("SearchParameter with code '" + code + "' already exists; adding additional parameter with url '" + url + "'");
             }
         }
-        codeMap.put(code, parameter);
+        codeMap.computeIfAbsent(code, k -> new HashSet<>()).add(parameter);
 
         if (urlMap.containsKey(url)) {
             SearchParameter previous = urlMap.get(url);
@@ -97,12 +71,12 @@ public class ParametersMap {
      * @implSpec package-private to prevent insertion from outside the package
      */
     public void insertAll(ParametersMap map) {
-        for (Entry<String, SearchParameter> entry : map.codeMap.entrySet()) {
-            insert(entry.getKey(), entry.getValue());
+        for (SearchParameter sp : map.urlMap.values()) {
+            insert(sp.getCode().getValue(), sp);
         }
     }
 
-    public SearchParameter lookupByCode(String searchParameterCode) {
+    public Set<SearchParameter> lookupByCode(String searchParameterCode) {
         return codeMap.get(searchParameterCode);
     }
 
@@ -111,7 +85,7 @@ public class ParametersMap {
     }
 
     public Collection<SearchParameter> values() {
-        return codeMap.values();
+        return urlMap.values();
     }
 
     public boolean isEmpty() {
@@ -122,7 +96,7 @@ public class ParametersMap {
         return codeMap.size();
     }
 
-    public Set<Entry<String, SearchParameter>> codeEntries() {
+    public Set<Entry<String, Set<SearchParameter>>> codeEntries() {
         return codeMap.entrySet();
     }
 
