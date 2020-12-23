@@ -26,6 +26,8 @@ if [ "$(cat ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.l
 then 
     echo "Not FHIR_AUDIT = 25"
     echo "Exported Audit Messages"
+    docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-1 wc -l /var/lib/kafka/data/FHIR_AUDIT-0/00000000000000000000.log
+    docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-2 wc -l /var/lib/kafka/data/FHIR_AUDIT-0/00000000000000000000.log
     cat ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     exit 25
 else 
