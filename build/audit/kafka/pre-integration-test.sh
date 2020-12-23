@@ -24,6 +24,8 @@ config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
     mkdir -p ${WORKSPACE}/build/audit/kafka/workarea/output
+    touch ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
+    chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
 
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
