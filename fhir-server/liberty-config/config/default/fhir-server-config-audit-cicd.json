@@ -24,31 +24,32 @@
                 "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
                 "smart": {
                     "enabled": false,
-                    "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
-                    "capabilities": [
-                        "sso-openid-connect",
-                        "launch-standalone", 
-                        "client-public", 
-                        "client-confidential-symmetric", 
-                        "permission-offline",
-                        "context-standalone-patient",
-                        "permission-patient"
-                    ]
+                    "scopes": ["openid",
+                    "profile",
+                    "fhirUser",
+                    "launch/patient",
+                    "patient/*.*",
+                    "offline_access"],
+                    "capabilities": ["sso-openid-connect",
+                    "launch-standalone",
+                    "client-public",
+                    "client-confidential-symmetric",
+                    "permission-offline",
+                    "context-standalone-patient",
+                    "permission-patient"]
                 }
             }
         },
         "notifications": {
             "common": {
-                "__comment_includeResourceTypes": [
-                    "QuestionnaireResponse",
-                    "CarePlan",
-                    "MedicationAdministration",
-                    "Device",
-                    "DeviceComponent",
-                    "DeviceMetric",
-                    "MedicationOrder",
-                    "Observation"
-                ]
+                "__comment_includeResourceTypes": ["QuestionnaireResponse",
+                "CarePlan",
+                "MedicationAdministration",
+                "Device",
+                "DeviceComponent",
+                "DeviceMetric",
+                "MedicationOrder",
+                "Observation"]
             },
             "websocket": {
                 "__comment": "only enable this for single-tenant, single-server deployments",
@@ -89,25 +90,33 @@
             }
         },
         "audit": {
-            "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
+            "serviceClassName": "com.ibm.fhir.audit.impl.KafkaService",
             "serviceProperties": {
                 "load": "config",
                 "mapper": "cadf",
                 "auditTopic": "FHIR_AUDIT",
-                "geoCity": "Dallas",
-                "geoState": "TX",
-                "geoCounty": "US",
-                "kafka" : {
-                        "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"token\" password=\"apiKeyCanGoHere\";",
-                        "bootstrap.servers": "broker-1:9093,broker-2:9093",
-                        "sasl.mechanism": "PLAIN",
-                        "security.protocol": "SASL_SSL",
-                        "ssl.protocol": "TLSv1.2",
-                        "ssl.enabled.protocols": "TLSv1.2",
-                        "ssl.endpoint.identification.algorithm": "HTTPS"
-                },
-                "kafkaServers": "broker-1:9093,broker-2:9093",
-                "kafkaApiKey": "apiKeyCanGoHere"
+                "geoCity": "Hamil",
+                "geoState": "Texas",
+                "geoCounty": "USA",
+                "kafka": {
+                    "bootstrap.servers": "kafka-1:19092,kafka-2:29092",
+                    "security.protocol": "SSL",
+                    "ssl.protocol": "TLSv1.2",
+                    "ssl.enabled.protocols": "TLSv1.2",
+                    "ssl.endpoint.identification.algorithm": "",
+                    "ssl.keystore.filename": "/config/config/default/kafka.producer.keystore.jks",
+                    "ssl.key.credentials": "/config/config/default/producer_sslkey_creds",
+                    "ssl.keystore.location": "/config/config/default/kafka.producer.keystore.jks",
+                    "ssl.truststore.location": "/config/config/default/kafka.producer.truststore.jks",
+                    "ssl.client.auth": "requested",
+                    "ssl.keystore.credentials": "/config/config/default/producer_keystore_creds",
+                    "ssl.keystore.password": "change-password",
+                    "security.inter.broker.protocol": "SSL",
+                    "ssl.key.password": "change-password",
+                    "ssl.truststore.password": "change-password",
+                    "ssl.truststore.filename": "/config/config/default/kafka.producer.truststore.jks",
+                    "ssl.truststore.credentials": "/config/config/default/producer_truststore_creds"
+                }
             }
         },
         "persistence": {
@@ -134,8 +143,8 @@
                 "_db2sample": {
                     "type": "db2",
                     "currentSchema": "fhirdata",
-                    "hints" : {
-                      "search.reopt": "ONCE"
+                    "hints": {
+                        "search.reopt": "ONCE"
                     }
                 },
                 "_pgsample": {

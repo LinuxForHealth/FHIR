@@ -206,7 +206,7 @@ public class ConfigurationTranslator {
         // Defaults to Environment.
         ConfigurationType type = ConfigurationType.ENVIRONMENT;
         try {
-            type = ConfigurationType.valueOf(auditLogProperties.getStringProperty(FIELD_LOAD, ConfigurationType.ENVIRONMENT.value()));
+            type = ConfigurationType.from(auditLogProperties.getStringProperty(FIELD_LOAD, ConfigurationType.ENVIRONMENT.value()));
         } catch (Exception e) {
             logger.warning("Using FHIR 'environment' to find location to load configuration.");
         }
