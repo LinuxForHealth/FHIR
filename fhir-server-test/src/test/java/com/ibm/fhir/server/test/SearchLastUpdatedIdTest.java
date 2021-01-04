@@ -10,6 +10,8 @@ import static com.ibm.fhir.model.type.Xhtml.xhtml;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,6 +48,8 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
 
     private final Map<String, String> TEST_CASES = new LinkedHashMap<String, String>() {
         private static final long serialVersionUID = -7809685447831223L;
+        private final int YEAR = LocalDate.now(ZoneId.of("UTC")).getYear();
+
         {
             // Test ONLY _id
             put("ID_ONLY", "_id=PATIENT_ID");
@@ -55,8 +59,8 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
             put("NAME_ONLY", "name=PATIENT_NAME");
             put("NAME_MULTIPLE_VALUES_ONLY", "name=PATIENT_NAME,PATIENT_NAME_2");
             // Test ONLY Last Updated
-            put("LAST_UPDATED_ONLY", "_lastUpdated=2020");
-            put("LAST_UPDATED_MULTIPLE_VALUES_ONLY", "_lastUpdated=2020,2019");
+            put("LAST_UPDATED_ONLY", "_lastUpdated=" + YEAR);
+            put("LAST_UPDATED_MULTIPLE_VALUES_ONLY", "_lastUpdated=" + YEAR + ",2020,2019");
             put("LAST_UPDATED_MULTIPLE_ONLY", "_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010");
             // Test ID with a code `name`
             put("ID_ONLY_WITH_NAME", "_id=PATIENT_ID&name=PATIENT_NAME");
@@ -71,40 +75,40 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
             put("ID_MULTIPLE_VALUES_ONLY_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_id=PATIENT_ID,PATIENT_ID_2");
             put("ID_MULTIPLES_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_id=PATIENT_ID,PATIENT_ID_2&_id=PATIENT_ID,PATIENT_ID_2");
             // Test Last Updated with a code `name`
-            put("LAST_UPDATED_WITH_NAME_ORDER", "name=PATIENT_NAME&_lastUpdated=2020");
-            put("LAST_UPDATED_WITH_NAME", "_lastUpdated=2020&name=PATIENT_NAME");
-            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAME", "_lastUpdated=2020,2019&name=PATIENT_NAME");
+            put("LAST_UPDATED_WITH_NAME_ORDER", "name=PATIENT_NAME&_lastUpdated=" + YEAR);
+            put("LAST_UPDATED_WITH_NAME", "_lastUpdated=" + YEAR + "&name=PATIENT_NAME");
+            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAME", "_lastUpdated=" + YEAR + ",2020,2019&name=PATIENT_NAME");
             put("LAST_UPDATED_MULTIPLE_WITH_NAME", "_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&name=PATIENT_NAME");
             // Test Last Updated with multiple code `name`
-            put("LAST_UPDATED_WITH_NAMES", "_lastUpdated=2020&name=PATIENT_NAME,PATIENT_NAME_2");
-            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES", "_lastUpdated=2020,2019&name=PATIENT_NAME,PATIENT_NAME_2");
+            put("LAST_UPDATED_WITH_NAMES", "_lastUpdated=" + YEAR + "&name=PATIENT_NAME,PATIENT_NAME_2");
+            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES", "_lastUpdated=" + YEAR + ",2020,2019&name=PATIENT_NAME,PATIENT_NAME_2");
             put("LAST_UPDATED_MULTIPLE_WITH_NAMES", "_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&name=PATIENT_NAME,PATIENT_NAME_2");
             // Test Last Updated with multiple code `name`as the first
-            put("LAST_UPDATED_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=2020");
-            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=2020,2019");
+            put("LAST_UPDATED_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=" + YEAR);
+            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=" + YEAR + ",2020,2019");
             put("LAST_UPDATED_MULTIPLE_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010");
             // Test ID and Last Updated with a code `name`
-            put("ID_LAST_UPDATED_WITH_NAME_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME&_lastUpdated=2020");
-            put("ID_LAST_UPDATED_WITH_NAME", "_id=PATIENT_ID&_lastUpdated=2020&name=PATIENT_NAME");
-            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_NAME", "_id=PATIENT_ID&_lastUpdated=2020,2019&name=PATIENT_NAME");
+            put("ID_LAST_UPDATED_WITH_NAME_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME&_lastUpdated=" + YEAR);
+            put("ID_LAST_UPDATED_WITH_NAME", "_id=PATIENT_ID&_lastUpdated=" + YEAR + "&name=PATIENT_NAME");
+            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_NAME", "_id=PATIENT_ID&_lastUpdated=" + YEAR + ",2020,2019&name=PATIENT_NAME");
             put("ID_LAST_UPDATED_MULTIPLE_WITH_NAME", "_id=PATIENT_ID&_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&name=PATIENT_NAME");
             // Test ID and Last Updated with multiple code `name`
-            put("ID_LAST_UPDATED_WITH_NAMES", "_id=PATIENT_ID&_lastUpdated=2020&name=PATIENT_NAME,PATIENT_NAME_2");
-            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES", "_id=PATIENT_ID&_lastUpdated=2020,2019&name=PATIENT_NAME,PATIENT_NAME_2");
+            put("ID_LAST_UPDATED_WITH_NAMES", "_id=PATIENT_ID&_lastUpdated=" + YEAR + "&name=PATIENT_NAME,PATIENT_NAME_2");
+            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES", "_id=PATIENT_ID&_lastUpdated=" + YEAR + ",2020,2019&name=PATIENT_NAME,PATIENT_NAME_2");
             put("ID_LAST_UPDATED_MULTIPLE_WITH_NAMES", "_id=PATIENT_ID&_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&name=PATIENT_NAME,PATIENT_NAME_2");
             // Test ID and Last Updated with multiple code `name`as the first
-            put("ID_LAST_UPDATED_WITH_NAMES_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=2020");
-            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=2020,2019");
+            put("ID_LAST_UPDATED_WITH_NAMES_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=" + YEAR);
+            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=" + YEAR + ",2020,2019");
             put("ID_LAST_UPDATED_MULTIPLE_WITH_NAMES_ORDER", "_id=PATIENT_ID&name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010");
             // Test All with _tag
             put("ID_LAST_UPDATED_MULTIPLE_WITH_NAMES_ORDER", "_tag=tag-to-replace&_id=PATIENT_ID&name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010");
             // Test ID and Last Updated
-            put("ID_LAST_UPDATED", "_id=PATIENT_ID&_lastUpdated=2020");
-            put("ID_LAST_UPDATED_MULTIPLE_VALUES", "_id=PATIENT_ID&_lastUpdated=2020,2019");
+            put("ID_LAST_UPDATED", "_id=PATIENT_ID&_lastUpdated=" + YEAR);
+            put("ID_LAST_UPDATED_MULTIPLE_VALUES", "_id=PATIENT_ID&_lastUpdated=" + YEAR + ",2020,2019");
             put("ID_LAST_UPDATED_MULTIPLE", "_id=PATIENT_ID&_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010");
             // Test ID and Last Updated (Alternate Order)
-            put("ID_LAST_UPDATED_WITH_ORDER", "_lastUpdated=2020&_id=PATIENT_ID");
-            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_ORDER", "_lastUpdated=2020,2019&_id=PATIENT_ID");
+            put("ID_LAST_UPDATED_WITH_ORDER", "_lastUpdated=" + YEAR + "&_id=PATIENT_ID");
+            put("ID_LAST_UPDATED_MULTIPLE_VALUES_WITH_ORDER", "_lastUpdated=" + YEAR + ",2020,2019&_id=PATIENT_ID");
             put("ID_LAST_UPDATED_MULTIPLE_WITH_ORDER", "_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&_id=PATIENT_ID");
         }
     };
