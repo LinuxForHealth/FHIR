@@ -11,7 +11,7 @@ The automation runs with these steps:
 - **Gather error logs** - This step only runs upon an error condition. 
 - **Upload logs** - The step uploads the results of the integration tests and the error condition logs are posted to the job. 
 
-The GitHub Action is parameterized with a matrix for each new audits. Each additional entry in the array ends up greating a multiple of the automation steps which must complete successfully for the workflow. For instance, kafka is parameterized and executes a job for each audit layer value in the matrix (one java x one audit = 1 workflow job). 
+The GitHub Action is parameterized with a matrix for each new audits. Each additional entry in the array ends up creating multiple automation steps which must complete successfully for the workflow. For instance, kafka is parameterized and executes a job for each audit layer value in the matrix (one java x one audit = 1 workflow job). 
 
 ``` yaml
     strategy:
