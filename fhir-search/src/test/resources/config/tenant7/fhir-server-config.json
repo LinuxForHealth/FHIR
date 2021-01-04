@@ -18,7 +18,7 @@
                 "searchIncludes": [
                     "ExplanationOfBenefit:patient",
                     "ExplanationOfBenefit:provider",
-                    "ExplanationOfBenefit:care-team",
+                    "ExplanationOfBenefit:care-team:Practitioner",
                     "ExplanationOfBenefit:coverage",
                     "ExplanationOfBenefit:insurer",
                     "ExplanationOfBenefit:*"],
@@ -27,6 +27,8 @@
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
                     "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
                     "patient": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-patient",
+                    "care-team": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-care-team",
+                    "payee": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-payee",
                     "type": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-type",
                     "identifier": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-identifier",
                     "service-date": "http://hl7.org/fhir/us/carin-bb/SearchParameter/explanationofbenefit-service-date"
@@ -34,7 +36,9 @@
             },
             "Patient": {
                 "searchIncludes": ["Patient:general-practitioner"],
-                "searchRevIncludes": ["MedicationRequest:intended-performer"],
+                "searchRevIncludes": [
+                    "ExplanationOfBenefit:payee:Patient",
+                    "MedicationRequest:intended-performer"],
                 "searchParameterCombinations": ["","_id",
                     "multiple-birth-count",
                     "multiple-birth-count-basic"]
