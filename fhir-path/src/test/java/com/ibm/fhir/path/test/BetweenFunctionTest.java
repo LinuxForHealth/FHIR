@@ -121,6 +121,7 @@ public class BetweenFunctionTest {
             .build();
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(patient, "between(Patient.birthDate, today(), 'years')");
-        assertEquals(getQuantityValue(result), quantityValue(new BigDecimal(50), "years"));
+        int diff = Year.now().get(ChronoField.YEAR) - 2020;
+        assertEquals(getQuantityValue(result), quantityValue(new BigDecimal(50 + diff), "years"));
     }
 }
