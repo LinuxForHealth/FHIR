@@ -10,21 +10,21 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# downloads and extracts kafka to a directory
+download(){
+    if [ ! -f ${WORKSPACE}/build/audit/kafka/workarea/kafka.tgz ]
+    then 
+        curl -L -o ${WORKSPACE}/build/audit/kafka/workarea/kafka.tgz http://www-us.apache.org/dist/kafka/2.7.0/kafka_2.13-2.7.0.tgz
+        cd ${WORKSPACE}/build/audit/kafka/workarea/
+        tar xvf kafka.tgz
+        cd -
+    fi 
+}
+
 # run_tests - executes the standard integration tests, and then checks that we have output
 run_tests(){
 
-if [ ! -f ${WORKSPACE}/build/audit/kafka/workarea/kafka.tgz ]
-then 
-    curl -L -o ${WORKSPACE}/build/audit/kafka/workarea/kafka.tgz http://www-us.apache.org/dist/kafka/2.7.0/kafka_2.13-2.7.0.tgz
-    cd ${WORKSPACE}/build/audit/kafka/workarea/
-    tar xvf kafka.tgz
-    cd -
-fi 
-
-if [ -z "${SKIP_INT_KAFKA}" ]
-then
-    mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true
-fi
+mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true
 
 # The following test should always Run
 echo "TEST_CONFIGURATION: check that there is output and the configuration works"
