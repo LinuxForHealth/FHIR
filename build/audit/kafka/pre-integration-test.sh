@@ -121,11 +121,10 @@ bringup(){
     # Create the FHIR_AUDIT topic
     docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /bin/kafka-topics \
         --bootstrap-server kafka-1:19092,kafka-2:29092 --command-config /etc/kafka/secrets/client-ssl.properties \
-        --create --topic FHIR_AUDIT --partitions 10 --replication-factor 2
-    echo "Topic is created 'FHIR_AUDIT'"
+        --create --topic FHIR_AUDIT5 --partitions 10 --replication-factor 2
+    [ $? -eq 0 ] || exit 9
 
-    # We're telling the next step to not skip integration testing
-    export SKIP_INT_KAFKA=
+    echo "Topic is created 'FHIR_AUDIT'"
     exit 0
 }
 
