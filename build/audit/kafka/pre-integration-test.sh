@@ -24,9 +24,11 @@ config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
     mkdir -p ${WORKSPACE}/build/audit/kafka/workarea/output
+
     touch ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
+    
 
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
@@ -121,6 +123,9 @@ bringup(){
         --bootstrap-server kafka-1:19092,kafka-2:29092 --command-config /etc/kafka/secrets/client-ssl.properties \
         --create --topic FHIR_AUDIT --partitions 10 --replication-factor 2
     echo "Topic is created 'FHIR_AUDIT'"
+
+    # We're telling the next step to not skip integration testing
+    export SKIP_INT_KAFKA=
     exit 0
 }
 

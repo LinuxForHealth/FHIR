@@ -13,13 +13,25 @@ set -o pipefail
 # run_tests - executes the standard integration tests, and then checks that we have output
 run_tests(){
 
-mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true
+if [ ! -f ${WORKSPACE}/build/audit/kafka/workarea/kafka.tgz ]
+then 
+    curl -L -o ${WORKSPACE}/build/audit/kafka/workarea/kafka.tgz http://www-us.apache.org/dist/kafka/2.7.0/kafka_2.13-2.7.0.tgz
+    cd ${WORKSPACE}/build/audit/kafka/workarea/
+    tar xvf kafka.tgz
+    cd -
+fi 
+
+if [ -z "${SKIP_INT_KAFKA}" ]
+then
+    mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true
+fi
 
 # The following test should always Run
 echo "TEST_CONFIGURATION: check that there is output and the configuration works"
-CONTAINER_ID=$(docker ps | grep kafka_kafka-1_1 |  awk '{print $1}')
-chmod +x ${WORKSPACE}/build/audit/kafka/resources/get_results.sh
-docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-1 /etc/kafka/secrets/get_results.sh
+docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /bin/kafka-console-consumer --timeout-ms 60000 --bootstrap-server=kafka-1:19092,kafka-2:29092 \
+    --topic FHIR_AUDIT --max-messages 25 --property print.timestamp=true --offset earliest \
+    --consumer.config /etc/kafka/secrets/client-ssl.properties \
+    --partition 1 > ${WORKSPACE}/build/audit/kafka/workarea/fhir_audit-messages.log
 
 # When in doubt check the file /var/lib/kafka/data/FHIR_AUDIT-0/00000000000000000000.log
 if [ "$(cat ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log | grep -c 'CreateTime:')" != "25" ]

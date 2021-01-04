@@ -4,12 +4,14 @@ services:
     image: confluentinc/cp-zookeeper:latest
     env_file:
       - ./.zookeeper-1.env
+    domainname: fhir.dev
     networks:
       - fhir
   zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
     env_file:
       - ./.zookeeper-2.env
+    domainname: fhir.dev
     networks:
       - fhir
   kafka-1:
@@ -22,10 +24,13 @@ services:
       - ./workarea/output:/output
     env_file:
       - ./.kafka-1.env
+    domainname: fhir.dev
     networks:
       - fhir
     stdin_open: false
     tty: false
+    ports:
+      - 19092:19092
   kafka-2:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -36,10 +41,13 @@ services:
       - ./workarea/output:/output
     env_file:
       - ./.kafka-2.env
+    domainname: fhir.dev
     networks:
        - fhir
     stdin_open: false
     tty: false
+    ports:
+      - 29092:29092
   fhir-server:
     image: ibmcom/ibm-fhir-server:latest
     depends_on:
