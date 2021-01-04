@@ -99,23 +99,23 @@
                 "geoState": "Texas",
                 "geoCounty": "USA",
                 "kafka": {
-                    "bootstrap.servers": "kafka-1:19093,kafka-2:29093",
+                    "bootstrap.servers": "kafka-1:19092,kafka-2:29092",
                     "security.protocol": "SSL",
                     "ssl.protocol": "TLSv1.2",
                     "ssl.enabled.protocols": "TLSv1.2",
                     "ssl.endpoint.identification.algorithm": "",
-                    "ssl.keystore.filename": "/config/config/default/kafka.broker1.keystore.jks",
-                    "ssl.key.credentials": "/config/config/default/broker1_sslkey_creds",
-                    "ssl.keystore.location": "/config/config/default/kafka.broker1.keystore.jks",
-                    "ssl.truststore.location": "/config/config/default/kafka.broker1.truststore.jks",
+                    "ssl.keystore.filename": "/config/config/default/kafka.producer.keystore.jks",
+                    "ssl.key.credentials": "/config/config/default/producer_sslkey_creds",
+                    "ssl.keystore.location": "/config/config/default/kafka.producer.keystore.jks",
+                    "ssl.truststore.location": "/config/config/default/kafka.producer.truststore.jks",
                     "ssl.client.auth": "requested",
-                    "ssl.keystore.credentials": "/config/config/default/broker1_keystore_creds",
+                    "ssl.keystore.credentials": "/config/config/default/producer_keystore_creds",
                     "ssl.keystore.password": "change-password",
                     "security.inter.broker.protocol": "SSL",
                     "ssl.key.password": "change-password",
                     "ssl.truststore.password": "change-password",
-                    "ssl.truststore.filename": "/config/config/default/kafka.broker1.truststore.jks",
-                    "ssl.truststore.credentials": "/config/config/default/broker1_truststore_creds"
+                    "ssl.truststore.filename": "/config/config/default/kafka.producer.truststore.jks",
+                    "ssl.truststore.credentials": "/config/config/default/producer_truststore_creds"
                 }
             }
         },
