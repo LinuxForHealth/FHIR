@@ -76,12 +76,12 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
             put("ID_MULTIPLES_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_id=PATIENT_ID,PATIENT_ID_2&_id=PATIENT_ID,PATIENT_ID_2");
             // Test Last Updated with a code `name`
             put("LAST_UPDATED_WITH_NAME_ORDER", "name=PATIENT_NAME&_lastUpdated=" + YEAR);
-            put("LAST_UPDATED_WITH_NAME", "_lastUpdated=2020&name=PATIENT_NAME");
+            put("LAST_UPDATED_WITH_NAME", "_lastUpdated=" + YEAR + "&name=PATIENT_NAME");
             put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAME", "_lastUpdated=" + YEAR + ",2020,2019&name=PATIENT_NAME");
             put("LAST_UPDATED_MULTIPLE_WITH_NAME", "_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&name=PATIENT_NAME");
             // Test Last Updated with multiple code `name`
             put("LAST_UPDATED_WITH_NAMES", "_lastUpdated=" + YEAR + "&name=PATIENT_NAME,PATIENT_NAME_2");
-            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES", "_lastUpdated=2020,2019&name=PATIENT_NAME,PATIENT_NAME_2");
+            put("LAST_UPDATED_MULTIPLE_VALUES_WITH_NAMES", "_lastUpdated=" + YEAR + ",2020,2019&name=PATIENT_NAME,PATIENT_NAME_2");
             put("LAST_UPDATED_MULTIPLE_WITH_NAMES", "_lastUpdated=le2030,le2019&_lastUpdated=ge2000,ge2010&name=PATIENT_NAME,PATIENT_NAME_2");
             // Test Last Updated with multiple code `name`as the first
             put("LAST_UPDATED_WITH_NAMES_ORDER", "name=PATIENT_NAME,PATIENT_NAME_2&_lastUpdated=" + YEAR);
