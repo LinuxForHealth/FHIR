@@ -1885,6 +1885,7 @@ public class SearchUtil {
         String[] inclusionValueParts;
         String joinResourceType;
         String searchParameterName;
+        String resourceTypeAndParameterName;
         String searchParameterTargetType;
 
         SearchParameter searchParm;
@@ -1904,6 +1905,7 @@ public class SearchUtil {
             }
             joinResourceType = inclusionValueParts[0];
             searchParameterName = inclusionValueParts[1];
+            resourceTypeAndParameterName = joinResourceType + ":" + searchParameterName;
             searchParameterTargetType = inclusionValueParts.length == 3 ? inclusionValueParts[2] : null;
 
             if (SearchConstants.INCLUDE.equals(inclusionKeyword)) {
@@ -1915,7 +1917,7 @@ public class SearchUtil {
                 }
 
                 // Check allowed _include values
-                if (allowedIncludes != null && !allowedIncludes.contains(inclusionValue)) {
+                if (allowedIncludes != null && !allowedIncludes.contains(inclusionValue) && !allowedIncludes.contains(resourceTypeAndParameterName)) {
                     manageException("'" + inclusionValue + "' is not a valid _include parameter value for resource type '"
                             + resourceType.getSimpleName() + "'", lenient);
                     continue;
@@ -1937,7 +1939,7 @@ public class SearchUtil {
                 }
 
                 // Check allowed _revinclude values
-                if (allowedRevIncludes != null && !allowedRevIncludes.contains(inclusionValue)) {
+                if (allowedRevIncludes != null && !allowedRevIncludes.contains(inclusionValue) && !allowedRevIncludes.contains(resourceTypeAndParameterName)) {
                     manageException("'" + inclusionValue + "' is not a valid _revinclude parameter value for resource type '"
                             + resourceType.getSimpleName() + "'", lenient);
                     continue;
