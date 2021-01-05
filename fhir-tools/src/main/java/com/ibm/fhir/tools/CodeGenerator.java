@@ -3709,7 +3709,11 @@ public class CodeGenerator {
     }
 
     private List<JsonObject> getElementDefinitions(JsonObject structureDefinition, String path) {
-        return getElementDefinitions(structureDefinition, true).stream().filter(o -> o.getString("path").startsWith(path + ".") && !o.getString("path").replaceFirst(path + ".",  "").contains(".") && !o.getString("path").equals(path)).collect(Collectors.toList());
+        return getElementDefinitions(structureDefinition, true).stream()
+                .filter(o -> o.getString("path").startsWith(path + ".") &&
+                            !o.getString("path").replaceFirst(path + ".",  "").contains(".") &&
+                            !o.getString("path").equals(path))
+                .collect(Collectors.toList());
     }
 
     private String getElementName(JsonObject elementDefinition, String path) {
@@ -3725,7 +3729,8 @@ public class CodeGenerator {
      */
     private String getElementNameWithoutPrefix(JsonObject elementDefinition, String path, String prefix) {
         String elementName = getElementName(elementDefinition, path);
-        return elementName.equals(prefix) ? "$this" : (elementName.startsWith(prefix + ".") ? elementName.substring(prefix.length() + 1) : elementName);
+        return elementName.equals(prefix) ? "$this" :
+                (elementName.startsWith(prefix + ".") ? elementName.substring(prefix.length() + 1) : elementName);
     }
 
     private String getEnumConstantName(String name, String value) {

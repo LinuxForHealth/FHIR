@@ -25,7 +25,7 @@ import com.ibm.fhir.search.parameters.ParametersUtil;
 /**
  * This class implements a cache of SearchParameters organized by tenantId. Each object stored in the cache will be a
  * two-level map of SearchParameters organized first by resource type, then by search parameter code.
- * 
+ *
  * Note: While we support json format only, to enable XML, it's best to create a new cache specific to XML. This change
  * should change one line in this class, and be instantiated in the SearchUtil, and embedded in the call to Parameters.
  * Alternatively, one could, upon not finding the JSON file, load the XML file.
@@ -59,11 +59,10 @@ public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedC
             log.fine(String.format(LOG_FILE_LOAD, f.toURI()));
         }
         try (Reader reader = new FileReader(f);) {
+            // Default is to use JSON in R4
             Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
             return ParametersUtil.buildSearchParametersMapFromBundle(bundle);
         } catch (Throwable t) {
-            // In R4, there are two files used with postfix JSON.
-            // Default is to use JSON in R4
             throw new FHIROperationException(String.format(OPERATION_EXCEPTION, f.getAbsolutePath()), t);
         }
     }

@@ -99,12 +99,12 @@ public final class ParametersUtil {
 
             if (parameter.getExpression() == null || !parameter.getExpression().hasValue()) {
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine(String.format(MISSING_EXPRESSION, parameter.getCode().getValue()));
+                    log.fine(String.format(MISSING_EXPRESSION_WARNING, parameter.getCode().getValue()));
                 }
             } else {
                 /*
                  * In R4, SearchParameter changes from a single Base resource to an array.
-                 * As Base is an array, there are going be potential collisions in the map.
+                 * As Base is an array, there are going to be potential collisions in the map.
                  */
                 List<ResourceType> types = parameter.getBase();
                 for (ResourceType type : types) {
