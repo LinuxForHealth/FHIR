@@ -127,9 +127,15 @@ public class SearchUtil {
     /*
      * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id,
      * with the built-in (FHIR spec-defined) SearchParameters stored under the "built-in" pseudo-tenant-id.
+<<<<<<< HEAD
      * SearchParameters contained in the default tenant's extension-search-parameters.xml file are stored under the
      * "default" tenant-id, and other tenants' SearchParameters (defined in their tenant-specific
      * extension-search-parameters.xml files) will be stored under their respective tenant-ids as well. The objects
+=======
+     * SearchParameters contained in the default tenant's extension-search-parameters.json file are stored under the
+     * "default" tenant-id, and other tenants' SearchParameters (defined in their tenant-specific
+     * extension-search-parameters.json files) will be stored under their respective tenant-ids as well. The objects
+>>>>>>> 80ea4a8839bca31d72ea8a36e4f9b82a9c0a93db
      * stored in our cache are of type CachedObjectHolder, with each one containing a Map<String, Map<String,
      * SearchParameter>>. This map is keyed by resource type (simple name, e.g. "Patient"). Each object stored in this
      * map contains the SearchParameters for that resource type, keyed by SearchParameter name (e.g. "_lastUpdated").
@@ -284,7 +290,7 @@ public class SearchUtil {
                     if (configuredUrl != null && configuredUrl.equals(url)) {
                         results.put(code, sp);
                     } else if (log.isLoggable(Level.FINE)) {
-                        log.info("Skipping search parameter with id='" + sp.getId() + "'. "
+                        log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
                                 + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' "
                                 + "does not match url '" + url + "'");
                     }
