@@ -6,6 +6,7 @@
 package com.ibm.fhir.search.parameters;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class ParametersMap {
     private final Map<String, SearchParameter> urlMap;
 
     /**
-     * Construct a ParametersMap from a Bunlde of SearchParameter
+     * Construct a ParametersMap from a Bundle of SearchParameter
      */
     public ParametersMap() {
         // LinkedHashMaps to preserve insertion order
@@ -35,9 +36,6 @@ public class ParametersMap {
         urlMap = new LinkedHashMap<>();
     }
 
-    /**
-     * @implSpec package-private to prevent insertion from outside the package
-     */
     public void insert(String code, SearchParameter parameter) {
         Objects.requireNonNull(code, "cannot insert a null code");
         Objects.requireNonNull(parameter, "cannot insert a null parameter");
@@ -67,12 +65,11 @@ public class ParametersMap {
         urlMap.put(url, parameter);
     }
 
-    /**
-     * @implSpec package-private to prevent insertion from outside the package
-     */
     public void insertAll(ParametersMap map) {
-        for (SearchParameter sp : map.urlMap.values()) {
-            insert(sp.getCode().getValue(), sp);
+        for (Entry<String, Set<SearchParameter>> entry : map.codeEntries()) {
+            for (SearchParameter sp : entry.getValue()) {
+                insert(entry.getKey(), sp);
+            }
         }
     }
 
@@ -97,10 +94,10 @@ public class ParametersMap {
     }
 
     public Set<Entry<String, Set<SearchParameter>>> codeEntries() {
-        return codeMap.entrySet();
+        return Collections.unmodifiableSet(codeMap.entrySet());
     }
 
     public Set<Entry<String, SearchParameter>> urlEntries() {
-        return urlMap.entrySet();
+        return Collections.unmodifiableSet(urlMap.entrySet());
     }
 }
