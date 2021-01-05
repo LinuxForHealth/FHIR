@@ -1,0 +1,175 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-internal
+  labels:
+    app: {{ template "name" . }}-internal
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.ingestionReplicas }}
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}-internal
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}-internal
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      volumes:
+        - name: binding
+          secret:
+            secretName: binding-postgres-fhir1
+            items:
+              - key: binding
+                path: postgres-binding.json
+        - name: fhir-server-config
+          configMap:
+            name: fhir-server-config-internal
+      containers:
+        - name: {{ template "name" . }}-internal
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: https
+              containerPort: {{ .Values.service.internalPort }}
+              protocol: TCP
+            - name: http
+              containerPort: 9080
+              protocol: TCP
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+            - name: binding
+              mountPath: "/iks"
+              readOnly: true
+            - name: fhir-server-config
+              mountPath: /opt/ol/wlp/usr/servers/fhir-server/config/default
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - bash
+                  - -c
+                  - "jq -r '.connection.postgres.certificate.certificate_base64' /iks/postgres-binding.json | base64 -d > /opt/ol/wlp/usr/servers/fhir-server/resources/security/postgres.cert"
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SEC_TLS_TRUSTDEFAULTCERTS
+              value: "true"
+            - name: TRACE_SPEC
+              value: "*=info:com.ibm.fhir.*=info"
+            - name: WLP_LOGGING_MESSAGE_FORMAT
+              value: json
+            - name: WLP_LOGGING_MESSAGE_SOURCE
+              value: ""
+            - name: WLP_LOGGING_CONSOLE_FORMAT
+              value: json
+            - name: WLP_LOGGING_CONSOLE_LOGLEVEL
+              value: info
+            - name: WLP_LOGGING_CONSOLE_SOURCE
+              value: message,trace,accessLog,ffdc,audit
+            - name: WLP_LOGGING_JSON_FIELD_MAPPINGS
+              value: loglevel:level
+            - name: BATCH_DB_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  key: hostname
+                  name: bulkdata-db
+            - name: BATCH_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  key: port
+                  name: bulkdata-db
+            - name: BATCH_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: database
+                  name: bulkdata-db
+            - name: BATCH_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: bulkdata-db
+            - name: BATCH_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: bulkdata-db
+            - name: COS_LOCATION
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.location
+            - name: COS_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.endpoint.url
+            - name: COS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.api.key
+            - name: COS_INSTANCE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.srvinstid
+            - name: COS_BUCKET
+              value: {{ .Values.objectStorage.bulkDataBucketName }}
+            - name: FHIR_DB_HOSTNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.configSecret }}
+                  key: hostname
+            - name: FHIR_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.configSecret }}
+                  key: port
+            - name: FHIR_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.configSecret }}
+                  key: database
+            - name: FHIR_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.configSecret }}
+                  key: username
+            - name: FHIR_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.configSecret }}
+                  key: password
+            - name: FHIR_DB_SCHEMA
+              value: fhirdata
+          readinessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /fhir-server/api/v4/$healthcheck
+              port: {{ .Values.service.internalPort }}
+              httpHeaders:
+                - name: Authorization
+                  value: Basic ZmhpcnVzZXI6Y2hhbmdlLXBhc3N3b3Jk
+            initialDelaySeconds: 36
+            periodSeconds: 10
+            timeoutSeconds: 4
+          livenessProbe:
+            exec:
+              command:
+              - bash
+              - -c
+              - "/opt/ol/wlp/bin/server status fhir-server && ls -R /opt/ol/wlp/usr/servers/fhir-server/config/"
+            initialDelaySeconds: 32
+            periodSeconds: 3
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 32

@@ -1,0 +1,49 @@
+{{- if .Values.schemaMigration.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-update-schema"
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install,pre-upgrade
+    # Hook weights can be positive or negative numbers but must be represented as strings.
+    # When Helm starts the execution cycle of hooks of a particular Kind it will sort those hooks in ascending order.
+    # So make sure this number is higher than the create-schemas weight.
+    "helm.sh/hook-weight": "2"
+    # before-hook-creation	Delete the previous resource before a new hook is launched (default)
+    # hook-succeeded	Delete the resource after the hook is successfully executed
+    # hook-failed	Delete the resource if the hook failed during execution
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-schematool"
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      containers:
+      - name: fhir-schematool
+        image: {{ .Values.schemaMigration.image.repository }}:{{ .Values.schemaMigration.image.tag }}
+        args: [
+          "--schema-name", "{{ .Values.db.schema }}",
+          "--update-schema",
+        ]
+        volumeMounts:
+        - name: binding
+          mountPath: "/iks"
+          readOnly: true
+      volumes:
+      - name: binding
+        secret:
+          secretName: binding-postgres-fhir
+          items:
+          - key: binding
+            path: postgres-binding.json
+  backoffLimit: 4
+{{- end -}}

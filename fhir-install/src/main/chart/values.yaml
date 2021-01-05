@@ -1,0 +1,48 @@
+# Default values for chart.
+# Declare variables to be passed into your templates.
+replicaCount: 2
+ingestionReplicas: 3
+image:
+  repository: ibmcom/ibm-fhir-server
+  tag: "4.5.3"
+  pullPolicy: Always
+  # for local development against Minikube registry
+  #pullPolicy: Never
+db:
+  schema: fhirdata
+audit:
+  enabled: false
+  serviceName: cmsiop-eventstreams
+  topic: FHIR_AUDIT_DEV
+objectStorage:
+  location: REPLACE_ME
+  endpointUrl: REPLACE_ME
+  apiKey: REPLACE_ME
+  serviceInstanceId: REPLACE_ME
+  # Bucket names must be globally unique
+  bulkdataBucketName: REPLACE_ME
+schemaMigration:
+  enabled: true
+  image:
+    repository: ibmcom/ibm-fhir-schematool
+    tag: "4.5.3"
+    pullPolicy: Always
+service:
+  internalPort: 9443
+hostname: &host cluster1-573846-250babbbe4c3000e15508cd07c1d282b-0000.us-east.containers.appdomain.cloud
+ingress:
+  enabled: false
+  sslServices: ssl-service=fhir;ssl-service=fhir-post;
+  hosts:
+    - *host
+  tls:
+    - secretName: #INGRESS_TLS_SECRET
+      hosts:
+        - *host
+resources:
+  requests:
+    memory: "4Gi"
+    ephemeral-storage: "1Gi"
+  limits:
+    memory: "5Gi"
+    ephemeral-storage: "1Gi"
