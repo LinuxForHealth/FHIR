@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -223,7 +223,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeCreate' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, requestProperties));
+                    new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null));
             getInterceptorMgr().fireBeforeCreateEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -413,7 +413,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, create the persistence event.
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource,
-                    buildPersistenceEventProperties(type, newResource.getId(), null, requestProperties));
+                    buildPersistenceEventProperties(type, newResource.getId(), null, null));
 
             // Next, set the "previous resource" in the persistence event.
             event.setPrevFhirResource(ior.getPrevResource());
@@ -603,7 +603,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     resourceToDelete = entry.getResource();
                     // First, invoke the 'beforeDelete' interceptor methods.
                     FHIRPersistenceEvent event =
-                            new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
+                            new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
                     event.setFhirResource(resourceToDelete);
                     getInterceptorMgr().fireBeforeDeleteEvent(event);
 
@@ -711,7 +711,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, requestProperties));
+                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, searchContext));
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -783,7 +783,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, requestProperties));
+                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, null));
             getInterceptorMgr().fireBeforeVreadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -859,7 +859,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
+                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
             getInterceptorMgr().fireBeforeHistoryEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -931,13 +931,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType =
                     getResourceType(resourceTypeName);
 
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
+                HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, requestProperties));
+                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, searchContext));
             getInterceptorMgr().fireBeforeSearchEvent(event);
-
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
-                    HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -2635,10 +2635,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
      *
+     * @param type
+     *            the resource type
+     * @param id
+     *            the resource logical ID
+     * @param version
+     *            the resource version
+     * @param searchContext
+     *            the request search context
+     * @return a map of persistence event properties
      * @throws FHIRPersistenceException
      */
     private Map<String, Object> buildPersistenceEventProperties(String type, String id,
-            String version, Map<String, String> requestProperties) throws FHIRPersistenceException {
+            String version, FHIRSearchContext searchContext) throws FHIRPersistenceException {
         Map<String, Object> props = new HashMap<>();
         props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, persistence);
         if (type != null) {
@@ -2649,6 +2658,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
         if (version != null) {
             props.put(FHIRPersistenceEvent.PROPNAME_VERSION_ID, version);
+        }
+        if (searchContext != null) {
+            props.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
         }
         return props;
     }

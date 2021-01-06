@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
@@ -36,7 +37,9 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.smart.Scope.ContextType;
 import com.ibm.fhir.smart.Scope.Permission;
@@ -51,20 +54,79 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        enforceDirectPatientAcess(event);
+        enforceDirectPatientAccess(event);
     }
 
     @Override
     public void beforeVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        enforceDirectPatientAcess(event);
+        enforceDirectPatientAccess(event);
     }
 
     @Override
     public void beforeHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        enforceDirectPatientAcess(event);
+        enforceDirectPatientAccess(event);
     }
 
-    private void enforceDirectPatientAcess(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+    @Override
+    public void beforeSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        FHIRSearchContext searchContext = event.getSearchContextImpl();
+        if (searchContext != null) {
+            DecodedJWT jwt = JWT.decode(getAccessToken());
+            List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+
+            // Determine if compartment search
+            String compartment = null;
+            String compartmentId = null;
+            for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
+                if (queryParameter.isInclusionCriteria()) {
+                    // Value will contain a reference to compartment
+                    String[] tokens = queryParameter.getValues().get(0).getValueString().split("/");
+                    compartment = tokens[0];
+                    compartmentId = tokens[1];
+                    break;
+                }
+            }
+
+            if (compartment != null) {
+                // Compartment search - validate patient access
+                if (!"Patient".equals(compartment)) {
+                    String msg = "Compartment search with compartment '" + compartment + "' is not permitted.";
+                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+                }
+                if (!patientIdFromToken.contains(compartmentId)) {
+                    String msg = "Interaction with 'Patient/" + compartmentId + "' is not permitted under patient context '" + patientIdFromToken + "'.";
+                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+                }
+                try {
+                    if (!CompartmentUtil.getCompartmentResourceTypes("Patient").contains(event.getFhirResourceType())) {
+                        String msg = "Resource type '" + event.getFhirResourceType() + "' is not valid for Patient compartment search.";
+                        throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                    }
+                } catch (FHIRSearchException e) {
+                    log.log(Level.WARNING, "Unexpected exception while getting compartment resource types", e);
+                }
+            } else {
+                // Not compartment search - validate and convert to Patient compartment search if resource type is member of Patient compartment
+                if ("Patient".equals(event.getFhirResourceType())) {
+                    String msg = "Non-compartment Patient search is not permitted.";
+                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+                }
+                try {
+                    if (CompartmentUtil.getCompartmentResourceTypes("Patient").contains(event.getFhirResourceType())) {
+                        // NOTE: We currently do not support OR'd compartment searches, nor do we currently expect more than one patient ID to be
+                        // specified in the authorization token (see getPatientIdFromToken()). We will use the first ID specified for the compartment search.
+                        FHIRSearchContext compartmentSearchContext = SearchUtil.parseQueryParameters("Patient", patientIdFromToken.get(0),
+                            ModelSupport.getResourceType(event.getFhirResourceType()), Collections.emptyMap(), searchContext.isLenient());
+                        searchContext.getSearchParameters().addAll(compartmentSearchContext.getSearchParameters());
+                    }
+                } catch (Exception e) {
+                    log.log(Level.WARNING, "Unexpected exception while converting search to Patient compartment search", e);
+                }
+            }
+        }
+    }
+
+    private void enforceDirectPatientAccess(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         List<String> patientIdFromToken = getPatientIdFromToken(jwt);
         if ("Patient".equals(event.getFhirResourceType()) && !patientIdFromToken.contains(event.getFhirResourceId())) {
