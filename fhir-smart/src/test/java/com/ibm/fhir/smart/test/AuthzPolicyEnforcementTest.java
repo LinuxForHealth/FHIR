@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.smart.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -28,13 +29,19 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
 import com.ibm.fhir.smart.Scope.Permission;
 
@@ -192,6 +199,121 @@ public class AuthzPolicyEnforcementTest {
             fail("Patient history was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
+        }
+    }
+
+    @Test
+    public void testBeforeSearch() throws FHIRPersistenceInterceptorException {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read"));
+        Practitioner practitioner = null;
+        try {
+            practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
+        } catch (Exception e) {
+            fail("Practitioner resource could not be created");
+        }
+        QueryParameterValue queryParameterValue = new QueryParameterValue();
+        QueryParameter queryParameter = new QueryParameter(Type.REFERENCE, "test", null, null, true);
+        queryParameter.getValues().add(queryParameterValue);
+        FHIRSearchContextImpl searchContext = new FHIRSearchContextImpl();
+        searchContext.getSearchParameters().add(queryParameter);
+
+        // Valid compartment search
+        try {
+            queryParameterValue.setValueString("Patient/" + PATIENT_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeSearch(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient interaction was not allowed but should have been");
+        }
+
+        // Invalid compartment search: not a Patient compartment
+        try {
+            queryParameterValue.setValueString("Encounter/" + PATIENT_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeSearch(event);
+            fail("Patient interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals("Compartment search with compartment 'Encounter' is not permitted.", e.getIssues().get(0).getDetails().getText().getValue());
+        }
+
+        // Invalid compartment search: wrong Patient compartment
+        try {
+            queryParameterValue.setValueString("Patient/bogus");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeSearch(event);
+            fail("Patient interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals("Interaction with 'Patient/bogus' is not permitted under patient context '[" + PATIENT_ID + "]'.", e.getIssues().get(0).getDetails().getText().getValue());
+        }
+
+        // Invalid compartment search: resource type not in Patient compartment
+        try {
+            queryParameterValue.setValueString("Patient/" + PATIENT_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Practitioner");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(practitioner, properties);
+            interceptor.beforeSearch(event);
+            fail("Patient interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.INVALID, e.getIssues().get(0).getCode());
+            assertEquals("Resource type 'Practitioner' is not valid for Patient compartment search.", e.getIssues().get(0).getDetails().getText().getValue());
+        }
+
+        // Valid non-compartment search: converted to Patient compartment search
+        try {
+            searchContext = new FHIRSearchContextImpl();
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeSearch(event);
+            assertEquals(1, searchContext.getSearchParameters().size());
+            for (QueryParameter searchParameter : searchContext.getSearchParameters()) {
+                assertTrue(searchParameter.isInclusionCriteria());
+                assertEquals("Patient/" + PATIENT_ID, searchParameter.getValues().get(0).getValueString());
+            }
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient interaction was not allowed but should have been");
+        }
+
+        // Valid non-compartment search: resource type not in Patient compartment so not converted to compartment search
+        try {
+            searchContext = new FHIRSearchContextImpl();
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Practitioner");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(practitioner, properties);
+            interceptor.beforeSearch(event);
+            assertEquals(0, searchContext.getSearchParameters().size());
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient interaction was not allowed but should have been");
+        }
+
+        // Invalid non-compartment search: resource type is Patient
+        try {
+            searchContext = new FHIRSearchContextImpl();
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeSearch(event);
+            fail("Patient interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals("Non-compartment Patient search is not permitted.", e.getIssues().get(0).getDetails().getText().getValue());
         }
     }
 

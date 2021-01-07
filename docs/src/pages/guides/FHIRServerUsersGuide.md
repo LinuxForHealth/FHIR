@@ -1685,6 +1685,12 @@ To enable export to parquet, an administrator must:
 
 One way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkimportexport-webapp pom.xml and rebuild the webapp to include them.
 
+### 4.10.3 Job Logs
+Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
+
+In a standard installation, these logs will be at `wlp/usr/servers/fhir-server/logs/joblogs`.
+In the `ibmcom/ibm-fhir-server` docker image, these logs will be at `/logs/joblogs`.
+
 ## 4.11 Audit logging service
 The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.
 
