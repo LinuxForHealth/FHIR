@@ -67,6 +67,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         enforceDirectPatientAccess(event);
     }
 
+    /**
+     * This method ensures the search is either for a resource type that is not a member of the
+     * patient compartment, or is a valid patient-compartment resource search that is scoped
+     * to the patient context from the access token.
+     */
     @Override
     public void beforeSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         FHIRSearchContext searchContext = event.getSearchContextImpl();
@@ -120,7 +125,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                         searchContext.getSearchParameters().addAll(compartmentSearchContext.getSearchParameters());
                     }
                 } catch (Exception e) {
-                    log.log(Level.WARNING, "Unexpected exception while converting search to Patient compartment search", e);
+                    String msg = "Unexpected exception converting to Patient compartment search: " + e.getMessage();
+                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.EXCEPTION));
                 }
             }
         }
