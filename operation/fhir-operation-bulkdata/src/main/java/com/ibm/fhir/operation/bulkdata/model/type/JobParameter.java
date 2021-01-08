@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -308,9 +308,6 @@ public class JobParameter {
                 type = parameter.getStorageDetails().getType();
             }
 
-            if (parameter.getInputs() != null) {
-                generator.write("fhir.dataSourcesInfo", writeToBase64(parameter.getInputs()));
-            }
             generator.write("import.fhir.storagetype", type);
 
             if (parameter.getIncomingUrl() != null) {
