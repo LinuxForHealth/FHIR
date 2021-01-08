@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,7 @@ import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
  * Factory which serves up instances of the JDBC persistence implementation.
  */
 public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
-    
+
     // All instances created by this factory share the common cache object (which is tenant-aware)
     private final FHIRPersistenceJDBCTenantCache tenantCache = new FHIRPersistenceJDBCTenantCache();
 
@@ -29,7 +29,7 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
             FHIRPersistenceJDBCCache cache = tenantCache.getCacheForTenantAndDatasource();
             return new FHIRPersistenceJDBCImpl(cache);
         } catch (Exception e) {
-            throw new FHIRPersistenceException("Unexpected exception while creating JDBC persistence layer: ", e); 
+            throw new FHIRPersistenceException("Unexpected exception while creating JDBC persistence layer: '" + e.getMessage() + "'", e);
         }
     }
 }

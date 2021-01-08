@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
  */
 public class FHIRPersistenceJDBCTenantCache {
     private static final Logger logger = Logger.getLogger(FHIRPersistenceJDBCTenantCache.class.getName());
-    
+
     // Each tenant/datasource gets its own cache instance so we avoid mixing ids
     private final ConcurrentHashMap<String, FHIRPersistenceJDBCCache> cacheMap = new ConcurrentHashMap<>();
 
@@ -33,14 +33,14 @@ public class FHIRPersistenceJDBCTenantCache {
      */
     public FHIRPersistenceJDBCCache getCacheForTenantAndDatasource() {
         final String cacheKey = getCacheKeyForTenantDatasource();
-        
+
         // Obtain the cache for the current tenant/datasource, creating a new one if need be
         FHIRPersistenceJDBCCache result = cacheMap.computeIfAbsent(cacheKey, (k) -> createCache(k));
         if (result == null) {
             // exception handled inside createCache (which will have been logged)
-            throw new IllegalStateException("createCache failed");
+            throw new IllegalStateException("createCache failed " + cacheKey);
         }
-        
+
         return result;
     }
 
@@ -53,14 +53,14 @@ public class FHIRPersistenceJDBCTenantCache {
      */
     protected FHIRPersistenceJDBCCache createCache(String cacheKey) {
         FHIRPersistenceJDBCCache result;
-        
+
         try {
             // Create a new cache for the current tenant/datasource
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
             if (fhirConfig == null) {
                 throw new IllegalStateException("Unable to load the default fhir-server-config.json");
             }
-            
+
             final String datastoreId = FHIRRequestContext.get().getDataStoreId();
 
             // Retrieve the property group pertaining to the specified datastore.
@@ -74,14 +74,16 @@ public class FHIRPersistenceJDBCTenantCache {
                 int externalValueCacheSize = pg.getIntProperty("externalValueCacheSize", 100000);
                 return FHIRPersistenceJDBCCacheUtil.create(externalSystemCacheSize, externalValueCacheSize);
             }
+        } catch(IllegalStateException ise) {
+            throw ise;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "Failed to load configuration", x);
             result = null;
         }
-        
+
         return result;
     }
-    
+
     /**
      * Derive a key representing the current request tenant and datasource
      * @return
