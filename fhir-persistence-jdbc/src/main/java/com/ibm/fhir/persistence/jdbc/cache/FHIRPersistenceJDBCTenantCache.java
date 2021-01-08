@@ -38,7 +38,8 @@ public class FHIRPersistenceJDBCTenantCache {
         FHIRPersistenceJDBCCache result = cacheMap.computeIfAbsent(cacheKey, (k) -> createCache(k));
         if (result == null) {
             // exception handled inside createCache (which will have been logged)
-            throw new IllegalStateException("createCache failed " + cacheKey);
+            // The cacheKey is passed back up since it is the combination of the datastore and the key
+            throw new IllegalStateException("createCache failed for tenant " + FHIRRequestContext.get().getTenantId());
         }
 
         return result;
@@ -68,13 +69,13 @@ public class FHIRPersistenceJDBCTenantCache {
             PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
             if (pg == null) {
                 logger.severe("Missing datasource configuration for '" + dsPropertyName + "'");
-                result = null;
+                throw new IllegalStateException("Missing datasource configuration for " + dsPropertyName);
             } else {
                 int externalSystemCacheSize = pg.getIntProperty("externalSystemCacheSize", 1000);
                 int externalValueCacheSize = pg.getIntProperty("externalValueCacheSize", 100000);
                 return FHIRPersistenceJDBCCacheUtil.create(externalSystemCacheSize, externalValueCacheSize);
             }
-        } catch(IllegalStateException ise) {
+        } catch (IllegalStateException ise) {
             throw ise;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "Failed to load configuration", x);
