@@ -21,53 +21,7 @@ The HL7 FHIR specification is more than just a data format. It defines an [HTTP 
 
 The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
 
-### Configuring allowable API interactions
-By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules specified via the `fhirServer/resources/<resourceType>/interactions` property in `fhir-server-config.json`. The following snippet shows the general form for specifying interaction rules:
-
-```
-"resources": {
-    "open": true,
-    "Condition": {
-        "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
-    },
-    "Observation": {
-        "interactions": ["create", "read", "vread", "history", "delete"]
-    },
-    "Patient": {
-        "interactions": ["read", "vread", "history", "search"]
-    },
-    "Procedure": {
-        "interactions": ["create", "read", "vread", "history", "delete"]
-    }
-}
-```
-
-The `fhirServer/resources/<resourceType>/interactions` property is a JSON array of strings that represent the RESTful interactions allowed for the given resource type. If an interaction is not in the list of strings specified for a resource type, that interaction will not be allowed for that resource type. In the example above, the following interactions are allowed for the `Observation` resource type: `create`, `read`, `vread`, `history`, `delete`. This means a user will not be able to search for `Observation` resources because the `search` interaction is not specified in the list of allowed interactions.
-
-Omitting this property is equivalent to allowing all interactions for a given resource type. An empty array, `[]`, can be used to indicate that no interactions are allowed. Additionally, to define the set of interactions allowed for resource types which are not specifically configured in the `fhirServer/resources` property group, the base type of `Resource` may be specified:
-
-```
-"resources": {
-    "open": true,
-    "Condition": {
-        "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
-    },
-    "Observation": {
-        "interactions": ["create", "read", "vread", "history", "delete"]
-    },
-    "Patient": {
-        "interactions": ["read", "vread", "history", "search"]
-    },
-    "Procedure": {
-        "interactions": ["create", "read", "vread", "history", "delete"]
-    },
-    "Resource": {
-        "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
-    }
-}
-```
-
-In the example above, for any resource type which is not specifically configured, such as `Encounter`, all of the interactions listed for the `Resource` resource type will be allowed.
+By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### Extended operations
 The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).

@@ -29,6 +29,7 @@ import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
@@ -307,6 +308,33 @@ public class InteractionValidationConfigTest {
     }
 
     /**
+     * Test a create where create is not valid due to open is false.
+     */
+    @Test
+    public void testCreateNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        Practitioner practitioner = Practitioner.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doCreate("Practitioner", practitioner, null, null, false);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+        }
+    }
+
+    /**
      * Test a read where read is valid for a specific resource type.
      */
     @Test
@@ -453,6 +481,30 @@ public class InteractionValidationConfigTest {
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
             assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test a read where read is not valid due to open is false.
+     */
+    @Test
+    public void testReadNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doRead("Practitioner", "1", false, false, null, null);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
         }
     }
 
@@ -607,6 +659,30 @@ public class InteractionValidationConfigTest {
     }
 
     /**
+     * Test a vread where vread is not valid due to open is false.
+     */
+    @Test
+    public void testVReadNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doVRead("Practitioner", "1", "1", null);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+        }
+    }
+
+    /**
      * Test a history where history is valid for a specific resource type.
      */
     @Test
@@ -757,6 +833,30 @@ public class InteractionValidationConfigTest {
     }
 
     /**
+     * Test a history where history is not valid due to open is false.
+     */
+    @Test
+    public void testHistoryNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doHistory("Practitioner", "1", new MultivaluedHashMap<>(), null, null);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+        }
+    }
+
+    /**
      * Test a search where search is valid for a specific resource type.
      */
     @Test
@@ -903,6 +1003,30 @@ public class InteractionValidationConfigTest {
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
             assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test a search where search is not valid due to open is false.
+     */
+    @Test
+    public void testSearchNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doSearch("Practitioner", null, null, new MultivaluedHashMap<>(), null, null, null);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
         }
     }
 
@@ -1130,6 +1254,33 @@ public class InteractionValidationConfigTest {
     }
 
     /**
+     * Test an update where update is not valid due to open is false.
+     */
+    @Test
+    public void testUpdateNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        Practitioner practitioner = Practitioner.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doUpdate("Practitioner", "1", practitioner, null, null, null, false);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+        }
+    }
+
+    /**
      * Test a patch where patch is not valid due to empty specific resource list.
      */
     @Test
@@ -1222,6 +1373,33 @@ public class InteractionValidationConfigTest {
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
             assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test a patch where patch is not valid due to open is false.
+     */
+    @Test
+    public void testPatchNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        Practitioner practitioner = Practitioner.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doPatch("Practitioner", "1", null, null, null, null);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
         }
     }
 
@@ -1387,6 +1565,30 @@ public class InteractionValidationConfigTest {
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
             assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+        }
+    }
+
+    /**
+     * Test a delete where delete is not valid due to open is false.
+     */
+    @Test
+    public void testDeleteNotValidOpenFalse() throws Exception {
+        FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+
+        // Process request
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
+        try {
+            helper.doDelete("Practitioner", "1", null, null);
+            fail();
+        } catch (FHIROperationException e) {
+            // Validate results
+            List<Issue> issues = e.getIssues();
+            assertEquals(1, issues.size());
+            assertEquals("The requested resource type 'Practitioner' is not found",
+                issues.get(0).getDetails().getText().getValue());
+            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
+            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
         }
     }
 

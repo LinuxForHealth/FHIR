@@ -40,6 +40,7 @@ import org.owasp.encoder.Encode;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
@@ -701,18 +702,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            a FHIR resource associated with this request
      * @param queryParameters
      *            for supporting _summary for resource read
-     * @param doValidation
-     *            if true, validate the interaction; if false, assume the interaction does not need to be validated
+     * @param checkInteractionAllowed
+     *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
      * @return the Resource
      * @throws Exception
      */
     private Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
-            Map<String, String> requestProperties, Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean doValidation)
+            Map<String, String> requestProperties, Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
         log.entering(this.getClass().getName(), "doRead");
 
         // Validate that interaction is allowed for given resource type
-        if (doValidation) {
+        if (checkInteractionAllowed) {
             validateInteraction("read", type);
         }
 
@@ -952,18 +953,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            additional request properties which supplement the HTTP headers associated with this request
      * @param contextResource
      *            a FHIR resource associated with this request
-     * @param doValidation
-     *            if true, validate the interaction; if false, assume the interaction does not need to be validated
+     * @param checkInteractionAllowed
+     *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
      * @return a Bundle containing the search result set
      * @throws Exception
      */
     private Bundle doSearch(String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri,
-            Map<String, String> requestProperties, Resource contextResource, boolean doValidation) throws Exception {
+            Map<String, String> requestProperties, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
 
         // Validate that interaction is allowed for given resource type
-        if (doValidation) {
+        if (checkInteractionAllowed) {
             validateInteraction("search", type);
         }
 
@@ -2890,6 +2891,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     private void validateInteraction(String interaction, String resourceType) throws FHIROperationException {
         List<String> interactions = null;
+        boolean resourceValid = true;
 
         // Retrieve the interaction configuration
         try {
@@ -2903,13 +2905,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (resourceSpecificInteractions != null) {
                 interactions = resourceSpecificInteractions;
             } else {
-                List<String> defaultInteractions = FHIRConfigHelper.getStringListProperty(defaultInteractionsConfigPath.toString());
-                if (defaultInteractions != null) {
-                    interactions = defaultInteractions;
+                // Check the 'open' property, and if that's false, check if resource was specified
+                if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
+                    PropertyGroup resourceGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES + "/" + resourceType);
+                    if (resourceGroup == null) {
+                        resourceValid = false;
+                    }
+                }
+                if (resourceValid) {
+                    // Get the 'Resource' interaction property
+                    List<String> defaultInteractions = FHIRConfigHelper.getStringListProperty(defaultInteractionsConfigPath.toString());
+                    if (defaultInteractions != null) {
+                        interactions = defaultInteractions;
+                    }
                 }
             }
 
-            if (log.isLoggable(Level.FINE)) {
+           if (log.isLoggable(Level.FINE)) {
                 log.fine("Allowed interactions: " + interactions);
             }
         } catch (Exception e) {
@@ -2920,6 +2932,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (interactions != null && !interactions.contains(interaction)) {
             throw buildRestException("The requested interaction of type '" + interaction + "' is not allowed for resource type '" + resourceType + "'",
                 IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
+        } else if (!resourceValid) {
+            throw buildRestException("The requested resource type '" + resourceType + "' is not found",
+                IssueType.NOT_FOUND, IssueSeverity.ERROR);
         }
     }
 

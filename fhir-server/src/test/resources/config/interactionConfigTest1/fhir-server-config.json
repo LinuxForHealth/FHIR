@@ -9,7 +9,9 @@
             "serverRegistryResourceProviderEnabled": true
         },
         "resources": {
-            "open": true,
+            "open": false,
+            "Encounter": {
+            },
             "Patient": {
                 "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
             },
