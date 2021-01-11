@@ -2921,7 +2921,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
-           if (log.isLoggable(Level.FINE)) {
+            if (log.isLoggable(Level.FINE)) {
                 log.fine("Allowed interactions: " + interactions);
             }
         } catch (Exception e) {
