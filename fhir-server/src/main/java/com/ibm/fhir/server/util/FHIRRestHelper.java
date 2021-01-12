@@ -139,7 +139,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doCreate");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction("create", type);
+        validateInteraction(Interaction.CREATE.value(), type);
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
@@ -273,7 +273,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String searchQueryString, Map<String, String> requestProperties) throws Exception {
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction("patch", type);
+        validateInteraction(Interaction.PATCH.value(), type);
 
         return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION);
     }
@@ -283,7 +283,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String searchQueryString, Map<String, String> requestProperties, boolean doValidation) throws Exception {
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction("update", type);
+        validateInteraction(Interaction.UPDATE.value(), type);
 
         return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, doValidation);
     }
@@ -509,7 +509,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doDelete");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction("delete", type);
+        validateInteraction(Interaction.DELETE.value(), type);
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -714,7 +714,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Validate that interaction is allowed for given resource type
         if (checkInteractionAllowed) {
-            validateInteraction("read", type);
+            validateInteraction(Interaction.READ.value(), type);
         }
 
         // Start a new txn in the persistence layer if one is not already active.
@@ -795,7 +795,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doVRead");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction("vread", type);
+        validateInteraction(Interaction.VREAD.value(), type);
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         // Start a new txn in the persistence layer if one is not already active.
@@ -872,7 +872,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doHistory");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction("history", type);
+        validateInteraction(Interaction.HISTORY.value(), type);
 
         // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -965,7 +965,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Validate that interaction is allowed for given resource type
         if (checkInteractionAllowed) {
-            validateInteraction("search", type);
+            validateInteraction(Interaction.SEARCH.value(), type);
         }
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -2938,4 +2938,33 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
+    public enum Interaction {
+        CREATE("create"),
+        DELETE("delete"),
+        HISTORY("history"),
+        PATCH("patch"),
+        READ("read"),
+        SEARCH("search"),
+        UPDATE("update"),
+        VREAD("vread");
+
+        private final String value;
+
+        Interaction(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+
+        public static Interaction from(String value) {
+            for (Interaction interaction : Interaction.values()) {
+                if (interaction.value.equals(value)) {
+                    return interaction;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
 }
