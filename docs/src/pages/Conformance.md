@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-11-03 01:00:00 -0400
+date:   2021-01-11 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -20,6 +20,8 @@ The HL7 FHIR specification is more than just a data format. It defines an [HTTP 
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
 The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
+
+By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### Extended operations
 The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).

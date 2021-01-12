@@ -2,8 +2,8 @@
 layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
-Copyright: years 2017, 2020
-lastupdated: "2020-11-30"
+Copyright: years 2017, 2021
+lastupdated: "2021-01-11"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -28,6 +28,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.9 Multi-tenancy](#49-multi-tenancy)
   * [4.10 Bulk data operations](#410-bulk-data-operations)
   * [4.11 Audit logging service](#411-audit-logging-service)
+  * [4.12 FHIR REST API](#412-fhir-rest-api)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -2041,6 +2042,55 @@ select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETW
 select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETWEEN "2019-06-01" and "2019-06-06" and ATTACHMENTS[0].CONTENT LIKE '%fhir-read%' into cos://us-south/fhir-audit-dev-res stored as json
 
 ```
+
+## 4.12 FHIR REST API
+By default, the IBM FHIR Server allows the following RESTful interactions associated with the FHIR REST API: `create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`. However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules specified via the `fhirServer/resources/<resourceType>/interactions` property in `fhir-server-config.json`. The following snippet shows the general form for specifying interaction rules:
+
+```
+"resources": {
+    "open": true,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    },
+    "Procedure": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    }
+}
+```
+
+The `fhirServer/resources/<resourceType>/interactions` property is a JSON array of strings that represent the RESTful interactions allowed for the given resource type. If an interaction is not in the list of strings specified for a resource type, that interaction will not be allowed for that resource type. In the example above, the following interactions are allowed for the `Observation` resource type: [`create`, `read`, `vread`, `history`, `delete`]. This means a user will not be able to search for `Observation` resources because the `search` interaction is not specified in the list of allowed interactions.
+
+Omitting the `fhirServer/resources/<resourceType>/interactions` property is equivalent to allowing all interactions for a given resource type. An empty array, `[]`, can be used to indicate that no interactions are allowed. Additionally, to define the set of interactions allowed for resource types which are not specifically configured in the `fhirServer/resources` property group, or for resource types which are configured, but which do not specify the `fhirServer/resources/<resourceType>/interactions` property, the base type of `Resource` may be specified:
+
+```
+"resources": {
+    "open": true,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    },
+    "Procedure": {
+    },
+    "Resource": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
+    }
+}
+```
+
+In the example above, for any resource type which is not specifically configured, such as `Encounter`, or for any resource type which is configured but does not specify the `fhirServer/resources/<resourceType>/interactions` property, such as `Procedure`, all of the interactions listed for the `Resource` resource type will be allowed. One final consideration when configuring interactions is the `fhirServer/resources/open` property. If this property is specified and its value is set to `false`, then no interactions will be allowed for resource types which are not specifically listed in the `fhirServer/resources` property group. 
+
+In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
 # 5 Appendix
 
