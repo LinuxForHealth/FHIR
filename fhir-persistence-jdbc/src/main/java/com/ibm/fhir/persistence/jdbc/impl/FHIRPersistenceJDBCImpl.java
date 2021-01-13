@@ -134,6 +134,7 @@ import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
+import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -192,6 +193,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // The shared cache, used by all requests for the same tenant/datasource
     private final FHIRPersistenceJDBCCache cache;
 
+    // When set, use this interface to persist the payload object. Can be null.
+    private final FHIRPayloadPersistence payloadPersistence;
+
     // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
     private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
 
@@ -199,12 +203,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache) throws Exception {
+    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
 
-        // The cache holding ids (private to the current tenant).
         this.cache = cache;
+        this.payloadPersistence = payloadPersistence;
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         if (fhirConfig == null) {
@@ -282,6 +286,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
 
         this.cache = cache;
+        this.payloadPersistence = null;
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container

@@ -165,23 +165,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     }
 
     /**
-     * Delete all parameters for the given resourceId from the parameters table
-     *
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
-     * @throws SQLException
-     */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
-            // bind parameters
-            stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
-        }
-    }
-
-    /**
      * Read the id for the named type
      * @param resourceTypeName
      * @return the database id, or null if the named record is not found

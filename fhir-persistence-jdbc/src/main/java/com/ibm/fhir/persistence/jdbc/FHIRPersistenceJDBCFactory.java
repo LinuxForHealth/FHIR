@@ -17,7 +17,7 @@ import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
  * Factory which serves up instances of the JDBC persistence implementation.
  */
 public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
-    
+
     // All instances created by this factory share the common cache object (which is tenant-aware)
     private final FHIRPersistenceJDBCTenantCache tenantCache = new FHIRPersistenceJDBCTenantCache();
 
@@ -27,9 +27,9 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
             // each request gets a new instance of the FHIRPersistenceJDBCImpl, sharing
             // the common (tenant-aware) cache object
             FHIRPersistenceJDBCCache cache = tenantCache.getCacheForTenantAndDatasource();
-            return new FHIRPersistenceJDBCImpl(cache);
+            return new FHIRPersistenceJDBCImpl(cache, getPayloadPersistence());
         } catch (Exception e) {
-            throw new FHIRPersistenceException("Unexpected exception while creating JDBC persistence layer: ", e); 
+            throw new FHIRPersistenceException("Unexpected exception while creating JDBC persistence layer: ", e);
         }
     }
 }
