@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="146px" preserveAspectRatio="none" style="width:365px;height:146px;" version="1.1" viewBox="0 0 365 146" width="365px" zoomAndPan="magnify"><defs><filter height="300%" id="f1efv2uvyy1ky6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[97555b251c2ee1340eef9328cbd1ee9a]
+class com.ibm.fhir.database.utils.db2.Db2PartitionControl--><a href="Db2PartitionControl.html" target="_top" title="Db2PartitionControl.html" xlink:actuate="onRequest" xlink:href="Db2PartitionControl.html" xlink:show="new" xlink:title="Db2PartitionControl.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1efv2uvyy1ky6)" height="109.9609" id="com.ibm.fhir.database.utils.db2.Db2PartitionControl" style="stroke: #A80036; stroke-width: 1.5;" width="347" x="7" y="7"/><ellipse cx="100.25" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M103.2188,31.6094 Q102.6406,31.9063 102,32.0469 Q101.3594,32.2031 100.6563,32.2031 Q98.1563,32.2031 96.8281,30.5625 Q95.5156,28.9063 95.5156,25.7813 Q95.5156,22.6563 96.8281,21 Q98.1563,19.3438 100.6563,19.3438 Q101.3594,19.3438 102,19.5 Q102.6563,19.6563 103.2188,19.9531 L103.2188,22.6719 Q102.5938,22.0938 102,21.8281 Q101.4063,21.5469 100.7813,21.5469 Q99.4375,21.5469 98.75,22.625 Q98.0625,23.6875 98.0625,25.7813 Q98.0625,27.875 98.75,28.9531 Q99.4375,30.0156 100.7813,30.0156 Q101.4063,30.0156 102,29.75 Q102.5938,29.4688 103.2188,28.8906 L103.2188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="135" x="129.25" y="24.9951">Db2PartitionControl</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="152" x="120.75" y="37.5791">com.ibm.fhir.database.utils.db2</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="353" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="238" x="27" y="59.1479">Db2PartitionControl(ICatalogAccess, Date)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="321" x="27" y="71.9526">pushAhead(String, String, int, PartitionUnit, int, int): void</text><polygon fill="#FFFF44" points="18,76.5469,22,80.5469,18,84.5469,14,80.5469" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="210" x="27" y="84.7573">getHighValueDate(PartitionInfo): Date</text><polygon fill="#FFFF44" points="18,89.3516,22,93.3516,18,97.3516,14,93.3516" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="207" x="27" y="97.562">getLowValueDate(PartitionInfo): Date</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="271" x="27" y="110.3667">rollOff(String, String, int, PartitionUnit, int): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="87.5" y="133.2432">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[4fd9321f56cc0791263aea82d94a624d]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>Db2PartitionControl\n<size:10>com.ibm.fhir.database.utils.db2" as com.ibm.fhir.database.utils.db2.Db2PartitionControl [[Db2PartitionControl.html]] {
+        +Db2PartitionControl(ICatalogAccess, Date)
+        +pushAhead(String, String, int, PartitionUnit, int, int): void
+        #getHighValueDate(PartitionInfo): Date
+        #getLowValueDate(PartitionInfo): Date
+        +rollOff(String, String, int, PartitionUnit, int): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.9.1+1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

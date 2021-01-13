@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="95px" preserveAspectRatio="none" style="width:286px;height:95px;" version="1.1" viewBox="0 0 286 95" width="286px" zoomAndPan="magnify"><defs><filter height="300%" id="fs6omsyypcpjx" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[d6986c154d6ced4a82b3772b7dbccecd]
+class com.ibm.fhir.search.context.FHIRSearchContextFactory--><a href="FHIRSearchContextFactory.html" target="_top" title="FHIRSearchContextFactory.html" xlink:actuate="onRequest" xlink:href="FHIRSearchContextFactory.html" xlink:show="new" xlink:title="FHIRSearchContextFactory.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fs6omsyypcpjx)" height="58.7422" id="com.ibm.fhir.search.context.FHIRSearchContextFactory" style="stroke: #A80036; stroke-width: 1.5;" width="268" x="7" y="7"/><ellipse cx="45.85" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M48.8188,31.6094 Q48.2406,31.9063 47.6,32.0469 Q46.9594,32.2031 46.2563,32.2031 Q43.7563,32.2031 42.4281,30.5625 Q41.1156,28.9063 41.1156,25.7813 Q41.1156,22.6563 42.4281,21 Q43.7563,19.3438 46.2563,19.3438 Q46.9594,19.3438 47.6,19.5 Q48.2563,19.6563 48.8188,19.9531 L48.8188,22.6719 Q48.1938,22.0938 47.6,21.8281 Q47.0063,21.5469 46.3813,21.5469 Q45.0375,21.5469 44.35,22.625 Q43.6625,23.6875 43.6625,25.7813 Q43.6625,27.875 44.35,28.9531 Q45.0375,30.0156 46.3813,30.0156 Q47.0063,30.0156 47.6,29.75 Q48.1938,29.4688 48.8188,28.8906 L48.8188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="183" x="65.15" y="24.9951">FHIRSearchContextFactory</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="136" x="88.65" y="37.5791">com.ibm.fhir.search.context</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="274" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="242" x="27" y="59.1479">createSearchContext(): FHIRSearchContext</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="48" y="82.0244">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[17d1c3d993de6475b147d46bc54f9b5c]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIRSearchContextFactory\n<size:10>com.ibm.fhir.search.context" as com.ibm.fhir.search.context.FHIRSearchContextFactory [[FHIRSearchContextFactory.html]] {
+        {static} +createSearchContext(): FHIRSearchContext
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.9.1+1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

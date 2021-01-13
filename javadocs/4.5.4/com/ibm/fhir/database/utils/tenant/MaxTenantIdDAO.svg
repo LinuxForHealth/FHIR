@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="231px" preserveAspectRatio="none" style="width:308px;height:231px;" version="1.1" viewBox="0 0 308 231" width="308px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ut5iza93oqo1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[f2791ba571b72dc55147e086f8da3230]
+class com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO--><a href="MaxTenantIdDAO.html" target="_top" title="MaxTenantIdDAO.html" xlink:actuate="onRequest" xlink:href="MaxTenantIdDAO.html" xlink:show="new" xlink:title="MaxTenantIdDAO.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1ut5iza93oqo1)" height="71.5469" id="com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO" style="stroke: #A80036; stroke-width: 1.5;" width="288" x="6" y="127"/><ellipse cx="62.75" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M65.7188,151.6094 Q65.1406,151.9063 64.5,152.0469 Q63.8594,152.2031 63.1563,152.2031 Q60.6563,152.2031 59.3281,150.5625 Q58.0156,148.9063 58.0156,145.7813 Q58.0156,142.6563 59.3281,141 Q60.6563,139.3438 63.1563,139.3438 Q63.8594,139.3438 64.5,139.5 Q65.1563,139.6563 65.7188,139.9531 L65.7188,142.6719 Q65.0938,142.0938 64.5,141.8281 Q63.9063,141.5469 63.2813,141.5469 Q61.9375,141.5469 61.25,142.625 Q60.5625,143.6875 60.5625,145.7813 Q60.5625,147.875 61.25,148.9531 Q61.9375,150.0156 63.2813,150.0156 Q63.9063,150.0156 64.5,149.75 Q65.0938,149.4688 65.7188,148.8906 L65.7188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="119" x="106.75" y="144.9951">MaxTenantIdDAO</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="166" x="83.25" y="157.5791">com.ibm.fhir.database.utils.tenant</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="293" y1="164.9375" y2="164.9375"/><ellipse cx="17" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="137" x="26" y="179.1479">MaxTenantIdDAO(String)</text><ellipse cx="17" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="262" x="26" y="191.9526">run(IDatabaseTranslator, Connection): Integer</text></a><!--MD5=[93ea417c481fd981345e931714a643b2]
+class com.ibm.fhir.database.utils.api.IDatabaseSupplier--><a href="../api/IDatabaseSupplier.html" target="_top" title="../api/IDatabaseSupplier.html" xlink:actuate="onRequest" xlink:href="../api/IDatabaseSupplier.html" xlink:show="new" xlink:title="../api/IDatabaseSupplier.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1ut5iza93oqo1)" height="58.7422" id="com.ibm.fhir.database.utils.api.IDatabaseSupplier" style="stroke: #A80036; stroke-width: 1.5;" width="288" x="6" y="8"/><ellipse cx="47.55" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M43.4719,22.7344 L43.4719,20.5781 L50.8625,20.5781 L50.8625,22.7344 L48.3938,22.7344 L48.3938,30.8125 L50.8625,30.8125 L50.8625,32.9688 L43.4719,32.9688 L43.4719,30.8125 L45.9406,30.8125 L45.9406,22.7344 L43.4719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="125" x="78.95" y="25.9951">IDatabaseSupplier</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="148" x="67.45" y="38.5791">com.ibm.fhir.database.utils.api</text><rect fill="#FFFFFF" height="15.9688" style="stroke: #000000; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" width="47" x="250" y="5"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="45" x="251" y="17.1387">Integer</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="293" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="262" x="26" y="60.1479">run(IDatabaseTranslator, Connection): Integer</text></a><!--MD5=[a09f5e7ce5a92e74b5cf87104e71cd86]
+reverse link com.ibm.fhir.database.utils.api.IDatabaseSupplier to com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO--><path d="M150,87.5049 C150,100.6211 150,114.5128 150,126.7555 " fill="none" id="com.ibm.fhir.database.utils.api.IDatabaseSupplier&lt;-com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="143.0001,87.2418,150,67.2417,157.0001,87.2417,143.0001,87.2418" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="63" y="218.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[ab5e3616c40b431b0a727e1360f12b72]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>MaxTenantIdDAO\n<size:10>com.ibm.fhir.database.utils.tenant" as com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO [[MaxTenantIdDAO.html]] {
+        +MaxTenantIdDAO(String)
+        +run(IDatabaseTranslator, Connection): Integer
+    }
+
+    interface "<size:14>IDatabaseSupplier\n<size:10>com.ibm.fhir.database.utils.api" as com.ibm.fhir.database.utils.api.IDatabaseSupplier<Integer> [[../api/IDatabaseSupplier.html]] {
+        {abstract} +run(IDatabaseTranslator, Connection): Integer
+    }
+
+    com.ibm.fhir.database.utils.api.IDatabaseSupplier <|.. com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.9.1+1
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
