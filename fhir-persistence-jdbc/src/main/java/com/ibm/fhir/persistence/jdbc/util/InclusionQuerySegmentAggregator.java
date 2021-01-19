@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,9 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUOTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -22,6 +24,7 @@ import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 
 /**
@@ -40,12 +43,16 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT RESOURCE_ID) FROM ";
     private static final String SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
+    private static final String SELECT_ROOT_WITH_SORT_ORDER =
+            "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID, 1 AS SORT_ORDER FROM ";
     private static final String UNION_ALL = " UNION ALL ";
     private static final String REVINCLUDE_JOIN_START =
             "JOIN ";
     private static final String REVINCLUDE_JOIN_END =
             "_TOKEN_VALUES_V P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
     private static final String ORDERING = " ORDER BY R.LOGICAL_RESOURCE_ID ASC ";
+    private static final String SORT_ORDER_COLUMN = ", 2 AS SORT_ORDER ";
+    private static final String ORDER_BY_SORT_ORDER = " ORDER BY SORT_ORDER ASC ";
 
     private List<InclusionParameter> includeParameters;
     private List<InclusionParameter> revIncludeParameters;
@@ -181,7 +188,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
 
         StringBuilder queryString = new StringBuilder();
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
-        queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
+        queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT_WITH_SORT_ORDER).append(LEFT_PAREN);
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
 
         buildFromClause(queryString, resourceType.getSimpleName());
@@ -202,7 +209,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         this.processIncludeParameters(queryString, allBindVariables);
         this.processRevIncludeParameters(queryString, allBindVariables);
 
-        queryString.append(COMBINED_RESULTS);
+        queryString.append(COMBINED_RESULTS).append(ORDER_BY_SORT_ORDER);
+        this.addLimitClause(queryString);
 
         addOptimizerHint(queryString);
 
@@ -260,13 +268,16 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
 
         boolean isFirstItem = true;
+        Set<String> references = new HashSet<>();
         for (String strValue : this.resourceDao.searchStringValues(subQueryData)) {
-            if (!isFirstItem) {
-                queryString.append(COMMA);
-            }
-            if (strValue != null) {
+            // Check if null or duplicate - if so, do not process
+            if (strValue != null && !references.contains(strValue)) {
+                if (!isFirstItem) {
+                    queryString.append(COMMA);
+                }
                 queryString.append(QUOTE).append(SqlParameterEncoder.encode(strValue)).append(QUOTE);
                 isFirstItem = false;
+                references.add(strValue);
             }
         }
 
@@ -302,8 +313,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         for (InclusionParameter includeParm : this.includeParameters) {
             // UNION ALL
             queryString.append(UNION_ALL);
-            // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
-            queryString.append(QuerySegmentAggregator.SELECT_ROOT);
+            // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, 2 AS SORT_ORDER
+            queryString.append(QuerySegmentAggregator.SELECT_ROOT).append(SORT_ORDER_COLUMN);
             // FROM Organization_RESOURCES R JOIN Organization_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
             processFromClause(queryString, includeParm.getSearchParameterTargetType());
             // WHERE R.IS_DELETED = 'N' AND
@@ -328,8 +339,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         for (InclusionParameter includeParm : this.revIncludeParameters) {
             // UNION ALL
             queryString.append(UNION_ALL);
-            // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
-            queryString.append(QuerySegmentAggregator.SELECT_ROOT);
+            // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, 2 AS SORT_ORDER
+            queryString.append(QuerySegmentAggregator.SELECT_ROOT).append(SORT_ORDER_COLUMN);
             // FROM Observation_RESOURCES R JOIN Observation_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
             processFromClause(queryString, includeParm.getJoinResourceType());
             // JOIN Observation_TOKEN_VALUES_V P1 ON P1.RESOURCE_ID = R.RESOURCE_ID
@@ -411,5 +422,24 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         }
 
         log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Adds the appropriate limit clause to the passed query string buffer,
+     * based on the type of database we're running against.
+     *
+     * @param queryString A query string buffer.
+     */
+    private void addLimitClause(StringBuilder queryString) {
+        int limit = Integer.MAX_VALUE;
+        if (this.pageSize <= Integer.MAX_VALUE - (SearchConstants.MAX_PAGE_SIZE + 1)) {
+            limit = this.pageSize + SearchConstants.MAX_PAGE_SIZE + 1;
+        }
+
+        if (this.parameterDao.isDb2Database()) {
+            queryString.append(" LIMIT ").append(limit);
+        } else {
+            queryString.append(" FETCH FIRST ").append(limit).append(" ROWS ONLY");
+        }
     }
 }

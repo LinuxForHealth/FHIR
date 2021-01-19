@@ -49,6 +49,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -56,6 +57,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
@@ -64,6 +66,7 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
@@ -2444,13 +2447,32 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                             .id(UUID.randomUUID().toString())
                                             .total(totalCount);
 
+        // Calculate how many resources are 'match' mode
+        int pageSize = searchContext.getPageSize();
+        int offset = (searchContext.getPageNumber() - 1) * pageSize;
+        int matchResourceCount = pageSize;
+        if (totalCount.getValue() < offset + pageSize) {
+            matchResourceCount = totalCount.getValue() - offset;
+        }
+
+        // Check if too many included resources
+        if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
+            String msg = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
+            throw buildRestException(msg, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
+        }
+
         for (Resource resource : resources) {
             if (resource.getId() == null) {
                 throw new IllegalStateException("Returned resources must have an id.");
             }
-            Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri(type) + "/"
-                    + resource.getClass().getSimpleName() + "/"
-                    + resource.getId())).resource(resource).build();
+            Bundle.Entry entry = Bundle.Entry.builder()
+                    .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
+                    .resource(resource)
+                    .search(Search.builder()
+                        .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
+                        .score(Decimal.of("1"))
+                        .build())
+                    .build();
 
             bundleBuider.entry(entry);
         }
