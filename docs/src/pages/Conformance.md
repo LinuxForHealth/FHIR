@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-01-11 01:00:00 -0400
+date:   2021-01-19 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -128,7 +128,9 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to request up to 1000 records matching the search criteria.  An attempt to exceed this `_count` limit will not be honored and returned records will be capped at 1000.  Any associated `_include` records are not considered in the `_count` limit. 
+The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
+
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of resources to be returned exceeds 1000, the search will fail.  
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
