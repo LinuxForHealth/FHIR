@@ -9,9 +9,12 @@ package com.ibm.fhir.persistence.jdbc.util;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FETCH_FIRST;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIMIT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUOTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -437,9 +440,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         }
 
         if (this.parameterDao.isDb2Database()) {
-            queryString.append(" LIMIT ").append(limit);
+            queryString.append(LIMIT).append(limit);
         } else {
-            queryString.append(" FETCH FIRST ").append(limit).append(" ROWS ONLY");
+            queryString.append(FETCH_FIRST).append(limit).append(ROWS_ONLY);
         }
     }
 }

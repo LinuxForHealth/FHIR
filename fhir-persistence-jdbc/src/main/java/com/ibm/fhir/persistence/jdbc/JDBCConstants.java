@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,6 +78,12 @@ public class JDBCConstants {
     public static final char PATH_CHAR = '/';
     public static final String SELECT = " SELECT ";
     public static final String AS = " AS ";
+    public static final String LIMIT = " LIMIT ";
+    public static final String OFFSET = " OFFSET ";
+    public static final String FETCH_FIRST = " FETCH FIRST ";
+    public static final String FETCH_NEXT = " FETCH NEXT ";
+    public static final String ROWS = " ROWS ";
+    public static final String ROWS_ONLY = " ROWS ONLY ";
 
     // JDBC Operators
     public static final String EQ = " = ";

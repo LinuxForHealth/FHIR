@@ -411,52 +411,107 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     }
 
     @AfterClass
-    public void testDeleteResources() {
+    public void testDeletePatient1() {
         WebTarget target = getWebTarget();
         if (patient1Id != null) {
             Response response   = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeletePatient2() {
+        WebTarget target = getWebTarget();
         if (patient2Id != null) {
             Response response   = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeletePatient3() {
+        WebTarget target = getWebTarget();
         if (patient3Id != null) {
             Response response   = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteProcedure1() {
+        WebTarget target = getWebTarget();
         if (procedure1Id != null) {
             Response response   = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteProcedure2() {
+        WebTarget target = getWebTarget();
         if (procedure2Id != null) {
             Response response   = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteProcedure3() {
+        WebTarget target = getWebTarget();
         if (procedure3Id != null) {
             Response response   = target.path("Procedure/" + procedure3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteProcedure4() {
+        WebTarget target = getWebTarget();
         if (procedure4Id != null) {
             Response response   = target.path("Procedure/" + procedure4Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteProcedure5() {
+        WebTarget target = getWebTarget();
         if (procedure5Id != null) {
             Response response   = target.path("Procedure/" + procedure5Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteOrganization1() {
+        WebTarget target = getWebTarget();
         if (organization1Id != null) {
             Response response   = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeletePractitioner1() {
+        WebTarget target = getWebTarget();
         if (practitioner1Id != null) {
             Response response   = target.path("Practitioner/" + practitioner1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteEncounter1() {
+        WebTarget target = getWebTarget();
         if (encounter1Id != null) {
             Response response   = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
+    }
+
+    @AfterClass
+    public void testDeleteNutritionOrders() {
+        WebTarget target = getWebTarget();
         for (String nutritionOrderId : nutritionOrderIds) {
             Response response   = target.path("NutritionOrder/" + nutritionOrderId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());

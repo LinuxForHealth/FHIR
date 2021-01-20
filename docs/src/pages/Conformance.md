@@ -130,7 +130,7 @@ Finally, the specification defines a set of "Search result parameters" for contr
 
 The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
 
-The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of resources to be returned exceeds 1000, the search will fail.  
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail.
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 

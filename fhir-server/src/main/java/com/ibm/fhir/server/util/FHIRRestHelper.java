@@ -114,6 +114,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));
     private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
+    private static final String TOO_MANY_INCLUDE_RESOURCES = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
 
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
@@ -2442,7 +2443,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
         // generate ID for this bundle and set total
-        Bundle.Builder bundleBuider = Bundle.builder()
+        Bundle.Builder bundleBuilder = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
                                             .id(UUID.randomUUID().toString())
                                             .total(totalCount);
@@ -2457,14 +2458,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Check if too many included resources
         if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
-            String msg = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
-            throw buildRestException(msg, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
+            throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
         }
 
         for (Resource resource : resources) {
             if (resource.getId() == null) {
                 throw new IllegalStateException("Returned resources must have an id.");
             }
+            // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
+            // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
             Bundle.Entry entry = Bundle.Entry.builder()
                     .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
                     .resource(resource)
@@ -2474,10 +2476,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .build())
                     .build();
 
-            bundleBuider.entry(entry);
+            bundleBuilder.entry(entry);
         }
 
-        Bundle bundle = bundleBuider.build();
+        Bundle bundle = bundleBuilder.build();
 
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
         // returned resources or _summary is required.
