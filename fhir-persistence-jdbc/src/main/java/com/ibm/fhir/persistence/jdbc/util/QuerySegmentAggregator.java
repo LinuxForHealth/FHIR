@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,12 +11,17 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FETCH_NEXT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIMIT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OFFSET;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
@@ -97,7 +102,7 @@ public class QuerySegmentAggregator {
     protected List<Object> lastUpdatedObjects = new ArrayList<>();
 
     private int offset;
-    private int pageSize;
+    protected int pageSize;
     protected ParameterDAO parameterDao;
     protected ResourceDAO resourceDao;
 
@@ -721,10 +726,10 @@ public class QuerySegmentAggregator {
     protected void addPaginationClauses(StringBuilder queryString) throws Exception {
 
         if (this.parameterDao.isDb2Database()) {
-            queryString.append(" LIMIT ").append(this.pageSize).append(" OFFSET ").append(this.offset);
+            queryString.append(LIMIT).append(this.pageSize).append(OFFSET).append(this.offset);
         } else {
-            queryString.append(" OFFSET ").append(this.offset).append(" ROWS")
-                    .append(" FETCH NEXT ").append(this.pageSize).append(" ROWS ONLY");
+            queryString.append(OFFSET).append(this.offset).append(ROWS)
+                    .append(FETCH_NEXT).append(this.pageSize).append(ROWS_ONLY);
         }
     }
 }

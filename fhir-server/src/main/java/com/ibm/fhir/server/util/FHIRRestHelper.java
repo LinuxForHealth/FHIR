@@ -49,6 +49,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -56,6 +57,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
@@ -64,6 +66,7 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
@@ -111,6 +114,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));
     private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
+    private static final String TOO_MANY_INCLUDE_RESOURCES = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
 
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
@@ -2439,23 +2443,43 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
         // generate ID for this bundle and set total
-        Bundle.Builder bundleBuider = Bundle.builder()
+        Bundle.Builder bundleBuilder = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
                                             .id(UUID.randomUUID().toString())
                                             .total(totalCount);
+
+        // Calculate how many resources are 'match' mode
+        int pageSize = searchContext.getPageSize();
+        int offset = (searchContext.getPageNumber() - 1) * pageSize;
+        int matchResourceCount = pageSize;
+        if (totalCount.getValue() < offset + pageSize) {
+            matchResourceCount = totalCount.getValue() - offset;
+        }
+
+        // Check if too many included resources
+        if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
+            throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
+        }
 
         for (Resource resource : resources) {
             if (resource.getId() == null) {
                 throw new IllegalStateException("Returned resources must have an id.");
             }
-            Bundle.Entry entry = Bundle.Entry.builder().fullUrl(Uri.of(getRequestBaseUri(type) + "/"
-                    + resource.getClass().getSimpleName() + "/"
-                    + resource.getId())).resource(resource).build();
+            // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
+            // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
+            Bundle.Entry entry = Bundle.Entry.builder()
+                    .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
+                    .resource(resource)
+                    .search(Search.builder()
+                        .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
+                        .score(Decimal.of("1"))
+                        .build())
+                    .build();
 
-            bundleBuider.entry(entry);
+            bundleBuilder.entry(entry);
         }
 
-        Bundle bundle = bundleBuider.build();
+        Bundle bundle = bundleBuilder.build();
 
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
         // returned resources or _summary is required.
