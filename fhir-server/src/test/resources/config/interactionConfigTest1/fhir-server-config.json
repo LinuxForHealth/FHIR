@@ -1,0 +1,31 @@
+{
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "core": {
+            "tenantIdHeaderName": "X-FHIR-TENANT-ID",
+            "datastoreIdHeaderName": "X-FHIR-DSID",
+            "checkReferenceTypes": true,
+            "conditionalDeleteMaxNumber": 10,
+            "serverRegistryResourceProviderEnabled": true
+        },
+        "resources": {
+            "open": false,
+            "Encounter": {
+            },
+            "Patient": {
+                "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
+            },
+            "Procedure": {
+                "interactions": ["update"]
+            },
+            "Resource": {
+                "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
+            }
+        },
+        "audit": {
+            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
+            "serviceProperties" : {
+            }
+        }
+    }
+}
