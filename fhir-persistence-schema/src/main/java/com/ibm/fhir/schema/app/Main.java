@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1344,9 +1344,17 @@ public class Main {
                 break;
             case "--drop-schema-batch":
                 this.dropJavaBatchSchema = Boolean.TRUE;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    schema.setJavaBatchSchemaName(args[nextIdx]);
+                    i++;
+                }
                 break;
             case "--drop-schema-oauth":
                 this.dropOauthSchema = Boolean.TRUE;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    schema.setOauthSchemaName(args[nextIdx]);
+                    i++;
+                }
                 break;
             case "--pool-size":
                 if (++i < args.length) {

@@ -338,22 +338,29 @@ function grant_to_dbuser {
     then
         error_warn "Target User is not set and we are skipping the grant phase, it is recommended to run"
     else
+        # Pick off the schemas
+        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
+        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
+        then
+            SCHEMA_OAUTH="FHIR_OAUTH"
+        fi
+        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
+        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
+        then
+            SCHEMA_BATCH="FHIR_JBATCH"
+        fi
+        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
+        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
+        then
+            SCHEMA_FHIR="FHIRDATA"
+        fi
+
         if [ "${DB_TYPE}" = "db2" ]
         then
-            SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-            if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-            then
-                SCHEMA_FHIR="FHIRDATA"
-            fi
-            _call_db2 "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
+            _call_db2 "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 2"
         elif [ "${DB_TYPE}" = "postgresql" ]
         then
-            SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-            if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-            then
-                SCHEMA_FHIR="FHIRDATA"
-            fi
-            _call_postgres "--grant-to ${TARGET_USER} --schema-name ${SCHEMA_FHIR} --pool-size 2"
+            _call_postgres "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 2"
         fi
     fi
 }
@@ -398,7 +405,7 @@ function drop_schema {
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
-        _call_db2 "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
+        _call_db2 "--drop-schema-fhir --schema-name ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2 --confirm-drop --drop-admin"
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
         # Pick off the schemas
@@ -417,7 +424,7 @@ function drop_schema {
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
-        _call_postgres "--drop-schema-fhir ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2"
+        _call_postgres "--drop-schema-fhir --schema-name ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2 --confirm-drop --drop-admin"
     fi
 }
 
