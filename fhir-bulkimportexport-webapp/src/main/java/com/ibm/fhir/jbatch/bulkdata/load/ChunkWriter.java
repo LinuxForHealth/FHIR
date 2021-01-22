@@ -141,6 +141,13 @@ public class ChunkWriter extends AbstractItemWriter {
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
+        FHIRRequestContext context = FHIRRequestContext.get();
+        System.out.println("Original Request is " + context.getOriginalRequestUri());
+        context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
+        FHIRRequestContext.set(context);
+        context.setOriginalRequestUri(incomingUrl);
+        logger.fine("The incomingUrl is '" + incomingUrl + "'");
+
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 
