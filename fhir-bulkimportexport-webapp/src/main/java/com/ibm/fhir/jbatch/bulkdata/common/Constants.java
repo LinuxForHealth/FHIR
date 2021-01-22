@@ -17,7 +17,7 @@ public class Constants {
     /**
      * The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only).
      */
-    public static final int COS_PART_MINIMALSIZE = 10485760;
+    public static final long COS_PART_MINIMALSIZE = 10485760;
 
     /**
      * The maximum number of resources read in each iteration of the system export ChunkReader.

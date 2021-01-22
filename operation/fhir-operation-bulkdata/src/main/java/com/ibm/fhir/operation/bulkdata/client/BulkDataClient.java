@@ -200,7 +200,12 @@ public class BulkDataClient {
             builder.fhirPatientGroupId(properties.get(BulkDataConstants.PARAM_GROUP_ID));
             break;
         default:
-            builder.jobXMLName("FhirBulkExportChunkJob");
+            if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null) {
+                builder.jobXMLName("FhirBulkExportChunkJob");
+            } else {
+                // No typeFilter, so we use the fast export which bypasses FHIR search
+                builder.jobXMLName("FhirBulkExportFastJob");
+            }
             break;
         }
 

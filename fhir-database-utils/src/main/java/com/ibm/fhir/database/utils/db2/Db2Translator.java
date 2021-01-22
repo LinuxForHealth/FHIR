@@ -68,8 +68,8 @@ public class Db2Translator implements IDatabaseTranslator {
         final String sqlState = x.getSQLState();
         final String msg = x.getMessage();
 
-        return "40001".equals(sqlState) 
-                && msg != null 
+        return "40001".equals(sqlState)
+                && msg != null
                 && msg.contains("SQLERRMC=68");
     }
 
@@ -78,7 +78,7 @@ public class Db2Translator implements IDatabaseTranslator {
         // deadlock is 40001 reason code 2
         final String sqlState = x.getSQLState();
         final String msg = x.getMessage();
-        return "40001".equals(sqlState) 
+        return "40001".equals(sqlState)
             && msg != null
             && msg.contains("SQLERRMC=2");
     }
@@ -125,7 +125,7 @@ public class Db2Translator implements IDatabaseTranslator {
         //<code>SQLCODE=-1035, SQLSTATE=57019</code>
         String sqlState = x.getSQLState();
         Integer sqlCode = x.getErrorCode();
-        return sqlState != null && sqlState.equals("57019") 
+        return sqlState != null && sqlState.equals("57019")
                 && sqlCode != null && sqlCode == -1035;
     }
 
@@ -169,7 +169,7 @@ public class Db2Translator implements IDatabaseTranslator {
         // Configure the properties as required by the DB2 driver
         p.put("user", cd.getUser());
         p.put("password", cd.getPassword());
-                
+
         if (cd.isSsl()) {
             p.put("sslConnection", "true");
             p.put("sslTrustStoreLocation", cd.getTrustStoreLocation());
@@ -182,7 +182,7 @@ public class Db2Translator implements IDatabaseTranslator {
             // failback only works if enableSeamlessFailover and enableClientAffinitiesList are yes
             // p.put("affinityFailbackInterval", cd.getAffinityFailbackInterval());
             p.put("clientRerouteAlternateServerName", cd.getClientRerouteAlternateServerName());
-            
+
             // RTC 257857 need to pass in port number as a string property
             p.put("clientRerouteAlternatePortNumber", cd.getClientRerouteAlternatePortNumber());
 
@@ -190,7 +190,7 @@ public class Db2Translator implements IDatabaseTranslator {
             if (cd.getEnableSeamlessFailover() > 0) {
                 p.put("enableSeamlessFailover", cd.getEnableSeamlessFailover());
             }
-            
+
             p.put("maxRetriesForClientReroute", "" + cd.getMaxRetriesForClientReroute());
             p.put("retryIntervalForClientReroute", "" + cd.getRetryIntervalForClientReroute());
             p.put("enableClientAffinitiesList", "" + cd.getEnableClientAffinitiesList());
@@ -253,12 +253,12 @@ public class Db2Translator implements IDatabaseTranslator {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
     }
-    
+
     @Override
     public String currentTimestampString() {
         return "CURRENT TIMESTAMP";
     }
-    
+
     @Override
     public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
         return "ALTER TABLE " + qualifiedTableName + " DROP FOREIGN KEY " + constraintName;
@@ -268,5 +268,10 @@ public class Db2Translator implements IDatabaseTranslator {
     public String nextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "NEXT VALUE FOR " + qname;
+    }
+
+    @Override
+    public String limit(String arg) {
+        return "FETCH FIRST " + arg + " ROWS ONLY";
     }
 }

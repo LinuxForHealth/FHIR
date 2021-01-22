@@ -64,7 +64,10 @@ public class ChunkReader extends AbstractItemReader {
     Set<String> loadedResourceIds = new HashSet<>();
     boolean isDoDuplicationCheck = false;
 
+    // The handle to the persistence instance used to fetch the resources we want to export
     FHIRPersistence fhirPersistence;
+
+    // The resource type class of the resources being exported by this instance (derived from the injected fhirResourceType value
     Class<? extends Resource> resourceType;
 
     /**
@@ -184,6 +187,7 @@ public class ChunkReader extends AbstractItemReader {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         // If the search already reaches the last page, then check if need to move to the next typeFilter.
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
+            // We've hit the end the current set of pages, so see if there's another batch to work on
             if (searchParametersForResoureTypes.get(resourceType) == null || searchParametersForResoureTypes.get(resourceType).size() <= indexOfCurrentTypeFilter + 1) {
                 chunkData.setMoreToExport(false);
                 return null;
@@ -198,6 +202,7 @@ public class ChunkReader extends AbstractItemReader {
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
+        // TODO document how type filters are used here
         // Add the search parameters from the current typeFilter for current resource type.
         if (searchParametersForResoureTypes.get(resourceType) != null) {
             queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
@@ -224,9 +229,13 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
         List<Resource> resources = null;
+
+        // Note we're already running inside a transaction (started by the Javabatch framework)
+        // so this txn will just wrap it...the commit won't happen until the checkpoint
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
         try {
+            // Execute the search query to obtain the page of resources
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
         } finally {
@@ -275,6 +284,8 @@ public class ChunkReader extends AbstractItemReader {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getLastWritePageNum();
             indexOfCurrentTypeFilter = checkPointData.getIndexOfCurrentTypeFilter();
+
+            // TODO: Understand why the need to translate here
             stepCtx.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
 

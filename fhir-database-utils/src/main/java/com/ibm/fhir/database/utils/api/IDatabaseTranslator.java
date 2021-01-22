@@ -23,7 +23,7 @@ public interface IDatabaseTranslator {
      * @return
      */
     boolean isDerby();
-    
+
     /**
      * Append FOR UPDATE/FOR UPDATE WITH RS depending on the target DB type
      * @param sql
@@ -44,7 +44,7 @@ public interface IDatabaseTranslator {
      * @return
      */
     String createGlobalTempTable(String ddl);
-    
+
     /**
      * Compose a select statement to obtain the next value from the
      * named sequence
@@ -62,43 +62,43 @@ public interface IDatabaseTranslator {
      * @return
      */
     String nextValue(String schemaName, String sequenceName);
-    
+
     /**
      * Check the exception to see if it is reporting a duplicate value constraint violation
      * @param x
      * @return
      */
     boolean isDuplicate(SQLException x);
-    
+
     /**
-     * Check the exception to see if it is reporting that THE NAME OF THE OBJECT TO BE CREATED 
+     * Check the exception to see if it is reporting that THE NAME OF THE OBJECT TO BE CREATED
      * OR THE TARGET OF A RENAME STATEMENT IS IDENTICAL TO THE EXISTING NAME OF THE OBJECT TYPE
      * @param x
      * @return
      */
     boolean isAlreadyExists(SQLException x);
-    
+
     /**
      * Database timed out waiting to get a lock. This is not the same as a deadlock, of course
      * @param x
      * @return
      */
     boolean isLockTimeout(SQLException x);
-    
+
     /**
      * Was this statement the victim of a deadlock
      * @param x
      * @return
      */
     boolean isDeadlock(SQLException x);
-        
+
     /**
      * Returns true if the exception represents a connection error
      * @param x
      * @return
      */
     boolean isConnectionError(SQLException x);
-    
+
     /**
      * Get an appropriate instance of ReplicatorException to throw
      * depending on the details of SQLException
@@ -121,7 +121,7 @@ public interface IDatabaseTranslator {
      * @param cd
      */
     void fillProperties(Properties p, ConnectionDetails cd);
-    
+
     /**
      * Returns an expression which computes the timestamp difference
      * between left and right in seconds
@@ -131,7 +131,7 @@ public interface IDatabaseTranslator {
      * @return
      */
     String timestampDiff(String left, String right, String alias);
-    
+
     /**
      * Get the "CURRENT TIMESTAMP" string for the database type
      * @return
@@ -158,26 +158,33 @@ public interface IDatabaseTranslator {
      * @return
      */
     String getDriverClassName();
-    
+
+    /**
+     * Get the correct LIMIT/FETCH NEXT ROWS clause for the database
+     * @param arg a literal int or ? bind-variable marker
+     * @return
+     */
+    String limit(String arg);
+
     /**
      * Get the JDBC connection URL based on the properties
      * @param connectionProperties
      * @return
      */
     String getUrl(Properties connectionProperties);
-    
+
     /**
      * Does the database support inlining for clobs
      * @return
      */
     boolean clobSupportsInline();
-    
+
     /**
      * The main type of the database
      * @return
      */
     DbType getType();
-    
+
     /**
      * The name of the "DUAL" table...that special table giving us one row/column.
      * @return the name of the "DUAL" table for the database, or null if not supported
@@ -191,7 +198,7 @@ public interface IDatabaseTranslator {
      * @return
      */
     String dropForeignKeyConstraint(String qualifiedTableName, String constraintName);
-    
+
     /**
      * Does this database use the schema prefix when defining indexes
      * @return

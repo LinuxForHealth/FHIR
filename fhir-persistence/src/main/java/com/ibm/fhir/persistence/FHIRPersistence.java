@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence;
 
 import java.time.Instant;
+import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
@@ -164,4 +165,22 @@ public interface FHIRPersistence {
      */
     int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId)
             throws FHIRPersistenceException;
+
+    /**
+     * Special function for high speed export of resource payloads. The process
+     * function must process the InputStream before returning. Result processing
+     * will be stopped if the process function returns Boolean FALSE.
+     *
+     * @param resourceType the resource type which is the target of the search
+     * @param fromLastModified start reading from this timestamp
+     * @param fromResourceId start reading from this resourceId if provided (can be null)
+     * @param toLastModified do not read beyond this timestamp
+     * @param spanSeconds max number of seconds to include fromLastModified
+     * @param process function to process each payload record
+     * @return the last ResourcePayload processed, or null if no data was found
+     * @throws FHIRPersistenceException
+     */
+    ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType,
+        Instant fromLastModified, Long fromResourceId, Instant toLastModified,
+        int spanSeconds, Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
 }
