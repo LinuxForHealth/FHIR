@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-01-11"
+lastupdated: "2021-01-21"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -2088,7 +2088,28 @@ Omitting the `fhirServer/resources/<resourceType>/interactions` property is equi
 }
 ```
 
-In the example above, for any resource type which is not specifically configured, such as `Encounter`, or for any resource type which is configured but does not specify the `fhirServer/resources/<resourceType>/interactions` property, such as `Procedure`, all of the interactions listed for the `Resource` resource type will be allowed. One final consideration when configuring interactions is the `fhirServer/resources/open` property. If this property is specified and its value is set to `false`, then no interactions will be allowed for resource types which are not specifically listed in the `fhirServer/resources` property group. 
+In the example above, for any resource type which is not specifically configured, such as `Encounter`, or for any resource type which is configured but does not specify the `fhirServer/resources/<resourceType>/interactions` property, such as `Procedure`, all of the interactions listed for the `Resource` resource type will be allowed.
+
+One final consideration when configuring interactions is the `fhirServer/resources/open` property. If this property is specified and its value is set to `false`, then no interactions will be allowed for resource types which are not specifically listed in the `fhirServer/resources` property group. Assume the following configuration:
+
+```
+"resources": {
+    "open": false,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    }
+}
+```
+
+In this case, since the `fhirServer/resources/open` property is set to `false`, only the resource types listed (`Condition`, `Observation`, `Patient`) are allowed to be interacted with via the FHIR REST API. For example, a `create` request of a `Procedure` resource will fail since that resource type is not specified.
+
+Whole-system search is a special case of this resource type validation, since no resource type is specified on a whole-system search request. In this case, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
 In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 

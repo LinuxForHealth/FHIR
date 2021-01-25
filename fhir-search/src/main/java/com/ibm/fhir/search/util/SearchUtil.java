@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1997,8 +1997,8 @@ public class SearchUtil {
                     continue;
                 }
                 if (!SearchParamType.REFERENCE.equals(searchParm.getType())) {
-                    manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type: '"
-                            + searchParm.getType().getValue() + "'" + inclusionValue, lenient);
+                    manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type '"
+                            + searchParm.getType().getValue() + "': " + inclusionValue, lenient);
                     continue;
                 }
                 searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);

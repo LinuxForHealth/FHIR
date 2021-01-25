@@ -275,6 +275,9 @@ For PostgreSQL:
 --db-type postgresql
 ```
 
+Alternatively, you can drop specific schemas with `--drop-schema-batch schema-name-to-drop` and
+`--drop-schema-oauth schema-name-to-drop`
+
 ## Alternative: Setting up a shared Db2 with separate schemas for each tenant
 
 For those using multiple schemas for each customer, for instance, customer 2 needs to be separately configured with the database and schema. 
