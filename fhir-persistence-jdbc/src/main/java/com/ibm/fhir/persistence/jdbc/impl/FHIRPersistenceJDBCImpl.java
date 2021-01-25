@@ -1985,13 +1985,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified, Long fromResourceId,
-        java.time.Instant toLastModified, int spanSeconds, Function<ResourcePayload, Boolean> processor) throws FHIRPersistenceException {
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
+        java.time.Instant toLastModified, Function<ResourcePayload, Boolean> processor) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             // translator is required to handle some simple SQL syntax differences. This is easier
             // than creating separate DAO implementations for each database type
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            FetchResourcePayloadsDAO dao = new FetchResourcePayloadsDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceType.getSimpleName(), fromLastModified, fromResourceId, spanSeconds, toLastModified, processor);
+            FetchResourcePayloadsDAO dao = new FetchResourcePayloadsDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceType.getSimpleName(), fromLastModified, toLastModified, processor);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;

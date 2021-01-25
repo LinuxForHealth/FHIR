@@ -460,8 +460,8 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified, Long fromResourceId,
-        java.time.Instant toLastModified, int spanSeconds, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
+        java.time.Instant toLastModified, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
 
         throw new FHIRPersistenceNotSupportedException("API not supported at this time");
     }

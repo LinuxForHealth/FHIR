@@ -19,7 +19,8 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
  * Checkpoint data representing the state of the basic system export job
  */
 public class CheckpointUserData implements Serializable {
-    private static final long serialVersionUID = 4685659616255803732L;
+
+    private static final long serialVersionUID = -8116709275375578367L;
 
     // The last_modified timestamp to start scanning from
     private Instant fromLastModified;
@@ -45,6 +46,8 @@ public class CheckpointUserData implements Serializable {
     // How many items have we currently uploaded
     private int currentUploadNumber;
 
+    // The resource ids sharing the last timestamp we processed
+    private List<Long> resourcesForLastTimestamp = new ArrayList<>();
 
     /**
      * @return the fromLastModified
@@ -157,7 +160,6 @@ public class CheckpointUserData implements Serializable {
         this.currentItemResourceCount = currentItemResourceCount;
     }
 
-
     /**
      * @return the currentUploadNumber
      */
@@ -165,11 +167,25 @@ public class CheckpointUserData implements Serializable {
         return currentUploadNumber;
     }
 
-
     /**
      * @param currentUploadNumber the currentUploadNumber to set
      */
     public void setCurrentUploadNumber(int currentUploadNumber) {
         this.currentUploadNumber = currentUploadNumber;
+    }
+
+    /**
+     * @return the resourcesForLastTimestamp
+     */
+    public List<Long> getResourcesForLastTimestamp() {
+        return Collections.unmodifiableList(resourcesForLastTimestamp);
+    }
+
+    /**
+     * @param resourcesForLastTimestamp the resourcesForLastTimestamp to set
+     */
+    public void setResourcesForLastTimestamp(Collection<Long> resourcesForLastTimestamp) {
+        this.resourcesForLastTimestamp.clear();
+        this.resourcesForLastTimestamp.addAll(resourcesForLastTimestamp);
     }
 }

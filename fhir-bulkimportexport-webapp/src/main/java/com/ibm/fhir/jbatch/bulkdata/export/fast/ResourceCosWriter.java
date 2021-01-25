@@ -12,11 +12,13 @@ import java.util.logging.Logger;
 
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.batch.runtime.context.JobContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 /**
  * Fetches resources and writes them to cloud object storage
  */
+@Dependent
 public class ResourceCosWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ResourceCosWriter.class.getName());
 

@@ -24,6 +24,9 @@ public class Constants {
      */
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
 
+    // How many resources should we store in a single COS item
+    public static final int DEFAULT_MAX_RESOURCES_PER_ITEM = 10000;
+
     /**
      * The maximum number of resources read in each iteration of the the patient or group export ChunkReaders.
      */

@@ -231,6 +231,13 @@ public class BulkDataClient {
         builder.fhirExportFormat(properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, FHIRMediaType.APPLICATION_NDJSON));
 
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
+        if (log.isLoggable(Level.FINE)) {
+            // TODO: need to remove secrets before we can log it. Clone the builder?
+            // JobInstanceRequest.Builder secretBuilder = JobInstanceRequest.builder(builder);
+            // secretBuilder.cosApiKey("*****");
+            // secretBuilder.cosSrvInstId("*****");
+            // log.fine("Job instance request: " + JobInstanceRequest.Writer.generate(secretBuilder.build(), true));
+        }
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 

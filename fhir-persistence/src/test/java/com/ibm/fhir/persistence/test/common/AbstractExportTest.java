@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.test.common;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.time.Instant;
@@ -90,8 +89,6 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
     @Test
     public void testHighSpeedExport() throws Exception {
 
-        Long fromResourceId = null;
-
         // Make sure we start the clock at the right place otherwise our
         // selection span won't cover any data
         Instant fromLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
@@ -110,7 +107,7 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
 
         };
 
-        ResourcePayload result = persistence.fetchResourcePayloads(Basic.class, fromLastModified, fromResourceId, toLastModified, 86400, processor);
+        ResourcePayload result = persistence.fetchResourcePayloads(Basic.class, fromLastModified, toLastModified, processor);
         assertNotNull(result);
 
         // Check that the export processed all 3 resources we had added to the database
@@ -119,10 +116,6 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
         assertTrue(logicalIds.contains(resource2.getId()));
         assertTrue(logicalIds.contains(resource3.getId()));
         assertFalse(logicalIds.contains(resource4.getId())); // deleted resource should not be present
-
-        // Start the scan from the last resource we know of. Should get nothing back:
-        result = persistence.fetchResourcePayloads(Basic.class, result.getLastUpdated(), result.getResourceId(), toLastModified, 86400, processor);
-        assertNull(result);
     }
 
 

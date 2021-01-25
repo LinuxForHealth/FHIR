@@ -43,7 +43,7 @@
                     <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
                 </properties>
             </mapper>
-            <collector ref="com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionCollector"/>
+            <collector ref="com.ibm.fhir.jbatch.bulkdata.export.fast.ExportPartitionCollector"/>
             <analyzer ref="com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionAnalyzer"/>
         </partition>
     </step>

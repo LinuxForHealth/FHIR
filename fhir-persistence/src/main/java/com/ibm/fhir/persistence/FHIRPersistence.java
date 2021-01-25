@@ -181,6 +181,6 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType,
-        Instant fromLastModified, Long fromResourceId, Instant toLastModified,
-        int spanSeconds, Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
+        Instant fromLastModified, Instant toLastModified,
+        Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
 }
