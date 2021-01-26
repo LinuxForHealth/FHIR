@@ -2288,7 +2288,7 @@ public class SearchUtil {
                                 }
                             }
                         }
-                    } else {
+                    } else if (!useStoredCompartmentParam()) {
                        log.warning("Compartment parameter not found: [" + resourceType + "] '" + searchParm + "'. This will stop compartment searches from working correctly.");
                     }
                 }
