@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -465,13 +465,13 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
             // in the join condition to give the optimizer the best chance at finding a good nested
             // loop strategy
             select.append("SELECT ref.").append(MT_ID);
-            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
             select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
         } else {
-            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id ");
+            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");

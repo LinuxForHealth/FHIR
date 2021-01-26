@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,6 +47,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     private static Observation savedObservation3;
     private static Observation savedObservation4;
     private static Observation savedObservation5;
+    private static Observation savedObservation6;
     private static Encounter savedEncounter1;
     private static Device savedDevice1;
     private static Organization savedOrg1;
@@ -116,19 +117,27 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
 
         // a Patient that will have no other resources referencing it
         savedPatient4 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+
+        // An Observation with versioned references to a device
+        savedObservation6 = observation.toBuilder()
+                .subject(reference("Device/" + savedDevice1.getId() + "/_history/1"))
+                .focus(reference("Device/" + savedDevice1.getId() + "/_history/2"))
+                .device(reference("Device/" + savedDevice1.getId() + "/_history/3"))
+                .build();
+        savedObservation6 = persistence.create(getDefaultPersistenceContext(), savedObservation6).getResource();
     }
 
     @AfterClass
     public void deleteResources() throws Exception {
         Resource[] resources = {savedPatient1, savedPatient2, savedPatient3, savedPatient4,
                 savedObservation1, savedObservation2, savedObservation3, savedObservation4, savedObservation5,
-                savedEncounter1, savedDevice1, savedOrg1};
+                savedObservation6, savedEncounter1, savedDevice1, savedOrg1};
 
         if (persistence.isDeleteSupported()) {
             if (persistence.isTransactional()) {
                 persistence.getTransaction().begin();
             }
-            
+
             try {
                 for (Resource resource : resources) {
                     persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
@@ -187,6 +196,54 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 fail("Unexpected resource type returned.");
             }
         }
+    }
+
+    /**
+     * This test queries an Observation and requests the inclusion of a referenced Device
+     * where the reference is versioned and the specified version exists.
+     * The Observation does contain a referenced device. The returned resources will
+     * contain the specified version of the referenced device.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithValidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation6.getId()));
+        queryParms.put("_include", Collections.singletonList("Observation:subject:Device"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+            }
+            else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("1", resource.getMeta().getVersionId().getValue());
+            }
+            else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries an Observation and requests the inclusion of a referenced Device
+     * where the reference is versioned and the specified version does not exist.
+     * The Observation does contain a referenced device, but not with the version
+     * specified. No included resource will be returned.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithInvalidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation6.getId()));
+        queryParms.put("_include", Collections.singletonList("Observation:device:Device"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Observation", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedObservation6.getId(), resources.get(0).getId());
     }
 
     /**
@@ -326,6 +383,53 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 fail("Unexpected resource type returned.");
             }
         }
+    }
+
+    /**
+     * This test queries a Device and requests the reverse inclusion of an Observation that references the Device
+     * where the reference is a versioned reference which specifies the device's current version.
+     * The Observation does contain a referenced device.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithValidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:focus"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+            }
+            else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("2", resource.getMeta().getVersionId().getValue());
+            }
+            else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries a Device and requests the reverse inclusion of an Observation that references the Device
+     * where the reference is a versioned reference which does not specify the device's current version.
+     * The Observation does contain a referenced device, but the version is not the current version so the
+     * Observation is not included.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithInvalidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:subject"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Device", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedDevice1.getId(), resources.get(0).getId());
     }
 
     /**

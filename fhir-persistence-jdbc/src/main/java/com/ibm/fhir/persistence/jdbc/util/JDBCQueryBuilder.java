@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1436,7 +1436,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *         AND ((CP2.TOKEN_VALUE = ?))
      *       )
      *     WHERE
-     *       CP1.TOKEN_VALUE = CLR0.LOGICAL_ID
+     *       COALESCE(CP1.REF_VERSION_ID, CR0.VERSION_ID) = CR0.VERSION_ID
+     *       AND CP1.TOKEN_VALUE = CLR0.LOGICAL_ID
      *       AND CP1.PARAMETER_NAME_ID = 1274
      *       AND CP1.CODE_SYSTEM_ID = 20004
      *   )
@@ -1535,23 +1536,33 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     if (parmIndex < lastParmIndex - 1 && currentParm.getNextParameter().isReverseChained()) {
                         // Build inner select where clause:
                         // @formatter:off
-                        //   WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
+                        //   WHERE
+                        //     COALESCE(CPx.REF_VERSION_ID, CR<x-1>.VERSION_ID) = CR<x-1>.VERSION_ID
+                        //     AND CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
                         //     AND CPx.PARAMETER_NAME_ID = <parm-name-id>
                         //     AND CPx.CODE_SYSTEM_ID = <code-system-id>
                         //     AND
                         // @formatter:on
-                        selectSegments.append(WHERE).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
+                        selectSegments.append(WHERE).append("COALESCE(").append(chainedParmVar).append(DOT).append("REF_VERSION_ID, ")
+                                        .append(prevChainedResourceVar).append(DOT).append("VERSION_ID)").append(EQ)
+                                        .append(prevChainedResourceVar).append(DOT).append("VERSION_ID").append(AND)
+                                        .append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
                                         .append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID).append(AND);
                         populateReferenceNameAndCodeSystemIdSubSegment(selectSegments, currentParm.getCode(), referencedResourceType, chainedParmVar);
                         selectSegments.append(AND);
                     } else {
                         // Build final inner select where clause:
                         // @formatter:off
-                        //   WHERE CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
+                        //   WHERE
+                        //     COALESCE(CPx.REF_VERSION_ID, CR<x-1>.VERSION_ID) = CR<x-1>.VERSION_ID
+                        //     AND CPx.TOKEN_VALUE = CLR<x-1>.LOGICAL_ID
                         //     AND CPx.PARAMETER_NAME_ID = <parm-name-id>
                         //     AND CPx.CODE_SYSTEM_ID = <code-system-id>
                         // @formatter:on
-                        whereClauseSegment.append(WHERE).append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
+                        whereClauseSegment.append(WHERE).append("COALESCE(").append(chainedParmVar).append(DOT).append("REF_VERSION_ID, ")
+                                            .append(prevChainedResourceVar).append(DOT).append("VERSION_ID)").append(EQ)
+                                            .append(prevChainedResourceVar).append(DOT).append("VERSION_ID").append(AND)
+                                            .append(chainedParmVar).append(DOT).append(TOKEN_VALUE).append(EQ)
                                             .append(prevChainedLogicalResourceVar).append(DOT).append(LOGICAL_ID).append(AND);
                         populateReferenceNameAndCodeSystemIdSubSegment(whereClauseSegment, currentParm.getCode(), referencedResourceType, chainedParmVar);
                     }
