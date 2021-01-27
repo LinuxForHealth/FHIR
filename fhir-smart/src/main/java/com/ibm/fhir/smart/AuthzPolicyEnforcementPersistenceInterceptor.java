@@ -6,12 +6,15 @@
 
 package com.ibm.fhir.smart;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -22,6 +25,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Reference;
@@ -40,6 +44,8 @@ import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.smart.Scope.ContextType;
 import com.ibm.fhir.smart.Scope.Permission;
@@ -193,15 +199,67 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     @Override
     public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
+        List<List<Reference>> provenanceTargets = new ArrayList<>();
+        Set<String> resourceIds = new HashSet<>();
+
         if (event.getFhirResource() instanceof Bundle) {
-            for ( Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry()) {
+            for ( Bundle.Entry entry : ((Bundle)event.getFhirResource()).getEntry() ) {
                 if (entry.getResource() != null) {
-                    enforce(entry.getResource(), getPatientIdFromToken(jwt), Permission.READ, getScopesFromToken(jwt));
+                    Resource resource = entry.getResource();
+                    if (resource instanceof Provenance) {
+                        // skip enforcement of provenance resources, but keep track of their targets
+                        provenanceTargets.add(((Provenance) resource).getTarget());
+                    } else {
+                        enforce(resource, getPatientIdFromToken(jwt), Permission.READ, getScopesFromToken(jwt));
+                        resourceIds.add(resource.getId());
+                    }
                 }
             }
+
+            enforceProvenance(provenanceTargets, resourceIds);
         } else {
             throw new IllegalStateException("Expected event resource of type Bundle but found " +
                     event.getFhirResource().getClass().getSimpleName());
+        }
+    }
+
+    /**
+     * If the search result contains one or more Provenance resources,
+     * then reject the request unless each Provenance targets at least one resource in the response bundle
+     *
+     * @throws IllegalStateException if the baseUrl cannot be computed from the request context
+     * @throws FHIRPersistenceInterceptorException if the list of provenanceTargets contains
+     */
+    private void enforceProvenance(List<List<Reference>> provenanceTargets, Set<String> resourceIds)
+            throws FHIRPersistenceInterceptorException {
+        if (provenanceTargets.isEmpty()) return;
+
+        String baseUrl;
+        try {
+            baseUrl = ReferenceUtil.getServiceBaseUrl();
+        } catch (FHIRSearchException e) {
+            throw new IllegalStateException("Unexpected error while computing the service baseUrl for ");
+        }
+
+        for (List<Reference> targets : provenanceTargets) {
+            boolean allow = false;
+            for (Reference r : targets) {
+                ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(r, baseUrl);
+                if (ReferenceValue.ReferenceType.LITERAL_RELATIVE == referenceValue.getType()) {
+                    if (resourceIds.contains(referenceValue.getValue())) {
+                        allow = true;
+                        break;
+                    }
+                } else if (log.isLoggable(Level.FINE)){
+                    log.fine("Skipping target '" + referenceValue.getValue() + "' of type '" + referenceValue.getType() +
+                            "' during enforcement of Provenance access.");
+                }
+            }
+
+            if (!allow) {
+                throw new FHIRPersistenceInterceptorException(REQUEST_NOT_PERMITTED)
+                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(REQUEST_NOT_PERMITTED, IssueType.FORBIDDEN));
+            }
         }
     }
 

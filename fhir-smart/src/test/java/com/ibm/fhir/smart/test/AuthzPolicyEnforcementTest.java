@@ -30,6 +30,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -46,13 +47,14 @@ import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
 import com.ibm.fhir.smart.Scope.Permission;
 
 public class AuthzPolicyEnforcementTest {
-    private static final String PATIENT_ID = "11111111-1111-1111-1111-111111111111";
+    private static final String PATIENT_ID =     "11111111-1111-1111-1111-111111111111";
+    private static final String OBSERVATION_ID = "22222222-2222-2222-2222-222222222222";
 
     private static final List<ResourceType.ValueSet> PATIENT_APPROVED =
             Arrays.asList(ResourceType.ValueSet.PATIENT, ResourceType.ValueSet.RESOURCE);
     private static final List<ResourceType.ValueSet> OBSERVATION_APPROVED =
             Arrays.asList(ResourceType.ValueSet.OBSERVATION, ResourceType.ValueSet.RESOURCE);
-    private static final List<ResourceType.ValueSet> PATIENT_AND_OBSERVATION_APPROVED =
+    private static final List<ResourceType.ValueSet> ALL_RESOURCES_APPROVED =
             Arrays.asList(ResourceType.ValueSet.RESOURCE);
     private static final List<Permission> READ_APPROVED = Arrays.asList(Permission.READ, Permission.ALL);
     private static final List<Permission> WRITE_APPROVED = Arrays.asList(Permission.WRITE, Permission.ALL);
@@ -60,6 +62,8 @@ public class AuthzPolicyEnforcementTest {
     private AuthzPolicyEnforcementPersistenceInterceptor interceptor;
     private Patient patient;
     private Observation observation;
+    private Provenance patientProvenance;
+    private Provenance observationProvenance;
     private Map<String, Object> properties;
 
     @BeforeClass
@@ -72,14 +76,29 @@ public class AuthzPolicyEnforcementTest {
 
         interceptor = new AuthzPolicyEnforcementPersistenceInterceptor();
 
+        Provenance provenanceBase = TestUtil.getMinimalResource(ResourceType.PROVENANCE);
+
         patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         patient = patient.toBuilder()
                 .id(PATIENT_ID)
                 .build();
 
+        patientProvenance = provenanceBase.toBuilder()
+                .target(Reference.builder()
+                    .reference(string("Patient/" + PATIENT_ID))
+                    .build())
+                .build();
+
         observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
         observation = observation.toBuilder()
+                .id(OBSERVATION_ID)
                 .subject(Reference.builder().reference(string("Patient/" + PATIENT_ID)).build())
+                .build();
+
+        observationProvenance = provenanceBase.toBuilder()
+                .target(Reference.builder()
+                    .reference(string("Observation/" + OBSERVATION_ID))
+                    .build())
                 .build();
 
         properties = new HashMap<String, Object>();
@@ -432,9 +451,73 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
             interceptor.afterSearch(event);
 
-            assertTrue(shouldSucceed(resourceType, PATIENT_AND_OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceType, ALL_RESOURCES_APPROVED, permission, READ_APPROVED));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_AND_OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceType, ALL_RESOURCES_APPROVED, permission, READ_APPROVED));
+        }
+    }
+
+    @Test(dataProvider = "scopeStringProvider")
+    public void testSearchWithProvenance(String scopeString, ResourceType.ValueSet resourceType, Permission permission) throws Exception {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
+
+        // hack the scope string to include patient/Provenance.read
+        scopeString = scopeString + " patient/Provenance.read";
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().resource(patient).build())
+                    .entry(Bundle.Entry.builder().resource(patientProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().resource(observation).build())
+                    .entry(Bundle.Entry.builder().resource(observationProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+        }
+
+        Provenance bogusProvenance = TestUtil.getMinimalResource(ResourceType.PROVENANCE);
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().resource(bogusProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            fail("Provenance resources should not be readable unless they target resources that are readable");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // expected
+        }
+
+        bogusProvenance = TestUtil.readExampleResource("json/ibm/complete-mock/Provenance-1.json");
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().resource(bogusProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            fail("Provenance resources should not be readable unless they target resources that are readable");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // expected
         }
     }
 
