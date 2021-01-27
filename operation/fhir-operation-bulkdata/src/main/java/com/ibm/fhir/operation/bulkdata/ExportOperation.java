@@ -73,6 +73,10 @@ public class ExportOperation extends AbstractOperation {
         Parameters response = null;
         BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(operationContext.getType(), resourceType);
 
+        // Allow the configuration to force use of the "legacy" system export implementation
+        // (useful for A/B comparison)
+        String systemExportImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL, "fast");
+
         if (!ExportType.INVALID.equals(exportType)) {
             // For System $export, resource type(s) is required.
             if (ExportType.SYSTEM.equals(exportType) && types == null) {
@@ -80,7 +84,7 @@ public class ExportOperation extends AbstractOperation {
             }
 
             response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types,
-                    typeFilters, operationContext, resourceHelper);
+                    typeFilters, operationContext, resourceHelper, systemExportImpl);
         } else {
             // Unsupported on instance, specific types other than group/patient/system
             throw buildExceptionWithIssue(

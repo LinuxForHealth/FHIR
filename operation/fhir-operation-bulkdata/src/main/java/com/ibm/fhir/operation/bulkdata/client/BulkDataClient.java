@@ -170,7 +170,8 @@ public class BulkDataClient {
      * @return
      * @throws Exception
      */
-    public String submitExport(Instant since, List<String> types, Map<String, String> properties, ExportType exportType)
+    public String submitExport(Instant since, List<String> types, Map<String, String> properties, ExportType exportType,
+        String systemExportVersion)
             throws Exception {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
@@ -200,7 +201,11 @@ public class BulkDataClient {
             builder.fhirPatientGroupId(properties.get(BulkDataConstants.PARAM_GROUP_ID));
             break;
         default:
-            if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null) {
+            // We have two implementations for system export, but the "fast" version
+            // does not support typeFilters. We also allow the configuration to
+            // force use of the legacy implementation for those who don't like change
+            if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null || "legacy".equalsIgnoreCase(systemExportVersion)) {
+                // Use the legacy implementation
                 builder.jobXMLName("FhirBulkExportChunkJob");
             } else {
                 // No typeFilter, so we use the fast export which bypasses FHIR search
@@ -221,7 +226,7 @@ public class BulkDataClient {
         if (since != null) {
             builder.fhirSearchFromDate(since.getValue().format(Instant.PARSER_FORMATTER));
         } else {
-            builder.fhirSearchFromDate("1970-01-01");
+            builder.fhirSearchFromDate("1970-01-01T00:00:00Z");
         }
 
         if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null) {

@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +40,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
  * A high-performance version of the bulk-export job which doesn't support typeFilter and so
@@ -292,7 +294,9 @@ public class ResourcePayloadReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         // Initialize the configuration from the injected string values
         if (this.fhirSearchFromDate != null) {
-            this.fromLastModified = Instant.parse(this.fhirSearchFromDate);
+            // Date/time format based on FHIR Search Example: 2019-01-01T08:21:26.94-04:00
+            TemporalAccessor ta = DateTimeHandler.parse(this.fhirSearchFromDate);
+            this.fromLastModified = Instant.from(ta);
             logger.fine(logPrefix() + " fromLastModified = " + this.fhirSearchFromDate);
         }
 
