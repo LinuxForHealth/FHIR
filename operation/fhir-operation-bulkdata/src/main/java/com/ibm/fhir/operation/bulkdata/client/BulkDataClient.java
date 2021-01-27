@@ -175,6 +175,7 @@ public class BulkDataClient {
             throws Exception {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
+
         JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
@@ -190,6 +191,8 @@ public class BulkDataClient {
         // Use AES to get a long RandomKey to use for the paths so that they cannot be guessed,
         // replacing '/' with '_' to avoid potential issues with the S3 API
         builder.cosBucketPathPrefix(getRandomKey("AES").replaceAll("/", "_"));
+        final String exportFormat = properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, FHIRMediaType.APPLICATION_NDJSON);
+        builder.fhirExportFormat(exportFormat);
 
         // Export Type - FHIR
         switch (exportType) {
@@ -204,7 +207,8 @@ public class BulkDataClient {
             // We have two implementations for system export, but the "fast" version
             // does not support typeFilters. We also allow the configuration to
             // force use of the legacy implementation for those who don't like change
-            if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null || "legacy".equalsIgnoreCase(systemExportVersion)) {
+            if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null || "legacy".equalsIgnoreCase(systemExportVersion)
+                    || FHIRMediaType.APPLICATION_PARQUET.equals(exportFormat)) {
                 // Use the legacy implementation
                 builder.jobXMLName("FhirBulkExportChunkJob");
             } else {
@@ -233,7 +237,6 @@ public class BulkDataClient {
             builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
         }
 
-        builder.fhirExportFormat(properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, FHIRMediaType.APPLICATION_NDJSON));
 
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
         if (log.isLoggable(Level.FINE)) {
@@ -569,6 +572,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         //      COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
+        log.info(exitStatus);
         if (!"COMPLETED".equals(exitStatus) && request.contains("$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();

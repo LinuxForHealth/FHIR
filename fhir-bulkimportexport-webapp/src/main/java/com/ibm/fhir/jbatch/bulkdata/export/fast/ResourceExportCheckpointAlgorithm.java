@@ -12,8 +12,9 @@ import javax.batch.api.chunk.CheckpointAlgorithm;
 import javax.enterprise.context.Dependent;
 
 /**
- * Bulk export Chunk implementation - custom checkpoint algorithm.
- *
+ * Bulk export fast implementation - custom checkpoint algorithm. See class comment
+ * for {@link ResourcePayloadReader} for a description of why we checkpoint after
+ * every readItem call
  */
 @Dependent
 public class ResourceExportCheckpointAlgorithm implements CheckpointAlgorithm {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkexportfastjob" restartable="true" version="1.0">
     <listeners>
-        <listener ref="com.ibm.fhir.jbatch.bulkdata.export.system.ExportJobListener"/>
+        <listener ref="com.ibm.fhir.jbatch.bulkdata.export.fast.ExportJobListener"/>
     </listeners>
     <step id="step1">
         <chunk checkpoint-policy="custom">
@@ -44,7 +44,7 @@
                 </properties>
             </mapper>
             <collector ref="com.ibm.fhir.jbatch.bulkdata.export.fast.ExportPartitionCollector"/>
-            <analyzer ref="com.ibm.fhir.jbatch.bulkdata.export.system.ExportPartitionAnalyzer"/>
+            <analyzer ref="com.ibm.fhir.jbatch.bulkdata.export.fast.ExportPartitionAnalyzer"/>
         </partition>
     </step>
 </job>

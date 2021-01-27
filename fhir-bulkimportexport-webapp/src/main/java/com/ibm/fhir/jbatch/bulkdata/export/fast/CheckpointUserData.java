@@ -20,13 +20,10 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
  */
 public class CheckpointUserData implements Serializable {
 
-    private static final long serialVersionUID = -8116709275375578367L;
+    private static final long serialVersionUID = 1990637350637543207L;
 
     // The last_modified timestamp to start scanning from
     private Instant fromLastModified;
-
-    // The last resource id we read
-    private Long fromResourceId;
 
     // The upload id for Cos
     private String uploadId;
@@ -49,6 +46,12 @@ public class CheckpointUserData implements Serializable {
     // The resource ids sharing the last timestamp we processed
     private List<Long> resourcesForLastTimestamp = new ArrayList<>();
 
+    // The resource type name associated with the partition
+    private String resourceType;
+
+    // A list of how many resources were stored per file
+    private List<Integer> resourceCounts = new ArrayList<>();
+
     /**
      * @return the fromLastModified
      */
@@ -64,30 +67,12 @@ public class CheckpointUserData implements Serializable {
         this.fromLastModified = fromLastModified;
     }
 
-
-    /**
-     * @return the fromResourceId
-     */
-    public Long getFromResourceId() {
-        return fromResourceId;
-    }
-
-
-    /**
-     * @param fromResourceId the fromResourceId to set
-     */
-    public void setFromResourceId(Long fromResourceId) {
-        this.fromResourceId = fromResourceId;
-    }
-
-
     /**
      * @return the uploadId
      */
     public String getUploadId() {
         return uploadId;
     }
-
 
     /**
      * @param uploadId the uploadId to set
@@ -187,5 +172,32 @@ public class CheckpointUserData implements Serializable {
     public void setResourcesForLastTimestamp(Collection<Long> resourcesForLastTimestamp) {
         this.resourcesForLastTimestamp.clear();
         this.resourcesForLastTimestamp.addAll(resourcesForLastTimestamp);
+    }
+
+    /**
+     * Get an immutable list of the resource counts for each file processed so far
+     * @return
+     */
+    public List<Integer> getResourceCounts() {
+        return Collections.unmodifiableList(this.resourceCounts);
+    }
+
+    public void setResourceCounts(Collection<Integer> resourceCounts) {
+        this.resourceCounts.clear();
+        this.resourceCounts.addAll(resourceCounts);
+    }
+
+    /**
+     * @return the resourceType
+     */
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    /**
+     * @param resourceType the resourceType to set
+     */
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
     }
 }

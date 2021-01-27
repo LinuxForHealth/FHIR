@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -263,7 +263,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private int currentItemResourceCount;
 
     // For large exports, we might need to split the data into multiple items
-    private int currentUploadNumber;
+    private int currentUploadNumber = 1;
 
     // The result tags from parts previously uploaded
     private List<PartETag> uploadedParts = new ArrayList<>();
@@ -273,6 +273,9 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     // How many resources processed in the current readItem call (transaction)
     private int resourcesProcessed;
+
+    // Tracking the resource counts for each COS item we've loaded (for final status)
+    private List<Integer> resourceCounts = new ArrayList<>();
 
     /**
      * Public constructor
@@ -334,6 +337,10 @@ public class ResourcePayloadReader extends AbstractItemReader {
             // make sure we start with an empty output stream
             this.outputStream.reset();
         }
+
+        // Transient user data is required to signal completion of this partition
+        // to the collector (and then analyzer)
+        stepCtx.setTransientUserData(new TransientUserData());
 
         // Crucially important to set up the request context to make sure we
         // use the correct tenant and datasource going forward
@@ -437,6 +444,15 @@ public class ResourcePayloadReader extends AbstractItemReader {
             logger.info(String.format("%s processed %d resources in %.2f seconds (rate=%.1f resources/second)", logPrefix(), this.resourcesProcessed, delta, resourcesProcessed/delta));
         }
 
+        if (!moreData) {
+            // Mark the partition as complete. It's a little sad that we need to track
+            // this state, because it's something the framework ought to provide.
+            TransientUserData tud = (TransientUserData)stepCtx.getTransientUserData();
+            tud.setCompleted(true);
+            tud.setResourceType(this.fhirResourceType);
+            tud.setResourceCounts(this.resourceCounts);
+        }
+
         logger.exiting(CLASS, "readItem");
         return moreData ? new Object() : null;
     }
@@ -451,7 +467,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
     public Boolean processPayload(ResourcePayload t) {
 
         try {
-
             // Track resources we've seen on the most recent timestamp. Resources will be fed
             // in timestamp order, but not necessarily resource order, so we need to skip resources
             // we've already processed - this occurs when running the query again because the
@@ -585,6 +600,12 @@ public class ResourcePayloadReader extends AbstractItemReader {
             logger.fine(logPrefix() + " finishing multi-part upload '" + this.uploadId + "'");
             BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, currentItemName, uploadId,
                 this.uploadedParts);
+
+            // record how many resources we've exported for each file/item. This is
+            // used by the collector/analyzer to generate a list of items. Inherited from
+            // the legacy system export impl. It's currently not clear why we don't simply
+            // store the list of item names
+            resourceCounts.add(this.currentItemResourceCount);
         } finally {
             resetUploadState();
         }
@@ -614,9 +635,11 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // Clear the internal collections before copying in the checkpoint values
         this.uploadedParts.clear();
         this.resourcesForLastTimestamp.clear();
+        this.resourceCounts.clear();
 
         // Note the number comments are to help match this
-        // with the checkpointInfo method below.
+        // with the checkpointInfo method below. fhirResourceType
+        // is injected, so we don't need to set it from the checkpoint
         this.fromLastModified = cp.getFromLastModified(); // 1
         this.uploadId = cp.getUploadId(); // 2
         this.uploadedParts.addAll(cp.getUploadedParts()); // 3
@@ -625,6 +648,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         this.currentItemResourceCount = cp.getCurrentItemResourceCount(); // 6
         this.currentUploadNumber = cp.getCurrentUploadNumber(); // 7
         this.resourcesForLastTimestamp.addAll(cp.getResourcesForLastTimestamp()); // 8
+        this.resourceCounts.addAll(cp.getResourceCounts()); // 9
 
         // As a final step, initialize the lastTimestamp to align with our initial state
         this.lastTimestamp = this.fromLastModified;
@@ -637,6 +661,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // Create a checkpoint object representing the current state of this reader. This checkpoint
         // data is used to initialize this reader again if the job has to be restarted for any reason
         CheckpointUserData cp = new CheckpointUserData();
+        cp.setResourceType(this.fhirResourceType);
         cp.setFromLastModified(this.fromLastModified); // 1
         cp.setUploadId(this.uploadId); // 2
         cp.setUploadedParts(uploadedParts); // 3
@@ -645,6 +670,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         cp.setCurrentItemResourceCount(currentItemResourceCount); // 6
         cp.setCurrentUploadNumber(currentUploadNumber); // 7
         cp.setResourcesForLastTimestamp(this.resourcesForLastTimestamp); // 8
+        cp.setResourceCounts(this.resourceCounts); // 9
 
         logger.exiting(CLASS, "checkpointInfo");
         return cp;
