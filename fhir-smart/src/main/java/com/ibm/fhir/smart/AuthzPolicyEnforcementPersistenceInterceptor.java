@@ -228,7 +228,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * then reject the request unless each Provenance targets at least one resource in the response bundle
      *
      * @throws IllegalStateException if the baseUrl cannot be computed from the request context
-     * @throws FHIRPersistenceInterceptorException if the list of provenanceTargets contains
+     * @throws FHIRPersistenceInterceptorException if access to one or more Provenance resources is denied
      */
     private void enforceProvenance(List<List<Reference>> provenanceTargets, Set<String> relativeResourcePaths)
             throws FHIRPersistenceInterceptorException {
