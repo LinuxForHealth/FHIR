@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,8 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  */
 public class FetchResourcePayloadsDAO {
     private static final Logger logger = Logger.getLogger(FetchResourcePayloadsDAO.class.getName());
+
+    private static final Calendar UTC_CALENDAR = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     // The FHIR data schema name
     private final String schemaName;
@@ -109,17 +113,18 @@ public class FetchResourcePayloadsDAO {
             int a = 1;
 
             // Set the variables marking the start point of the scan
-            ps.setTimestamp(a++, Timestamp.from(fromLastUpdated));
+            ps.setTimestamp(a++, Timestamp.from(this.fromLastUpdated), UTC_CALENDAR);
 
             // And where we want the scan to stop (e.g. exporting a limited time range)
             if (this.toLastUpdated != null) {
-                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated));
+                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated), UTC_CALENDAR);
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                // make sure we get the timestamp as a UTC value
                 String logicalId = rs.getString(1);
-                Instant lastUpdated = Instant.ofEpochMilli(rs.getTimestamp(2).getTime());
+                Instant lastUpdated = rs.getTimestamp(2, UTC_CALENDAR).toInstant();
                 long resourceId = rs.getLong(3);
                 InputStream is = new GZIPInputStream(rs.getBinaryStream(4));
                 result = new ResourcePayload(logicalId, lastUpdated, resourceId, is);
@@ -138,6 +143,64 @@ public class FetchResourcePayloadsDAO {
         }
 
         // the last ResultPayload to be processed is returned as a convenience to the caller
+        return result;
+    }
+
+    /**
+     * Get a count of the resources matching the filter predicates...for debugging...slows
+     * things down a lot
+     * @param c
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    public int count(Connection c) throws FHIRPersistenceException {
+        int result;
+
+        final String lrTableName = resourceType + "_logical_resources";
+        final String rTableName = resourceType + "_resources";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT count(*) FROM ");
+        query.append(schemaName).append(DOT).append(rTableName).append(" AS r, ");
+        query.append(schemaName).append(DOT).append(lrTableName).append(" AS lr ");
+        query.append(" WHERE r.is_deleted = 'N' ");
+        query.append("   AND lr.current_resource_id = r.resource_id ");
+
+        query.append("   AND r.last_updated >= ? ");
+
+        // Add the predicate for the optional end-stop
+        if (this.toLastUpdated != null) {
+            query.append(" AND r.last_updated <= ? ");
+        }
+
+        final String select = query.toString();
+
+        if (logger.isLoggable(Level.FINE)) {
+            Timestamp from = Timestamp.from(fromLastUpdated);
+            logger.fine("Resource count query: " + select + "; [" + fromLastUpdated + "]");
+        }
+
+        try (PreparedStatement ps = c.prepareStatement(select)) {
+            int a = 1;
+
+
+            // Set the variables marking the start point of the scan
+            ps.setTimestamp(a++, Timestamp.from(fromLastUpdated), UTC_CALENDAR);
+
+            // And where we want the scan to stop (e.g. exporting a limited time range)
+            if (this.toLastUpdated != null) {
+                ps.setTimestamp(a++, Timestamp.from(this.toLastUpdated), UTC_CALENDAR);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            } else {
+                throw new IllegalStateException("no count result"); // not gonna happen
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "query: " + select + "[fromLastUpdated=" + fromLastUpdated + ", toLastUpdated=" + toLastUpdated + "]", x);
+            throw new FHIRPersistenceDataAccessException("FetchResourceIds query failed");
+        }
         return result;
     }
 }

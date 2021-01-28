@@ -77,14 +77,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
     // S3 client API to IBM Cloud Object Storage
     private AmazonS3 cosClient = null;
 
-    // TODO ???
-    boolean isSingleCosObject = false;
-
-    // TODO understand this
-    // The current position in the id-list we read back after
-    int currentOffset = 0;
-
-
     // The handle to the persistence instance used to fetch the resources we want to export
     FHIRPersistence fhirPersistence;
 
@@ -113,10 +105,14 @@ public class ResourcePayloadReader extends AbstractItemReader {
     String fhirResourceType;
 
 
-    // TODO ???
+    /**
+     * Should COS objects we create be publicly readable (no need for authentication)
+     */
     private boolean isExportPublic = true;
 
-    // The IBM COS API key or S3 access key.
+    /**
+     * The IBM COS API key or S3 access key.
+     */
     @Inject
     @BatchProperty(name = Constants.COS_API_KEY)
     String cosApiKeyProperty;
@@ -206,7 +202,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_RESOURCES)
     String cosBucketFileMaxResources;
-    int resourcesPerItem = Constants.DEFAULT_MAX_RESOURCES_PER_ITEM;
+    int resourcesPerObject = Constants.DEFAULT_MAX_RESOURCES_PER_ITEM;
 
     // The Java Batch context object
     @Inject
@@ -232,7 +228,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private long partUploadTriggerSize = Constants.COS_PART_MINIMALSIZE * 10L;
 
     // How large should a single COS item (file) be
-    private long maxItemSize = Constants.DEFAULT_COSFILE_MAX_SIZE;
+    private long maxObjectSize = Constants.DEFAULT_COSFILE_MAX_SIZE;
 
     // The initial size of the buffer we use for export. Most resources are
     // under 10K so this is a reasonable initial value
@@ -251,18 +247,18 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private ByteArrayOutputStream outputStream;
 
     // The sum of the multi-part sizes for parts that have been uploaded
-    private long currentItemSize;
+    private long currentObjectSize;
 
     // The COS multi-part upload id for the current COS item
     private String uploadId;
 
-    // The name of the COS item we are currently uploading to
-    private String currentItemName;
+    // The name of the COS object we are currently uploading to
+    private String currentObjectName;
 
-    // The number of resources we've exported to the current COS item
-    private int currentItemResourceCount;
+    // The number of resources we've exported to the current COS object
+    private int currentObjectResourceCount;
 
-    // For large exports, we might need to split the data into multiple items
+    // For large exports, we might need to split the data into multiple COS objects
     private int currentUploadNumber = 1;
 
     // The result tags from parts previously uploaded
@@ -274,7 +270,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     // How many resources processed in the current readItem call (transaction)
     private int resourcesProcessed;
 
-    // Tracking the resource counts for each COS item we've loaded (for final status)
+    // Tracking the resource counts for each COS object we've loaded (for final status)
     private List<Integer> resourceCounts = new ArrayList<>();
 
     /**
@@ -297,20 +293,23 @@ public class ResourcePayloadReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         // Initialize the configuration from the injected string values
         if (this.fhirSearchFromDate != null) {
-            // Date/time format based on FHIR Search Example: 2019-01-01T08:21:26.94-04:00
+            // Date/time format based on FHIR Search Examples:
+            //   2019-01-01T08:21:26.94-04:00
+            //   2019-01-01T08:21:26Z
             TemporalAccessor ta = DateTimeHandler.parse(this.fhirSearchFromDate);
-            this.fromLastModified = Instant.from(ta);
-            logger.fine(logPrefix() + " fromLastModified = " + this.fhirSearchFromDate);
+            this.fromLastModified = DateTimeHandler.generateValue(ta);
+            logger.fine(logPrefix() + " fromLastModified = " + this.fhirSearchFromDate + "(" + fromLastModified + ")");
         }
 
         if (this.fhirSearchToDate != null) {
-            this.toLastModified = Instant.parse(this.fhirSearchToDate);
-            logger.fine(logPrefix() + " toLastModified = " + this.fhirSearchToDate);
+            TemporalAccessor ta = DateTimeHandler.parse(this.fhirSearchToDate);
+            this.toLastModified = DateTimeHandler.generateValue(ta);
+            logger.fine(logPrefix() + " toLastModified = " + this.fhirSearchToDate + "(" + toLastModified + ")");
         }
 
         if (this.cosBucketFileMaxResources != null) {
-            this.resourcesPerItem = Integer.parseInt(this.cosBucketFileMaxResources);
-            logger.fine(logPrefix() + " resourcesPerItem = " + this.resourcesPerItem);
+            this.resourcesPerObject = Integer.parseInt(this.cosBucketFileMaxResources);
+            logger.fine(logPrefix() + " resourcesPerObject = " + this.resourcesPerObject);
         }
 
         if (fhirTenant == null) {
@@ -426,9 +425,14 @@ public class ResourcePayloadReader extends AbstractItemReader {
                     // Update our state so that we can start the next scan from the correct position.
                     this.fromLastModified = last.getLastUpdated();
                 } else {
-                    // no data returned, so that's the end of the road
-                    logger.fine(logPrefix() + " no more data");
-                    moreData = false;
+                    // no data returned, so that's the end of the road - unless we exited early
+                    // because the max transaction timeout expired
+                    if (!isTxTimeExpired()) {
+                        // The fetchResourcePayloads returned before the tx time expired, so
+                        // we really don't have any more data
+                        logger.fine(logPrefix() + " no more data");
+                        moreData = false;
+                    }
                 }
             }
 
@@ -439,7 +443,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         } finally {
             txn.end();
 
-            // Log a simple stat to give us an idea how quickly we processed the data
+            // Log a simple stat to give us an idea how quickly we processed the data for this transaction
             double delta = (System.nanoTime() - readStartTime) / 1e9;
             logger.info(String.format("%s processed %d resources in %.2f seconds (rate=%.1f resources/second)", logPrefix(), this.resourcesProcessed, delta, resourcesProcessed/delta));
         }
@@ -487,13 +491,13 @@ public class ResourcePayloadReader extends AbstractItemReader {
                     logger.fine(logPrefix() + " Processing payload for '" + this.resourceType.getSimpleName() + "/" + t.getLogicalId() + "'");
                 }
 
-                // Check if this data would cause us to exceed the max item size. If
+                // Check if this data would cause us to exceed the max object size. If
                 // so, close the current upload and start a new one
-                if (this.uploadId != null && (currentItemSize + this.outputStream.size() > maxItemSize
-                        || this.currentItemResourceCount >= this.resourcesPerItem)) {
+                if (this.uploadId != null && (currentObjectSize + this.outputStream.size() > maxObjectSize
+                        || this.currentObjectResourceCount >= this.resourcesPerObject)) {
                     if (logger.isLoggable(Level.FINE)) {
-                        logger.fine(logPrefix() + " Completing current upload '" + this.uploadId + "', resources = " + currentItemResourceCount
-                            + ", currentItemSize = " + currentItemSize + " bytes");
+                        logger.fine(logPrefix() + " Completing current upload '" + this.uploadId + "', resources = " + currentObjectResourceCount
+                            + ", currentObjectSize = " + currentObjectSize + " bytes");
                     }
                     completeCurrentUpload();
                 }
@@ -502,8 +506,8 @@ public class ResourcePayloadReader extends AbstractItemReader {
                 if (this.outputStream.size() > 0) {
                     this.outputStream.write(NDJSON_LINE_SEPARATOR);
                 }
-                this.currentItemSize += t.transferTo(this.outputStream);
-                this.currentItemResourceCount++;
+                this.currentObjectSize += t.transferTo(this.outputStream);
+                this.currentObjectResourceCount++;
 
                 // upload now if we have reached the Goldilocks threshold size for a part
                 uploadWhenReady();
@@ -541,11 +545,11 @@ public class ResourcePayloadReader extends AbstractItemReader {
         if (this.uploadId == null) {
             // Start a new upload
             if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
-                this.currentItemName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
+                this.currentObjectName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
             } else {
-                this.currentItemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
+                this.currentObjectName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
             }
-            uploadId = BulkDataUtils.startPartUpload(cosClient, cosBucketName, this.currentItemName, isExportPublic);
+            uploadId = BulkDataUtils.startPartUpload(cosClient, cosBucketName, this.currentObjectName, isExportPublic);
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(logPrefix() + " Started new multi-part upload: '" + this.uploadId + "'");
@@ -568,15 +572,15 @@ public class ResourcePayloadReader extends AbstractItemReader {
      */
     private void uploadPart() throws Exception {
         // S3 API: Part number must be an integer between 1 and 10000
-        int currentItemPartNumber = uploadedParts.size() + 1;
+        int currentObjectPartNumber = uploadedParts.size() + 1;
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(logPrefix() + " Uploading part# " + currentItemPartNumber + " ["+ outputStream.size() + " bytes] for uploadId '" + this.uploadId + "'");
+            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ outputStream.size() + " bytes] for uploadId '" + this.uploadId + "'");
         }
 
         byte[] buffer = outputStream.toByteArray();
         InputStream is = new ByteArrayInputStream(buffer);
-        PartETag uploadResult = BulkDataUtils.multiPartUpload(cosClient, cosBucketName, currentItemName,
-            this.uploadId, is, buffer.length, currentItemPartNumber);
+        PartETag uploadResult = BulkDataUtils.multiPartUpload(cosClient, cosBucketName, currentObjectName,
+            this.uploadId, is, buffer.length, currentObjectPartNumber);
         this.uploadedParts.add(uploadResult);
         outputStream.reset();
     }
@@ -595,17 +599,17 @@ public class ResourcePayloadReader extends AbstractItemReader {
             uploadPart();
         }
 
-        // Ask COS to finalize the upload for the current item.
+        // Ask COS to finalize the upload for the current object.
         try  {
             logger.fine(logPrefix() + " finishing multi-part upload '" + this.uploadId + "'");
-            BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, currentItemName, uploadId,
+            BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, currentObjectName, uploadId,
                 this.uploadedParts);
 
-            // record how many resources we've exported for each file/item. This is
-            // used by the collector/analyzer to generate a list of items. Inherited from
+            // record how many resources we've exported for COS object. This is
+            // used by the collector/analyzer to generate a list of objects. Inherited from
             // the legacy system export impl. It's currently not clear why we don't simply
-            // store the list of item names
-            resourceCounts.add(this.currentItemResourceCount);
+            // store the list of item names and the associated count for each
+            resourceCounts.add(this.currentObjectResourceCount);
         } finally {
             resetUploadState();
         }
@@ -617,13 +621,13 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private void resetUploadState() {
         // Note this only resets the state related to upload...it does not and
         // should not affect the state related to reading because we might still
-        // have more data to process and upload into a new item.
-        logger.fine(logPrefix() + " resetting state so we are ready to upload the next item");
+        // have more data to process and upload into a new COS object.
+        logger.fine(logPrefix() + " resetting state so we are ready to upload the next object");
         this.uploadedParts.clear();
         this.uploadId = null;
-        this.currentItemName = null;
-        this.currentItemSize = 0;
-        this.currentItemResourceCount = 0;
+        this.currentObjectName = null;
+        this.currentObjectSize = 0;
+        this.currentObjectResourceCount = 0;
         this.currentUploadNumber++;
     }
 
@@ -643,9 +647,9 @@ public class ResourcePayloadReader extends AbstractItemReader {
         this.fromLastModified = cp.getFromLastModified(); // 1
         this.uploadId = cp.getUploadId(); // 2
         this.uploadedParts.addAll(cp.getUploadedParts()); // 3
-        this.currentItemName = cp.getCurrentItemName(); // 4
-        this.currentItemSize = cp.getCurrentItemSize(); // 5
-        this.currentItemResourceCount = cp.getCurrentItemResourceCount(); // 6
+        this.currentObjectName = cp.getCurrentObjectName(); // 4
+        this.currentObjectSize = cp.getCurrentObjectSize(); // 5
+        this.currentObjectResourceCount = cp.getCurrentObjectResourceCount(); // 6
         this.currentUploadNumber = cp.getCurrentUploadNumber(); // 7
         this.resourcesForLastTimestamp.addAll(cp.getResourcesForLastTimestamp()); // 8
         this.resourceCounts.addAll(cp.getResourceCounts()); // 9
@@ -665,9 +669,9 @@ public class ResourcePayloadReader extends AbstractItemReader {
         cp.setFromLastModified(this.fromLastModified); // 1
         cp.setUploadId(this.uploadId); // 2
         cp.setUploadedParts(uploadedParts); // 3
-        cp.setCurrentItemName(currentItemName); // 4
-        cp.setCurrentItemSize(currentItemSize); // 5
-        cp.setCurrentItemResourceCount(currentItemResourceCount); // 6
+        cp.setCurrentObjectName(currentObjectName); // 4
+        cp.setCurrentObjectSize(currentObjectSize); // 5
+        cp.setCurrentObjectResourceCount(currentObjectResourceCount); // 6
         cp.setCurrentUploadNumber(currentUploadNumber); // 7
         cp.setResourcesForLastTimestamp(this.resourcesForLastTimestamp); // 8
         cp.setResourceCounts(this.resourceCounts); // 9

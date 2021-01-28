@@ -46,7 +46,7 @@ public class ResourceExportCheckpointAlgorithm implements CheckpointAlgorithm {
 
     @Override
     public boolean isReadyToCheckpoint() {
-        // We want to write/checkpoint each item returned by the reader.
+        // We want to write/checkpoint every time ItemReader#readItem returns.
         return true;
     }
 }

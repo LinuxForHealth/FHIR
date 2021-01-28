@@ -28,7 +28,7 @@
                     <property name="cos.bucket.filemaxresources" value="#{jobParameters['cos.bucket.filemaxresources']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.fhir.jbatch.bulkdata.export.fast.ResourceCosWriter">
+            <writer ref="com.ibm.fhir.jbatch.bulkdata.export.fast.NopWriter">
                 <properties>
                 </properties>
             </writer>

@@ -28,19 +28,19 @@ public class CheckpointUserData implements Serializable {
     // The upload id for Cos
     private String uploadId;
 
-    // The overall size of the item
-    private long currentItemSize;
+    // The overall size of the object
+    private long currentObjectSize;
 
     // For tracking the individual results for a multi-part upload
     private List<PartETag> uploadedParts = new ArrayList<>();
 
-    // The COS item name
-    private String currentItemName;
+    // The COS object name
+    private String currentObjectName;
 
-    // The number of resources added to the current
-    private int currentItemResourceCount;
+    // The number of resources added to the current object
+    private int currentObjectResourceCount;
 
-    // How many items have we currently uploaded
+    // How many objects have we currently uploaded
     private int currentUploadNumber;
 
     // The resource ids sharing the last timestamp we processed
@@ -99,50 +99,50 @@ public class CheckpointUserData implements Serializable {
     }
 
     /**
-     * @return the currentItemSize
+     * @return the currentObjectSize
      */
-    public long getCurrentItemSize() {
-        return currentItemSize;
+    public long getCurrentObjectSize() {
+        return currentObjectSize;
     }
 
 
     /**
-     * @param currentItemSize the currentItemSize to set
+     * @param currentObjectSize the currentObjectSize to set
      */
-    public void setCurrentItemSize(long currentItemSize) {
-        this.currentItemSize = currentItemSize;
+    public void setCurrentObjectSize(long currentObjectSize) {
+        this.currentObjectSize = currentObjectSize;
     }
 
 
     /**
-     * @return the currentItemName
+     * @return the currentObjectName
      */
-    public String getCurrentItemName() {
-        return currentItemName;
+    public String getCurrentObjectName() {
+        return currentObjectName;
     }
 
 
     /**
-     * @param currentItemName the currentItemName to set
+     * @param currentObjectName the currentObjectName to set
      */
-    public void setCurrentItemName(String currentItemName) {
-        this.currentItemName = currentItemName;
+    public void setCurrentObjectName(String currentObjectName) {
+        this.currentObjectName = currentObjectName;
     }
 
 
     /**
-     * @return the currentItemResourceCount
+     * @return the currentObjectResourceCount
      */
-    public int getCurrentItemResourceCount() {
-        return currentItemResourceCount;
+    public int getCurrentObjectResourceCount() {
+        return currentObjectResourceCount;
     }
 
 
     /**
-     * @param currentItemResourceCount the currentItemResourceCount to set
+     * @param currentObjectResourceCount the currentObjectResourceCount to set
      */
-    public void setCurrentItemResourceCount(int currentItemResourceCount) {
-        this.currentItemResourceCount = currentItemResourceCount;
+    public void setCurrentObjectResourceCount(int currentObjectResourceCount) {
+        this.currentObjectResourceCount = currentObjectResourceCount;
     }
 
     /**

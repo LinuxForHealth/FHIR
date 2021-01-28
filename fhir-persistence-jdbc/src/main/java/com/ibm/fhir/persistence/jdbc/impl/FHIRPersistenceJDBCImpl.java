@@ -1992,6 +1992,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // than creating separate DAO implementations for each database type
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             FetchResourcePayloadsDAO dao = new FetchResourcePayloadsDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceType.getSimpleName(), fromLastModified, toLastModified, processor);
+
+            if (log.isLoggable(Level.FINEST)) {
+                int count = dao.count(connection);
+                log.finest("resource count for range: " + count);
+            }
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;

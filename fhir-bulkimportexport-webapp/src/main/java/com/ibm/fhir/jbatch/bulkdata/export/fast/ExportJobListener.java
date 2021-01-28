@@ -39,15 +39,23 @@ public class ExportJobListener implements JobListener {
             return;
         }
 
+        int totalResourceCount = 0;
         List<String> resourceTypeSummaries = new ArrayList<>();
         for (PartitionSummary partitionSummary : partitionSummaries) {
             resourceTypeSummaries.add(partitionSummary.getResourceTypeSummary());
+            int partitionSum = partitionSummary.getResourceCounts().stream().reduce(0, Integer::sum);
+            totalResourceCount += partitionSum;
+
+            logger.info(String.format("%s %32s %10d", logPrefix(), partitionSummary.getResourceType(), partitionSum));
         }
+
+        logger.info(String.format("%s %32s %10s", logPrefix(), "--------------------------------", "----------"));
+        logger.info(String.format("%s %32s %10d", logPrefix(), "TOTAL", totalResourceCount));
 
         if (resourceTypeSummaries.size() > 0) {
             // e.g, Patient[1000,1000,200]:Observation[1000,250]
             String status = String.join(":", resourceTypeSummaries);
-            logger.fine("Setting jobContext exit status: '" + status + "'");
+            logger.fine(logPrefix() + " Setting jobContext exit status: '" + status + "'");
             jobContext.setExitStatus(status);
         }
     }
@@ -56,4 +64,13 @@ public class ExportJobListener implements JobListener {
     public void beforeJob() {
         // NOP
     }
+
+    /**
+     * Prefix for log messages to identify the job
+     * @return
+     */
+    private String logPrefix() {
+        return jobContext.getJobName() + "[" + jobContext.getExecutionId() + "]";
+    }
+
 }

@@ -16,11 +16,12 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 /**
- * Fetches resources and writes them to cloud object storage
+ * For the fast system export implementation, all processing is handled inside the {@link ResourcePayloadReader}
+ * so the writer here is simply a NOP.
  */
 @Dependent
-public class ResourceCosWriter extends AbstractItemWriter {
-    private static final Logger logger = Logger.getLogger(ResourceCosWriter.class.getName());
+public class NopWriter extends AbstractItemWriter {
+    private static final Logger logger = Logger.getLogger(NopWriter.class.getName());
 
     // The context object representing this export job
     @Inject
