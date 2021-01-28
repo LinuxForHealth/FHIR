@@ -200,7 +200,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         List<List<Reference>> provenanceTargets = new ArrayList<>();
-        Set<String> resourceIds = new HashSet<>();
+        Set<String> relativeResourcePaths = new HashSet<>();
 
         if (event.getFhirResource() instanceof Bundle) {
             for ( Bundle.Entry entry : ((Bundle)event.getFhirResource()).getEntry() ) {
@@ -211,12 +211,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                         provenanceTargets.add(((Provenance) resource).getTarget());
                     } else {
                         enforce(resource, getPatientIdFromToken(jwt), Permission.READ, getScopesFromToken(jwt));
-                        resourceIds.add(resource.getId());
+                        relativeResourcePaths.add(resource.getClass().getSimpleName() + "/" + resource.getId());
                     }
                 }
             }
 
-            enforceProvenance(provenanceTargets, resourceIds);
+            enforceProvenance(provenanceTargets, relativeResourcePaths);
         } else {
             throw new IllegalStateException("Expected event resource of type Bundle but found " +
                     event.getFhirResource().getClass().getSimpleName());
@@ -230,7 +230,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @throws IllegalStateException if the baseUrl cannot be computed from the request context
      * @throws FHIRPersistenceInterceptorException if the list of provenanceTargets contains
      */
-    private void enforceProvenance(List<List<Reference>> provenanceTargets, Set<String> resourceIds)
+    private void enforceProvenance(List<List<Reference>> provenanceTargets, Set<String> relativeResourcePaths)
             throws FHIRPersistenceInterceptorException {
         if (provenanceTargets.isEmpty()) return;
 
@@ -246,7 +246,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             for (Reference r : targets) {
                 ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(r, baseUrl);
                 if (ReferenceValue.ReferenceType.LITERAL_RELATIVE == referenceValue.getType()) {
-                    if (resourceIds.contains(referenceValue.getValue())) {
+                    if (relativeResourcePaths.contains(referenceValue.getTargetResourceType() + "/" + referenceValue.getValue())) {
                         allow = true;
                         break;
                     }

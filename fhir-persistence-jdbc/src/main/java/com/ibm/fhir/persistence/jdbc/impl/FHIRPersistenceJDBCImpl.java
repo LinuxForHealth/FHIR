@@ -1465,8 +1465,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Augment the given allParameters list with ibm-internal parameters represents relationships
-     * of the fhirResource to its compartments. These parameter values are subsequently used
+     * Augment the given allParameters list with ibm-internal parameters that represent relationships
+     * between the fhirResource to its compartments. These parameter values are subsequently used
      * to improve the performance of compartment-based FHIR search queries. See
      * {@link CompartmentUtil#makeCompartmentParamName(String)} for details on how the
      * parameter name is composed for each relationship.

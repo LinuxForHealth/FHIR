@@ -48,7 +48,7 @@ import com.ibm.fhir.smart.Scope.Permission;
 
 public class AuthzPolicyEnforcementTest {
     private static final String PATIENT_ID =     "11111111-1111-1111-1111-111111111111";
-    private static final String OBSERVATION_ID = "22222222-2222-2222-2222-222222222222";
+    private static final String OBSERVATION_ID = "11111111-1111-1111-1111-111111111111";
 
     private static final List<ResourceType.ValueSet> PATIENT_APPROVED =
             Arrays.asList(ResourceType.ValueSet.PATIENT, ResourceType.ValueSet.RESOURCE);
