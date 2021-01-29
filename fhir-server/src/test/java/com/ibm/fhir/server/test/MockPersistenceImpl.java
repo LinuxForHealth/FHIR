@@ -1,11 +1,9 @@
-package com.ibm.fhir.server.test;
 /*
  * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-
+package com.ibm.fhir.server.test;
 
 import java.util.ArrayList;
 import java.util.function.Function;
@@ -28,7 +26,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
- *
  */
 public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
@@ -40,7 +37,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
                 .resource(updatedResource);
-    	return resultBuilder.build();
+        return resultBuilder.build();
     }
 
     @SuppressWarnings("unchecked")
