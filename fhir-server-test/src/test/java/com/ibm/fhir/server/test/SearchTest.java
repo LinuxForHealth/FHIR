@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -639,6 +639,9 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+        // verify link does not include consecutive '&' characters
+        assertTrue(bundle.getLink().size() >= 1);
+        assertTrue(!bundle.getLink().get(0).getUrl().getValue().contains("&&"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })

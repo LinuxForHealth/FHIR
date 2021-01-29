@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ package com.ibm.fhir.search.uri;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.search.SearchConstants;
@@ -79,15 +79,7 @@ public class UriBuilder {
         queryString.append(SearchConstants.EQUALS_CHAR);
         queryString.append(context.getPageSize());
 
-        // the URLs is converted from a for loop to a functional paradigm. The functional
-        // paradigm is consistent with JOINING multiple strings
-        if (!context.getSearchParameters().isEmpty()) {
-            queryString.append(SearchConstants.AND_CHAR);
-            Function<QueryParameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
-            queryString.append(context.getSearchParameters().stream().map(serializeSearchParmToQueryString)
-                    .collect(Collectors.joining(SearchConstants.AND_CHAR_STR)));
-        }
-
+        appendSearchParameters();
         appendElementsParameter();
         appendInclusionParameters();
         appendRevInclusionParameters();
@@ -105,6 +97,21 @@ public class UriBuilder {
                 queryString.toString(), null);
 
         return selfUri.toString();
+    }
+
+    /**
+     * Appends the search parameters to the query string, if joining them together results in a non-empty string.
+     */
+    private void appendSearchParameters() {
+        if (!context.getSearchParameters().isEmpty()) {
+            Predicate<String> stringIsEmpty = String::isEmpty;
+            String searchParameters = context.getSearchParameters().stream().map(p -> serializeSearchParmToQueryString(p))
+                    .filter(stringIsEmpty.negate()).collect(Collectors.joining(SearchConstants.AND_CHAR_STR));
+            if (!searchParameters.isEmpty()) {
+                queryString.append(SearchConstants.AND_CHAR);
+                queryString.append(searchParameters);
+            }
+        }
     }
 
     private void appendResourceTypesParameter() {
