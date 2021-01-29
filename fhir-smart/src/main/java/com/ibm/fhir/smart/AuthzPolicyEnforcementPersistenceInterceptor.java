@@ -35,6 +35,8 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
@@ -285,14 +287,10 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     private SingleResourceResult<? extends Resource> executeRead(FHIRPersistence persistence, ReferenceValue referenceValue,
             Class<? extends Resource> resourceType) throws FHIRPersistenceException {
-        SingleResourceResult<? extends Resource> result;
-        if (referenceValue.getVersion() == null) {
-            result = persistence.read(null, resourceType, referenceValue.getValue());
-        } else {
-            result = persistence.vread(null, resourceType,
-                referenceValue.getValue(), referenceValue.getVersion().toString());
-        }
-        return result;
+        FHIRPersistenceContext freshContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
+        return referenceValue.getVersion() == null ?
+                persistence.read(freshContext, resourceType, referenceValue.getValue()) :
+                persistence.vread(freshContext, resourceType, referenceValue.getValue(), referenceValue.getVersion().toString());
     }
 
     @Override
