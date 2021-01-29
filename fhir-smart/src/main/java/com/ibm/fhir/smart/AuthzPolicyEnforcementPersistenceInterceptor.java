@@ -266,7 +266,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     if (result.isSuccess() && checkCompartment(result.getResource(), CompartmentType.PATIENT, contextIds)) {
                         allow = true;
                         break;
-                    } if (log.isLoggable(Level.FINE)){
+                    }
+                    if (!result.isSuccess() && log.isLoggable(Level.FINE)) {
                         log.fine("Skipping target " + referenceValue.getTargetResourceType() + "/" + referenceValue.getType() +
                                 "' during enforcement due to a read failure: " + result.getOutcome());
                     }
