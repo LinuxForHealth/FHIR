@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@ public class DateParmBehaviorUtilTest {
     private static final Level LOG_LEVEL = Level.FINE;
 
     //---------------------------------------------------------------------------------------------------------
-    // Supporting Methods: 
+    // Supporting Methods:
     @BeforeClass
     public static void before() throws FHIRException {
         FHIRRequestContext.get().setTenantId("date");
@@ -256,7 +256,7 @@ public class DateParmBehaviorUtilTest {
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =
-                " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
+                " AND (((Date.DATE_END >= ? AND Date.DATE_START <= ?))))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
@@ -271,7 +271,7 @@ public class DateParmBehaviorUtilTest {
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =
-                " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?)) OR ((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
+                " AND (((Date.DATE_END >= ? AND Date.DATE_START <= ?)) OR ((Date.DATE_END >= ? AND Date.DATE_START <= ?))))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
@@ -286,7 +286,7 @@ public class DateParmBehaviorUtilTest {
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =
-                " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?)) OR ((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
+                " AND (((Date.DATE_END >= ? AND Date.DATE_START <= ?)) OR ((Date.DATE_END >= ? AND Date.DATE_START <= ?))))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
