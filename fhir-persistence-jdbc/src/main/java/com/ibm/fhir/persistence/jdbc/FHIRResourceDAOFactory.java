@@ -21,7 +21,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.db2.Db2ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceReferenceDAO;
@@ -46,11 +45,11 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, 
+    public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
         FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
         throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
-        
+
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
         case DB2:
@@ -82,7 +81,7 @@ public class FHIRResourceDAOFactory {
         IDatabaseTranslator translator = null;
         ReindexResourceDAO result = null;
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
-        
+
         switch (flavor.getType()) {
         case DB2:
             translator = new Db2Translator();
@@ -101,6 +100,30 @@ public class FHIRResourceDAOFactory {
     }
 
     /**
+     * Get the {@link IDatabaseTranslator} implementation specific to the given {@link FHIRDbFlavor}
+     * @param flavor
+     * @return
+     */
+    public static IDatabaseTranslator getTranslatorForFlavor(FHIRDbFlavor flavor) {
+        IDatabaseTranslator result;
+
+        switch (flavor.getType()) {
+        case DB2:
+            result = new Db2Translator();
+            break;
+        case DERBY:
+            result = new DerbyTranslator();
+            break;
+        case POSTGRESQL:
+            result = new PostgreSqlTranslator();
+            break;
+        default:
+            throw new IllegalStateException("Unsupported database flavor: " + flavor.toString());
+        }
+        return result;
+    }
+
+    /**
      * Construct a new ResourceDAO implementation matching the database type
      * @param connection valid connection to the database
      * @param schemaName the name of the schema containing the FHIR resource tables
@@ -109,10 +132,10 @@ public class FHIRResourceDAOFactory {
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, 
+    public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
         FHIRPersistenceJDBCCache cache) throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
-        
+
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
         case DB2:
@@ -137,9 +160,9 @@ public class FHIRResourceDAOFactory {
      * @param cache
      * @return
      */
-    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, 
+    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
         FHIRPersistenceJDBCCache cache) {
-        
+
         IResourceReferenceDAO rrd = null;
         switch (flavor.getType()) {
         case DB2:

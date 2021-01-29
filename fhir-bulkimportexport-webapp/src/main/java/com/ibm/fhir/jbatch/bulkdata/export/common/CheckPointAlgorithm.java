@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,16 +30,12 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
     @Inject
     StepContext stepCtx;
 
-    /**
-     * The file resources number limit when exporting to multiple COS files.
-     */
+    // The max number of resources to store in a single COS object
     @Inject
     @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_RESOURCES)
     String cosBucketFileMaxResources;
 
-    /**
-     * The file size limit (in bytes) when exporting to multiple COS files.
-     */
+    // The max file size limit (in bytes) of a single COS object
     @Inject
     @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_SIZE)
     String cosBucketFileMaxSize;
@@ -104,9 +100,13 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
             }
         }
 
+        // Stop writing to the current COS object if we hit either the max size or max number
+        // of resource limits.
         chunkData.setFinishCurrentUpload(cosFileMaxSize != -1 && chunkData.getCurrentUploadSize() >= cosFileMaxSize
                 || cosFileMaxResources != -1 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources);
 
+        // Trigger a checkpoint each time we start a new page, if the data written to the reader-to-writer
+        // buffer exceeds our min threshold, or we've reached the end for this chunk.
         return (chunkData.getPageNum() > chunkData.getLastPageNum()
                 || chunkData.getBufferStream().size() > Constants.COS_PART_MINIMALSIZE
                 || chunkData.isFinishCurrentUpload());

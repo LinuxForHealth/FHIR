@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,14 @@
 package com.ibm.fhir.persistence.test;
 
 import java.time.Instant;
+import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -78,6 +80,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public String generateResourceId() {
+        return null;
+    }
+
+    @Override
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, Instant fromLastModified, Instant toLastModified,
+        Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
         return null;
     }
 }

@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -53,6 +54,7 @@ import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -83,6 +85,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -112,6 +115,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
+import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
@@ -1971,6 +1975,29 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+    }
+
+    @Override
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
+        java.time.Instant toLastModified, Function<ResourcePayload, Boolean> processor) throws FHIRPersistenceException {
+        try (Connection connection = openConnection()) {
+            // translator is required to handle some simple SQL syntax differences. This is easier
+            // than creating separate DAO implementations for each database type
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            FetchResourcePayloadsDAO dao = new FetchResourcePayloadsDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceType.getSimpleName(), fromLastModified, toLastModified, processor);
+
+            if (log.isLoggable(Level.FINEST)) {
+                int count = dao.count(connection);
+                log.finest("resource count for range: " + count);
+            }
+            return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;
         } catch(Throwable e) {

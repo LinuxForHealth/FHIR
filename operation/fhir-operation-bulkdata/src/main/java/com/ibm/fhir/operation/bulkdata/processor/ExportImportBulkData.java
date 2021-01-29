@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,16 +42,17 @@ public interface ExportImportBulkData {
      * @param ctx
      * @param operationContext
      * @param resourceHelper
+     * @param systemExportImpl
      * @return
      * @throws FHIROperationException
      */
     public Parameters export(String logicalId, BulkDataConstants.ExportType exportType, MediaType outputFormat,
             Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException;
+            FHIRResourceHelpers resourceHelper, String systemExportImpl) throws FHIROperationException;
 
     /**
      * Pattern: POST [Base]/$import
-     * 
+     *
      * @param inputFormat
      * @param inputSource
      * @param inputs

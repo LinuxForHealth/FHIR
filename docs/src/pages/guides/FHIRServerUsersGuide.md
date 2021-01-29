@@ -1582,13 +1582,16 @@ BulkData web application writes the exported FHIR resources to an IBM Cloud Obje
     "validBaseUrls": [
         "https://test-url/"
     ],
-    "maxInputPerRequest": 5
+    "maxInputPerRequest": 5,
+    "systemExportImpl": "fast"
 }
 ```
 
 To use Amazon S3 bucket for exporting, please set `cos.credential.ibm` to `N`, set `cos.api.key` to S3 access key, and set `cos.srvinst.id` to the S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
 
 `.../exports/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson`
+
+Basic system exports (without typeFilters) use a streamlined implementation which bypasses the IBM FHIR Server search API for direct access to the data, enabling better throughput. The `fhirServer/bulkdata/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation will be used by default for any export not using typeFilters. Exports using typeFilters use FHIR search capabilities so cannot use the streamlined export function.
 
 To import using the `$import` proposal, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on `https://test-url.cos.ibm.com/bucket1` and `https://test-url.cos.ibm.com/bucket2` you must specify both baseUrls in the configuration:
 

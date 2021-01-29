@@ -66,9 +66,9 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public boolean isLockTimeout(SQLException x) {
         return false;
     }
-    
+
     @Override
-    public boolean isIndexUseSchemaPrefix() { 
+    public boolean isIndexUseSchemaPrefix() {
         // For Postgres, the index always shares the same schema as the table to which
         // it belongs
         return false;
@@ -234,17 +234,21 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public String currentTimestampString() {
         return "CURRENT_TIMESTAMP";
     }
-    
+
     @Override
     public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
         // PostgreSQL syntax is not the same as DB2/Derby
         return "ALTER TABLE " + qualifiedTableName + " DROP CONSTRAINT IF EXISTS " + constraintName;
     }
-    
+
     @Override
     public String nextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "nextval('" + qname + "')";
     }
 
+    @Override
+    public String limit(String arg) {
+        return "LIMIT " + arg;
+    }
 }
