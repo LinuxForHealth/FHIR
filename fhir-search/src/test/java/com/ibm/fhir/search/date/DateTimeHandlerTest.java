@@ -580,7 +580,6 @@ public class DateTimeHandlerTest {
     @Test(expectedExceptions = FHIRSearchException.class)
     public void testYearMonthDaySeparatorHourMinutesSecondsMicrosecondsParserZoneBadZoneUseWithDay()
             throws FHIRSearchException {
-        // This case is
         DateTimeHandler.parse("2019-10-11TCDT");
     }
 
