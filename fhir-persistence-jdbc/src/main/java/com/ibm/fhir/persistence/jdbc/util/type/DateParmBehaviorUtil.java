@@ -48,7 +48,6 @@ public class DateParmBehaviorUtil {
         // Query: AND ((
         whereClauseSegment.append(AND).append(LEFT_PAREN).append(LEFT_PAREN);
 
-        // Initially we don't want to
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
             // If multiple values are present, we need to OR them together.
