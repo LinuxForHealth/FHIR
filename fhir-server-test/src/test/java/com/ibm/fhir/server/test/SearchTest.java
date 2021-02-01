@@ -1683,7 +1683,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(organization);
         assertEquals(organizationId, organization.getId());
         assertEquals("2", organization.getMeta().getVersionId().getValue());
-
+}
     @Test(groups = { "server-search" })
     public void test_SearchCarePlan_APDate() throws Exception {
         WebTarget target = getWebTarget();
