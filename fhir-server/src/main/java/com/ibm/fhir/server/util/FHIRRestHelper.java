@@ -715,7 +715,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param contextResource
      *            a FHIR resource associated with this request
      * @param queryParameters
-     *            for supporting _summary for resource read
+     *            for supporting _elements and _summary for resource read
      * @param checkInteractionAllowed
      *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
      * @return the Resource
@@ -750,6 +750,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
+                if (!queryParameters.keySet().stream().allMatch(k -> FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k))) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException(
+                            "Read only supports general search parameters.");
+                }
                 searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters,
                         HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }

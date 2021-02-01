@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -870,31 +870,35 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
-
-        FHIRSearchContext searchContext = context.getSearchContext();
         List<String> elements = null;
-        //Check if _summary is required
-        if (searchContext != null && searchContext.hasSummaryParameter()) {
-            Set<String> summaryElements = null;
-            SummaryValueSet summary = searchContext.getSummaryParameter();
+        FHIRSearchContext searchContext = context.getSearchContext();
 
-            switch (summary) {
-            case TRUE:
-                summaryElements = JsonSupport.getSummaryElementNames(resourceType);
-                break;
-            case TEXT:
-                summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
-                break;
-            case DATA:
-                summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
-                break;
-            default:
-                break;
-            }
+        if (searchContext != null) {
+            elements = searchContext.getElementsParameters();
 
-            if (summaryElements != null) {
-                elements = new ArrayList<String>();
-                elements.addAll(summaryElements);
+            // Only consider _summary if _elements parameter is empty
+            if (elements == null && searchContext.hasSummaryParameter()) {
+                Set<String> summaryElements = null;
+                SummaryValueSet summary = searchContext.getSummaryParameter();
+
+                switch (summary) {
+                case TRUE:
+                    summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                    break;
+                case TEXT:
+                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    break;
+                case DATA:
+                    summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                    break;
+                default:
+                    break;
+                }
+
+                if (summaryElements != null) {
+                    elements = new ArrayList<String>();
+                    elements.addAll(summaryElements);
+                }
             }
         }
 
