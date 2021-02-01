@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2017,2018,2019
+ * (C) Copyright IBM Corp. 2020,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -55,9 +56,11 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.scout.SearchParameters.ParameterBlock;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValue;
 import com.ibm.fhir.persistence.scout.SearchParameters.StrValueList;
@@ -454,5 +457,12 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     @Override
     public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
+    }
+
+    @Override
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
+        java.time.Instant toLastModified, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
+
+        throw new FHIRPersistenceNotSupportedException("API not supported at this time");
     }
 }

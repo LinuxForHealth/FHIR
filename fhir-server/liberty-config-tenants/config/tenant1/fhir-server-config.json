@@ -7,7 +7,7 @@
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
                     "subject": "http://hl7.org/fhir/SearchParameter/Observation-subject",
-                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-observation-patient",
+                    "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
                     "value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity",
                     "component-value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
                 }

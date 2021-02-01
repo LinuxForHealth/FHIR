@@ -2238,7 +2238,8 @@ public class SearchUtil {
      * @param compartmentRefParams a map of parameter names to a set of compartment names (resource types)
      * @return a map of compartment name to a set of unique compartment reference values
      */
-    public static Map<String, Set<CompartmentReference>> extractCompartmentParameterValues(Resource fhirResource, Map<String, Set<java.lang.String>> compartmentRefParams) throws FHIRSearchException {
+    public static Map<String, Set<CompartmentReference>> extractCompartmentParameterValues(Resource fhirResource,
+            Map<String, Set<java.lang.String>> compartmentRefParams) throws FHIRSearchException {
         final Map<String, Set<CompartmentReference>> result = new HashMap<>();
         final String resourceType = fhirResource.getClass().getSimpleName();
 
@@ -2288,7 +2289,7 @@ public class SearchUtil {
                                 }
                             }
                         }
-                    } else {
+                    } else if (!useStoredCompartmentParam()) {
                        log.warning("Compartment parameter not found: [" + resourceType + "] '" + searchParm + "'. This will stop compartment searches from working correctly.");
                     }
                 }

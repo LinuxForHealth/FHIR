@@ -1,15 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2017,2021
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.test;
+package com.ibm.fhir.smart.test;
 
 import java.time.Instant;
 import java.util.function.Function;
 
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
@@ -25,21 +27,58 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
  *
  */
 public class MockPersistenceImpl implements FHIRPersistence {
+    Patient patient = null;
+    Observation observation = null;
+
+    public MockPersistenceImpl(Patient patient, Observation observation) {
+        this.patient = patient;
+        this.observation = observation;
+    }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-    	return null;
+        return null;
     }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
         throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+
+        if (resourceType == Patient.class) {
+            return new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource((T)patient)
+                    .build();
+        }
+
+        if (resourceType == Observation.class) {
+            return new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource((T)observation)
+                    .build();
+        }
+
         return null;
     }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
         throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+
+        if (resourceType == Patient.class) {
+            return new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource((T)patient)
+                    .build();
+        }
+
+        if (resourceType == Observation.class) {
+            return new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource((T)observation)
+                    .build();
+        }
+
         return null;
     }
 
@@ -85,8 +124,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, Instant fromLastModified, Instant toLastModified,
-        Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
+            Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
         return null;
     }
 }

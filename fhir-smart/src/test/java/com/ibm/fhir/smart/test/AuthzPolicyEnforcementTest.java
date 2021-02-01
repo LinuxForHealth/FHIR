@@ -7,6 +7,10 @@
 package com.ibm.fhir.smart.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.OBSERVATION;
+import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.PATIENT;
+import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.PROVENANCE;
+import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.RESOURCE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -18,6 +22,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -30,12 +37,12 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.search.SearchConstants.Type;
@@ -46,20 +53,17 @@ import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
 import com.ibm.fhir.smart.Scope.Permission;
 
 public class AuthzPolicyEnforcementTest {
-    private static final String PATIENT_ID = "11111111-1111-1111-1111-111111111111";
+    private static final String PATIENT_ID =     "11111111-1111-1111-1111-111111111111";
+    private static final String OBSERVATION_ID = "11111111-1111-1111-1111-111111111111";
 
-    private static final List<ResourceType.ValueSet> PATIENT_APPROVED =
-            Arrays.asList(ResourceType.ValueSet.PATIENT, ResourceType.ValueSet.RESOURCE);
-    private static final List<ResourceType.ValueSet> OBSERVATION_APPROVED =
-            Arrays.asList(ResourceType.ValueSet.OBSERVATION, ResourceType.ValueSet.RESOURCE);
-    private static final List<ResourceType.ValueSet> PATIENT_AND_OBSERVATION_APPROVED =
-            Arrays.asList(ResourceType.ValueSet.RESOURCE);
     private static final List<Permission> READ_APPROVED = Arrays.asList(Permission.READ, Permission.ALL);
     private static final List<Permission> WRITE_APPROVED = Arrays.asList(Permission.WRITE, Permission.ALL);
 
     private AuthzPolicyEnforcementPersistenceInterceptor interceptor;
     private Patient patient;
     private Observation observation;
+    private Provenance patientProvenance;
+    private Provenance observationProvenance;
     private Map<String, Object> properties;
 
     @BeforeClass
@@ -72,44 +76,62 @@ public class AuthzPolicyEnforcementTest {
 
         interceptor = new AuthzPolicyEnforcementPersistenceInterceptor();
 
+        Provenance provenanceBase = TestUtil.getMinimalResource(ResourceType.PROVENANCE);
+
         patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         patient = patient.toBuilder()
                 .id(PATIENT_ID)
                 .build();
 
+        patientProvenance = provenanceBase.toBuilder()
+                .target(Reference.builder()
+                    .reference(string("Patient/" + PATIENT_ID))
+                    .build())
+                .build();
+
         observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
         observation = observation.toBuilder()
+                .id(OBSERVATION_ID)
                 .subject(Reference.builder().reference(string("Patient/" + PATIENT_ID)).build())
                 .build();
 
+        observationProvenance = provenanceBase.toBuilder()
+                .target(Reference.builder()
+                    .reference(string("Observation/" + OBSERVATION_ID))
+                    .build())
+                .build();
+
         properties = new HashMap<String, Object>();
+
+        MockPersistenceImpl mockPersistenceImpl = new MockPersistenceImpl(patient, observation);
+        properties.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, mockPersistenceImpl);
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testCreate(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testCreate(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.beforeCreate(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         }
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeCreate(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         }
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testUpdate(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testUpdate(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -117,11 +139,11 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             event.setPrevFhirResource(patient);
             interceptor.beforeUpdate(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED) &&
-                    shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED) &&
-                    shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         }
 
         try {
@@ -129,16 +151,16 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             event.setPrevFhirResource(observation);
             interceptor.beforeUpdate(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED) &&
-                        shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED) &&
-                        shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         }
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testDelete(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testDelete(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -146,18 +168,18 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent();
             event.setPrevFhirResource(patient);
             interceptor.beforeDelete(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         }
 
         try {properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent();
             event.setPrevFhirResource(observation);
             interceptor.beforeDelete(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, WRITE_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         }
     }
 
@@ -318,53 +340,71 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testRead(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testRead(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.afterRead(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         }
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.afterRead(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patientProvenance, properties);
+            interceptor.afterRead(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observationProvenance, properties);
+            interceptor.afterRead(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
         }
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testVRead(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testVRead(String scopeString, Set<ResourceType.ValueSet> typesPermittedByScopes, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.afterVread(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(typesPermittedByScopes, PATIENT, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(typesPermittedByScopes, PATIENT, READ_APPROVED, permission));
         }
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.afterVread(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(typesPermittedByScopes, OBSERVATION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(typesPermittedByScopes, OBSERVATION, READ_APPROVED, permission));
         }
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testHistory(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testHistory(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -375,9 +415,9 @@ public class AuthzPolicyEnforcementTest {
                     .build();
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
             interceptor.afterHistory(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         }
 
         try {
@@ -388,14 +428,14 @@ public class AuthzPolicyEnforcementTest {
                     .build();
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
             interceptor.afterHistory(event);
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
         }
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testSearch(String scopeString, ResourceType.ValueSet resourceType, Permission permission) {
+    public void testSearch(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -405,9 +445,9 @@ public class AuthzPolicyEnforcementTest {
                     .build();
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
             interceptor.afterSearch(event);
-            assertTrue(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         }
 
         try {
@@ -418,9 +458,9 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
             interceptor.afterSearch(event);
 
-            assertTrue(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
         }
 
         try {
@@ -432,9 +472,43 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
             interceptor.afterSearch(event);
 
-            assertTrue(shouldSucceed(resourceType, PATIENT_AND_OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                    && shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceType, PATIENT_AND_OBSERVATION_APPROVED, permission, READ_APPROVED));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                    && shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().resource(patient).build())
+                    .entry(Bundle.Entry.builder().resource(patientProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().resource(observation).build())
+                    .entry(Bundle.Entry.builder().resource(observationProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
         }
     }
 
@@ -459,8 +533,12 @@ public class AuthzPolicyEnforcementTest {
     /**
      * @return true if the interaction should succeed, otherwise false
      */
-    private boolean shouldSucceed(ValueSet resourceType, List<ValueSet> resourceTypes, Permission permission, List<Permission> permissions) {
-        if (resourceTypes.contains(resourceType) && permissions.contains(permission)) {
+    private boolean shouldSucceed(Set<ResourceType.ValueSet> resourceTypesPermittedByScope, ResourceType.ValueSet requiredResourceType,
+            List<Permission> permissionsPermittedByScope, Permission requiredPermission) {
+        if (resourceTypesPermittedByScope.contains(ResourceType.ValueSet.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
+            return true;
+        }
+        if (resourceTypesPermittedByScope.contains(requiredResourceType) && permissionsPermittedByScope.contains(requiredPermission)) {
             return true;
         }
         return false;
@@ -468,26 +546,37 @@ public class AuthzPolicyEnforcementTest {
 
     @DataProvider(name = "scopeStringProvider")
     public static Object[][] scopeStrings() {
-       return new Object[][] {
-           {"patient/*.*", ResourceType.ValueSet.RESOURCE, Permission.ALL},
-           {"patient/*.read", ResourceType.ValueSet.RESOURCE, Permission.READ},
-           {"patient/*.write", ResourceType.ValueSet.RESOURCE, Permission.WRITE},
+        final Set<ResourceType.ValueSet> all_resources = Collections.singleton(RESOURCE);
+        final Set<ResourceType.ValueSet> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType.ValueSet> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType.ValueSet> provenance = Collections.singleton(PROVENANCE);
 
-           {"patient/Patient.*", ResourceType.ValueSet.PATIENT, Permission.ALL},
-           {"patient/Patient.read", ResourceType.ValueSet.PATIENT, Permission.READ},
-           {"patient/Patient.write", ResourceType.ValueSet.PATIENT, Permission.WRITE},
+        return new Object[][] {
+            {"patient/*.*", all_resources, Permission.ALL},
+            {"patient/*.read", all_resources, Permission.READ},
+            {"patient/*.write", all_resources, Permission.WRITE},
 
-           {"patient/Observation.*", ResourceType.ValueSet.OBSERVATION, Permission.ALL},
-           {"patient/Observation.read", ResourceType.ValueSet.OBSERVATION, Permission.READ},
-           {"patient/Observation.write", ResourceType.ValueSet.OBSERVATION, Permission.WRITE},
+            {"patient/Patient.*", patient, Permission.ALL},
+            {"patient/Patient.read", patient, Permission.READ},
+            {"patient/Patient.write", patient, Permission.WRITE},
+            {"patient/Patient.* patient/Provenance.*", union(patient, provenance), Permission.ALL},
 
-           {"openid profile patient/Patient.*", ResourceType.ValueSet.PATIENT, Permission.ALL},
-           {"openid patient/Patient.read profile", ResourceType.ValueSet.PATIENT, Permission.READ},
-           {"patient/Patient.write openid profile", ResourceType.ValueSet.PATIENT, Permission.WRITE},
+            {"patient/Observation.*", observation, Permission.ALL},
+            {"patient/Observation.read", observation, Permission.READ},
+            {"patient/Observation.write", observation, Permission.WRITE},
+            {"patient/Observation.* patient/Provenance.*", union(observation, provenance), Permission.ALL},
 
-           {"patient/Patient.read patient/Observation.read", ResourceType.ValueSet.RESOURCE, Permission.READ},
+            {"openid profile patient/Patient.*", patient, Permission.ALL},
+            {"openid patient/Patient.read profile", patient, Permission.READ},
+            {"patient/Patient.write openid profile", patient, Permission.WRITE},
 
-           {"openid profile", null, null},
-           };
+            {"patient/Patient.read patient/Observation.read", union(patient, observation), Permission.READ},
+
+            {"openid profile", Collections.EMPTY_SET, null},
+        };
+    }
+
+    private static <T> Set<T> union(Set<T> a, Set<T> b) {
+        return Stream.concat(a.stream(), b.stream()).collect(Collectors.toSet());
     }
 }

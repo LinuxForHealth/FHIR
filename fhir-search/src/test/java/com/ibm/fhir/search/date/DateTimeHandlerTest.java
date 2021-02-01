@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class DateTimeHandlerTest {
 
@@ -579,7 +580,6 @@ public class DateTimeHandlerTest {
     @Test(expectedExceptions = FHIRSearchException.class)
     public void testYearMonthDaySeparatorHourMinutesSecondsMicrosecondsParserZoneBadZoneUseWithDay()
             throws FHIRSearchException {
-        // This case is 
         DateTimeHandler.parse("2019-10-11TCDT");
     }
 
@@ -791,5 +791,15 @@ public class DateTimeHandlerTest {
         String v = "2019+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateUpperBound(null, value, v);
+    }
+
+    @Test
+    public void testParseYearMonthDate() throws FHIRSearchException {
+        String v = "2019-12-11";
+        QueryParameterValue parameterValue = new QueryParameterValue();
+        DateTimeHandler.parse(null, parameterValue, v);
+        assertEquals(parameterValue.getValueDate(), "2019-12-11");
+        assertEquals(parameterValue.getValueDateLowerBound().toString(), "2019-12-11T00:00:00Z");
+        assertEquals(parameterValue.getValueDateUpperBound().toString(), "2019-12-11T23:59:59.999999Z");
     }
 }

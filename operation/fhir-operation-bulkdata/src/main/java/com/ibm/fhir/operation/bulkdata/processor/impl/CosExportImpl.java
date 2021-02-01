@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,7 +49,7 @@ public class CosExportImpl implements ExportImportBulkData {
     @Override
     public Parameters export(String logicalId, BulkDataConstants.ExportType exportType, MediaType outputFormat,
             Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper, String systemExportImpl) throws FHIROperationException {
         try {
             Objects.requireNonNull(outputFormat, "outputFormat");
 
@@ -76,7 +76,7 @@ public class CosExportImpl implements ExportImportBulkData {
             // Submit Job
             BulkDataClient client = new BulkDataClient(tmpProperties);
             // If we add multiple formats, shove the mediatype into a properties map.
-            String url = client.submitExport(since, types, tmpProperties, exportType);
+            String url = client.submitExport(since, types, tmpProperties, exportType, systemExportImpl);
 
             // As we are now 'modifying' the response, we're PUSHING it into the operation context. The
             // OperationContext is checked for ACCEPTED, and picks out the custom response.
