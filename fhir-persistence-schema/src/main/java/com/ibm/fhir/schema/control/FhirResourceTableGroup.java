@@ -478,7 +478,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         }
 
         View view = View.builder(schemaName, viewName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setVersion(FhirSchemaVersion.V0007.vid())
                 .setSelectClause(select.toString())
                 .addPrivileges(resourceTablePrivileges)
                 .addDependency(commonTokenValues)
