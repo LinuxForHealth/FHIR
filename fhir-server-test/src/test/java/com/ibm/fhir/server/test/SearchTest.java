@@ -641,6 +641,9 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+        // verify link does not include consecutive '&' characters
+        assertTrue(bundle.getLink().size() >= 1);
+        assertFalse(bundle.getLink().get(0).getUrl().getValue().contains("&&"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
