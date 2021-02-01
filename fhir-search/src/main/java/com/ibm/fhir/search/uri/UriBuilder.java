@@ -105,8 +105,10 @@ public class UriBuilder {
     private void appendSearchParameters() {
         if (!context.getSearchParameters().isEmpty()) {
             Predicate<String> stringIsEmpty = String::isEmpty;
-            String searchParameters = context.getSearchParameters().stream().map(p -> serializeSearchParmToQueryString(p))
-                    .filter(stringIsEmpty.negate()).collect(Collectors.joining(SearchConstants.AND_CHAR_STR));
+            String searchParameters = context.getSearchParameters().stream()
+                    .map(p -> serializeSearchParmToQueryString(p))
+                    .filter(stringIsEmpty.negate())
+                    .collect(Collectors.joining(SearchConstants.AND_CHAR_STR));
             if (!searchParameters.isEmpty()) {
                 queryString.append(SearchConstants.AND_CHAR);
                 queryString.append(searchParameters);
