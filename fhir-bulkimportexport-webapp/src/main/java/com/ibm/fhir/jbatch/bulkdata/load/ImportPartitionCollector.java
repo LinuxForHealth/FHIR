@@ -80,7 +80,10 @@ public class ImportPartitionCollector implements PartitionCollector {
 
     @Override
     public Serializable collectPartitionData() throws Exception {
-        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && cosClient == null) {
+        boolean collectImportOperationOutcomes = FHIRConfigHelper
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
+
+        if (collectImportOperationOutcomes && cosClient == null) {
             boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
                 .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
             cosClient =
@@ -110,7 +113,7 @@ public class ImportPartitionCollector implements PartitionCollector {
         // (2) finish the multiple-parts uploads.
         // (3) release the resources hold by this partition.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
-            if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+            if (collectImportOperationOutcomes) {
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
                     if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {

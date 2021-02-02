@@ -151,6 +151,8 @@ public class ChunkWriter extends AbstractItemWriter {
                 @SuppressWarnings("unchecked")
                 List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
 
+                boolean collectImportOperationOutcomes = FHIRConfigHelper
+                        .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
                 for (Resource fhirResource : fhirResourceList) {
                     try {
                         BulkDataUtils.validateInput(fhirResource);
@@ -158,7 +160,8 @@ public class ChunkWriter extends AbstractItemWriter {
                         logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                         failedNum++;
                         failValidationIds.add(fhirResource.getId());
-                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+
+                        if (collectImportOperationOutcomes) {
                             OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
                             FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                             chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
@@ -176,6 +179,11 @@ public class ChunkWriter extends AbstractItemWriter {
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
         txn.begin();
+
+        // Controls the writing of operation outcomes to S3/COS
+        boolean collectImportOperationOutcomes = FHIRConfigHelper
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
+
         try {
             for (Object objResJsonList : arg0) {
                 @SuppressWarnings("unchecked")
@@ -199,14 +207,14 @@ public class ChunkWriter extends AbstractItemWriter {
                         }
 
                         succeededNum++;
-                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
+                        if (collectImportOperationOutcomes && operationOutcome != null) {
                             FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
                             chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
                         }
                     } catch (FHIROperationException e) {
                         logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                         failedNum++;
-                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+                        if (collectImportOperationOutcomes) {
                             OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
                             FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                             chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
@@ -231,7 +239,7 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.fine("writeItems: processed " + processedNum + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
         }
 
-        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+        if (collectImportOperationOutcomes) {
             pushImportOperationOutcomes2COS(chunkData);
         }
     }
