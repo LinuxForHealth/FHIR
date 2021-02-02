@@ -100,6 +100,7 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
