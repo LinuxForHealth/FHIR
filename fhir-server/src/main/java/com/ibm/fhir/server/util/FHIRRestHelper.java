@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -54,11 +55,13 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
@@ -70,6 +73,10 @@ import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -90,6 +97,9 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
@@ -2448,35 +2458,57 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                             .id(UUID.randomUUID().toString())
                                             .total(totalCount);
 
-        // Calculate how many resources are 'match' mode
-        int pageSize = searchContext.getPageSize();
-        int offset = (searchContext.getPageNumber() - 1) * pageSize;
-        int matchResourceCount = pageSize;
-        if (totalCount.getValue() < offset + pageSize) {
-            matchResourceCount = totalCount.getValue() - offset;
-        }
-
-        // Check if too many included resources
-        if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
-            throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
-        }
-
-        for (Resource resource : resources) {
-            if (resource.getId() == null) {
-                throw new IllegalStateException("Returned resources must have an id.");
+        if (resources.size() > 0) {
+            // Calculate how many resources are 'match' mode
+            int pageSize = searchContext.getPageSize();
+            int offset = (searchContext.getPageNumber() - 1) * pageSize;
+            int matchResourceCount = pageSize;
+            if (totalCount.getValue() < offset + pageSize) {
+                matchResourceCount = totalCount.getValue() - offset;
             }
-            // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
-            // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
-            Bundle.Entry entry = Bundle.Entry.builder()
-                    .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
-                    .resource(resource)
-                    .search(Search.builder()
-                        .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
-                        .score(Decimal.of("1"))
-                        .build())
-                    .build();
 
-            bundleBuilder.entry(entry);
+            // Check if too many included resources
+            if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
+                throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
+            }
+
+            // Check for versioned references in 'match' resources for chained search
+            List<Issue> issues = new ArrayList<>();
+            List<Resource> matchResources = resources.subList(0,  matchResourceCount);
+            for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
+                if (queryParameter.isChained() && !queryParameter.isReverseChained()) {
+                    // This is a chained search. Loop through results and generate an issue for any returned resource
+                    // that contains a versioned reference in the element associated with the chain search parameter.
+                    issues.addAll(checkForVersionedReference(ModelSupport.getResourceType(type), queryParameter, matchResources));
+                }
+            }
+
+            for (Resource resource : resources) {
+                if (resource.getId() == null) {
+                    throw new IllegalStateException("Returned resources must have an id.");
+                }
+                // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
+                // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
+                Bundle.Entry entry = Bundle.Entry.builder()
+                        .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
+                        .resource(resource)
+                        .search(Search.builder()
+                            .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
+                            .score(Decimal.of("1"))
+                            .build())
+                        .build();
+
+                bundleBuilder.entry(entry);
+            }
+
+            if (!issues.isEmpty()) {
+                // Add OperationOutcome resource containing issues
+                bundleBuilder.entry(
+                    Bundle.Entry.builder()
+                    .search(Search.builder().mode(SearchEntryMode.OUTCOME).build())
+                    .resource(FHIRUtil.buildOperationOutcome(issues))
+                    .build());
+            }
         }
 
         Bundle bundle = bundleBuilder.build();
@@ -2489,6 +2521,57 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         return bundle;
+    }
+
+    /**
+     * For a chained search, check for existence of a versioned reference in the field associated with the
+     * chain search parameter for any of the specified resources.
+     *
+     * @param resourceType
+     *            The search resource type.
+     * @param queryParameter
+     *            The chained query parameter.
+     * @param resources
+     *            The list of resources to check for versioned references.
+     * @return
+     *            A list of Issues, one per resource in which a versioned reference is found.
+     * @throws Exception
+     */
+    private List<Issue> checkForVersionedReference(Class<? extends Resource> resourceType, QueryParameter queryParameter, List<Resource> resources) throws Exception {
+        List<Issue> issues = new ArrayList<>();
+
+        // Since the chained search was successful, we can assume the search parameter exists and is valid and is of type Reference
+        SearchParameter chainSearchParm = null;
+        if (!Resource.class.equals(resourceType)) {
+            chainSearchParm = SearchUtil.getSearchParameter(resourceType, queryParameter.getCode());
+        }
+        for (Resource resource : resources) {
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            EvaluationContext evaluationContext = new EvaluationContext(resource);
+            SearchParameter searchParameter = null;
+            try {
+                if (chainSearchParm != null) {
+                    searchParameter = chainSearchParm;
+                } else {
+                    searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
+                }
+                Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
+                for (FHIRPathNode node : nodes) {
+                    Reference reference = node.asElementNode().element().as(Reference.class);
+                    ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
+                    if (rv.getVersion() != null &&
+                            (rv.getTargetResourceType() == null || rv.getTargetResourceType().equals(queryParameter.getModifierResourceTypeName()))) {
+                        String msg = "Resource with id '" + resource.getId() + "' contains a versioned reference in an element used for chained search, but chained search does not act on versioned references.";
+                        issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg, node.path()));
+                    }
+                }
+            } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
+                log.warning(String.format("Search Parameter includes an unsupported operation or bad expression : [%s] [%s] [%s]",
+                    searchParameter.getCode().getValue(), searchParameter.getExpression().getValue(), uoe.getMessage()));
+            }
+        }
+
+        return issues;
     }
 
     /**

@@ -32,6 +32,7 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -39,6 +40,7 @@ import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Observation.Component;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Person;
 import com.ibm.fhir.model.resource.Person.Link;
@@ -56,6 +58,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -71,6 +74,7 @@ public class SearchTest extends FHIRServerTestBase {
     private String allergyIntoleranceId;
     private String practitionerRoleId;
     private String provenanceId;
+    private String organizationId;
     private String carePlanId;
     private Patient patient4DuplicationTest = null;
     // Some of the tests run with tenant1 and datastore study1;
@@ -91,13 +95,68 @@ public class SearchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search" })
+    public void testCreateOrganization() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Organization and then call the 'create' API.
+        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+
+        organization = organization.toBuilder().name(com.ibm.fhir.model.type.String.of("test")).build();
+        Entity<Organization> entity =
+                Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Organization").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the organization's logical id value.
+        organizationId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new organization and verify it.
+        response = target.path("Organization/"
+                + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Organization responseOrganization = response.readEntity(Organization.class);
+        TestUtil.assertResourceEquals(organization, responseOrganization);
+
+        // Call the 'update' API.
+        entity = Entity.entity(responseOrganization, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response =
+                target.path("Organization/" + organizationId).request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .put(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Next, call the 'read' API to retrieve the new organization and verify version is 2.
+        response = target.path("Organization/"
+                + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        organization = response.readEntity(Organization.class);
+        assertEquals("2", organization.getMeta().getVersionId().getValue());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateOrganization" })
     public void testCreatePatient() throws Exception {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
-        patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
+        patient = patient.toBuilder()
+                .gender(AdministrativeGender.MALE)
+                .managingOrganization(Reference.builder()
+                    .reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationId + "/_history/1"))
+                    .build())
+                .build();
         Entity<Patient> entity =
                 Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -1264,12 +1323,17 @@ public class SearchTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(groups = { "server-search" })
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateOrganization" })
     public void testCreatePractitionerRole() throws Exception {
         WebTarget target = getWebTarget();
 
         PractitionerRole practitionerRole = TestUtil.readLocalResource("PractitionerRole.json");
 
+        practitionerRole = practitionerRole.toBuilder()
+                .organization(Reference.builder()
+                    .reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationId + "/_history/2"))
+                    .build())
+                .build();
         Entity<PractitionerRole> entity =
                 Entity.entity(practitionerRole, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -1502,6 +1566,127 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals(allergyIntoleranceId, allergyIntolerance.getId());
     }
 
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithValidVersionedOrganizationIncluded() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("organization", "Organization/" + organizationId)
+                                        .queryParam("_include", "Patient:organization")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+        Organization organization = null;
+        Patient patient = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null) {
+                if (entry.getResource() instanceof Organization) {
+                    organization = (Organization) entry.getResource();
+                } else if (entry.getResource() instanceof Patient) {
+                    patient = (Patient) entry.getResource();
+                }
+            }
+        }
+        assertNotNull(organization);
+        assertNotNull(patient);
+        assertEquals(organizationId, organization.getId());
+        assertEquals("1", organization.getMeta().getVersionId().getValue());
+        assertEquals(patientId, patient.getId());
+        assertEquals("Organization/"
+                + organizationId + "/_history/1", patient.getManagingOrganization().getReference().getValue());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitionerRole" })
+    public void testSearchPractitionerRoleWithValidVersionedOrganizationIncluded() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("PractitionerRole").queryParam("organization", "Organization/" + organizationId)
+                                                 .queryParam("_include", "PractitionerRole:organization")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+        Organization organization = null;
+        PractitionerRole practitionerRole = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null) {
+                if (entry.getResource() instanceof Organization) {
+                    organization = (Organization) entry.getResource();
+                } else if (entry.getResource() instanceof PractitionerRole) {
+                    practitionerRole = (PractitionerRole) entry.getResource();
+                }
+            }
+        }
+        assertNotNull(organization);
+        assertNotNull(practitionerRole);
+        assertEquals(organizationId, organization.getId());
+        assertEquals("2", organization.getMeta().getVersionId().getValue());
+        assertEquals(practitionerRoleId, practitionerRole.getId());
+        assertEquals("Organization/"
+                + organizationId + "/_history/2", practitionerRole.getOrganization().getReference().getValue());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitionerRole" })
+    public void testSearchOrganizationWithPractitionerRoleValidVersionedReferenceRevincluded() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization").queryParam("_id", organizationId)
+                                                 .queryParam("_revinclude", "PractitionerRole:organization")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 2);
+        Organization organization = null;
+        PractitionerRole practitionerRole = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null) {
+                if (entry.getResource() instanceof Organization) {
+                    organization = (Organization) entry.getResource();
+                } else if (entry.getResource() instanceof PractitionerRole) {
+                    practitionerRole = (PractitionerRole) entry.getResource();
+                }
+            }
+        }
+        assertNotNull(organization);
+        assertNotNull(practitionerRole);
+        assertEquals(organizationId, organization.getId());
+        assertEquals("2", organization.getMeta().getVersionId().getValue());
+        assertEquals(practitionerRoleId, practitionerRole.getId());
+        assertEquals("Organization/"
+                + organizationId + "/_history/2", practitionerRole.getOrganization().getReference().getValue());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchOrganizationWithPatientInvalidVersionedReferenceRevincluded() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization").queryParam("_id", organizationId)
+                                                 .queryParam("_revinclude", "Patient:organization")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+        Organization organization = (Organization) bundle.getEntry().get(0).getResource();
+        assertNotNull(organization);
+        assertEquals(organizationId, organization.getId());
+        assertEquals("2", organization.getMeta().getVersionId().getValue());
+}
     @Test(groups = { "server-search" })
     public void test_SearchCarePlan_APDate() throws Exception {
         WebTarget target = getWebTarget();
