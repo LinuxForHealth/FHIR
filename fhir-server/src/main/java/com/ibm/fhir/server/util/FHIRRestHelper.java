@@ -97,10 +97,10 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
@@ -751,12 +751,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
+                boolean lenient = HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference());
+
+                // Determine if any non-general search parameters are specified
                 if (!queryParameters.keySet().stream().allMatch(k -> FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k))) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            "Read only supports general search parameters.");
+                    FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Read only supports general search parameters.");
+                    if (!lenient) {
+                        throw se;
+                    }
+                    log.log(Level.FINE, "Error while parsing search parameters for resource type " + type, se);
                 }
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters,
-                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+
+                // Parse search parameters
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, lenient);
             }
 
             // First, invoke the 'beforeRead' interceptor methods.
