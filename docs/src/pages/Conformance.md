@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-11-03 01:00:00 -0400
+date:   2021-01-19 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -20,6 +20,8 @@ The HL7 FHIR specification is more than just a data format. It defines an [HTTP 
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
 The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
+
+By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### Extended operations
 The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
@@ -126,7 +128,9 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to request up to 1000 records matching the search criteria.  An attempt to exceed this `_count` limit will not be honored and returned records will be capped at 1000.  Any associated `_include` records are not considered in the `_count` limit. 
+The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
+
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail.
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 

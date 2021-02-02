@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,11 +44,10 @@ public class DateParmBehaviorUtil {
     public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
             List<Timestamp> bindVariables,
             String tableAlias) {
-        // Start the Clause 
+        // Start the Clause
         // Query: AND ((
         whereClauseSegment.append(AND).append(LEFT_PAREN).append(LEFT_PAREN);
 
-        // Initially we don't want to 
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
             // If multiple values are present, we need to OR them together.
@@ -56,11 +55,11 @@ public class DateParmBehaviorUtil {
                 // OR
                 whereClauseSegment.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
             } else {
-                // Signal to the downstream to treat any subsequent value as an OR condition 
+                // Signal to the downstream to treat any subsequent value as an OR condition
                 parmValueProcessed = true;
             }
 
-            // Let's get the prefix. 
+            // Let's get the prefix.
             Prefix prefix = value.getPrefix();
             if (prefix == null) {
                 // Default to EQ
@@ -72,14 +71,14 @@ public class DateParmBehaviorUtil {
             buildPredicates(whereClauseSegment, bindVariables, tableAlias, prefix, lowerBound, upperBound);
         }
 
-        // End the Clause started above, and closes the parameter expression. 
+        // End the Clause started above, and closes the parameter expression.
         // Query: )))
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN).append(RIGHT_PAREN);
     }
 
     /**
      * builds query elements based on prefix type.
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -128,6 +127,7 @@ public class DateParmBehaviorUtil {
             // AP - Approximate - Relative
             // -10% of the Lower Bound
             // +10% of the Upper Bound
+            // the range of the search value overlaps with the range of the target value
             buildApproxRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound);
             break;
         case NE:
@@ -146,7 +146,7 @@ public class DateParmBehaviorUtil {
 
     /**
      * builds the common clause
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -162,7 +162,7 @@ public class DateParmBehaviorUtil {
 
     /**
      * builds equals range
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -186,7 +186,7 @@ public class DateParmBehaviorUtil {
 
     /**
      * builds approximate range clause
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -198,9 +198,9 @@ public class DateParmBehaviorUtil {
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(DATE_START).append(GTE).append(BIND_VAR)
+                     .append(tableAlias).append(DOT).append(DATE_END).append(GTE).append(BIND_VAR)
                 .append(AND)
-                     .append(tableAlias).append(DOT).append(DATE_END).append(LTE).append(BIND_VAR)
+                     .append(tableAlias).append(DOT).append(DATE_START).append(LTE).append(BIND_VAR)
                 .append(RIGHT_PAREN);
         // @formatter:on
 
@@ -210,7 +210,7 @@ public class DateParmBehaviorUtil {
 
     /**
      * build not equals range clause
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias

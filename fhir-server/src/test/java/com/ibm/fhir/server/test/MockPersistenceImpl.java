@@ -1,13 +1,12 @@
-package com.ibm.fhir.server.test;
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-
+package com.ibm.fhir.server.test;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Builder;
@@ -19,6 +18,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -26,7 +26,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
- *
  */
 public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
@@ -38,7 +37,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
                 .resource(updatedResource);
-    	return resultBuilder.build();
+        return resultBuilder.build();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,10 +56,20 @@ public class MockPersistenceImpl implements FHIRPersistence {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
         throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
-        return null;
+        if (logicalId.startsWith("generated")) {
+            return new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource(null).build();
+        } else {
+            T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
+            return new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource(updatedResource).build();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -83,9 +92,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
         return resultBuilder.build();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
-        return null;
+        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
+        return new MultiResourceResult.Builder<T>()
+                .success(true)
+                .resource(updatedResource).build();
     }
 
     @Override
@@ -118,5 +131,22 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public int reindex(FHIRPersistenceContext context, Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
+        SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
+                .success(true)
+                .resource(updatedResource);
+        return resultBuilder.build();
+    }
+
+    @Override
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
+        java.time.Instant toLastModified, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
+        // NOP
+        return null;
     }
 }

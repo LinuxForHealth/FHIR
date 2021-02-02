@@ -116,6 +116,9 @@ public class FHIRRestServletFilter extends HttpFilter {
         log.info("Received request: " + encodedRequestDescription);
 
         try {
+            // Checks for Valid Tenant Configuration
+            checkValidTenantConfiguration(tenantId);
+
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
             // Don't try using FHIRConfigHelper before setting the context!
@@ -182,12 +185,34 @@ public class FHIRRestServletFilter extends HttpFilter {
         }
     }
 
+    /*
+     * Checks that the tenant has a valid configuration.
+     *
+     * @param tenantId the tenant that's configuration is going to be checked
+     * @throws Exception
+     */
+    private void checkValidTenantConfiguration(String tenantId) throws Exception {
+        try {
+            PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
+            if(fhirConfig == null) {
+                log.severe("Missing tenant configuration for '"  + tenantId + "'");
+                throw new FHIRException("Tenant configuration does not exist: " + tenantId);
+            }
+        } catch (FHIRException fe) {
+            throw fe;
+        } catch (Throwable t) {
+            String msg = "Unexpected error while retrieving configuration.";
+            log.severe(msg + " " + t);
+            throw new Exception(msg);
+        }
+    }
+
     /**
      * @return a map of HTTP request headers, keyed by header name
      */
     private Map<String, List<String>> extractRequestHeaders(HttpServletRequest request) {
         // Uses LinkedHashMap just to preserve the order.
-        Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
+        Map<String, List<String>> requestHeaders = new LinkedHashMap<>();
 
         List<String> headerNames = Collections.list(request.getHeaderNames());
         for (String headerName : headerNames) {

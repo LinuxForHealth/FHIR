@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,7 +58,7 @@ public class DummyImportExportImplTest {
         DummyImportExportImpl impl = new DummyImportExportImpl();
         Parameters parmetersOut =
                 impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
-                        null, null, operationContext, resourceHelper);
+                        null, null, operationContext, resourceHelper, null);
         assertNotNull(parmetersOut);
     }
 
@@ -76,7 +76,7 @@ public class DummyImportExportImplTest {
         while (idx != 4) {
             try {
                 impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
-                        null, null, operationContext, resourceHelper);
+                        null, null, operationContext, resourceHelper, null);
                 break;
             } catch (Exception fe) {
                 if (fe instanceof FHIROperationException) {
@@ -106,7 +106,7 @@ public class DummyImportExportImplTest {
         while (idx != 4) {
             try {
                 impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
-                        null, null, operationContext, resourceHelper);
+                        null, null, operationContext, resourceHelper, null);
                 break;
             } catch (Exception fe) {
                 if (fe instanceof FHIROperationException) {
@@ -135,7 +135,7 @@ public class DummyImportExportImplTest {
         while (idx != 4) {
             try {
                 impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
-                        null, null, operationContext, resourceHelper);
+                        null, null, operationContext, resourceHelper, null);
                 break;
             } catch (Exception e) {
             }
@@ -157,7 +157,7 @@ public class DummyImportExportImplTest {
         while (idx != 4) {
             try {
                 impl.export(logicalId, ExportType.SYSTEM, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
-                        null, null, operationContext, resourceHelper);
+                        null, null, operationContext, resourceHelper, null);
                 break;
             } catch (Exception e) {
             }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,6 +35,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Observation.Component;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -70,6 +71,7 @@ public class SearchTest extends FHIRServerTestBase {
     private String allergyIntoleranceId;
     private String practitionerRoleId;
     private String provenanceId;
+    private String carePlanId;
     private Patient patient4DuplicationTest = null;
     // Some of the tests run with tenant1 and datastore study1;
     // The others run with the default tenant and the default datastore.
@@ -639,6 +641,9 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+        // verify link does not include consecutive '&' characters
+        assertTrue(bundle.getLink().size() >= 1);
+        assertFalse(bundle.getLink().get(0).getUrl().getValue().contains("&&"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
@@ -1496,4 +1501,38 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(allergyIntolerance);
         assertEquals(allergyIntoleranceId, allergyIntolerance.getId());
     }
+
+    @Test(groups = { "server-search" })
+    public void test_SearchCarePlan_APDate() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Create the CarePlan that has a start date but no end date
+        CarePlan carePlan = TestUtil.readLocalResource("CarePlan.json");
+        Entity<CarePlan> entity =
+                Entity.entity(carePlan, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("CarePlan").request()
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        carePlanId = getLocationLogicalId(response);
+
+        // Search for the CarePlan with an approximate date search
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", carePlanId);
+        parameters.searchParam("date", "ap2021-01-01");
+        FHIRResponse fhirResponse = client._search("CarePlan", parameters);
+        assertResponse(fhirResponse.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = fhirResponse.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+        CarePlan responseCarePlan = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof CarePlan) {
+                responseCarePlan = (CarePlan) entry.getResource();
+            }
+        }
+        assertNotNull(responseCarePlan);
+        assertEquals(carePlanId, responseCarePlan.getId());
+    }
+
 }

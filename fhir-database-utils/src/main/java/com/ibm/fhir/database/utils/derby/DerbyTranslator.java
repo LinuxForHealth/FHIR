@@ -165,7 +165,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
     public boolean clobSupportsInline() {
         return false;
     }
-    
+
     @Override
     public DbType getType() {
         return DbType.DERBY;
@@ -181,21 +181,26 @@ public class DerbyTranslator implements IDatabaseTranslator {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "VALUES(NEXT VALUE FOR " + qname + ")";
     }
-    
+
     @Override
     public String currentTimestampString() {
         return "CURRENT TIMESTAMP";
     }
-    
+
     @Override
     public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
         // Same syntax as DB2
         return "ALTER TABLE " + qualifiedTableName + " DROP FOREIGN KEY " + constraintName;
     }
-    
+
     @Override
     public String nextValue(String schemaName, String sequenceName) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "NEXT VALUE FOR " + qname;
+    }
+
+    @Override
+    public String limit(String arg) {
+        return "FETCH FIRST " + arg + " ROWS ONLY";
     }
 }
