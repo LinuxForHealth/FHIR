@@ -376,12 +376,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setLastUpdated(timestamp);
             resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
 
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
-            zipStream.close();
+            if (this.payloadPersistence == null) {
+                // Store the payload in our RDBMS schema
+                GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+                FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
+                zipStream.finish();
+                resourceDTO.setData(stream.toByteArray());
+                zipStream.close();
+            } else {
+                // just to make the point that the payload isn't stored here
+                resourceDTO.setData(null);
+            }
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
             // given the connection to use while processing this request
@@ -394,6 +399,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
+            }
+
+            // If payload persistence is being offloaded to another service (like COS), store it now
+            if (this.payloadPersistence != null) {
+                // TODO use a strategy to determine the partition name
+                GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+                FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
+                zipStream.finish();
+                int resourceTypeId = resourceDao.getResourceTypeIdFromCaches(resourceDTO.getResourceType());
+                payloadPersistence.storePayload("default", resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), stream.toByteArray());
+                zipStream.close();
             }
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
@@ -902,12 +918,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
-            resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
+            final String resourceTypeName = resourceType.getSimpleName();
+            resourceDTO = resourceDao.read(logicalId, resourceTypeName);
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
             }
-            resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
+
+            if (this.payloadPersistence != null) {
+                // The payload needs to be read from the FHIRPayloadPersistence impl
+                final String partitionId = "default"; // TODO - need a partition strategy
+                resource = payloadPersistence.readResource(partitionId, resourceDao.getResourceTypeIdFromCaches(resourceTypeName), resourceDTO.getLogicalId(), resourceDTO.getVersionId());
+            } else {
+                // original impl - the resource was read from the RDBMS
+                resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
+            }
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)

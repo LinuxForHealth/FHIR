@@ -22,6 +22,7 @@ import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.cassandra.payload.CqlChunkedPayloadStream;
 
 /**
  * Reads the latest version of a resource

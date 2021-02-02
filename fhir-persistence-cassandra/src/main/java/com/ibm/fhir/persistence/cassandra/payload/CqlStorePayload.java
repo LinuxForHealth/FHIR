@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.BatchStatement;
@@ -27,11 +29,14 @@ import com.datastax.oss.driver.api.core.cql.DefaultBatchType;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.insert.RegularInsert;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
  * DAO to store the resource record and payload data chunks
  */
 public class CqlStorePayload {
+    private static final Logger logger = Logger.getLogger(CqlStorePayload.class.getName());
 
     // Possibly patient, or some other partitioning key
     private final String partitionId;
@@ -62,7 +67,7 @@ public class CqlStorePayload {
      * read are all associated with the same update
      * @param session
      */
-    public void run(CqlSession session) {
+    public void run(CqlSession session) throws FHIRPersistenceException {
         // Random id string used to tie together the resource record to
         // the child payload chunk records. This is needed because
         // we may split the payload into multiple chunks - but only if
@@ -80,9 +85,9 @@ public class CqlStorePayload {
     /**
      * Store the resource record
      * @param session
+     * @param payloadId the unique id for storing the payload in multiple chunks
      */
-    private boolean storeResource(CqlSession session, String payloadId) {
-        boolean result;
+    private void storeResource(CqlSession session, String payloadId) throws FHIRPersistenceException {
         RegularInsert insert =
                 insertInto(LOGICAL_RESOURCES)
                 .value("partition_id", literal(partitionId))
@@ -105,29 +110,26 @@ public class CqlStorePayload {
 
         if (payloadId != null) {
             // payload is too big to go in the main table, so just store the reference id here
-            bsb.setString(3, payloadId);
+            bsb.setString(4, payloadId);
         } else {
             // small enough, so we store directly in the main logical_resources table
             ByteBuffer bb = ByteBuffer.wrap(payload);
-            bsb.setByteBuffer(3, bb);
+            bsb.setByteBuffer(4, bb);
         }
 
         try {
             session.execute(bsb.build());
-            result = true; // insert was successful
         } catch (Exception x) {
-            result = false; // primary key violated. Increment the version and try again
+            logger.log(Level.SEVERE, "insert into logical_resources failed for '"
+                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
+            throw new FHIRPersistenceDataAccessException("Failed inserting into " + LOGICAL_RESOURCES);
         }
-
-        return result;
     }
 
     /**
      * Store the payload data as a contiguous set of rows ordered by
-     * an ordinal which is used to retrieve the data in the same
-     * order so that the original payload byte array can be
-     * reconstituted. The payload id comes from a UUID, so we
-     * know these will all be new rows.
+     * an ordinal which, being part of the key, is used to retrieve the data in the same
+     * order so that the original order.
      * @param session
      */
     private void storePayloadChunks(CqlSession session, String payloadId) {

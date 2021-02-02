@@ -4,66 +4,80 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.scout.app;
+package com.ibm.fhir.persistence.cos.app;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.datastax.oss.driver.api.core.CqlSession;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
-import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
-import com.ibm.fhir.persistence.scout.cql.CreateSchema;
-import com.ibm.fhir.persistence.scout.cql.DatasourceSessions;
+import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
+import com.ibm.fhir.persistence.cos.client.COSPayloadHelper;
+import com.ibm.fhir.persistence.cos.impl.COSClientManager;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * Bootstrap all the Cassandra databases for the given tenant
+ * Utility app to bootstrap the COS payload datastore for the given tenant. For
+ * COS, this just requires ensuring we have the bucket defined.
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    private static void bootstrapTenant(String tenantId) throws Exception {
+    /**
+     *
+     * @param tenantId
+     * @throws Exception
+     */
+    private static void bootstrapCosForTenant(String tenantId, String dsId) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, "default"));
-        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
+
+        // Obtain the PropertyGroup for the payload datasource configuration for
+        // the current tenant
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + dsId);
         if (pg != null) {
-            for (PropertyEntry pe: pg.getProperties()) {
-                final String dsId = pe.getName();
-                PropertyGroup datasourceEntry = pg.getPropertyGroup(dsId);
-                if (datasourceEntry != null) {
-                    bootstrapTenantDatasource(tenantId, dsId);
-                } else {
-                    // configuration file is broken
-                    throw new IllegalStateException("Datasource property is not a PropertyGroup: " + dsId);
+            if ("cos".equals(pg.getStringProperty("type"))) {
+                String bucketName = pg.getStringProperty("bucketName");
+                if (bucketName == null || bucketName.isEmpty()) {
+                    // Compute a deterministic value for the bucket based on tenantId
+                    bucketName = COSPayloadHelper.makeTenantBucketName(tenantId);
                 }
+                createBucket(bucketName);
+            } else {
+                // Not a COS datasource
+                logger.warning("NOP. Payload datasource configuration type is not cos: '" + pg.getStringProperty("type") + "'");
             }
         } else {
-            throw new IllegalArgumentException("Tenant not found: " + tenantId);
+            throw new IllegalArgumentException("Tenant payload datasources configuration not found: " + tenantId);
         }
     }
-    
-    private static void bootstrapTenantDatasource(String tenantId, String dsId) {
-        CqlSession session = DatasourceSessions.getSessionForBootstrap(tenantId, dsId);
-        CreateSchema createSchema = new CreateSchema(tenantId);
-        createSchema.createKeyspace(session, "SimpleStrategy", 2);
-        createSchema.run(session);
+
+    /**
+     * Make sure we have a bucket for the tenant
+     * @param tenantId
+     * @param dsId
+     */
+    private static void createBucket(String bucketName) throws FHIRPersistenceException {
+        COSPayloadClient cosClient = COSClientManager.getClientForTenantDatasource();
+        cosClient.createBucketIfNeeded(bucketName);
     }
-    
+
     public static void main(String[] args) {
         if (args.length < 2) {
-            throw new IllegalArgumentException("Usage: java -jar scoutapp.jar <fhir-config-dir> <tenant-id>");
+            throw new IllegalArgumentException("Usage: java -jar payloadcosapp.jar <fhir-config-dir> <tenant-id>");
         }
-        
+
         final String fhirConfigDir = args[0];
         final String tenantId = args[1];
         try {
             FHIRConfiguration.setConfigHome(fhirConfigDir);
-            
+
             try {
-                bootstrapTenant(tenantId);
+                // currently we only support one payload datasource
+                bootstrapCosForTenant(tenantId, "default");
             } finally {
-                DatasourceSessions.shutdown();
+                COSClientManager.shutdown();
             }
         } catch (Exception x) {
             logger.log(Level.SEVERE, "bootstrap failed for tenant: " + tenantId, x);

@@ -12,10 +12,12 @@ package com.ibm.fhir.persistence.cassandra.cql;
  */
 public class TenantDatasourceKey {
 
+    // Id representing the tenant
     private final String tenantId;
-    
+
+    // Id representing the datasource for a given tenant
     private final String datasourceId;
-    
+
     public TenantDatasourceKey(String tenantId, String datasourceId) {
         this.tenantId = tenantId;
         this.datasourceId = datasourceId;
@@ -25,7 +27,7 @@ public class TenantDatasourceKey {
     public int hashCode() {
         return 37 * tenantId.hashCode() + datasourceId.hashCode();
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TenantDatasourceKey) {
@@ -37,7 +39,7 @@ public class TenantDatasourceKey {
         }
     }
 
-    
+
     /**
      * @return the tenantId
      */
@@ -45,7 +47,7 @@ public class TenantDatasourceKey {
         return tenantId;
     }
 
-    
+
     /**
      * @return the datasourceId
      */

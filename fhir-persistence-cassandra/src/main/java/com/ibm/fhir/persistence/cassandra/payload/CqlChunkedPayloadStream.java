@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.scout.cql;
+package com.ibm.fhir.persistence.cassandra.payload;
 
 import java.io.IOException;
 import java.io.InputStream;
