@@ -619,6 +619,7 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
+        builder.incomingUrl(properties.get(BulkDataConfigUtil.INCOMING_URL));
         builder.jobXMLName("FhirBulkImportChunkJob");
 
         // Add import specific: fhir.dataSourcesInfo

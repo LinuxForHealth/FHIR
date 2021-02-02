@@ -135,7 +135,7 @@ public class ImportPartitionMapper implements PartitionMapper {
     @Inject
     @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
-    
+
     /**
      * Fhir tenant id.
      */
@@ -289,9 +289,12 @@ public class ImportPartitionMapper implements PartitionMapper {
     @Override
     public PartitionPlan mapPartitions() throws Exception {
         JsonArray dataSourceArray = BulkDataUtils.getDataSourcesFromJobInput(dataSourcesInfo);
-
+       System.out.println(dataSourceArray);
+       System.out.println("Data Source Storage Type -> " + dataSourceStorageType);
         List<FhirDataSource> fhirDataSources =
                 getFhirDataSources(dataSourceArray, BulkImportDataSourceStorageType.from(dataSourceStorageType));
+        System.out.println(fhirDataSources);
+        System.out.println(fhirDataSources.size());
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(fhirDataSources.size());
         pp.setThreads(Math.min(Constants.IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, fhirDataSources.size()));
@@ -304,6 +307,7 @@ public class ImportPartitionMapper implements PartitionMapper {
             p.setProperty(Constants.PARTITION_RESOURCE_TYPE, fhirDataSource.getType());
 
             partitionProps[propCount++] = p;
+            System.out.println(p);
         }
         pp.setPartitionProperties(partitionProps);
 
