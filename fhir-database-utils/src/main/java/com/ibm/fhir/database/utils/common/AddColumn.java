@@ -18,7 +18,7 @@ import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.DbType;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 
 /**
  * Add column to the schema.table
@@ -53,7 +53,7 @@ public class AddColumn implements IDatabaseStatement {
         } else if (driveClassName.contains(DbType.DERBY.value())) {
             dbAdapter = new DerbyAdapter();
         } else if (driveClassName.contains(DbType.POSTGRESQL.value())) {
-            dbAdapter = new PostgreSqlAdapter();
+            dbAdapter = new PostgresAdapter();
         }
 
         String ddl = "ALTER TABLE " + qname + " ADD COLUMN " + columnDef(column, dbAdapter);

@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.postgresql;
+package com.ibm.fhir.persistence.jdbc.postgres;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 
@@ -52,20 +52,20 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
  * @implNote This class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
  */
-public class PostgreSqlResourceNoProcDAO extends ResourceDAOImpl {
-    private static final Logger logger = Logger.getLogger(PostgreSqlResourceDAO.class.getName());
-    private static final String CLASSNAME = PostgreSqlResourceDAO.class.getSimpleName();
+public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
+    private static final String CLASSNAME = PostgresResourceNoProcDAO.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgreSqlResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
+    public PostgresResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
         super(connection, schemaName, flavor, cache, rrd);
     }
 
-    public PostgreSqlResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+    public PostgresResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
         ParameterTransactionDataImpl ptdi) {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }

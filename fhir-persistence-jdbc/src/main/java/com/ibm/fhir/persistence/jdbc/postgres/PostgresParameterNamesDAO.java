@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.postgresql;
+package com.ibm.fhir.persistence.jdbc.postgres;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,12 +15,13 @@ import java.util.logging.Logger;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
-public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
-    private static final Logger log = Logger.getLogger(PostgreSqlParameterNamesDAO.class.getName());
-    private static final String CLASSNAME = PostgreSqlParameterNamesDAO.class.getName();
+public class PostgresParameterNamesDAO extends ParameterNameDAOImpl {
+    private static final String CLASSNAME = PostgresParameterNamesDAO.class.getName();
+    private static final Logger log = Logger.getLogger(CLASSNAME);
+
     private static final String SQL_CALL_ADD_PARAMETER_NAME = "{CALL %s.add_parameter_name(?, ?)}";
 
-    public PostgreSqlParameterNamesDAO(Connection c, String schemaName) {
+    public PostgresParameterNamesDAO(Connection c, String schemaName) {
         super(c, schemaName);
     }
 

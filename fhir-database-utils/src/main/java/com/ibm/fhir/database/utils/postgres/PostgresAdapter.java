@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.postgresql;
+package com.ibm.fhir.database.utils.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,8 +36,8 @@ import com.ibm.fhir.database.utils.model.Table;
 /**
  * A PostgreSql database target
  */
-public class PostgreSqlAdapter extends CommonDatabaseAdapter {
-    private static final Logger logger = Logger.getLogger(PostgreSqlAdapter.class.getName());
+public class PostgresAdapter extends CommonDatabaseAdapter {
+    private static final Logger logger = Logger.getLogger(PostgresAdapter.class.getName());
 
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
@@ -64,15 +64,15 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
      * Public constructor
      * @param tgt the target database we want to manage
      */
-    public PostgreSqlAdapter(IDatabaseTarget tgt) {
-        super(tgt, new PostgreSqlTranslator());
+    public PostgresAdapter(IDatabaseTarget tgt) {
+        super(tgt, new PostgresTranslator());
     }
 
-    public PostgreSqlAdapter(IConnectionProvider cp) {
-        super(cp, new PostgreSqlTranslator());
+    public PostgresAdapter(IConnectionProvider cp) {
+        super(cp, new PostgresTranslator());
     }
 
-    public PostgreSqlAdapter() {
+    public PostgresAdapter() {
         super();
     }
 
@@ -183,7 +183,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
 
     @Override
     public boolean doesTableExist(String schemaName, String tableName) {
-        PostgreSqlDoesTableExist dao = new PostgreSqlDoesTableExist(schemaName, tableName);
+        PostgresDoesTableExist dao = new PostgresDoesTableExist(schemaName, tableName);
         return runStatement(dao);
     }
 
@@ -198,8 +198,8 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
                 + " INCREMENT BY " + incrementBy
-                + " START WITH " + startWith 
-                + " CACHE " + cache 
+                + " START WITH " + startWith
+                + " CACHE " + cache
                 + " NO CYCLE";
         runStatement(ddl);
     }
@@ -224,7 +224,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // PostgreSql doesn't support the timestamp precision argument
         return "TIMESTAMP";
     }
-    
+
 
     @Override
     public String doubleClause() {
@@ -309,7 +309,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     /*
-     * @implNote the following are NOT supported on postgres, and thus, we're logging out FINE only. 
+     * @implNote the following are NOT supported on postgres, and thus, we're logging out FINE only.
      */
     @Override
     public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
@@ -322,13 +322,13 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.fine("Grant procedure not run on [" + objectName + "]. This is as expected");
     }
-    
+
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.fine("Drop procedure not run on [" + objectName + "]. This is as expected");
     }
-    
+
     @Override
     public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
         warnOnce(MessageKey.PARTITIONING, "Partitioning not supported. This is as expected");
@@ -374,14 +374,14 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
     }
-    
+
     @Override
     public void alterTableColumnIdentityCache(String schemaName, String tableName, String columnName, int cache) {
         // Not supported by PostgreSQL
-        
+
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertValidName(columnName);
-        
+
         // modify the CACHE property of the identity column
         final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
 
