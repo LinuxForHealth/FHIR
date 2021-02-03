@@ -376,8 +376,8 @@ java \
   --reindex-concurrent-requests 20
 ```
 
-The format of the reindex timestamp can be a date `YYYY-MM-DD` representing midnight UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.
+The format of the reindex timestamp can be a date `YYYY-MM-DD` representing `00:00:00` UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.
 
 Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time.
 
-The value for --reindex-concurrent-requests can be increased/decreased to maximize throughput or avoid overloading a system. The number represents the total number of client threads used to invoke the $reindex operation. Each thread uses its own connection to the IBM FHIR Server so you must also set --max-concurrent-fhir-requests to be at least equal to --reindex-concurrent-requests.
+The value for `--reindex-concurrent-requests` can be increased/decreased to maximize throughput or avoid overloading a system. The number represents the total number of client threads used to invoke the $reindex operation. Each thread uses its own connection to the IBM FHIR Server so you must also set `--max-concurrent-fhir-requests` to be at least equal to `--reindex-concurrent-requests`.
