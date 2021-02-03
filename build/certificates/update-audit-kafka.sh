@@ -58,5 +58,4 @@ done | grep -e 'Alias\|Valid\|STORE\|-------------\|Serial'
 
 create_kafka_ci
 
-
 # EOF

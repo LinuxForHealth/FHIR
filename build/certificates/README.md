@@ -84,7 +84,7 @@ Note, the `tmp` folder should exist and be empty.
 # Server: Continuous Integration Certificates
 
 The following certifiates are used with the IBM FHIR Server. 
-This should be run before the update-fhir-client.sh (second to last).
+This should be run before the update-fhir-client.sh and update-minio.sh (third to last).
 
 ```
 fhir-server/liberty-config/resources/security/fhirKeyStore.p12
