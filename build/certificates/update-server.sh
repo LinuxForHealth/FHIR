@@ -29,8 +29,10 @@
 keytool -list -keystore ${WORKSPACE}/fhir-server/liberty-config/resources/security/fhirTrustStore.p12 -storepass ${CHANGE_PASSWORD} -v
 keytool -list -keystore ${WORKSPACE}/fhir-server/liberty-config/resources/security/fhirKeyStore.p12 -storepass ${CHANGE_PASSWORD} -v
 
-openssl req -new -newkey rsa:4096 -x509  -keyout fhir.key -out fhir.crt -days 10960 -subj '/C=us/O=ibm/OU=defaultServer/cn=localhost' -passin pass:change-password -passout pass:change-password
+# Root CA
+openssl req -new -newkey rsa:4096 -x509  -keyout fhir.key -out fhir.crt -days 10960 -subj '/C=US/O=IBM Corporation/OU=IBM Watson Health' -passin pass:change-password -passout pass:change-password
 
+# Create the Keystore with a temporary key
 keytool -genkey -noprompt \
     -alias default \
     -dname "CN=localhost, OU=defaultServer, O=ibm, C=us" \
@@ -42,21 +44,32 @@ keytool -genkey -noprompt \
     -storepass change-password \
     -keypass change-password
 
-keytool -keystore fhirKeyStore.p12 -alias default -certreq -file fhir.csr -storepass change-password -keypass change-password
-openssl x509 -req -CA fhir.crt -CAkey fhir.key -in fhir.csr -out fhir-signed.crt -days 10960 -CAcreateserial -passin pass:change-password
+# Create the Cert Request 
+keytool -keystore fhirKeyStore.p12 -alias default -certreq -file server.csr -storepass change-password -keypass change-password
+
+# Sign the Certificate Request
+openssl x509 -req -CA fhir.crt -CAkey fhir.key -in server.csr -out signed.crt -days 10960 -CAcreateserial -passin pass:change-password
+
+# Add the Certificate Authority that signed it
 keytool -keystore fhirKeyStore.p12 -alias libertyop -import -file fhir.crt -storepass change-password -keypass change-password -noprompt
-keytool -keystore fhirKeyStore.p12 -alias default -import -file fhir-signed.crt -storepass change-password -keypass change-password -noprompt
+
+# Add the Signed Certificate as the chain is now in place
+keytool -keystore fhirKeyStore.p12 -alias default -import -file signed.crt -storepass change-password -keypass change-password -noprompt
+
+# Create the Truststore
 keytool -keystore fhirTrustStore.p12 -alias libertyop -import -file fhir.crt -storepass change-password -keypass change-password -noprompt
 
+####
 # Import Minio
 keytool -keystore fhirTrustStore.p12 -alias minio -import -file ${WORKSPACE}/build/docker/minio/public.crt -storepass change-password -keypass change-password -noprompt
 
+####
 # Create fhiruser
-openssl req -new -newkey rsa:4096 -x509  -keyout fhiruser.key -out fhiruser.crt -days 10960 -subj '/C=US/OID.2.5.4.17=78758/ST=Texas/L=Austin/O=IBM Corporation/OU=IBM WatsonHealth/CN=fhiruser' -passin pass:change-password -passout pass:change-password
 
+# Generate the Temporary Certificate
 keytool -genkey -noprompt \
     -alias client-auth \
-    -dname "CN=fhiruser, OU=IBM WatsonHealth, O=IBM Corporation, L=Austin, ST=Texas, OID.2.5.4.17=78758, C=US" \
+    -dname "CN=fhiruser, OU=IBM Watson Health, O=IBM Corporation, C=US" \
     -keystore fhiruserKeyStore.p12 \
     -keyalg RSA \
     -storetype PKCS12 \
@@ -65,20 +78,23 @@ keytool -genkey -noprompt \
     -storepass change-password \
     -keypass change-password
 
+# Create the Certificate Request
 keytool -keystore fhiruserKeyStore.p12 -alias client-auth -certreq -file client-auth.csr -storepass change-password -keypass change-password
-openssl x509 -req -CA fhiruser.crt -CAkey fhiruser.key -in client-auth.csr -out client-signed.crt -days 10960 -CAcreateserial -passin pass:change-password
-keytool -keystore fhiruserKeyStore.p12 -alias CARoot -import -file fhiruser.crt -storepass change-password -keypass change-password -noprompt
+
+# Sign the Cert with the fhir CA
+openssl x509 -req -CA fhir.crt -CAkey fhir.key -in client-auth.csr -out client-signed.crt -days 10960 -CAcreateserial -passin pass:change-password
+
+# Add the CA
+keytool -keystore fhiruserKeyStore.p12 -alias ca-root -import -file fhir.crt -storepass change-password -keypass change-password -noprompt
+
+# Add the Signed Cert
 keytool -keystore fhiruserKeyStore.p12 -alias client-auth -import -file client-signed.crt -storepass change-password -keypass change-password -noprompt
-keytool -keystore fhiruserTrustStore.p12 -alias CARoot -import -file fhiruser.crt -storepass change-password -keypass change-password -noprompt
+
+# Create the Trust Store
+keytool -keystore fhiruserTrustStore.p12 -alias ca-root -import -file fhir.crt -storepass change-password -keypass change-password -noprompt
 
 # keytool -list -keystore fhiruserTrustStore.p12 -storepass ${CHANGE_PASSWORD} -v
 # keytool -list -keystore fhiruserKeyStore.p12 -storepass ${CHANGE_PASSWORD} -v
-
-# Import client-auth
-keytool -keystore fhirTrustStore.p12 -alias client-auth -import -file fhiruser.crt -storepass change-password -keypass change-password -noprompt
-
-# Clean up existing
-keytool -delete -keystore fhirKeyStore.p12 -storepass ${CHANGE_PASSWORD} -alias libertyop
 
 mv ${WORKSPACE}/build/certificates/tmp/fhirKeyStore.p12 ${WORKSPACE}/fhir-server/liberty-config/resources/security/fhirKeyStore.p12
 mv ${WORKSPACE}/build/certificates/tmp/fhirTrustStore.p12 ${WORKSPACE}/fhir-server/liberty-config/resources/security/fhirTrustStore.p12
