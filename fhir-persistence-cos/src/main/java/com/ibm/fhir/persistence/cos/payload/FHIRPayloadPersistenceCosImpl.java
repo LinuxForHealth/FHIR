@@ -1,21 +1,28 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.cos.payload;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRJsonParser;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
+import com.ibm.fhir.search.SearchConstants;
 
 
 /**
@@ -26,44 +33,76 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPayloadPersistenceCosImpl.class.getName());
 
     @Override
-    public void storePayload(String partitionId, int resourceTypeId, String logicalId, int version, byte[] compressedPayload)
+    public void storePayload(String partitionId, String resourceTypeName, int resourceTypeId, String logicalId, int version, byte[] compressedPayload)
         throws FHIRPersistenceException {
+        long start = System.nanoTime();
 
         // Single resources are small enough that we can write the object
         // in a single call without having to resort to multi-part uploads.
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
-        final String objectName = makeObjectName(resourceTypeId, logicalId, version);
-        cpc.write(objectName, compressedPayload);
+        try {
+            final String objectName = makeObjectName(resourceTypeId, logicalId, version);
+            cpc.write(objectName, compressedPayload);
+        } finally {
+            if (logger.isLoggable(Level.FINE)) {
+                long elapsed = System.nanoTime() - start;
+                logger.fine(String.format("Wrote resource payload to COS: '%s/%s/%d' [took %5.3f s]", resourceTypeName, logicalId, version, elapsed/1e9));
+            }
+        }
     }
 
     @Override
-    public <T extends Resource> T readResource(String partitionId, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
-
+    public <T extends Resource> T readResource(Class<T> resourceType, String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
+        final long start = System.nanoTime();
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
         final String objectName = makeObjectName(resourceTypeId, logicalId, version);
         try {
-            return cpc.read(objectName, FHIRPayloadPersistenceCosImpl::parse);
+            return cpc.read(objectName, is -> parse(resourceType, is, elements));
+
         } catch (RuntimeException x) {
-            logger.severe("Failed to read payload for: '" + resourceTypeId + "/" + logicalId + "/" + version + "'");
+            logger.severe("Failed to read payload for: '" + resourceType.getSimpleName() + "/" + logicalId + "/" + version + "', objectName = '" + objectName + "'");
             throw new FHIRPersistenceException("Failed to parse resource", x);
+        } finally {
+            if (logger.isLoggable(Level.FINE)) {
+                long elapsed = System.nanoTime() - start;
+                logger.fine(String.format("Read resource payload from COS: '%s/%s/%d' [took %5.3f s]", resourceType.getSimpleName(), logicalId, version, elapsed/1e9));
+            }
         }
     }
 
+
     /**
-     * Parse the resource from the data read from the given stream
+     * Parse the given stream, using elements if needed
      * @param <T>
-     * @param is
+     * @param resourceType
+     * @param in
+     * @param elements
      * @return
+     * @throws IOException
+     * @throws FHIRParserException
      */
-    private static <T extends Resource> T parse(InputStream is) {
+    public static <T extends Resource> T parse(Class<T> resourceType, InputStream in, List<String> elements) {
+        T result;
+
         try {
-            return PayloadPersistenceHelper.parse(is);
+            if (elements != null) {
+                // parse/filter the resource using elements
+                result = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                if (resourceType.equals(result.getClass()) && !FHIRUtil.hasTag(result, SearchConstants.SUBSETTED_TAG)) {
+                    // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
+                    result = FHIRUtil.addTag(result, SearchConstants.SUBSETTED_TAG);
+                }
+            } else {
+                result = FHIRParser.parser(Format.JSON).parse(in);
+            }
         } catch (FHIRParserException x) {
-            // this is called as a lambda so we need to wrap the checked exception
+            // need to wrap because this method is being called as a lambda
             throw new RuntimeException(x);
         }
+
+        return result;
     }
 
     /**
@@ -81,5 +120,18 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
         objectName.append("/");
         objectName.append(Integer.toString(version));
         return objectName.toString();
+    }
+
+    @Override
+    public void deletePayload(String partitionId, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+        COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
+
+        final String objectName = makeObjectName(resourceTypeId, logicalId, version);
+        try {
+            cpc.delete(objectName);
+        } catch (FHIRPersistenceException x) {
+            logger.severe("Failed to delete payload for: '" + resourceTypeId + "/" + logicalId + "/" + version + "'");
+            throw x;
+        }
     }
 }

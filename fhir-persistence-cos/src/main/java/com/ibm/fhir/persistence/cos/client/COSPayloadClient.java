@@ -9,6 +9,8 @@ package com.ibm.fhir.persistence.cos.client;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +27,7 @@ import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
+import com.ibm.cloud.objectstorage.services.s3.model.DeleteObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
@@ -88,11 +91,7 @@ public class COSPayloadClient {
      * @return
      */
     public <T> T read(String objectName, Function<InputStream, T> fn) throws FHIRPersistenceException {
-        String bucketName = propertyAdapter.getBucketName();
-        if (bucketName == null) {
-            // try using the default bucket name for this tenant
-            bucketName = COSPayloadHelper.makeTenantBucketName(tenantId);
-        }
+        final String bucketName = getBucketName();
 
         S3Object item = client.getObject(new GetObjectRequest(bucketName, objectName));
         if (item != null) {
@@ -118,11 +117,7 @@ public class COSPayloadClient {
      * @param compressedPayload the serialized payload (already compressed)
      */
     public void write(String objectName, byte[] compressedPayload) throws FHIRPersistenceException {
-        String bucketName = propertyAdapter.getBucketName();
-        if (bucketName == null) {
-            // try using the default bucket name for this tenant
-            bucketName = COSPayloadHelper.makeTenantBucketName(tenantId);
-        }
+        final String bucketName = getBucketName();
 
         // Set up the metadata for the call to S3/COS
         ObjectMetadata omd = new ObjectMetadata();
@@ -171,5 +166,34 @@ public class COSPayloadClient {
         } else {
             logger.info("Bucket exists: " + bucketName);
         }
+    }
+
+    /**
+     * Delete the object
+     * @param objectName
+     * @throws FHIRPersistenceException
+     */
+    public void delete(String objectName) throws FHIRPersistenceException {
+        final String bucketName = getBucketName();
+
+        try {
+            DeleteObjectRequest delete = new DeleteObjectRequest(bucketName, objectName);
+            client.deleteObject(delete);
+        } catch (Exception x) {
+            throw new FHIRPersistenceException("delete failed", x);
+        }
+    }
+
+    /**
+     * Get the bucket name for the tenant associated with the current request context
+     * @return
+     */
+    private String getBucketName() {
+        String bucketName = propertyAdapter.getBucketName();
+        if (bucketName == null) {
+            // try using the default bucket name for this tenant
+            bucketName = COSPayloadHelper.makeTenantBucketName(tenantId);
+        }
+        return bucketName;
     }
 }

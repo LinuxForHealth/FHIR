@@ -183,13 +183,6 @@ public interface ResourceDAO extends FHIRDbDAO {
     void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException;
 
     /**
-     * Obtain the resource type id from the cache
-     * @param resourceType
-     * @return
-     */
-    Integer getResourceTypeIdFromCaches(String resourceType);
-
-    /**
      * Inserts the passed Resource DTO and its associated search parameters to the appropriate FHIR resource tables.
      * After insert, the generated primary key is acquired and set in the Resource object.
      * @param resource A Resource Data Transfer Object

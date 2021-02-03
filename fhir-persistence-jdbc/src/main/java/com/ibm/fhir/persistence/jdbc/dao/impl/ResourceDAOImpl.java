@@ -508,8 +508,19 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
-    @Override
-    public Integer getResourceTypeIdFromCaches(String resourceType) {
+    /**
+     * Get the value of the database id for the given resourceType from the cache.
+     * Expects that the cache has already been primed with this resource type.
+     * The cache is made up of two maps: one shared, the other private to this
+     * transaction. Ids in the latter are promoted to the shared map when the
+     * current transaction is committed.
+     * @implNote the new cache implementation FHIRPersistenceJDBCCache is preferred. The
+     *     existing ResourceTypesCache should be wholly replaced with FHIRPersistenceJDBCCache
+     *     when time allows.
+     * @param resourceType
+     * @return
+     */
+    protected Integer getResourceTypeIdFromCaches(String resourceType) {
         // Get resourceTypeId from ResourceTypesCache first.
         Integer resourceTypeId = ResourceTypesCache.getResourceTypeId(resourceType);
         // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in

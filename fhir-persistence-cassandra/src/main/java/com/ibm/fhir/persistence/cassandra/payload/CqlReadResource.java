@@ -12,9 +12,8 @@ import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.selectFrom;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -26,11 +25,14 @@ import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.core.metadata.schema.ClusteringOrder;
 import com.datastax.oss.driver.api.querybuilder.select.Select;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlPersistenceException;
+import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Reads the current version number of a resource. This is used
@@ -51,19 +53,22 @@ public class CqlReadResource {
     // The version for the resource
     private final int version;
 
+    private final List<String> elements;
+
     /**
      * Public constructor
      * @param partitionId
      * @param resourceTypeId
      * @param logicalId
      */
-    public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version) {
+    public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) {
         CqlDataUtil.safeId(partitionId);
         CqlDataUtil.safeId(logicalId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.version = version;
+        this.elements = elements;
     }
 
     /**
@@ -72,7 +77,9 @@ public class CqlReadResource {
      * @param session
      * @return
      */
-    public <T extends Resource> T run(CqlSession session) {
+    public <T extends Resource> T run(Class<T> resourceType, CqlSession session) {
+        T result;
+
         // Firstly, look up the payload_id for the latest version of the resource. The table
         // is already ordered by version DESC so we don't need to do any explicit order by to
         // get the most recent version. Simply picking the first row which matches the given
@@ -99,17 +106,17 @@ public class CqlReadResource {
                 String payloadId = row.getString(1);
                 if (payloadId != null) {
                     // Big payload split into multiple chunks. Requires a separate read
-                    return readFromChunks(session, payloadId);
+                    return readFromChunks(resourceType, session, payloadId);
                 } else {
                     // The payload is small enough to fit in the current row, so no need for an
                     // extra read
                     ByteBuffer bb = row.getByteBuffer(2);
                     InputStream in = new GZIPInputStream(new CqlPayloadStream(bb));
-                    return FHIRParser.parser(Format.JSON).parse(new InputStreamReader(in, StandardCharsets.UTF_8));
+                    result = parseStream(resourceType, in);
                 }
             } else {
                 // resource doesn't exist.
-                return null;
+                result = null;
             }
         } catch (IOException x) {
             logger.log(Level.SEVERE, "Error reading resource partition_id=" + partitionId + ", resourceTypeId=" + resourceTypeId
@@ -122,6 +129,8 @@ public class CqlReadResource {
                 + ", logicalId=" + logicalId);
             throw new CqlPersistenceException("parse resource failed", x);
         }
+
+        return result;
     }
 
     /**
@@ -129,7 +138,8 @@ public class CqlReadResource {
      * @param payloadId
      * @return
      */
-    private <T extends Resource> T readFromChunks(CqlSession session, String payloadId) throws IOException, FHIRParserException {
+    private <T extends Resource> T readFromChunks(Class<T> resourceType, CqlSession session, String payloadId) throws IOException, FHIRParserException {
+        T result;
         Select statement =
                 selectFrom("payload_chunks")
                 .column("chunk")
@@ -141,6 +151,32 @@ public class CqlReadResource {
         PreparedStatement ps = session.prepare(statement.build());
         ResultSet chunks = session.execute(ps.bind(logicalId, version));
         InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(chunks));
-        return FHIRParser.parser(Format.JSON).parse(new InputStreamReader(in, StandardCharsets.UTF_8));
+
+        return parseStream(resourceType, in);
+    }
+
+    /**
+     * Parse the input stream, processing for elements if needed
+     * @param <T>
+     * @param resourceType
+     * @param in
+     * @return
+     * @throws IOException
+     * @throws FHIRParserException
+     */
+    private <T extends Resource> T parseStream(Class<T> resourceType, InputStream in) throws IOException, FHIRParserException {
+        T result;
+        if (elements != null) {
+            // parse/filter the resource using elements
+            result = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+            if (resourceType.equals(result.getClass()) && !FHIRUtil.hasTag(result, SearchConstants.SUBSETTED_TAG)) {
+                // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
+                result = FHIRUtil.addTag(result, SearchConstants.SUBSETTED_TAG);
+            }
+        } else {
+            result = FHIRParser.parser(Format.JSON).parse(in);
+        }
+
+        return result;
     }
 }

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.cassandra.payload;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.datastax.oss.driver.api.core.CqlSession;
@@ -37,7 +38,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public void storePayload(String partitionId, int resourceTypeId, String logicalId, int version, byte[] compressedPayload)
+    public void storePayload(String partitionId, String resourceType, int resourceTypeId, String logicalId, int version, byte[] compressedPayload)
         throws FHIRPersistenceException {
 
         try (CqlSession session = getCqlSession()) {
@@ -47,11 +48,17 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public <T extends Resource> T readResource(String partitionId, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+    public <T extends Resource> T readResource(Class<T> resourceType, String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
 
         try (CqlSession session = getCqlSession()) {
-            CqlReadResource spl = new CqlReadResource(partitionId, resourceTypeId, logicalId, version);
-            return spl.run(session);
+            CqlReadResource spl = new CqlReadResource(partitionId, resourceTypeId, logicalId, version, elements);
+            return spl.run(resourceType, session);
         }
+    }
+
+    @Override
+    public void deletePayload(String partitionId, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+
     }
 }
