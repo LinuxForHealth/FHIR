@@ -118,7 +118,7 @@ public class ReadTest extends FHIRServerTestBase {
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
-            "Read only supports general search parameters.");
+            "Search parameter '_lastUpdated' is not supported by read.");
     }
 
     /**

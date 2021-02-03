@@ -754,12 +754,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 boolean lenient = HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference());
 
                 // Determine if any non-general search parameters are specified
-                if (!queryParameters.keySet().stream().allMatch(k -> FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k))) {
-                    FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Read only supports general search parameters.");
+                List<String> nonGeneralParams = queryParameters.keySet().stream().filter(k -> !FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k)).collect(Collectors.toList());
+                for (String nonGeneralParam : nonGeneralParams) {
+                    FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Search parameter '" + nonGeneralParam + "' is not supported by read.");
                     if (!lenient) {
                         throw se;
                     }
-                    log.log(Level.FINE, "Error while parsing search parameters for resource type " + type, se);
+                    log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + type, se);
                 }
 
                 // Parse search parameters
