@@ -606,8 +606,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
-        List<Long> sortedIdList;
-        List<com.ibm.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
         int searchResultCount = 0;
         SqlQueryData countQuery;
         SqlQueryData query;
@@ -677,12 +675,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         if (resourceType.equals(Resource.class)) {
                            resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
                         } else {
-                            sortedIdList = resourceDao.searchForIds(query);
-                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, sortedIdList, elements);
+                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
                         }
                     } else {
-                        unsortedResultsList = resourceDao.search(query);
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = unsortedResultsList;
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
                         List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
 
                         // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
@@ -697,17 +694,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 matchResultCount = searchResultCount - offset;
                             }
 
-                            // Split results list into 'match' list and 'include' list
-                            if (unsortedResultsList.size() > matchResultCount) {
-                                matchResultList = unsortedResultsList.subList(0, matchResultCount);
+                            // Split results list into 'match' list and 'include' list. The results have been sorted
+                            // by the underlying query to return the 'match' results before the 'include' results.
+                            if (resultsList.size() > matchResultCount) {
+                                matchResultList = resultsList.subList(0, matchResultCount);
 
                                 // Remove duplicates from 'include' list
                                 Set<Long> resultIds = new HashSet<>();
                                 for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
                                     resultIds.add(resource.getId());
                                 }
-                                for (int i=matchResultCount; i<unsortedResultsList.size(); ++i) {
-                                    com.ibm.fhir.persistence.jdbc.dto.Resource resource = unsortedResultsList.get(i);
+                                for (int i=matchResultCount; i<resultsList.size(); ++i) {
+                                    com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
                                     if (!resultIds.contains(resource.getId())) {
                                         resultIds.add(resource.getId());
                                         includeResultList.add(resource);
