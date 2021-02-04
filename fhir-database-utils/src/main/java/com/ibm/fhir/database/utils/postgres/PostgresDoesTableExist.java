@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.postgresql;
+package com.ibm.fhir.database.utils.postgres;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * and see if it kicks back with an error (which isn't related to
  * connection failure).
  */
-public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
+public class PostgresDoesTableExist implements IDatabaseSupplier<Boolean> {
 
     // The schema of the table
     private final String schemaName;
@@ -33,7 +33,7 @@ public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
      * @param schemaName
      * @param tableName
      */
-    public PostgreSqlDoesTableExist(String schemaName, String tableName) {
+    public PostgresDoesTableExist(String schemaName, String tableName) {
         this.schemaName = DataDefinitionUtil.assertValidName(schemaName);
         this.tableName = DataDefinitionUtil.assertValidName(tableName);
     }

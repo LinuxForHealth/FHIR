@@ -57,7 +57,7 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
@@ -1438,7 +1438,7 @@ public class Main {
                     maxConnectionPoolSize = 1;
                     break;
                 case POSTGRESQL:
-                    translator = new PostgreSqlTranslator();
+                    translator = new PostgresTranslator();
                     break;
                 case DB2:
                 default:

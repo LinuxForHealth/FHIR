@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.postgresql;
+package com.ibm.fhir.persistence.jdbc.postgres;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 
@@ -48,9 +48,9 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
  * @implNote This class follows the logic of the DB2 stored procedure, but does so
  * using a series of individual JDBC statements.
  */
-public class PostgreSqlResourceDAO extends ResourceDAOImpl {
-    private static final Logger logger = Logger.getLogger(PostgreSqlResourceDAO.class.getName());
-    private static final String CLASSNAME = PostgreSqlResourceDAO.class.getSimpleName();
+public class PostgresResourceDAO extends ResourceDAOImpl {
+    private static final String CLASSNAME = PostgresResourceDAO.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?)}";
@@ -58,11 +58,11 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
+    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
         super(connection, schemaName, flavor, cache, rrd);
     }
 
-    public PostgreSqlResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
         ParameterTransactionDataImpl ptdi) {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }

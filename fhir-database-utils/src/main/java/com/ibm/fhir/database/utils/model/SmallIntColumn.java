@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 
 /**
  * Small Int Column
@@ -24,7 +24,7 @@ public class SmallIntColumn extends ColumnBase {
 
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
-        if (adapter instanceof PostgreSqlAdapter) {
+        if (adapter instanceof PostgresAdapter) {
             this.resetDefaultValue();
             return "BOOLEAN";
         } else {
