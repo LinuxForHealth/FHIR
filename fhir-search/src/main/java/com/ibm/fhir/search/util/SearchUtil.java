@@ -1312,6 +1312,34 @@ public class SearchUtil {
         return result;
     }
 
+    /**
+     * Parse query parameters for read and vread.
+     * @param resourceType the resource type
+     * @param queryParameters the query parameters
+     * @param interaction read or vread
+     * @param lenient true if lenient, false if strict
+     * @return the FHIR search context
+     * @throws Exception an exception
+     */
+    public static FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
+        Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+        String resourceTypeName = resourceType.getSimpleName();
+
+        // Read and vRead only allow general search parameters
+        List<String> nonGeneralParams = queryParameters.keySet().stream().filter(k -> !FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k)).collect(Collectors.toList());
+        for (String nonGeneralParam : nonGeneralParams) {
+            FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Search parameter '" + nonGeneralParam
+                + "' is not supported by " + interaction + ".");
+            if (!lenient) {
+                throw se;
+            }
+            log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
+        }
+
+        return parseQueryParameters(null, null, resourceType, queryParameters, lenient);
+    }
+
+
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType,
             Map<String, List<String>> queryParameters, String queryString) throws Exception {
