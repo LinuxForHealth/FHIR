@@ -97,6 +97,7 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
@@ -715,7 +716,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param contextResource
      *            a FHIR resource associated with this request
      * @param queryParameters
-     *            for supporting _summary for resource read
+     *            for supporting _elements and _summary for resource read
      * @param checkInteractionAllowed
      *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
      * @return the Resource
@@ -750,8 +751,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters,
-                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+                boolean lenient = HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference());
+
+                // Determine if any non-general search parameters are specified
+                List<String> nonGeneralParams = queryParameters.keySet().stream().filter(k -> !FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k)).collect(Collectors.toList());
+                for (String nonGeneralParam : nonGeneralParams) {
+                    FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Search parameter '" + nonGeneralParam + "' is not supported by read.");
+                    if (!lenient) {
+                        throw se;
+                    }
+                    log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + type, se);
+                }
+
+                // Parse search parameters
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, lenient);
             }
 
             // First, invoke the 'beforeRead' interceptor methods.
