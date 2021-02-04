@@ -1316,7 +1316,6 @@ public class SearchUtil {
      * Parse query parameters for read and vread.
      * @param resourceType the resource type
      * @param queryParameters the query parameters
-     * @param queryString the query string
      * @param interaction read or vread
      * @param lenient true if lenient, false if strict
      * @return the FHIR search context
