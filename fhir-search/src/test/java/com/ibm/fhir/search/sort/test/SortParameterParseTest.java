@@ -11,7 +11,6 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -288,8 +287,8 @@ public class SortParameterParseTest extends BaseSearchTest {
         String searchParmValue = "Practioner/1";
 
         // Build up the QueryParameters
-        queryParameters.put("_sort", Arrays.asList(sortParmCode1 + "," + sortParmCode2, directionDesc.value() + sortParmCode3 + "," + directionDesc.value()
-                + sortParmCode4, sortParmCode5));
+        queryParameters.put("_sort", Collections.singletonList(sortParmCode1 + "," + sortParmCode2 + "," +
+                directionDesc.value() + sortParmCode3 + "," + directionDesc.value() + sortParmCode4 + "," + sortParmCode5));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
 
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);

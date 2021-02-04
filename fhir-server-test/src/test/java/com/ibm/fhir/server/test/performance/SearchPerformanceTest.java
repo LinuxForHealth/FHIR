@@ -338,7 +338,7 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Observation").queryParam("subject", "Patient/"
                         + patientId).queryParam("_include", "Observation:subject")
-                .queryParam("_elements", "status", "category", "subject")
+                .queryParam("_elements", "status,category,subject")
                 .queryParam("_count", "100")
                 .queryParam("_page", "1")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -513,8 +513,8 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 1);
     }
-    
-    
+
+
     @Test(groups = { "server-search-performance" })
     public void testSearchObservationWithPatientName() {
         WebTarget target = getWebTarget();

@@ -576,7 +576,7 @@ public class SearchTest extends FHIRServerTestBase {
         Response response =
                 target.path("Observation").queryParam("subject", "Patient/"
                         + patientId).queryParam("_include", "Observation:subject")
-                .queryParam("_elements", "status", "category", "subject")
+                .queryParam("_elements", "status,category,subject")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
