@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -140,12 +140,11 @@ public interface FHIRResourceHelpers {
      * @param id
      *            the id of the Resource to be retrieved
      * @param queryParameters
-     *            for supporting _summary for resource read
+     *            for supporting _elements and _summary for resource read
      * @return the Resource
      * @throws Exception
      */
     public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
-
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -168,6 +167,26 @@ public interface FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param versionId
      *            the version id of the Resource to be retrieved
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
+     * @param queryParameters
+     *            for supporting _elements and _summary for resource vread
+     * @return the Resource
+     * @throws Exception
+     */
+    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties, MultivaluedMap<String, String> queryParameters) throws Exception;
+
+    /**
+     * Performs a 'vread' operation by retrieving the specified version of a Resource.
+     *
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param versionId
+     *            the version id of the Resource to be retrieved
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return the Resource
      * @throws Exception
      */

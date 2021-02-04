@@ -1067,6 +1067,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
         int version;
+        List<String> elements = null;
+        FHIRSearchContext searchContext = context.getSearchContext();
+
+        if (searchContext != null) {
+            elements = searchContext.getElementsParameters();
+
+            // Only consider _summary if _elements parameter is empty
+            if (elements == null && searchContext.hasSummaryParameter()) {
+                Set<String> summaryElements = null;
+                SummaryValueSet summary = searchContext.getSummaryParameter();
+
+                switch (summary) {
+                case TRUE:
+                    summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                    break;
+                case TEXT:
+                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    break;
+                case DATA:
+                    summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                    break;
+                default:
+                    break;
+                }
+
+                if (summaryElements != null) {
+                    elements = new ArrayList<String>();
+                    elements.addAll(summaryElements);
+                }
+            }
+        }
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -1077,7 +1108,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
             }
-            resource = this.convertResourceDTO(resourceDTO, resourceType, null);
+            resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)

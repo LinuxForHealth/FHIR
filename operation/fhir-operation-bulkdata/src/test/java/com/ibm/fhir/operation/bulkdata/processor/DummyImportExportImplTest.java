@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020,2021
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -259,6 +259,12 @@ public class DummyImportExportImplTest {
             @Override
             public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
                     Map<String, String> requestProperties, Resource contextResource) throws Exception {
+                return null;
+            }
+
+            @Override
+            public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties,
+                MultivaluedMap<String, String> queryParameters) throws Exception {
                 return null;
             }
 

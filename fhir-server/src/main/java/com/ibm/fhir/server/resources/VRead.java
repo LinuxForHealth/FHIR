@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -64,9 +65,10 @@ public class VRead extends FHIRResource {
 
         try {
             checkInitComplete();
+            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource resource = helper.doVRead(type, id, vid, null);
+            Resource resource = helper.doVRead(type, id, vid, null, queryParameters);
             status = Status.OK;
             ResponseBuilder response = Response.ok().entity(resource);
             response = addHeaders(response, resource);

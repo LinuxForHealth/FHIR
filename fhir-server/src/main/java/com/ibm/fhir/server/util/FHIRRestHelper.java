@@ -97,7 +97,6 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
@@ -751,20 +750,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                boolean lenient = HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference());
-
-                // Determine if any non-general search parameters are specified
-                List<String> nonGeneralParams = queryParameters.keySet().stream().filter(k -> !FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k)).collect(Collectors.toList());
-                for (String nonGeneralParam : nonGeneralParams) {
-                    FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Search parameter '" + nonGeneralParam + "' is not supported by read.");
-                    if (!lenient) {
-                        throw se;
-                    }
-                    log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + type, se);
-                }
-
-                // Parse search parameters
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, lenient);
+                searchContext = SearchUtil.parseReadQueryParameters(resourceType, queryParameters, Interaction.READ.value(),
+                    HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
             // First, invoke the 'beforeRead' interceptor methods.
@@ -802,23 +789,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /**
-     * Performs a 'vread' operation by retrieving the specified version of a Resource.
-     *
-     * @param type
-     *            the resource type associated with the Resource to be retrieved
-     * @param id
-     *            the id of the Resource to be retrieved
-     * @param versionId
-     *            the version id of the Resource to be retrieved
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return the Resource
-     * @throws Exception
-     */
     @Override
-    public Resource doVRead(String type, String id, String versionId,
-        Map<String, String> requestProperties) throws Exception {
+    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties) throws Exception {
+        return doVRead(type, id, versionId, requestProperties, null);
+    }
+
+    @Override
+    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties,
+        MultivaluedMap<String, String> queryParameters) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
 
         // Validate that interaction is allowed for given resource type
@@ -839,16 +817,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildUnsupportedResourceTypeException(type);
             }
 
-            Class<? extends Resource> resourceType =
-                    getResourceType(resourceTypeName);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
+
+            FHIRSearchContext searchContext = null;
+            if (queryParameters != null) {
+                searchContext = SearchUtil.parseReadQueryParameters(resourceType, queryParameters, Interaction.VREAD.value(),
+                    HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+            }
 
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, null));
+                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, searchContext));
             getInterceptorMgr().fireBeforeVreadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
             resource = persistence.vread(persistenceContext, resourceType, id, versionId).getResource();
             if (resource == null) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '"
