@@ -72,7 +72,10 @@ public class UriBuilder {
      * @throws URISyntaxException
      */
     public String toSearchSelfUri() throws URISyntaxException {
-        URI requestUri = new URI(requestUriString);
+        String hostAndPath = requestUriString.contains("?") ?
+                requestUriString.substring(0, requestUriString.indexOf("?")) :
+                requestUriString;
+        URI requestUri = new URI(hostAndPath);
 
         // Always include page size at the beginning, even if it wasn't in the request
         queryString.append(SearchConstants.COUNT);
