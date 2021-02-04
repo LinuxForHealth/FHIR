@@ -55,16 +55,14 @@ public class BulkDataImportUtil {
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'inputFormat').value");
             Iterator<FHIRPathNode> iter = result.iterator();
             while (iter.hasNext()) {
-                FHIRPathElementNode node = (FHIRPathElementNode) iter.next();
+                FHIRPathElementNode node = iter.next().as(FHIRPathElementNode.class);
                 String val = node.asElementNode().element().as(com.ibm.fhir.model.type.String.class).getValue();
                 if (BulkDataConstants.INPUT_FORMATS.contains(val)) {
                     return val;
                 }
             }
-        } catch (ClassCastException ce) {
-            throw buildExceptionWithIssue("$import invalid parameter name in 'inputFormat'", ce, IssueType.INVALID);
-        } catch (FHIRPathException e) {
-            throw buildExceptionWithIssue("$import invalid parameters value type in 'inputFormat'", e, IssueType.INVALID);
+        } catch (ClassCastException | FHIRPathException e) {
+            throw buildExceptionWithIssue("invalid $import parameter value in 'inputFormat'", e, IssueType.INVALID);
         }
 
         throw buildExceptionWithIssue("$import requires 'inputFormat' is not found", IssueType.INVALID);
@@ -86,10 +84,8 @@ public class BulkDataImportUtil {
                 FHIRPathElementNode node = (FHIRPathElementNode) iter.next();
                 return node.asElementNode().element().as(com.ibm.fhir.model.type.Uri.class).getValue();
             }
-        } catch (ClassCastException ce) {
-            throw buildExceptionWithIssue("$import invalid parameter name in 'inputSource'", ce, IssueType.INVALID);
-        } catch (FHIRPathException e) {
-            throw buildExceptionWithIssue("$import found invalid parameter type while processing inputSource'", e, IssueType.INVALID);
+        } catch (ClassCastException | FHIRPathException e) {
+            throw buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
         }
 
         throw buildExceptionWithIssue("$import requires 'inputSource' is not found", IssueType.INVALID);
