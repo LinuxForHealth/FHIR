@@ -7,10 +7,10 @@
 package com.ibm.fhir.persistence.test.common;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.junit.Assert.assertNull;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Arrays;
@@ -206,11 +206,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation2.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -240,14 +238,12 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 // check filtered out elements
                 assertEquals(0, resource.as(Observation.class).getFocus().size());
                 assertNull((resource.as(Observation.class).getSpecimen()));
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
                 // check elements are not filtered out
                 assertEquals("Updated Manufacturer", resource.as(Device.class).getManufacturer().getValue());
                 assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -271,12 +267,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation6.getId(), resource.getId());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
                 assertEquals("1", resource.getMeta().getVersionId().getValue());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -334,11 +328,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation2.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -360,14 +352,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation3.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else if (resource instanceof Encounter) {
+            } else if (resource instanceof Encounter) {
                 assertEquals(savedEncounter1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -390,15 +379,12 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation4.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient2.getId(), resource.getId());
                 assertEquals("2", savedPatient2.getMeta().getVersionId().getValue());
-            }
-            else if (resource instanceof Encounter) {
+            } else if (resource instanceof Encounter) {
                 assertEquals(savedEncounter1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -438,11 +424,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation2.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -464,12 +448,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertTrue(savedObservation2.getId().equals(resource.getId()) ||
-                           savedObservation3.getId().equals(resource.getId()));
-            }
-            else if (resource instanceof Patient) {
+                        savedObservation3.getId().equals(resource.getId()));
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -499,15 +481,13 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 assertEquals("Device/" + savedDevice1.getId() + "/_history/3", resource.as(Observation.class).getDevice().getReference().getValue());
                 assertEquals("Device/" + savedDevice1.getId() + "/_history/2", resource.as(Observation.class).getFocus().get(0).getReference().getValue());
                 assertEquals("Specimen/1", resource.as(Observation.class).getSpecimen().getReference().getValue());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
                 // check specified elements
                 assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
                 // check filtered out elements
                 assertNull(resource.as(Device.class).getManufacturer());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -530,12 +510,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation6.getId(), resource.getId());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
                 assertEquals("2", resource.getMeta().getVersionId().getValue());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -594,12 +572,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertTrue(savedObservation2.getId().equals(resource.getId()) ||
-                           savedObservation3.getId().equals(resource.getId()));
-            }
-            else if (resource instanceof Patient) {
+                        savedObservation3.getId().equals(resource.getId()));
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -621,12 +597,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertTrue(savedObservation2.getId().equals(resource.getId()) ||
-                           savedObservation3.getId().equals(resource.getId()));
-            }
-            else if (resource instanceof Patient) {
+                        savedObservation3.getId().equals(resource.getId()));
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -648,14 +622,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation5.getId(), resource.getId());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -678,15 +649,12 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation5.getId(), resource.getId());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
                 assertEquals("2", savedDevice1.getMeta().getVersionId().getValue());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -726,8 +694,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         if (resources.get(0) instanceof Patient) {
             Patient patient = (Patient) resources.get(0);
             assertEquals(savedPatient4.getId(), patient.getId());
-        }
-        else {
+        } else {
             fail("Unexpected resource type");
         }
     }
@@ -749,14 +716,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation5.getId(), resource.getId());
-            }
-            else if (resource instanceof Organization) {
+            } else if (resource instanceof Organization) {
                 assertEquals(savedOrg1.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
