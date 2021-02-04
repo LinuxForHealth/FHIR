@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-01-19 01:00:00 -0400
+date:   2021-02-04 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -130,7 +130,7 @@ Finally, the specification defines a set of "Search result parameters" for contr
 
 The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
 
-The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail.
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results. 
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 

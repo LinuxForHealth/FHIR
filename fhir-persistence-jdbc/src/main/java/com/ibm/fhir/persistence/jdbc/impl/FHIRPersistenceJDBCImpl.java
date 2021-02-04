@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -605,8 +606,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
-        List<Long> sortedIdList;
-        List<com.ibm.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
         int searchResultCount = 0;
         SqlQueryData countQuery;
         SqlQueryData query;
@@ -676,12 +675,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         if (resourceType.equals(Resource.class)) {
                            resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
                         } else {
-                            sortedIdList = resourceDao.searchForIds(query);
-                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, sortedIdList, elements);
+                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
                         }
                     } else {
-                        unsortedResultsList = resourceDao.search(query);
-                        resources = this.convertResourceDTOList(unsortedResultsList, resourceType, elements);
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
+
+                        // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
+                        // (duplicates of both 'match' and 'include' resources) and make sure _elements processing
+                        // is not done for 'include' resources.
+                        if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+                            // Calculate 'match' results count
+                            int pageSize = searchContext.getPageSize();
+                            int offset = (searchContext.getPageNumber() - 1) * pageSize;
+                            int matchResultCount = pageSize;
+                            if (searchResultCount < offset + pageSize) {
+                                matchResultCount = searchResultCount - offset;
+                            }
+
+                            // Split results list into 'match' list and 'include' list. The results have been sorted
+                            // by the underlying query to return the 'match' results before the 'include' results.
+                            if (resultsList.size() > matchResultCount) {
+                                matchResultList = resultsList.subList(0, matchResultCount);
+
+                                // Remove duplicates from 'include' list
+                                Set<Long> resultIds = new HashSet<>();
+                                for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
+                                    resultIds.add(resource.getId());
+                                }
+                                for (int i=matchResultCount; i<resultsList.size(); ++i) {
+                                    com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
+                                    if (!resultIds.contains(resource.getId())) {
+                                        resultIds.add(resource.getId());
+                                        includeResultList.add(resource);
+                                    }
+                                }
+                            }
+                        }
+
+                        // Convert resources
+                        resources = this.convertResourceDTOList(matchResultList, resourceType, elements);
+                        resources.addAll(this.convertResourceDTOList(includeResultList, resourceType, null));
                     }
                 }
             }
