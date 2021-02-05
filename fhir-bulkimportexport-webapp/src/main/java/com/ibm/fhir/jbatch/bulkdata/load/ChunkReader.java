@@ -1,10 +1,23 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.jbatch.bulkdata.load;
+
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_API_KEY;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_BUCKET_NAME;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_ENDPOINT_URL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_IS_IBM_CREDENTIAL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_LOCATION;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_SRVINST_ID;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.DEFAULT_FHIR_TENANT;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_DATASTORE_ID;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_TENANT;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_FHIR_STORAGE_TYPE;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_PARTITTION_WORKITEM;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.PARTITION_RESOURCE_TYPE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,18 +37,14 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
-import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
- * Bulk import Chunk implementation - the Reader.
- *
+ * BulkData Import - ChunkReader
  */
 @Dependent
 public class ChunkReader extends AbstractItemReader {
     private static final Logger logger = Logger.getLogger(ChunkReader.class.getName());
-    private AmazonS3 cosClient = null;
-    private int numOfLinesToSkip = 0;
 
     @Inject
     StepContext stepCtx;
@@ -44,78 +53,81 @@ public class ChunkReader extends AbstractItemReader {
      * The data source storage type.
      */
     @Inject
-    @BatchProperty(name = Constants.IMPORT_FHIR_STORAGE_TYPE)
+    @BatchProperty(name = IMPORT_FHIR_STORAGE_TYPE)
     String dataSourceStorageType;
 
     /**
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_API_KEY)
+    @BatchProperty(name = COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
      * The IBM COS service instance id or S3 secret key.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_SRVINST_ID)
+    @BatchProperty(name = COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
      * The IBM COS or S3 End point URL.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
+    @BatchProperty(name = COS_ENDPOINT_URL)
     String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_LOCATION)
+    @BatchProperty(name = COS_LOCATION)
     String cosLocation;
 
     /**
      * The IBM COS or S3 bucket name to import from.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_BUCKET_NAME)
+    @BatchProperty(name = COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
      * If use IBM credential or S3 secret keys.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
+    @BatchProperty(name = COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
     /**
      * Work item to process.
      */
     @Inject
-    @BatchProperty(name = Constants.IMPORT_PARTITTION_WORKITEM)
+    @BatchProperty(name = IMPORT_PARTITTION_WORKITEM)
     String importPartitionWorkitem;
 
     /**
-     * Fhir resource type to process.
+     * Resource type to process.
      */
     @Inject
-    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
+    @BatchProperty(name = PARTITION_RESOURCE_TYPE)
     String importPartitionResourceType;
 
     /**
-     * Fhir tenant id.
+     * Tenant id.
      */
     @Inject
-    @BatchProperty(name = Constants.FHIR_TENANT)
+    @BatchProperty(name = FHIR_TENANT)
     String fhirTenant;
 
     /**
-     * Fhir data store id.
+     * Data store id.
      */
     @Inject
-    @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
+    @BatchProperty(name = FHIR_DATASTORE_ID)
     String fhirDatastoreId;
+
+    private AmazonS3 cosClient = null;
+    private int numOfLinesToSkip = 0;
 
     public ChunkReader() {
         super();
@@ -179,7 +191,7 @@ public class ChunkReader extends AbstractItemReader {
                 logger.info("open: Set tenant to default!");
             }
             if (fhirDatastoreId == null) {
-                fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+                fhirDatastoreId = DEFAULT_FHIR_TENANT;
                 logger.info("open: Set DatastoreId to default!");
             }
 
