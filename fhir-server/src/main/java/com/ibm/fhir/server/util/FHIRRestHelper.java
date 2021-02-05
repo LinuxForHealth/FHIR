@@ -77,6 +77,7 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -1595,6 +1596,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
             responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET,
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle =processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PATCH,
+                    txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+
 
             // Commit transaction if started
             if (txn != null) {
@@ -1719,6 +1723,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             processEntryForPut(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             processEntryForDelete(responseEntry, responseIndexAndEntries, entryIndex, requestURL, requestDescription.toString(), initialTime);
+                        }else if (request.getMethod().equals(HTTPVerb.PATCH)) {
+                            processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
                         } else {
                             // Internal error, should not get here!
                             throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
@@ -1772,7 +1778,80 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
     }
+    /**
+     * Processes a request entry with a request method of Patch.
+     *
+     * @param requestEntry
+     *            the request bundle entry
+     * @param responseEntry
+     *            the response bundle entry
+     * @param responseIndexAndEntries
+     *            the hashmap containing bundle entry indexes and their associated response entries
+     * @param entryIndex
+     *            the bundle entry index of the bundle entry being processed
+     * @param localRefMap
+     *            the map of local references to external references
+     * @param requestURL
+     *            the request URL
+     * @param absoluteUri
+     *            the absolute URI
+     * @param requestDescription
+     *            a description of the request
+     * @param initialTime
+     *            the time the bundle entry processing started
+     * @throws Exception
+     */
+    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, Integer entryIndex,
+        Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
+        throws FHIROperationException {
+        FHIRRestOperationResponse ior = null;
+        int resourceIdIndex = 7;
+        int resourceTypeIndex = 6;
+        String resourceType = extractValueFromUrl(requestEntry.getRequest().getUrl().getValue(), resourceTypeIndex);
+        String resourceId = extractValueFromUrl(requestEntry.getRequest().getUrl().getValue(), resourceIdIndex);
+        try {
+            if (resourceType != null && resourceId != null) {
 
+                if (requestEntry.getResource().is(Parameters.class)) {
+
+                    Parameters parameters = requestEntry.getResource().as(Parameters.class);
+                    FHIRPatch patch;
+
+                    patch = FHIRPathPatch.from(parameters);
+
+                    ior = doPatch(resourceType, resourceId, patch, null, null, null);
+                    // Process and replace bundle entry.
+                    Bundle.Entry resultEntry =
+                            setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription, initialTime);
+                    responseIndexAndEntries.put(entryIndex, resultEntry);
+                }
+            }
+        } catch (Exception e) {
+          throw new FHIRRestBundledRequestException(e.getMessage());
+
+        }
+
+    }
+
+    /**
+     * 
+     * @param requestUrl URL from the request of the bundle entry
+     * @param index -For extract the specific field from the URL
+     * @return
+     */
+    private String extractValueFromUrl(String requestUrl, int index) {
+
+        String[] splittedUrl = requestUrl.split("/");
+
+        if (splittedUrl.length > index && splittedUrl[index] != null) {
+
+            return splittedUrl[index];
+
+        } else {
+            return null;
+        }
+
+    }
     /**
      * Processes a request entry with a request method of GET.
      *
@@ -2296,6 +2375,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             addLocalRefMapping(localRefMap, localIdentifier, externalIdentifier, null);
                         } else if (request.getMethod().equals(HTTPVerb.PUT) && resource.getId() != null) {
                             // Add mapping.
+                            addLocalRefMapping(localRefMap, localIdentifier, null, resource);
+                        }else if (request.getMethod().equals(HTTPVerb.PATCH) && resource.getId() != null) {
+                            // Add mapping.
+                            log.fine("Creating Patch Local Identefier For Bundle Patch Request");
                             addLocalRefMapping(localRefMap, localIdentifier, null, resource);
                         }
                     }
