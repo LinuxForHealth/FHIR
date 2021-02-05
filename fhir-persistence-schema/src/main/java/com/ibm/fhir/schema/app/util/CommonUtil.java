@@ -28,8 +28,8 @@ import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.model.DbType;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 
 /**
  *
@@ -210,7 +210,7 @@ public final class CommonUtil {
         case DERBY:
             return new DerbyPropertyAdapter(props);
         case POSTGRESQL:
-            return new PostgreSqlPropertyAdapter(props);
+            return new PostgresPropertyAdapter(props);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -223,7 +223,7 @@ public final class CommonUtil {
         case DERBY:
             return new DerbyAdapter(target);
         case POSTGRESQL:
-            return new PostgreSqlAdapter(target);
+            return new PostgresAdapter(target);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -236,7 +236,7 @@ public final class CommonUtil {
         case DERBY:
             return new DerbyAdapter(connectionProvider);
         case POSTGRESQL:
-            return new PostgreSqlAdapter(connectionProvider);
+            return new PostgresAdapter(connectionProvider);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }

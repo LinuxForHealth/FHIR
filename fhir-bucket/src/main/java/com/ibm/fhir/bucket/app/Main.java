@@ -57,9 +57,9 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
@@ -562,17 +562,17 @@ public class Main {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
 
-        IDatabaseTranslator translator = new PostgreSqlTranslator();
+        IDatabaseTranslator translator = new PostgresTranslator();
         try {
             Class.forName(translator.getDriverClassName());
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
 
-        PostgreSqlPropertyAdapter propertyAdapter = new PostgreSqlPropertyAdapter(dbProperties);
+        PostgresPropertyAdapter propertyAdapter = new PostgresPropertyAdapter(dbProperties);
         IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
-        this.adapter = new PostgreSqlAdapter(connectionPool);
+        this.adapter = new PostgresAdapter(connectionPool);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
 

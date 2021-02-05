@@ -30,7 +30,8 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCMultiResourceTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCSortTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.JDBCPagingTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCIncludeRevincludeTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCIncludeRevincludeTest"/>
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCReverseChainTest"/>
         </classes>
     </test>
     <test name="JDBCSearchTests">

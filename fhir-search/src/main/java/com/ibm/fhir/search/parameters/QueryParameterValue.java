@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ public class QueryParameterValue {
 
     private String valueString = null;
 
+    private String valueDate = null;
     private Instant valueDateLowerBound = null;
     private Instant valueDateUpperBound = null;
 
@@ -38,9 +39,6 @@ public class QueryParameterValue {
 
     // Used for composite search parameters
     private List<QueryParameter> component = new ArrayList<>();
-
-    // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
-    private String delim = "";
 
     public QueryParameterValue() {
         // No Operation
@@ -89,6 +87,14 @@ public class QueryParameterValue {
 
     public void setValueCode(String valueCode) {
         this.valueCode = valueCode;
+    }
+
+    public String getValueDate() {
+        return valueDate;
+    }
+
+    public void setValueDate(String valueDate) {
+        this.valueDate = valueDate;
     }
 
     public Instant getValueDateLowerBound() {
@@ -155,6 +161,9 @@ public class QueryParameterValue {
             returnString.append(prefix.value());
         }
 
+        // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
+        String delim = "";
+
         // Order is important; currently this ordering works for all search parameter types
         // quantity: [prefix]number|system|code
         // token: system|code
@@ -163,11 +172,11 @@ public class QueryParameterValue {
         // date: [prefix]date
 
         // token search like "|code" is supported by setting the valueSystem to "" (NO_SYSTEM)
-        outputBuilder(returnString, valueNumber);
-        outputBuilder(returnString, valueSystem);
-        outputBuilder(returnString, valueCode);
-        outputBuilder(returnString, valueString);
-        outputBuilder(returnString, valueDateLowerBound);
+        delim = outputBuilder(returnString, delim, valueNumber);
+        delim = outputBuilder(returnString, delim, valueSystem);
+        delim = outputBuilder(returnString, delim, valueCode);
+        delim = outputBuilder(returnString, delim, valueString);
+        delim = outputBuilder(returnString, delim, valueDate);
 
         if (component != null && !component.isEmpty()) {
             String componentDelim = "";
@@ -184,16 +193,19 @@ public class QueryParameterValue {
     }
 
     /**
-     * simple build method to apply consistent usage of StringBuilder.
+     * Simple build method to apply consistent usage of StringBuilder.
      *
-     * @param outputBuilder
-     * @param value
+     * @param outputBuilder the output builder to update
+     * @param delim the delimiter
+     * @param value the value
+     * @return the updated delimiter
      */
-    private void outputBuilder(StringBuilder outputBuilder, Object value) {
+    private String outputBuilder(StringBuilder outputBuilder, String delim, Object value) {
         if (value != null) {
             outputBuilder.append(delim);
             outputBuilder.append(value);
             delim = SearchConstants.PARAMETER_DELIMITER;
         }
+        return delim;
     }
 }

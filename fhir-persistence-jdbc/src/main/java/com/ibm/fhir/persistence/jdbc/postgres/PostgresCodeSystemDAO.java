@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.postgresql;
+package com.ibm.fhir.persistence.jdbc.postgres;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -18,11 +18,11 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * PostgreSql variant DAO used to manage code_systems records. Uses
  * plain old JDBC statements instead of a stored procedure.
- *
  */
-public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
-    private static final Logger log = Logger.getLogger(PostgreSqlCodeSystemDAO.class.getName());
-    private static final String CLASSNAME = PostgreSqlCodeSystemDAO.class.getName();
+public class PostgresCodeSystemDAO extends CodeSystemDAOImpl {
+    private static final String CLASSNAME = PostgresCodeSystemDAO.class.getName();
+    private static final Logger log = Logger.getLogger(CLASSNAME);
+
     private static final String SQL_CALL_ADD_CODE_SYSTEM_ID = "{CALL %s.add_code_system(?, ?)}";
 
     /**
@@ -30,7 +30,7 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
      * @param c connection to the database
      * @param schemaName the schema containing the FHIR data tables
      */
-    public PostgreSqlCodeSystemDAO(Connection c, String schemaName) {
+    public PostgresCodeSystemDAO(Connection c, String schemaName) {
         super(c, schemaName);
     }
 

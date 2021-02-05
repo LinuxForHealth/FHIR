@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,65 +31,74 @@ import com.ibm.fhir.path.exception.FHIRPathException;
  * BulkData Import Util captures common methods
  */
 public class BulkDataImportUtil {
-    private BulkDataImportUtil() {
-        // No Operation
+    private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+    private EvaluationContext evaluationContext = null;
+
+    public BulkDataImportUtil(Parameters parameters) throws FHIROperationException {
+        if (parameters == null) {
+            throw buildExceptionWithIssue("$import parameters are empty or null", IssueType.INVALID);
+        }
+
+        evaluationContext = new EvaluationContext(parameters);
     }
 
-    public static FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType)
-            throws FHIROperationException {
-        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
-        return new FHIROperationException(msg).withIssue(ooi);
-    }
-
-    public static FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType)
-            throws FHIROperationException {
-        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
-        return new FHIROperationException(msg, cause).withIssue(ooi);
-    }
-
-    public static String retrieveInputFormat(Parameters parameters) throws FHIROperationException {
-        // Parameter: inputFormat (required)
-        // If there are multiple entries, the processing only takes the first entry.
-        if (parameters != null) {
-            for (Parameters.Parameter parameter : parameters.getParameter()) {
-                if (BulkDataConstants.PARAM_INPUT_FORMAT.equals(parameter.getName().getValue())
-                        && parameter.getValue() != null
-                        && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    // If the parameter isn't passed, use application/fhir+ndjson
-                    // Check the MediaType
-                    String val = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                    if (BulkDataConstants.INPUT_FORMATS.contains(val)) {
-                        return val;
-                    }
+    /**
+     * processes the parameter inputFormat from the Parameters object and evaluationContext.
+     *
+     * @implNote If there are multiple entries, the processing only takes the first entry that matches.
+     *
+     * @return
+     * @throws FHIROperationException
+     */
+    public String retrieveInputFormat() throws FHIROperationException {
+        try {
+            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'inputFormat').value");
+            Iterator<FHIRPathNode> iter = result.iterator();
+            while (iter.hasNext()) {
+                FHIRPathElementNode node = iter.next().as(FHIRPathElementNode.class);
+                String val = node.asElementNode().element().as(com.ibm.fhir.model.type.String.class).getValue();
+                if (BulkDataConstants.INPUT_FORMATS.contains(val)) {
+                    return val;
                 }
             }
+        } catch (ClassCastException | FHIRPathException e) {
+            throw buildExceptionWithIssue("invalid $import parameter value in 'inputFormat'", e, IssueType.INVALID);
         }
 
         throw buildExceptionWithIssue("$import requires 'inputFormat' is not found", IssueType.INVALID);
     }
 
-    public static String retrieveInputSource(Parameters parameters) throws FHIROperationException {
-        // Parameter: inputSource (required)
-        // If there are multiple entries, the processing only takes the first entry.
-        if (parameters != null) {
-            for (Parameters.Parameter parameter : parameters.getParameter()) {
-                if (BulkDataConstants.PARAM_INPUT_SOURCE.equals(parameter.getName().getValue())
-                        && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.Uri.class)) {
-                    // If the parameter isn't passed, use application/fhir+ndjson
-                    return parameter.getValue().as(com.ibm.fhir.model.type.Uri.class).getValue();
-                }
+    /**
+     * processes the retrieveInputSource from the parameters object and evaluationContext.
+     *
+     * @implNote If there are multiple entries, the processing only takes the first entry.
+     *
+     * @return
+     * @throws FHIROperationException
+     */
+    public String retrieveInputSource() throws FHIROperationException {
+        try {
+            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'inputSource').value");
+            Iterator<FHIRPathNode> iter = result.iterator();
+            while (iter.hasNext()) {
+                FHIRPathElementNode node = (FHIRPathElementNode) iter.next();
+                return node.asElementNode().element().as(com.ibm.fhir.model.type.Uri.class).getValue();
             }
+        } catch (ClassCastException | FHIRPathException e) {
+            throw buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
         }
 
         throw buildExceptionWithIssue("$import requires 'inputSource' is not found", IssueType.INVALID);
     }
 
-    public static List<Input> retrieveInputs(Parameters parameters) throws FHIROperationException {
+    /**
+     * processes the retrieve inputs from the Parameters object and evaluationContext.
+     * @return
+     * @throws FHIROperationException
+     */
+    public List<Input> retrieveInputs() throws FHIROperationException {
         // Parameter: input (required)
         List<Input> inputs = new ArrayList<>();
-
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        EvaluationContext evaluationContext = new EvaluationContext(parameters);
 
         try {
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'input')");
@@ -140,11 +149,11 @@ public class BulkDataImportUtil {
 
     /**
      * check the allowed total size for tenant and system
-     * 
+     *
      * @param inputSize
      * @throws FHIROperationException
      */
-    public static void checkAllowedTotalSizeForTenantOrSystem(Integer inputSize) throws FHIROperationException {
+    public void checkAllowedTotalSizeForTenantOrSystem(Integer inputSize) throws FHIROperationException {
         Integer tenantCount =
                 FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT,
                         BulkDataConstants.IMPORT_MAX_DEFAULT_INPUTS);
@@ -157,11 +166,11 @@ public class BulkDataImportUtil {
 
     /**
      * verify url is allowed.
-     * 
+     *
      * @param url
      * @throws FHIROperationException
      */
-    public static void verifyUrlAllowed(String url) throws FHIROperationException {
+    public void verifyUrlAllowed(String url) throws FHIROperationException {
         Boolean disabled =
                 FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED,
                         Boolean.FALSE);
@@ -190,11 +199,8 @@ public class BulkDataImportUtil {
         }
     }
 
-    public static StorageDetail retrieveStorageDetails(Parameters parameters) throws FHIROperationException {
+    public StorageDetail retrieveStorageDetails() throws FHIROperationException {
         // Parameter: storageDetail (optional)
-
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        EvaluationContext evaluationContext = new EvaluationContext(parameters);
 
         try {
             Collection<FHIRPathNode> result =
@@ -232,7 +238,7 @@ public class BulkDataImportUtil {
                     contentEncodings.add(contentEncoding);
                 }
 
-                // Immediately Return and stop processing... we shouldn't have multiple storage details. 
+                // Immediately Return and stop processing... we shouldn't have multiple storage details.
                 return new StorageDetail(type, contentEncodings);
             }
         } catch (FHIRPathException e) {
@@ -244,11 +250,23 @@ public class BulkDataImportUtil {
         throw buildExceptionWithIssue("$import required 'storageDetail' is not found", IssueType.INVALID);
     }
 
-    private static void checkValidContentEncoding(String contentEncoding) throws FHIROperationException {
+    private void checkValidContentEncoding(String contentEncoding) throws FHIROperationException {
         if (!BulkDataConstants.STORAGE_CONTENT_ENCODING.contains(contentEncoding)) {
             throw buildExceptionWithIssue(
                     "$import invalid 'contentEncoding' for storageDetail for '" + contentEncoding + "'",
                     IssueType.INVALID);
         }
+    }
+
+    public FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType)
+            throws FHIROperationException {
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+        return new FHIROperationException(msg).withIssue(ooi);
+    }
+
+    public FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType)
+            throws FHIROperationException {
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+        return new FHIROperationException(msg, cause).withIssue(ooi);
     }
 }

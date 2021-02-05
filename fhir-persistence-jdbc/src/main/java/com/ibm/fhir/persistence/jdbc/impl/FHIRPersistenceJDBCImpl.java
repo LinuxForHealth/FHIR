@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,11 +28,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -53,6 +55,7 @@ import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -83,6 +86,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -112,6 +116,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
+import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
@@ -601,8 +606,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
-        List<Long> sortedIdList;
-        List<com.ibm.fhir.persistence.jdbc.dto.Resource> unsortedResultsList;
         int searchResultCount = 0;
         SqlQueryData countQuery;
         SqlQueryData query;
@@ -672,12 +675,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         if (resourceType.equals(Resource.class)) {
                            resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
                         } else {
-                            sortedIdList = resourceDao.searchForIds(query);
-                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, sortedIdList, elements);
+                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
                         }
                     } else {
-                        unsortedResultsList = resourceDao.search(query);
-                        resources = this.convertResourceDTOList(unsortedResultsList, resourceType, elements);
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
+                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
+
+                        // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
+                        // (duplicates of both 'match' and 'include' resources) and make sure _elements processing
+                        // is not done for 'include' resources.
+                        if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+                            // Calculate 'match' results count
+                            int pageSize = searchContext.getPageSize();
+                            int offset = (searchContext.getPageNumber() - 1) * pageSize;
+                            int matchResultCount = pageSize;
+                            if (searchResultCount < offset + pageSize) {
+                                matchResultCount = searchResultCount - offset;
+                            }
+
+                            // Split results list into 'match' list and 'include' list. The results have been sorted
+                            // by the underlying query to return the 'match' results before the 'include' results.
+                            if (resultsList.size() > matchResultCount) {
+                                matchResultList = resultsList.subList(0, matchResultCount);
+
+                                // Remove duplicates from 'include' list
+                                Set<Long> resultIds = new HashSet<>();
+                                for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
+                                    resultIds.add(resource.getId());
+                                }
+                                for (int i=matchResultCount; i<resultsList.size(); ++i) {
+                                    com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
+                                    if (!resultIds.contains(resource.getId())) {
+                                        resultIds.add(resource.getId());
+                                        includeResultList.add(resource);
+                                    }
+                                }
+                            }
+                        }
+
+                        // Convert resources
+                        resources = this.convertResourceDTOList(matchResultList, resourceType, elements);
+                        resources.addAll(this.convertResourceDTOList(includeResultList, resourceType, null));
                     }
                 }
             }
@@ -866,31 +905,35 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
-
-        FHIRSearchContext searchContext = context.getSearchContext();
         List<String> elements = null;
-        //Check if _summary is required
-        if (searchContext != null && searchContext.hasSummaryParameter()) {
-            Set<String> summaryElements = null;
-            SummaryValueSet summary = searchContext.getSummaryParameter();
+        FHIRSearchContext searchContext = context.getSearchContext();
 
-            switch (summary) {
-            case TRUE:
-                summaryElements = JsonSupport.getSummaryElementNames(resourceType);
-                break;
-            case TEXT:
-                summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
-                break;
-            case DATA:
-                summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
-                break;
-            default:
-                break;
-            }
+        if (searchContext != null) {
+            elements = searchContext.getElementsParameters();
 
-            if (summaryElements != null) {
-                elements = new ArrayList<String>();
-                elements.addAll(summaryElements);
+            // Only consider _summary if _elements parameter is empty
+            if (elements == null && searchContext.hasSummaryParameter()) {
+                Set<String> summaryElements = null;
+                SummaryValueSet summary = searchContext.getSummaryParameter();
+
+                switch (summary) {
+                case TRUE:
+                    summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                    break;
+                case TEXT:
+                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    break;
+                case DATA:
+                    summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                    break;
+                default:
+                    break;
+                }
+
+                if (summaryElements != null) {
+                    elements = new ArrayList<String>();
+                    elements.addAll(summaryElements);
+                }
             }
         }
 
@@ -1059,6 +1102,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         T resource = null;
         com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = null;
         int version;
+        List<String> elements = null;
+        FHIRSearchContext searchContext = context.getSearchContext();
+
+        if (searchContext != null) {
+            elements = searchContext.getElementsParameters();
+
+            // Only consider _summary if _elements parameter is empty
+            if (elements == null && searchContext.hasSummaryParameter()) {
+                Set<String> summaryElements = null;
+                SummaryValueSet summary = searchContext.getSummaryParameter();
+
+                switch (summary) {
+                case TRUE:
+                    summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                    break;
+                case TEXT:
+                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    break;
+                case DATA:
+                    summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                    break;
+                default:
+                    break;
+                }
+
+                if (summaryElements != null) {
+                    elements = new ArrayList<String>();
+                    elements.addAll(summaryElements);
+                }
+            }
+        }
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -1069,7 +1143,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
             }
-            resource = this.convertResourceDTO(resourceDTO, resourceType, null);
+            resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -1461,8 +1535,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Augment the given allParameters list with ibm-internal parameters represents relationships
-     * of the fhirResource to its compartments. These parameter values are subsequently used
+     * Augment the given allParameters list with ibm-internal parameters that represent relationships
+     * between the fhirResource to its compartments. These parameter values are subsequently used
      * to improve the performance of compartment-based FHIR search queries. See
      * {@link CompartmentUtil#makeCompartmentParamName(String)} for details on how the
      * parameter name is composed for each relationship.
@@ -1971,6 +2045,29 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+    }
+
+    @Override
+    public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
+        java.time.Instant toLastModified, Function<ResourcePayload, Boolean> processor) throws FHIRPersistenceException {
+        try (Connection connection = openConnection()) {
+            // translator is required to handle some simple SQL syntax differences. This is easier
+            // than creating separate DAO implementations for each database type
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            FetchResourcePayloadsDAO dao = new FetchResourcePayloadsDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceType.getSimpleName(), fromLastModified, toLastModified, processor);
+
+            if (log.isLoggable(Level.FINEST)) {
+                int count = dao.count(connection);
+                log.finest("resource count for range: " + count);
+            }
+            return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;
         } catch(Throwable e) {

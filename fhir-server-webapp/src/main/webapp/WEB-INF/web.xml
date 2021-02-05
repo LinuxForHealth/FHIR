@@ -22,14 +22,6 @@
         <auth-method>CLIENT-CERT</auth-method>
     </login-config>
 
-    <filter>
-        <filter-name>FHIRAuthFilter</filter-name>
-        <filter-class>com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FHIRAuthFilter</filter-name>
-        <servlet-name>FHIRRestServlet</servlet-name>
-    </filter-mapping>
 
     <filter>
         <filter-name>FHIRRestFilter</filter-name>

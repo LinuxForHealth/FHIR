@@ -17,6 +17,11 @@ import javax.inject.Inject;
 import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
 import com.ibm.fhir.jbatch.bulkdata.export.common.TransientUserData;
 
+/**
+ * Final step which is executed after the individual partitions have completed
+ * or the job has been terminated. Provides summary data in the form of a
+ * {@link CheckPointUserData} object.
+ */
 @Dependent
 public class ExportPartitionCollector implements PartitionCollector {
     @Inject

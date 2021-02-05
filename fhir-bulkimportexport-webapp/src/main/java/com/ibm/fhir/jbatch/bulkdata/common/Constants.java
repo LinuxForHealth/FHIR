@@ -17,12 +17,15 @@ public class Constants {
     /**
      * The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only).
      */
-    public static final int COS_PART_MINIMALSIZE = 10485760;
+    public static final long COS_PART_MINIMALSIZE = 10485760;
 
     /**
      * The maximum number of resources read in each iteration of the system export ChunkReader.
      */
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
+
+    // How many resources should we store in a single COS item
+    public static final int DEFAULT_MAX_RESOURCES_PER_ITEM = 10000;
 
     /**
      * The maximum number of resources read in each iteration of the the patient or group export ChunkReaders.

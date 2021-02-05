@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.postgresql;
+package com.ibm.fhir.database.utils.postgres;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -25,10 +25,10 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
- * translates database access to PostgreSql supported access.
+ * translates database access to Postgres supported access.
  */
-public class PostgreSqlTranslator implements IDatabaseTranslator {
-    private static final Logger logger = Logger.getLogger(PostgreSqlTranslator.class.getName());
+public class PostgresTranslator implements IDatabaseTranslator {
+    private static final Logger logger = Logger.getLogger(PostgresTranslator.class.getName());
 
     @Override
     public String addForUpdate(String sql) {
@@ -66,9 +66,9 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public boolean isLockTimeout(SQLException x) {
         return false;
     }
-    
+
     @Override
-    public boolean isIndexUseSchemaPrefix() { 
+    public boolean isIndexUseSchemaPrefix() {
         // For Postgres, the index always shares the same schema as the table to which
         // it belongs
         return false;
@@ -171,7 +171,7 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
 
     @Override
     public String getUrl(Properties connectionProperties) {
-        PostgreSqlPropertyAdapter adapter = new PostgreSqlPropertyAdapter(connectionProperties);
+        PostgresPropertyAdapter adapter = new PostgresPropertyAdapter(connectionProperties);
         StringBuilder jdbcUrl = new StringBuilder();
         jdbcUrl.append("jdbc:postgresql://");
         jdbcUrl.append(adapter.getHost());
@@ -234,17 +234,21 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public String currentTimestampString() {
         return "CURRENT_TIMESTAMP";
     }
-    
+
     @Override
     public String dropForeignKeyConstraint(String qualifiedTableName, String constraintName) {
         // PostgreSQL syntax is not the same as DB2/Derby
         return "ALTER TABLE " + qualifiedTableName + " DROP CONSTRAINT IF EXISTS " + constraintName;
     }
-    
+
     @Override
     public String nextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "nextval('" + qname + "')";
     }
 
+    @Override
+    public String limit(String arg) {
+        return "LIMIT " + arg;
+    }
 }

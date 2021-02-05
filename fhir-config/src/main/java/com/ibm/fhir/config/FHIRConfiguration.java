@@ -64,10 +64,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/oauth/smart/scopes";
     public static final String PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES = "fhirServer/security/oauth/smart/capabilities";
 
-    public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/security/cert/authFilter/enabled";
-    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/security/cert/authFilter/authorizedClientCertClientCN";
-    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/security/cert/authFilter/authorizedClientCertIssuerOU";
-
     // Audit config properties
     public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";
     public static final String PROPERTY_AUDIT_SERVICE_PROPERTIES = "fhirServer/audit/serviceProperties";
@@ -125,6 +121,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
     public static final String PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE = "fhirServer/bulkdata/useFhirServerTrustStore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET = "fhirServer/bulkdata/enableParquet";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL = "fhirServer/bulkdata/systemExportImpl";
 
     public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS = "fhirServer/bulkdata/validBaseUrls";
     public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED = "fhirServer/bulkdata/validBaseUrlsDisabled";

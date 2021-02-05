@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-11-03 01:00:00 -0400
+date:   2021-02-04 01:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -20,6 +20,8 @@ The HL7 FHIR specification is more than just a data format. It defines an [HTTP 
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
 The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
+
+By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### Extended operations
 The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
@@ -126,7 +128,9 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to request up to 1000 records matching the search criteria.  An attempt to exceed this `_count` limit will not be honored and returned records will be capped at 1000.  Any associated `_include` records are not considered in the `_count` limit. 
+The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
+
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results. 
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
@@ -243,6 +247,20 @@ Reference searches on the IBM FHIR Server support search on:
 * uri searches - where it is explicitly searched using a URI on the server, such as `reference=http://example.org/fhir/Patient/123`
 
 We recommend using logical reference where possible.
+
+Elements of type Reference may contain a versioned reference, such as `Patient/123/_history/2`. When performing chained, reverse chained (`_has`), `_include`, or `_revinclude` searches on versioned references, the following rules apply:
+
+* **Chained search**: If a resource has a reference that is versioned, and a chained search is performed using the element containing the versioned reference, the search criteria will be evaluated against the current version of the referenced resource, regardless of the version specified.
+    * This is because the IBM FHIR Server only stores search index information for the current versions of resources. In the case where a chained search does not act on the referenced version of a resource, the search results will contain an `OperationOutcome` with a warning that indicates the logical id of the resource and the element containing the versioned reference.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/1` in its `subject` element, and the current version of the `Patient/123` resource is 2, and a search of `Condition?subject.name=Jane` is performed. In this case, the search criteria will be evaluated against the current version of the `Patient/123` resource rather than the specified version of `1`.
+* **Reverse chained search**: If a resource has a reference that is versioned, and a reverse chain search is performed using the element containing the versioned reference, then the referenced resource can only be returned as a match if the version specified is the referenced resource's current version.
+    * This is because the IBM FHIR Server will only return the current version of `match` resources in search results.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/2` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Patient?_has:Condition:patient:code=1234-5` is performed. If the `Condition` resource meets the search criteria, then the `Patient/123` resource will be returned as a match since the version specified in the reference is the current version of the `Patient/123` resource. However, if the current version of the `Patient/123` resource happens to be `3`, then the `Condition` resource will not be returned as a match in the search results.
+* **Include search**: If a resource has a reference that is versioned, and an `_include` search is performed using the element containing the versioned reference, then the referenced resource with the specified version will be returned as an `include` resource in the search results, assuming the version is valid.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/1` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Condition?_include=Condition:subject` is performed. Version `1` of the `Patient/123` resource will be returned as an `include` resource in the search results.
+* **Revinclude search**: If a resource has a reference that is versioned, and a `_revinclude` search is performed using the element containing the versioned reference, then the resource containing the versioned reference is returned as an `include` resource only if the version specified in the reference is the referenced resource's current version.
+    * This is because the IBM FHIR Server will only return the current version of `match` resources in search results. A reference to a non-current version of the resource is not considered to have met the search criteria, thus the resource containing the reference is not considered a valid `include` resource.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/2` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Patient?_revinclude=Condition:subject` is performed. The `Condition` resource will be returned as an `include` resource since the version of the `Patient` resource specified in the `subject` element is the current version of the `Patient` resource. If the current version of the `Patient/123` resource is `3`, then the `Condition` resource will not be returned as an `include` resource in the search results.
 
 ### Searching on Special Positional Search
 Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants:

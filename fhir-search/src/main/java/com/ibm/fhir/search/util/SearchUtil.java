@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1312,6 +1312,34 @@ public class SearchUtil {
         return result;
     }
 
+    /**
+     * Parse query parameters for read and vread.
+     * @param resourceType the resource type
+     * @param queryParameters the query parameters
+     * @param interaction read or vread
+     * @param lenient true if lenient, false if strict
+     * @return the FHIR search context
+     * @throws Exception an exception
+     */
+    public static FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
+        Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+        String resourceTypeName = resourceType.getSimpleName();
+
+        // Read and vRead only allow general search parameters
+        List<String> nonGeneralParams = queryParameters.keySet().stream().filter(k -> !FHIRConstants.GENERAL_PARAMETER_NAMES.contains(k)).collect(Collectors.toList());
+        for (String nonGeneralParam : nonGeneralParams) {
+            FHIRSearchException se = SearchExceptionUtil.buildNewInvalidSearchException("Search parameter '" + nonGeneralParam
+                + "' is not supported by " + interaction + ".");
+            if (!lenient) {
+                throw se;
+            }
+            log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
+        }
+
+        return parseQueryParameters(null, null, resourceType, queryParameters, lenient);
+    }
+
+
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType,
             Map<String, List<String>> queryParameters, String queryString) throws Exception {
@@ -1997,8 +2025,8 @@ public class SearchUtil {
                     continue;
                 }
                 if (!SearchParamType.REFERENCE.equals(searchParm.getType())) {
-                    manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type: '"
-                            + searchParm.getType().getValue() + "'" + inclusionValue, lenient);
+                    manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type '"
+                            + searchParm.getType().getValue() + "': " + inclusionValue, lenient);
                     continue;
                 }
                 searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
@@ -2238,7 +2266,8 @@ public class SearchUtil {
      * @param compartmentRefParams a map of parameter names to a set of compartment names (resource types)
      * @return a map of compartment name to a set of unique compartment reference values
      */
-    public static Map<String, Set<CompartmentReference>> extractCompartmentParameterValues(Resource fhirResource, Map<String, Set<java.lang.String>> compartmentRefParams) throws FHIRSearchException {
+    public static Map<String, Set<CompartmentReference>> extractCompartmentParameterValues(Resource fhirResource,
+            Map<String, Set<java.lang.String>> compartmentRefParams) throws FHIRSearchException {
         final Map<String, Set<CompartmentReference>> result = new HashMap<>();
         final String resourceType = fhirResource.getClass().getSimpleName();
 
@@ -2288,7 +2317,7 @@ public class SearchUtil {
                                 }
                             }
                         }
-                    } else {
+                    } else if (!useStoredCompartmentParam()) {
                        log.warning("Compartment parameter not found: [" + resourceType + "] '" + searchParm + "'. This will stop compartment searches from working correctly.");
                     }
                 }

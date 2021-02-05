@@ -21,12 +21,15 @@ import javax.inject.Inject;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.model.util.ModelSupport;
 
+/**
+ * Generates the {@link PartitionPlan} describing how the system export work is
+ * broken into pieces. Each resource type extracted from the fhirResourceType
+ * property is allocated to a partition.
+ */
 @Dependent
 public class SystemExportPartitionMapper implements PartitionMapper {
 
-    /**
-     * Fhir ResourceType.
-     */
+    // Comma-separated list of FHIR resource type names.
     @Inject
     @BatchProperty(name = Constants.FHIR_RESOURCETYPES)
     String fhirResourceType;

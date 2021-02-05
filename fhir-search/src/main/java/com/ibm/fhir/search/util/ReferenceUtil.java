@@ -42,9 +42,21 @@ public class ReferenceUtil {
      * Processes a Reference value from the FHIR model and interprets
      * it according to https://www.hl7.org/fhir/references.html#2.3.0
      *
-     * @param ref
-     * @param fullUrl the server
-     * @return
+     * <p>Absolute literal references will be converted to relative references if their base matches baseUrl.
+     *
+     * <p>The resulting ReferenceValue will contained an inferred ReferenceType
+     * and the structure of the ReferenceValue.value will vary accordingly:
+     * <ol>
+     * <li>LITERAL_RELATIVE: the id of the referenced resource</li>
+     * <li>LITERAL_ABSOLUTE: the full URI of the reference</li>
+     * <li>LOGICAL: the Identifier.value (Identifier.system is not presently stored)</li>
+     * <li>DISPLAY_ONLY: null</li>
+     * <li>INVALID: null</li>
+     * </ol>
+     *
+     * @param ref a non-null FHIR Reference object
+     * @param baseUrl the base URL used to determine whether to convert absolute references to relative references
+     * @return a structured representation of the reference value that varies by its inferred reference type
      */
     public static ReferenceValue createReferenceValueFrom(Reference ref, String baseUrl) {
         String value;

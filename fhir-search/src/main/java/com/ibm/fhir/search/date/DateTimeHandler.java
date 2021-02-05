@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ public class DateTimeHandler {
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00.000000";
     private static final LocalDateTime REFERENCE_DATE = LocalDateTime.parse(REFERENCE_DATE_STRING);
 
-    // The approach we follow is to use 6 pts of precision.  
+    // The approach we follow is to use 6 pts of precision.
     private static final long TICK = 1000l;
 
     /*
@@ -100,7 +100,7 @@ public class DateTimeHandler {
     /**
      * Calculates a lower bound absolutely.
      * No matter if the time is AFTER the current time.
-     * 
+     *
      * @param now
      * @param cur
      * @return
@@ -112,7 +112,7 @@ public class DateTimeHandler {
 
     /**
      * generate lower bounds
-     * 
+     *
      * @param prefix
      * @param value
      * @param originalString
@@ -137,7 +137,7 @@ public class DateTimeHandler {
 
     /**
      * common code to generate instant value.
-     * 
+     *
      * @param value
      * @return
      */
@@ -184,12 +184,12 @@ public class DateTimeHandler {
     public static Instant generateUpperBound(DateTime value) {
         // from https://www.hl7.org/fhir/datatypes.html#dateTime:
         // "Seconds must be provided due to schema type constraints but may be zero-filled and may be ignored at receiver discretion."
-        
-        // use value.getValue().toString() instead if you want to interpret zero-filled seconds ("ss" = 00) 
+
+        // use value.getValue().toString() instead if you want to interpret zero-filled seconds ("ss" = 00)
         // as a datetime with a precision of 1 minute (i.e. HH:mm rather than HH:mm:ss)
         return generateUpperBound(null, value.getValue(), DateTime.PARSER_FORMATTER.format(value.getValue()));
     }
-    
+
     /**
      * convenience method to generate upper bound for a Date value.
      * @param value
@@ -201,7 +201,7 @@ public class DateTimeHandler {
 
     /**
      * generate upper bounds
-     * 
+     *
      * @param prefix
      * @param value
      * @param originalString
@@ -242,10 +242,10 @@ public class DateTimeHandler {
             LocalDateTime local = (LocalDateTime) value;
             long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.').count();
             if (precision == 0) {
-                // HH - No Colon 
+                // HH - No Colon
                 local = local.plus(1, ChronoUnit.HOURS).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 1) {
-                // HH:MM - First Colon 
+                // HH:MM - First Colon
                 local = local.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 2) {
                 // HH:MM:SS - Second Colon
@@ -259,13 +259,13 @@ public class DateTimeHandler {
         } else if (value instanceof ZonedDateTime) {
             ZonedDateTime zdt = (ZonedDateTime) value;
             long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.' || ch == 'Z').count();
-            // Shift by 1 as the Zone includes a semicolon. 
+            // Shift by 1 as the Zone includes a semicolon.
             if (precision == 1) {
                 // HH - First Colon (Zone is colon)
                 // 2019-12-11T00+05:00
                 zdt = zdt.plus(1, ChronoUnit.HOURS).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 2) {
-                // HH:MM - Second Colon 
+                // HH:MM - Second Colon
                 // 2019-12-11T00:00+05:00
                 zdt = zdt.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 3) {
@@ -284,7 +284,7 @@ public class DateTimeHandler {
 
         if (prefix != null && Prefix.AP.compareTo(prefix) == 0 && response != null) {
             // Take the ChronoUnits into consideration with +/- 10%
-            // And now we're at the upper bound of a range, and taking 10% from there. 
+            // And now we're at the upper bound of a range, and taking 10% from there.
             response = generateUpperBoundApproximation(Instant.now(), response);
         }
 
@@ -294,7 +294,7 @@ public class DateTimeHandler {
     /**
      * Calculates a lower bound absolutely.
      * No matter if the time is AFTER the current time.
-     * 
+     *
      * @param now
      * @param cur
      * @return
@@ -313,7 +313,7 @@ public class DateTimeHandler {
 
     /**
      * parses the value into a set of bounds/value and adds to parameter value.
-     * 
+     *
      * @param prefix
      * @param parameterValue
      * @param v
@@ -321,6 +321,7 @@ public class DateTimeHandler {
      */
     public static void parse(Prefix prefix, QueryParameterValue parameterValue, String v) throws FHIRSearchException {
         TemporalAccessor value = parse(v);
+        parameterValue.setValueDate(v);
         parameterValue.setValueDateLowerBound(generateLowerBound(prefix, value, v));
         parameterValue.setValueDateUpperBound(generateUpperBound(prefix, value, v));
     }
@@ -328,7 +329,7 @@ public class DateTimeHandler {
     /**
      * Parses the value into a set of bounds/value and adds to parameter value.
      * The value will be truncated to a microsecond precision after being parsed.
-     * 
+     *
      * @param value
      *     The date/time value to be parsed
      * @return
@@ -346,7 +347,7 @@ public class DateTimeHandler {
     /**
      * Parses quiet the value into a set of bounds/value and adds to parameter value.
      * The value will be truncated to a microsecond precision after being parsed.
-     * 
+     *
      * @param value
      *     The date/time value to be parsed
      * @return

@@ -21,18 +21,24 @@ public class ReferenceValue {
         INVALID           // Not a valid reference
     }
 
-    // The type of the resource this reference points to. Can be null
     private final String targetResourceType;
 
-    // The value of the reference
     private final String value;
 
-    // The reference type
     private final ReferenceType type;
 
-    // Option version number to support versioned references when we need this
     private final Integer version;
 
+    /**
+     * @param targetResourceType
+     *          The resource type of the resource being referenced; can be null
+     * @param value
+     *          The value of the reference; the expected format of the value will vary based on the reference type
+     * @param type
+     *          The ReferenceType of the reference (LITERAL_RELATIVE | LITERAL_ABSOLUTE | LOGICAL | DISPLAY_ONLY | INVALID)
+     * @param version
+     *          The version of the target resource as specified in the reference, or null if the reference is not versioned
+     */
     public ReferenceValue(String targetResourceType, String value, ReferenceType type, Integer version) {
         this.targetResourceType = targetResourceType;
         this.value = value;
@@ -42,7 +48,7 @@ public class ReferenceValue {
 
 
     /**
-     * @return the targetResourceType
+     * @return the type of the resource this reference points to; can be null
      */
     public String getTargetResourceType() {
         return targetResourceType;
@@ -50,7 +56,7 @@ public class ReferenceValue {
 
 
     /**
-     * @return the value
+     * @return the value of the reference; the expected format of the value will vary based on the reference type
      */
     public String getValue() {
         return value;
@@ -58,7 +64,7 @@ public class ReferenceValue {
 
 
     /**
-     * @return the type
+     * @return the type of the reference itself
      */
     public ReferenceType getType() {
         return type;
@@ -66,7 +72,7 @@ public class ReferenceValue {
 
 
     /**
-     * @return the version
+     * @return the version of the target resource as specified in the reference, or null if the reference is not versioned
      */
     public Integer getVersion() {
         return version;

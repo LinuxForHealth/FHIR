@@ -2,8 +2,8 @@
 layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
-Copyright: years 2017, 2020
-lastupdated: "2020-11-30"
+Copyright: years 2017, 2021
+lastupdated: "2021-01-21"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -28,6 +28,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.9 Multi-tenancy](#49-multi-tenancy)
   * [4.10 Bulk data operations](#410-bulk-data-operations)
   * [4.11 Audit logging service](#411-audit-logging-service)
+  * [4.12 FHIR REST API](#412-fhir-rest-api)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -730,7 +731,7 @@ For a Derby-related datasource definition, any bean property supported by the `E
 
 To disable the multitenant feature for a particular offering add to your `fhirServer/persistence/datasources` entry `multitenant` and set false to disable, and true to enable, only for Db2 is the default set to true.
 
-#### 3.3.2.4 Database Access TransactionManager Timeout
+#### 3.3.2.5 Database Access TransactionManager Timeout
 The TransactionManager controls the timeout of database queries.  
 
 To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s.
@@ -1581,13 +1582,16 @@ BulkData web application writes the exported FHIR resources to an IBM Cloud Obje
     "validBaseUrls": [
         "https://test-url/"
     ],
-    "maxInputPerRequest": 5
+    "maxInputPerRequest": 5,
+    "systemExportImpl": "fast"
 }
 ```
 
 To use Amazon S3 bucket for exporting, please set `cos.credential.ibm` to `N`, set `cos.api.key` to S3 access key, and set `cos.srvinst.id` to the S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
 
 `.../exports/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson`
+
+Basic system exports (without typeFilters) use a streamlined implementation which bypasses the IBM FHIR Server search API for direct access to the data, enabling better throughput. The `fhirServer/bulkdata/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation will be used by default for any export not using typeFilters. Exports using typeFilters use FHIR search capabilities so cannot use the streamlined export function.
 
 To import using the `$import` proposal, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on `https://test-url.cos.ibm.com/bucket1` and `https://test-url.cos.ibm.com/bucket2` you must specify both baseUrls in the configuration:
 
@@ -2041,6 +2045,76 @@ select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETW
 select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETWEEN "2019-06-01" and "2019-06-06" and ATTACHMENTS[0].CONTENT LIKE '%fhir-read%' into cos://us-south/fhir-audit-dev-res stored as json
 
 ```
+
+## 4.12 FHIR REST API
+By default, the IBM FHIR Server allows the following RESTful interactions associated with the FHIR REST API: `create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`. However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules specified via the `fhirServer/resources/<resourceType>/interactions` property in `fhir-server-config.json`. The following snippet shows the general form for specifying interaction rules:
+
+```
+"resources": {
+    "open": true,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    },
+    "Procedure": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    }
+}
+```
+
+The `fhirServer/resources/<resourceType>/interactions` property is a JSON array of strings that represent the RESTful interactions allowed for the given resource type. If an interaction is not in the list of strings specified for a resource type, that interaction will not be allowed for that resource type. In the example above, the following interactions are allowed for the `Observation` resource type: [`create`, `read`, `vread`, `history`, `delete`]. This means a user will not be able to search for `Observation` resources because the `search` interaction is not specified in the list of allowed interactions.
+
+Omitting the `fhirServer/resources/<resourceType>/interactions` property is equivalent to allowing all interactions for a given resource type. An empty array, `[]`, can be used to indicate that no interactions are allowed. Additionally, to define the set of interactions allowed for resource types which are not specifically configured in the `fhirServer/resources` property group, or for resource types which are configured, but which do not specify the `fhirServer/resources/<resourceType>/interactions` property, the base type of `Resource` may be specified:
+
+```
+"resources": {
+    "open": true,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    },
+    "Procedure": {
+    },
+    "Resource": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "patch", "delete"]
+    }
+}
+```
+
+In the example above, for any resource type which is not specifically configured, such as `Encounter`, or for any resource type which is configured but does not specify the `fhirServer/resources/<resourceType>/interactions` property, such as `Procedure`, all of the interactions listed for the `Resource` resource type will be allowed.
+
+One final consideration when configuring interactions is the `fhirServer/resources/open` property. If this property is specified and its value is set to `false`, then no interactions will be allowed for resource types which are not specifically listed in the `fhirServer/resources` property group. Assume the following configuration:
+
+```
+"resources": {
+    "open": false,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    }
+}
+```
+
+In this case, since the `fhirServer/resources/open` property is set to `false`, only the resource types listed (`Condition`, `Observation`, `Patient`) are allowed to be interacted with via the FHIR REST API. For example, a `create` request of a `Procedure` resource will fail since that resource type is not specified.
+
+Whole-system search is a special case of this resource type validation, since no resource type is specified on a whole-system search request. In this case, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
+
+In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
 # 5 Appendix
 

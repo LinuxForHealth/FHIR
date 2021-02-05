@@ -38,7 +38,7 @@ import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
@@ -216,7 +216,7 @@ public class Main {
                     translator = new DerbyTranslator();
                     break;
                 case POSTGRESQL:
-                    translator = new PostgreSqlTranslator();
+                    translator = new PostgresTranslator();
                     break;
                 case DB2:
                 default:

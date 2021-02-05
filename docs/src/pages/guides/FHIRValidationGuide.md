@@ -2,13 +2,20 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2020-09-21 10:25:00 -0400
+date:   2021-01-11 10:25:00 -0400
 permalink: /FHIRValidationGuide/
 ---
 
 ## Overview
 
-The IBM FHIR Server Validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
+The IBM FHIR Server validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions.
+
+The validation module is available from our [Maven artifact repository](https://github.com/ibm/fhir#building-on-top-of-the-ibm-fhir-server-modules) and is also packaged together with its dependencies and all of our pre-packaged implementation guides in the `fhir-validation-distribution.zip` artifact which may be downloaded from [https://github.com/IBM/FHIR/releases](releases).
+
+## How it works
+
+The IBM FHIR Server validation module evaluates constraints from both the core specification and from structure definitions that are available at runtime.
+For example, in the Patient resource, we have the following constraint:
 
 ```java
 @Constraint(
@@ -203,12 +210,12 @@ The IBM FHIR server has additional implementation guides available in the fhir-v
 The latest version of the fhir-validation-distribution.zip artifact includes the following implementation guides:
 
 - US Core Implementation Guide (v3.1.1: STU3 Update) [http://hl7.org/fhir/us/core/STU3.1.1/](http://hl7.org/fhir/us/core/STU3.1.1/)
-- CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®) Implementation Guide (v0.1.7: STU1 draft) [https://build.fhir.org/ig/HL7/carin-bb/branches/v0.1.7](https://build.fhir.org/ig/HL7/carin-bb/branches/v0.1.7)
-- HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0: STU 1) [http://hl7.org/fhir/us/mcode/STU1/](http://hl7.org/fhir/us/mcode/STU1/)
+- CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®) Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/carin-bb/STU1](http://hl7.org/fhir/us/carin-bb/STU1)
+- HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0 - STU1) [http://hl7.org/fhir/us/mcode/STU1](http://hl7.org/fhir/us/mcode/STU1)
 - Da Vinci Health Record Exchange (HREX) Implementation Guide (0.2.0 - STU R1 - 2nd ballot) [http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html](http://hl7.org/fhir/us/davinci-hrex/2020Sep/artifacts.html)
-- Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v0.1.18: CI Build) [http://build.fhir.org/ig/HL7/davinci-epdx/](http://build.fhir.org/ig/HL7/davinci-epdx)
-- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v0.1.7: STU1 draft) [https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.7/](https://build.fhir.org/ig/HL7/davinci-pdex-plan-net/branches/v0.1.7/)
-- Da Vinci Payer Data Exchange (PDex) US Drug Formulary STU 1 [http://hl7.org/fhir/us/davinci-drug-formulary/STU1/](http://hl7.org/fhir/us/davinci-drug-formulary/STU1/)
+- Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/davinci-pdex/STU1](http://hl7.org/fhir/us/davinci-pdex/STU1)
+- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1](http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1)
+- Da Vinci Payer Data Exchange (PDex) US Drug Formulary (v1.0.1 - STU1.0.1) [http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1](http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1)
 
 ## The IBM FHIR Server $validate operation
 
