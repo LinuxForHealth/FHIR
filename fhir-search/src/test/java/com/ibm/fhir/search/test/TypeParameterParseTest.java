@@ -140,4 +140,30 @@ public class TypeParameterParseTest extends BaseSearchTest {
         assertTrue(isExceptionThrown);
     }
 
+    @Test
+    public void testTypeAbstract_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+
+        queryParameters.put("_type", Collections.singletonList("Resource"));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(Resource.class, queryParameters, true);
+        assertNotNull(context);
+        assertNull(context.getSearchResourceTypes());
+    }
+
+    @Test
+    public void testTypeAbstract_strict() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        boolean isExceptionThrown = false;
+
+        queryParameters.put("_type", Collections.singletonList("Resource"));
+        try {
+            SearchUtil.parseQueryParameters(Resource.class, queryParameters, false);
+        } catch(Exception ex) {
+            isExceptionThrown = true;
+            assertEquals(ex.getMessage(), "_type search parameter has invalid resource type: Resource");
+
+        }
+        assertTrue(isExceptionThrown);
+    }
+
 }

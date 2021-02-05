@@ -743,7 +743,7 @@ public class SearchUtil {
                 || queryParameters.containsKey(SearchConstants.REVINCLUDE)) {
             // Make sure _sort is not present with _include and/or _revinclude.
             // TODO: do we really need to forbid this?
-           if (queryParameters.containsKey(SearchConstants.SORT)) {
+            if (queryParameters.containsKey(SearchConstants.SORT)) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
                         "_sort search result parameter not supported with _include or _revinclude.");
             }
@@ -762,7 +762,7 @@ public class SearchUtil {
                 String resTypes = queryParameters.get(SearchConstants.RESOURCE_TYPE).get(0);
                 List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
                 for (String resType : tmpResourceTypes) {
-                    if (ModelSupport.isResourceType(resType)) {
+                    if (ModelSupport.isConcreteResourceType(resType)) {
                         resourceTypes.add(resType);
                     } else {
                         manageException("_type search parameter has invalid resource type: " + resType, lenient);

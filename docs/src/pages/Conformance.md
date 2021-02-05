@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-04 12:00:00 -0400
+date:   2021-02-05 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -117,7 +117,7 @@ These parameters can be used while searching any single resource type or while s
 
 The `_type` parameter has two restrictions:
 * It may only be used with whole system search.
-* It may only be specified once in a search.
+* It may only be specified once in a search. In `lenient` mode, only the first occurrence is used; additional occurrences are ignored.
 
 The `_has` parameter has two restrictions:
 * It cannot be used with whole system search.
@@ -133,7 +133,7 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be specified once in a search.
+The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
 
 The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit.
 
@@ -280,6 +280,9 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 |FEET|ft, fts, foot|
 
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
+
+### Search parameters
+
 
 ## HL7 FHIR R4 (v4.0.1) errata
 We add information here as we find issues with the artifacts provided with this version of the specification.
