@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -151,7 +151,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertEquals(3, context.getSearchParameters().size());
 
         // Validate compartment related search parms.
-        QueryParameter searchParm = context.getSearchParameters().get(2);
+        QueryParameter searchParm = context.getSearchParameters().get(0);
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
@@ -166,7 +166,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertEquals(2, parmCount);
 
         // Validate non-compartment related search parms.
-        for (int i = 0; i < 2; i++) {
+        for (int i = 1; i < 3; i++) {
             searchParm = context.getSearchParameters().get(i);
             assertTrue((searchParm.getCode().equals("category") || searchParm.getCode().equals("value-quantity")));
             assertNotNull(searchParm.getValues());

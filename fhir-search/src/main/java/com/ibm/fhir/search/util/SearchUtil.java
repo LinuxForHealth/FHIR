@@ -1366,9 +1366,7 @@ public class SearchUtil {
      */
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
-        List<QueryParameter> parameters = new ArrayList<>();
-        QueryParameter parameter;
-        QueryParameterValue value;
+
         QueryParameter rootParameter = null;
 
         if (compartmentName != null && compartmentLogicalId != null) {
@@ -1390,8 +1388,8 @@ public class SearchUtil {
             }
 
             for (String criteria : inclusionCriteria) {
-                parameter = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
-                value     = new QueryParameterValue();
+                QueryParameter parameter  = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
+                QueryParameterValue value = new QueryParameterValue();
                 value.setValueString(compartmentName + "/" + compartmentLogicalId);
                 parameter.getValues().add(value);
                 if (rootParameter == null) {
@@ -1404,11 +1402,15 @@ public class SearchUtil {
                     }
                 }
             }
-            parameters.add(rootParameter);
         }
 
         FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
-        context.getSearchParameters().addAll(parameters);
+
+        // Add the inclusion criteria search parameters to the front of the search parameter list
+        if (rootParameter != null) {
+            context.getSearchParameters().add(0, rootParameter);
+        }
+
         return context;
     }
 
