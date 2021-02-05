@@ -16,32 +16,32 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 
 /**
  * Hides the logic behind obtaining a JDBC {@link Connection} from the DAO code.
- * 
+ *
  * This strategy object is local to a thread, and because we use the same
  * underlying connection to our test database within a transaction, we
  * only need to configure the connection once. We can track this initialization
  * with nothing more complicated than a Boolean flag.
- * 
+ *
  * Use by unit tests or other scenarios where connections are obtained using an
  * IConnectionProvider implementation, outside the scope of a JEE container. For
  * example, this is used when connecting to in-memory instances of Derby when
  * running persistence layer unit-tests.
- * 
+ *
  */
 public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
     private static final Logger log = Logger.getLogger(FHIRDbTestConnectionStrategy.class.getName());
-    
+
     // Provides connections when outside of a container
     private final IConnectionProvider connectionProvider;
-    
+
     private boolean initialized = false;
 
     // Action to take to initialize a new connection
     private final Action action;
-    
+
     // The type and capability of the database we connect to
     private final FHIRDbFlavor flavor;
-            
+
     /**
      * Public constructor
      * @param cp
@@ -70,7 +70,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
                         action.performOn(this.flavor, result);
                     }
                     this.initialized = true;
-                    
+
                     log.fine("Connection initialized");
                 } catch (Throwable t) {
                     // inialization failed, but the connection is open so we need to close it
@@ -79,7 +79,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
                     throw t;
                 }
             }
-            
+
             return result;
         } catch (SQLException x) {
             throw new FHIRPersistenceDBConnectException("Could not connect to database");
@@ -95,5 +95,10 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
     public QueryHints getQueryHints() {
         // Hints not supported for Derby test connections
         return null;
+    }
+
+    @Override
+    public void applySearchOptimizerOptions(Connection c) {
+        // NOP
     }
 }
