@@ -153,6 +153,7 @@ public class ChunkWriter extends AbstractItemWriter {
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
+
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
         // Create a new FHIRRequestContext and set it on the current thread.
@@ -160,6 +161,7 @@ public class ChunkWriter extends AbstractItemWriter {
         // Don't try using FHIRConfigHelper before setting the context!
         FHIRRequestContext.set(context);
         context.setOriginalRequestUri(incomingUrl);
+        context.setBulk(true);
 
         logger.fine("The incomingUrl is '" + incomingUrl + "'");
 

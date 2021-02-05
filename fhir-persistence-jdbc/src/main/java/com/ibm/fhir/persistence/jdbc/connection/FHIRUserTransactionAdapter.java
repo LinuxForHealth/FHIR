@@ -14,6 +14,7 @@ import javax.transaction.Status;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
@@ -27,30 +28,30 @@ import com.ibm.fhir.persistence.jdbc.impl.CacheTransactionSync;
  */
 public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     private static final Logger log = Logger.getLogger(FHIRUserTransactionAdapter.class.getName());
-    
+
     // The connection strategy handling the underlying transaction object
     private final UserTransaction userTransaction;
-    
+
     // The sync registry to send tx commit events to the cache
     private final TransactionSynchronizationRegistry syncRegistry;
-    
+
     // The cache which needs to be notified when a commit completes
     private final FHIRPersistenceJDBCCache cache;
-    
+
     // The resource key used for the TransactionData object in held in the TransactionSynchronizationRegistry
     private final String transactionDataKey;
-    
+
     // Did this instance start the transaction?
     private boolean startedByThis;
-    
+
     // support nesting by tracking the number of begin/end requests
     private int startCount;
-    
+
     /**
      * Public constructor
      * @param tx
      */
-    public FHIRUserTransactionAdapter(UserTransaction tx, TransactionSynchronizationRegistry syncRegistry, FHIRPersistenceJDBCCache cache, 
+    public FHIRUserTransactionAdapter(UserTransaction tx, TransactionSynchronizationRegistry syncRegistry, FHIRPersistenceJDBCCache cache,
         String transactionDataKey) {
         this.userTransaction = tx;
         this.syncRegistry = syncRegistry;
@@ -65,7 +66,10 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
      */
     @Override
     public void begin() throws FHIRPersistenceException {
-        
+
+        FHIRRequestContext ctx = FHIRRequestContext.get();
+        boolean bulk = ctx != null && ctx.isBulk();
+
         int status = getStatus();
         if (isNoTransaction(status)) {
             // This instance will be responsible for starting and ending
@@ -75,12 +79,12 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
                 userTransaction.begin();
                 startedByThis = true;
                 this.startCount++;
-                
+
                 // On starting a new transaction, we need to register a callback so that
                 // the cache is informed when the transaction commits it can promote thread-local
                 // ids to the shared caches.
                 syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey));
-                
+
             } catch (Exception x) {
                 log.log(Level.SEVERE, "failed to start transaction", x);
                 throw new FHIRPersistenceDataAccessException("Start global transaction failed. See server log for details");
@@ -88,6 +92,14 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
         } else if (isMarkedForRollback(status)) {
             // the transaction is active but has already been marked for rollback. This is OK,
             // we just behave as though we're a nested transaction
+            this.startCount++;
+        } else if (isActive(status) && bulk) {
+            // On starting a bulk transaction, we need to register a callback so that
+            // the cache is informed when the transaction commits it can promote thread-local
+            // ids to the shared caches.
+            syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey));
+
+            // transaction is already active, so this is a nested request
             this.startCount++;
         } else if (isActive(status)) {
             // transaction is already active, so this is a nested request
@@ -111,7 +123,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
             if (isActive(status)) {
                 // transaction started by this instance and is active
                 log.fine("Committing transaction on current thread...");
-                
+
                 try {
                     userTransaction.commit();
                 } catch (Exception x) {
@@ -170,11 +182,11 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
 
     @Override
     public boolean isTransactional() {
-        
+
         // well, yes of course we are
         return true;
     }
-    
+
     /**
      * Is there a transaction currently on this thread?
      * @return true if a global transaction is active on the current thread
@@ -182,7 +194,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     protected boolean isActive(int status) {
         return status == Status.STATUS_ACTIVE;
     }
-    
+
     /**
      * Has this transaction been marked for rollback?
      * @return
@@ -190,7 +202,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     protected boolean isMarkedForRollback(int status) {
         return status == Status.STATUS_MARKED_ROLLBACK;
     }
-    
+
     /**
      * Are we in the NO TRANSACTION state?
      * @param status
@@ -213,9 +225,9 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(msg);
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }        
+        }
     }
-    
+
     /**
      * Call the supplier function within a begin/end
      * @param <T>

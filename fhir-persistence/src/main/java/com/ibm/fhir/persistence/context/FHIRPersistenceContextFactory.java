@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,12 +16,10 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
  */
 public class FHIRPersistenceContextFactory {
 
-    /**
-     * Hide the default ctor.
-     */
     private FHIRPersistenceContextFactory() {
+        // No Operation
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -29,7 +27,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event) {
         return new FHIRPersistenceContextImpl(event);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -38,7 +36,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
         return new FHIRPersistenceContextImpl(event, includeDeleted);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRHistoryContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -47,7 +45,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRHistoryContext historyContext) {
         return new FHIRPersistenceContextImpl(event, historyContext);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRSearchContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -56,7 +54,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext) {
         return new FHIRPersistenceContextImpl(event, searchContext);
     }
-    
+
     /**
      * Returns a FHIRHistoryContext instance with default values.
      */
