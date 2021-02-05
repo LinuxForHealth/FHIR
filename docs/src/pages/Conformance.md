@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-04 01:00:00 -0400
+date:   2021-02-05 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -114,8 +114,13 @@ In addition, the following search parameters are supported on all resources:
 * `_has`
 
 These parameters can be used while searching any single resource type or while searching across resource types (whole system search).
-The `_type` parameter is special in that it is only applicable for whole system search. The `_has` parameter has two restrictions:
-* `_has` cannot be used with whole system search.
+
+The `_type` parameter has two restrictions:
+* It may only be used with whole system search.
+* It may only be specified once in a search. In `lenient` mode, only the first occurrence is used; additional occurrences are ignored.
+
+The `_has` parameter has two restrictions:
+* It cannot be used with whole system search.
 * The search parameter specified at the end of its chain cannot be a search result parameter.
 
 The `_text`, `_content`, `_list`, `_query`, and `_filter` parameters are not supported at this time.
@@ -128,7 +133,9 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
+The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
+
+The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit.
 
 The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results. 
 
@@ -273,6 +280,9 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 |FEET|ft, fts, foot|
 
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
+
+### Search parameters
+
 
 ## HL7 FHIR R4 (v4.0.1) errata
 We add information here as we find issues with the artifacts provided with this version of the specification.

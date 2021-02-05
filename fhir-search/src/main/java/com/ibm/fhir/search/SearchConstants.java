@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -96,6 +96,10 @@ public class SearchConstants {
 
     // set as unmodifiable
     public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
+
+    // set as unmodifiable
+    public static final List<String> SEARCH_SINGLETON_PARAMETER_NAMES =
+            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, ELEMENTS, RESOURCE_TYPE));
 
     // Empty Query String
     public static final String EMPTY_QUERY_STRING = "";

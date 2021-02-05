@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -727,37 +728,50 @@ public class SearchUtil {
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
         List<QueryParameter> parameters = new ArrayList<>();
+        HashSet<String> resourceTypes = new LinkedHashSet<>();
 
-        // Make sure _sort is not present with _include and/or _revinclude.
-        // TODO: do we really need to forbid this?
-        if (queryParameters.containsKey(SearchConstants.SORT) &&
-                (queryParameters.containsKey(SearchConstants.INCLUDE)
-                        || queryParameters.containsKey(SearchConstants.REVINCLUDE))) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException(
-                    "_sort search result parameter not supported with _include or _revinclude.");
+        // Check for duplicate parameters that are supposed to be specified at most once
+        for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
+            String name = entry.getKey();
+            if (isSearchSingletonParameter(name) && entry.getValue().size() > 1) {
+                manageException("Search parameter '" + name + "' is specified multiple times", lenient);
+            }
         }
-        HashSet<String> resourceTypes = new HashSet<>();
-        if (Resource.class.equals(resourceType)) {
+
+        // Check for unsupported uses of _include/_revinclude
+        if (queryParameters.containsKey(SearchConstants.INCLUDE)
+                || queryParameters.containsKey(SearchConstants.REVINCLUDE)) {
+            // Make sure _sort is not present with _include and/or _revinclude.
+            // TODO: do we really need to forbid this?
+            if (queryParameters.containsKey(SearchConstants.SORT)) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        "_sort search result parameter not supported with _include or _revinclude.");
+            }
             // Because _include and _revinclude searches all require certain resource type modifier in
             // search parameter, so we just don't support it.
-            if (queryParameters.containsKey(SearchConstants.INCLUDE)
-                        || queryParameters.containsKey(SearchConstants.REVINCLUDE)) {
+            if (Resource.class.equals(resourceType)) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
                         "system search not supported with _include or _revinclude.");
             }
+        }
 
-            if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
-                for (String resTypes : queryParameters.get(SearchConstants.RESOURCE_TYPE)) {
-                    List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
-                    for (String resType : tmpResourceTypes) {
-                        if (ModelSupport.isResourceType(resType)) {
-                            resourceTypes.add(resType);
-                        } else {
-                            manageException("_type search parameter has invalid resource type:" + resType, lenient);
-                            continue;
-                        }
+        // Check for unsupported uses of _type
+        if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
+            if (Resource.class.equals(resourceType)) {
+                // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
+                String resTypes = queryParameters.get(SearchConstants.RESOURCE_TYPE).get(0);
+                List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
+                for (String resType : tmpResourceTypes) {
+                    if (ModelSupport.isConcreteResourceType(resType)) {
+                        resourceTypes.add(resType);
+                    } else {
+                        manageException("_type search parameter has invalid resource type: " + resType, lenient);
+                        continue;
                     }
                 }
+            }
+            else {
+                manageException("_type search parameter is only supported with system search", lenient);
             }
         }
 
@@ -1432,6 +1446,10 @@ public class SearchUtil {
         return SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(name);
     }
 
+    public static boolean isSearchSingletonParameter(String name) {
+        return SearchConstants.SEARCH_SINGLETON_PARAMETER_NAMES.contains(name);
+    }
+
     public static boolean isGeneralParameter(String name) {
         return FHIRConstants.GENERAL_PARAMETER_NAMES.contains(name);
     }
@@ -1461,13 +1479,15 @@ public class SearchUtil {
             } else if (SearchConstants.PAGE.equals(name)) {
                 int pageNumber = Integer.parseInt(first);
                 context.setPageNumber(pageNumber);
-            } else if (SearchConstants.SORT.equals(name)) {
+            } else if (SearchConstants.SORT.equals(name) && first != null) {
                 // in R4, we only look for _sort
-                sort.parseSortParameter(resourceTypeName, context, values, lenient);
+                // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
+                sort.parseSortParameter(resourceTypeName, context, first, lenient);
             } else if (name.startsWith(SearchConstants.INCLUDE) || name.startsWith(SearchConstants.REVINCLUDE)) {
                 parseInclusionParameter(resourceType, context, name, values, lenient);
-            } else if (SearchConstants.ELEMENTS.equals(name)) {
-                parseElementsParameter(resourceType, context, values, lenient);
+            } else if (SearchConstants.ELEMENTS.equals(name) && first != null) {
+                // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
+                parseElementsParameter(resourceType, context, first, lenient);
             } else if (SearchConstants.SUMMARY.equals(name) && first != null) {
                 context.setSummaryParameter(SummaryValueSet.from(first));
             }
@@ -2192,24 +2212,21 @@ public class SearchUtil {
      * @throws Exception
      */
     private static void parseElementsParameter(Class<?> resourceType, FHIRSearchContext context,
-            List<String> elementLists, boolean lenient) throws Exception {
+            String elements, boolean lenient) throws Exception {
 
         Set<String> resourceFieldNames = JsonSupport.getElementNames(resourceType);
 
-        for (String elements : elementLists) {
-
-            // For other parameters, we pass the comma-separated list of values to the PL
-            // but for elements, we need to process that here
-            for (String elementName : elements.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
-                if (elementName.startsWith("_")) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException("Invalid element name: " + elementName);
-                }
-                if (!resourceFieldNames.contains(elementName)) {
-                    manageException("Unknown element name: " + elementName, lenient);
-                    continue;
-                }
-                context.addElementsParameter(elementName);
+        // For other parameters, we pass the comma-separated list of values to the PL
+        // but for elements, we need to process that here
+        for (String elementName : elements.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
+            if (elementName.startsWith("_")) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException("Invalid element name: " + elementName);
             }
+            if (!resourceFieldNames.contains(elementName)) {
+                manageException("Unknown element name: " + elementName, lenient);
+                continue;
+            }
+            context.addElementsParameter(elementName);
         }
     }
 
