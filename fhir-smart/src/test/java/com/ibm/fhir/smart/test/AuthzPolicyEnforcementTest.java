@@ -311,30 +311,18 @@ public class AuthzPolicyEnforcementTest {
             fail("Patient interaction was not allowed but should have been");
         }
 
-        // Valid non-compartment search: converted to Patient compartment search and duplicate search parameters removed
+        // Valid non-compartment search: converted to Patient compartment search and compartment search parms first in list
         try {
             searchContext = new FHIRSearchContextImpl();
             QueryParameterValue queryParm1Value = new QueryParameterValue();
-            queryParm1Value.setValueString("Patient/1");
-            QueryParameter queryParm1 = new QueryParameter(Type.REFERENCE, "subject", null, null, Collections.singletonList(queryParm1Value));
+            queryParm1Value.setValueCode("final");
+            QueryParameter queryParm1 = new QueryParameter(Type.TOKEN, "status", null, null, Collections.singletonList(queryParm1Value));
             searchContext.getSearchParameters().add(queryParm1);
-            QueryParameterValue queryParm2Value = new QueryParameterValue();
-            queryParm2Value.setValueString("Patient/11111111-1111-1111-1111-111111111111");
-            QueryParameter queryParm2 = new QueryParameter(Type.REFERENCE, "performer", null, null, Collections.singletonList(queryParm2Value));
-            searchContext.getSearchParameters().add(queryParm2);
-            QueryParameterValue queryParm3Value = new QueryParameterValue();
-            queryParm3Value.setValueString("Patient/11111111-1111-1111-1111-111111111111");
-            QueryParameter queryParm3 = new QueryParameter(Type.REFERENCE, "patient", null, null, Collections.singletonList(queryParm2Value));
-            searchContext.getSearchParameters().add(queryParm3);
-            QueryParameterValue queryParm4Value = new QueryParameterValue();
-            queryParm4Value.setValueCode("final");
-            QueryParameter queryParm4 = new QueryParameter(Type.TOKEN, "status", null, null, Collections.singletonList(queryParm4Value));
-            searchContext.getSearchParameters().add(queryParm4);
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            assertEquals(3, searchContext.getSearchParameters().size());
+            assertEquals(2, searchContext.getSearchParameters().size());
             List<QueryParameter> searchParms = searchContext.getSearchParameters();
             QueryParameter compartmentSearchParm = searchParms.get(0);
             int parmCount = 0;
@@ -349,10 +337,8 @@ public class AuthzPolicyEnforcementTest {
                 compartmentSearchParm = compartmentSearchParm.getNextParameter();
             }
             assertEquals(2, parmCount);
-            assertEquals("subject", searchParms.get(1).getCode());
-            assertEquals("Patient/1", searchParms.get(1).getValues().get(0).getValueString());
-            assertEquals("status", searchParms.get(2).getCode());
-            assertEquals("final", searchParms.get(2).getValues().get(0).getValueCode());
+            assertEquals("status", searchParms.get(1).getCode());
+            assertEquals("final", searchParms.get(1).getValues().get(0).getValueCode());
         } catch (FHIRPersistenceInterceptorException e) {
             fail("Patient interaction was not allowed but should have been");
         }
