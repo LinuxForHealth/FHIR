@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.postgresql.SetPostgresOptimizerOptions;
 
 /**
  * Common base for multi-tenant connection strategy implementations
@@ -32,10 +33,10 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
 
     // the action chain to be applied to new connections
     private final Action newConnectionAction;
-    
-    // Type and capability 
+
+    // Type and capability
     private final FHIRDbFlavor flavor;
-    
+
     /**
      * Protected constructor
      * @param trxSyncRegistry the transaction sync registry
@@ -44,7 +45,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     protected FHIRDbConnectionStrategyBase(TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRPersistenceDataAccessException {
         this.trxSyncRegistry = trxSyncRegistry;
         this.newConnectionAction = newConnectionAction;
-        
+
         // initialize the flavor from the configuration
         this.flavor = createFlavor();
     }
@@ -58,16 +59,16 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
      */
     protected void configure(Connection connection, String tenantId, String dsId) throws FHIRPersistenceException {
         // We prefix the  key with the name of this class to avoid any potential conflict with other
-        // users of the sync registry.        
+        // users of the sync registry.
         final String key = this.getClass().getName() + "/" + tenantId + "/" + dsId;
         if (trxSyncRegistry.getResource(key) == null) {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Configuring new connection in this transaction. Key='" + key + "'");
             }
-            
+
             // first time...so we need to apply actions. Will be cleared when the transaction commits
             newConnectionAction.performOn(this.flavor, connection);
-            
+
             // and register the key so we don't do this again
             trxSyncRegistry.putResource(key, new Object());
         } else {
@@ -76,7 +77,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
             }
         }
     }
-    
+
     /**
      * Identify the flavor of the database using information from the
      * datasource configuration.
@@ -85,7 +86,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
      */
     private FHIRDbFlavor createFlavor() throws FHIRPersistenceDataAccessException {
         FHIRDbFlavor result;
-        
+
         String datastoreId = FHIRRequestContext.get().getDataStoreId();
 
         // Retrieve the property group pertaining to the specified datastore.
@@ -94,18 +95,18 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
         String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         if (dsPG != null) {
-            
+
             try {
                 boolean multitenant = false;
                 String typeValue = dsPG.getStringProperty("type");
-                
+
                 DbType type = DbType.from(typeValue);
                 if (type == DbType.DB2) {
                     // We make this absolute for now. May change in the future if we
                     // support a single-tenant schema in DB2.
                     multitenant = true;
                 }
-                
+
                 result = new FHIRDbFlavorImpl(type, multitenant);
             } catch (Exception x) {
                 log.log(Level.SEVERE, "No type property found for datastore '" + datastoreId + "'", x);
@@ -115,10 +116,10 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
             log.log(Level.SEVERE, "Missing datastore configuration for '" + datastoreId + "'");
             throw new FHIRPersistenceDataAccessException("Datastore configuration issue. Details in server logs");
         }
-        
+
         return result;
     }
-    
+
     /**
      * Get a connection configured for the given tenant and datasourceId
      * @param datasource
@@ -129,11 +130,11 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     protected Connection getConnection(DataSource datasource, String tenantId, String dsId) throws SQLException, FHIRPersistenceException {
         // Now use the dsId/tenantId specific JEE datasource to get a connection
         Connection connection = datasource.getConnection();
-        
+
         try {
             // always
             connection.setAutoCommit(false);
-            
+
             // configure the connection if it's the first time we've accessed it in this transaction
             configure(connection, tenantId, dsId);
         } catch (Throwable t) {
@@ -149,7 +150,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
             }
             throw t;
         }
-        
+
         return connection;
     }
 
@@ -157,7 +158,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         return this.flavor;
     }
-    
+
     @Override
     public String getHintValue(String hintProperty) {
         String result;
@@ -175,17 +176,34 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
                 log.log(Level.WARNING, "getting property '" + hintProperty + "' for datastoreId: '" + datastoreId + "'");
                 result = null;
             }
-            
+
         } else {
             result = null;
         }
-        
+
         return result;
     }
-    
+
     @Override
     public QueryHints getQueryHints() {
         return this;
     }
 
+    @Override
+    public void applySearchOptimizerOptions(Connection c) {
+        String datastoreId = FHIRRequestContext.get().getDataStoreId();
+
+        switch (this.flavor.getType()) {
+        case POSTGRESQL:
+            // PostgreSQL needs optimizer options set to address search performance issues
+            // as described in issue 1911
+            final String pgName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/" + FHIRConfiguration.PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS;
+            PropertyGroup optPG = FHIRConfigHelper.getPropertyGroup(pgName);
+            SetPostgresOptimizerOptions cmd = new SetPostgresOptimizerOptions(optPG); // null optPG is OK
+            cmd.applyTo(c);
+            break;
+        default:
+            // NOP
+        }
+    }
 }

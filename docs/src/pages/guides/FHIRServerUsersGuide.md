@@ -2171,6 +2171,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.3.2.3 Datastore configuration reference](#3323-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
 |`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 16. To use the database default (8), explicitly set this value to null. |
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|int| For PostgreSQL, sets the join_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 16. To use the database default (8), explicitly set this value to null. |
 |`fhirServer/security/cors`|boolean|Used to convey to clients whether cors is supported or not; actual cors support is configured separately in the Liberty server.xml configuration|
 |`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
 |`fhirServer/security/certificates/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
@@ -2270,6 +2272,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
 |`fhirServer/security/certificates/enabled`|boolean|false|
@@ -2355,6 +2359,8 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/factoryClassname`|N|N|
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N|
 |`fhirServer/persistence/datasources`|Y|N|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
 |`fhirServer/security/cors`|Y|Y|

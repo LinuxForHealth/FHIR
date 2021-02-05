@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,6 +100,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_SYSTEM_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefSystemCacheSize";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
+
+    // Optimizer options within a datasource definition
+    public static final String PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS = "searchOptimizerOptions";
 
     // fhir-search - Bounding area
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";

@@ -302,6 +302,22 @@ For PostgreSQL, we recommend tuning the following properties:
 
 The recommended values should be considered a starting point. Monitor database metrics and tune appropriately for your given workload. See the [PostgreSQL wiki](https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server) for additional guidance.
 
+FHIR search queries are translated into SQL expressions. When several search parameters are included in a request the resulting join spans many tables, several of which may be wrapped in views. In order to give the PostgreSQL query optimizer sufficient freedom to optimize the query, include the `searchOptimizerOptions` parameter map to the datasource configuration as shown below to increase the values for `from_collapse_limit` and `join_collapse_limit`. The default for both of these is 8. When there are more than 8 tables involved in the search query, the optimizer may not generate an efficient execution plan unless the limits are increased:
+
+```
+        "persistence": {
+            "datasources": {
+                "default": {
+                    "type": "postgresql",
+                    "currentSchema": "fhirdata",
+                    "searchOptimizerOptions": {
+                        "from_collapse_limit": 16,
+                        "join_collapse_limit": 16
+                    },
+                    ...
+```
+
+See the [PostgreSQL Query Planning](https://www.postgresql.org/docs/12/runtime-config-query.html) guide for more information.
 
 ### 4.1.1 Fillfactor
 

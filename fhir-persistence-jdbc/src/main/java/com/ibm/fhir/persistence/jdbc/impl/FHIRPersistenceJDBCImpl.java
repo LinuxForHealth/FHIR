@@ -328,6 +328,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // reads/searches.
         result = new CreateTempTablesAction(result);
 
+        // For PostgreSQL
         return result;
     }
 
@@ -611,6 +612,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         SqlQueryData query;
 
         try (Connection connection = openConnection()) {
+            // For PostgreSQL search queries we need to set some options to ensure better plans
+            connectionStrategy.applySearchOptimizerOptions(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao);

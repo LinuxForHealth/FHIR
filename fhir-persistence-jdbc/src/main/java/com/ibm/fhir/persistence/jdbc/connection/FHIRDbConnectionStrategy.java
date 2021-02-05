@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  * Abstraction used to obtain JDBC connections. The database being connected
  * is determined by the datasource currently referenced by the {@link FHIRRequestContext}
  * (which is a ThreadLocal thing, and not obvious).
- * 
+ *
  * @implNote Refactor of the getConnection logic from {@link FHIRDbDAOImpl}. This
  * isolates connection logic from the DAO implementations, promoting separation of
  * concerns, and makes it possible to use different strategies in the future,
@@ -36,10 +36,17 @@ public interface FHIRDbConnectionStrategy {
      * @throws FHIRPersistenceDataAccessException if there is an issue with the configuration
      */
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException;
-    
+
     /**
      * Append the given hint to FHIR search queries
      * @return
      */
     public QueryHints getQueryHints();
+
+    /**
+     * Apply any optimizer options configured to improve search query performance
+     * See issue-1911 for details.
+     * @param c the connection to be configured
+     */
+    public void applySearchOptimizerOptions(Connection c);
 }
