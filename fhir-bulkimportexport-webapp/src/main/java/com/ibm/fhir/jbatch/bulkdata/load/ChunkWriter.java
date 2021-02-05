@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -173,7 +173,7 @@ public class ChunkWriter extends AbstractItemWriter {
                 @SuppressWarnings("unchecked")
                 List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
 
-                boolean collectImportOperationOutcomes = FHIRConfigHelper
+                boolean collectImportOperationOutcomes = !FHIRConfigHelper
                         .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
                 for (Resource fhirResource : fhirResourceList) {
                     try {
@@ -203,7 +203,7 @@ public class ChunkWriter extends AbstractItemWriter {
         txn.begin();
 
         // Controls the writing of operation outcomes to S3/COS
-        boolean collectImportOperationOutcomes = FHIRConfigHelper
+        boolean collectImportOperationOutcomes = !FHIRConfigHelper
                 .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
 
         try {
@@ -262,15 +262,17 @@ public class ChunkWriter extends AbstractItemWriter {
         }
 
         if (collectImportOperationOutcomes) {
-            pushImportOperationOutcomes2COS(chunkData);
+            pushImportOperationOutcomesToCOS(chunkData);
         }
     }
 
-
-    private void pushImportOperationOutcomes2COS(ImportTransientUserData chunkData) throws Exception{
+    /*
+     * Pushes the Operation OUtcomes to COS
+     */
+    private void pushImportOperationOutcomesToCOS(ImportTransientUserData chunkData) throws Exception{
         // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
         if (chunkData.getBufferStreamForImport().size() > COS_PART_MINIMALSIZE) {
-            if (chunkData.getUploadIdForOperationOutcomes()  == null) {
+            if (chunkData.getUploadIdForOperationOutcomes() == null) {
                 chunkData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
                         cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(), true));
             }

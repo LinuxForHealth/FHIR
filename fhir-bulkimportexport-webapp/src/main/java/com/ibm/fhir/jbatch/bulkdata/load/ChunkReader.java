@@ -102,7 +102,7 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String importPartitionResourceType;
-    
+
     /**
      * Fhir tenant id.
      */
@@ -127,7 +127,7 @@ public class ChunkReader extends AbstractItemReader {
         if (!stepCtx.getBatchStatus().equals(BatchStatus.STARTED)) {
             return null;
         }
-        List<Resource> loadedFhirResources = new ArrayList<Resource>();
+        List<Resource> loadedFhirResources = new ArrayList<>();
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
         }
@@ -236,18 +236,15 @@ public class ChunkReader extends AbstractItemReader {
             chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
             stepCtx.setTransientUserData(chunkData);
         }
-
-
     }
 
     @Override
     public void close() throws Exception {
-
+        // No Operation
     }
 
     @Override
     public Serializable checkpointInfo() throws Exception {
         return ImportCheckPointData.fromImportTransientUserData((ImportTransientUserData)stepCtx.getTransientUserData());
     }
-
 }
