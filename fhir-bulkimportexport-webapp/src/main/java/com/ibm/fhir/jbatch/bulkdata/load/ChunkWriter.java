@@ -17,7 +17,6 @@ import static com.ibm.fhir.jbatch.bulkdata.common.Constants.DEFAULT_FHIR_TENANT;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_DATASTORE_ID;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_TENANT;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_FHIR_IS_VALIDATION_ON;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.INCOMING_URL;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.NDJSON_LINESEPERATOR;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.PARTITION_RESOURCE_TYPE;
