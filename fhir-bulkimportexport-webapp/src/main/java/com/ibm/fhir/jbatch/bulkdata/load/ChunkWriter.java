@@ -163,8 +163,6 @@ public class ChunkWriter extends AbstractItemWriter {
         context.setOriginalRequestUri(incomingUrl);
         context.setBulk(true);
 
-        logger.fine("The incomingUrl is '" + incomingUrl + "'");
-
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 

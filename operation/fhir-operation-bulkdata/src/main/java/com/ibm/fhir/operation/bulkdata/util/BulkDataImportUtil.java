@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -84,7 +85,7 @@ public class BulkDataImportUtil {
                 FHIRPathElementNode node = (FHIRPathElementNode) iter.next();
                 return node.asElementNode().element().as(com.ibm.fhir.model.type.Uri.class).getValue();
             }
-        } catch (ClassCastException | FHIRPathException e) {
+        } catch (NoSuchElementException | ClassCastException | FHIRPathException e) {
             throw buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
         }
 
@@ -134,6 +135,8 @@ public class BulkDataImportUtil {
                 // Add to the Inputs List
                 inputs.add(new Input(type, url));
             }
+        } catch (java.util.NoSuchElementException nsee) {
+            throw buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
             throw buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e,
                     IssueType.INVALID);
@@ -241,9 +244,10 @@ public class BulkDataImportUtil {
                 // Immediately Return and stop processing... we shouldn't have multiple storage details.
                 return new StorageDetail(type, contentEncodings);
             }
+        }catch (java.util.NoSuchElementException nsee) {
+            throw buildExceptionWithIssue("$import invalid elements in the 'storageDetail' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
-            throw buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e,
-                    IssueType.INVALID);
+            throw buildExceptionWithIssue("$import invalid parameters with expression in 'storageDetail'", e, IssueType.INVALID);
         }
 
         // There should be at least 1
