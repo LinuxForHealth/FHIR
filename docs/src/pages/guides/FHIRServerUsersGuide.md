@@ -2221,6 +2221,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
 |`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`) |
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 16. To use the database default (8), explicitly set this value to null. |
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|int| For PostgreSQL, sets the join_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 16. To use the database default (8), explicitly set this value to null. |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -2270,6 +2272,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
 |`fhirServer/security/certificates/enabled`|boolean|false|

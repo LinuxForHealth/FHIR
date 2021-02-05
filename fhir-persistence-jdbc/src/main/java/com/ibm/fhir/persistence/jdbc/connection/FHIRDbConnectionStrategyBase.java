@@ -199,12 +199,8 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
             // as described in issue 1911
             final String pgName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/" + FHIRConfiguration.PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS;
             PropertyGroup optPG = FHIRConfigHelper.getPropertyGroup(pgName);
-            if (optPG != null) {
-                SetPostgresOptimizerOptions cmd = new SetPostgresOptimizerOptions(optPG);
-                cmd.applyTo(c);
-            } else if (log.isLoggable(Level.FINE)) {
-                log.fine("Search optimization not configured. Search query performance may be compromised");
-            }
+            SetPostgresOptimizerOptions cmd = new SetPostgresOptimizerOptions(optPG); // null optPG is OK
+            cmd.applyTo(c);
             break;
         default:
             // NOP

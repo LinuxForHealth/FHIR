@@ -24,17 +24,26 @@ public class SetPostgresOptimizerOptions {
 
     // Configuration constants
     private static final String JOIN_COLLAPSE_LIMIT = "join_collapse_limit";
+    private static final int DEFAULT_JOIN_COLLAPSE_LIMIT = 16;
     private static final String FROM_COLLAPSE_LIMIT = "from_collapse_limit";
+    private static final int DEFAULT_FROM_COLLAPSE_LIMIT = 16;
 
-    // The optimizer options property group
-    private final PropertyGroup propertyGroup;
+    private final Integer joinCollapseLimit;
+    private final Integer fromCollapseLimit;
 
     /**
      * Public constructor
-     * @param optPG the FHIR configuration PropertyGroup containing the optimizer options
+     * @param pg the FHIR configuration PropertyGroup containing the optimizer options
      */
-    public SetPostgresOptimizerOptions(PropertyGroup optPG) {
-        this.propertyGroup = optPG;
+    public SetPostgresOptimizerOptions(PropertyGroup pg) {
+        if (pg != null) {
+            this.fromCollapseLimit = pg.getIntProperty(FROM_COLLAPSE_LIMIT, DEFAULT_FROM_COLLAPSE_LIMIT);
+            this.joinCollapseLimit = pg.getIntProperty(JOIN_COLLAPSE_LIMIT, DEFAULT_JOIN_COLLAPSE_LIMIT);
+        } else {
+            // No options provided, so we go with defaults
+            this.joinCollapseLimit = DEFAULT_JOIN_COLLAPSE_LIMIT;
+            this.fromCollapseLimit = DEFAULT_FROM_COLLAPSE_LIMIT;
+        }
     }
 
     /**
@@ -44,7 +53,6 @@ public class SetPostgresOptimizerOptions {
     public void applyTo(Connection c) {
 
         // Configure optimization values on the connection c
-        Integer fromCollapseLimit = propertyGroup.getIntProperty(FROM_COLLAPSE_LIMIT, null);
         if (fromCollapseLimit != null) {
             final String SET = "SET from_collapse_limit = " + fromCollapseLimit;
             try (Statement s = c.createStatement()) {
@@ -58,7 +66,6 @@ public class SetPostgresOptimizerOptions {
             }
         }
 
-        Integer joinCollapseLimit = propertyGroup.getIntProperty(JOIN_COLLAPSE_LIMIT, null);
         if (joinCollapseLimit != null) {
             final String SET = "SET join_collapse_limit = " + joinCollapseLimit;
             try (Statement s = c.createStatement()) {
