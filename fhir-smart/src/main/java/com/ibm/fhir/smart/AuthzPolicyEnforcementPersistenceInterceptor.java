@@ -9,9 +9,12 @@ package com.ibm.fhir.smart;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -41,6 +44,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -138,11 +142,20 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 }
                 try {
                     if (CompartmentUtil.getCompartmentResourceTypes("Patient").contains(event.getFhirResourceType())) {
+                        // Get Patient compartment inclusion criteria search parameters. It will actually be one QueryParameter object with each inclusion
+                        // criteria search parameter chained off the root.
                         // NOTE: We currently do not support OR'd compartment searches, nor do we currently expect more than one patient ID to be
                         // specified in the authorization token (see getPatientIdFromToken()). We will use the first ID specified for the compartment search.
                         FHIRSearchContext compartmentSearchContext = SearchUtil.parseQueryParameters("Patient", patientIdFromToken.get(0),
                                 ModelSupport.getResourceType(event.getFhirResourceType()), Collections.emptyMap(), searchContext.isLenient());
-                        searchContext.getSearchParameters().addAll(compartmentSearchContext.getSearchParameters());
+                        QueryParameter compartmentSearchParameter = compartmentSearchContext.getSearchParameters().get(0);
+
+                        // Remove any existing search parameters which are duplicates of compartment search parameters to be added. This will
+                        // include 'patient' search parameter even if it's not explicitly listed as a compartment inclusion criteria search parameter.
+                        searchContext.getSearchParameters().removeAll(getDuplicateSearchParameters(compartmentSearchParameter, searchContext.getSearchParameters()));
+
+                        // Add compartment search parameters to front of search parameter list
+                        searchContext.getSearchParameters().addAll(0, compartmentSearchContext.getSearchParameters());
                     }
                 } catch (Exception e) {
                     String msg = "Unexpected exception converting to Patient compartment search: " + e.getMessage();
@@ -536,5 +549,47 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
         return Collections.singletonList(patientId);
+    }
+
+    /**
+     * Find duplicate search parameters between those specified on the search request and the generated compartment
+     * inclusion criteria search parameters. An existing search parameter is considered a duplicate if both its code
+     * and its value matches a compartment inclusion criteria search parameter.
+     *
+     * @param compartmentQueryParm the QueryParameter containing compartment inclusion criteria search parameters
+     * @param existingQueryParms the list of search parameters specified on the search request
+     * @return the set of duplicate search parameters
+     */
+    private Set<QueryParameter> getDuplicateSearchParameters(QueryParameter compartmentQueryParm, List<QueryParameter> existingQueryParms) {
+        Set<QueryParameter> duplicates = new HashSet<>();
+
+        // Build map of search parameters that could potentially be duplicates. To be a duplicate, search parameter must be
+        // REFERENCE type and must have a single value, which is what compartment inclusion criteria search parameters have.
+        Map<String,QueryParameter> existingQueryParmMap = new HashMap<>();
+        for (QueryParameter existingQueryParm : existingQueryParms) {
+            if (Type.REFERENCE == existingQueryParm.getType() && existingQueryParm.getValues().size() == 1 &&
+                    existingQueryParm.getValues().get(0).getValueString() != null) {
+                // Potential duplicate. Add to map with key of code + "|" + value, and value of the QueryParameter itself
+                existingQueryParmMap.put(existingQueryParm.getCode() + "|" + existingQueryParm.getValues().get(0).getValueString(), existingQueryParm);
+            }
+        }
+
+        // Always look for 'patient' search parameter, and add as duplicate if found
+        String compartmentReference = compartmentQueryParm.getValues().get(0).getValueString();
+        QueryParameter patientQueryParm = existingQueryParmMap.get("patient|" + compartmentReference);
+        if (patientQueryParm != null) {
+            duplicates.add(patientQueryParm);
+        }
+
+        // Loop through each inclusion criteria search parameter looking for duplicates
+        while (compartmentQueryParm != null) {
+            QueryParameter duplicate = existingQueryParmMap.get(compartmentQueryParm.getCode() + "|" + compartmentReference);
+            if (duplicate != null) {
+                duplicates.add(duplicate);
+            }
+            compartmentQueryParm = compartmentQueryParm.getNextParameter();
+        }
+
+        return duplicates;
     }
 }

@@ -1408,7 +1408,9 @@ public class SearchUtil {
         }
 
         FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
-        context.getSearchParameters().addAll(parameters);
+
+        // Add the inclusion criteria search parameters to the front of the search parameter list
+        context.getSearchParameters().addAll(0, parameters);
         return context;
     }
 
