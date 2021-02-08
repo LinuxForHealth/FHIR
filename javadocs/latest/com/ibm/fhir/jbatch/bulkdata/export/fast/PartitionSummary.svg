@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="235px" preserveAspectRatio="none" style="width:295px;height:235px;" version="1.1" viewBox="0 0 295 235" width="295px" zoomAndPan="magnify"><defs><filter height="300%" id="f1bmts8iaj2af5" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[006c660aea5f8998be4ec4f126a34cba]
+class com.ibm.fhir.jbatch.bulkdata.export.fast.PartitionSummary--><a href="PartitionSummary.html" target="_top" title="PartitionSummary.html" xlink:actuate="onRequest" xlink:href="PartitionSummary.html" xlink:show="new" xlink:title="PartitionSummary.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1bmts8iaj2af5)" height="97.1563" id="com.ibm.fhir.jbatch.bulkdata.export.fast.PartitionSummary" style="stroke: #A80036; stroke-width: 1.5;" width="278" x="6" y="106"/><ellipse cx="44.4" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M47.3688,130.6094 Q46.7906,130.9063 46.15,131.0469 Q45.5094,131.2031 44.8063,131.2031 Q42.3063,131.2031 40.9781,129.5625 Q39.6656,127.9063 39.6656,124.7813 Q39.6656,121.6563 40.9781,120 Q42.3063,118.3438 44.8063,118.3438 Q45.5094,118.3438 46.15,118.5 Q46.8063,118.6563 47.3688,118.9531 L47.3688,121.6719 Q46.7438,121.0938 46.15,120.8281 Q45.5563,120.5469 44.9313,120.5469 Q43.5875,120.5469 42.9,121.625 Q42.2125,122.6875 42.2125,124.7813 Q42.2125,126.875 42.9,127.9531 Q43.5875,129.0156 44.9313,129.0156 Q45.5563,129.0156 46.15,128.75 Q46.7438,128.4688 47.3688,127.8906 L47.3688,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="120" x="100.6" y="123.9951">PartitionSummary</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="194" x="63.6" y="136.5791">com.ibm.fhir.jbatch.bulkdata.export.fast</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="283" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="252" x="26" y="158.1479">from(TransientUserData): PartitionSummary</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="148" x="26" y="170.9526">getResourceType(): String</text><ellipse cx="17" cy="180.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="205" x="26" y="183.7573">getResourceCounts(): List&lt;Integer&gt;</text><ellipse cx="17" cy="193.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="203" x="26" y="196.562">getResourceTypeSummary(): String</text></a><!--MD5=[5a5af9b0547913863cbe0ddf55a9ab5e]
+class java.io.Serializable--><a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" target="_top" title="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" xlink:actuate="onRequest" xlink:href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" xlink:show="new" xlink:title="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1bmts8iaj2af5)" height="37.9375" id="java.io.Serializable" style="stroke: #A80036; stroke-width: 1.5;" width="108" x="91" y="8"/><ellipse cx="106" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M101.9219,22.7344 L101.9219,20.5781 L109.3125,20.5781 L109.3125,22.7344 L106.8438,22.7344 L106.8438,30.8125 L109.3125,30.8125 L109.3125,32.9688 L101.9219,32.9688 L101.9219,30.8125 L104.3906,30.8125 L104.3906,22.7344 L101.9219,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="76" x="120" y="25.9951">Serializable</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="33" x="141.5" y="38.5791">java.io</text></a><!--MD5=[5e9261b409cbb487e483904b544ef675]
+reverse link java.io.Serializable to com.ibm.fhir.jbatch.bulkdata.export.fast.PartitionSummary--><path d="M145,66.4138 C145,78.8609 145,92.7643 145,105.7811 " fill="none" id="java.io.Serializable&lt;-com.ibm.fhir.jbatch.bulkdata.export.fast.PartitionSummary" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="138.0001,66.0881,145,46.088,152.0001,66.088,138.0001,66.0881" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="58" y="222.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[676ab4c2c68b2bcfa334eeff2538b242]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>PartitionSummary\n<size:10>com.ibm.fhir.jbatch.bulkdata.export.fast" as com.ibm.fhir.jbatch.bulkdata.export.fast.PartitionSummary [[PartitionSummary.html]] {
+        {static} +from(TransientUserData): PartitionSummary
+        +getResourceType(): String
+        +getResourceCounts(): List<Integer>
+        +getResourceTypeSummary(): String
+    }
+
+    interface "<size:14>Serializable\n<size:10>java.io" as java.io.Serializable [[https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html?is-external=true]]
+
+    java.io.Serializable <|.. com.ibm.fhir.jbatch.bulkdata.export.fast.PartitionSummary
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
