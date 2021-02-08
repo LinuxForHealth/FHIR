@@ -1,10 +1,27 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.jbatch.bulkdata.load;
+
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_API_KEY;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_BUCKET_NAME;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_ENDPOINT_URL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_IS_IBM_CREDENTIAL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_LOCATION;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_SRVINST_ID;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.DEFAULT_FHIR_TENANT;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_DATASTORE_ID;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_TENANT;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_FHIR_DATASOURCES;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_FHIR_STORAGE_TYPE;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_INPUT_RESOURCE_TYPE;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_INPUT_RESOURCE_URL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_PARTITTION_WORKITEM;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.PARTITION_RESOURCE_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +47,6 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
-import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 
 @Dependent
 public class ImportPartitionMapper implements PartitionMapper {
@@ -45,7 +61,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      * e.g, https, file, aws-s3, ibm-cos
      */
     @Inject
-    @BatchProperty(name = Constants.IMPORT_FHIR_STORAGE_TYPE)
+    @BatchProperty(name = IMPORT_FHIR_STORAGE_TYPE)
     String dataSourceStorageType;
 
     /**
@@ -91,63 +107,63 @@ public class ImportPartitionMapper implements PartitionMapper {
      * </pre>
      */
     @Inject
-    @BatchProperty(name = Constants.IMPORT_FHIR_DATASOURCES)
+    @BatchProperty(name = IMPORT_FHIR_DATASOURCES)
     String dataSourcesInfo;
 
     /**
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_API_KEY)
+    @BatchProperty(name = COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
      * The IBM COS service instance id or S3 secret key.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_SRVINST_ID)
+    @BatchProperty(name = COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
      * The IBM COS or S3 End point URL.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
+    @BatchProperty(name = COS_ENDPOINT_URL)
     String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_LOCATION)
+    @BatchProperty(name = COS_LOCATION)
     String cosLocation;
 
     /**
      * The IBM COS or S3 bucket name to import from.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_BUCKET_NAME)
+    @BatchProperty(name = COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
      * If use IBM credential.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
+    @BatchProperty(name = COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
-    
+
     /**
      * Fhir tenant id.
      */
     @Inject
-    @BatchProperty(name = Constants.FHIR_TENANT)
+    @BatchProperty(name = FHIR_TENANT)
     String fhirTenant;
 
     /**
      * Fhir data store id.
      */
     @Inject
-    @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
+    @BatchProperty(name = FHIR_DATASTORE_ID)
     String fhirDatastoreId;
 
     public ImportPartitionMapper() {
@@ -196,7 +212,7 @@ public class ImportPartitionMapper implements PartitionMapper {
             logger.info("open: Set tenant to default!");
         }
         if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            fhirDatastoreId = DEFAULT_FHIR_TENANT;
             logger.info("open: Set DatastoreId to default!");
         }
 
@@ -266,8 +282,8 @@ public class ImportPartitionMapper implements PartitionMapper {
         List<FhirDataSource> fhirDataSources = new ArrayList<>();
         for (JsonValue jsonValue : dataSourceArray) {
             JsonObject dataSourceInfo = jsonValue.asJsonObject();
-            String dsTypeInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_TYPE);
-            String dsDataLocationInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_URL);
+            String dsTypeInfo = dataSourceInfo.getString(IMPORT_INPUT_RESOURCE_TYPE);
+            String dsDataLocationInfo = dataSourceInfo.getString(IMPORT_INPUT_RESOURCE_URL);
 
             switch (type) {
             case HTTPS:
@@ -292,18 +308,20 @@ public class ImportPartitionMapper implements PartitionMapper {
 
         List<FhirDataSource> fhirDataSources =
                 getFhirDataSources(dataSourceArray, BulkImportDataSourceStorageType.from(dataSourceStorageType));
+
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(fhirDataSources.size());
-        pp.setThreads(Math.min(Constants.IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, fhirDataSources.size()));
+        pp.setThreads(Math.min(IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, fhirDataSources.size()));
         Properties[] partitionProps = new Properties[fhirDataSources.size()];
 
         int propCount = 0;
         for (FhirDataSource fhirDataSource : fhirDataSources) {
             Properties p = new Properties();
-            p.setProperty(Constants.IMPORT_PARTITTION_WORKITEM, fhirDataSource.getUrl());
-            p.setProperty(Constants.PARTITION_RESOURCE_TYPE, fhirDataSource.getType());
+            p.setProperty(IMPORT_PARTITTION_WORKITEM, fhirDataSource.getUrl());
+            p.setProperty(PARTITION_RESOURCE_TYPE, fhirDataSource.getType());
 
             partitionProps[propCount++] = p;
+            System.out.println(p);
         }
         pp.setPartitionProperties(partitionProps);
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,14 +11,14 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * This helper class is used to manage the transaction on the current thread.
- * 
+ *
  * @implNote After 4.3, the logic to check for which instance of this helper
  *           owns the transaction (txnStarted == true) is moved to the
  *           FHIRPersistenceTransaction implementation, making use of this
  *           helper class optional.
  */
 public class FHIRTransactionHelper {
-    
+
     // The transaction handle we are wrapping
     private FHIRPersistenceTransaction txn;
 

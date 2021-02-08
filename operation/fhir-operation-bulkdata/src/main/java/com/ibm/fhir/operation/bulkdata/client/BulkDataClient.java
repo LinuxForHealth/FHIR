@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -640,6 +640,7 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
+        builder.incomingUrl(properties.get(BulkDataConfigUtil.INCOMING_URL));
         builder.jobXMLName("FhirBulkImportChunkJob");
 
         // Add import specific: fhir.dataSourcesInfo

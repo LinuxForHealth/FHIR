@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-01-21"
+lastupdated: "2021-02-22"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -2223,6 +2223,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
 |`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`) |
+|`fhirServer/bulkdata/ignoreImportOutcomes`|boolean| Control if push OperationOutcomes to COS/S3. |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -2301,6 +2302,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/patientExportPageSize`|200|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|
 |`fhirServer/bulkdata/enableParquet`|false|
+|`fhirServer/bulkdata/ignoreImportOutcomes`|false|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2400,6 +2402,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|Y|Y|
 |`fhirServer/bulkdata/enableParquet`|Y|Y|
+|`fhirServer/bulkdata/ignoreImportOutcomes`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

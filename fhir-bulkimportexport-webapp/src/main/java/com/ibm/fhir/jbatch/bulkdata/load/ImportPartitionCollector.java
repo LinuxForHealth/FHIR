@@ -1,10 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.jbatch.bulkdata.load;
+
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_API_KEY;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_ENDPOINT_URL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_IS_IBM_CREDENTIAL;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_LOCATION;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_OPERATIONOUTCOMES_BUCKET_NAME;
+import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_SRVINST_ID;
 
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
@@ -22,12 +29,11 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
-import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 
 @Dependent
 public class ImportPartitionCollector implements PartitionCollector {
     private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
-    AmazonS3 cosClient = null;
+
     @Inject
     StepContext stepCtx;
 
@@ -35,43 +41,45 @@ public class ImportPartitionCollector implements PartitionCollector {
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_API_KEY)
+    @BatchProperty(name = COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
      * The IBM COS service instance id or S3 secret key.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_SRVINST_ID)
+    @BatchProperty(name = COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
      * The IBM COS or S3 End point URL.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
+    @BatchProperty(name = COS_ENDPOINT_URL)
     String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_LOCATION)
+    @BatchProperty(name = COS_LOCATION)
     String cosLocation;
 
     /**
      * The IBM COS or S3 bucket name for import OperationOutcomes.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_OPERATIONOUTCOMES_BUCKET_NAME)
+    @BatchProperty(name = COS_OPERATIONOUTCOMES_BUCKET_NAME)
     String cosOperationOutcomesBucketName;
 
     /**
      * If use IBM credential or S3 secret keys.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
+    @BatchProperty(name = COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
+
+    private AmazonS3 cosClient = null;
 
     public ImportPartitionCollector() {
         // The injected properties are not available at class construction time
@@ -80,7 +88,10 @@ public class ImportPartitionCollector implements PartitionCollector {
 
     @Override
     public Serializable collectPartitionData() throws Exception {
-        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && cosClient == null) {
+        boolean collectImportOperationOutcomes = FHIRConfigHelper
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
+
+        if (collectImportOperationOutcomes && cosClient == null) {
             boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
                 .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
             cosClient =
@@ -110,7 +121,7 @@ public class ImportPartitionCollector implements PartitionCollector {
         // (2) finish the multiple-parts uploads.
         // (3) release the resources hold by this partition.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
-            if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+            if (collectImportOperationOutcomes) {
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
                     if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
