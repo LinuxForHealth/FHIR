@@ -226,7 +226,7 @@ public class FHIRResource {
                 log.log(Level.WARNING, msg, e);
             }
 
-            List<Bundle.Entry> toAdd = new ArrayList<Bundle.Entry>();
+            List<Bundle.Entry> toAdd = new ArrayList<>();
             // replace bundle entries that have an empty response
             for (int i = 0; i < e.getResponseBundle().getEntry().size(); i++) {
                 Bundle.Entry entry = e.getResponseBundle().getEntry().get(i);
@@ -280,7 +280,7 @@ public class FHIRResource {
     }
 
     protected Response exceptionResponse(OperationOutcome oo, Status status) {
-        if (log.isLoggable(Level.FINE)) {
+        if (log.isLoggable(Level.FINE) && !Status.NOT_FOUND.equals(status)) {
             StringBuilder sb = new StringBuilder();
             sb.append("\nOperationOutcome:\n").append(serializeOperationOutcome(oo));
             log.log(Level.FINE, sb.toString());
