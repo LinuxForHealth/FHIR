@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,20 +31,22 @@ public class FHIRNotificationUtil {
             event.setLocation(jsonObject.getString("location"));
             event.setLastUpdated(jsonObject.getString("lastUpdated"));
             event.setResourceId(jsonObject.getString("resourceId"));
+            event.setDatasourceId(jsonObject.getString("datasourceId"));
+            event.setTenantId(jsonObject.getString("tenantId"));
             return event;
         } catch (JsonException e) {
             System.out.println("Failed to parse json string: " + e.getLocalizedMessage());
             return null;
         }
     }
-    
+
     /**
      * Serializes the notification event into a JSON string.
      * @param event the FHIRNotificationEvent structure to be serialized
      * @param includeResource a flag that controls whether or not the resource object within
      * the event structure should be included in the serialized message.
      * @return the serialized message as a String
-     * @throws FHIRException 
+     * @throws FHIRException
      */
     public static String toJsonString(FHIRNotificationEvent event, boolean includeResource) throws FHIRException {
         JsonObjectBuilder builder = JSON_BUILDER_FACTORY.createObjectBuilder();
@@ -52,6 +54,8 @@ public class FHIRNotificationUtil {
         builder.add("location", event.getLocation());
         builder.add("operationType", event.getOperationType());
         builder.add("resourceId", event.getResourceId());
+        builder.add("datasourceId", event.getDatasourceId());
+        builder.add("tenantId", event.getTenantId());
         if (includeResource && event.getResource() != null) {
             builder.add("resource", JsonSupport.toJsonObject(event.getResource()));
         }

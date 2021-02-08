@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -27,7 +28,7 @@ import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
  */
 public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRNotificationService.class.getName());
-    private List<FHIRNotificationSubscriber> subscribers = new CopyOnWriteArrayList<FHIRNotificationSubscriber>();
+    private List<FHIRNotificationSubscriber> subscribers = new CopyOnWriteArrayList<>();
     private static final FHIRNotificationService INSTANCE = new FHIRNotificationService();
     private Set<String> includedResourceTypes = Collections.synchronizedSortedSet(new TreeSet<String>());
 
@@ -206,6 +207,12 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             event.setLocation((String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI));
             event.setResourceId(resource.getId());
             event.setResource(resource);
+
+            // Adds the tenant id and datastore id
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            String dsId = FHIRRequestContext.get().getDataStoreId();
+            event.setDatasourceId(dsId);
+            event.setTenantId(tenantId);
 
             return event;
         } catch (Exception e) {
