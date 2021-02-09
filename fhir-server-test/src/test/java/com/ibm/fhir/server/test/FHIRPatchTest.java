@@ -610,16 +610,16 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         
         Entry bundleDeletePatch=Entry.builder().resource(deletePatch).request(req).build();
         
-      Bundle patchRequestBundle= patchBundleBuilder.entry(bundleReplaceReq,bundleDeletePatch).type(BundleType.BATCH).build();
+        Bundle patchRequestBundle= patchBundleBuilder.entry(bundleReplaceReq,bundleDeletePatch).type(BundleType.BATCH).build();
 
-      Entity<Bundle> bundleEntity = Entity.entity(patchRequestBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Entity<Bundle> bundleEntity = Entity.entity(patchRequestBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
       
-      //Call FHRI-Api for the Post operation 
-      Response patchResponce=target.request().post(bundleEntity,Response.class);
-      Bundle responseBundle = patchResponce.readEntity(Bundle.class);
+        //Call FHRI-Api for the Post operation 
+        Response patchResponce=target.request().post(bundleEntity,Response.class);
+        Bundle responseBundle = patchResponce.readEntity(Bundle.class);
       
-      assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
-      assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(),HTTPReturnPreference.MINIMAL);
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(),HTTPReturnPreference.MINIMAL);
         
     }
     
