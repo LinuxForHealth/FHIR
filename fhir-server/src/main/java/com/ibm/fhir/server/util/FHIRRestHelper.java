@@ -1579,7 +1579,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
             responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET,
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle =processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PATCH,
+            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PATCH,
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
 
 
@@ -1706,7 +1706,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             processEntryForPut(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             processEntryForDelete(responseEntry, responseIndexAndEntries, entryIndex, requestURL, requestDescription.toString(), initialTime);
-                        }else if (request.getMethod().equals(HTTPVerb.PATCH)) {
+                        } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
                             processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
                         } else {
                             // Internal error, should not get here!
@@ -1761,6 +1761,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
     }
+
     /**
      * Processes a request entry with a request method of Patch.
      *
@@ -2359,7 +2360,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         } else if (request.getMethod().equals(HTTPVerb.PUT) && resource.getId() != null) {
                             // Add mapping.
                             addLocalRefMapping(localRefMap, localIdentifier, null, resource);
-                        }else if (request.getMethod().equals(HTTPVerb.PATCH) && resource.getId() != null) {
+                        } else if (request.getMethod().equals(HTTPVerb.PATCH) && resource.getId() != null) {
                             // Add mapping.
                             log.fine("Creating Patch Local Identefier For Bundle Patch Request");
                             addLocalRefMapping(localRefMap, localIdentifier, null, resource);
