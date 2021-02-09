@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -195,6 +195,25 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    }
 
     @Test
+    public void testSearchToken_CodeableConcept_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("CodeableConcept:not", "code");
+        assertSearchDoesntReturnSavedResource("CodeableConcept:not", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("CodeableConcept:not", "other");
+        assertSearchReturnsSavedResource("CodeableConcept:not", "http://example.org/other|code");
+        assertSearchReturnsSavedResource("missing-CodeableConcept:not", "code");
+        assertSearchReturnsSavedResource("missing-CodeableConcept:not", "http://example.org/codesystem|code");
+    }
+
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
+     */
+//    @Test
+//    public void testSearchToken_CodeableConcept_chained_not() throws Exception {
+//    }
+
+    @Test
     public void testSearchToken_CodeableConcept_missing() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept:missing", "false");
         assertSearchDoesntReturnSavedResource("CodeableConcept:missing", "true");
@@ -246,6 +265,26 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    @Test
 //    public void testSearchDate_Coding_NoCode() throws Exception {
 //        assertSearchReturnsSavedResource("Coding-noCode", "http://example.org/codesystem|");
+//    }
+
+    @Test
+    public void testSearchToken_Coding_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("Coding:not", "code");
+        assertSearchDoesntReturnSavedResource("Coding:not", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("Coding:not", "other");
+        assertSearchReturnsSavedResource("Coding:not", "http://example.org/other|code");
+        assertSearchReturnsSavedResource("missing-Coding:not", "code");
+        assertSearchReturnsSavedResource("missing-Coding:not", "http://example.org/codesystem|code");
+    }
+
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
+     */
+
+//    @Test
+//    public void testSearchToken_Coding_chained_not() throws Exception {
 //    }
 
     @Test
@@ -303,6 +342,27 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    public void testSearchDate_Identifier_NoValue() throws Exception {
 //        assertSearchReturnsSavedResource("Identifier-noValue", "http://example.org/identifiersystem|");
 //    }
+
+    @Test
+    public void testSearchToken_Identifier_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("Identifier:not", "code");
+        assertSearchDoesntReturnSavedResource("Identifier:not", "http://example.org/identifiersystem|code");
+        assertSearchReturnsSavedResource("Identifier:not", "other");
+        assertSearchReturnsSavedResource("Identifier:not", "http://example.org/other|code");
+        assertSearchReturnsSavedResource("missing-Identifier:not", "code");
+        assertSearchReturnsSavedResource("missing-Identifier:not", "http://example.org/codesystem|code");
+    }
+
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
+     */
+
+//    @Test
+//    public void testSearchToken_Identifier_chained_not() throws Exception {
+//    }
+
 
     @Test
     public void testSearchToken_Identifier_missing() throws Exception {

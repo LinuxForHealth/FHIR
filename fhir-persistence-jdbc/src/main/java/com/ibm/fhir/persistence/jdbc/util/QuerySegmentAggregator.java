@@ -586,22 +586,39 @@ public class QuerySegmentAggregator {
                                         .append(paramTableAlias)
                                         .append(".LOGICAL_ID");
                         } else {
-                            // Join a standard parameter table
-                            //   JOIN Observation_TOKEN_VALUES AS param0
-                            //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
-                            //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+                            final String paramTableFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
 
-                            final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
-
-                            whereClause.append(JOIN)
-                                        .append(tableName(overrideType, param))
-                                        .append(AS)
-                                        .append(paramTableAlias)
-                                        .append(ON)
-                                        .append(onFilter)
-                                        .append(" AND LR.LOGICAL_RESOURCE_ID = ")
-                                        .append(paramTableAlias)
-                                        .append(".LOGICAL_RESOURCE_ID");
+                            if (Modifier.NOT.equals(param.getModifier())) {
+                                // Not exists against a standard parameter table
+                                //   WHERE NOT EXISTS (SELECT 1 FROM Observation_TOKEN_VALUES AS param0
+                                //                     WHERE param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                                //                     AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
+                                whereClause.append(" WHERE NOT EXISTS (SELECT 1 FROM ")
+                                            .append(tableName(overrideType, param))
+                                            .append(AS)
+                                            .append(paramTableAlias)
+                                            .append(WHERE)
+                                            .append(paramTableFilter)
+                                            .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                            .append(paramTableAlias)
+                                            .append(".LOGICAL_RESOURCE_ID")
+                                            .append(RIGHT_PAREN);
+                            }
+                            else {
+                                // Join a standard parameter table
+                                //   JOIN Observation_TOKEN_VALUES AS param0
+                                //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                                //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+                                whereClause.append(JOIN)
+                                            .append(tableName(overrideType, param))
+                                            .append(AS)
+                                            .append(paramTableAlias)
+                                            .append(ON)
+                                            .append(paramTableFilter)
+                                            .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                            .append(paramTableAlias)
+                                            .append(".LOGICAL_RESOURCE_ID");
+                            }
                         }
                     } else {
                         // add an alias for the composite table
