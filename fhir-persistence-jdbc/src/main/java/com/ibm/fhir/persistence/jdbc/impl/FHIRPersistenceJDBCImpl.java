@@ -771,7 +771,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 if (param.getModifier() != null &&
                         !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {
                     throw buildNotSupportedException("Found unsupported modifier ':" + param.getModifier().value() + "'"
-                            + " for search parameter '" + param.getCode() + "' of type " + param.getType());
+                            + " for search parameter '" + param.getCode() + "' of type '" + param.getType() + "'");
                 }
                 param = param.getNextParameter();
             } while (param != null);
