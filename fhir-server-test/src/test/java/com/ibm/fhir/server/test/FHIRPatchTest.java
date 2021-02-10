@@ -602,7 +602,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         
         //Creating bundle containing multiple patch request for the patient
         Bundle.Builder patchBundleBuilder=Bundle.builder();
-        String patientUrl=new StringBuilder(target.getUri().toString()).append("Patient/").append(patientId).toString();
+        String patientUrl="Patient/" + patientId;
         
         //Patch request object for the bundle
         Request req=Request.builder().method(HTTPVerb.PATCH).url(Uri.of(patientUrl)).build();

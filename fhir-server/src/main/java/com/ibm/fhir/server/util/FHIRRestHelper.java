@@ -1789,8 +1789,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
         throws FHIROperationException {
         FHIRRestOperationResponse ior = null;
-        int resourceIdIndex = 7;
-        int resourceTypeIndex = 6;
+        int resourceIdIndex = 1;
+        int resourceTypeIndex = 0;
         String resourceType = extractValueFromUrl(requestEntry.getRequest().getUrl().getValue(), resourceTypeIndex);
         String resourceId = extractValueFromUrl(requestEntry.getRequest().getUrl().getValue(), resourceIdIndex);
         try {
@@ -2359,10 +2359,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             addLocalRefMapping(localRefMap, localIdentifier, externalIdentifier, null);
                         } else if (request.getMethod().equals(HTTPVerb.PUT) && resource.getId() != null) {
                             // Add mapping.
-                            addLocalRefMapping(localRefMap, localIdentifier, null, resource);
-                        } else if (request.getMethod().equals(HTTPVerb.PATCH) && resource.getId() != null) {
-                            // Add mapping.
-                            log.fine("Creating Patch Local Identefier For Bundle Patch Request");
                             addLocalRefMapping(localRefMap, localIdentifier, null, resource);
                         }
                     }
