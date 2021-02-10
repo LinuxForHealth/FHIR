@@ -1122,4 +1122,37 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         assertEquals(0, bundle.getEntry().size());
     }
 
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
+    public void testSearchSingleReverseChainWithStringParmMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("given", "1" + tag)
+                .queryParam("_has:Procedure:subject:status:missing", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(0, bundle.getEntry().size());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
+    public void testSearchSingleReverseChainWithStringParmNotMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("given", "1" + tag)
+                .queryParam("_has:Procedure:subject:status:missing", "false")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getEntry().size());
+        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+    }
+
 }

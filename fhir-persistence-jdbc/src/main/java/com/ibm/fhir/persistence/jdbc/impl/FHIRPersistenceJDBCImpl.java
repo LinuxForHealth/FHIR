@@ -760,7 +760,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             + "for whole-system search [code=" + param.getCode() + "]");
                 }
             } else {
-                if (param.getChain().getLast().getModifier() == Modifier.MISSING || param.getChain().getLast().getModifier() == Modifier.NOT) {
+                if (param.getChain().getLast().getModifier() == Modifier.NOT) {
                     // modifiers on the last parameter in the chain are not yet supported
                     throw buildNotSupportedException("Modifier ':" + param.getChain().getLast().getModifier().value() + "' is not yet supported "
                             + "for chained parameters [code=" + param.getCode() + "]");
