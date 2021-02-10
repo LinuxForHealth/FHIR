@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-05 12:00:00 -0400
+date:   2021-02-09 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -141,8 +141,6 @@ The `_include` and `_revinclude` parameters can be used to return resources rela
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
-The `:missing` modifier is not supported for whole-system search.
-
 The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
 
 ### Custom search parameters
@@ -158,7 +156,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
 |Reference                 |`:[type]`,`:missing`            |exact match search and targets are implicitly added|
 |URI                       |`:below`,`:above`,`:missing`    |exact match search|
-|Token                     |`:missing`                      |exact match search|
+|Token                     |`:missing`,`:not`               |exact match search|
 |Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
 |Date                      |`:missing`                      |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
 |Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
@@ -167,9 +165,9 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 Due to performance implications, the `:exact` modifier should be used for String searches where possible.
 
-At present, the `:missing` modifier is not supported for whole-system search nor for chained parameter search. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
+At present, the `:missing` and `:not` modifiers are not supported for whole-system search nor for chained parameter search. For example, a search with a query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
 
-The :text, :not, :above, :below, :in, :not-in, and :of-type modifiers are not supported in this version of the IBM FHIR server and use of this modifier will results in an HTTP 400 error with an OperationOutcome that describes the failure.
+The :text, :above, :below, :in, :not-in, and :of-type modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
@@ -280,9 +278,6 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 |FEET|ft, fts, foot|
 
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
-
-### Search parameters
-
 
 ## HL7 FHIR R4 (v4.0.1) errata
 We add information here as we find issues with the artifacts provided with this version of the specification.

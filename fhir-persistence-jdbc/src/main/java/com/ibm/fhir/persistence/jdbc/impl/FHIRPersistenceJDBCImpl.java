@@ -753,15 +753,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     private void checkModifiers(FHIRSearchContext searchContext, boolean isSystemLevelSearch) throws FHIRPersistenceNotSupportedException {
         for (QueryParameter param : searchContext.getSearchParameters()) {
             if (param.getChain().isEmpty()) {
-                if (isSystemLevelSearch && param.getModifier() == Modifier.MISSING) {
+                if (isSystemLevelSearch &&
+                        (param.getModifier() == Modifier.MISSING || param.getModifier() == Modifier.NOT)) {
                     // modifiers are not supported for whole-system searches
-                    throw buildNotSupportedException("Modifier '" + param.getModifier() + "' is not yet supported "
+                    throw buildNotSupportedException("Modifier ':" + param.getModifier().value() + "' is not yet supported "
                             + "for whole-system search [code=" + param.getCode() + "]");
                 }
             } else {
-                if (param.getChain().getLast().getModifier() == Modifier.MISSING) {
+                if (param.getChain().getLast().getModifier() == Modifier.MISSING || param.getChain().getLast().getModifier() == Modifier.NOT) {
                     // modifiers on the last parameter in the chain are not yet supported
-                    throw buildNotSupportedException("Modifier '" + Modifier.MISSING.value() + "' is not yet supported "
+                    throw buildNotSupportedException("Modifier ':" + param.getChain().getLast().getModifier().value() + "' is not yet supported "
                             + "for chained parameters [code=" + param.getCode() + "]");
                 }
             }
@@ -769,8 +770,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             do {
                 if (param.getModifier() != null &&
                         !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {
-                    throw buildNotSupportedException("Found unsupported modifier '" + param.getModifier() + "'"
-                            + " for search parameter '" + param.getCode() + "' of type " + param.getType());
+                    throw buildNotSupportedException("Found unsupported modifier ':" + param.getModifier().value() + "'"
+                            + " for search parameter '" + param.getCode() + "' of type '" + param.getType() + "'");
                 }
                 param = param.getNextParameter();
             } while (param != null);
