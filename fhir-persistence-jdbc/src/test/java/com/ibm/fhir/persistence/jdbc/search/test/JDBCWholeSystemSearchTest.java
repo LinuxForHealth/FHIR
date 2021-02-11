@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,13 +8,10 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
@@ -29,7 +26,7 @@ public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
     private Properties testProps;
 
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
 
     public JDBCWholeSystemSearchTest() throws Exception {
@@ -64,12 +61,5 @@ public class JDBCWholeSystemSearchTest extends AbstractWholeSystemSearchTest {
         if (this.connectionPool != null) {
             this.connectionPool.close();
         }
-    }
-
-
-    @Override
-    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
-    public void testSearchAllUsingIdAndLastUpdatedAndAnyTagOrProfile() throws Exception {
-        super.testSearchAllUsingIdAndLastUpdatedAndAnyTagOrProfile();
     }
 }

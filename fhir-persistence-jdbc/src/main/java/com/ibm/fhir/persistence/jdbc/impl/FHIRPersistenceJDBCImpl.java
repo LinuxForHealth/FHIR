@@ -752,16 +752,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private void checkModifiers(FHIRSearchContext searchContext, boolean isSystemLevelSearch) throws FHIRPersistenceNotSupportedException {
         for (QueryParameter param : searchContext.getSearchParameters()) {
-            if (param.getChain().isEmpty()) {
-                if (isSystemLevelSearch &&
-                        (param.getModifier() == Modifier.MISSING || param.getModifier() == Modifier.NOT)) {
-                    // modifiers are not supported for whole-system searches
+            if (isSystemLevelSearch) {
+                if (param.getModifier() == Modifier.NOT) {
+                    // ':not' modifier is not yet supported for whole-system searches
                     throw buildNotSupportedException("Modifier ':" + param.getModifier().value() + "' is not yet supported "
                             + "for whole-system search [code=" + param.getCode() + "]");
                 }
-            } else {
+            }
+
+            if (!param.getChain().isEmpty()) {
                 if (param.getChain().getLast().getModifier() == Modifier.NOT) {
-                    // modifiers on the last parameter in the chain are not yet supported
+                    // ':not' modifier on the last parameter in the chain is not yet supported
                     throw buildNotSupportedException("Modifier ':" + param.getChain().getLast().getModifier().value() + "' is not yet supported "
                             + "for chained parameters [code=" + param.getCode() + "]");
                 }

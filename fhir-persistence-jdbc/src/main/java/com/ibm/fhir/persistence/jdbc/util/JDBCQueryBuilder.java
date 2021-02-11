@@ -35,7 +35,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_ID;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SELECT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
@@ -126,6 +125,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     // Hints to use for certain queries
     private final QueryHints queryHints;
+
+    // Table aliases
+    private static final String LR = "LR";
 
     // Table alias prefixes
     private static final String CR = "CR";
@@ -258,7 +260,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         // For each search parm, build a query parm that will satisfy the search.
         for (QueryParameter queryParameter : searchParameters) {
-            querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETER_TABLE_ALIAS, RESOURCE_TABLE_ALIAS, false);
+            querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETER_TABLE_ALIAS, LR, false);
             if (querySegment != null) {
                 helper.addQueryData(querySegment, queryParameter);
                 isValidQuery = true;
@@ -343,7 +345,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *                     of search parm
      * @param paramTableAlias   - An alias for the parameter table for which this query parameter
      *                     applies
-     * @param rsrcTableAlias   - An alias for the resource table for which this query parameter
+     * @param logicalRsrcTableAlias   - An alias for the logical resource table for which this query parameter
      *                     applies
      * @param endOfChain - true if query parameter is at the end of a chain, otherwise false
      * @return SqlQueryData - An object representing the selector query segment for
@@ -354,7 +356,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *           String)}
      *           except this one takes a paramTableAlias, rsrcTableAlias, and endOfChain
      */
-    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String rsrcTableAlias, boolean endOfChain)
+    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain)
             throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -364,7 +366,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
-                return this.processMissingParm(resourceType, queryParm, rsrcTableAlias, endOfChain);
+                return this.processMissingParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
             }
             // NOTE: The special logic needed to process NEAR query parms for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
@@ -734,7 +736,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     util.executeBehavior(lastUpdatedWhereClause, currentParm);
                     sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString(), util.getBindVariables());
                 } else {
-                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar, chainedResourceVar, true);
+                    sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar, chainedLogicalResourceVar, true);
                 }
 
                 if (log.isLoggable(Level.FINE)) {
@@ -914,7 +916,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             // This logic processes the LAST parameter in the chain.
             // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
             Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
-            SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, lastParm, chainedParmVar, chainedResourceVar, false);
+            SqlQueryData sqlQueryData = buildQueryParm(chainedResourceType, lastParm, chainedParmVar, chainedLogicalResourceVar, false);
             whereClauseSegment.append(sqlQueryData.getQueryString());
             bindVariables.addAll(sqlQueryData.getBindVariables());
 
@@ -1262,7 +1264,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 try {
                     QueryParameter component = components.get(componentNum - 1);
                     SqlQueryData subQueryData =
-                            buildQueryParm(resourceType, component, tableAlias + "_p" + componentNum, RESOURCE_TABLE_ALIAS, false);
+                            buildQueryParm(resourceType, component, tableAlias + "_p" + componentNum, LR, false);
                     whereClauseSegment.append(componentSeparator + subQueryData.getQueryString());
                     bindVariables.addAll(subQueryData.getBindVariables());
                 } catch (Exception e) {
@@ -1368,7 +1370,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     }
 
-    private SqlQueryData processMissingParm(Class<?> resourceType, QueryParameter queryParm, String rsrcTableAlias, boolean endOfChain)
+    private SqlQueryData processMissingParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain)
             throws FHIRPersistenceException {
         final String METHODNAME = "processMissingParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -1395,19 +1397,21 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             whereClauseSegment.append(WHERE);
         }
 
-        String valuesTable = QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
+        // If not a concrete resource type, then this is a system-wide search, so use the param table alias instead of the table name,
+        // which will be replaced with the table name for each resource type in QuerySegmentAggregator.buildWhereClause(...)
+        String valuesTable = ModelSupport.isAbstract(resourceType) ? paramTableAlias : QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
 
         // Build this piece of the segment. Use EXISTS instead of SELECT DISTINCT for much better performance
-        // missing:     NOT EXISTS (SELECT 1 FROM Observation_STR_VALUES V WHERE V.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)
-        // not missing:     EXISTS (SELECT 1 FROM Observation_STR_VALUES V WHERE V.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID)
+        // missing:     NOT EXISTS (SELECT 1 FROM Observation_STR_VALUES WHERE Observation_STR_VALUES.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
+        // not missing:     EXISTS (SELECT 1 FROM Observation_STR_VALUES WHERE Observation_STR_VALUES.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
         if (missing == null || missing) {
             whereClauseSegment.append(NOT);
         }
         whereClauseSegment.append(EXISTS);
 
         whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + WHERE);
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
-        whereClauseSegment.append(AND).append(valuesTable).append(".LOGICAL_RESOURCE_ID = ").append(rsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
+        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable);
+        whereClauseSegment.append(AND).append(valuesTable).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
         List<Object> bindVariables = new ArrayList<>();
@@ -1689,7 +1693,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         }
                     }
                     // Build the rest: (CPx.PARAMETER_NAME_ID=<code-id> AND (CPx.<type>_VALUE=<valueCode>))
-                    sqlQueryData = buildQueryParm(ModelSupport.getResourceType(previousParm.getModifierResourceTypeName()), currentParm, chainedParmVar, prevChainedResourceVar, true);
+                    sqlQueryData = buildQueryParm(ModelSupport.getResourceType(previousParm.getModifierResourceTypeName()), currentParm, chainedParmVar, prevChainedLogicalResourceVar, true);
                 }
 
                 if (log.isLoggable(Level.FINE)) {

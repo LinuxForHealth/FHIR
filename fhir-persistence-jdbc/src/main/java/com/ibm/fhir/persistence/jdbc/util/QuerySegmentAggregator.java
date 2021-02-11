@@ -559,12 +559,20 @@ public class QuerySegmentAggregator {
             if (!SKIP_WHERE.contains(code)) {
 
                 if (Modifier.MISSING.equals(param.getModifier())) {
+                    // The param table alias needs to be replaced by the table name, since for a whole-system
+                    // search the JDBCQueryBuilder.processMissingParm() put the param table alias in the query string
+                    // because each resource type has its own table name
+                    String valuesTable = tableName(overrideType, param);
+                    final String querySegmentString = querySegment.getQueryString()
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", valuesTable + ".")
+                            .replaceAll(PARAMETER_TABLE_ALIAS + " ", valuesTable + " ");
+
                     // Append queryString to a separate StringBuilder which will get appended to the where clause last.
                     if (missingModifierWhereClause.length() == 0) {
-                        missingModifierWhereClause.append(querySegment.getQueryString());
+                        missingModifierWhereClause.append(querySegmentString);
                     } else {
                         // If not the first param with a :missing modifier, replace the WHERE with an AND
-                        missingModifierWhereClause.append(querySegment.getQueryString().replaceFirst(WHERE, AND));
+                        missingModifierWhereClause.append(querySegmentString.replaceFirst(WHERE, AND));
                     }
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
