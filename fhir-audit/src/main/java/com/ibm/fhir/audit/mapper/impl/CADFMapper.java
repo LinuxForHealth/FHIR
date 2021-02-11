@@ -1,8 +1,9 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.audit.mapper.impl;
 
 import static com.ibm.fhir.audit.AuditLogServiceConstants.DEFAULT_AUDIT_GEO_CITY;
@@ -30,12 +31,12 @@ import com.ibm.fhir.audit.cadf.enums.Action;
 import com.ibm.fhir.audit.cadf.enums.EventType;
 import com.ibm.fhir.audit.cadf.enums.Outcome;
 import com.ibm.fhir.audit.cadf.enums.ResourceType;
+import com.ibm.fhir.audit.configuration.handlers.HostnameHandler;
 import com.ibm.fhir.audit.mapper.Mapper;
 import com.ibm.fhir.config.PropertyGroup;
 
 /**
- * This class is a Cadf/EventStream/COS based implementation of the FHIR server
- * AuditLogService interface
+ * AuditLogEntry to CADF Mapper
  */
 public class CADFMapper implements Mapper {
     private static final String CLASSNAME = CADFMapper.class.getName();
@@ -52,6 +53,9 @@ public class CADFMapper implements Mapper {
         }
     };
 
+    // Managers the access to the hostname
+    private static final HostnameHandler handler = new HostnameHandler();
+
     private CadfEvent eventObject = null;
 
     private String hostname = null;
@@ -61,8 +65,7 @@ public class CADFMapper implements Mapper {
 
     @Override
     public Mapper init(PropertyGroup auditLogProperties) throws Exception {
-        // this may be unreliable on Windows and other systems.
-        hostname = System.getenv("HOSTNAME");
+        hostname = handler.getHostname();
         geoCity = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_CITY, DEFAULT_AUDIT_GEO_CITY);
         geoState = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_STATE, DEFAULT_AUDIT_GEO_STATE);
         geoCountry = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_COUNTRY, DEFAULT_AUDIT_GEO_COUNTRY);
