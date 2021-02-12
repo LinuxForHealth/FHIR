@@ -1707,7 +1707,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             processEntryForDelete(responseEntry, responseIndexAndEntries, entryIndex, requestURL, requestDescription.toString(), initialTime);
                         } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
-                            processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
+                            processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, requestDescription.toString(), initialTime);
                         } else {
                             // Internal error, should not get here!
                             throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
@@ -1785,11 +1785,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, Integer entryIndex,
-        Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
+    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, Integer entryIndex, String requestDescription, long initialTime)
         throws Exception {
         FHIRRestOperationResponse ior = null;
-        requestURL = new FHIRUrlParser(requestEntry.getRequest().getUrl().getValue());
+       FHIRUrlParser requestURL = new FHIRUrlParser(requestEntry.getRequest().getUrl().getValue());
         String[] pathTokens = requestURL.getPathTokens();
         String resourceType = null;
         String resourceId = null;
@@ -1813,9 +1812,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 if (requestEntry.getResource().is(Parameters.class)) {
 
                     Parameters parameters = requestEntry.getResource().as(Parameters.class);
-                    FHIRPatch patch;
+                  
 
-                    patch = FHIRPathPatch.from(parameters);
+                    FHIRPatch patch = FHIRPathPatch.from(parameters);
 
                     ior = doPatch(resourceType, resourceId, patch, null, null, null);
                     // Process and replace bundle entry.
