@@ -1,7 +1,6 @@
 <server description="fhir-server">
     <!-- 
-        By default, in-memory derby is used for job repository, no configuration is needed.
-        If you need an alternative, check the disabled folder for you persistence datastore/provider.
+        This configDropin work with Db2 and user-password
     -->
     <featureManager>
         <feature>batchManagement-1.0</feature>
@@ -31,6 +30,26 @@
             </security-role>
         </application-bnd>
     </webApplication>
+
+    <variable name="BATCH_DB_NAME" value="${env.BATCH_DB_NAME}" defaultValue="FHIRDB"/>
+    <variable name="BATCH_DB_SCHEMA" value="${env.BATCH_DB_SCHEMA}" defaultValue="FHIR_JBATCH"/>
+    <variable name="BATCH_DB_PORT" value="${env.BATCH_DB_PORT}" defaultValue="5432"/>
+    <variable name="BATCH_DB_USER" value="${env.BATCH_DB_USER}" defaultValue="fhirserver"/>
+    <variable name="BATCH_DB_PASS" value="${env.BATCH_DB_PASS}" defaultValue="change-password"/>
+    <variable name="BATCH_DB_SSL" value="${env.BATCH_DB_SSL}" defaultValue="false"/>
+    <variable name="BATCH_DB_SSL_CERT_PATH" value="${env.BATCH_DB_SSL_CERT_PATH}" defaultValue=""/>
+
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <properties.postgresql
+            databaseName="${BATCH_DB_NAME}"
+            portNumber="${BATCH_DB_PORT}"
+            serverName="${env.BATCH_DB_HOSTNAME}"
+            user="${BATCH_DB_USER}"
+            password="${BATCH_DB_PASS}" 
+            ssl="${BATCH_DB_SSL}"
+            sslCert="${BATCH_DB_SSL_CERT_PATH}"/>
+    </dataSource>
 
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
     <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>

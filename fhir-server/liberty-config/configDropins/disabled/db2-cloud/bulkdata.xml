@@ -1,7 +1,6 @@
 <server description="fhir-server">
     <!-- 
-        By default, in-memory derby is used for job repository, no configuration is needed.
-        If you need an alternative, check the disabled folder for you persistence datastore/provider.
+        This configDropin work with the IBM Cloud hosted Db2 and securityMechanism 15 (apiKey)
     -->
     <featureManager>
         <feature>batchManagement-1.0</feature>
@@ -32,6 +31,24 @@
         </application-bnd>
     </webApplication>
 
+    <variable name="BATCH_DB_NAME_DS" value="${env.BATCH_DB_NAME}" defaultValue="BLUDB"/>
+    <variable name="BATCH_DB_SCHEMA_DS" value="${env.BATCH_DB_SCHEMA}" defaultValue="FHIR_JBATCH"/>
+    <variable name="BATCH_DB_PORT_DS" value="${env.BATCH_DB_PORT}" defaultValue="50001"/>
+
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <properties.db2.jcc
+            apiKey="${env.BATCH_DB_APIKEY}"
+            serverName="${env.BATCH_DB_HOSTNAME}"
+            currentSchema="${BATCH_DB_SCHEMA_DS}"
+            databaseName="${BATCH_DB_NAME_DS}"
+            driverType="4"
+            pluginName="IBMIAMauth"
+            portNumber="${BATCH_DB_PORT_DS}"
+            securityMechanism="15"
+            sslConnection="true" />
+    </dataSource>
+
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
 </server>
