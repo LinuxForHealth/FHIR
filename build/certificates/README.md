@@ -1,9 +1,51 @@
-# IBM FHIR Server - Certificates 
+# IBM FHIR Server - Development Certificates 
 
 The certificates are used in development and CI/CD.
 These certificates are not configured for production use.
 
-The following keystores and truststores are used in the project.
+The sections in this document walks through creation of the certificates in a temporary folder, and then subsequent update inline.  
+
+The Audit Kafka jks are updated separately. 
+
+# Create CA and Certs and P12s (does not replace)
+
+This script should be run first, and subsequently each many section must update their cert/key. 
+
+1. Set `export CHANGE_PASSWORD=change-password`
+
+2. Set `export WORKSPACE=$(pwd)`
+
+3. Run `bash ${WORKSPACE}/build/certificates/create-ca-and-certs.sh` to update the certs.
+
+At the end the tmp folder contains a copy of the certs and keys with a CA Issuer of `Issuer: C=US, O=IBM Corporation, OU=IBM Watson Health, OU=FHIR`.
+
+# Minio: Continuous Integration Certificates
+
+The following certifiates are used with minio. 
+
+```
+build/docker/minio/private.key
+build/docker/minio/public.crt
+```
+
+1. Set `export WORKSPACE=$(pwd)`
+
+2. Run `bash ${WORKSPACE}/build/certificates/copy-minio.sh` to update.
+
+# Server: Continuous Integration Certificates
+
+The following certifiates are used with the IBM FHIR Server. 
+
+```
+fhir-server/liberty-config/resources/security/fhirKeyStore.p12
+fhir-server/liberty-config/resources/security/fhirTrustStore.p12
+```
+
+1. Set `export WORKSPACE=$(pwd)`
+
+2. Run `bash ${WORKSPACE}/build/certificates/copy-server.sh` to update.
+
+Note, the `tmp` folder should exist and be empty.
 
 # Audit: Continuous Integration Certificates
 
@@ -24,7 +66,7 @@ build/audit/kafka/resources/kafka.producer.truststore.jks
 
 2. Set `export WORKSPACE=$(pwd)`
 
-3. Run `bash update-audit-kafka.sh` to update.
+3. Run `bash ${WORKSPACE}/build/certificates/update-audit-kafka.sh` to update.
 
 4. Copy the jks and creds files over to the build/audit/kafka directory
 
@@ -39,28 +81,11 @@ fhir-server/liberty-config/resources/security/kafka.client.keystore.p12
 fhir-server/liberty-config/resources/security/kafka.client.truststore.p12
 ```
 
-1. Set `export CHANGE_PASSWORD=change-password`
+1. Set `export WORKSPACE=$(pwd)`
 
-2. Set `export WORKSPACE=$(pwd)`
-
-3. Run `bash update-kafka-client.sh` to update.
+2. Run `bash ${WORKSPACE}/build/certificates/copy-kafka-client.sh` to update.
 
 Note, the `tmp` folder should exist and be empty.
-
-# Minio: Continuous Integration Certificates
-
-The following certifiates are used with minio. 
-
-```
-build/docker/minio/private.key
-build/docker/minio/public.crt
-```
-
-1. Set `export CHANGE_PASSWORD=change-password`
-
-2. Set `export WORKSPACE=$(pwd)`
-
-3. Run `bash update-minio.sh` to update.
 
 # FHIR Client and Server Test - Trust and Key Stores
 
@@ -73,28 +98,8 @@ fhir-server-test/src/test/resources/fhirClientTrustStore.p12
 fhir-server-test/src/test/resources/fhirClientKeyStore.p12
 ```
 
-1. Set `export CHANGE_PASSWORD=change-password`
+1. Set `export WORKSPACE=$(pwd)`
 
-2. Set `export WORKSPACE=$(pwd)`
-
-3. Run `bash update-fhir-client.sh` to update.
-
-Note, the `tmp` folder should exist and be empty.
-
-# Server: Continuous Integration Certificates
-
-The following certifiates are used with the IBM FHIR Server. 
-This should be run before the update-fhir-client.sh and update-minio.sh (third to last).
-
-```
-fhir-server/liberty-config/resources/security/fhirKeyStore.p12
-fhir-server/liberty-config/resources/security/fhirTrustStore.p12
-```
-
-1. Set `export CHANGE_PASSWORD=change-password`
-
-2. Set `export WORKSPACE=$(pwd)`
-
-3. Run `bash update-server.sh` to update.
+2. Run `bash ${WORKSPACE}/build/certificates/copy-fhir-client.sh` to update.
 
 Note, the `tmp` folder should exist and be empty.
