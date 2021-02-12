@@ -35,8 +35,8 @@
     <variable name="BATCH_DB_SCHEMA_DS" value="${env.BATCH_DB_SCHEMA}" defaultValue="FHIR_JBATCH"/>
     <variable name="BATCH_DB_PORT_DS" value="${env.BATCH_DB_PORT}" defaultValue="50000"/>
     <variable name="BATCH_DB_USER_DS" value="${env.BATCH_DB_USER}" defaultValue="db2inst1"/>
-    <variable name="BATCH_DB_PASS_DS" value="${env.BATCH_DB_PASS}" defaultValue="change-password"/>
-    <variable name="BATCH_DB_SSL_DS" value="${env.BATCH_DB_SSL}" defaultValue="false"/>
+    <variable name="BATCH_DB_PASS_DS" value="${env.BATCH_DB_PASS}" defaultValue=""/>
+    <variable name="BATCH_DB_SSL_DS" value="${env.BATCH_DB_SSL}" defaultValue="true"/>
 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>

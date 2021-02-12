@@ -1692,8 +1692,8 @@ If one wants to support IBM Db2 with a user-name and password , one should copy 
 | BATCH_DB_SCHEMA   | FHIR_JBATCH     | The Schema Name configured to support the Java Batch framework |
 | BATCH_DB_PORT     | 50000           | The port configured to support the database                    |
 | BATCH_DB_USER     | db2inst1        | The user for the Db2 database                                  |
-| BATCH_DB_PASSWORD | change-password | The user for the Db2 database                                  |
-| BATCH_DB_SSL      | false           | The ssl connection is either true or false                     |
+| BATCH_DB_PASSWORD | `blank`         | The password for the Db2 database                              |
+| BATCH_DB_SSL      | true            | The ssl connection is either true or false                     |
 
 If one wants to support Postgres with a user-name and password , one should copy `fhir-server/configDropins/disabled/postgres/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
 
@@ -1704,8 +1704,8 @@ If one wants to support Postgres with a user-name and password , one should copy
 | BATCH_DB_SCHEMA        | FHIR_JBATCH     | The Schema Name configured to support the Java Batch framework |
 | BATCH_DB_PORT          | 5432            | The port configured to support the database                    |
 | BATCH_DB_USER          | fhirserver      | The user for the postgres database                             |
-| BATCH_DB_PASSWORD      | change-password | The user for the postgres database                             |
-| BATCH_DB_SSL           | false           | The ssl connection is either true or false                     |
+| BATCH_DB_PASSWORD      | `blank`         | The password for the postgres database                         |
+| BATCH_DB_SSL           | true            | The ssl connection is either true or false                     |
 | BATCH_DB_SSL_CERT_PATH | false           | The ssl connection is either true or false                     |
 
 Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
