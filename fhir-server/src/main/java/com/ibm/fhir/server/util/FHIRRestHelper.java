@@ -1707,7 +1707,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             processEntryForDelete(responseEntry, responseIndexAndEntries, entryIndex, requestURL, requestDescription.toString(), initialTime);
                         } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
-                            processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, requestDescription.toString(), initialTime);
+                            processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, requestURL,entryIndex, requestDescription.toString(), initialTime);
                         } else {
                             // Internal error, should not get here!
                             throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
@@ -1771,6 +1771,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the response bundle entry
      * @param responseIndexAndEntries
      *            the hashmap containing bundle entry indexes and their associated response entries
+     * @param requestURL 
      * @param entryIndex
      *            the bundle entry index of the bundle entry being processed
      * @param localRefMap
@@ -1785,10 +1786,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, Integer entryIndex, String requestDescription, long initialTime)
+    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime)
         throws Exception {
         FHIRRestOperationResponse ior = null;
-       FHIRUrlParser requestURL = new FHIRUrlParser(requestEntry.getRequest().getUrl().getValue());
         String[] pathTokens = requestURL.getPathTokens();
         String resourceType = null;
         String resourceId = null;
