@@ -90,6 +90,8 @@ public class SearchConstants {
     // _has
     public static final String HAS = "_has";
 
+    public static final String IMPLICIT_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/implicit-system";
+
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));

@@ -28,13 +28,13 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.SearchConstants;
 
 /**
  * A utility for adding the http://ibm.com/fhir/extension/implicit-system extension
  * to search parameters which always reference code values with a particular system
  */
 public class SearchParameterAugmenter {
-    private static final String IMPLICIT_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/implicit-system";
     private static final FHIRGenerator generator = FHIRGenerator.generator(Format.JSON, true);
 
     public static void main(String[] args) throws Exception {
@@ -99,7 +99,7 @@ public class SearchParameterAugmenter {
         if (implicitSystemValue == null) return null;
 
         return Extension.builder()
-                .url(IMPLICIT_SYSTEM_EXT_URL)
+                .url(SearchConstants.IMPLICIT_SYSTEM_EXT_URL)
                 .value(Uri.of(implicitSystemValue))
                 .build();
     }

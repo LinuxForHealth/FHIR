@@ -40,6 +40,7 @@ import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
@@ -1253,6 +1254,20 @@ public class SearchUtil {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else {
+                    // Optimization for search parameters that always reference the same system, added under #1929
+                    try {
+                        String implicitSystem = searchParameter.getExtension().stream()
+                                .filter(e -> SearchConstants.IMPLICIT_SYSTEM_EXT_URL.equals(e.getUrl()) && e.getValue() != null)
+                                .findFirst()
+                                .map(e -> e.getValue().as(Uri.class).getValue())
+                                .orElse(null);
+                        if (implicitSystem != null) {
+                            parameterValue.setValueSystem(implicitSystem);
+                        }
+                    } catch (ClassCastException e) {
+                        log.log(Level.INFO, "Found " + SearchConstants.IMPLICIT_SYSTEM_EXT_URL + " extension with unexpected value type", e);
+                    }
+
                     parameterValue.setValueCode(unescapeSearchParm(v));
                 }
                 break;
