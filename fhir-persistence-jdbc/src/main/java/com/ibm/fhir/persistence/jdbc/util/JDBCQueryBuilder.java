@@ -1415,7 +1415,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     private SqlQueryData processMissingParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
             throws FHIRPersistenceException {
-        final String METHODNAME = "processStringParm";
+        final String METHODNAME = "processMissingParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         // boolean to track whether the user has requested the resources missing this parameter (true) or not missing it

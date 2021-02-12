@@ -420,6 +420,20 @@ public class SearchTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithGenderNot() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("gender:not", "female").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", tenantName)
+                    .header("X-FHIR-DSID", dataStoreId)
+                    .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
     @Test(groups = { "server-search" })
     public void testCreateObservationWithRange() throws Exception {
         WebTarget target = getWebTarget();
