@@ -41,8 +41,8 @@ cat fhir-ca-crt.pem >> fhir-minio-chained.pem
 
 # Server
 echo "FHIR Server - certs are being generated and signed"
-openssl req -newkey rsa:${BITS} -days ${DAYS} -nodes -sha512 -keyout fhir-server-key.pem -out fhir-server-req.pem -subj '/C=US/O=IBM/OU=IBM Watson Health/OU=FHIR/CN=localhost'
-openssl x509 -req -in fhir-server-req.pem -days ${DAYS} -sha512 -CA fhir-ca-crt.pem -CAkey fhir-ca-key.pem -days 10960 -CAcreateserial -out fhir-server-cert.pem
+openssl req -newkey rsa:${BITS} -days ${DAYS} -nodes -sha512 -keyout fhir-server-key.pem -out fhir-server-req.pem -subj '/C=US/O=IBM/OU=IBM Watson Health/OU=FHIR/CN=localhost' -config ../server.conf -reqexts SAN
+openssl x509 -req -in fhir-server-req.pem -days ${DAYS} -sha512 -CA fhir-ca-crt.pem -CAkey fhir-ca-key.pem -days 10960 -CAcreateserial -out fhir-server-cert.pem  -extfile ../server.conf -extensions SAN
 openssl x509 -in fhir-server-cert.pem -text | grep 'Subject:'
 
 # Create the chained cert
