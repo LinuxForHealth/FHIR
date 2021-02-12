@@ -27,8 +27,10 @@ openssl req -new -newkey rsa:${BITS} -x509 -nodes -sha512 -keyout fhir-ca-key.pe
 
 # Minio
 echo "FHIR Minio - certs are being generated and signed"
-openssl req -newkey rsa:${BITS} -days ${DAYS} -nodes -sha512 -keyout fhir-minio-key.pem -out fhir-minio-req.pem -subj '/C=US/O=IBM/OU=IBM Watson Health/OU=FHIR/CN=minio'
-openssl x509 -req -in fhir-minio-req.pem -days ${DAYS} -sha512 -CA fhir-ca-crt.pem -CAkey fhir-ca-key.pem -days 10960 -CAcreateserial -out fhir-minio-cert.pem
+openssl req -newkey rsa:${BITS} -days ${DAYS} -nodes -sha512 -keyout fhir-minio-key.pem -out fhir-minio-req.pem -subj '/C=US/O=IBM/OU=IBM Watson Health/OU=FHIR/CN=minio' -config ../minio.conf -reqexts SAN
+openssl x509 -req -in fhir-minio-req.pem -days ${DAYS} -sha512 -CA fhir-ca-crt.pem -CAkey fhir-ca-key.pem -days 10960 -CAcreateserial -out fhir-minio-cert.pem -extfile ../minio.conf -extensions SAN
+
+# Useful for debugging keytool -printcert -v -file  fhir-minio-cert.pem 
 
 # Verify the subject
 openssl x509 -in fhir-minio-cert.pem -text | grep 'Subject:'
