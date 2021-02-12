@@ -11,6 +11,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CURRENT_RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
@@ -593,12 +594,28 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             } else {
                 parmValueProcessed = true;
             }
+
+            // If the predicate includes a code-system it will resolve to a single value from
+            // common_token_values. It helps the query optimizer if we include this additional
+            // filter because it can make better cardinality estimates.
+            Long commonTokenValueId = null;
+            if (EQ.equals(operator) && targetResourceType != null) {
+                // targetResourceType is treated as the code-system for references
+                commonTokenValueId = getCommonTokenValueId(targetResourceType, searchValue);
+            }
+
             // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
             whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
             bindVariables.add(searchValue);
 
-            // add the [optional] condition for the resource type if we have one
-            if (targetResourceType != null) {
+            if (commonTokenValueId != null) {
+                // #1929 improves cardinality estimation
+                // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                    .append(commonTokenValueId);
+            } else if (targetResourceType != null) {
+                // add the [optional] condition for the resource type if we have one
                 // Use a literal for the resource type code-system-id, not a parameter marker. Helps the cost-based optimizer
                 int codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
                 whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
@@ -609,6 +626,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
+    }
+
+    /**
+     * Get the common_token_value_id values matching the given code-system/token_value
+     * @return
+     */
+    private Long getCommonTokenValueId(String codeSystem, String tokenValue) {
+        Long result = identityCache.getCommonTokenValueId(codeSystem, tokenValue);
+
+        return result;
     }
 
     /**
@@ -1034,6 +1061,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     int codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
                     whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
                         .append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
+
+                    // For #1929 add common_token_value_id = <n> for better query optimization
+                    Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
+                    if (commonTokenValueId != null) {
+                        // #1929 improves cardinality estimation
+                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                            .append(commonTokenValueId);
+                    }
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
                 bindVariables.add(currentParmValue);
@@ -1112,13 +1149,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
                 // Include system if present.
                 if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                    Long commonTokenValueId = null;
                     if (NE.equals(operator)) {
                         whereClauseSegment.append(OR);
                     } else {
                         whereClauseSegment.append(AND);
+
+                        // use #1929 optimization if we can
+                        commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
                     }
                     whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
                             .append(BIND_VAR);
+
+                    if (commonTokenValueId != null) {
+                        // #1929 improves cardinality estimation
+                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                        whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                            .append(commonTokenValueId);
+                    }
 
                     codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
 
@@ -1430,10 +1479,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *       Observation_TOKEN_VALUES_V AS CP1
      *       JOIN Observation_LOGICAL_RESOURCES AS CLR1 ON CLR1.LOGICAL_RESOURCE_ID = CP1.LOGICAL_RESOURCE_ID
      *       JOIN Observation_RESOURCES AS CR1 ON CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED = 'N'
-     *       JOIN Observation_TOKEN_VALUES_V AS CP2 ON CP2.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID
+     *       JOIN Observation_RESOURCE_TOKEN_REFS AS CP2 ON CP2.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID
      *       AND (
      *         CP2.PARAMETER_NAME_ID = 1073
-     *         AND ((CP2.TOKEN_VALUE = ?))
+     *         AND ((CP2.COMMON_TOKEN_VALUE_ID = 1234))
      *       )
      *     WHERE
      *       COALESCE(CP1.REF_VERSION_ID, CR0.VERSION_ID) = CR0.VERSION_ID

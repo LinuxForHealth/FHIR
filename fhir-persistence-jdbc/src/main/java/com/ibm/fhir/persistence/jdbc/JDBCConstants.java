@@ -26,6 +26,7 @@ public class JDBCConstants {
     public static final String STR_VALUE = "STR_VALUE";
     public static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
     public static final String TOKEN_VALUE = "TOKEN_VALUE";
+    public static final String COMMON_TOKEN_VALUE_ID = "COMMON_TOKEN_VALUE_ID";
     public static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
     public static final String CODE = "CODE";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";

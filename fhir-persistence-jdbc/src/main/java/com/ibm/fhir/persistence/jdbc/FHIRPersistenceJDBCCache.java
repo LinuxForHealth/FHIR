@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc;
 
-import java.sql.Connection;
-
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 
@@ -23,13 +21,13 @@ public interface FHIRPersistenceJDBCCache {
      * @return
      */
     boolean needToPrefill();
-    
+
     /**
      * Getter for the common token values cache
      * @return
      */
     ICommonTokenValuesCache getResourceReferenceCache();
-    
+
     /**
      * Getter for the cache of resource types used to look up resource type id
      * @return
@@ -46,7 +44,7 @@ public interface FHIRPersistenceJDBCCache {
      * Tell any caches that the transaction on the current thread has just committed
      */
     public void transactionCommitted();
-    
+
     /**
      * The transaction on the current thread was rolled back, so throw away anything
      * held in thread-local caches

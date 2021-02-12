@@ -599,7 +599,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
             long paramInsertStartTime = latestTime;
             if (parameters != null) {
-                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao);
+                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
                     resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
                     for (ExtractedParameterValue p: parameters) {
