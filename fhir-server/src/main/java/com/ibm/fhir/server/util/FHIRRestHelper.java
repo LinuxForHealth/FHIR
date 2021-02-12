@@ -1787,15 +1787,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, Integer entryIndex,
         Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
-        throws FHIROperationException {
+        throws Exception {
         FHIRRestOperationResponse ior = null;
-        int resourceIdIndex = 1;
-        int resourceTypeIndex = 0;
-        String resourceType = extractValueFromUrl(requestEntry.getRequest().getUrl().getValue(), resourceTypeIndex);
-        String resourceId = extractValueFromUrl(requestEntry.getRequest().getUrl().getValue(), resourceIdIndex);
-        try {
-            if (resourceType != null && resourceId != null) {
+        requestURL = new FHIRUrlParser(requestEntry.getRequest().getUrl().getValue());
+        String[] pathTokens = requestURL.getPathTokens();
+        String resourceType = null;
+        String resourceId = null;
 
+        // Process a PATCH.
+        if (pathTokens.length == 1) {
+            // A single-part url would be a conditional update: <type>?<query>
+            // This is not yet supported for PATCH requests.
+            String msg = "Conditional update operation is not supported for PATCH requests.";
+            throw buildRestException(msg, IssueType.NOT_SUPPORTED);
+        } else if (pathTokens.length == 2) {
+            // A two-part url would be a normal patch: <type>/<id>.
+            resourceType = pathTokens[0];
+            resourceId = pathTokens[1];
+        } else {
+            // A url with any other pattern is an error.
+            String msg = "Request URL for bundled PATCH request should have path part with two tokens (<resourceType>/<id>).";
+            throw buildRestException(msg, IssueType.INVALID);
+        }
+       
                 if (requestEntry.getResource().is(Parameters.class)) {
 
                     Parameters parameters = requestEntry.getResource().as(Parameters.class);
@@ -1808,34 +1822,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     Bundle.Entry resultEntry =
                             setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription, initialTime);
                     responseIndexAndEntries.put(entryIndex, resultEntry);
+                }else {
+                    String msg="Request resource type for PATCH request must be type 'Parameters'";
+                    throw buildRestException(msg, IssueType.INVALID);
                 }
-            }
-        } catch (Exception e) {
-          throw new FHIRRestBundledRequestException(e.getMessage());
-
-        }
+       
 
     }
 
-    /**
-     * 
-     * @param requestUrl URL from the request of the bundle entry
-     * @param index -For extract the specific field from the URL
-     * @return
-     */
-    private String extractValueFromUrl(String requestUrl, int index) {
-
-        String[] splittedUrl = requestUrl.split("/");
-
-        if (splittedUrl.length > index && splittedUrl[index] != null) {
-
-            return splittedUrl[index];
-
-        } else {
-            return null;
-        }
-
-    }
     /**
      * Processes a request entry with a request method of GET.
      *
