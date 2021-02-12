@@ -2196,6 +2196,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/mapper`|string|The AuditEventLog mapper that determines the output format - valid types are 'cadf' and 'auditevent'. 'auditevent' refers to the FHIR Resource AuditEvent, and 'cadf' refers to the Cloud logging standard.|
 |`fhirServer/audit/serviceProperties/load`|string|The location that the configuration is loaded from 'environment' or 'config'.|
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
+|`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
+|`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
@@ -2385,6 +2387,8 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/geoCounty`|N|N|
 |`fhirServer/audit/serviceProperties/mapper`|N|N|
 |`fhirServer/audit/serviceProperties/load`|N|N|
+|`fhirServer/audit/hostname`|N|N|
+|`fhirServer/audit/ip`|N|N|
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|Y|Y|
