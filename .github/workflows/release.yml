@@ -19,10 +19,10 @@ jobs:
     steps:
     - name: Setup Graphviz environment
       uses: ts-graphviz/setup-graphviz@v1
-    - name: Grab the Master Branch
+    - name: Grab the Main Branch
       uses: actions/checkout@v2.3.3
       with:
-        ref: refs/heads/master
+        ref: refs/heads/main
         fetch-depth: 1
     - name: Setup OpenJDK
       uses: joschi/setup-jdk@v2.3.0

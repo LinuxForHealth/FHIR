@@ -191,7 +191,7 @@ More information about multi-tenant support can be found in [Section 4.9 Multi-t
 
 ### 3.2.3 Compartment Search Performance
 
-The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/master/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/master/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
+The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/main/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/main/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
 
 ```
     {
@@ -296,7 +296,7 @@ If you configure the FHIR server to use an IBM Db2 database, you must:
 
 3. configure the server with the tenantKey generated in step number 2.
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
 
 For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/guides/DB2OnCloudSetup).
 
@@ -307,7 +307,7 @@ If you configure the FHIR server to use a PostgreSQL database, you must:
 
 2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, functions, etc)
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
 
 
 ##### 3.3.1.1.4 Other

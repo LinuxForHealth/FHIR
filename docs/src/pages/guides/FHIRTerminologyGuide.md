@@ -6,7 +6,7 @@ date:  "2020-06-04 12:00:00 -0400"
 
 ## Overview
 
-The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/tree/master/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `ConceptMap`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)).
+The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/tree/main/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `ConceptMap`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)).
 
 ## FHIR Terminology Service Provider Interface (SPI)
 
@@ -49,11 +49,11 @@ This bridge to/from the `Parameters` resource enables implementers to build both
 
 ## Default Terminology Service Provider Implementation
 
-The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/master/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content. The default implementation does not support for optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
+The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content. The default implementation does not support for optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
 
 ## FHIR Terminology Service Singleton facade
 
-The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/master/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a `FHIRTermServiceProvider` from the ServiceLoader, if one exists. Otherwise, it will instantiate a `DefaultTermServiceProvider`. Other FHIR server components and user code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
+The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a `FHIRTermServiceProvider` from the ServiceLoader, if one exists. Otherwise, it will instantiate a `DefaultTermServiceProvider`. Other FHIR server components and user code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
 
 ```java
 ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
@@ -68,11 +68,11 @@ ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(valueSet,
 
 ## FHIR Server Terminology Extended Operations
 
-The FHIR terminology operations module ([fhir-operation-term](https://github.com/IBM/FHIR/tree/master/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
+The FHIR terminology operations module ([fhir-operation-term](https://github.com/IBM/FHIR/tree/main/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
 
 ## FHIRPath Terminology Functions
 
-The FHIRPath module ([fhir-path](https://github.com/IBM/FHIR/tree/master/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant) has been implemented:
+The FHIRPath module ([fhir-path](https://github.com/IBM/FHIR/tree/main/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant) has been implemented:
 
 ```
 %terminologies.expand(valueSet, params) : ValueSet

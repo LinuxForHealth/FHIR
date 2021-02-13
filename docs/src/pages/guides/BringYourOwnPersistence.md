@@ -13,8 +13,8 @@ plug in any other persistence layer.
 
 ### Interfaces
 Persistence layer interfaces are defined in the `fhir-persistence` project.
-* [FHIRPersistence](https://github.com/IBM/FHIR/blob/master/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
-* [FHIRPersistenceFactory](https://github.com/IBM/FHIR/blob/master/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
+* [FHIRPersistence](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
+* [FHIRPersistenceFactory](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
 
 ### Config
 Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`.
