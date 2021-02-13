@@ -53,7 +53,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             }
         }
 
-        log.finer("Notification service will publish events for these resource types: "
+        log.info("Notification service will publish events for these resource types: "
                 + (includedResourceTypes.isEmpty() ? "ALL" : "\n" + includedResourceTypes.toString()));
     }
 

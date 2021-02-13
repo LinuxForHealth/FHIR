@@ -1,0 +1,48 @@
+name: Integration - notifications
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/workflows/site.yml'
+      - '.github/workflows/release.yml'
+
+jobs:
+  e2e-notifications:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+        notifications: [ 'kafka' ]
+      fail-fast: false
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2.3.3
+    - name: Set up java
+      uses: joschi/setup-jdk@v2.3.0
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Setup prerequisites
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/notifications/bin/setup-prerequisites.sh ${{matrix.notifications}}
+    - name: Server Integration Tests - Audit
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      shell: 'script -q -e -c "bash {0}"'
+      run: |
+        bash build/notifications/bin/pre-integration-test.sh ${{matrix.notifications}}
+        bash build/notifications/bin/integration-test.sh ${{matrix.notifications}}
+        bash build/notifications/bin/post-integration-test.sh ${{matrix.notifications}}
+    - name: Gather error logs
+      if: failure()
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/notifications/bin/gather-logs.sh ${{matrix.notifications}}
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: integration-test-results-${{ matrix.notifications }}-${{ matrix.java }}
+        path: build/notifications/integration-test-results
