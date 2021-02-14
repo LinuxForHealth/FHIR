@@ -27,7 +27,7 @@ jobs:
       env:
         WORKSPACE: ${{ github.workspace }}
       run: bash build/notifications/bin/setup-prerequisites.sh ${{matrix.notifications}}
-    - name: Server Integration Tests - Audit
+    - name: Server Integration Tests - Notifications
       env:
         WORKSPACE: ${{ github.workspace }}
       shell: 'script -q -e -c "bash {0}"'
