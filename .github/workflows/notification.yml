@@ -1,4 +1,4 @@
-name: Integration - notifications
+name: Integration - Notifications
 
 on:
   pull_request:
@@ -45,4 +45,4 @@ jobs:
       uses: actions/upload-artifact@v2.2.0
       with:
         name: integration-test-results-${{ matrix.notifications }}-${{ matrix.java }}
-        path: build/notifications/integration-test-results
+        path: build/notifications/${{ matrix.notifications }}/integration-test-results
