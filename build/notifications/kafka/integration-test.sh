@@ -34,8 +34,8 @@ docker-compose -f build/notifications/kafka/docker-compose.yml exec kafka-1 bash
     --partition 1 > ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log
 
 # When in doubt check the file /var/lib/kafka/data/FHIR_notifications-0/00000000000000000000.log
-mkdir -p build/notifications/${{ matrix.notifications }}/integration-test-results/
-cp ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log build/notifications/${{ matrix.notifications }}/integration-test-results
+mkdir -p build/notifications/kafka/integration-test-results/
+cp ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log build/notifications/kafka/integration-test-results
 
 if [ "$(cat ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log | grep -c 'CreateTime:')" != "2500" ]
 then 
