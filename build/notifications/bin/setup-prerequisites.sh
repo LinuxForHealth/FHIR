@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -25,13 +25,13 @@ required_build(){
     mvn -B dockerfile:build -f fhir-install --no-transfer-progress
 }
 
-# audit_build - executes for each audit type.
-audit_build(){
-    AUDIT="${1}"
-    if [ -f "build/audit/${AUDIT}/setup-prerequisites.sh" ]
+# notifications_build - executes for each notifications type.
+notifications_build(){
+    notifications="${1}"
+    if [ -f "build/notifications/${notifications}/setup-prerequisites.sh" ]
     then
-        echo "Running [${AUDIT}] setting setup prerequisites"
-        bash build/audit/${AUDIT}/setup-prerequisites.sh
+        echo "Running [${notifications}] setting setup prerequisites"
+        bash build/notifications/${notifications}/setup-prerequisites.sh
     fi
 }
 
@@ -49,7 +49,7 @@ fi
 cd "${WORKSPACE}"
 
 required_build
-audit_build "${1}"
+notifications_build "${1}"
 
 # Reset to Original Directory
 popd > /dev/null

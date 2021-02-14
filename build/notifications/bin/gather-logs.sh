@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -11,7 +11,7 @@ set -ex
 package_logs(){
     echo "Gathering logs for [${1}]"
 
-    it_results=${WORKSPACE}/build/audit/integration-test-results
+    it_results=${WORKSPACE}/build/notifications/integration-test-results
     if [ ! -d ${it_results} ]
     then
         rm -fr ${it_results} 2>/dev/null
@@ -38,7 +38,7 @@ package_logs(){
     cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     
     echo "Move the ${1} Elements too the output area'"
-    cp -pr ${WORKSPACE}/build/audit/${1}/workarea/* ${it_results}
+    cp -pr ${WORKSPACE}/build/notifications/${1}/workarea/* ${it_results}
 }
 
 ###############################################################################

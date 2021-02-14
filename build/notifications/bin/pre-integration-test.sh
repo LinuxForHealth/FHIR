@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# audit_pre - executes for each audit pre integration steps
-audit_pre(){
-    AUDIT="${1}"
-    if [ ! -z "${AUDIT}" ] && [ -f build/audit/${AUDIT}/pre-integration-test.sh ]
+# notifications_pre - executes for each notifications pre integration steps
+notifications_pre(){
+    notifications="${1}"
+    if [ ! -z "${notifications}" ] && [ -f build/notifications/${notifications}/pre-integration-test.sh ]
     then 
-        echo "Running [${AUDIT}] pre-integration-test"
-        bash build/audit/${AUDIT}/pre-integration-test.sh
+        echo "Running [${notifications}] pre-integration-test"
+        bash build/notifications/${notifications}/pre-integration-test.sh
     fi
 }
 
@@ -27,10 +27,10 @@ fi
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
 
-# Change to the audit_pre
+# Change to the notifications_pre
 cd "${WORKSPACE}"
 
-audit_pre "${1}"
+notifications_pre "${1}"
 
 # Reset to Original Directory
 popd > /dev/null

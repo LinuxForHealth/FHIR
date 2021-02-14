@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -12,12 +12,12 @@ set -o pipefail
 
 run_tests(){
     # The integration tests may be overriden completely, or fall through to the default. 
-    AUDIT="${1}"
+    notifications="${1}"
 
-    if [ ! -z "${AUDIT}" ] && [ -f "build/audit/${AUDIT}/integration-test.sh" ]
+    if [ ! -z "${notifications}" ] && [ -f "build/notifications/${notifications}/integration-test.sh" ]
     then 
-        echo "Running [${AUDIT}] specific integration tests"
-        bash build/audit/${AUDIT}/integration-test.sh
+        echo "Running [${notifications}] specific integration tests"
+        bash build/notifications/${notifications}/integration-test.sh
     else 
         # Go to the Default
         echo "Executing the default integration tests"
@@ -36,7 +36,7 @@ fi
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
 
-# Change to the AUDIT/bin directory
+# Change to the notifications/bin directory
 cd "${WORKSPACE}"
 
 run_tests "${1}"

@@ -1,4 +1,4 @@
-# End-to-End Automation Framework for FHIR Audit - Kafka
+# End-to-End Automation Framework for FHIR Notifications - Kafka
 
 1. Build the Docker Compose File 
 

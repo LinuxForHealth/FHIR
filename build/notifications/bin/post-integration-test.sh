@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# audit_post - executes for each AUDIT post integration steps
-audit_post(){
-    AUDIT="${1}"
-    if [ ! -z "${AUDIT}" ] && [ -f build/audit/${AUDIT}/post-integration-test.sh ]
+# notifications_post - executes for each notifications post integration steps
+notifications_post(){
+    notifications="${1}"
+    if [ ! -z "${notifications}" ] && [ -f build/notifications/${notifications}/post-integration-test.sh ]
     then 
-        echo "Running [${AUDIT}] post-integration-test"
-        bash build/audit/${AUDIT}/post-integration-test.sh
+        echo "Running [${notifications}] post-integration-test"
+        bash build/notifications/${notifications}/post-integration-test.sh
     fi
 }
 
@@ -29,7 +29,7 @@ pushd $(pwd) > /dev/null
 
 cd "${WORKSPACE}"
 
-audit_post ${1}
+notifications_post ${1}
 
 # Reset to Original Directory
 popd > /dev/null
