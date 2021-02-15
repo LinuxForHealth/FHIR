@@ -1671,7 +1671,7 @@ Note: The batch-user referenced in the `fhir-server-config.json` must have a rol
 
 By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/defaults/bulkdata.xml`. This database is destroyed on the restart of the IBM FHIR Server, and does not support load balancing.
 
-If one wants to support IBM Db2 on IBM Cloud, one should copy `fhir-server/configDropins/disabled/db2-cloud/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+To support IBM Db2 on IBM Cloud, copy `fhir-server/configDropins/disabled/db2-cloud/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
 
 | Variable          | Default     | Description                                                    |
 |-------------------|-------------|----------------------------------------------------------------|
@@ -1683,7 +1683,7 @@ If one wants to support IBM Db2 on IBM Cloud, one should copy `fhir-server/confi
 
 Instruction is also provided in 'Configuring a Liberty Datasource with API Key' section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created using the `fhir-persistence-schema` command line interface jar.
 
-If one wants to support IBM Db2 with a user-name and password , one should copy `fhir-server/configDropins/disabled/db2/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+To support IBM Db2 with a user-name and password , copy `fhir-server/configDropins/disabled/db2/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
 
 | Variable          | Default         | Description                                                    |
 |-------------------|-----------------|----------------------------------------------------------------|
