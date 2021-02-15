@@ -519,7 +519,7 @@ public class RestAuditLogger {
      *  The response status.
      */
     public static void logOperation(HttpServletRequest request, String operationName, String resourceTypeName, String logicalId,
-        String versionId, Date startTime, Date endTime, Response.Status responseStatus) {
+            String versionId, Date startTime, Date endTime, Response.Status responseStatus) {
         final String METHODNAME = "logOperation";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -572,7 +572,7 @@ public class RestAuditLogger {
      * @return AuditLogEntry - an initialized audit log entry.
      */
     private static AuditLogEntry populateAuditLogEntry(AuditLogEntry entry, HttpServletRequest request, Resource resource,
-        Date startTime, Date endTime, Response.Status responseStatus) {
+            Date startTime, Date endTime, Response.Status responseStatus) {
         final String METHODNAME = "populateAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 
