@@ -31,20 +31,20 @@
         </application-bnd>
     </webApplication>
 
-    <variable name="BATCH_DB_NAME" value="${env.BATCH_DB_NAME}" defaultValue="FHIRDB"/>
-    <variable name="BATCH_DB_SCHEMA" value="${env.BATCH_DB_SCHEMA}" defaultValue="FHIR_JBATCH"/>
-    <variable name="BATCH_DB_PORT" value="${env.BATCH_DB_PORT}" defaultValue="5432"/>
-    <variable name="BATCH_DB_USER" value="${env.BATCH_DB_USER}" defaultValue="fhirserver"/>
-    <variable name="BATCH_DB_PASS" value="${env.BATCH_DB_PASS}" defaultValue=""/>
-    <variable name="BATCH_DB_SSL" value="${env.BATCH_DB_SSL}" defaultValue="true"/>
-    <variable name="BATCH_DB_SSL_CERT_PATH" value="${env.BATCH_DB_SSL_CERT_PATH}" defaultValue=""/>
+    <variable name="BATCH_DB_NAME" defaultValue="FHIRDB"/>
+    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
+    <variable name="BATCH_DB_PORT" defaultValue="5432"/>
+    <variable name="BATCH_DB_USER" defaultValue="fhirserver"/>
+    <variable name="BATCH_DB_PASS" defaultValue=""/>
+    <variable name="BATCH_DB_SSL" defaultValue="true"/>
+    <variable name="BATCH_DB_SSL_CERT_PATH" defaultValue=""/>
 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.postgresql
             databaseName="${BATCH_DB_NAME}"
             portNumber="${BATCH_DB_PORT}"
-            serverName="${env.BATCH_DB_HOSTNAME}"
+            serverName="${BATCH_DB_HOSTNAME}"
             user="${BATCH_DB_USER}"
             password="${BATCH_DB_PASS}" 
             ssl="${BATCH_DB_SSL}"
