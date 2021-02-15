@@ -35,9 +35,6 @@ public class ReferenceUtil {
             .collect(Collectors.toSet());
 
 
-    // The service base URL string cached after we compute it once.
-    private static volatile String serviceBase;
-
     /**
      * Processes a Reference value from the FHIR model and interprets
      * it according to https://www.hl7.org/fhir/references.html#2.3.0
@@ -149,21 +146,8 @@ public class ReferenceUtil {
         if (entry != null) {
             return getBaseUrlFromBundle(entry);
         } else {
-            // return the cached value if we've already computed it
-            if (serviceBase != null) {
-                return serviceBase;
-            }
             return getServiceBaseUrl();
         }
-
-    }
-
-    /**
-     * Clear the value of the cached service base. For use only with unit tests.
-     */
-    public static void clearServiceBase() {
-        logger.fine("Setting serviceBase = null");
-        serviceBase = null;
     }
 
     /**
@@ -208,6 +192,7 @@ public class ReferenceUtil {
      * @throws FHIRSearchException
      */
     public static String getServiceBaseUrl(String uri) throws FHIRSearchException {
+        String result;
 
         // request URI is not set for all unit-tests, so we need to take that into account
         if (uri == null) {
@@ -259,13 +244,13 @@ public class ReferenceUtil {
                 // make sure we always have a final "/" to make life easier downstream.
                 sb = sb + "/";
             }
-            serviceBase = sb;
+            result = sb;
         } else {
             // log locally, do not leak in exception...might contain server name/ip secrets
             logger.severe("FHIRRequestContext.originalRequestUri is invalid: " + uri);
             throw new FHIRSearchException("Invalid originalRequestUri in FHIRRequestContext. Details in log.");
         }
 
-        return serviceBase;
+        return result;
     }
 }

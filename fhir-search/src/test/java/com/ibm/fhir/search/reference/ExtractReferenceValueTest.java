@@ -13,7 +13,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -24,10 +23,9 @@ public class ExtractReferenceValueTest {
 
     @BeforeClass
     public void setup() {
-        // Make sure we reset the cached value of the service base
-        // so that the new value will be computed using our BASE string
-        // This is required to make this test deterministic
-        ReferenceUtil.clearServiceBase();
+        // Inject a reasonable uri into the request context - it gets used to
+        // calculate the service base address which is used when processing
+        // reference params
         FHIRRequestContext context = new FHIRRequestContext();
         context.setOriginalRequestUri(BASE);
         FHIRRequestContext.set(context);

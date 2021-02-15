@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.ExplanationOfBenefit;
 import com.ibm.fhir.model.resource.MedicationRequest;
@@ -43,9 +44,20 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         FHIRConfiguration.setConfigHome("src/test/resources");
     }
 
+    private void setRequestContext(String tenant) throws FHIRException {
+        // Inject a reasonable uri into the request context - it gets used to
+        // calculate the service base address which is used when processing
+        // reference params
+        FHIRRequestContext context = new FHIRRequestContext(tenant);
+        context.setOriginalRequestUri(BASE);
+        FHIRRequestContext.set(context);
+
+    }
+
     @Test
     public void testMultipleOrAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count", Collections.singletonList("eq2,eq3,eq4"));
@@ -55,7 +67,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testMultipleOrDisllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Collections.singletonList("eq2,eq3"));
@@ -65,7 +77,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testMultipleAndAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count", Arrays.asList("eq2","eq3"));
@@ -75,7 +87,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testMultipleAndDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Arrays.asList("eq2","eq3"));
@@ -85,7 +97,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testComparatorAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count", Collections.singletonList("eq2"));
@@ -95,7 +107,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testComparatorDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Collections.singletonList("eq2"));
@@ -105,7 +117,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testOtherComparatorDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Collections.singletonList("gt2"));
@@ -115,7 +127,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testModifierAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count:missing", Collections.singletonList("true"));
@@ -125,7 +137,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testModifierDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic:missing", Collections.singletonList("true"));
@@ -135,7 +147,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testIncludeAllowedByDefault() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(DEFAULT_TENANT_ID));
+        setRequestContext(DEFAULT_TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Person:organization"));
@@ -145,7 +157,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testIncludeAllowedWithOptionalTargetTypeNotSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
@@ -155,7 +167,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testIncludeAllowedWithOptionalTargetTypeSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner:Practitioner"));
@@ -165,7 +177,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testIncludeAllowedWithRequiredTargetTypeSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team:Practitioner"));
@@ -175,7 +187,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testIncludeNotAllowedWithRequiredTargetTypeNotSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team"));
@@ -185,7 +197,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testIncludeNotAllowedWithRequiredTargetTypeNotMatched() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team:Organization"));
@@ -195,7 +207,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testIncludeWildcardAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:*"));
@@ -205,7 +217,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testIncludeWildcardNotAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:*"));
@@ -215,7 +227,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testIncludeAllowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("MedicationRequest:patient"));
@@ -225,7 +237,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testIncludeDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
@@ -235,7 +247,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testIncludeDisallowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Person:organization"));
@@ -245,7 +257,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testRevIncludeAllowedByDefault() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(DEFAULT_TENANT_ID));
+        setRequestContext(DEFAULT_TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("Person:organization"));
@@ -255,7 +267,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testRevIncludeAllowedWithOptionalTargetTypeNotSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
@@ -265,7 +277,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testRevIncludeAllowedWithOptionalTargetTypeSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer:Patient"));
@@ -275,7 +287,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testRevIncludeAllowedWithRequiredTargetTypeSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee:Patient"));
@@ -285,7 +297,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testRevIncludeNotAllowedWithRequiredTargetTypeNotSpecified() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee"));
@@ -295,7 +307,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testRevIncludeNotAllowedWithRequiredTargetTypeNotMatched() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee:Practitioner"));
@@ -305,7 +317,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testRevIncludeAllowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("Provenance:target"));
@@ -315,7 +327,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testRevIncludeDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:requester"));
@@ -325,7 +337,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testRevIncludeDisallowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
@@ -335,7 +347,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testEmptySearchParamAllowedByDefault() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(DEFAULT_TENANT_ID));
+        setRequestContext(DEFAULT_TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
@@ -344,7 +356,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testEmptySearchParamAllowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
@@ -353,7 +365,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testEmptySearchParamAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
@@ -362,7 +374,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testEmptySearchParamDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
@@ -371,7 +383,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testSearchParamCombinationAllowedByDefault() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(DEFAULT_TENANT_ID));
+        setRequestContext(DEFAULT_TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
@@ -382,7 +394,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testSearchParamCombinationAllowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
@@ -392,7 +404,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testSearchParamCombinationAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("patient", Collections.singletonList("Patient/abcd-1234"));
@@ -403,7 +415,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test
     public void testAnySearchParamCombinationAllowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
@@ -414,7 +426,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchParamCombinationDisallowedByBaseResource() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("status", Collections.singletonList("active"));
@@ -424,7 +436,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchParamCombinationDisallowed() throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(TENANT_ID));
+        setRequestContext(TENANT_ID);
 
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
@@ -432,5 +444,4 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
         SearchUtil.parseQueryParameters(Patient.class, queryParameters);
     }
-
 }
