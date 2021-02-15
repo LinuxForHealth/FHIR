@@ -19,6 +19,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIMIT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OFFSET;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_NAME_PLACEHOLDER;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
@@ -71,6 +72,7 @@ public class QuerySegmentAggregator {
     protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
+
 
     // Enables the SKIP_WHERE of WHERE clauses.
     public static final String ID = "_id";
@@ -538,7 +540,7 @@ public class QuerySegmentAggregator {
      * @return
      */
     protected void buildWhereClause(StringBuilder whereClause, String overrideType) {
-        final String METHODNAME = "buildWhereClause";
+       final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
 
         // Override the Type is null, then use the default type here.
@@ -557,15 +559,16 @@ public class QuerySegmentAggregator {
             // the NPE would have occurred earlier in the stack.
             String code = param.getCode();
             if (!SKIP_WHERE.contains(code)) {
+                final String paramTableAlias = "param" + i;
 
                 if (Modifier.MISSING.equals(param.getModifier())) {
-                    // The param table alias needs to be replaced by the table name, since for a whole-system
-                    // search the JDBCQueryBuilder.processMissingParm() put the param table alias in the query string
-                    // because each resource type has its own table name
+                    // In addition to replacing the parameter table alias,
+                    // the PARAMETER_TABLE_NAME_PLACEHOLDER needs to be replaced by the actual table name
                     String valuesTable = tableName(overrideType, param);
                     final String querySegmentString = querySegment.getQueryString()
-                            .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", valuesTable + ".")
-                            .replaceAll(PARAMETER_TABLE_ALIAS + " ", valuesTable + " ");
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".")
+                            .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
+                            .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
 
                     // Append queryString to a separate StringBuilder which will get appended to the where clause last.
                     if (missingModifierWhereClause.length() == 0) {
@@ -576,7 +579,6 @@ public class QuerySegmentAggregator {
                     }
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
-                        final String paramTableAlias = "param" + i;
                         if (param.isReverseChained()) {
                             // Join on a select from resource type logical resource table
                             //   JOIN (

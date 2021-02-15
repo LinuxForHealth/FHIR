@@ -33,6 +33,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_NAME_PLACEHOLDER;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
@@ -1397,21 +1398,19 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             whereClauseSegment.append(WHERE);
         }
 
-        // If not a concrete resource type, then this is a system-wide search, so use the param table alias instead of the table name,
-        // which will be replaced with the table name for each resource type in QuerySegmentAggregator.buildWhereClause(...)
-        String valuesTable = ModelSupport.isAbstract(resourceType) ? paramTableAlias : QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
-
         // Build this piece of the segment. Use EXISTS instead of SELECT DISTINCT for much better performance
-        // missing:     NOT EXISTS (SELECT 1 FROM Observation_STR_VALUES WHERE Observation_STR_VALUES.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
-        // not missing:     EXISTS (SELECT 1 FROM Observation_STR_VALUES WHERE Observation_STR_VALUES.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
+        // missing:     NOT EXISTS (SELECT 1 FROM pTABLE_NAME_PLACEHOLDER AS pX WHERE pX.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
+        // not missing:     EXISTS (SELECT 1 FROM pTABLE_NAME_PLACEHOLDER AS pX WHERE pX.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
         if (missing == null || missing) {
             whereClauseSegment.append(NOT);
         }
         whereClauseSegment.append(EXISTS);
 
-        whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + WHERE);
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable);
-        whereClauseSegment.append(AND).append(valuesTable).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
+        // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
+        String valuesTable = endOfChain && !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
+        whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + paramTableAlias + WHERE);
+        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), paramTableAlias);
+        whereClauseSegment.append(AND).append(paramTableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
         List<Object> bindVariables = new ArrayList<>();
