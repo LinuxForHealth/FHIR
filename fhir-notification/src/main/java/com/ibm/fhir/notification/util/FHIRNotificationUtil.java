@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,8 @@ public class FHIRNotificationUtil {
             event.setLocation(jsonObject.getString("location"));
             event.setLastUpdated(jsonObject.getString("lastUpdated"));
             event.setResourceId(jsonObject.getString("resourceId"));
+            event.setDatasourceId(jsonObject.getString("datasourceId"));
+            event.setTenantId(jsonObject.getString("tenantId"));
             return event;
         } catch (JsonException e) {
             System.out.println("Failed to parse json string: " + e.getLocalizedMessage());
@@ -52,6 +54,8 @@ public class FHIRNotificationUtil {
         builder.add("location", event.getLocation());
         builder.add("operationType", event.getOperationType());
         builder.add("resourceId", event.getResourceId());
+        builder.add("datasourceId", event.getDatasourceId());
+        builder.add("tenantId", event.getTenantId());
 
         // If it's a delete operation, don't add as there is no actual resource in the event.
         if (!"delete".equals(event.getOperationType()) && includeResource && event.getResource() != null) {

@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -200,6 +201,12 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             event.setLocation(location);
             event.setResourceId(resource.getId());
             event.setResource(resource);
+
+            // Adds the tenant id and datastore id
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            String dsId = FHIRRequestContext.get().getDataStoreId();
+            event.setDatasourceId(dsId);
+            event.setTenantId(tenantId);
 
             return event;
         } catch (Exception e) {

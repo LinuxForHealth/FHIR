@@ -1,6 +1,8 @@
 <server description="fhir-server">
-
-    <!-- Enable features -->
+    <!-- 
+        By default, in-memory derby is used for job repository, no configuration is needed.
+        If you need an alternative, check the disabled folder for your persistence datastore/provider.
+    -->
     <featureManager>
         <feature>batchManagement-1.0</feature>
         <feature>jdbc-4.1</feature>
@@ -29,36 +31,6 @@
             </security-role>
         </application-bnd>
     </webApplication>
-
-    <!-- By default, in-memory derby is used for job repository, no configuration is needed. -->
-    
-    <!-- Use IBM Cloud DB2 for job repository 
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
-        <properties.db2.jcc
-            apiKey="${env.BATCH_DB_APIKEY}"
-            currentSchema="FHIR_JBATCH"
-            databaseName="BLUDB"
-            driverType="4"
-            pluginName="IBMIAMauth"
-            portNumber="50001"
-            securityMechanism="15"
-            serverName="${env.BATCH_DB_HOSTNAME}"
-            sslConnection="true" />
-    </dataSource>
-     -->
-   
-   <!-- Use postgresql for job repository  
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
-        <properties.postgresql
-            databaseName="jobdb"
-            portNumber="5432"
-            serverName="localhost"
-            user="javabatch"
-            password="change-password" />
-    </dataSource>
-    -->
 
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
     <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
