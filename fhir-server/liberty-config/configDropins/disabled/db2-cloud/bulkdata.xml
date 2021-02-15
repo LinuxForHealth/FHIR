@@ -31,20 +31,20 @@
         </application-bnd>
     </webApplication>
 
-    <variable name="BATCH_DB_NAME_DS" value="${env.BATCH_DB_NAME}" defaultValue="BLUDB"/>
-    <variable name="BATCH_DB_SCHEMA_DS" value="${env.BATCH_DB_SCHEMA}" defaultValue="FHIR_JBATCH"/>
-    <variable name="BATCH_DB_PORT_DS" value="${env.BATCH_DB_PORT}" defaultValue="50001"/>
+    <variable name="BATCH_DB_NAME" defaultValue="BLUDB"/>
+    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
+    <variable name="BATCH_DB_PORT" defaultValue="50001"/>
 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
-            apiKey="${env.BATCH_DB_APIKEY}"
-            serverName="${env.BATCH_DB_HOSTNAME}"
-            currentSchema="${BATCH_DB_SCHEMA_DS}"
-            databaseName="${BATCH_DB_NAME_DS}"
+            apiKey="${BATCH_DB_APIKEY}"
+            serverName="${BATCH_DB_HOSTNAME}"
+            currentSchema="${BATCH_DB_SCHEMA}"
+            databaseName="${BATCH_DB_NAME}"
             driverType="4"
             pluginName="IBMIAMauth"
-            portNumber="${BATCH_DB_PORT_DS}"
+            portNumber="${BATCH_DB_PORT}"
             securityMechanism="15"
             sslConnection="true" />
     </dataSource>
