@@ -779,7 +779,7 @@ To contribute an operation:
 After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
 
 ## 4.2 Notification Service
-The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_, _update_ and _delete_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
+The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_, _update_, and _delete_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
 
 The notification service supports two implementations: WebSocket and Kafka.
 
