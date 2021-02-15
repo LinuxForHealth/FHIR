@@ -31,9 +31,11 @@ import com.ibm.fhir.audit.cadf.enums.Action;
 import com.ibm.fhir.audit.cadf.enums.EventType;
 import com.ibm.fhir.audit.cadf.enums.Outcome;
 import com.ibm.fhir.audit.cadf.enums.ResourceType;
-import com.ibm.fhir.audit.configuration.handlers.HostnameHandler;
 import com.ibm.fhir.audit.mapper.Mapper;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.util.handler.HostnameHandler;
 
 /**
  * AuditLogEntry to CADF Mapper
@@ -65,7 +67,9 @@ public class CADFMapper implements Mapper {
 
     @Override
     public Mapper init(PropertyGroup auditLogProperties) throws Exception {
-        hostname = handler.getHostname();
+        String auditHostname = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_HOSTNAME, null);
+        hostname = auditHostname == null ? handler.getHostname() : auditHostname;
+
         geoCity = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_CITY, DEFAULT_AUDIT_GEO_CITY);
         geoState = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_STATE, DEFAULT_AUDIT_GEO_STATE);
         geoCountry = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_COUNTRY, DEFAULT_AUDIT_GEO_COUNTRY);

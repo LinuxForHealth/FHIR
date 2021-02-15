@@ -26,11 +26,11 @@ import com.ibm.fhir.audit.beans.Batch;
 import com.ibm.fhir.audit.beans.ConfigData;
 import com.ibm.fhir.audit.beans.Context;
 import com.ibm.fhir.audit.beans.Data;
-import com.ibm.fhir.audit.configuration.handlers.ComponentIpHandler;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.core.util.handler.IPHandler;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -58,21 +58,21 @@ public class RestAuditLogger {
 
     private static final String COMPONENT_ID = "fhir-server";
 
-    private static final ComponentIpHandler componentIpHandler = new ComponentIpHandler();
+    private static final IPHandler componentIpHandler = new IPHandler();
 
     /**
      * Builds an audit log entry for a 'create' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param resource
-     *            - The Resource object being created.
+     *  The Resource object being created.
      * @param startTime
-     *            - The start time of the create request execution.
+     *  The start time of the create request execution.
      * @param endTime
-     *            - The end time of the create request execution.
+     *  The end time of the create request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logCreate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
@@ -96,17 +96,17 @@ public class RestAuditLogger {
      * Builds an audit log entry for an 'update' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param oldResource
-     *            - The previous version of the Resource, before it was updated.
+     *  The previous version of the Resource, before it was updated.
      * @param updatedResource
-     *            - The updated version of the Resource.
+     *  The updated version of the Resource.
      * @param startTime
-     *            - The start time of the update request execution.
+     *  The start time of the update request execution.
      * @param endTime
-     *            - The end time of the update request execution.
+     *  The end time of the update request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logUpdate(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime,
@@ -131,17 +131,17 @@ public class RestAuditLogger {
      * Builds an audit log entry for an 'patch' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param oldResource
-     *            - The previous version of the Resource, before it was patched.
+     *  The previous version of the Resource, before it was patched.
      * @param updatedResource
-     *            - The patched version of the Resource.
+     *  The patched version of the Resource.
      * @param startTime
-     *            - The start time of the patch request execution.
+     *  The start time of the patch request execution.
      * @param endTime
-     *            - The end time of the patch request execution.
+     *  The end time of the patch request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logPatch(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime,
@@ -166,15 +166,15 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'read' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param resource
-     *            - The Resource object being read.
+     *  The Resource object being read.
      * @param startTime
-     *            - The start time of the read request execution.
+     *  The start time of the read request execution.
      * @param endTime
-     *            - The end time of the read request execution.
+     *  The end time of the read request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
@@ -198,15 +198,15 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'delete' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param resource
-     *            - The Resource object being deleted.
+     *  The Resource object being deleted.
      * @param startTime
-     *            - The start time of the read request execution.
+     *  The start time of the read request execution.
      * @param endTime
-     *            - The end time of the read request execution.
+     *  The end time of the read request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logDelete(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
@@ -230,15 +230,15 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'version-read' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param resource
-     *            - The Resource object being read.
+     *  The Resource object being read.
      * @param startTime
-     *            - The start time of the read request execution.
+     *  The start time of the read request execution.
      * @param endTime
-     *            - The end time of the read request execution.
+     *  The end time of the read request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logVersionRead(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus)
@@ -263,15 +263,15 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'history' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param bundle
-     *            - The Bundle that is returned to the REST service caller.
+     *  The Bundle that is returned to the REST service caller.
      * @param startTime
-     *            - The start time of the bundle request execution.
+     *  The start time of the bundle request execution.
      * @param endTime
-     *            - The end time of the bundle request execution.
+     *  The end time of the bundle request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logHistory(HttpServletRequest request, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
@@ -302,15 +302,15 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'validate' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param resource
-     *            - The Resource object being validated.
+     *  The Resource object being validated.
      * @param startTime
-     *            - The start time of the validate request execution.
+     *  The start time of the validate request execution.
      * @param endTime
-     *            - The end time of the validate request execution.
+     *  The end time of the validate request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logValidate(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus)
@@ -335,17 +335,17 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'bundle' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param requestBundle
-     *            - The Bundle that contains the requests.
+     *  The Bundle that contains the requests.
      * @param responseBundle
-     *            - The Bundle that is returned to the REST service caller.
+     *  The Bundle that is returned to the REST service caller.
      * @param startTime
-     *            - The start time of the bundle request execution.
+     *  The start time of the bundle request execution.
      * @param endTime
-     *            - The end time of the bundle request execution.
+     *  The end time of the bundle request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logBundle(HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime,
@@ -404,17 +404,17 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'search' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param queryParms
-     *            - The query parameters passed to the search REST service.
+     *  The query parameters passed to the search REST service.
      * @param bundle
-     *            - The Bundle that is returned to the REST service caller.
+     *  The Bundle that is returned to the REST service caller.
      * @param startTime
-     *            - The start time of the bundle request execution.
+     *  The start time of the bundle request execution.
      * @param endTime
-     *            - The end time of the bundle request execution.
+     *  The end time of the bundle request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logSearch(HttpServletRequest request, MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime,
@@ -449,13 +449,13 @@ public class RestAuditLogger {
      * Builds an audit log entry for a 'metadata' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param startTime
-     *            - The start time of the metadata request execution.
+     *  The start time of the metadata request execution.
      * @param endTime
-     *            - The end time of the metadata request execution.
+     *  The end time of the metadata request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @throws Exception
      */
     public static void logMetadata(HttpServletRequest request, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
@@ -479,7 +479,7 @@ public class RestAuditLogger {
      * Logs an Audit Log Entry for FHIR server configuration data.
      *
      * @param configData
-     *            - The configuration data to be saved in the audit log.
+     *  The configuration data to be saved in the audit log.
      * @throws Exception
      */
     public static void logConfig(String configData) throws Exception {
@@ -502,21 +502,21 @@ public class RestAuditLogger {
      * Builds an audit log entry for an 'operation' REST service invocation.
      *
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param operationName
-     *            - The name of the operation being executed.
+     *  The name of the operation being executed.
      * @param resourceTypeName
-     *            - The name of the resource type that is the target of the operation.
+     *  The name of the resource type that is the target of the operation.
      * @param logicalId
-     *            - The logical id of the target resource.
+     *  The logical id of the target resource.
      * @param versionId
-     *            - The version id of the target resource.
+     *  The version id of the target resource.
      * @param startTime
-     *            - The start time of the metadata request execution.
+     *  The start time of the metadata request execution.
      * @param endTime
-     *            - The end time of the metadata request execution.
+     *  The end time of the metadata request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      */
     public static void logOperation(HttpServletRequest request, String operationName, String resourceTypeName, String logicalId,
         String versionId, Date startTime, Date endTime, Response.Status responseStatus) {
@@ -558,17 +558,17 @@ public class RestAuditLogger {
      * Populates the passed audit log entry, with attributes common to all REST services.
      *
      * @param entry
-     *            - The AuditLogEntry to be populated.
+     *  The AuditLogEntry to be populated.
      * @param request
-     *            - The HttpServletRequest representation of the REST request.
+     *  The HttpServletRequest representation of the REST request.
      * @param resource
-     *            - The Resource object.
+     *  The Resource object.
      * @param startTime
-     *            - The start time of the request execution.
+     *  The start time of the request execution.
      * @param endTime
-     *            - The end time of the request execution.
+     *  The end time of the request execution.
      * @param responseStatus
-     *            - The response status.
+     *  The response status.
      * @return AuditLogEntry - an initialized audit log entry.
      */
     private static AuditLogEntry populateAuditLogEntry(AuditLogEntry entry, HttpServletRequest request, Resource resource,
@@ -630,7 +630,7 @@ public class RestAuditLogger {
      * Builds and returns an AuditLogEntry with the minimum required fields populated.
      *
      * @param eventType
-     *            - A valid type of audit log event
+     *            A valid type of audit log event
      * @return AuditLogEntry with the minimum required fields populated.
      */
     private static AuditLogEntry initLogEntry(AuditLogEventType eventType) {
@@ -640,7 +640,9 @@ public class RestAuditLogger {
         String tenantId = FHIRRequestContext.get().getTenantId();
         String timestamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
 
-        AuditLogEntry logEntry = new AuditLogEntry(COMPONENT_ID, eventType.value(), timestamp, componentIpHandler.getIp(), tenantId);
+        String overrideIp = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_IP, null);
+        String auditIp = overrideIp == null ? overrideIp : componentIpHandler.getIpAddresses();
+        AuditLogEntry logEntry = new AuditLogEntry(COMPONENT_ID, eventType.value(), timestamp, auditIp , tenantId);
         log.exiting(CLASSNAME, METHODNAME);
         return logEntry;
     }

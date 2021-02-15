@@ -4,44 +4,67 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.audit.configuration.handlers;
+package com.ibm.fhir.core.util.handler;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
-
 /**
- * Calculates the Component Ip and subsequent retrieval of the IPs
+ * Calculates the IP and subsequent retrieval of the IPs
  */
-public class ComponentIpHandler {
-    private static final String CLASSNAME = ComponentIpHandler.class.getName();
+public class IPHandler {
+
+    private static final String CLASSNAME = IPHandler.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
+    private static final String IPS = determineIPS();
     private static final String IP = determineIP();
 
-    public ComponentIpHandler() {
+    public IPHandler() {
         // No Operation
     }
 
     /*
-     * determines the IP
+     * determines a single ip address for the given machine.
+     *
+     * @implNote If the interface goes up or down, the single IP address is still cached.
+     * This is highly unlikely in a production environment.
      */
     private static String determineIP() {
+        String ip = null;
+        try {
+            ip = Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            log.log(Level.SEVERE, "Failure acquiring local host IP address", e);
+        } catch (NumberFormatException e) {
+            log.log(Level.SEVERE, "Failure parsing local host IP address '" + ip + "'", e);
+        }
+        return ip;
+    }
+
+    /*
+     * determines the IP
+     *
+     * @implNote If the interface goes up or down, the IP addresses is still cached.
+     * This is highly unlikely in a production environment.
+     */
+    private static String determineIPS() {
         List<String> componentIps = new ArrayList<>();
         try {
             Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
-            while(ifaces.hasMoreElements()) {
+            while (ifaces.hasMoreElements()) {
                 NetworkInterface iface = ifaces.nextElement();
                 Enumeration<InetAddress> iaddrs = iface.getInetAddresses();
-                while(iaddrs.hasMoreElements()) {
+                while (iaddrs.hasMoreElements()) {
                     InetAddress iaddr = iaddrs.nextElement();
                     componentIps.add(iaddr.getHostAddress());
                 }
@@ -52,7 +75,7 @@ public class ComponentIpHandler {
 
         // If we resolve to empty, we're going to mark UNKNOWN.
         String componentIp;
-        if(componentIps.isEmpty()) {
+        if (componentIps.isEmpty()) {
             componentIp = "UNKNOWN";
         } else {
             StringJoiner joiner = new StringJoiner(",");
@@ -69,8 +92,16 @@ public class ComponentIpHandler {
      *
      * @return
      */
-    public String getIp() {
-        String auditIp = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_IP, null);
-        return auditIp == null ? IP : auditIp;
+    public String getIpAddress() {
+        return IP;
+    }
+
+    /**
+     * gets the main IP.
+     *
+     * @return
+     */
+    public String getIpAddresses() {
+        return IPS;
     }
 }
