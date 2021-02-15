@@ -159,6 +159,14 @@ public class ReferenceUtil {
     }
 
     /**
+     * Clear the value of the cached service base. For use only with unit tests.
+     */
+    public static void clearServiceBase() {
+        logger.fine("Setting serviceBase = null");
+        serviceBase = null;
+    }
+
+    /**
      * https://www.hl7.org/fhir/references.html#literal
      * See: a relative URL, which is relative to the Service Base URL, or, if processing a
      *      resource from a bundle, which is relative to the base URL implied by the

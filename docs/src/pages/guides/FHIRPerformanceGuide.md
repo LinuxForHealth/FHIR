@@ -558,7 +558,40 @@ SELECT COUNT(R.VERSION_ID)
 
 In most cases the history queries will execute very quickly. Performance will be slower for cases where a single resource has thousands of versions. To avoid this, ingestion pipelines must ensure they only update a version when necessary.
 
-## 5.4 Search Examples
+## 5.4 Search Performance
+
+**Predicate Order**
+
+The IBM FHIR Server translates FHIR search queries into SQL statements which may require many tables to be joined. The database attempts to optimize the query execution plan by analyzing join conditions, filter predicates, available indexes and column statistics. The optimizer also attempts to order the joins in order to reduce the amount of work it must do. This usually involves computing the most selective clauses first. When there are many tables involved, the database optimizer may not always find the most efficient execution plan which can result in higher response times or `500` server errors if the total time exceeds the transaction timeout limit. For example, on a large database the following query may perform poorly if there are many ExplanationOfBenefit records with a Claim matching one of the given priorities:
+
+```
+/ExplanationOfBenefit?_pretty=true&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient&patient:Patient.birthdate=le1915
+```
+
+The above query requires a join of around 13 tables which is too many for the database to try all possible orders and so the most efficient plan is never tried. The IBM FHIR Server builds the SQL based on the order of filter predicates in the search request. This can be used along with knowledge of the data to place the most selective filter first which, in this case, is the patient `birthdate` range. Rewriting the query as follows can significantly improve the response time:
+
+```
+/ExplanationOfBenefit?_pretty=true&patient:Patient.birthdate=le1915&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient
+```
+
+**Include Code System**
+
+Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems, Unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
+
+Don't do this:
+```
+Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=active
+```
+
+Instead, do this:
+```
+Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://hl7.org/fhir/care-team-status|active
+```
+
+Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
+
+
+## 5.5 Search Examples
 
 **COMPARTMENT SEARCHES**
 

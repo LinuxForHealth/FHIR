@@ -252,9 +252,9 @@ public class SortParameterParseTest extends BaseSearchTest {
         QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
-        assertEquals(searchParm.getValues().size(), 2);
+        assertEquals(searchParm.getValues().size(), 1);
         QueryParameterValue parmValue = searchParm.getValues().get(0);
-        assertEquals("https://example.com/" + searchParmValue, parmValue.getValueString());
+        assertEquals(parmValue.getValueString(), searchParmValue);
 
         String selfUri =
                 SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
@@ -328,9 +328,11 @@ public class SortParameterParseTest extends BaseSearchTest {
         QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
-        assertEquals(searchParm.getValues().size(), 2);
+        assertEquals(searchParm.getValues().size(), 1);
+
+        // since #1929 we do not expand search params to include incoming uri
         QueryParameterValue parmValue = searchParm.getValues().get(0);
-        assertEquals("https://example.com/" + searchParmValue, parmValue.getValueString());
+        assertEquals(parmValue.getValueString(), searchParmValue);
 
         // Check the component parts and build up the QueryString parts
         String selfUri =

@@ -68,7 +68,6 @@ import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
-import com.ibm.fhir.search.reference.ReferenceParameterHandler;
 import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
@@ -1208,8 +1207,9 @@ public class SearchUtil {
                 // [parameter]=[type]/[id]
                 // [parameter]=[id]
                 String valueString = unescapeSearchParm(v);
+                valueString = extractReferenceValue(valueString);
                 parameterValue.setValueString(valueString);
-                ReferenceParameterHandler.generateReferenceParameterValues(searchParameter, parameterValues, valueString, vals, modifierResourceTypeName);
+                // ReferenceParameterHandler.generateReferenceParameterValues(searchParameter, parameterValues, valueString, vals, modifierResourceTypeName);
                 break;
             }
             case QUANTITY: {
@@ -1298,6 +1298,29 @@ public class SearchUtil {
             parameterValues.add(parameterValue);
         }
         return parameterValues;
+    }
+
+    /**
+     * Convert the string to a reference value useable by the persistence
+     * layer. This simply involves removing the URL prefix if it matches
+     * the originalUri in the request context
+     * @param valueString
+     * @return
+     */
+    public static String extractReferenceValue(String valueString) throws FHIRSearchException {
+        // Search values formed as "system|code" like  "https://example.com/codesystem|foo" are
+        // code searches not references, so no extra processing required
+        if (valueString == null || valueString.contains("|")) {
+            return valueString;
+        }
+
+        // Remove the baseUrl if it prefixes the value
+        final String baseUrl = ReferenceUtil.getBaseUrl(null);
+
+        if (valueString.startsWith(baseUrl)) {
+            valueString = valueString.substring(baseUrl.length());
+        }
+        return valueString;
     }
 
     /**

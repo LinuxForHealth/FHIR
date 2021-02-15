@@ -109,7 +109,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm);
                     break;
                 case TOKEN:
-                    databaseQueryParm = this.processTokenParm(queryParm);
+                    databaseQueryParm = this.processTokenParm(queryParm, false);
                     break;
                 case NUMBER:
                     databaseQueryParm = this.processNumberParm(resourceType, queryParm);
@@ -195,9 +195,10 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
      * Creates a query segment for a Token type parameter.
      *
      * @param queryParm - The query parameter.
+     * @param isComposite - is this token part of a composite parameter?
      * @return T1 - An object containing query segment.
      */
-    protected abstract T1 processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processTokenParm(QueryParameter queryParm, boolean isComposite) throws FHIRPersistenceException;
 
     /**
      * Creates a query segment for a Number type parameter.

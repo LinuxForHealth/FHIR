@@ -25,6 +25,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
@@ -51,6 +52,9 @@ import com.ibm.fhir.search.util.SearchUtil;
 public abstract class AbstractPersistenceTest {
     // common logger to make things a little easier on subclass implementations
     protected static final Logger logger = Logger.getLogger(AbstractPersistenceTest.class.getName());
+
+    // The common base URI used for all the search/persistence tests
+    public static final String BASE = "https://example.com/";
 
     // The persistence layer instance to be used by the tests.
     protected static FHIRPersistence persistence = null;
@@ -100,6 +104,14 @@ public abstract class AbstractPersistenceTest {
 
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        context.setOriginalRequestUri(BASE);
+
+        FHIRRequestContext.set(context);
         if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().begin();
         }
