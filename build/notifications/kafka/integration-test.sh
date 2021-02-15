@@ -29,7 +29,7 @@ mvn -B -nsu -ntp test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=
 # The following test should always Run
 echo "TEST_CONFIGURATION: check that there is output and the configuration works"
 docker-compose -f build/notifications/kafka/docker-compose.yml exec kafka-1 bash /bin/kafka-console-consumer --timeout-ms 60000 --bootstrap-server=kafka-1:19092,kafka-2:29092 \
-    --topic FHIR_NOTIFICATIONS --max-messages 2500 --property print.timestamp=true --offset earliest \
+    --topic FHIR_NOTIFICATIONS --max-messages 10 --property print.timestamp=true --offset earliest \
     --consumer.config /etc/kafka/secrets/client-ssl.properties \
     --partition 1 > ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log
 
@@ -37,13 +37,13 @@ docker-compose -f build/notifications/kafka/docker-compose.yml exec kafka-1 bash
 mkdir -p build/notifications/kafka/integration-test-results/
 cp ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log build/notifications/kafka/integration-test-results
 
-if [ "$(cat ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log | grep -c 'CreateTime:')" != "2500" ]
+if [ "$(cat ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log | grep -c 'CreateTime:')" != "10" ]
 then 
-    echo "Not FHIR_NOTIFICATIONS = 2500"
+    echo "Not FHIR_NOTIFICATIONS = 10"
     echo "Exported notifications Messages"
     docker-compose -f build/notifications/kafka/docker-compose.yml exec -T kafka-1 wc -l /var/lib/kafka/data/FHIR_notifications-0/00000000000000000000.log
     cat ${WORKSPACE}/build/notifications/kafka/workarea/output/fhir_notifications-messages.log
-    exit 25
+    exit 10
 else 
     echo "Passed 'TEST_CONFIGURATION'!"
 fi
