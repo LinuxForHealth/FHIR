@@ -959,7 +959,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         // "dateTime" is 2019-12-31T20:00:00-04:00
 
         assertSearchReturnsComposition("subject:Basic.dateTime", "2019-12-31T20:00:00-04:00");
-        assertSearchDoesntReturnSavedResource("subject:Basic.dateTime", "2025-10-29");
+        assertSearchDoesntReturnComposition("subject:Basic.dateTime", "2025-10-29");
     }
     @Test
     public void testSearchDate_dateTime_missing() throws Exception {
@@ -1936,11 +1936,11 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchDate_instant_chained_missing() throws Exception {
-        assertSearchReturnsSavedResource("subject:Basic.instant:missing", "false");
-        assertSearchDoesntReturnSavedResource("subject:Basic.instant:missing", "true");
+        assertSearchReturnsComposition("subject:Basic.instant:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.instant:missing", "true");
 
-        assertSearchReturnsSavedResource("subject:Basic.missing-instant:missing", "true");
-        assertSearchDoesntReturnSavedResource("subject:Basic.missing-instant:missing", "false");
+        assertSearchReturnsComposition("subject:Basic.missing-instant:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-instant:missing", "false");
     }
     @Test
     public void testSearchDate_Period_chained_missing() throws Exception {
@@ -1953,10 +1953,10 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
     @Test
     public void testSearchDate_date_chained_missing() throws Exception {
         assertSearchReturnsComposition("subject:Basic.date:missing", "false");
-        assertSearchDoesntReturnSavedResource("subject:Basic.date:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.date:missing", "true");
 
         assertSearchReturnsComposition("subject:Basic.missing-date:missing", "true");
-        assertSearchDoesntReturnSavedResource("subject:Basic.missing-date:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-date:missing", "false");
     }
     @Test
     public void testSearchDate_dateTime_chained_missing() throws Exception {

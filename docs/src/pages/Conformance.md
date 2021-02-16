@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-09 12:00:00 -0400
+date:   2021-02-11 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -165,9 +165,9 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 Due to performance implications, the `:exact` modifier should be used for String searches where possible.
 
-At present, the `:missing` and `:not` modifiers are not supported for whole-system search nor for chained parameter search. For example, a search with a query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
+At present, the `:not` modifier is not supported for whole-system search nor for chained parameter search. Use of this modifier in an unsupported manner will result in an HTTP 400 error with an OperationOutcome explaining that the search parameter could not be processed.
 
-The :text, :above, :below, :in, :not-in, and :of-type modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
+The `:text`, `:above`, `:below`, `:in`, `:not-in`, and `:of-type` modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
