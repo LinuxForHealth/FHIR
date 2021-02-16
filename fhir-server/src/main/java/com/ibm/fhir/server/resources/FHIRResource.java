@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -261,12 +261,13 @@ public class FHIRResource {
             status = issueListToStatus(e.getIssues());
         }
 
+        // Only log full stack trace if server (5xx) error, or if logging level is at least FINE
         if (status.getFamily() == Status.Family.SERVER_ERROR) {
             log.log(Level.SEVERE, e.getMessage(), e);
-        } else {
-            if (log.isLoggable(Level.INFO)) {
-                log.log(Level.INFO, e.getMessage(), e);
-            }
+        } else if (log.isLoggable(Level.FINE)) {
+            log.log(Level.FINE, e.getMessage(), e);
+        } else if (log.isLoggable(Level.INFO)) {
+            log.log(Level.INFO, e.getMessage());
         }
 
         OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(e, false);
