@@ -339,6 +339,29 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().isEmpty());
     }
 
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagNot_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag:not", "tag3");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagNot_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:not", "tag2");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
     /*
      * generates the output into a resource.
      */

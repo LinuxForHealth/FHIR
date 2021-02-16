@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-11 12:00:00 -0400
+date:   2021-02-16 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -164,8 +164,6 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |Special (near)            | none                           |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
 
 Due to performance implications, the `:exact` modifier should be used for String searches where possible.
-
-At present, the `:not` modifier is not supported for whole-system search nor for chained parameter search. Use of this modifier in an unsupported manner will result in an HTTP 400 error with an OperationOutcome explaining that the search parameter could not be processed.
 
 The `:text`, `:above`, `:below`, `:in`, `:not-in`, and `:of-type` modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
 

@@ -143,7 +143,6 @@ import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -752,22 +751,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private void checkModifiers(FHIRSearchContext searchContext, boolean isSystemLevelSearch) throws FHIRPersistenceNotSupportedException {
         for (QueryParameter param : searchContext.getSearchParameters()) {
-            if (isSystemLevelSearch) {
-                if (param.getModifier() == Modifier.NOT) {
-                    // ':not' modifier is not yet supported for whole-system searches
-                    throw buildNotSupportedException("Modifier ':" + param.getModifier().value() + "' is not yet supported "
-                            + "for whole-system search [code=" + param.getCode() + "]");
-                }
-            }
-
-            if (!param.getChain().isEmpty()) {
-                if (param.getChain().getLast().getModifier() == Modifier.NOT) {
-                    // ':not' modifier on the last parameter in the chain is not yet supported
-                    throw buildNotSupportedException("Modifier ':" + param.getChain().getLast().getModifier().value() + "' is not yet supported "
-                            + "for chained parameters [code=" + param.getCode() + "]");
-                }
-            }
-
             do {
                 if (param.getModifier() != null &&
                         !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {

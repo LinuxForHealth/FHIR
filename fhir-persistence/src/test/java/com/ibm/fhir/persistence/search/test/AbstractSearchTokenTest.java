@@ -40,6 +40,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_string() throws Exception {
         assertSearchReturnsSavedResource("string", "testString");
         assertSearchReturnsSavedResource("string", "|testString");
+        assertSearchDoesntReturnSavedResource("string", "other");
     }
 
     @Test
@@ -67,7 +68,6 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
 
-
     @Test
     public void testSearchToken_boolean_missing() throws Exception {
         assertSearchReturnsSavedResource("boolean:missing", "false");
@@ -81,12 +81,32 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_code() throws Exception {
         assertSearchReturnsSavedResource("code", "code");
         assertSearchReturnsSavedResource("code", "|code");
+        assertSearchDoesntReturnSavedResource("code", "other");
     }
 
     @Test
     public void testSearchToken_code_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.code", "code");
         assertSearchReturnsComposition("subject:Basic.code", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.code", "other");
+    }
+
+    @Test
+    public void testSearchToken_code_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("code:not", "code");
+        assertSearchDoesntReturnSavedResource("code:not", "|code");
+        assertSearchReturnsSavedResource("code:not", "other");
+
+        assertSearchReturnsSavedResource("missing-code:not", "code");
+    }
+
+    @Test
+    public void testSearchToken_code_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.code:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.code:not", "|code");
+        assertSearchReturnsComposition("subject:Basic.code:not", "other");
+
+        assertSearchReturnsComposition("subject:Basic.missing-code:not", "code");
     }
 
     @Test
@@ -138,15 +158,6 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
         assertSearchReturnsComposition("subject:Basic.missing-code:missing", "true");
         assertSearchDoesntReturnComposition("subject:Basic.missing-code:missing", "false");
-    }
-
-    @Test
-    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
-        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
-        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
-
-        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
-        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
     }
 
     @Test
@@ -204,14 +215,16 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-CodeableConcept:not", "http://example.org/codesystem|code");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support the ':not'
-     * modifier on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
-     */
-//    @Test
-//    public void testSearchToken_CodeableConcept_chained_not() throws Exception {
-//    }
+    @Test
+    public void testSearchToken_CodeableConcept_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:not", "http://example.org/codesystem|code");
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept:not", "other");
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept:not", "http://example.org/other|code");
+
+        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:not", "code");
+        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:not", "http://example.org/codesystem|code");
+    }
 
     @Test
     public void testSearchToken_CodeableConcept_missing() throws Exception {
@@ -220,6 +233,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
         assertSearchReturnsSavedResource("missing-CodeableConcept:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-CodeableConcept:missing", "false");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
     }
 
     @Test
@@ -277,15 +299,16 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-Coding:not", "http://example.org/codesystem|code");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support the ':not'
-     * modifier on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
-     */
+    @Test
+    public void testSearchToken_Coding_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.Coding:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.Coding:not", "http://example.org/codesystem|code");
+        assertSearchReturnsComposition("subject:Basic.Coding:not", "other");
+        assertSearchReturnsComposition("subject:Basic.Coding:not", "http://example.org/other|code");
 
-//    @Test
-//    public void testSearchToken_Coding_chained_not() throws Exception {
-//    }
+        assertSearchReturnsComposition("subject:Basic.missing-Coding:not", "code");
+        assertSearchReturnsComposition("subject:Basic.missing-Coding:not", "http://example.org/codesystem|code");
+    }
 
     @Test
     public void testSearchToken_Coding_missing() throws Exception {
@@ -343,19 +366,21 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Identifier:not", "http://example.org/identifiersystem|code");
         assertSearchReturnsSavedResource("Identifier:not", "other");
         assertSearchReturnsSavedResource("Identifier:not", "http://example.org/other|code");
+
         assertSearchReturnsSavedResource("missing-Identifier:not", "code");
-        assertSearchReturnsSavedResource("missing-Identifier:not", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("missing-Identifier:not", "http://example.org/identifiersystem|code");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support the ':not'
-     * modifier on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
-     */
+    @Test
+    public void testSearchToken_Identifier_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier:not", "http://example.org/identifiersystem|code");
+        assertSearchReturnsComposition("subject:Basic.Identifier:not", "other");
+        assertSearchReturnsComposition("subject:Basic.Identifier:not", "http://example.org/other|code");
 
-//    @Test
-//    public void testSearchToken_Identifier_chained_not() throws Exception {
-//    }
+        assertSearchReturnsComposition("subject:Basic.missing-Identifier:not", "code");
+        assertSearchReturnsComposition("subject:Basic.missing-Identifier:not", "http://example.org/identifiersystem|code");
+    }
 
     @Test
     public void testSearchToken_Identifier_missing() throws Exception {
@@ -379,42 +404,47 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_ContactPoint() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint", "(555) 675 5745");
     }
+
     @Test
     public void testSearchToken_ContactPoint_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.ContactPoint", "(555) 675 5745");
     }
+
     @Test
     public void testSearchToken_ContactPoint_URI() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-uri", "tel:+15556755745");
     }
+
     @Test
     public void testSearchToken_ContactPoint_HomeFax() throws Exception {
+
         assertSearchReturnsSavedResource("ContactPoint-homeFax", "(555) 675 5745");
     }
+
     @Test
     public void testSearchToken_ContactPoint_NoUse() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noUse", "test@example.com");
     }
+
     @Test
     public void testSearchToken_ContactPoint_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noSystem", "test@example.com");
         assertSearchReturnsSavedResource("ContactPoint-noSystem", "|test@example.com");
     }
+
     @Test
     public void testSearchToken_ContactPoint_not() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint:not", "(555) 555 5555");
         assertSearchDoesntReturnSavedResource("ContactPoint:not", "(555) 675 5745");
+        assertSearchReturnsSavedResource("missing-ContactPoint:not", "(555) 555 5555");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support the ':not'
-     * modifier on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/1926 to track the issue.
-     */
-
-//    @Test
-//    public void testSearchToken_ContactPoint_chained_not() throws Exception {
-//    }
+    @Test
+    public void testSearchToken_ContactPoint_chained_not() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.ContactPoint:not", "(555) 555 5555");
+        assertSearchDoesntReturnComposition("subject:Basic.ContactPoint:not", "(555) 675 5745");
+        assertSearchReturnsComposition("subject:Basic.missing-ContactPoint:not", "(555) 555 5555");
+    }
 
     @Test
     public void testSearchToken_ContactPoint_missing() throws Exception {
@@ -424,6 +454,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-ContactPoint:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-ContactPoint:missing", "false");
     }
+
     @Test
     public void testSearchToken_ContactPoint_chained_missing() throws Exception {
         assertSearchReturnsComposition("subject:Basic.ContactPoint:missing", "false");
