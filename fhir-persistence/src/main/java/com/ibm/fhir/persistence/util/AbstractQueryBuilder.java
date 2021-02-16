@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -109,7 +109,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm);
                     break;
                 case TOKEN:
-                    databaseQueryParm = this.processTokenParm(queryParm);
+                    databaseQueryParm = this.processTokenParm(resourceType, queryParm);
                     break;
                 case NUMBER:
                     databaseQueryParm = this.processNumberParm(resourceType, queryParm);
@@ -145,6 +145,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * Creates a query segment for a Reference type parameter.
      *
+     * @param resourceType - The resource type.
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws Exception
@@ -185,6 +186,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * Creates a query segment for a Date type parameter.
      *
+     * @param resourceType - The resource type.
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws Exception
@@ -194,14 +196,16 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * Creates a query segment for a Token type parameter.
      *
+     * @param resourceType - The resource type.
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      */
-    protected abstract T1 processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processTokenParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Creates a query segment for a Number type parameter.
      *
+     * @param resourceType - The resource type.
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws FHIRPersistenceException
@@ -211,6 +215,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * Creates a query segment for a Quantity type parameter.
      *
+     * @param resourceType - The resource type.
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws Exception
@@ -230,6 +235,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
     /**
      * Creates a query segment for a Composite type parameter.
      *
+     * @param resourceType - The resource type.
      * @param queryParm - The query parameter
      * @return T1 - An object containing query segment
      * @throws FHIRPersistenceException
@@ -241,6 +247,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
      * LocationPosition data type.
      *
      * @param queryParameters The entire collection of query input parameters
+     * @param paramTableAlias the alias name of the parameter table
      * @return T1 - A query segment related to a LocationPosition
      * @throws FHIRPersistenceException
      */

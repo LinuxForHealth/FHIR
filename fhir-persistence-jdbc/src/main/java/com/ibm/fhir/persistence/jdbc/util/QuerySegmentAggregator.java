@@ -73,7 +73,6 @@ public class QuerySegmentAggregator {
     protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
 
-
     // Enables the SKIP_WHERE of WHERE clauses.
     public static final String ID = "_id";
     public static final String ID_COLUMN_NAME = "LOGICAL_ID ";
@@ -548,7 +547,7 @@ public class QuerySegmentAggregator {
             overrideType = this.resourceType.getSimpleName();
         }
 
-        StringBuilder missingModifierWhereClause = new StringBuilder();
+        StringBuilder missingOrNotModifierWhereClause = new StringBuilder();
 
         for (int i = 0; i < this.querySegments.size(); i++) {
             SqlQueryData querySegment = this.querySegments.get(i);
@@ -571,11 +570,11 @@ public class QuerySegmentAggregator {
                             .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
 
                     // Append queryString to a separate StringBuilder which will get appended to the where clause last.
-                    if (missingModifierWhereClause.length() == 0) {
-                        missingModifierWhereClause.append(querySegmentString);
+                    if (missingOrNotModifierWhereClause.length() == 0) {
+                        missingOrNotModifierWhereClause.append(querySegmentString);
                     } else {
-                        // If not the first param with a :missing modifier, replace the WHERE with an AND
-                        missingModifierWhereClause.append(querySegmentString.replaceFirst(WHERE, AND));
+                        // If not the first param with a :missing or :not modifier, replace the WHERE with an AND
+                        missingOrNotModifierWhereClause.append(querySegmentString.replaceFirst(WHERE, AND));
                     }
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
@@ -596,15 +595,21 @@ public class QuerySegmentAggregator {
                                         .append(paramTableAlias)
                                         .append(".LOGICAL_ID");
                         } else {
-                            final String paramTableFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
+                            String valuesTable = tableName(overrideType, param);
+                            final String paramTableFilter = querySegment.getQueryString()
+                                    .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".")
+                                    .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
+                                    .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
 
                             if (Modifier.NOT.equals(param.getModifier())) {
                                 // Not exists against a standard parameter table
-                                //   WHERE NOT EXISTS (SELECT 1 FROM Observation_TOKEN_VALUES AS param0
+                                //   NOT EXISTS (SELECT 1 FROM Observation_TOKEN_VALUES AS param0
                                 //                     WHERE param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
                                 //                     AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
-                                whereClause.append(" WHERE NOT EXISTS (SELECT 1 FROM ")
-                                            .append(tableName(overrideType, param))
+                                // If not the first param with a :missing or :not modifier, use AND instead of WHERE
+                                missingOrNotModifierWhereClause.append(missingOrNotModifierWhereClause.length() == 0 ? WHERE : AND)
+                                            .append(" NOT EXISTS (SELECT 1 FROM ")
+                                            .append(valuesTable)
                                             .append(AS)
                                             .append(paramTableAlias)
                                             .append(WHERE)
@@ -620,7 +625,7 @@ public class QuerySegmentAggregator {
                                 //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
                                 //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
                                 whereClause.append(JOIN)
-                                            .append(tableName(overrideType, param))
+                                            .append(valuesTable)
                                             .append(AS)
                                             .append(paramTableAlias)
                                             .append(ON)
@@ -673,9 +678,9 @@ public class QuerySegmentAggregator {
             } // end if SKIP_WHERE
         } // end for
 
-        // If there were any query parameters with :missing modifier, append the missingModifierWhereClause
-        if (missingModifierWhereClause.length() > 0) {
-            whereClause.append(missingModifierWhereClause.toString());
+        // If there were any query parameters with :missing or :not modifier, append the missingOrNotModifierWhereClause
+        if (missingOrNotModifierWhereClause.length() > 0) {
+            whereClause.append(missingOrNotModifierWhereClause.toString());
         }
 
         log.exiting(CLASSNAME, METHODNAME);

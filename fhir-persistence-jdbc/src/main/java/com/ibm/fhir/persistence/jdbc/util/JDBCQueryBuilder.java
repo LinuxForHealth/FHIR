@@ -392,7 +392,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case TOKEN:
-                    databaseQueryParm = this.processTokenParm(queryParm, paramTableAlias);
+                    databaseQueryParm = this.processTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
                     break;
                 case NUMBER:
                     databaseQueryParm = this.processNumberParm(resourceType, queryParm, paramTableAlias);
@@ -1084,11 +1084,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     }
 
     @Override
-    protected SqlQueryData processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException {
-        return processTokenParm(queryParm, PARAMETER_TABLE_ALIAS);
+    protected SqlQueryData processTokenParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        return processTokenParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS, LR, false);
     }
 
-    private SqlQueryData processTokenParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processTokenParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain) throws FHIRPersistenceException {
         final String METHODNAME = "processTokenParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1098,9 +1098,23 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
         Integer codeSystemId;
+        String tableAlias = paramTableAlias;
 
         String code = queryParm.getCode();
         if (!QuerySegmentAggregator.ID.equals(code)) {
+
+            // Only generate NOT EXISTS subquery if :not modifier is within chained query;
+            // when :not modifier is within non-chained query QuerySegmentAggregator.buildWhereClause generates the NOT EXISTS subquery
+            boolean surroundWithNotExistsSubquery = Modifier.NOT.equals(queryParm.getModifier()) && endOfChain;
+            if (surroundWithNotExistsSubquery) {
+                whereClauseSegment.append(NOT).append(EXISTS);
+
+                // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
+                String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
+                tableAlias = paramTableAlias + "_param0";
+                whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + tableAlias + WHERE);
+            }
+
             // Build this piece of the segment:
             // (P1.PARAMETER_NAME_ID = x AND
             this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
@@ -1137,6 +1151,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             }
 
             whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+
+            if (surroundWithNotExistsSubquery) {
+                whereClauseSegment.append(AND).append(tableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID");
+                whereClauseSegment.append(RIGHT_PAREN);
+            }
         }
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
@@ -1407,10 +1426,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         whereClauseSegment.append(EXISTS);
 
         // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
-        String valuesTable = endOfChain && !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
-        whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + paramTableAlias + WHERE);
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), paramTableAlias);
-        whereClauseSegment.append(AND).append(paramTableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
+        String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
+        String subqueryTableAlias =  endOfChain ? (paramTableAlias + "_param0") : paramTableAlias;
+        whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + subqueryTableAlias + WHERE);
+        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
+        whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
         List<Object> bindVariables = new ArrayList<>();
