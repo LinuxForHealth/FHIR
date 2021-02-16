@@ -424,8 +424,8 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
                 .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
-                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0008 change
+                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0008 change
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
@@ -436,6 +436,8 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     // Migrate the index definitions as part of the V0008 version of the schema
+                    // This table was originally introduced as part of the V0006 schema, which
+                    // is what we use as the match for the priorVersion
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0006.vid()) {
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
