@@ -56,7 +56,9 @@ public class FHIRNotificationUtil {
         builder.add("resourceId", event.getResourceId());
         builder.add("datasourceId", event.getDatasourceId());
         builder.add("tenantId", event.getTenantId());
-        if (includeResource && event.getResource() != null) {
+
+        // If it's a delete operation, don't add as there is no actual resource in the event.
+        if (!"delete".equals(event.getOperationType()) && includeResource && event.getResource() != null) {
             builder.add("resource", JsonSupport.toJsonObject(event.getResource()));
         }
         JsonObject jsonObject = builder.build();
