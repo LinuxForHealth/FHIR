@@ -1,4 +1,4 @@
-package com.ibm.fhir.search.util;
+package com.ibm.fhir.search.tool;
 /*
  * (C) Copyright IBM Corp. 2021
  *
@@ -68,7 +68,7 @@ public class SearchParameterAugmenter {
                     System.out.println(searchParameter.getId() + ": " + system);
 
                     String currentValue = searchParameter.getExtension().stream()
-                            .filter(e -> system.equals(e.getId()) && e.hasValue())
+                            .filter(e -> SearchConstants.IMPLICIT_SYSTEM_EXT_URL.equals(e.getUrl()) && e.getValue() != null)
                             .reduce((a, b) -> {
                                 throw new IllegalStateException("Multiple existing extension values: " + a + ", " + b);
                             })
