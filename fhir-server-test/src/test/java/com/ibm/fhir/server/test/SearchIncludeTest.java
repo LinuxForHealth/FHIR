@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test;
 import static com.ibm.fhir.model.type.String.of;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.time.Instant;
@@ -237,11 +238,12 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2"})
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2", "testCreateProcedure2"})
     public void testCreateProcedure3() throws Exception {
         WebTarget target = getWebTarget();
 
-        // Build a new Procedure and add subject reference to patient.
+        // Build a new Procedure and add subject reference to patient
+        // and partOf and reasonReference references to another procedure.
         Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
@@ -249,6 +251,8 @@ public class SearchIncludeTest extends FHIRServerTestBase {
                 .performed(DateTime.of(now.toString()))
                 .instantiatesUri(Uri.of("3" + tag))
                 .code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("3" + tag)).build()).build())
+                .partOf(Reference.builder().reference(of("Procedure/" + procedure2Id)).build())
+                .reasonReference(Reference.builder().reference(of("Procedure/" + procedure2Id)).build())
                 .build();
 
         // Call the 'create' API.
@@ -445,6 +449,64 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
         assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
         assertEquals(patient1Id, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2"})
+    public void testSearchIncludeSingleIncludedResultElement() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_tag", tag)
+                .queryParam("gender", "female")
+                .queryParam("_elements", "gender,managingOrganization")
+                .queryParam("_include", "Patient:link")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(2, bundle.getEntry().size());
+        Patient matchPatient = bundle.getEntry().get(0).getResource().as(Patient.class);
+        assertEquals(patient2Id, matchPatient.getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        // validate included elements
+        assertEquals(AdministrativeGender.FEMALE, matchPatient.getGender());
+        assertEquals("Organization/" + organization1Id, matchPatient.getManagingOrganization().getReference().getValue());
+        // validate not included elements
+        assertEquals(0, matchPatient.getName().size());
+        assertNull(matchPatient.getBirthDate());
+        assertEquals(0, matchPatient.getGeneralPractitioner().size());
+        assertEquals(0, matchPatient.getLink().size());
+
+        Patient includePatient = bundle.getEntry().get(1).getResource().as(Patient.class);
+        assertEquals(patient1Id, includePatient.getId());
+        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+        // validate included elements
+        assertEquals(AdministrativeGender.MALE, includePatient.getGender());
+        assertEquals(Date.of(now.toString().substring(0,10)), includePatient.getBirthDate());
+        assertEquals("1" + tag, includePatient.getName().get(0).getGiven().get(0).getValue());
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreateProcedure3"})
+    public void testSearchIncludeSingleIncludedResultDuplicate() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("instantiates-uri", "3" + tag)
+                .queryParam("_include", "Procedure:part-of")
+                .queryParam("_include", "Procedure:reason-reference")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(2, bundle.getEntry().size());
+        assertEquals(procedure3Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(procedure2Id, bundle.getEntry().get(1).getResource().getId());
         assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
     }
 

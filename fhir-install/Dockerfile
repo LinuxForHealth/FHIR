@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM openliberty/open-liberty:20.0.0.9-full-java8-openj9-ubi as base
+FROM openliberty/open-liberty:20.0.0.12-full-java8-openj9-ubi as base
 
 ENV LICENSE accept
 
@@ -20,9 +20,9 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
 
 # ----------------------------------------------------------------------------
 
-FROM openliberty/open-liberty:20.0.0.9-full-java8-openj9-ubi
+FROM openliberty/open-liberty:20.0.0.12-full-java8-openj9-ubi
 
-ARG FHIR_VERSION=4.5.1
+ARG FHIR_VERSION=4.6.0
 
 # The following labels are required: 
 LABEL name='IBM FHIR Server'

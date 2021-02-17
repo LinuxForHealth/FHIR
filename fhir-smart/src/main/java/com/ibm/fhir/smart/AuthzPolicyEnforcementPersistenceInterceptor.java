@@ -138,11 +138,15 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 }
                 try {
                     if (CompartmentUtil.getCompartmentResourceTypes("Patient").contains(event.getFhirResourceType())) {
+                        // Get Patient compartment inclusion criteria search parameters. It will actually be one QueryParameter object with each inclusion
+                        // criteria search parameter chained off the root.
                         // NOTE: We currently do not support OR'd compartment searches, nor do we currently expect more than one patient ID to be
                         // specified in the authorization token (see getPatientIdFromToken()). We will use the first ID specified for the compartment search.
                         FHIRSearchContext compartmentSearchContext = SearchUtil.parseQueryParameters("Patient", patientIdFromToken.get(0),
                                 ModelSupport.getResourceType(event.getFhirResourceType()), Collections.emptyMap(), searchContext.isLenient());
-                        searchContext.getSearchParameters().addAll(compartmentSearchContext.getSearchParameters());
+
+                        // Add compartment search parameters to front of search parameter list
+                        searchContext.getSearchParameters().addAll(0, compartmentSearchContext.getSearchParameters());
                     }
                 } catch (Exception e) {
                     String msg = "Unexpected exception converting to Patient compartment search: " + e.getMessage();
@@ -490,21 +494,27 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private String getAccessToken() throws FHIRPersistenceInterceptorException {
         List<String> list = FHIRRequestContext.get().getHttpHeaders().get("Authorization");
         if (list.size() != 1) {
-            throw new FHIRPersistenceInterceptorException("Request must contain exactly one Authorization header.");
+            String msg = "Request must contain exactly one Authorization header.";
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
         String header = list.get(0);
 
         if (!header.startsWith(BEARER_TOKEN_PREFIX)) {
-            throw new FHIRPersistenceInterceptorException("Authorization header must carry a Bearer token");
+            String msg = "Authorization header must carry a Bearer token";
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
 
         return header.substring(BEARER_TOKEN_PREFIX.length()).trim();
     }
 
-    private List<Scope> getScopesFromToken(DecodedJWT jwt) {
+    private List<Scope> getScopesFromToken(DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         Claim claim = jwt.getClaim("scope");
         if (claim.isNull()) {
-            throw new IllegalArgumentException("Authorization token is missing 'scope' claim");
+            String msg = "Authorization token is missing 'scope' claim";
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
 
         List<String> scopeStrings;
@@ -523,10 +533,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
     }
 
-    private List<String> getPatientIdFromToken(DecodedJWT jwt) {
+    private List<String> getPatientIdFromToken(DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         Claim claim = jwt.getClaim("patient_id");
         if (claim.isNull()) {
-            throw new IllegalArgumentException("Authorization token is missing 'patient_id' claim");
+            String msg = "Authorization token is missing 'patient_id' claim";
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
 
         String patientId = claim.asString();

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
@@ -21,13 +21,14 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.db2.Db2ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgresReindexResourceDAO;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresReindexResourceDAO;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceDAO;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
 
 /**
  * Factory for constructing ResourceDAO implementations specific to a
@@ -59,7 +60,7 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         }
         return resourceDAO;
@@ -92,7 +93,7 @@ public class FHIRResourceDAOFactory {
             result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
-            translator = new PostgreSqlTranslator();
+            translator = new PostgresTranslator();
             result = new PostgresReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
             break;
         }
@@ -115,7 +116,7 @@ public class FHIRResourceDAOFactory {
             result = new DerbyTranslator();
             break;
         case POSTGRESQL:
-            result = new PostgreSqlTranslator();
+            result = new PostgresTranslator();
             break;
         default:
             throw new IllegalStateException("Unsupported database flavor: " + flavor.toString());
@@ -145,7 +146,7 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, cache, rrd);
+            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         }
         return resourceDAO;
@@ -160,10 +161,10 @@ public class FHIRResourceDAOFactory {
      * @param cache
      * @return
      */
-    public static IResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
+    public static ResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
         FHIRPersistenceJDBCCache cache) {
 
-        IResourceReferenceDAO rrd = null;
+        ResourceReferenceDAO rrd = null;
         switch (flavor.getType()) {
         case DB2:
             rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName);
@@ -172,7 +173,7 @@ public class FHIRResourceDAOFactory {
             rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache());
             break;
         case POSTGRESQL:
-            rrd = new PostgresResourceReferenceDAO(new PostgreSqlTranslator(), connection, schemaName, cache.getResourceReferenceCache());
+            rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache());
             break;
         }
         return rrd;

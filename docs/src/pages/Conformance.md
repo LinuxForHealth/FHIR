@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-01-19 01:00:00 -0400
+date:   2021-02-16 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -42,7 +42,7 @@ System operations are invoked at `[base]/$[operation]`
 | [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
 | [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
 | [$import](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
-| [$healthcheck](https://github.com/IBM/FHIR/blob/master/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
+| [$healthcheck](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
 
 #### Type operations
 Type operations are invoked at `[base]/[resourceType]/$[operation]`
@@ -114,8 +114,13 @@ In addition, the following search parameters are supported on all resources:
 * `_has`
 
 These parameters can be used while searching any single resource type or while searching across resource types (whole system search).
-The `_type` parameter is special in that it is only applicable for whole system search. The `_has` parameter has two restrictions:
-* `_has` cannot be used with whole system search.
+
+The `_type` parameter has two restrictions:
+* It may only be used with whole system search.
+* It may only be specified once in a search. In `lenient` mode, only the first occurrence is used; additional occurrences are ignored.
+
+The `_has` parameter has two restrictions:
+* It cannot be used with whole system search.
 * The search parameter specified at the end of its chain cannot be a search result parameter.
 
 The `_text`, `_content`, `_list`, `_query`, and `_filter` parameters are not supported at this time.
@@ -128,13 +133,13 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_summary`
 * `_elements`
 
-The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit. 
+The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
 
-The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail.
+The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit.
+
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results. 
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
-
-The `:missing` modifier is not supported for whole-system search.
 
 The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
 
@@ -151,7 +156,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
 |Reference                 |`:[type]`,`:missing`            |exact match search and targets are implicitly added|
 |URI                       |`:below`,`:above`,`:missing`    |exact match search|
-|Token                     |`:missing`                      |exact match search|
+|Token                     |`:missing`,`:not`               |exact match search|
 |Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
 |Date                      |`:missing`                      |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
 |Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
@@ -160,9 +165,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 Due to performance implications, the `:exact` modifier should be used for String searches where possible.
 
-At present, the `:missing` modifier is not supported for whole-system search nor for chained parameter search. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
-
-The :text, :not, :above, :below, :in, :not-in, and :of-type modifiers are not supported in this version of the IBM FHIR server and use of this modifier will results in an HTTP 400 error with an OperationOutcome that describes the failure.
+The `:text`, `:above`, `:below`, `:in`, `:not-in`, and `:of-type` modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
@@ -247,6 +250,20 @@ Reference searches on the IBM FHIR Server support search on:
 * uri searches - where it is explicitly searched using a URI on the server, such as `reference=http://example.org/fhir/Patient/123`
 
 We recommend using logical reference where possible.
+
+Elements of type Reference may contain a versioned reference, such as `Patient/123/_history/2`. When performing chained, reverse chained (`_has`), `_include`, or `_revinclude` searches on versioned references, the following rules apply:
+
+* **Chained search**: If a resource has a reference that is versioned, and a chained search is performed using the element containing the versioned reference, the search criteria will be evaluated against the current version of the referenced resource, regardless of the version specified.
+    * This is because the IBM FHIR Server only stores search index information for the current versions of resources. In the case where a chained search does not act on the referenced version of a resource, the search results will contain an `OperationOutcome` with a warning that indicates the logical id of the resource and the element containing the versioned reference.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/1` in its `subject` element, and the current version of the `Patient/123` resource is 2, and a search of `Condition?subject.name=Jane` is performed. In this case, the search criteria will be evaluated against the current version of the `Patient/123` resource rather than the specified version of `1`.
+* **Reverse chained search**: If a resource has a reference that is versioned, and a reverse chain search is performed using the element containing the versioned reference, then the referenced resource can only be returned as a match if the version specified is the referenced resource's current version.
+    * This is because the IBM FHIR Server will only return the current version of `match` resources in search results.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/2` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Patient?_has:Condition:patient:code=1234-5` is performed. If the `Condition` resource meets the search criteria, then the `Patient/123` resource will be returned as a match since the version specified in the reference is the current version of the `Patient/123` resource. However, if the current version of the `Patient/123` resource happens to be `3`, then the `Condition` resource will not be returned as a match in the search results.
+* **Include search**: If a resource has a reference that is versioned, and an `_include` search is performed using the element containing the versioned reference, then the referenced resource with the specified version will be returned as an `include` resource in the search results, assuming the version is valid.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/1` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Condition?_include=Condition:subject` is performed. Version `1` of the `Patient/123` resource will be returned as an `include` resource in the search results.
+* **Revinclude search**: If a resource has a reference that is versioned, and a `_revinclude` search is performed using the element containing the versioned reference, then the resource containing the versioned reference is returned as an `include` resource only if the version specified in the reference is the referenced resource's current version.
+    * This is because the IBM FHIR Server will only return the current version of `match` resources in search results. A reference to a non-current version of the resource is not considered to have met the search criteria, thus the resource containing the reference is not considered a valid `include` resource.
+    * Example: A `Condition` resource contains a reference of `Patient/123/_history/2` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Patient?_revinclude=Condition:subject` is performed. The `Condition` resource will be returned as an `include` resource since the version of the `Patient` resource specified in the `subject` element is the current version of the `Patient` resource. If the current version of the `Patient/123` resource is `3`, then the `Condition` resource will not be returned as an `include` resource in the search results.
 
 ### Searching on Special Positional Search
 Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants:

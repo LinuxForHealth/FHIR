@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test;
 import static com.ibm.fhir.model.type.String.of;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
@@ -311,7 +312,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     public void testCreateProcedure4() throws Exception {
         WebTarget target = getWebTarget();
 
-        // Build a new Procedure and add performer reference to patient.
+        // Build a new Procedure and add subject reference to patient.
         Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
@@ -334,11 +335,12 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient3"})
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient3", "testCreateProcedure2"})
     public void testCreateProcedure5() throws Exception {
         WebTarget target = getWebTarget();
 
-        // Build a new Procedure and add performer reference to patient.
+        // Build a new Procedure and add subject reference to patient
+        // and partOf and reasonReference references to another procedure.
         Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
@@ -346,6 +348,8 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .performed(DateTime.of(now.toString()))
                 .instantiatesUri(Uri.of("5" + tag))
                 .code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("5" + tag)).build()).build())
+                .partOf(Reference.builder().reference(of("Procedure/" + procedure2Id)).build())
+                .reasonReference(Reference.builder().reference(of("Procedure/" + procedure2Id)).build())
                 .build();
 
         // Call the 'create' API.
@@ -665,6 +669,61 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
     }
 
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient2"})
+    public void testSearchRevIncludeSingleIncludedResultElement() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_tag", tag)
+                .queryParam("_id", patient1Id)
+                .queryParam("_elements", "name")
+                .queryParam("_revinclude", "Patient:link")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(2, bundle.getEntry().size());
+        Patient matchPatient = bundle.getEntry().get(0).getResource().as(Patient.class);
+        assertEquals(patient1Id, matchPatient.getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        // validate included elements
+        assertEquals("1" + tag, matchPatient.getName().get(0).getGiven().get(0).getValue());
+        // validate not included elements
+        assertNull(matchPatient.getGender());
+        assertNull(matchPatient.getBirthDate());
+
+        Patient includePatient = bundle.getEntry().get(1).getResource().as(Patient.class);
+        assertEquals(patient2Id, includePatient.getId());
+        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+        // validate included elements
+        assertEquals(AdministrativeGender.FEMALE, includePatient.getGender());
+        assertEquals(Date.of(now.minus(1, ChronoUnit.DAYS).toString().substring(0,10)), includePatient.getBirthDate());
+        assertEquals("2" + tag, includePatient.getName().get(0).getGiven().get(0).getValue());
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateProcedure5"})
+    public void testSearchRevIncludeSingleIncludedResultDuplicate() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("instantiates-uri", "2" + tag)
+                .queryParam("_revinclude", "Procedure:part-of")
+                .queryParam("_revinclude", "Procedure:reason-reference")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(2, bundle.getEntry().size());
+        assertEquals(procedure2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(procedure5Id, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+    }
+
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2", "testCreateEncounter1"})
     public void testSearchRevIncludeMultipleIncludedResults() {
         WebTarget target = getWebTarget();
@@ -707,7 +766,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(6, bundle.getEntry().size());
+        assertEquals(4, bundle.getEntry().size());
         assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
         assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
         List<String> resourceIds = new ArrayList<>();

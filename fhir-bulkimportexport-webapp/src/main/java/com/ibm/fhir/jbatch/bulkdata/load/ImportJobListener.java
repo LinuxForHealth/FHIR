@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,9 +43,8 @@ public class ImportJobListener implements JobListener {
     String dataSourcesInfo;
 
     public ImportJobListener() {
-
+        // No Operation
     }
-
 
     @Override
     public void afterJob() {
@@ -142,5 +141,4 @@ public class ImportJobListener implements JobListener {
     public void beforeJob() {
         currentExecutionStartTimeInMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
     }
-
 }

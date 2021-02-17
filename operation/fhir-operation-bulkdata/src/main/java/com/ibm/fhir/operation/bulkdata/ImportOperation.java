@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,27 +48,29 @@ public class ImportOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
-        // Checks the Import Type 
+        // Checks the Import Type
         checkImportType(operationContext.getType());
 
+        BulkDataImportUtil util = new BulkDataImportUtil(parameters);
+
         // Parameter: inputFormat
-        String inputFormat = BulkDataImportUtil.retrieveInputFormat(parameters);
+        String inputFormat = util.retrieveInputFormat();
 
         // Parameter: inputSource
-        String inputSource = BulkDataImportUtil.retrieveInputSource(parameters);
+        String inputSource = util.retrieveInputSource();
 
         // Parameter: input
-        List<Input> inputs = BulkDataImportUtil.retrieveInputs(parameters);
+        List<Input> inputs = util.retrieveInputs();
 
         // Parameter: storageDetail
-        StorageDetail storageDetail = BulkDataImportUtil.retrieveStorageDetails(parameters);
+        StorageDetail storageDetail = util.retrieveStorageDetails();
 
         return BulkDataFactory.getTenantInstance().importBulkData(inputFormat, inputSource, inputs, storageDetail,
                 operationContext);
     }
 
     private void checkImportType(FHIROperationContext.Type type) throws FHIROperationException {
-        // Check Import Type is System.  We only support system right now. 
+        // Check Import Type is System.  We only support system right now.
 
         if (!FHIROperationContext.Type.SYSTEM.equals(type)) {
             throw buildExceptionWithIssue("Invalid call $import operation call only system is allowed",

@@ -27,9 +27,9 @@ The built-in SearchParameters are loaded from the `fhir-registry` in the `fhir-s
 
 The default and tenant level configurations are put in the `default` and tenant-specific (e.g. `tenant1`) config folders respectively. These folders are populated with `extension-search-parameters.json`.
 
-The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java).
+The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/main/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java).
 
-The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json). These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration.
+The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/main/fhir-search/src/main/resources/compartments.json). These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration.
 
 ### 1.1 Tenant-specific parameters
 To configure tenant-specific search parameters, create a file called `extension-search-parameters.json`, placing it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters used by the `qpharma` tenant.
@@ -106,6 +106,18 @@ For more information on search parameters, see the [HL7 FHIR specification](http
 When creating the SearchParameter FHIRPath expression, be sure to test both the FHIRPath expression and the search parameter.
 
 If a search parameter expression extracts an element with a data type that is incompatible with the declared search parameter type, the server skips the value and logs a message. For choice elements, like Extension.value, its recommended to restrict the expression to values of the desired type by using the `as` function. For example, to select only Decimal values from the http://example.org/decimal extension, use an expressions like `Basic.extension.where(url='http://example.org/decimal').value.as(Decimal)`.
+
+#### 1.1.2.1 The implicit-system extension
+The IBM FHIR Server team has introduced a custom SearchParameter extension that can be used to improve search performance for queries that are made against a token SearchParameter without passing a system. Specifically, for SearchParameter resources that index elements of type Code which have a required binding with a single system, adding the following extension to the SearchParameter definition allows the server to infer the system value without requiring end users to explicitly pass it in their queries:
+
+```json
+{
+    "url": "http://ibm.com/fhir/extension/implicit-system",
+    "valueUri": "http://hl7.org/fhir/account-status"
+}
+```
+
+See the [FHIR Performance Guide](FHIRPerformanceGuide#54-search-examples) for more information.
 
 ### 1.2 Filtering
 The IBM FHIR Server supports the filtering of search parameters through `fhir-server-config.json`. The default behavior of the IBM FHIR Server is to consider all built-in and tenant-specific search parameters when storing resources or processing search requests, but you can configure inclusion filters to restrict the IBM FHIR Server's view to specific search parameters on a given resource type.
@@ -262,7 +274,7 @@ The IBM FHIR Server tracks when a resource was last reindexed and only resources
 
 To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$reindex` custom operation.
 
-For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/master/fhir-bucket#driving-the-reindex-custom-operation.
+For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
 
 Reindexing is resource-intensive and can take several hours or even days to complete depending on the number of resources currently in the system and the capability of the hosting platform.
 

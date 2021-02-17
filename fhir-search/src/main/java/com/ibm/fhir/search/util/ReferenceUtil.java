@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,9 +34,6 @@ public class ReferenceUtil {
             .map(FHIRResourceType.ValueSet::value)
             .collect(Collectors.toSet());
 
-
-    // The service base URL string cached after we compute it once.
-    private static volatile String serviceBase;
 
     /**
      * Processes a Reference value from the FHIR model and interprets
@@ -149,13 +146,8 @@ public class ReferenceUtil {
         if (entry != null) {
             return getBaseUrlFromBundle(entry);
         } else {
-            // return the cached value if we've already computed it
-            if (serviceBase != null) {
-                return serviceBase;
-            }
             return getServiceBaseUrl();
         }
-
     }
 
     /**
@@ -200,6 +192,7 @@ public class ReferenceUtil {
      * @throws FHIRSearchException
      */
     public static String getServiceBaseUrl(String uri) throws FHIRSearchException {
+        String result;
 
         // request URI is not set for all unit-tests, so we need to take that into account
         if (uri == null) {
@@ -251,13 +244,13 @@ public class ReferenceUtil {
                 // make sure we always have a final "/" to make life easier downstream.
                 sb = sb + "/";
             }
-            serviceBase = sb;
+            result = sb;
         } else {
             // log locally, do not leak in exception...might contain server name/ip secrets
             logger.severe("FHIRRequestContext.originalRequestUri is invalid: " + uri);
             throw new FHIRSearchException("Invalid originalRequestUri in FHIRRequestContext. Details in log.");
         }
 
-        return serviceBase;
+        return result;
     }
 }

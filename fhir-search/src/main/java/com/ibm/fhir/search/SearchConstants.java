@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,12 +90,18 @@ public class SearchConstants {
     // _has
     public static final String HAS = "_has";
 
+    public static final String IMPLICIT_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/implicit-system";
+
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
 
     // set as unmodifiable
     public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
+
+    // set as unmodifiable
+    public static final List<String> SEARCH_SINGLETON_PARAMETER_NAMES =
+            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, ELEMENTS, RESOURCE_TYPE));
 
     // Empty Query String
     public static final String EMPTY_QUERY_STRING = "";

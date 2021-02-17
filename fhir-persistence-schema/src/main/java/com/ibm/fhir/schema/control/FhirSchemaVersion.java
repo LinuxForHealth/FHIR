@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ package com.ibm.fhir.schema.control;
  * a particular version.
  */
 public enum FhirSchemaVersion {
-    
+
     // Make sure the vid values are unique...this cannot be done programmatically with an enum
      V0001(1, "Initial version")
     ,V0002(2, "Composite search value support")
@@ -21,8 +21,10 @@ public enum FhirSchemaVersion {
     ,V0004(4, "row_id sequence cache 20 to 1000")
     ,V0005(5, "issue-1331 add index for resource.last_updated")
     ,V0006(6, "issue-1366 normalized schema for storing resource references")
+    ,V0007(7, "issue-1273 add ref_version_id column to xxx_TOKEN_VALUES_V view")
+    ,V0008(8, "issue-1929 expose common_token_value_id in xxx_TOKEN_VALUES_V view")
     ;
-    
+
     // The version number recorded in the VERSION_HISTORY
     private final int vid;
 

@@ -26,7 +26,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgresResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
 
 
 /**

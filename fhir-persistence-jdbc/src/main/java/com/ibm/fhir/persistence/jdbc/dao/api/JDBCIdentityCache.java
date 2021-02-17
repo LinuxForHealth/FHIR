@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,4 +38,12 @@ public interface JDBCIdentityCache {
      * @throws FHIRPersistenceException
      */
     Integer getParameterNameId(String parameterName) throws FHIRPersistenceException;
+
+    /**
+     * Get the common_token_value_id for the given tokenValue and codeSystem. Reads from
+     * a cache, or the database if not found in the cache.
+     * @param codeSystem
+     * @param tokenValue
+     */
+    Long getCommonTokenValueId(String codeSystem, String tokenValue);
 }

@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-01-21"
+lastupdated: "2021-02-22"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -191,7 +191,7 @@ More information about multi-tenant support can be found in [Section 4.9 Multi-t
 
 ### 3.2.3 Compartment Search Performance
 
-The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/master/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/master/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
+The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/main/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/main/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
 
 ```
     {
@@ -296,7 +296,7 @@ If you configure the FHIR server to use an IBM Db2 database, you must:
 
 3. configure the server with the tenantKey generated in step number 2.
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
 
 For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/guides/DB2OnCloudSetup).
 
@@ -307,7 +307,7 @@ If you configure the FHIR server to use a PostgreSQL database, you must:
 
 2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, functions, etc)
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
 
 
 ##### 3.3.1.1.4 Other
@@ -731,7 +731,7 @@ For a Derby-related datasource definition, any bean property supported by the `E
 
 To disable the multitenant feature for a particular offering add to your `fhirServer/persistence/datasources` entry `multitenant` and set false to disable, and true to enable, only for Db2 is the default set to true.
 
-#### 3.3.2.4 Database Access TransactionManager Timeout
+#### 3.3.2.5 Database Access TransactionManager Timeout
 The TransactionManager controls the timeout of database queries.  
 
 To expand the transaction timeout value, one can copy over the `transaction-manager-long.xml` from the WLP configDropins from `/disabled` to `/overrides` folder, or set the Environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT=120s` or enter the value in the server.env file at the root of the WLP instance.  The value should be at least as granular as seconds or minutes.  Example values are 120s or 2m.  You should not lower this below 120s.
@@ -779,7 +779,7 @@ To contribute an operation:
 After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
 
 ## 4.2 Notification Service
-The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_ and _update_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
+The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_, _update_, and _delete_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
 
 The notification service supports two implementations: WebSocket and Kafka.
 
@@ -1650,7 +1650,7 @@ JavaBatch feature must be enabled in `server.xml` as following on the Liberty se
 </featureManager>
 ```
 
-The JavaBatch user is configured in `server.xml` and the `fhir-server-config.json`:
+The JavaBatch user is configured in `bulkdata.xml` and the `fhir-server-config.json`:
 
 ```xml
 <authorization-roles id="com.ibm.ws.batch">
@@ -1667,11 +1667,46 @@ The JavaBatch user is configured in `server.xml` and the `fhir-server-config.jso
 </authorization-roles>
 ```
 
-Note: The user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
+Note: The batch-user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/bulkdata.xml`. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created by default via the `fhir-persistence-schema` command line interface jar.
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/defaults/bulkdata.xml`. This database is destroyed on the restart of the IBM FHIR Server, and does not support load balancing.
 
-You can also choose to use postgresql or other RDBMS as your Job repository. To enable a postgresql job repository, uncomment the corresponding section of the `bulkdata.xml` server config.
+To support IBM Db2 on IBM Cloud, copy `fhir-server/configDropins/disabled/db2-cloud/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+
+| Variable          | Default     | Description                                                    |
+|-------------------|-------------|----------------------------------------------------------------|
+| BATCH_DB_HOSTNAME | `blank`     | The hostname of the db2 instance                               |
+| BATCH_DB_NAME     | BLUDB       | The database name                                              |
+| BATCH_DB_SCHEMA   | FHIR_JBATCH | The Schema Name configured to support the Java Batch framework |
+| BATCH_DB_PORT     | 50001       | The port configured to support the database                    |
+| BATCH_DB_APIKEY   | `blank`     | The API Key for the Db2 Cloud database                         |
+
+Instruction is also provided in 'Configuring a Liberty Datasource with API Key' section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created using the `fhir-persistence-schema` command line interface jar.
+
+To support IBM Db2 with a user-name and password , copy `fhir-server/configDropins/disabled/db2/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+
+| Variable          | Default         | Description                                                    |
+|-------------------|-----------------|----------------------------------------------------------------|
+| BATCH_DB_HOSTNAME | `blank`         | The hostname of the db2 instance                               |
+| BATCH_DB_NAME     | FHIRDB          | The database name                                              |
+| BATCH_DB_SCHEMA   | FHIR_JBATCH     | The Schema Name configured to support the Java Batch framework |
+| BATCH_DB_PORT     | 50000           | The port configured to support the database                    |
+| BATCH_DB_USER     | db2inst1        | The user for the Db2 database                                  |
+| BATCH_DB_PASSWORD | `blank`         | The password for the Db2 database                              |
+| BATCH_DB_SSL      | true            | The ssl connection is either true or false                     |
+
+If one wants to support Postgres with a user-name and password , one should copy `fhir-server/configDropins/disabled/postgres/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+
+| Variable               | Default         | Description                                                    |
+|------------------------|-----------------|----------------------------------------------------------------|
+| BATCH_DB_HOSTNAME      | `blank`         | The hostname of the postgres instance                          |
+| BATCH_DB_NAME          | FHIRDB          | The database name                                              |
+| BATCH_DB_SCHEMA        | FHIR_JBATCH     | The Schema Name configured to support the Java Batch framework |
+| BATCH_DB_PORT          | 5432            | The port configured to support the database                    |
+| BATCH_DB_USER          | fhirserver      | The user for the postgres database                             |
+| BATCH_DB_PASSWORD      | `blank`         | The password for the postgres database                         |
+| BATCH_DB_SSL           | true            | The ssl connection is either true or false                     |
+| BATCH_DB_SSL_CERT_PATH | false           | The ssl connection is either true or false                     |
 
 Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
 
@@ -2171,6 +2206,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.3.2.3 Datastore configuration reference](#3323-datastore-configuration-reference) for more information.|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|string|The JNDI name of the DataSource to be used by the JDBC persistence layer.|
 |`fhirServer/persistence/jdbc/bootstrapDb`|boolean|A boolean flag which indicates whether the JDBC persistence layer should attempt to create or update the database and schema at server startup time.|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 16. To use the database default (8), explicitly set this value to null. |
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|int| For PostgreSQL, sets the join_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 16. To use the database default (8), explicitly set this value to null. |
 |`fhirServer/security/cors`|boolean|Used to convey to clients whether cors is supported or not; actual cors support is configured separately in the Liberty server.xml configuration|
 |`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
 |`fhirServer/security/certificates/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
@@ -2194,6 +2231,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/mapper`|string|The AuditEventLog mapper that determines the output format - valid types are 'cadf' and 'auditevent'. 'auditevent' refers to the FHIR Resource AuditEvent, and 'cadf' refers to the Cloud logging standard.|
 |`fhirServer/audit/serviceProperties/load`|string|The location that the configuration is loaded from 'environment' or 'config'.|
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
+|`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
+|`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
@@ -2221,6 +2260,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 |`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
 |`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`) |
+|`fhirServer/bulkdata/ignoreImportOutcomes`|boolean| Control if push OperationOutcomes to COS/S3. |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -2270,6 +2310,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|jdbc/fhirProxyDataSource|
 |`fhirServer/persistence/jdbc/bootstrapDb`|false|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
 |`fhirServer/security/certificates/enabled`|boolean|false|
@@ -2297,6 +2339,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/patientExportPageSize`|200|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|
 |`fhirServer/bulkdata/enableParquet`|false|
+|`fhirServer/bulkdata/ignoreImportOutcomes`|false|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2355,6 +2398,8 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/factoryClassname`|N|N|
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N|
 |`fhirServer/persistence/datasources`|Y|N|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
 |`fhirServer/persistence/jdbc/dataSourceJndiName`|N|N|
 |`fhirServer/persistence/jdbc/bootstrapDb`|N|N|
 |`fhirServer/security/cors`|Y|Y|
@@ -2377,6 +2422,8 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/geoCounty`|N|N|
 |`fhirServer/audit/serviceProperties/mapper`|N|N|
 |`fhirServer/audit/serviceProperties/load`|N|N|
+|`fhirServer/audit/hostname`|N|N|
+|`fhirServer/audit/ip`|N|N|
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|Y|Y|
@@ -2394,6 +2441,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|Y|Y|
 |`fhirServer/bulkdata/enableParquet`|Y|Y|
+|`fhirServer/bulkdata/ignoreImportOutcomes`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

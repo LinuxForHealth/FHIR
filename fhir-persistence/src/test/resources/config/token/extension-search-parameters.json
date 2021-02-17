@@ -549,5 +549,21 @@
             "xpath": "f:Basic/f:extension[@url='http://example.org/missing-CodeableConcept']/f:valueCodeableConcept",
             "xpathUsage": "normal"
         }
+    },{
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-ContactPoint",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-ContactPoint",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-ContactPoint",
+            "name": "missing-ContactPoint",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-ContactPoint",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.extension.where(url='http://example.org/missing-ContactPoint').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-ContactPoint']/f:valueContactPoint",
+            "xpathUsage": "normal"
+        }
     }]
 }

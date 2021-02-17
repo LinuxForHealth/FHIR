@@ -8,18 +8,15 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FETCH_FIRST;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIMIT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUOTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -49,10 +46,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String SELECT_ROOT_WITH_SORT_ORDER =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID, 1 AS SORT_ORDER FROM ";
     private static final String UNION_ALL = " UNION ALL ";
-    private static final String REVINCLUDE_JOIN_START =
-            "JOIN ";
-    private static final String REVINCLUDE_JOIN_END =
-            "_TOKEN_VALUES_V P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
     private static final String ORDERING = " ORDER BY R.LOGICAL_RESOURCE_ID ASC ";
     private static final String SORT_ORDER_COLUMN = ", 2 AS SORT_ORDER ";
     private static final String ORDER_BY_SORT_ORDER = " ORDER BY SORT_ORDER ASC ";
@@ -223,92 +216,199 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     }
 
     /**
-     * TODO This should not be executed, but instead performed in the database as a join
-     * Appends values like
-     * ({@code ('Patient/<resource_id>', 'Patient/<resource_id>' ...)}) to the
-     * queryString
+     * Build subquery that will be joined to main query to get a list of references of included resources
+     *
+     * <pre>
+     * JOIN (
+     *   SELECT DISTINCT
+     *     P1.TOKEN_VALUE AS LOGICAL_ID,
+     *     P1.REF_VERSION_ID AS VERSION_ID,
+     *     R.VERSION_ID AS CUR_VERSION_ID,
+     *     R.LOGICAL_RESOURCE_ID AS LOGICAL_RESOURCE_ID
+     *   FROM
+     *     <resourceType>_TOKEN_VALUES_V P1
+     *     JOIN <searchParameterTargetType>_LOGICAL_RESOURCES LR ON P1.TOKEN_VALUE = LR.LOGICAL_ID
+     *     JOIN <searchParameterTargetType>_RESOURCES R ON LR.CURRENT_RESOURCE_ID = R.RESOURCE_ID AND R.IS_DELETED = 'N'
+     *   WHERE
+     *     P1.PARAMETER_NAME_ID = <id>
+     *     AND P1.CODE_SYSTEM_ID = <codeSystemId>
+     *     AND P1.LOGICAL_RESOURCE_ID IN (
+     *       SELECT
+     *         R.LOGICAL_RESOURCE_ID
+     *       FROM
+     *         <resourceType>_LOGICAL_RESOURCES LR
+     *         JOIN <resourceType>_RESOURCES R ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED = 'N'
+     *         JOIN <resourceType>_TOKEN_VALUES_V AS param0 ON (
+     *           param0.PARAMETER_NAME_ID = <id>
+     *           AND (
+     *             (param0.TOKEN_VALUE = ?)
+     *           )
+     *         )
+     *         AND LR.LOGICAL_RESOURCE_ID = param0.LOGICAL_RESOURCE_ID
+     *       ORDER BY
+     *         R.LOGICAL_RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
+     *     )
+     * ) REFS ON REFS.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
+     *           AND COALESCE(REFS.VERSION_ID, REFS.CUR_VERSION_ID) = R.VERSION_ID
+     * </pre>
+     *
+     * @param queryString
+     *              The non-null StringBuilder
+     * @param includeParm
+     *              The include search parameter
+     * @param bindVariables
+     *              The associated bind variables
+     * @throws Exception
      */
-    private void executeIncludeSubQuery(StringBuilder queryString, InclusionParameter includeParm,
-            List<Object> bindVariables) throws Exception {
+    private void processIncludeSubQuery(StringBuilder queryString, InclusionParameter includeParm, List<Object> bindVariables) throws Exception {
 
         // The code system for the target resource type of the search parameter. This is required
         // because we need to filter values from the token values which may match a logical id from
         // more than one resource type. This would previously be done by prepending the resource type
         // to the logical id being referenced, but that is no longer the case since issue #1366.
         int resourceTypeCodeSystemId = getCodeSystemId(includeParm.getSearchParameterTargetType());
-        StringBuilder subQueryString = new StringBuilder();
-        // SELECT P1.TOKEN_VALUE FROM OBSERVATION_TOKEN_VALUES_V P1 WHERE
-        subQueryString.append("SELECT P1.TOKEN_VALUE FROM ")
-                .append(this.resourceType.getSimpleName()).append("_TOKEN_VALUES_V P1 WHERE ");
 
-        // P1.PARAMETER_NAME_ID=xx AND P1.CODE_SYSTEM_ID = {n}
-        subQueryString.append("P1.PARAMETER_NAME_ID=")
-                .append(this.getParameterNameId(includeParm.getSearchParameter()))
-                .append(AND);
+        // JOIN (
+        //   SELECT DISTINCT
+        //     P1.TOKEN_VALUE AS LOGICAL_ID,
+        //     P1.REF_VERSION_ID AS VERSION_ID,
+        //     R.VERSION_ID AS CUR_VERSION_ID,
+        //     R.LOGICAL_RESOURCE_ID AS LOGICAL_RESOURCE_ID
+        //   FROM <resourceType>_TOKEN_VALUES_V P1
+        queryString.append(JOIN).append(LEFT_PAREN)
+                .append("SELECT DISTINCT P1.TOKEN_VALUE AS LOGICAL_ID, P1.REF_VERSION_ID AS VERSION_ID, R.VERSION_ID AS CUR_VERSION_ID, R.LOGICAL_RESOURCE_ID AS LOGICAL_RESOURCE_ID FROM ")
+                .append(this.resourceType.getSimpleName()).append("_TOKEN_VALUES_V P1");
 
-        subQueryString.append("P1.CODE_SYSTEM_ID=").append(resourceTypeCodeSystemId).append(AND);
+        // JOIN <includeParmTargetType>_LOGICAL_RESOURCES LR ON P1.TOKEN_VALUE = LR.LOGICAL_ID
+        queryString.append(JOIN).append(includeParm.getSearchParameterTargetType())
+                .append("_LOGICAL_RESOURCES LR ON P1.TOKEN_VALUE = LR.LOGICAL_ID");
 
-        // P1.LOGICAL_RESOURCE_ID IN
-        subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");
-        // (SELECT R.LOGICAL_RESOURCE_ID
-        subQueryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
+        // JOIN <includeParmTargetType>_RESOURCES R ON LR.CURRENT_RESOURCE_ID = R.RESOURCE_ID
+        queryString.append(JOIN).append(includeParm.getSearchParameterTargetType())
+                .append("_RESOURCES R ON LR.CURRENT_RESOURCE_ID = R.RESOURCE_ID AND R.IS_DELETED = 'N'");
+
+        // WHERE P1.PARAMETER_NAME_ID=xx AND P1.CODE_SYSTEM_ID = {n} AND
+        queryString.append(" WHERE P1.PARAMETER_NAME_ID=")
+                .append(this.getParameterNameId(includeParm.getSearchParameter())).append(AND)
+                .append("P1.CODE_SYSTEM_ID=").append(resourceTypeCodeSystemId).append(AND);
+
+        // P1.LOGICAL_RESOURCE_ID IN (SELECT R.LOGICAL_RESOURCE_ID
+        queryString.append("P1.LOGICAL_RESOURCE_ID IN (SELECT R.LOGICAL_RESOURCE_ID ");
 
         // Add FROM clause for "root" resource type
-        buildFromClause(subQueryString, resourceType.getSimpleName());
+        buildFromClause(queryString, resourceType.getSimpleName());
+
+        // An important step here is to add _id and _lastUpdated
+        bindVariables.addAll(this.idsObjects);
+        bindVariables.addAll(this.lastUpdatedObjects);
+        this.addBindVariables(bindVariables);
 
         // Add WHERE clause for "root" resource type
-        buildWhereClause(subQueryString, null);
+        buildWhereClause(queryString, null);
 
         // ORDER BY R.LOGICAL_RESOURCE_ID ASC
-        subQueryString.append(ORDERING);
+        queryString.append(ORDERING);
+
         // Only include resources related to the required page of the main resources.
-        this.addPaginationClauses(subQueryString);
-        subQueryString.append(RIGHT_PAREN);
+        this.addPaginationClauses(queryString);
 
-        queryString.append(LEFT_PAREN);
-        //The subquery should return a list of strings in the FHIR Reference String value format
-        //(e.g. {@code "Patient/<resource_id>"})
-        SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
-
-        boolean isFirstItem = true;
-        Set<String> references = new HashSet<>();
-        for (String strValue : this.resourceDao.searchStringValues(subQueryData)) {
-            // Check if null or duplicate - if so, do not process
-            if (strValue != null && !references.contains(strValue)) {
-                if (!isFirstItem) {
-                    queryString.append(COMMA);
-                }
-                queryString.append(QUOTE).append(SqlParameterEncoder.encode(strValue)).append(QUOTE);
-                isFirstItem = false;
-                references.add(strValue);
-            }
-        }
-
-        // if nothing added so far, then need to add '', otherwise sql will fail.
-        if (isFirstItem) {
-            queryString.append(QUOTE).append(QUOTE);
-        }
+        // Close IN clause
         queryString.append(RIGHT_PAREN);
+
+        // ) REFS ON REFS.LOGICAL_RSOURCE_ID = R.LOGICAL_RESOURCE_ID AND COALESCE(REFS.VERSION_ID, REFS.CUR_VERSION_ID) = R.VERSION_ID
+        queryString.append(") REFS ON REFS.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID AND COALESCE(REFS.VERSION_ID, REFS.CUR_VERSION_ID) = R.VERSION_ID ");
     }
 
-    /*
+    /**
+     * Build subquery that will be joined to main query to get a list of references of revincluded resources
+     *
+     * <pre>
+     * JOIN (
+     *   SELECT
+     *     LR.LOGICAL_ID AS LOGICAL_ID,
+     *     R.VERSION_ID AS CUR_VERSION_ID,
+     *   FROM
+     *     <resourceType>_LOGICAL_RESOURCES LR
+     *     JOIN <resourceType>_RESOURCES R ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED = 'N'
+     *   ORDER BY
+     *     R.LOGICAL_RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY
+     * ) REFS ON P1.TOKEN_VALUE = REFS.LOGICAL_ID
+     *           AND COALESCE(P1.REF_VERSION_ID, REFS.CUR_VERSION_ID) = REFS.CUR_VERSION_ID
+     * </pre>
+     *
+     * @param queryString
+     *              The non-null StringBuilder
+     * @param includeParm
+     *              The include search parameter
+     * @param bindVariables
+     *              The associated bind variables
+     * @throws Exception
+     */
+    private void processRevIncludeSubQuery(StringBuilder queryString, InclusionParameter includeParm, List<Object> bindVariables) throws Exception {
+
+        // JOIN (
+        //   SELECT
+        //     LR.LOGICAL_ID AS LOGICAL_ID,
+        //     R.VERSION_ID AS CUR_VERSION_ID,
+        queryString.append(JOIN).append(LEFT_PAREN)
+                .append("SELECT LR.LOGICAL_ID AS LOGICAL_ID, R.VERSION_ID AS CUR_VERSION_ID ");
+
+        // Add FROM clause for "root" resource type
+        buildFromClause(queryString, resourceType.getSimpleName());
+
+        // An important step here is to add _id and _lastUpdated
+        bindVariables.addAll(this.idsObjects);
+        bindVariables.addAll(this.lastUpdatedObjects);
+        this.addBindVariables(bindVariables);
+
+        // Add WHERE clause for "root" resource type
+        buildWhereClause(queryString, null);
+
+        // ORDER BY R.LOGICAL_RESOURCE_ID ASC
+        queryString.append(ORDERING);
+
+        // Only include resources related to the required page of the main resources.
+        this.addPaginationClauses(queryString);
+
+        // ) REFS ON REFS.LOGICAL_ID = P1.TOKEN_VALUE AND COALESCE(P1.REF_VERSION_ID, REFS.CUR_VERSION_ID) = R.VERSION_ID
+        queryString.append(") REFS ON P1.TOKEN_VALUE = REFS.LOGICAL_ID AND COALESCE(P1.REF_VERSION_ID, REFS.CUR_VERSION_ID) = REFS.CUR_VERSION_ID ");
+    }
+
+    /**
      * Formats the FROM clause instead of assembling a String MessageFormat
      * The code here is just building as part of the StringBuilder.
      *
-     * @param queryString the non-null StringBuilder
-     *
-     * @param target is the Target Type for the search
+     * @param queryString
+     *              The non-null StringBuilder
+     * @param target
+     *              The Target Type for the search
+     * @param isRevInclude
+     *              A boolean indicating if this is a revInclude search
      */
-    private void processFromClause(StringBuilder queryString, String target) {
+    private void processFromClause(StringBuilder queryString, String target, boolean isRevInclude) {
         queryString.append("FROM ");
         queryString.append(target);
         queryString.append("_RESOURCES R JOIN ");
         queryString.append(target);
-        queryString.append(
-                "_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
-
+        queryString.append("_LOGICAL_RESOURCES LR ON ");
+        if (isRevInclude) {
+            queryString.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID JOIN ")
+                        .append(target)
+                        .append("_TOKEN_VALUES_V P1 ON R.LOGICAL_RESOURCE_ID = P1.LOGICAL_RESOURCE_ID");
+        } else {
+            queryString.append("R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID ");
+        }
     }
 
+    /**
+     * Build query for each include parameter.
+     *
+     * @param queryString
+     *              The non-null StringBuilder
+     * @param bindVariables
+     *              The associated bind variables
+     * @throws Exception
+     */
     private void processIncludeParameters(StringBuilder queryString, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processIncludeParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -318,23 +418,23 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             queryString.append(UNION_ALL);
             // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, 2 AS SORT_ORDER
             queryString.append(QuerySegmentAggregator.SELECT_ROOT).append(SORT_ORDER_COLUMN);
-            // FROM Organization_RESOURCES R JOIN Organization_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-            processFromClause(queryString, includeParm.getSearchParameterTargetType());
-            // WHERE R.IS_DELETED = 'N' AND
-            queryString.append(QuerySegmentAggregator.WHERE_CLAUSE_ROOT).append(" AND ");
-            // R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND
-            queryString.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
-            // ( LR.LOGICAL_ID IN
-            queryString.append("( LR.LOGICAL_ID IN ");
-
-            // Execute sub query to get the string values for constructing the query string.
-            // This avoids DB engine to run this sub query once for each record in the previously joined tables.
-            executeIncludeSubQuery(queryString, includeParm, bindVariables);
-            queryString.append(RIGHT_PAREN);
+            // FROM <resourceType>_RESOURCES R JOIN <resourceType>_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
+            processFromClause(queryString, includeParm.getSearchParameterTargetType(), false);
+            // JOIN (...) REFS ON REFS.LOGICAL_ID = LR.LOGICAL_ID AND COALESCE(REFS.VERSION_ID, REFS.CUR_VERSION_ID) = R.VERSION_ID
+            processIncludeSubQuery(queryString, includeParm, bindVariables);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
 
+    /**
+     * Build query for each revinclude parameter.
+     *
+     * @param queryString
+     *              The non-null StringBuilder
+     * @param bindVariables
+     *              The associated bind variables
+     * @throws Exception
+     */
     private void processRevIncludeParameters(StringBuilder queryString, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processRevIncludeParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -344,40 +444,16 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             queryString.append(UNION_ALL);
             // SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, 2 AS SORT_ORDER
             queryString.append(QuerySegmentAggregator.SELECT_ROOT).append(SORT_ORDER_COLUMN);
-            // FROM Observation_RESOURCES R JOIN Observation_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
-            processFromClause(queryString, includeParm.getJoinResourceType());
-            // JOIN Observation_TOKEN_VALUES_V P1 ON P1.RESOURCE_ID = R.RESOURCE_ID
-            queryString.append(REVINCLUDE_JOIN_START);
-            queryString.append(includeParm.getJoinResourceType());
-            queryString.append(REVINCLUDE_JOIN_END);
-            // WHERE R.IS_DELETED = 'N' AND
-            queryString.append(QuerySegmentAggregator.WHERE_CLAUSE_ROOT).append(" AND ");
-            // P1.PARAMETER_NAME_ID=xx AND P1.CODE_SYSTEM_ID=xx
-            queryString.append("P1.PARAMETER_NAME_ID=")
-                    .append(this.getParameterNameId(includeParm.getSearchParameter())).append(" AND ");
-            queryString.append("P1.CODE_SYSTEM_ID=").append(getCodeSystemId(includeParm.getSearchParameterTargetType())).append(AND);
-            // P1.TOKEN_VALUE IN
-            queryString.append("P1.TOKEN_VALUE IN ");
-            // (SELECT LR.LOGICAL_ID
-            queryString.append("(SELECT LR.LOGICAL_ID ");
-
-            // Add FROM clause for "root" resource type
-            buildFromClause(queryString, resourceType.getSimpleName());
-
-            // An important step here is to add _id and _lastUpdated
-            bindVariables.addAll(this.idsObjects);
-            bindVariables.addAll(this.lastUpdatedObjects);
-            this.addBindVariables(bindVariables);
-
-            // Add WHERE clause for "root" resource type
-            buildWhereClause(queryString, null);
-
-            // ORDER BY R.LOGICAL_RESOURCE_ID ASC
-            queryString.append(ORDERING);
-            // Only include resources related to the required page of the main resources.
-            this.addPaginationClauses(queryString);
-
-            queryString.append(RIGHT_PAREN);
+            // FROM Observation_RESOURCES R
+            // JOIN Observation_LOGICAL_RESOURCES LR ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID
+            // JOIN Observation_TOKEN_VALUES_V P1 ON R.LOGICAL_RESOURCE_ID = P1.LOGICAL_RESOURCE_ID
+            processFromClause(queryString, includeParm.getJoinResourceType(), true);
+            // JOIN (...) REFS ON REFS.LOGICAL_ID = P1.TOKEN_VALUE AND COALESCE(P1.REF_VERSION_ID, REFS.CUR_VERSION_ID) = R.VERSION_ID
+            processRevIncludeSubQuery(queryString, includeParm, bindVariables);
+            // WHERE R.IS_DELETED = 'N' AND P1.PARAMETER_NAME_ID = xx AND P1.CODE_SYSTEM_ID = xx
+            queryString.append(QuerySegmentAggregator.WHERE_CLAUSE_ROOT)
+                        .append(" AND P1.PARAMETER_NAME_ID = ").append(this.getParameterNameId(includeParm.getSearchParameter()))
+                        .append(" AND P1.CODE_SYSTEM_ID = ").append(getCodeSystemId(includeParm.getSearchParameterTargetType()));
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -431,7 +507,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
      * Adds the appropriate limit clause to the passed query string buffer,
      * based on the type of database we're running against.
      *
-     * @param queryString A query string buffer.
+     * @param queryString
+     *              The non-null StringBuilder
      */
     private void addLimitClause(StringBuilder queryString) {
         int limit = Integer.MAX_VALUE;

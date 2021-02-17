@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,12 @@ public class FHIRNotificationEvent {
     private String location = null;
     private String operationType = null;
     private String resourceId = null;
+    private String tenantId = null;
+    private String datasourceId = null;
     private Resource resource = null;
 
     public FHIRNotificationEvent() {
+        // No Operation
     }
 
     public String getResourceId() {
@@ -50,16 +53,20 @@ public class FHIRNotificationEvent {
         this.operationType = operationType;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("FHIRNotificationEvent["
-                + "operation=" + getOperationType()
-                + ", resourceId=" + getResourceId()
-                + ", location=" + getLocation()
-                + ", lastUpdated=" + getLastUpdated()
-                + "]");
-        return sb.toString();
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public String getDatasourceId() {
+        return datasourceId;
+    }
+
+    public void setDatasourceId(String datasourceId) {
+        this.datasourceId = datasourceId;
     }
 
     public Resource getResource() {
@@ -68,5 +75,19 @@ public class FHIRNotificationEvent {
 
     public void setResource(Resource resource) {
         this.resource = resource;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("FHIRNotificationEvent["
+                + "operation=" + getOperationType()
+                + ", resourceId=" + getResourceId()
+                + ", location=" + getLocation()
+                + ", lastUpdated=" + getLastUpdated()
+                + ", datasourceId=" + getDatasourceId()
+                + ", tenantId=" + getTenantId()
+                + "]");
+        return sb.toString();
     }
 }
