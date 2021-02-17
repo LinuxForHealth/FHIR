@@ -1202,14 +1202,14 @@ public class SearchUtil {
             }
             case REFERENCE: {
                 // reference
-                // [parameter]=[url]
-                // [parameter]=[url|version] - canonical url
-                // [parameter]=[type]/[id]
-                // [parameter]=[id]
+                // [parameter]=[literal] - literal reference
+                // [parameter]=[type]/[id] - relative local reference
+                // [parameter]=[base]/[type]/[id] - absolute local reference
+                // [parameter]=[id] - relativel local reference
+                // [parameter]=[literal|version#fragment] - canonical url - currently not supported
                 String valueString = unescapeSearchParm(v);
                 valueString = extractReferenceValue(valueString);
                 parameterValue.setValueString(valueString);
-                // ReferenceParameterHandler.generateReferenceParameterValues(searchParameter, parameterValues, valueString, vals, modifierResourceTypeName);
                 break;
             }
             case QUANTITY: {

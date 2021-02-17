@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -271,8 +271,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         Long result;
 
         // Find the code-system first
-        LinkedHashMap<String,Integer> sysMap = codeSystems.get();
-        Integer codeSystemId = sysMap != null ? sysMap.get(codeSystem) : null;
+        Integer codeSystemId = getCodeSystemId(codeSystem);
 
         if (codeSystemId == null) {
             // not found in the local cache, try the shared cache

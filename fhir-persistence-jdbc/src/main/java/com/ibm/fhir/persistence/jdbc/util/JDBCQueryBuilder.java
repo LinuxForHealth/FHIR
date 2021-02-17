@@ -610,6 +610,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
             bindVariables.add(searchValue);
 
+            // add the [optional] condition for the resource type if we have one
             if (commonTokenValueId != null) {
                 // #1929 improves cardinality estimation
                 // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
@@ -617,10 +618,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
                     .append(commonTokenValueId);
             } else if (targetResourceType != null) {
-                // add the [optional] condition for the resource type if we have one
-                // Use a literal for the resource type code-system-id, not a parameter marker. Helps the cost-based optimizer
-                int codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(codeSystemIdForResourceType);
+                // For better performance, use a literal for the resource type code-system-id, not a parameter marker
+                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
             }
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
@@ -1055,11 +1055,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(operator)
                         .append(BIND_VAR);
                 if (resourceTypeName != null) {
-                    Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
-                    whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
-                        .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
 
-                    // For #1929 add common_token_value_id = <n> for better query optimization
                     Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
                     if (commonTokenValueId != null) {
                         // #1929 improves cardinality estimation
@@ -1067,6 +1063,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
                         whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
                             .append(commonTokenValueId);
+                    } else {
+                        // Can't use the common_token_value_id optimization, so do it the old way
+                        // and join against the code-system.
+                        Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
+                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
+                        .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
                     }
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
@@ -1156,18 +1158,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                             commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
                         }
                     }
-                    Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
-                    whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
-                            .append(nullCheck(codeSystemId));
 
                     if (commonTokenValueId != null) {
                         // #1929 improves cardinality estimation
                         // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
                         // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                        whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                        whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
                             .append(commonTokenValueId);
+                    } else {
+                        // common token value not found so we can't use the optimization. Filter the code-system-id
+                        // instead, which ends up being the logical equivalent.
+                        Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
+                        whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
+                        .append(nullCheck(codeSystemId));
                     }
-
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
                 parmValueProcessed = true;
