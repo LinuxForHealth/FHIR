@@ -3,13 +3,13 @@
 The certificates are used in development and CI/CD.
 These certificates are not configured for production use.
 
-The sections in this document walks through creation of the certificates in a temporary folder, and then subsequent update inline.  
+The sections in this document walk through creation of the certificates in a temporary folder, and then subsequent update inline.  
 
 The Audit Kafka jks are updated separately. 
 
 # Create CA and Certs and P12s (does not replace)
 
-This script should be run first, and subsequently each many section must update their cert/key. 
+This script should be run first, and subsequently each type of certificate / service must update their cert/key. 
 
 1. Set `export CHANGE_PASSWORD=change-password`
 
@@ -21,7 +21,7 @@ At the end the tmp folder contains a copy of the certs and keys with a CA Issuer
 
 # Minio: Continuous Integration Certificates
 
-The following certifiates are used with minio. 
+The following certificates are used with minio. 
 
 ```
 build/docker/minio/private.key
@@ -34,7 +34,7 @@ build/docker/minio/public.crt
 
 # Server: Continuous Integration Certificates
 
-The following certifiates are used with the IBM FHIR Server. 
+The following certificates are used with the IBM FHIR Server. 
 
 ```
 fhir-server/liberty-config/resources/security/fhirKeyStore.p12
@@ -47,7 +47,7 @@ fhir-server/liberty-config/resources/security/fhirTrustStore.p12
 
 Note, the `tmp` folder should exist and be empty.
 
-# Audit: Continuous Integration Certificates
+# Audit and Notification: Continuous Integration Certificates
 
 The following certificates are used with the audit tests/integrations.
 
@@ -60,6 +60,14 @@ build/audit/kafka/resources/kafka.consumer.truststore.jks
 build/audit/kafka/resources/kafka.consumer.keystore.jks
 build/audit/kafka/resources/kafka.producer.keystore.jks
 build/audit/kafka/resources/kafka.producer.truststore.jks
+build/notifications/kafka/resources/kafka.broker1.keystore.jks
+build/notifications/kafka/resources/kafka.consumer.truststore.jks
+build/notifications/kafka/resources/kafka.consumer.keystore.jks
+build/notifications/kafka/resources/kafka.broker2.keystore.jks
+build/notifications/kafka/resources/kafka.broker2.truststore.jks
+build/notifications/kafka/resources/kafka.producer.keystore.jks
+build/notifications/kafka/resources/kafka.producer.truststore.jks
+build/notifications/kafka/resources/kafka.broker1.truststore.jks
 ```
 
 1. Set `export CHANGE_PASSWORD=change-password`
@@ -74,7 +82,7 @@ Note, the `tmp` folder should exist and be empty.
 
 # Kafka Client
 
-The following certifiates are used with the kafka-client. 
+The following certificates are used with the kafka-client. 
 
 ```
 fhir-server/liberty-config/resources/security/kafka.client.keystore.p12
@@ -89,7 +97,7 @@ Note, the `tmp` folder should exist and be empty.
 
 # FHIR Client and Server Test - Trust and Key Stores
 
-The following certifiates are used with the fhir-client module. 
+The following certificates are used with the fhir-client module. 
 
 ```
 fhir-client/src/test/resources/fhirClientTrustStore.p12

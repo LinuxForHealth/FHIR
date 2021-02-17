@@ -46,6 +46,8 @@ create_kafka_ci() {
     echo "change-password" > ${i}_keystore_creds
     echo "change-password" > ${i}_truststore_creds
     done
+
+    cp $WORKSPACE/build/audit/kafka/resources/*.jks $WORKSPACE/build/notifications/kafka/resources/
 }
 
 # P12 and Java Key Store
