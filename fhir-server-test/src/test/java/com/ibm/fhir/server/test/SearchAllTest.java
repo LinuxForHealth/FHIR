@@ -736,6 +736,17 @@ public class SearchAllTest extends FHIRServerTestBase {
 
         assertTrue(validSelf);
         assertTrue(validRel);
+
+        /*
+         * Runs through the fullUrl of the entries and checks for appropriate values
+         */
+        for (Entry entry : bundle.getEntry()) {
+            Resource resource = entry.getResource();
+            // The client always ensures that the baseUrl ends with a '/'
+            String expectedBase = client.getWebTarget().getUri() + resource.getClass().getSimpleName();
+            assertTrue(entry.getFullUrl().getValue().startsWith(expectedBase),
+                    "fullUrl " + entry.getFullUrl().getValue() + " should start with " + expectedBase);
+        }
     }
 
     /*

@@ -2158,7 +2158,7 @@ Because the FHIR API relies on links and references between resources (both abso
 
 This can be accomplished by configuring the `fhirServer/core/originalRequestUriHeaderName` property in the default fhir-server-config.json. When this parameter is configured, the IBM FHIR Server will use the value of the corresponding header to set the "originalRequestUri" for the scope of the request.
 
-For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-Forwarded-Uri`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-Forwarded-Uri` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123).
+For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123).
 
 The originalRequestUriHeader is expected to contain the full path of the original request. Values with no scheme (e.g. `https://`) will be handled like relative URLs, but full URL values (including scheme, hostname, optional port, and path) are recommended. Query string values can be included in the header value but will be ignored by the server; the server will use the query string of the actual request to process the request.
 
@@ -2722,8 +2722,9 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 
 | Header Name      | Description                |
 |------------------|----------------------------|
-|`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. Header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
-|`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. Header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
+|`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
+|`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
+|`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`.|
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:

@@ -2841,14 +2841,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (resourceNamePathLocation != -1) {
                 baseUri = requestUri.substring(0, resourceNamePathLocation);
             } else {
-                // Assume the request was a batch/transaction and just use the requestUri as the base
-                baseUri = requestUri;
+                // Assume the request was a batch/transaction; nothing to strip
             }
-        } else {
-            if (baseUri.endsWith("/_history")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
-            } else if (baseUri.endsWith("/_search")) {
+        }
+
+        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type)
+        if (type == null || type.isEmpty() || "Resource".equals(type)) {
+            if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
+            } else if (baseUri.endsWith("/_history")) {
+                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
             } else if (baseUri.contains("/$")) {
                 baseUri = baseUri.substring(0, baseUri.lastIndexOf("/$"));
             }
