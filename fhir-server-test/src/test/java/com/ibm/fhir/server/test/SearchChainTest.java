@@ -204,4 +204,120 @@ public class SearchChainTest extends FHIRServerTestBase {
         assertEquals(oo.getIssue().get(0).getExpression().get(0).getValue(), "Encounter.subject");
     }
 
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithActiveMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.active:missing", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertTrue(bundle.getLink().size() == 1);
+        assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("active:missing=true"));
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithActiveNotMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.active:missing", "false")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithGenderMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.gender:missing", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithGenderNotMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.gender:missing", "false")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertTrue(bundle.getLink().size() == 1);
+        assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("gender:missing=false"));
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithActiveNot() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.active:not", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithGenderNot_NoResults() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.gender:not", "male")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchProcedureForPatientWithGenderNot_Results() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("_id", procedureId)
+                .queryParam("subject:Patient.gender:not", "female")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
 }

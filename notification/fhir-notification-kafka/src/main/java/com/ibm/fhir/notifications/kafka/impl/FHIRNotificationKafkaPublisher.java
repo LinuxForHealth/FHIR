@@ -74,7 +74,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             }
 
             // Create our producer object to be used for publishing.
-            producer = new KafkaProducer<String, String>(this.kafkaProps);
+            producer = new KafkaProducer<>(this.kafkaProps);
 
             // Register this Kafka implementation as a "subscriber" with our Notification Service.
             // This means that our "notify" method will be called when the server publishes an event.

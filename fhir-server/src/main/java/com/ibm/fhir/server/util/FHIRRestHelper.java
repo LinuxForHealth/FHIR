@@ -77,6 +77,7 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -1578,6 +1579,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
             responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET,
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PATCH,
+                    txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+
 
             // Commit transaction if started
             if (txn != null) {
@@ -1702,6 +1706,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             processEntryForPut(requestEntry, responseEntry, responseIndexAndEntries, entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             processEntryForDelete(responseEntry, responseIndexAndEntries, entryIndex, requestURL, requestDescription.toString(), initialTime);
+                        } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
+                            processEntryforPatch(requestEntry, responseEntry, responseIndexAndEntries, requestURL,entryIndex, requestDescription.toString(), initialTime);
                         } else {
                             // Internal error, should not get here!
                             throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
@@ -1754,6 +1760,73 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         } finally {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
+    }
+
+    /**
+     * Processes a request entry with a request method of Patch.
+     *
+     * @param requestEntry
+     *            the request bundle entry
+     * @param responseEntry
+     *            the response bundle entry
+     * @param responseIndexAndEntries
+     *            the hashmap containing bundle entry indexes and their associated response entries
+     * @param requestURL 
+     * @param entryIndex
+     *            the bundle entry index of the bundle entry being processed
+     * @param localRefMap
+     *            the map of local references to external references
+     * @param requestURL
+     *            the request URL
+     * @param absoluteUri
+     *            the absolute URI
+     * @param requestDescription
+     *            a description of the request
+     * @param initialTime
+     *            the time the bundle entry processing started
+     * @throws Exception
+     */
+    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime)
+        throws Exception {
+        FHIRRestOperationResponse ior = null;
+        String[] pathTokens = requestURL.getPathTokens();
+        String resourceType = null;
+        String resourceId = null;
+
+        // Process a PATCH.
+        if (pathTokens.length == 1) {
+            // A single-part url would be a conditional update: <type>?<query>
+            // This is not yet supported for PATCH requests.
+            String msg = "Conditional update operation is not supported for PATCH requests.";
+            throw buildRestException(msg, IssueType.NOT_SUPPORTED);
+        } else if (pathTokens.length == 2) {
+            // A two-part url would be a normal patch: <type>/<id>.
+            resourceType = pathTokens[0];
+            resourceId = pathTokens[1];
+        } else {
+            // A url with any other pattern is an error.
+            String msg = "Request URL for bundled PATCH request should have path part with two tokens (<resourceType>/<id>).";
+            throw buildRestException(msg, IssueType.INVALID);
+        }
+       
+                if (requestEntry.getResource().is(Parameters.class)) {
+
+                    Parameters parameters = requestEntry.getResource().as(Parameters.class);
+                  
+
+                    FHIRPatch patch = FHIRPathPatch.from(parameters);
+
+                    ior = doPatch(resourceType, resourceId, patch, null, null, null);
+                    // Process and replace bundle entry.
+                    Bundle.Entry resultEntry =
+                            setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription, initialTime);
+                    responseIndexAndEntries.put(entryIndex, resultEntry);
+                }else {
+                    String msg="Request resource type for PATCH request must be type 'Parameters'";
+                    throw buildRestException(msg, IssueType.INVALID);
+                }
+       
+
     }
 
     /**

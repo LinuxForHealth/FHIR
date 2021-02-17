@@ -51,6 +51,7 @@ public class JDBCConstants {
     public static final char DOT_CHAR = '.';
     public static final String WHERE = " WHERE ";
     public static final String PARAMETER_TABLE_ALIAS = "pX";
+    public static final String PARAMETER_TABLE_NAME_PLACEHOLDER = "pX_TABLE_NAME";
     public static final String LEFT_PAREN = "(";
     public static final String RIGHT_PAREN = ")";
     public static final String BIND_VAR = "?";

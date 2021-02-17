@@ -1,24 +1,20 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.exception;
 
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import com.ibm.fhir.core.util.handler.IPHandler;
 
 /**
  * Common FHIR Server exception base class.
  */
 public class FHIRException extends Exception {
     private static final long serialVersionUID = 1L;
-    private static final String CLASSNAME = FHIRException.class.getName();
-    private static final Logger log = Logger.getLogger(CLASSNAME);
 
     private String uniqueId = null;
 
@@ -63,20 +59,14 @@ public class FHIRException extends Exception {
         int localIpAddrPart;
 
         if (uniqueId == null) {
-            try {
-                localIpAddr = Inet4Address.getLocalHost().getHostAddress();
-                localIpAddrParts = localIpAddr.split("\\.");
-                for (int i = 0; i < localIpAddrParts.length; i++) {
-                    localIpAddrPart = Integer.parseInt(localIpAddrParts[i]);
-                    uniqueIdPrefix.append(Integer.toHexString(localIpAddrPart));
-                    uniqueIdPrefix.append("-");
-                }
-            }
-            catch (UnknownHostException e) {
-                log.log(Level.SEVERE, "Failure acquiring local host IP address", e);
-            }
-            catch(NumberFormatException e) {
-                log.log(Level.SEVERE, "Failure parsing local host IP address " + localIpAddr, e);
+
+            IPHandler ipHandler = new IPHandler();
+            localIpAddr = ipHandler.getIpAddress();
+            localIpAddrParts = localIpAddr.split("\\.");
+            for (int i = 0; i < localIpAddrParts.length; i++) {
+                localIpAddrPart = Integer.parseInt(localIpAddrParts[i]);
+                uniqueIdPrefix.append(Integer.toHexString(localIpAddrPart));
+                uniqueIdPrefix.append("-");
             }
 
             uniqueId = uniqueIdPrefix + UUID.randomUUID().toString();
