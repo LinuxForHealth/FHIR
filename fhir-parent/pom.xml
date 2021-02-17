@@ -14,7 +14,7 @@
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.5.0</db2.version>
         <postgresql.version>42.2.18</postgresql.version>
-        <cxf.version>3.3.9</cxf.version>
+        <cxf.version>3.4.2</cxf.version>
         <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
@@ -224,9 +224,15 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <!--  Used by COS in fhir-bucket and bulkdata -->
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.12.1</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>1.1.1</version>
+                <version>2.7.0</version>
             </dependency>
             <dependency>
                 <groupId>io.nats</groupId>
@@ -241,12 +247,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.12</version>
+                <version>4.5.13</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.4</version>
+                <version>4.4.14</version>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
@@ -333,7 +339,7 @@
             <dependency>
                 <groupId>com.ibm.cos</groupId>
                 <artifactId>ibm-cos-java-sdk</artifactId>
-                <version>2.6.2</version>
+                <version>2.9.0</version>
             </dependency>
             <dependency>
                 <groupId>com.github.stephenc.jcip</groupId>
