@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,14 +20,14 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
     private static final Logger logger = Logger.getLogger(FHIRPersistenceJDBCCacheImpl.class.getName());
 
     private final INameIdCache<Integer> resourceTypeCache;
-    
+
     private final INameIdCache<Integer> parameterNameCache;
-    
+
     private final ICommonTokenValuesCache resourceReferenceCache;
 
     // flag to allow one lucky caller to get the opportunity to prefill
     private final AtomicBoolean needToPrefillFlag = new AtomicBoolean(true);
-    
+
     /**
      * Public constructor
      * @param resourceTypeCache
@@ -46,7 +46,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
     public ICommonTokenValuesCache getResourceReferenceCache() {
         return resourceReferenceCache;
     }
-    
+
     @Override
     public INameIdCache<Integer> getResourceTypeCache() {
         return this.resourceTypeCache;
@@ -58,7 +58,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
     public INameIdCache<Integer> getParameterNameCache() {
         return parameterNameCache;
     }
-    
+
     @Override
     public void transactionCommitted() {
         logger.fine("Transaction committed - updating cache shared maps");

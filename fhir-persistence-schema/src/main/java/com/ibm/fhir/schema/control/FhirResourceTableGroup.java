@@ -66,6 +66,7 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddColumn;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
+import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropIndex;
@@ -78,6 +79,7 @@ import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
+import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -415,15 +417,15 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setVersion(FhirSchemaVersion.V0008.vid())
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(               ROW_ID,    false)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
                 .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
-                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0008 change
+                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0008 change
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
@@ -432,6 +434,35 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    // Migrate the index definitions as part of the V0008 version of the schema
+                    // This table was originally introduced as part of the V0006 schema, which
+                    // is what we use as the match for the priorVersion
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == FhirSchemaVersion.V0006.vid()) {
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_LRTV"));
+
+                        final String mtId = multitenant ? MT_ID : null;
+                        // Replace the original TVLR index on (common_token_value_id, parameter_name_id, logical_resource_id)
+                        List<OrderedColumnDef> tplr = Arrays.asList(
+                            new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null)
+                            );
+                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_TPLR", tableName, mtId, tplr));
+
+                        // Replace the original LRTV index with a new index on (logical_resource_id, parameter_name_id, common_token_value_id)
+                        List<OrderedColumnDef> lrpt = Arrays.asList(
+                            new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null)
+                            );
+                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
+                    }
+                    return statements;
+                })
+
                 .build(model);
 
         group.add(tbl);
@@ -465,20 +496,20 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
             // in the join condition to give the optimizer the best chance at finding a good nested
             // loop strategy
             select.append("SELECT ref.").append(MT_ID);
-            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
+            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id ");
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
             select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
         } else {
-            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
+            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id ");
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
         }
 
         View view = View.builder(schemaName, viewName)
-                .setVersion(FhirSchemaVersion.V0007.vid())
+                .setVersion(FhirSchemaVersion.V0008.vid())
                 .setSelectClause(select.toString())
                 .addPrivileges(resourceTablePrivileges)
                 .addDependency(commonTokenValues)

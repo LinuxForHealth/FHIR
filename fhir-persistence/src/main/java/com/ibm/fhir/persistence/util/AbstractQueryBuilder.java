@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -109,7 +109,7 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm);
                     break;
                 case TOKEN:
-                    databaseQueryParm = this.processTokenParm(resourceType, queryParm);
+                    databaseQueryParm = this.processTokenParm(resourceType, queryParm, false);
                     break;
                 case NUMBER:
                     databaseQueryParm = this.processNumberParm(resourceType, queryParm);
@@ -198,9 +198,10 @@ public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
      *
      * @param resourceType - The resource type.
      * @param queryParm - The query parameter.
+     * @param isComposite - is this token part of a composite parameter?
      * @return T1 - An object containing query segment.
      */
-    protected abstract T1 processTokenParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processTokenParm(Class<?> resourceType, QueryParameter queryParm, boolean isComposite) throws FHIRPersistenceException;
 
     /**
      * Creates a query segment for a Number type parameter.
