@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,7 +48,7 @@ public class DerbyMigrationTest {
     private static final String SCHEMA_NAME = "FHIRDATA";
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
     private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
-    
+
     @BeforeClass(alwaysRun = true)
     protected void setUp() throws SecurityException, IOException
     {
@@ -73,7 +73,7 @@ public class DerbyMigrationTest {
             PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 200);
             ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
             IDatabaseAdapter adapter = new DerbyAdapter(connectionPool);
-            
+
             VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
             vhs.setTransactionProvider(transactionProvider);
             vhs.setTarget(adapter);
@@ -89,7 +89,7 @@ public class DerbyMigrationTest {
                 }
             }
         }
-        
+
         // Generate a list of DDL statements describing the new database
         List<String> latest_ddl = inferDDL(dbPath);
 
@@ -99,7 +99,7 @@ public class DerbyMigrationTest {
         try (DerbyMaster db = new DerbyMaster(dbPath)) {
             // Set up the version history service first if it doesn't yet exist
             db.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
-            
+
             // Current version history for the database. This is used by applyWithHistory
             // to determine which updates to apply and to record the new changes as they
             // are applied
@@ -107,7 +107,7 @@ public class DerbyMigrationTest {
             PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 200);
             ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
             IDatabaseAdapter adapter = new DerbyAdapter(connectionPool);
-            
+
             VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
             vhs.setTransactionProvider(transactionProvider);
             vhs.setTarget(adapter);
@@ -138,13 +138,13 @@ public class DerbyMigrationTest {
                 }
             }
         }
-        
+
         System.out.println("FHIR database migrated successfully.");
 
         // 4. Assert they match
         List<String> migrated_ddl = inferDDL(dbPath);
         System.out.println(FhirSchemaVersion.V0001.name() + " migrated: " + migrated_ddl);
-        System.out.println(FhirSchemaVersion.V0006.name() + "   latest: " + latest_ddl);
+        System.out.println(FhirSchemaVersion.V0008.name() + "   latest: " + latest_ddl);
         assertEquals(latest_ddl, migrated_ddl);
     }
 
@@ -168,10 +168,10 @@ public class DerbyMigrationTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
         gen.buildProcedures(pdm);
-        
+
         // apply the model we've defined to the new Derby database
         derby.createSchema(pool, vhs, pdm);
-        
+
         System.out.println("Old FHIR database created successfully.");
     }
 

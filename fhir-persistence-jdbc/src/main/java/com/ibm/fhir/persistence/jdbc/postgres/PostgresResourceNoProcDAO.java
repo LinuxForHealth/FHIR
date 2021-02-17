@@ -422,7 +422,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
                 // PostgreSQL doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao);
+                JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
                     identityCache, getResourceReferenceDAO(), getTransactionData())) {
                     for (ExtractedParameterValue p: parameters) {

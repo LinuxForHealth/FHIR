@@ -107,6 +107,18 @@ When creating the SearchParameter FHIRPath expression, be sure to test both the 
 
 If a search parameter expression extracts an element with a data type that is incompatible with the declared search parameter type, the server skips the value and logs a message. For choice elements, like Extension.value, its recommended to restrict the expression to values of the desired type by using the `as` function. For example, to select only Decimal values from the http://example.org/decimal extension, use an expressions like `Basic.extension.where(url='http://example.org/decimal').value.as(Decimal)`.
 
+#### 1.1.2.1 The implicit-system extension
+The IBM FHIR Server team has introduced a custom SearchParameter extension that can be used to improve search performance for queries that are made against a token SearchParameter without passing a system. Specifically, for SearchParameter resources that index elements of type Code which have a required binding with a single system, adding the following extension to the SearchParameter definition allows the server to infer the system value without requiring end users to explicitly pass it in their queries:
+
+```json
+{
+    "url": "http://ibm.com/fhir/extension/implicit-system",
+    "valueUri": "http://hl7.org/fhir/account-status"
+}
+```
+
+See the [FHIR Performance Guide](FHIRPerformanceGuide#54-search-examples) for more information.
+
 ### 1.2 Filtering
 The IBM FHIR Server supports the filtering of search parameters through `fhir-server-config.json`. The default behavior of the IBM FHIR Server is to consider all built-in and tenant-specific search parameters when storing resources or processing search requests, but you can configure inclusion filters to restrict the IBM FHIR Server's view to specific search parameters on a given resource type.
 

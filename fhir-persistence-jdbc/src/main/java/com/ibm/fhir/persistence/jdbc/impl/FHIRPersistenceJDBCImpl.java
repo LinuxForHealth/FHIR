@@ -119,6 +119,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
@@ -143,7 +144,6 @@ import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -450,7 +450,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
-    private IResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+    /**
+     * Create an instance of the ResourceReferenceDAO used to manage common_token_values
+     * @param connection
+     * @return
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceException
+     * @throws IllegalArgumentException
+     */
+    private ResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
     }
 
@@ -616,7 +624,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             connectionStrategy.applySearchOptimizerOptions(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
-            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao);
+            ResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
+            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao, rrd);
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints(), identityCache);
@@ -752,21 +761,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private void checkModifiers(FHIRSearchContext searchContext, boolean isSystemLevelSearch) throws FHIRPersistenceNotSupportedException {
         for (QueryParameter param : searchContext.getSearchParameters()) {
-            if (param.getChain().isEmpty()) {
-                if (isSystemLevelSearch &&
-                        (param.getModifier() == Modifier.MISSING || param.getModifier() == Modifier.NOT)) {
-                    // modifiers are not supported for whole-system searches
-                    throw buildNotSupportedException("Modifier ':" + param.getModifier().value() + "' is not yet supported "
-                            + "for whole-system search [code=" + param.getCode() + "]");
-                }
-            } else {
-                if (param.getChain().getLast().getModifier() == Modifier.MISSING || param.getChain().getLast().getModifier() == Modifier.NOT) {
-                    // modifiers on the last parameter in the chain are not yet supported
-                    throw buildNotSupportedException("Modifier ':" + param.getChain().getLast().getModifier().value() + "' is not yet supported "
-                            + "for chained parameters [code=" + param.getCode() + "]");
-                }
-            }
-
             do {
                 if (param.getModifier() != null &&
                         !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {

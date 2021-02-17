@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,9 +21,9 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
 /**
  * This class implements the FHIR persistence interceptor framework. This framework allows users to inject business
  * logic into the REST API request processing code path at various points.
- * 
+ *
  * Interceptors are discovered using the jdk's ServiceProvider class.
- * 
+ *
  * To register an interceptor implementation, develop a class that implements the FHIRPersistenceInterceptor interface,
  * and then insert your implementation class name into a file called
  * META-INF/services/com.ibm.fhir.persistence.FHIRPersistenceInterceptor and store that file in your jar.
@@ -58,7 +58,7 @@ public class FHIRPersistenceInterceptorMgr {
             log.fine("No persistence interceptors found...");
         }
     }
-    
+
     /**
      * This method can be used to programmatically register an interceptor such that it is added
      * at the end of the list of registered interceptors.
@@ -70,7 +70,7 @@ public class FHIRPersistenceInterceptorMgr {
         }
         interceptors.add(interceptor);
     }
-    
+
     /**
      * This method can be used to programmatically register an interceptor such that it is added
      * at the beginning of the list of registered interceptors.
@@ -82,7 +82,7 @@ public class FHIRPersistenceInterceptorMgr {
         }
         interceptors.add(0, interceptor);
     }
-    
+
     /**
      * The following methods will invoke the respective interceptor methods on each registered interceptor.
      */
@@ -109,7 +109,7 @@ public class FHIRPersistenceInterceptorMgr {
             interceptor.afterUpdate(event);
         }
     }
-    
+
     public void fireBeforePatchEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         for (FHIRPersistenceInterceptor interceptor : interceptors) {
             interceptor.beforePatch(event);

@@ -55,7 +55,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     private static final boolean DEBUG_SEARCH = false;
 
-    private String patientId, patientId2;
+    private String patientId, patientId2, observationId;
     private Instant lastUpdated;
     private Patient patient4DuplicationTest = null;
     private String strUniqueTag = UUID.randomUUID().toString();
@@ -132,6 +132,18 @@ public class SearchAllTest extends FHIRServerTestBase {
                         .header("X-FHIR-DSID", dataStoreId)
                         .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        observationId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new observation and verify it.
+        response  = target.path("Observation/" + observationId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Observation createdObservation = response.readEntity(Observation.class);
+        TestUtil.assertResourceEquals(observation, createdObservation);
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
@@ -252,6 +264,102 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagMissing_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag:missing", "true");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagMissing_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", observationId);
+        parameters.searchParam("_tag:missing", "false");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllWithTagNotMissing_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:missing", "false");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllWithTagNotMissing_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:missing", "true");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllChainWithTagNotMissing_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_type", "Observation");
+        parameters.searchParam("_id", observationId);
+        parameters.searchParam("subject:Patient._tag:missing", "false");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllChainWithTagMissing_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_type", "Observation");
+        parameters.searchParam("_id", observationId);
+        parameters.searchParam("subject:Patient._tag:missing", "true");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagNot_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag:not", "tag3");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagNot_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:not", "tag2");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
     }
 
     /*

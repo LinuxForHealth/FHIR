@@ -40,6 +40,7 @@ import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
@@ -67,7 +68,6 @@ import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
-import com.ibm.fhir.search.reference.ReferenceParameterHandler;
 import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
@@ -1116,7 +1116,7 @@ public class SearchUtil {
         List<QueryParameterValue> queryParameterValues;
         if (Modifier.MISSING.equals(modifier)) {
             // FHIR search considers booleans a special case of token for some reason...
-            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifierResourceTypeName, queryParameterValueString);
+            queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName, queryParameterValueString);
         } else {
             if (Type.COMPOSITE == type) {
                 List<Component> components = searchParameter.getComponent();
@@ -1131,7 +1131,7 @@ public class SearchUtil {
                 }
                 queryParameterValues = parseCompositeQueryParameterValuesString(searchParameter, parameterCode, compTypes, queryParameterValueString);
             } else {
-                queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifierResourceTypeName, queryParameterValueString);
+                queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifier, modifierResourceTypeName, queryParameterValueString);
             }
         }
         return queryParameterValues;
@@ -1150,7 +1150,7 @@ public class SearchUtil {
             }
             QueryParameterValue parameterValue = new QueryParameterValue();
             for (int i = 0; i < compTypes.size(); i++) {
-                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), null, componentValueStrings[i]);
+                List<QueryParameterValue> values = parseQueryParameterValuesString(searchParameter, compTypes.get(i), null, null, componentValueStrings[i]);
                 if (values.isEmpty()) {
                     throw new FHIRSearchException("Component values cannot be empty");
                 } else if (values.size() > 1) {
@@ -1168,7 +1168,7 @@ public class SearchUtil {
     }
 
     private static List<QueryParameterValue> parseQueryParameterValuesString(SearchParameter searchParameter, Type type,
-        String modifierResourceTypeName, String queryParameterValuesString) throws FHIRSearchException {
+        Modifier modifier, String modifierResourceTypeName, String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND means it won't split on ',' that are preceded by a '\'
@@ -1202,13 +1202,14 @@ public class SearchUtil {
             }
             case REFERENCE: {
                 // reference
-                // [parameter]=[url]
-                // [parameter]=[url|version] - canonical url
-                // [parameter]=[type]/[id]
-                // [parameter]=[id]
+                // [parameter]=[literal] - literal reference
+                // [parameter]=[type]/[id] - relative local reference
+                // [parameter]=[base]/[type]/[id] - absolute local reference
+                // [parameter]=[id] - relativel local reference
+                // [parameter]=[literal|version#fragment] - canonical url - currently not supported
                 String valueString = unescapeSearchParm(v);
+                valueString = extractReferenceValue(valueString);
                 parameterValue.setValueString(valueString);
-                ReferenceParameterHandler.generateReferenceParameterValues(searchParameter, parameterValues, valueString, vals, modifierResourceTypeName);
                 break;
             }
             case QUANTITY: {
@@ -1253,6 +1254,21 @@ public class SearchUtil {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else {
+                    // Optimization for search parameters that always reference the same system, added under #1929
+                    if (!Modifier.MISSING.equals(modifier)) {
+                        try {
+                            String implicitSystem = searchParameter.getExtension().stream()
+                                    .filter(e -> SearchConstants.IMPLICIT_SYSTEM_EXT_URL.equals(e.getUrl()) && e.getValue() != null)
+                                    .findFirst()
+                                    .map(e -> e.getValue().as(Uri.class).getValue())
+                                    .orElse(null);
+                            if (implicitSystem != null) {
+                                parameterValue.setValueSystem(implicitSystem);
+                            }
+                        } catch (ClassCastException e) {
+                            log.log(Level.INFO, "Found " + SearchConstants.IMPLICIT_SYSTEM_EXT_URL + " extension with unexpected value type", e);
+                        }
+                    }
                     parameterValue.setValueCode(unescapeSearchParm(v));
                 }
                 break;
@@ -1283,6 +1299,29 @@ public class SearchUtil {
             parameterValues.add(parameterValue);
         }
         return parameterValues;
+    }
+
+    /**
+     * Convert the string to a reference value useable by the persistence
+     * layer. This simply involves removing the URL prefix if it matches
+     * the originalUri in the request context
+     * @param valueString
+     * @return
+     */
+    public static String extractReferenceValue(String valueString) throws FHIRSearchException {
+        // Search values formed as "system|code" like  "https://example.com/codesystem|foo" are
+        // code searches not references, so no extra processing required
+        if (valueString == null || valueString.contains("|")) {
+            return valueString;
+        }
+
+        // Remove the baseUrl if it prefixes the value
+        final String baseUrl = ReferenceUtil.getBaseUrl(null);
+
+        if (valueString.startsWith(baseUrl)) {
+            valueString = valueString.substring(baseUrl.length());
+        }
+        return valueString;
     }
 
     /**

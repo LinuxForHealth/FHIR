@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,9 @@ import com.ibm.fhir.model.type.code.ResourceType;
  *
  */
 public abstract class BaseSearchTest {
+    // The base uri used for all search tests. This is used to derive the incoming system url
+    // which is required when processing search parameters
+    public static final String BASE = "https://example.com/";
 
     public static final boolean DEBUG = false;
 
@@ -38,6 +41,14 @@ public abstract class BaseSearchTest {
         if (DEBUG) {
             System.out.println("Starting Test -> " + method.getName());
         }
+
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        context.setOriginalRequestUri(BASE);
+        FHIRRequestContext.set(context);
     }
 
     @AfterMethod

@@ -779,7 +779,7 @@ To contribute an operation:
 After you register your operation with the server, it is available via HTTP POST at `[base]/api/1/$<yourCode>`, where `<yourCode>` is the value of your OperationDefinition's [code](https://www.hl7.org/fhir/r4/operationdefinition-definitions.html#OperationDefinition.code).
 
 ## 4.2 Notification Service
-The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_ and _update_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
+The FHIR server provides a notification service that publishes notifications about persistence events, specifically _create_, _update_, and _delete_ operations. The notification service can be used by other Healthcare components to trigger specific actions that need to occur as resources are being updated in the FHIR server datastore.
 
 The notification service supports two implementations: WebSocket and Kafka.
 
@@ -1650,7 +1650,7 @@ JavaBatch feature must be enabled in `server.xml` as following on the Liberty se
 </featureManager>
 ```
 
-The JavaBatch user is configured in `server.xml` and the `fhir-server-config.json`:
+The JavaBatch user is configured in `bulkdata.xml` and the `fhir-server-config.json`:
 
 ```xml
 <authorization-roles id="com.ibm.ws.batch">
@@ -1667,11 +1667,46 @@ The JavaBatch user is configured in `server.xml` and the `fhir-server-config.jso
 </authorization-roles>
 ```
 
-Note: The user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
+Note: The batch-user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/bulkdata.xml`. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created by default via the `fhir-persistence-schema` command line interface jar.
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/defaults/bulkdata.xml`. This database is destroyed on the restart of the IBM FHIR Server, and does not support load balancing.
 
-You can also choose to use postgresql or other RDBMS as your Job repository. To enable a postgresql job repository, uncomment the corresponding section of the `bulkdata.xml` server config.
+To support IBM Db2 on IBM Cloud, copy `fhir-server/configDropins/disabled/db2-cloud/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+
+| Variable          | Default     | Description                                                    |
+|-------------------|-------------|----------------------------------------------------------------|
+| BATCH_DB_HOSTNAME | `blank`     | The hostname of the db2 instance                               |
+| BATCH_DB_NAME     | BLUDB       | The database name                                              |
+| BATCH_DB_SCHEMA   | FHIR_JBATCH | The Schema Name configured to support the Java Batch framework |
+| BATCH_DB_PORT     | 50001       | The port configured to support the database                    |
+| BATCH_DB_APIKEY   | `blank`     | The API Key for the Db2 Cloud database                         |
+
+Instruction is also provided in 'Configuring a Liberty Datasource with API Key' section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created using the `fhir-persistence-schema` command line interface jar.
+
+To support IBM Db2 with a user-name and password , copy `fhir-server/configDropins/disabled/db2/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+
+| Variable          | Default         | Description                                                    |
+|-------------------|-----------------|----------------------------------------------------------------|
+| BATCH_DB_HOSTNAME | `blank`         | The hostname of the db2 instance                               |
+| BATCH_DB_NAME     | FHIRDB          | The database name                                              |
+| BATCH_DB_SCHEMA   | FHIR_JBATCH     | The Schema Name configured to support the Java Batch framework |
+| BATCH_DB_PORT     | 50000           | The port configured to support the database                    |
+| BATCH_DB_USER     | db2inst1        | The user for the Db2 database                                  |
+| BATCH_DB_PASSWORD | `blank`         | The password for the Db2 database                              |
+| BATCH_DB_SSL      | true            | The ssl connection is either true or false                     |
+
+If one wants to support Postgres with a user-name and password , one should copy `fhir-server/configDropins/disabled/postgres/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+
+| Variable               | Default         | Description                                                    |
+|------------------------|-----------------|----------------------------------------------------------------|
+| BATCH_DB_HOSTNAME      | `blank`         | The hostname of the postgres instance                          |
+| BATCH_DB_NAME          | FHIRDB          | The database name                                              |
+| BATCH_DB_SCHEMA        | FHIR_JBATCH     | The Schema Name configured to support the Java Batch framework |
+| BATCH_DB_PORT          | 5432            | The port configured to support the database                    |
+| BATCH_DB_USER          | fhirserver      | The user for the postgres database                             |
+| BATCH_DB_PASSWORD      | `blank`         | The password for the postgres database                         |
+| BATCH_DB_SSL           | true            | The ssl connection is either true or false                     |
+| BATCH_DB_SSL_CERT_PATH | false           | The ssl connection is either true or false                     |
 
 Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
 
@@ -2196,6 +2231,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/mapper`|string|The AuditEventLog mapper that determines the output format - valid types are 'cadf' and 'auditevent'. 'auditevent' refers to the FHIR Resource AuditEvent, and 'cadf' refers to the Cloud logging standard.|
 |`fhirServer/audit/serviceProperties/load`|string|The location that the configuration is loaded from 'environment' or 'config'.|
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
+|`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
+|`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
@@ -2385,6 +2422,8 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/geoCounty`|N|N|
 |`fhirServer/audit/serviceProperties/mapper`|N|N|
 |`fhirServer/audit/serviceProperties/load`|N|N|
+|`fhirServer/audit/hostname`|N|N|
+|`fhirServer/audit/ip`|N|N|
 |`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|Y|Y|

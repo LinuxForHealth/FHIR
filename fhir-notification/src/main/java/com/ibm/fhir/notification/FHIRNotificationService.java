@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -34,10 +35,11 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     private FHIRNotificationService() {
         log.entering(this.getClass().getName(), "FHIRNotificationService");
         try {
-        // Register the notification service as an interceptor so we can rely on the
-        // interceptor methods to trigger the 'publish' of the notification events.
-        FHIRPersistenceInterceptorMgr.getInstance().addPrioritizedInterceptor(this);
-        initNotificationResourceTypes();
+            // Register the notification service as an interceptor so we can rely on the
+            // interceptor methods to trigger the 'publish' of the notification events.
+            FHIRPersistenceInterceptorMgr.getInstance().addPrioritizedInterceptor(this);
+
+            initNotificationResourceTypes();
         } catch (Throwable t) {
             throw new RuntimeException("Unexpected error during initialization.", t);
         }
@@ -45,7 +47,6 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
     }
 
     private void initNotificationResourceTypes() throws Exception {
-        Set<String> includedResourceTypes = Collections.synchronizedSortedSet(new TreeSet<String>());
         List<String> types = FHIRConfiguration.getInstance().loadConfiguration().getStringListProperty(FHIRConfiguration.PROPERTY_NOTIFICATION_RESOURCE_TYPES);
         if (types != null) {
             for (String type : types) {
@@ -53,8 +54,8 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             }
         }
 
-        log.finer("Notification service will publish events for these resource types: "
-                + (includedResourceTypes.isEmpty() ? "ALL" : "\n" + includedResourceTypes.toString()));
+        log.info("Notification service, when enabled, will publish events for these resource types: '"
+                + (includedResourceTypes.isEmpty() ? "ALL" : includedResourceTypes.toString()) + "'");
     }
 
     public static FHIRNotificationService getInstance() {
@@ -174,16 +175,7 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             }
 
             // Retrieve the resource type associated with the event.
-            String resourceType = null;
-            String locationURI = (String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI);
-            if (locationURI != null && !locationURI.isEmpty()) {
-                String[] tokens = locationURI.split("/");
-                if (tokens.length > 0) {
-                    resourceType = tokens[0];
-                    log.finer("Retrieved resource type from locationURI: " + resourceType);
-                }
-            }
-
+            String resourceType = (String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE);
             return (resourceType != null ? includedResourceTypes.contains(resourceType) : false);
         } catch (Throwable t) {
             throw new IllegalStateException("Unexpected exception while checking notification resource type inclusion.", t);
@@ -201,9 +193,20 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             event.setOperationType(operation);
             Resource resource = pEvent.getFhirResource();
             event.setLastUpdated(resource.getMeta().getLastUpdated().getValue().toString());
-            event.setLocation((String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI));
+            String location = (String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI);
+            if (location == null) {
+                // Must be a delete irrespective of version.
+                location = pEvent.getFhirResourceType() + "/" + pEvent.getFhirResourceId();
+            }
+            event.setLocation(location);
             event.setResourceId(resource.getId());
             event.setResource(resource);
+
+            // Adds the tenant id and datastore id
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            String dsId = FHIRRequestContext.get().getDataStoreId();
+            event.setDatasourceId(dsId);
+            event.setTenantId(tenantId);
 
             return event;
         } catch (Exception e) {
