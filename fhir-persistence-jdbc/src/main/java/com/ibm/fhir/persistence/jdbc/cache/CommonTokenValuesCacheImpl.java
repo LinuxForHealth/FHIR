@@ -273,13 +273,6 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         // Find the code-system first
         Integer codeSystemId = getCodeSystemId(codeSystem);
 
-        if (codeSystemId == null) {
-            // not found in the local cache, try the shared cache
-            synchronized (codeSystemsCache) {
-                codeSystemId = codeSystemsCache.get(codeSystem);
-            }
-        }
-
         if (codeSystemId != null) {
             CommonTokenValue key = new CommonTokenValue(codeSystemId, tokenValue);
             LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
@@ -288,6 +281,11 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
                 // not found in the local cache, try the shared cache
                 synchronized (tokenValuesCache) {
                     result = tokenValuesCache.get(key);
+                }
+
+                if (result != null) {
+                    // add to the local cache so we can find it again without locking
+                    addTokenValue(key, result);
                 }
             }
         } else {
