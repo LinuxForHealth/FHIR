@@ -10,8 +10,9 @@
     <name>IBM FHIR Server</name>
 
     <properties>
-        <derby.version>10.15.2.0</derby.version>
         <liberty.version>21.0.0.1</liberty.version>
+        <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
+        <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.5.0</db2.version>
         <postgresql.version>42.2.18</postgresql.version>
         <cxf.version>3.4.2</cxf.version>
