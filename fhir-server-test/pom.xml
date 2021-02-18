@@ -82,8 +82,8 @@
         </dependency>
         <dependency>
             <!-- required for the Tyrus client to work on Java 11 -->
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
