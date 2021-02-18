@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,15 +21,12 @@ import javax.sql.XAConnection;
 
 import org.apache.derby.iapi.jdbc.ResourceAdapter;
 import org.apache.derby.jdbc.EmbeddedXADataSource;
-import org.apache.derby.jdbc.EmbeddedXADataSourceInterface;
+import org.apache.derby.iapi.jdbc.EmbeddedXADataSourceInterface;
 
 /**
  * This class is used in the testing of the XA resource recovery function within the proxy datasource class. It serves
  * as a wrapper class for the derby EmbeddedXADataSource class and provides additional function to artificially trigger
  * failures during the two-phase commit process.
- * 
- * @author padams
- *
  */
 public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
     private static final Logger log = Logger.getLogger(TestEmbeddedXADataSource.class.getName());
@@ -88,6 +85,20 @@ public class TestEmbeddedXADataSource implements EmbeddedXADataSourceInterface {
             return result;
         } finally {
             log.exiting(this.getClass().getName(), methodLabel("getXAConnection"));
+        }
+    }
+
+    @Override
+    public Connection getConnection(String username, String password, boolean requestPassword) throws SQLException {
+        // In 10.15 the interface changed for derby, and requires an update to this datasource.
+        log.entering(this.getClass().getName(), methodLabel("getConnection"));
+        try {
+            XAConnection conn = delegate.getXAConnection();
+            String dsLabel = getDataSourceLabel();
+            XAConnection result = new TestXAConnection(conn, dsLabel, failStep, failCount);
+            return result.getConnection();
+        } finally {
+            log.exiting(this.getClass().getName(), methodLabel("getConnection"));
         }
     }
 
