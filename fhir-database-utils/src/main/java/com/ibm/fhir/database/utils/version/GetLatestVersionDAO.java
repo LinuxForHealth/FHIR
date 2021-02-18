@@ -65,7 +65,16 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
                 int version = rs.getInt(4);
 
                 String schemaTypeName = schema + ":" + type + ":" + name;
-                result.put(schemaTypeName, version);
+                result.compute(schemaTypeName, (key, currentValue) -> {
+                    Integer newValue = version;
+                    if (currentValue != null) {
+                        // version can't be null due to NOT NULL db constraint
+                        newValue = Integer.max(currentValue, version);
+                        logger.warning("Version history entry " + schemaTypeName + " exists with multiple values [" + currentValue
+                                + ", " + version + "]; using " + newValue);
+                    }
+                    return newValue;
+                });
             }
         }
         catch (SQLException x) {
