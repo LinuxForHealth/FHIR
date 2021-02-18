@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.model.ucum;
 
 //Generated from UCUM.g4 by ANTLR 4.7.2
+// Manually changed to 4.9.1
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
@@ -23,7 +24,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 public class UCUMLexer extends Lexer {
 
     static {
-        RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION);
+        RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION);
     }
 
     protected static final DFA[] _decisionToDFA;

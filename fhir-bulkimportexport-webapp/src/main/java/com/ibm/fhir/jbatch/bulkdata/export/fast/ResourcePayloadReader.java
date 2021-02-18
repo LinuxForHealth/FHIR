@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
 import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
@@ -27,15 +26,18 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
-import com.ibm.fhir.jbatch.bulkdata.common.Constants;
+import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
+import com.ibm.fhir.jbatch.bulkdata.export.fast.checkpoint.ResourceExportCheckpointAlgorithm;
+import com.ibm.fhir.jbatch.bulkdata.export.fast.data.CheckpointUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.fast.data.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.source.type.impl.S3Wrapper;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -75,6 +77,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private static final String CLASS = ResourcePayloadReader.class.getName();
 
     // S3 client API to IBM Cloud Object Storage
+    private S3Wrapper wrapper = null;
     private AmazonS3 cosClient = null;
 
     // The handle to the persistence instance used to fetch the resources we want to export
@@ -83,126 +86,16 @@ public class ResourcePayloadReader extends AbstractItemReader {
     // The resource type class of the resources being exported by this instance (derived from the injected fhirResourceType value
     Class<? extends Resource> resourceType;
 
-    /**
-     * Fhir tenant id.
-     */
-    @Inject
-    @BatchProperty(name = Constants.FHIR_TENANT)
-    String fhirTenant;
+    private BulkDataContext ctx = null;
 
-    /**
-     * Fhir data store id.
-     */
-    @Inject
-    @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
-    String fhirDatastoreId;
-
-    /**
-     * Fhir resource type to process.
-     */
-    @Inject
-    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String fhirResourceType;
-
-
-    /**
-     * Should COS objects we create be publicly readable (no need for authentication)
-     */
     private boolean isExportPublic = true;
 
-    /**
-     * The IBM COS API key or S3 access key.
-     */
-    @Inject
-    @BatchProperty(name = Constants.COS_API_KEY)
-    String cosApiKeyProperty;
-
-    /**
-     * The IBM COS service instance id or s3 secret key.
-     */
-    @Inject
-    @BatchProperty(name = Constants.COS_SRVINST_ID)
-    String cosSrvinstId;
-
-    /**
-     * The Cos End point URL.
-     */
-    @Inject
-    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpointUrl;
-
-    /**
-     * The Cos End point location.
-     */
-    @Inject
-    @BatchProperty(name = Constants.COS_LOCATION)
-    String cosLocation;
-
-    /**
-     * The Cos bucket name.
-     */
-    @Inject
-    @BatchProperty(name = Constants.COS_BUCKET_NAME)
     String cosBucketName;
-
-    /**
-     * The Cos bucket path prefix.
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_COS_OBJECT_PATHPREFIX)
     String cosBucketPathPrefix;
 
-    /**
-     * If use IBM credential or Amazon secret keys.
-     */
-    @Inject
-    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
-    String cosCredentialIbm;
-
-    /**
-     * Fhir export format.
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_FHIR_FORMAT)
-    protected String fhirExportFormat;
-
-    /**
-     * Fhir Search from date.
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_FROMDATE)
-    String fhirSearchFromDate;
-
-    /**
-     * Fhir search to date.
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_TODATE)
-    String fhirSearchToDate;
-
-    /**
-     * Fhir export type filters. Ignored for the basicsystem export
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_TYPEFILTERS)
-    String fhirTypeFilters;
-
-    /**
-     * Fhir search page size. Not used
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_PAGESIZE)
-    String fhirSearchPageSize;
-
-    @Inject
-    @BatchProperty(name = Constants.INCOMING_URL)
-    String incomingUrl;
-
-    // Control the number of records to read in each "item".
-    @Inject
-    @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_RESOURCES)
-    String cosBucketFileMaxResources;
-    int resourcesPerObject = Constants.DEFAULT_MAX_RESOURCES_PER_ITEM;
+    // The maximum resources per COS Object
+    int resourcesPerObject = ConfigurationFactory.getInstance().getCoreCosMaxResources();
 
     // The Java Batch context object
     @Inject
@@ -225,10 +118,10 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private Instant toLastModified;
 
     // Cap the part upload size to avoid local memory issues. Also need to avoid transaction timeout
-    private long partUploadTriggerSize = Constants.COS_PART_MINIMALSIZE * 10L;
+    private long partUploadTriggerSize = ConfigurationFactory.getInstance().getCoreCosMinSize() * 10L;
 
     // How large should a single COS item (file) be
-    private long maxObjectSize = Constants.DEFAULT_COSFILE_MAX_SIZE;
+    private long maxObjectSize = ConfigurationFactory.getInstance().getCoreCosMaxSize();
 
     // The initial size of the buffer we use for export. Most resources are
     // under 10K so this is a reasonable initial value
@@ -291,38 +184,40 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
+        // Crucially important to set up the request context to make sure we
+        // use the correct tenant and datasource going forward
+        BatchContextAdapter stepContextAdapter = new BatchContextAdapter(stepCtx);
+        ctx = stepContextAdapter.getStepContextForFastResourceWriter();
+
+        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+        adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
+
+        fhirResourceType = ctx.getFhirResourceType();
+
+        String source = ctx.getSource();
+
+        cosBucketName = adapter.getSourceBucketName(source);
+        cosBucketPathPrefix = ctx.getCosBucketPathPrefix();
+
         // Initialize the configuration from the injected string values
-        if (this.fhirSearchFromDate != null) {
+        String fhirSearchFromDate = ctx.getFhirSearchFromDate();
+        if (fhirSearchFromDate != null) {
             // Date/time format based on FHIR Search Examples:
             //   2019-01-01T08:21:26.94-04:00
             //   2019-01-01T08:21:26Z
-            TemporalAccessor ta = DateTimeHandler.parse(this.fhirSearchFromDate);
+            TemporalAccessor ta = DateTimeHandler.parse(fhirSearchFromDate);
             this.fromLastModified = DateTimeHandler.generateValue(ta);
-            logger.fine(logPrefix() + " fromLastModified = " + this.fhirSearchFromDate + "(" + fromLastModified + ")");
+            logger.fine(logPrefix() + " fromLastModified = " + fhirSearchFromDate + "(" + fromLastModified + ")");
         }
 
-        if (this.fhirSearchToDate != null) {
-            TemporalAccessor ta = DateTimeHandler.parse(this.fhirSearchToDate);
+        String fhirSearchToDate = ctx.getFhirSearchToDate();
+        if (fhirSearchToDate != null) {
+            TemporalAccessor ta = DateTimeHandler.parse(fhirSearchToDate);
             this.toLastModified = DateTimeHandler.generateValue(ta);
-            logger.fine(logPrefix() + " toLastModified = " + this.fhirSearchToDate + "(" + toLastModified + ")");
+            logger.fine(logPrefix() + " toLastModified = " + fhirSearchToDate + "(" + toLastModified + ")");
         }
 
-        if (this.cosBucketFileMaxResources != null) {
-            this.resourcesPerObject = Integer.parseInt(this.cosBucketFileMaxResources);
-            logger.fine(logPrefix() + " resourcesPerObject = " + this.resourcesPerObject);
-        }
-
-        if (fhirTenant == null) {
-            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine(logPrefix() + " Using default tenant");
-        }
-
-        if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine(logPrefix() + " Using default datastore-id");
-        }
-
-        // Start tracking the resources occuring for the most recent timestamp
+        // Start tracking the resources occurring for the most recent timestamp
         this.resourcesForLastTimestamp.clear();
         this.lastTimestamp = this.fromLastModified;
 
@@ -341,44 +236,18 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // to the collector (and then analyzer)
         stepCtx.setTransientUserData(new TransientUserData());
 
-        // Crucially important to set up the request context to make sure we
-        // use the correct tenant and datasource going forward
-        FHIRRequestContext context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
-        FHIRRequestContext.set(context);
-        context.setOriginalRequestUri(incomingUrl);
-
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         resourceType = ModelSupport.getResourceType(fhirResourceType);
 
-        if (cosBucketName == null || cosBucketName.isEmpty()) {
-            throw new IllegalStateException("cosBucketName not set");
-        }
+        isExportPublic = adapter.isSourceExportPublic(source);
 
-        // Set up the connection to Cos
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("Connecting to COS: " + cosEndpointUrl + " [" + cosLocation + "]");
-        }
-        isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
-        boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
-        cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
-                cosLocation, isCosClientUseFhirServerTrustStore);
+        wrapper = new S3Wrapper(source);
 
-        if (cosClient == null) {
-            logger.warning("Connection to COS failed");
-            throw new Exception("Connection to COS failed");
-        } else {
-            logger.fine("Connected to Cos");
-        }
+        // Make sure we have the bucket and conditionally create it.
+        wrapper.createSource();
 
-        // Make sure we have the bucket
-        cosBucketName = cosBucketName.toLowerCase();
-        if (!cosClient.doesBucketExistV2(cosBucketName)) {
-            logger.info("Creating COS bucket: '" + this.cosBucketName + "'");
-            CreateBucketRequest req = new CreateBucketRequest(cosBucketName);
-            cosClient.createBucket(req);
-        }
+        cosClient = wrapper.getClient();
     }
 
     @Override

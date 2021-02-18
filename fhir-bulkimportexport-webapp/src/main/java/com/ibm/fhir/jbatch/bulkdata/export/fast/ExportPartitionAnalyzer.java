@@ -17,6 +17,8 @@ import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.fhir.jbatch.bulkdata.export.fast.data.PartitionSummary;
+
 @Dependent
 public class ExportPartitionAnalyzer implements PartitionAnalyzer {
     private static final Logger logger = Logger.getLogger(ExportPartitionAnalyzer.class.getName());

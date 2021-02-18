@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.OperationDefinition;
  * <code>$export</code>
  */
 public class GroupExportOperation extends ExportOperation {
-    private static final String FILE = "OperationDefinition-group-export.json";
+    private static final String FILE = "export-group.json";
 
     public GroupExportOperation() {
         super();

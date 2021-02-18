@@ -29,7 +29,7 @@ import com.ibm.fhir.model.resource.Parameters;
 public class BulkDataImportUtilTest {
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources/testdata");
+        FHIRConfiguration.setConfigHome("src/test/resources");
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,6 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 
 import org.testng.annotations.Test;
@@ -38,9 +35,8 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.PositiveInt;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
-import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
+import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext.Type;
@@ -51,52 +47,11 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext.Type;
 public class BulkDataExportUtilTest {
 
     @Test
-    public void testBatchJobIdEnDecryption() throws Exception {
-        SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey("test-key");
-        assertNotNull(secretKey);
-
-        // This results in at least one case where the naive base64 encoding of the encrypted jobId would
-        // 1. have a leading '/' which is prohibited by the S3 client; and
-        // 2. have consecutive '/' which can makes it harder to get
-        for (int i = 0; i < 2000; i++) {
-            String jobId = String.valueOf(i);
-
-            String encryptedJobId = BulkDataExportUtil.encryptBatchJobId(jobId, secretKey);
-            assertNotNull(encryptedJobId);
-            assertFalse(encryptedJobId.equals(jobId));
-            assertFalse(encryptedJobId.startsWith("/"));
-            assertFalse(encryptedJobId.contains("//"));
-
-            encryptedJobId = URLDecoder.decode(encryptedJobId, StandardCharsets.UTF_8.toString());
-            assertNotNull(encryptedJobId);
-
-            String decryptedJobId = BulkDataExportUtil.decryptBatchJobId(encryptedJobId, secretKey);
-            assertNotNull(decryptedJobId);
-            assertEquals(decryptedJobId, jobId);
-        }
-    }
-
-    @Test
-    public void testBatchJobIdEnDecryption_With_NullKey() throws Exception {
-        String jobId = "100";
-        SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey(null);
-        assertNull(secretKey);
-
-        String encryptedJobId = BulkDataExportUtil.encryptBatchJobId(jobId, secretKey);
-        assertNotNull(encryptedJobId);
-        assertEquals(encryptedJobId, jobId);
-
-        String decryptedJobId = BulkDataExportUtil.decryptBatchJobId(encryptedJobId, secretKey);
-        assertNotNull(decryptedJobId);
-        assertEquals(decryptedJobId, jobId);
-    }
-
-    @Test
     public void testCheckExportTypeInstance() {
         FHIROperationContext.Type type = Type.INSTANCE;
 
         Class<? extends Resource> resourceType = Patient.class;
-        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
+        OperationConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.INVALID);
 
         resourceType = Medication.class;
@@ -113,7 +68,7 @@ public class BulkDataExportUtilTest {
         FHIROperationContext.Type type = Type.RESOURCE_TYPE;
 
         Class<? extends Resource> resourceType = Patient.class;
-        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
+        OperationConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.PATIENT);
 
         resourceType = Medication.class;
@@ -130,7 +85,7 @@ public class BulkDataExportUtilTest {
         FHIROperationContext.Type type = Type.SYSTEM;
 
         Class<? extends Resource> resourceType = Patient.class;
-        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
+        OperationConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.SYSTEM);
 
         resourceType = Medication.class;
@@ -145,7 +100,7 @@ public class BulkDataExportUtilTest {
     @Test
     public void testCheckAndConvertToMediaType() throws FHIROperationException {
         // QueryParameters Map
-        Map<String, List<String>> _mvm = new HashMap<String, List<String>>();
+        Map<String, List<String>> _mvm = new HashMap<>();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir+ndjson"));
 
         // Default Format

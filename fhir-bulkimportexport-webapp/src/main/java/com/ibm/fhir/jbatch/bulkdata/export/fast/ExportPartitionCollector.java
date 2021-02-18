@@ -15,6 +15,9 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.fhir.jbatch.bulkdata.export.fast.data.PartitionSummary;
+import com.ibm.fhir.jbatch.bulkdata.export.fast.data.TransientUserData;
+
 /**
  * Final step which is executed after the individual partitions have completed
  * or the job has been terminated.

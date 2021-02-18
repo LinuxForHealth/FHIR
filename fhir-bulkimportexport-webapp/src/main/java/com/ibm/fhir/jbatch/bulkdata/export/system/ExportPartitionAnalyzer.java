@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.data.CheckPointUserData;
 
 @Dependent
 public class ExportPartitionAnalyzer implements PartitionAnalyzer {
@@ -26,12 +26,12 @@ public class ExportPartitionAnalyzer implements PartitionAnalyzer {
     private List<CheckPointUserData> partitionSummaries = new ArrayList<>();
 
     public ExportPartitionAnalyzer() {
-        // do nothing.
+        // No Operation
     }
 
     @Override
     public void analyzeStatus(BatchStatus batchStatus, String exitStatus) {
-        // do nothing.
+        // No Operation
     }
 
     @Override

@@ -9,17 +9,21 @@ package com.ibm.fhir.jbatch.bulkdata.export.system;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
-import javax.batch.api.BatchProperty;
 import javax.batch.api.partition.PartitionMapper;
 import javax.batch.api.partition.PartitionPlan;
 import javax.batch.api.partition.PartitionPlanImpl;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
+import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.jbatch.bulkdata.common.Constants;
-import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 
 /**
  * Generates the {@link PartitionPlan} describing how the system export work is
@@ -29,11 +33,11 @@ import com.ibm.fhir.model.util.ModelSupport;
 @Dependent
 public class SystemExportPartitionMapper implements PartitionMapper {
 
-    // Comma-separated list of FHIR resource type names.
     @Inject
-    @BatchProperty(name = Constants.FHIR_RESOURCETYPES)
-    String fhirResourceType;
+    StepContext stepCtx;
 
+    @Inject
+    JobContext jobCtx;
 
     public SystemExportPartitionMapper() {
         // No Operation
@@ -41,21 +45,24 @@ public class SystemExportPartitionMapper implements PartitionMapper {
 
     @Override
     public PartitionPlan mapPartitions() throws Exception {
-        List<String> resourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
-        resourceTypes = resourceTypes.stream().filter(item-> ModelSupport.isResourceType(item)).collect(Collectors.toList());
-        if (resourceTypes == null || resourceTypes.isEmpty()) {
-            throw new Exception("open: None of the input resource types is valid!");
-        }
+        JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(jobCtx.getExecutionId());
+
+        BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+
+        BulkDataContext ctx = ctxAdapter.getStepContextForPatientExportPartitionMapper();
+
+        // We know these are real resource types.
+        List<String> resourceTypes = Arrays.asList(ctx.getFhirResourceType().split("\\s*,\\s*"));
 
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(resourceTypes.size());
-        pp.setThreads(Math.min(Constants.IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, resourceTypes.size()));
+        pp.setThreads(Math.min(ConfigurationFactory.getInstance().getCoreMaxPartitions(), resourceTypes.size()));
         Properties[] partitionProps = new Properties[resourceTypes.size()];
 
         int propCount = 0;
         for (String resourceType : resourceTypes) {
             Properties p = new Properties();
-            p.setProperty(Constants.PARTITION_RESOURCE_TYPE, resourceType);
+            p.setProperty(OperationFields.PARTITION_RESOURCETYPE, resourceType);
             partitionProps[propCount++] = p;
         }
         pp.setPartitionProperties(partitionProps);

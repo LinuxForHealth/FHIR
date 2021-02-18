@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,8 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.jbatch.bulkdata.export.common.CheckPointUserData;
-import com.ibm.fhir.jbatch.bulkdata.export.common.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.data.CheckPointUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
 
 /**
  * Final step which is executed after the individual partitions have completed
@@ -24,6 +24,7 @@ import com.ibm.fhir.jbatch.bulkdata.export.common.TransientUserData;
  */
 @Dependent
 public class ExportPartitionCollector implements PartitionCollector {
+
     @Inject
     StepContext stepCtx;
 
@@ -34,19 +35,18 @@ public class ExportPartitionCollector implements PartitionCollector {
 
     @Override
     public Serializable collectPartitionData() throws Exception {
-        TransientUserData transientUserData  = (TransientUserData)stepCtx.getTransientUserData();
+        TransientUserData transientUserData = (TransientUserData) stepCtx.getTransientUserData();
         BatchStatus batchStatus = stepCtx.getBatchStatus();
 
-        // If the job is being stopped or in other status except for "started", or if there is more page to process, then collect nothing.
+        // If the job is being stopped or in other status except for "started", or if there is more page to process,
+        // then collect nothing.
         if (!batchStatus.equals(BatchStatus.STARTED)
-            || transientUserData.isMoreToExport()
-            || transientUserData.getResourceTypeSummary() == null)
-        {
+                || transientUserData.isMoreToExport()
+                || transientUserData.getResourceTypeSummary() == null) {
             return null;
         }
 
         CheckPointUserData partitionSummary = CheckPointUserData.fromTransientUserData(transientUserData);
         return partitionSummary;
     }
-
 }

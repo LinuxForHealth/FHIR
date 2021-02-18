@@ -14,12 +14,10 @@ import java.util.NoSuchElementException;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.path.FHIRPathElementNode;
@@ -32,12 +30,15 @@ import com.ibm.fhir.path.exception.FHIRPathException;
  * BulkData Import Util captures common methods
  */
 public class BulkDataImportUtil {
+
+    private static final CommonUtil common = new CommonUtil();
+
     private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
     private EvaluationContext evaluationContext = null;
 
     public BulkDataImportUtil(Parameters parameters) throws FHIROperationException {
         if (parameters == null) {
-            throw buildExceptionWithIssue("$import parameters are empty or null", IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import parameters are empty or null", IssueType.INVALID);
         }
 
         evaluationContext = new EvaluationContext(parameters);
@@ -58,15 +59,15 @@ public class BulkDataImportUtil {
             while (iter.hasNext()) {
                 FHIRPathElementNode node = iter.next().as(FHIRPathElementNode.class);
                 String val = node.asElementNode().element().as(com.ibm.fhir.model.type.String.class).getValue();
-                if (BulkDataConstants.INPUT_FORMATS.contains(val)) {
+                if (OperationConstants.INPUT_FORMATS.contains(val)) {
                     return val;
                 }
             }
         } catch (ClassCastException | FHIRPathException e) {
-            throw buildExceptionWithIssue("invalid $import parameter value in 'inputFormat'", e, IssueType.INVALID);
+            throw common.buildExceptionWithIssue("invalid $import parameter value in 'inputFormat'", e, IssueType.INVALID);
         }
 
-        throw buildExceptionWithIssue("$import requires 'inputFormat' is not found", IssueType.INVALID);
+        throw common.buildExceptionWithIssue("$import requires 'inputFormat' is not found", IssueType.INVALID);
     }
 
     /**
@@ -86,14 +87,15 @@ public class BulkDataImportUtil {
                 return node.asElementNode().element().as(com.ibm.fhir.model.type.Uri.class).getValue();
             }
         } catch (NoSuchElementException | ClassCastException | FHIRPathException e) {
-            throw buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
+            throw common.buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
         }
 
-        throw buildExceptionWithIssue("$import requires 'inputSource' is not found", IssueType.INVALID);
+        throw common.buildExceptionWithIssue("$import requires 'inputSource' is not found", IssueType.INVALID);
     }
 
     /**
      * processes the retrieve inputs from the Parameters object and evaluationContext.
+     *
      * @return
      * @throws FHIROperationException
      */
@@ -113,12 +115,11 @@ public class BulkDataImportUtil {
                 Collection<FHIRPathNode> resultPartType =
                         evaluator.evaluate(evaluationContextPartType, "part.where(name = 'type').value");
                 String type =
-                        ((FHIRPathElementNode) resultPartType.iterator().next()).element()
-                                .as(com.ibm.fhir.model.type.String.class).getValue();
+                        ((FHIRPathElementNode) resultPartType.iterator().next()).element().as(com.ibm.fhir.model.type.String.class).getValue();
 
                 // Checks if not valid, and throws exception
                 if (!ModelSupport.isResourceType(type)) {
-                    throw buildExceptionWithIssue("$import invalid Resource Type 'input'", IssueType.INVALID);
+                    throw common.buildExceptionWithIssue("$import invalid Resource Type 'input'", IssueType.INVALID);
                 }
 
                 // Resource URL extracted.
@@ -126,8 +127,7 @@ public class BulkDataImportUtil {
                 Collection<FHIRPathNode> resultPartUrl =
                         evaluator.evaluate(evaluationContextPartUrl, "part.where(name = 'url').value");
                 String url =
-                        ((FHIRPathElementNode) resultPartUrl.iterator().next()).element()
-                                .as(com.ibm.fhir.model.type.Url.class).getValue();
+                        ((FHIRPathElementNode) resultPartUrl.iterator().next()).element().as(com.ibm.fhir.model.type.Url.class).getValue();
 
                 // Verify Url is allowed
                 verifyUrlAllowed(url);
@@ -136,14 +136,13 @@ public class BulkDataImportUtil {
                 inputs.add(new Input(type, url));
             }
         } catch (java.util.NoSuchElementException nsee) {
-            throw buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
-            throw buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e,
-                    IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e, IssueType.INVALID);
         }
 
         if (inputs.isEmpty()) {
-            throw buildExceptionWithIssue("$import requires 'input' is not found", IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import requires 'input' is not found", IssueType.INVALID);
         }
 
         checkAllowedTotalSizeForTenantOrSystem(inputs.size());
@@ -158,12 +157,9 @@ public class BulkDataImportUtil {
      */
     public void checkAllowedTotalSizeForTenantOrSystem(Integer inputSize) throws FHIROperationException {
         Integer tenantCount =
-                FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT,
-                        BulkDataConstants.IMPORT_MAX_DEFAULT_INPUTS);
+                FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT, OperationConstants.IMPORT_MAX_DEFAULT_INPUTS);
         if (tenantCount == null || tenantCount < inputSize) {
-            throw buildExceptionWithIssue(
-                    "$import maximum input per bulkdata import request 'fhirServer/bulkdata/maxInputPerRequest'",
-                    IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import maximum input per bulkdata import request 'fhirServer/bulkdata/maxInputPerRequest'", IssueType.INVALID);
         }
     }
 
@@ -175,16 +171,12 @@ public class BulkDataImportUtil {
      */
     public void verifyUrlAllowed(String url) throws FHIROperationException {
         Boolean disabled =
-                FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED,
-                        Boolean.FALSE);
+                FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED, Boolean.FALSE);
         if (!disabled.booleanValue()) {
             List<String> baseUrls =
-                    FHIRConfigHelper
-                            .getStringListProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS);
+                    FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS);
             if (url == null || baseUrls == null) {
-                throw buildExceptionWithIssue(
-                        "$import requires an approved and valid 'fhirServer/bulkdata/validBaseUrls'",
-                        IssueType.INVALID);
+                throw common.buildExceptionWithIssue("$import requires an approved and valid 'fhirServer/bulkdata/validBaseUrls'", IssueType.INVALID);
             }
 
             if (!url.contains("//")) {
@@ -198,7 +190,7 @@ public class BulkDataImportUtil {
                     return;
                 }
             }
-            throw buildExceptionWithIssue("$import does not have a valid base url", IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import does not have a valid base url", IssueType.INVALID);
         }
     }
 
@@ -217,60 +209,47 @@ public class BulkDataImportUtil {
                 EvaluationContext evaluationContextPartType = new EvaluationContext(node.element());
                 Collection<FHIRPathNode> resultPartType = evaluator.evaluate(evaluationContextPartType, "value");
                 String type =
-                        ((FHIRPathElementNode) resultPartType.iterator().next()).element()
-                                .as(com.ibm.fhir.model.type.String.class).getValue();
+                        ((FHIRPathElementNode) resultPartType.iterator().next()).element().as(com.ibm.fhir.model.type.String.class).getValue();
 
                 // Checks if not valid, and throws exception
-                if (!BulkDataConstants.STORAGE_TYPES.contains(type)) {
-                    throw buildExceptionWithIssue("$import invalid type in 'storageDetail'", IssueType.INVALID);
+                if (!OperationConstants.STORAGE_TYPES.contains(type)) {
+                    throw common.buildExceptionWithIssue("$import invalid type in 'storageDetail'", IssueType.INVALID);
                 }
 
                 // Resource URL extracted.
                 EvaluationContext evaluationContextPartContentEncoding = new EvaluationContext(node.element());
                 Collection<FHIRPathNode> resultPartContentEncoding =
-                        evaluator.evaluate(evaluationContextPartContentEncoding,
-                                "part.where(name = 'contentEncoding').value");
+                        evaluator.evaluate(evaluationContextPartContentEncoding, "part.where(name = 'contentEncoding').value");
 
                 List<String> contentEncodings = new ArrayList<>();
                 Iterator<FHIRPathNode> iterEncoding = resultPartContentEncoding.iterator();
                 while (iterEncoding.hasNext()) {
                     String contentEncoding =
-                            ((FHIRPathElementNode) iterEncoding.next()).element()
-                                    .as(com.ibm.fhir.model.type.String.class).getValue();
+                            ((FHIRPathElementNode) iterEncoding.next()).element().as(com.ibm.fhir.model.type.String.class).getValue();
                     checkValidContentEncoding(contentEncoding);
                     contentEncodings.add(contentEncoding);
                 }
 
+                common.verifyAllowedType(type);
+
                 // Immediately Return and stop processing... we shouldn't have multiple storage details.
                 return new StorageDetail(type, contentEncodings);
             }
-        }catch (java.util.NoSuchElementException nsee) {
-            throw buildExceptionWithIssue("$import invalid elements in the 'storageDetail' field", nsee, IssueType.INVALID);
+        } catch (FHIROperationException foe) {
+            throw foe;
+        } catch (java.util.NoSuchElementException nsee) {
+            throw common.buildExceptionWithIssue("$import invalid elements in the 'storageDetail' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
-            throw buildExceptionWithIssue("$import invalid parameters with expression in 'storageDetail'", e, IssueType.INVALID);
+            throw common.buildExceptionWithIssue("$import invalid parameters with expression in 'storageDetail'", e, IssueType.INVALID);
         }
 
         // There should be at least 1
-        throw buildExceptionWithIssue("$import required 'storageDetail' is not found", IssueType.INVALID);
+        throw common.buildExceptionWithIssue("$import required 'storageDetail' is not found", IssueType.INVALID);
     }
 
     private void checkValidContentEncoding(String contentEncoding) throws FHIROperationException {
-        if (!BulkDataConstants.STORAGE_CONTENT_ENCODING.contains(contentEncoding)) {
-            throw buildExceptionWithIssue(
-                    "$import invalid 'contentEncoding' for storageDetail for '" + contentEncoding + "'",
-                    IssueType.INVALID);
+        if (!OperationConstants.STORAGE_CONTENT_ENCODING.contains(contentEncoding)) {
+            throw common.buildExceptionWithIssue("$import invalid 'contentEncoding' for storageDetail for '" + contentEncoding + "'", IssueType.INVALID);
         }
-    }
-
-    public FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType)
-            throws FHIROperationException {
-        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
-        return new FHIROperationException(msg).withIssue(ooi);
-    }
-
-    public FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType)
-            throws FHIROperationException {
-        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
-        return new FHIROperationException(msg, cause).withIssue(ooi);
     }
 }

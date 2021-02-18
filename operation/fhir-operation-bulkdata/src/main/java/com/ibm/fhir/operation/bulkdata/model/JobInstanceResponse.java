@@ -277,7 +277,7 @@ public class JobInstanceResponse {
 
             } catch (Exception e) {
                 throw new FHIROperationException(
-                        "Problem parsing the bulk export submission response from the job server", e);
+                        "Problem parsing the submission response from the job server", e);
             }
         }
 

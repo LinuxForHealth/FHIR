@@ -6,23 +6,10 @@
 
 package com.ibm.fhir.jbatch.bulkdata.load;
 
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_API_KEY;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_ENDPOINT_URL;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_IS_IBM_CREDENTIAL;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_LOCATION;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_OPERATIONOUTCOMES_BUCKET_NAME;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_PART_MINIMALSIZE;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_SRVINST_ID;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.DEFAULT_FHIR_TENANT;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_DATASTORE_ID;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_TENANT;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_FHIR_IS_VALIDATION_ON;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.INCOMING_URL;
 import static com.ibm.fhir.jbatch.bulkdata.common.Constants.NDJSON_LINESEPERATOR;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.PARTITION_RESOURCE_TYPE;
 
-import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,21 +18,31 @@ import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
+import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.jbatch.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
+import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
+import com.ibm.fhir.jbatch.bulkdata.load.data.ImportTransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapper;
+import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapperFactory;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -54,290 +51,185 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
- * Bulk import Chunk implementation - the Writer.
- *
+ * BulkData $import ChunkWriter
  */
 @Dependent
 public class ChunkWriter extends AbstractItemWriter {
+
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
-    AmazonS3 cosClient = null;
-    boolean isValidationOn = false;
+
+    private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
     @Inject
     StepContext stepCtx;
 
-    /**
-     * The IBM COS API key or S3 access key.
-     */
     @Inject
-    @BatchProperty(name = COS_API_KEY)
-    String cosApiKeyProperty;
-
-    /**
-     * The IBM COS service instance id or S3 secret key.
-     */
-    @Inject
-    @BatchProperty(name = COS_SRVINST_ID)
-    String cosSrvinstId;
-
-    /**
-     * The IBM COS or S3 End point URL.
-     */
-    @Inject
-    @BatchProperty(name = COS_ENDPOINT_URL)
-    String cosEndpointUrl;
-
-    /**
-     * The IBM COS or S3 location.
-     */
-    @Inject
-    @BatchProperty(name = COS_LOCATION)
-    String cosLocation;
-
-    /**
-     * The IBM COS or S3 bucket name for import OperationOutcomes.
-     */
-    @Inject
-    @BatchProperty(name = COS_OPERATIONOUTCOMES_BUCKET_NAME)
-    String cosOperationOutcomesBucketName;
-
-    /**
-     * If use IBM credential or S3 secret keys.
-     */
-    @Inject
-    @BatchProperty(name = COS_IS_IBM_CREDENTIAL)
-    String cosCredentialIbm;
-
-    /**
-     * Tenant id.
-     */
-    @Inject
-    @BatchProperty(name = FHIR_TENANT)
-    String fhirTenant;
-
-    /**
-     * Fhir data store id.
-     */
-    @Inject
-    @BatchProperty(name = FHIR_DATASTORE_ID)
-    String fhirDatastoreId;
-
-    /**
-     * Resource Type to process.
-     */
-    @Inject
-    @BatchProperty(name = PARTITION_RESOURCE_TYPE)
-    String importPartitionResourceType;
-
-
-    /**
-     * If validate FHIR resources.
-     */
-    @Inject
-    @BatchProperty(name = IMPORT_FHIR_IS_VALIDATION_ON)
-    String fhirValidation;
+    JobContext jobCtx;
 
     @Inject
-    @BatchProperty(name = INCOMING_URL)
-    String incomingUrl;
+    @Any
+    @BatchProperty (name = OperationFields.PARTITTION_WORKITEM)
+    private String workItem;
+
+    @Inject
+    @Any
+    @BatchProperty (name = OperationFields.PARTITION_RESOURCETYPE)
+    private String resourceType;
 
     public ChunkWriter() {
         super();
     }
 
-    // This is for the warning triggered by IMPORT_IS_COLLECT_OPERATIONOUTCOMES which controls if upload OperationOutcomes to COS/S3.
-    @Override
-    public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        Set<String> failValidationIds = new HashSet<>();
-
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-        FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
-
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-
-        // Create a new FHIRRequestContext and set it on the current thread.
-        FHIRRequestContext context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
-        // Don't try using FHIRConfigHelper before setting the context!
-        FHIRRequestContext.set(context);
-        context.setOriginalRequestUri(incomingUrl);
-        context.setBulk(true);
-
-        int processedNum = 0, succeededNum =0, failedNum = 0;
-        ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
-
-        // Validate the resources first if required.
-        if (isValidationOn) {
-            long validationStartTimeInMilliSeconds = System.currentTimeMillis();
-            for (Object objResJsonList : arg0) {
-                @SuppressWarnings("unchecked")
-                List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
-
-                boolean collectImportOperationOutcomes = !FHIRConfigHelper
-                        .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
-                for (Resource fhirResource : fhirResourceList) {
-                    try {
-                        BulkDataUtils.validateInput(fhirResource);
-                    } catch (FHIRValidationException|FHIROperationException e) {
-                        logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
-                        failedNum++;
-                        failValidationIds.add(fhirResource.getId());
-
-                        if (collectImportOperationOutcomes) {
-                            OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
-                            FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
-                            chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
-                        }
-                    }
-                }
-            }
-            chunkData.setTotalValidationMilliSeconds(chunkData.getTotalValidationMilliSeconds()
-                    + (System.currentTimeMillis() - validationStartTimeInMilliSeconds));
-        }
-
-        // Begin writing the resources into DB.
-        long writeStartTimeInMilliSeconds = System.currentTimeMillis();
-        // Acquire a DB connection which will be used in the batch.
-        // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
-        // framework at this time point.
-        txn.begin();
-
-        // Controls the writing of operation outcomes to S3/COS
-        boolean collectImportOperationOutcomes = !FHIRConfigHelper
-                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES, false);
-
-        try {
-            for (Object objResJsonList : arg0) {
-                @SuppressWarnings("unchecked")
-                List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
-
-                for (Resource fhirResource : fhirResourceList) {
-                    try {
-                        String id = fhirResource.getId();
-                        processedNum++;
-                        // Skip the resources which failed the validation
-                        if (failValidationIds.contains(id)) {
-                            continue;
-                        }
-                        OperationOutcome operationOutcome;
-                        if (id == null) {
-                            operationOutcome =
-                                    fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
-                        } else {
-                            operationOutcome =
-                                    fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
-                        }
-
-                        succeededNum++;
-                        if (collectImportOperationOutcomes && operationOutcome != null) {
-                            FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
-                            chunkData.getBufferStreamForImport().write(NDJSON_LINESEPERATOR);
-                        }
-                    } catch (FHIROperationException e) {
-                        logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
-                        failedNum++;
-                        if (collectImportOperationOutcomes) {
-                            OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
-                            FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
-                            chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
-                        }
-                    }
-                }
-            }
-        } finally {
-            // Release the DB connection.
-            // This doesn't really commit the transaction, because the transaction was started and will be committed
-            // by the JavaBatch framework.
-            txn.end();
-        }
-
-        chunkData.setTotalWriteMilliSeconds(chunkData.getTotalWriteMilliSeconds() + (System.currentTimeMillis() - writeStartTimeInMilliSeconds));
-        chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum + chunkData.getNumOfParseFailures());
-        chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
-        chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum + chunkData.getNumOfParseFailures());
-        // Reset NumOfParseFailures for next batch.
-        chunkData.setNumOfParseFailures(0);
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("writeItems: processed " + processedNum + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
-        }
-
-        if (collectImportOperationOutcomes) {
-            pushImportOperationOutcomesToCOS(chunkData);
-        }
-    }
-
-    /*
-     * Pushes the Operation OUtcomes to COS
-     */
-    private void pushImportOperationOutcomesToCOS(ImportTransientUserData chunkData) throws Exception{
-        // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
-        if (chunkData.getBufferStreamForImport().size() > COS_PART_MINIMALSIZE) {
-            if (chunkData.getUploadIdForOperationOutcomes() == null) {
-                chunkData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(), true));
-            }
-
-            chunkData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                    cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(),
-                    chunkData.getUploadIdForOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImport().toByteArray()),
-                    chunkData.getBufferStreamForImport().size(), chunkData.getPartNumForOperationOutcomes()));
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("pushImportOperationOutcomesToCOS: " + chunkData.getBufferStreamForImport().size()
-                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueIDForImportOperationOutcomes());
-            }
-            chunkData.setPartNumForOperationOutcomes(chunkData.getPartNumForOperationOutcomes() + 1);
-            chunkData.getBufferStreamForImport().reset();
-        }
-
-        // Upload OperationOutcomes in failure buffer if it reaches the minimal size for multiple-parts upload.
-        if (chunkData.getBufferStreamForImportError().size() > COS_PART_MINIMALSIZE) {
-            if (chunkData.getUploadIdForFailureOperationOutcomes()  == null) {
-                chunkData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(), true));
-            }
-
-            chunkData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                    cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(),
-                    chunkData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImportError().toByteArray()),
-                    chunkData.getBufferStreamForImportError().size(), chunkData.getPartNumForFailureOperationOutcomes()));
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStreamForImportError().size()
-                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueIDForImportFailureOperationOutcomes());
-            }
-            chunkData.setPartNumForFailureOperationOutcomes(chunkData.getPartNumForFailureOperationOutcomes() + 1);
-            chunkData.getBufferStreamForImportError().reset();
-        }
-    }
-
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        if (fhirValidation != null) {
-            isValidationOn = fhirValidation.equalsIgnoreCase("Y");
-        }
-        if (fhirTenant == null) {
-            fhirTenant = "default";
-            logger.info("open: Set tenant to default!");
-        }
-        if (fhirDatastoreId == null) {
-            fhirDatastoreId = DEFAULT_FHIR_TENANT;
-            logger.info("open: Set DatastoreId to default!");
-        }
+        // No Operation
+    }
 
-        FHIRRequestContext context = new FHIRRequestContext(fhirTenant, fhirDatastoreId);
-        FHIRRequestContext.set(context);
-        context.setOriginalRequestUri(incomingUrl);
+    @Override
+    public void writeItems(List<java.lang.Object> arg0) throws Exception {
+        long executionId = -1;
+        try {
+            executionId = jobCtx.getExecutionId();
+            JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(executionId);
 
-        boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
-        cosClient =
-            BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
-                cosLocation, isCosClientUseFhirServerTrustStore);
+            BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
 
-        if (cosClient == null) {
-            logger.warning("open: Failed to get CosClient!");
-            throw new Exception("Failed to get CosClient!!");
-        } else {
-            logger.finer("open: Got CosClient successfully!");
+            BulkDataContext ctx = ctxAdapter.getStepContextForImportChunkReader();
+            ctx.setPartitionResourceType(resourceType);
+            ctx.setImportPartitionWorkitem(workItem);
+
+            Set<String> failValidationIds = new HashSet<>();
+
+            FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+            FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
+
+            FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+
+            // Register the context to get the right configuration.
+            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+            adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
+
+            int processedNum = 0;
+            int succeededNum = 0;
+            int failedNum = 0;
+            ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
+
+            // Validate the resources first if required.
+            if (adapter.shouldSourceValidateResources(ctx.getSource())) {
+                long validationStartTimeInMilliSeconds = System.currentTimeMillis();
+                for (Object objResJsonList : arg0) {
+                    @SuppressWarnings("unchecked")
+                    List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
+
+                    for (Resource fhirResource : fhirResourceList) {
+                        long startTime = System.currentTimeMillis();
+                        javax.ws.rs.core.Response.Status status = javax.ws.rs.core.Response.Status.PRECONDITION_FAILED;
+                        try {
+                            BulkDataUtils.validateInput(fhirResource);
+                            status = javax.ws.rs.core.Response.Status.OK;
+                        } catch (FHIRValidationException | FHIROperationException e) {
+                            logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
+                            failedNum++;
+                            failValidationIds.add(fhirResource.getId());
+
+                            if (adapter.shouldSourceCollectOperationOutcomes(ctx.getSource())) {
+                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                                FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                                chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
+                        } finally {
+                            if (auditLogger.shouldLog()) {
+                                long endTime = System.currentTimeMillis();
+                                String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
+                                auditLogger.logValidateOnImport(fhirResource, new Date(startTime), new Date(endTime), status, location, ctx.getUsers());
+                            }
+                        }
+                    }
+                }
+                chunkData.setTotalValidationMilliSeconds(chunkData.getTotalValidationMilliSeconds()
+                        + (System.currentTimeMillis() - validationStartTimeInMilliSeconds));
+            }
+
+            // Begin writing the resources into DB.
+            long writeStartTimeInMilliSeconds = System.currentTimeMillis();
+            // Acquire a DB connection which will be used in the batch.
+            // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
+            // framework at this time point.
+            txn.begin();
+
+            // Controls the writing of operation outcomes to S3/COS
+            boolean collectImportOperationOutcomes = adapter.shouldSourceCollectOperationOutcomes(ctx.getSource());
+
+            try {
+                for (Object objResJsonList : arg0) {
+                    @SuppressWarnings("unchecked")
+                    List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
+
+                    for (Resource fhirResource : fhirResourceList) {
+                        try {
+                            String id = fhirResource.getId();
+                            processedNum++;
+                            // Skip the resources which failed the validation
+                            if (failValidationIds.contains(id)) {
+                                continue;
+                            }
+                            OperationOutcome operationOutcome;
+                            if (id == null) {
+                                operationOutcome =
+                                        fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
+                            } else {
+                                operationOutcome =
+                                        fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
+                            }
+
+                            succeededNum++;
+                            if (collectImportOperationOutcomes && operationOutcome != null) {
+                                FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
+                                chunkData.getBufferStreamForImport().write(NDJSON_LINESEPERATOR);
+                            }
+                        } catch (FHIROperationException e) {
+                            logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
+                            failedNum++;
+                            if (collectImportOperationOutcomes) {
+                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                                FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                                chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
+                        }
+                    }
+                }
+            } finally {
+                // Release the DB connection.
+                // This doesn't really commit the transaction, because the transaction was started and will be committed
+                // by the JavaBatch framework.
+                txn.end();
+            }
+
+            chunkData.addToTotalWriteMilliSeconds(System.currentTimeMillis() - writeStartTimeInMilliSeconds);
+            chunkData.addToNumOfProcessedResources(processedNum + chunkData.getNumOfParseFailures());
+            chunkData.addToNumOfImportedResources(succeededNum);
+            chunkData.addToNumOfImportFailures(failedNum + chunkData.getNumOfParseFailures());
+
+            // Reset NumOfParseFailures for next batch.
+            chunkData.setNumOfParseFailures(0);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("writeItems: processed '" + processedNum + "' '" + ctx.getPartitionResourceType() + "' from '" + chunkData.getImportPartitionWorkitem()
+                        + "'");
+            }
+
+            // Pushes to the Outcome Site
+            if (collectImportOperationOutcomes) {
+                SourceWrapper wrapper = SourceWrapperFactory.getSourceWrapper(ctx.getOutcome(), "ibm-cos");
+                wrapper.registerTransient(chunkData);
+                wrapper.pushOperationOutcomes();
+            }
+        } catch (FHIRException e) {
+            logger.log(Level.SEVERE, "Import ChunkWriter.writeItems during job[" + executionId + "] - " + e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Import ChunkWriter.writeItems during job[" + executionId + "]", e);
+            throw e;
         }
     }
 }

@@ -309,13 +309,6 @@ public class BulkExportJobRestTest {
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
-                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
-                        "        \"cos.api.key\": \"key\",\n" +
-                        "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\",\n" +
                         "        \"fhir.tenant\": \"default\",\n" +
                         "        \"fhir.search.patientgroupid\": \"mytest\",\n" +
@@ -362,13 +355,6 @@ public class BulkExportJobRestTest {
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
-                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
-                        "        \"cos.api.key\": \"key\",\n" +
-                        "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\",\n" +
                         "        \"fhir.tenant\": \"default\",\n" +
                         "        \"cos.bucket.pathprefix\": \"mytest\",\n" +
@@ -385,8 +371,6 @@ public class BulkExportJobRestTest {
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\"\n" +
                         "    }\n" +
                         "}";
@@ -713,13 +697,6 @@ public class BulkExportJobRestTest {
                         "    \"instanceName\": \"my-inst\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
-                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
-                        "        \"cos.api.key\": \"key\",\n" +
-                        "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\",\n" +
                         "        \"fhir.tenant\": \"default\",\n" +
                         "        \"cos.bucket.pathprefix\": \"mytest\",\n" +
@@ -736,8 +713,6 @@ public class BulkExportJobRestTest {
                         "    \"instanceName\": \"my-inst\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\"\n" +
                         "    }\n" +
                         "}";

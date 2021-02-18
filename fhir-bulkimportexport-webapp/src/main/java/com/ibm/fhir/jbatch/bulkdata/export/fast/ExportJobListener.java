@@ -15,6 +15,8 @@ import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.fhir.jbatch.bulkdata.export.fast.data.PartitionSummary;
+
 @Dependent
 public class ExportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ExportJobListener.class.getName());
@@ -23,8 +25,8 @@ public class ExportJobListener implements JobListener {
     JobContext jobContext;
 
     public ExportJobListener() {
+        // No Operation
     }
-
 
     @Override
     public void afterJob() {
@@ -72,5 +74,4 @@ public class ExportJobListener implements JobListener {
     private String logPrefix() {
         return jobContext.getJobName() + "[" + jobContext.getExecutionId() + "]";
     }
-
 }

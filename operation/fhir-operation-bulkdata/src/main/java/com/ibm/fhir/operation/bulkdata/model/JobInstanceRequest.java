@@ -126,54 +126,6 @@ public class JobInstanceRequest {
         }
 
         @Override
-        public Builder cosBucketName(String cosBucketName) {
-            jobParameter.setCosBucketName(cosBucketName);
-            return this;
-        }
-
-        @Override
-        public Builder cosLocation(String cosLocation) {
-            jobParameter.setCosLocation(cosLocation);
-            return this;
-        }
-
-        @Override
-        public Builder cosEndpointInternal(String cosEndpointUrl) {
-            jobParameter.setCosEndpointInternal(cosEndpointUrl);
-            return this;
-        }
-
-        @Override
-        public Builder cosEndpointExternal(String cosEndpointUrl) {
-            jobParameter.setCosEndpointExternal(cosEndpointUrl);
-            return this;
-        }
-
-        @Override
-        public Builder cosCredentialIbm(String cosCredentialIbm) {
-            jobParameter.setCosCredentialIbm(cosCredentialIbm);
-            return this;
-        }
-
-        @Override
-        public Builder cosApiKey(String cosApiKey) {
-            jobParameter.setCosApiKey(cosApiKey);
-            return this;
-        }
-
-        @Override
-        public Builder cosSrvInstId(String cosSrvInstId) {
-            jobParameter.setCosSrvInstId(cosSrvInstId);
-            return this;
-        }
-
-        @Override
-        public Builder fhirTenant(String fhirTenant) {
-            jobParameter.setFhirTenant(fhirTenant);
-            return this;
-        }
-
-        @Override
         public Builder fhirDataStoreId(String fhirDataStoreId) {
             jobParameter.setFhirDataStoreId(fhirDataStoreId);
             return this;
@@ -221,14 +173,26 @@ public class JobInstanceRequest {
         }
 
         @Override
-        public Builder cosBucketNameOperationOutcome(String cosBucketNameOperationOutcome) {
-            jobParameter.setCosOperationBucketNameOo(cosBucketNameOperationOutcome);
+        public Builder incomingUrl(String incomingUrl) {
+            jobParameter.setIncomingUrl(incomingUrl);
             return this;
         }
 
         @Override
-        public Builder incomingUrl(String incomingUrl) {
-            jobParameter.setIncomingUrl(incomingUrl);
+        public Builder fhirTenant(String fhirTenant) {
+            jobParameter.setFhirTenant(fhirTenant);
+            return this;
+        }
+
+        @Override
+        public Builder source(String source) {
+            jobParameter.setSource(source);
+            return this;
+        }
+
+        @Override
+        public Builder outcome(String outcome) {
+            jobParameter.setOutcome(outcome);
             return this;
         }
     }

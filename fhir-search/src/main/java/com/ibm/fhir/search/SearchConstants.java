@@ -97,7 +97,9 @@ public class SearchConstants {
             Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
 
     // set as unmodifiable
-    public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
+    public static final String LAST_UPDATED = "_lastUpdated";
+    public static final String ID = "_id";
+    public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList(ID, LAST_UPDATED));
 
     // set as unmodifiable
     public static final List<String> SEARCH_SINGLETON_PARAMETER_NAMES =

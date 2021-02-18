@@ -22,7 +22,7 @@ public class BulkDataUtilsTest {
     @Test
     public void testGetSearchParemetersFromTypeFilters() throws Exception {
         Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes
-            = BulkDataUtils.getSearchParemetersFromTypeFilters("MedicationRequest%3Fstatus%3Dactive,MedicationRequest%3Fstatus%3Dcompleted%26date%3Dgt2018-07-01T00%3A00%3A00Z%26date%3Dlt2019-07-01T00%3A00%3A00Z");
+            = BulkDataUtils.getSearchParametersFromTypeFilters("MedicationRequest%3Fstatus%3Dactive,MedicationRequest%3Fstatus%3Dcompleted%26date%3Dgt2018-07-01T00%3A00%3A00Z%26date%3Dlt2019-07-01T00%3A00%3A00Z");
         assertNotNull(searchParametersForResoureTypes);
 
         List<Map<String, List<String>>> searchParametersForMedicationRequest = searchParametersForResoureTypes.get(ModelSupport.getResourceType("MedicationRequest"));

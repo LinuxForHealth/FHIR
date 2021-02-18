@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 package com.ibm.fhir.jbatch.bulkdata.common;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -32,20 +31,8 @@ import java.util.stream.Stream;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonReader;
-import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-
-import com.ibm.cloud.objectstorage.ApacheHttpClientConfig;
-import com.ibm.cloud.objectstorage.ClientConfiguration;
-import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
-import com.ibm.cloud.objectstorage.auth.AWSCredentials;
-import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
-import com.ibm.cloud.objectstorage.auth.BasicAWSCredentials;
-import com.ibm.cloud.objectstorage.client.builder.AwsClientBuilder.EndpointConfiguration;
-import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.Bucket;
 import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
@@ -60,7 +47,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.jbatch.bulkdata.load.ImportTransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.load.data.ImportTransientUserData;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
@@ -76,13 +63,9 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * Utility functions for IBM COS.
  *
  */
-
 public class BulkDataUtils {
     private final static Logger logger = Logger.getLogger(BulkDataUtils.class.getName());
 
-    /**
-     * Logging helper.
-     */
     private static void log(String method, Object msg) {
         logger.info(method + ": " + String.valueOf(msg));
     }
@@ -107,34 +90,6 @@ public class BulkDataUtils {
             log("startPartUpload", "Upload start Error - " + sdke.getMessage());
             throw sdke;
         }
-    }
-
-    public static AmazonS3 getCosClient(String cosCredentialIbm, String cosApiKeyProperty, String cosSrvinstId,
-            String cosEndpointUrl, String cosLocation, boolean useFhirServerTrustStore) {
-        SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
-        AWSCredentials credentials;
-        if (cosCredentialIbm != null && cosCredentialIbm.equalsIgnoreCase("Y")) {
-            credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
-        } else {
-            credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);
-        }
-
-        ClientConfiguration clientConfig = new ClientConfiguration()
-                .withRequestTimeout(Constants.COS_REQUEST_TIMEOUT)
-                .withTcpKeepAlive(true)
-                .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
-
-        if (useFhirServerTrustStore) {
-            ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
-            // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
-            // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3
-            // compatible object store, e.g, minio object store with self signed cert.
-            apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
-        }
-
-        return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
-                .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 
     public static PartETag multiPartUpload(AmazonS3 cosClient, String bucketName, String itemName, String uploadID,
@@ -319,12 +274,6 @@ public class BulkDataUtils {
         return parseFailures;
     }
 
-
-    public static long getLocalFileSize(String filePath) throws Exception {
-        return (new File(filePath).length());
-      }
-
-
     /**
      * @param dataUrl - URL to the ndjson file.
      * @param numOfLinesToSkip - number of lines to skip before read.
@@ -367,25 +316,6 @@ public class BulkDataUtils {
         return parseFailures;
     }
 
-
-    public static long getHttpsFileSize(String dataUrl) throws Exception {
-        HttpsURLConnection httpsConnection = null;
-        try {
-            // Check before trying to use 'http://' with an 'https://' url connection.
-            if (dataUrl.startsWith("http://")) {
-                throw new FHIROperationException("No support for 'http'");
-            }
-
-            httpsConnection = (HttpsURLConnection) new URL(dataUrl).openConnection();
-            httpsConnection.setRequestMethod("HEAD");
-            return httpsConnection.getContentLengthLong();
-        } finally {
-          if (httpsConnection != null) {
-              httpsConnection.disconnect();
-          }
-        }
-      }
-
     /**
      * Validate the input resource and throw if there are validation errors
      *
@@ -419,7 +349,7 @@ public class BulkDataUtils {
     }
 
 
-    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParemetersFromTypeFilters (String typeFilters) throws Exception {
+    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws Exception {
         HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
         if (typeFilters != null) {
             List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));

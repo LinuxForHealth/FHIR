@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,28 +9,32 @@ package com.ibm.fhir.jbatch.bulkdata.export.patient;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
-import javax.batch.api.BatchProperty;
 import javax.batch.api.partition.PartitionMapper;
 import javax.batch.api.partition.PartitionPlan;
 import javax.batch.api.partition.PartitionPlanImpl;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
+import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.jbatch.bulkdata.common.Constants;
+import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 
 @Dependent
 public class PatientExportPartitionMapper implements PartitionMapper {
 
-    /**
-     * Fhir ResourceType.
-     */
     @Inject
-    @BatchProperty(name = Constants.FHIR_RESOURCETYPES)
-    String fhirResourceType;
+    StepContext stepCtx;
 
+    @Inject
+    JobContext jobCtx;
 
     public PatientExportPartitionMapper() {
         // No Operation
@@ -38,27 +42,32 @@ public class PatientExportPartitionMapper implements PartitionMapper {
 
     @Override
     public PartitionPlan mapPartitions() throws Exception {
-        List<String> resourceTypes;
-        List <String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
-        if (fhirResourceType == null ) {
-            resourceTypes = allCompartmentResourceTypes;
-        } else {
-            List<String> tmpResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
-            resourceTypes = tmpResourceTypes.stream().filter(item-> allCompartmentResourceTypes.contains(item)).collect(Collectors.toList());
-            if (resourceTypes == null || resourceTypes.isEmpty()) {
-                throw new Exception("open: None of the input resource types is valid!");
-            }
+        JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(jobCtx.getExecutionId());
+
+        BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+
+        BulkDataContext ctx = ctxAdapter.getStepContextForPatientExportPartitionMapper();
+
+        // By default we're in the Patient Compartment, if we have a valid context
+        // which has a resourceType specified, it's valid as the operation has already checked.
+        List<String> resourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+        if (ctx.getFhirResourceType() != null ) {
+            resourceTypes = Arrays.asList(ctx.getFhirResourceType().split("\\s*,\\s*"));
         }
+
+        // Register the context to get the right configuration.
+        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+        adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(resourceTypes.size());
-        pp.setThreads(Math.min(Constants.EXPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, resourceTypes.size()));
+        pp.setThreads(Math.min(adapter.getCoreMaxPartitions(), resourceTypes.size()));
         Properties[] partitionProps = new Properties[resourceTypes.size()];
 
         int propCount = 0;
         for (String resourceType : resourceTypes) {
             Properties p = new Properties();
-            p.setProperty(Constants.PARTITION_RESOURCE_TYPE, resourceType);
+            p.setProperty(OperationFields.PARTITION_RESOURCETYPE, resourceType);
             partitionProps[propCount++] = p;
         }
         pp.setPartitionProperties(partitionProps);

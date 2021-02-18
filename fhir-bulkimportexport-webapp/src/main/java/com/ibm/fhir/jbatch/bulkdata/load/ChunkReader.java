@@ -6,247 +6,115 @@
 
 package com.ibm.fhir.jbatch.bulkdata.load;
 
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_API_KEY;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_BUCKET_NAME;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_ENDPOINT_URL;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_IS_IBM_CREDENTIAL;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_LOCATION;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.COS_SRVINST_ID;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.DEFAULT_FHIR_TENANT;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_DATASTORE_ID;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.FHIR_TENANT;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_FHIR_STORAGE_TYPE;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.IMPORT_PARTITTION_WORKITEM;
-import static com.ibm.fhir.jbatch.bulkdata.common.Constants.PARTITION_RESOURCE_TYPE;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.BatchStatus;
+import javax.batch.runtime.JobExecution;
+import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
+import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
+import com.ibm.fhir.jbatch.bulkdata.load.data.ImportCheckPointData;
+import com.ibm.fhir.jbatch.bulkdata.load.data.ImportTransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapper;
+import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapperFactory;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 
 /**
- * BulkData Import - ChunkReader
+ * BulkData Import ChunkReader
  */
 @Dependent
 public class ChunkReader extends AbstractItemReader {
+
     private static final Logger logger = Logger.getLogger(ChunkReader.class.getName());
 
     @Inject
     StepContext stepCtx;
 
-    /**
-     * The data source storage type.
-     */
     @Inject
-    @BatchProperty(name = IMPORT_FHIR_STORAGE_TYPE)
-    String dataSourceStorageType;
+    JobContext jobCtx;
 
-    /**
-     * The IBM COS API key or S3 access key.
-     */
     @Inject
-    @BatchProperty(name = COS_API_KEY)
-    String cosApiKeyProperty;
+    @Any
+    @BatchProperty (name = OperationFields.PARTITTION_WORKITEM)
+    private String workItem;
 
-    /**
-     * The IBM COS service instance id or S3 secret key.
-     */
     @Inject
-    @BatchProperty(name = COS_SRVINST_ID)
-    String cosSrvinstId;
+    @Any
+    @BatchProperty (name = OperationFields.PARTITION_RESOURCETYPE)
+    private String resourceType;
 
-    /**
-     * The IBM COS or S3 End point URL.
-     */
-    @Inject
-    @BatchProperty(name = COS_ENDPOINT_URL)
-    String cosEndpointUrl;
+    long numOfLinesToSkip = 0;
 
-    /**
-     * The IBM COS or S3 location.
-     */
-    @Inject
-    @BatchProperty(name = COS_LOCATION)
-    String cosLocation;
-
-    /**
-     * The IBM COS or S3 bucket name to import from.
-     */
-    @Inject
-    @BatchProperty(name = COS_BUCKET_NAME)
-    String cosBucketName;
-
-    /**
-     * If use IBM credential or S3 secret keys.
-     */
-    @Inject
-    @BatchProperty(name = COS_IS_IBM_CREDENTIAL)
-    String cosCredentialIbm;
-
-    /**
-     * Work item to process.
-     */
-    @Inject
-    @BatchProperty(name = IMPORT_PARTITTION_WORKITEM)
-    String importPartitionWorkitem;
-
-    /**
-     * Resource type to process.
-     */
-    @Inject
-    @BatchProperty(name = PARTITION_RESOURCE_TYPE)
-    String importPartitionResourceType;
-
-    /**
-     * Tenant id.
-     */
-    @Inject
-    @BatchProperty(name = FHIR_TENANT)
-    String fhirTenant;
-
-    /**
-     * Data store id.
-     */
-    @Inject
-    @BatchProperty(name = FHIR_DATASTORE_ID)
-    String fhirDatastoreId;
-
-    private AmazonS3 cosClient = null;
-    private int numOfLinesToSkip = 0;
+    private BulkDataContext ctx = null;
 
     public ChunkReader() {
         super();
     }
 
     @Override
-    public Object readItem() throws Exception {
-        // If the job is being stopped or in other status except for "started", then stop the read.
-        if (!stepCtx.getBatchStatus().equals(BatchStatus.STARTED)) {
-            return null;
-        }
-        List<Resource> loadedFhirResources = new ArrayList<>();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
-        }
-
-        ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
-        numOfLinesToSkip = chunkData.getNumOfProcessedResources();
-
-        long readStartTimeInMilliSeconds = System.currentTimeMillis();
-        int numOfLoaded = 0;
-        int numOfParseFailures = 0;
-        switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
-        case HTTPS:
-            numOfParseFailures = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources, chunkData);
-            break;
-        case FILE:
-            numOfParseFailures = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources, chunkData);
-            break;
-        case AWSS3:
-        case IBMCOS:
-            numOfParseFailures = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
-                    numOfLinesToSkip, loadedFhirResources, chunkData);
-            break;
-        default:
-            logger.warning("readItem: Data source storage type not found!");
-            break;
-        }
-
-        chunkData.setTotalReadMilliSeconds(chunkData.getTotalReadMilliSeconds() + (System.currentTimeMillis() - readStartTimeInMilliSeconds));
-        chunkData.setNumOfParseFailures(chunkData.getNumOfParseFailures() + numOfParseFailures);
-        numOfLoaded = loadedFhirResources.size();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("readItem: loaded " + numOfLoaded + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
-        }
-        chunkData.setNumOfToBeImported(numOfLoaded);
-        if (numOfLoaded == 0) {
-            return null;
-        } else {
-            return loadedFhirResources;
-        }
-    }
-
-    @Override
     public void open(Serializable checkpoint) throws Exception {
-        if (BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.AWSS3)
-                || BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.IBMCOS)) {
+        long executionId = -1;
+        try {
+            executionId = jobCtx.getExecutionId();
+            JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(executionId);
 
-            if (fhirTenant == null) {
-                fhirTenant = "default";
-                logger.info("open: Set tenant to default!");
-            }
-            if (fhirDatastoreId == null) {
-                fhirDatastoreId = DEFAULT_FHIR_TENANT;
-                logger.info("open: Set DatastoreId to default!");
-            }
+            BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+            ctx = ctxAdapter.getStepContextForImportChunkReader();
+            ctx.setPartitionResourceType(resourceType);
+            ctx.setImportPartitionWorkitem(workItem);
 
-            FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-            boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
-            cosClient =
-                BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
-                    cosLocation, isCosClientUseFhirServerTrustStore);
+            // Register the context to get the right configuration.
+            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+            adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-            if (cosClient == null) {
-                logger.warning("open: Failed to get CosClient!");
-                throw new Exception("Failed to get CosClient!!");
+            if (checkpoint != null) {
+                ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
+                // importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
+                numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
+                checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
+                stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
             } else {
-                logger.finer("open: Got CosClient successfully!");
-            }
-        }
+                ImportTransientUserData chunkData =
+                        (ImportTransientUserData) ImportTransientUserData.Builder.builder().importPartitionWorkitem(ctx.getImportPartitionWorkitem()).numOfProcessedResources(numOfLinesToSkip).importPartitionResourceType(ctx.getPartitionResourceType())
+                            // This naming pattern is used in bulkdata operation to generate file links for import
+                            // OperationOutcomes.
+                            // e.g, for input file test1.ndjson, if there is any error during the importing, then the
+                            // errors are in
+                            // test1.ndjson_oo_errors.ndjson
+                            // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
+                            // so only error import
+                            // OperationOutcomes are supported for now.
+                            .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem()
+                                    + "_oo_success.ndjson").uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem()
+                                            + "_oo_errors.ndjson").build();
 
-        if (checkpoint != null) {
-            ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
-            importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
-            numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
-            checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
-            stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
-        } else {
-            ImportTransientUserData chunkData = (ImportTransientUserData)ImportTransientUserData.Builder.builder()
-                    .importPartitionWorkitem(importPartitionWorkitem)
-                    .numOfProcessedResources(numOfLinesToSkip)
-                    .importPartitionResourceType(importPartitionResourceType)
-                    // This naming pattern is used in bulkdata operation to generate file links for import OperationOutcomes.
-                    // e.g, for input file test1.ndjson, if there is any error during the importing, then the errors are in
-                    // test1.ndjson_oo_errors.ndjson
-                    // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import
-                    //       OperationOutcomes are supported for now.
-                    .uniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_oo_success.ndjson")
-                    .uniqueIDForImportFailureOperationOutcomes(importPartitionWorkitem + "_oo_errors.ndjson")
-                    .build();
-            long importFileSize = 0;
-            switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
-            case HTTPS:
-                importFileSize = BulkDataUtils.getHttpsFileSize(importPartitionWorkitem);
-                break;
-            case FILE:
-                importFileSize = BulkDataUtils.getLocalFileSize(importPartitionWorkitem);
-                break;
-            case AWSS3:
-            case IBMCOS:
-                importFileSize = BulkDataUtils.getCosFileSize(cosClient, cosBucketName, importPartitionWorkitem);
-                break;
-            default:
-                throw new IllegalStateException ("Doesn't support data source storage type '" + dataSourceStorageType + "'!");
+                SourceWrapper wrapper = SourceWrapperFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+                long importFileSize = wrapper.getSize(workItem);
+                chunkData.setImportFileSize(importFileSize);
+                chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
+                stepCtx.setTransientUserData(chunkData);
             }
-            chunkData.setImportFileSize(importFileSize);
-            chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
-            stepCtx.setTransientUserData(chunkData);
+        } catch (FHIRException e) {
+            logger.log(Level.SEVERE, "Import ChunkReader.open during job[" + executionId + "] - " + e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Import ChunkReader.open during job[" + executionId + "]", e);
+            throw e;
         }
     }
 
@@ -257,6 +125,56 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return ImportCheckPointData.fromImportTransientUserData((ImportTransientUserData)stepCtx.getTransientUserData());
+        return ImportCheckPointData.fromImportTransientUserData((ImportTransientUserData) stepCtx.getTransientUserData());
+    }
+
+    @Override
+    public Object readItem() throws Exception {
+        // If the job is being stopped or in other status except for "started", then stop the read.
+        // This can happen when the 'open' method fails.
+        if (!BatchStatus.STARTED.equals(stepCtx.getBatchStatus())) {
+            return null;
+        }
+
+        long executionId = -1;
+        try {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("readItem: get work item:" + ctx.getImportPartitionWorkitem() + " resource type: " + ctx.getPartitionResourceType());
+            }
+
+            ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
+            numOfLinesToSkip = chunkData.getNumOfProcessedResources();
+
+            SourceWrapper wrapper = SourceWrapperFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+            wrapper.registerTransient(chunkData);
+
+            long readStartTimeInMilliSeconds = System.currentTimeMillis();
+            wrapper.readResources(readStartTimeInMilliSeconds, ctx.getImportPartitionWorkitem());
+
+            long numOfParseFailures = wrapper.getNumberOfParseFailures();
+            long numOfLoaded = wrapper.getNumberOfLoaded();
+
+            List<Resource> resources = wrapper.getResources();
+
+            chunkData.addToTotalReadMilliSeconds(System.currentTimeMillis() - readStartTimeInMilliSeconds);
+            chunkData.setNumOfParseFailures(numOfParseFailures);
+
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("readItem: loaded '" + numOfLoaded + "' '" + ctx.getPartitionResourceType() + "' from '" + ctx.getImportPartitionWorkitem() + "'");
+            }
+
+            chunkData.setNumOfToBeImported(numOfLoaded);
+            if (numOfLoaded == 0) {
+                return null;
+            } else {
+                return resources;
+            }
+        } catch (FHIRException e) {
+            logger.log(Level.SEVERE, "Import ChunkReader.readItem during job[" + executionId + "] - " + e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Import ChunkReader.readItem during job [" + executionId + "]", e);
+            throw e;
+        }
     }
 }

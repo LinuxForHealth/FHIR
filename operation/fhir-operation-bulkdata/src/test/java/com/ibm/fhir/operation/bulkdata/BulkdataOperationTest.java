@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
 public class BulkdataOperationTest {
     @Test
@@ -52,7 +53,8 @@ public class BulkdataOperationTest {
 
     @Test
     public void testBulkDataFactory() {
-        ExportImportBulkData eibd = BulkDataFactory.getTenantInstance();
+        FHIROperationContext operationContext = FHIROperationContext.createInstanceOperationContext();
+        ExportImportBulkData eibd = BulkDataFactory.getInstance(operationContext);
         assertNotNull(eibd);
     }
 }
