@@ -997,8 +997,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildUnsupportedResourceTypeException(type);
             }
 
-            Class<? extends Resource> resourceType =
-                    getResourceType(resourceTypeName);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
 
             FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
                 HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
@@ -1205,8 +1204,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * Performs validation of a request Bundle and returns a Bundle containing response entries corresponding to the
-     * request entries in the request Bundle. holding the responses for the requests contained in the request Bundle.
+     * Performs validation of a request Bundle and returns a Bundle containing response entries that correspond
+     * to the request entries in the request Bundle.
      *
      * @param bundle
      *            the bundle to be validated
@@ -1257,7 +1256,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<OperationOutcome.Issue> issueList = new ArrayList<OperationOutcome.Issue>();
 
             List<Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
-
             Set<String> localIdentifiers = new HashSet<>();
 
             for (Bundle.Entry requestEntry : bundle.getEntry()) {
@@ -1634,9 +1632,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws Exception
      */
     private Bundle processEntriesForMethod(Bundle requestBundle, Bundle responseBundle,
-        HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
-        Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId)
-        throws Exception {
+            HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
+            Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId)
+            throws Exception {
         log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {"httpMethod", httpMethod });
 
         try {
@@ -1771,23 +1769,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the response bundle entry
      * @param responseIndexAndEntries
      *            the hashmap containing bundle entry indexes and their associated response entries
-     * @param requestURL 
-     * @param entryIndex
-     *            the bundle entry index of the bundle entry being processed
-     * @param localRefMap
-     *            the map of local references to external references
      * @param requestURL
      *            the request URL
-     * @param absoluteUri
-     *            the absolute URI
+     * @param entryIndex
+     *            the bundle entry index of the bundle entry being processed
      * @param requestDescription
      *            a description of the request
      * @param initialTime
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime)
-        throws Exception {
+    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries,
+            FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime) throws Exception {
         FHIRRestOperationResponse ior = null;
         String[] pathTokens = requestURL.getPathTokens();
         String resourceType = null;
@@ -1808,11 +1801,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String msg = "Request URL for bundled PATCH request should have path part with two tokens (<resourceType>/<id>).";
             throw buildRestException(msg, IssueType.INVALID);
         }
-       
+
                 if (requestEntry.getResource().is(Parameters.class)) {
 
                     Parameters parameters = requestEntry.getResource().as(Parameters.class);
-                  
+
 
                     FHIRPatch patch = FHIRPathPatch.from(parameters);
 
@@ -1825,7 +1818,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     String msg="Request resource type for PATCH request must be type 'Parameters'";
                     throw buildRestException(msg, IssueType.INVALID);
                 }
-       
+
 
     }
 
@@ -2749,10 +2742,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 String nextLinkUrl = selfUri;
 
                 // remove existing _page parameters from the query string
-                nextLinkUrl =
-                        nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
-                                + context.getPageNumber() + "&", "").replace("_page="
-                                        + context.getPageNumber(), "");
+                nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
+                        + context.getPageNumber() + "&", "").replace("_page=" + context.getPageNumber(), "");
 
                 if (nextLinkUrl.contains("?")) {
                     if (!nextLinkUrl.endsWith("?")) {
@@ -2850,14 +2841,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (resourceNamePathLocation != -1) {
                 baseUri = requestUri.substring(0, resourceNamePathLocation);
             } else {
-                // Assume the request was a batch/transaction and just use the requestUri as the base
-                baseUri = requestUri;
+                // Assume the request was a batch/transaction; nothing to strip
             }
-        } else {
-            if (baseUri.endsWith("/_history")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
-            } else if (baseUri.endsWith("/_search")) {
+        }
+
+        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type)
+        if (type == null || type.isEmpty() || "Resource".equals(type)) {
+            if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
+            } else if (baseUri.endsWith("/_history")) {
+                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
             } else if (baseUri.contains("/$")) {
                 baseUri = baseUri.substring(0, baseUri.lastIndexOf("/$"));
             }
