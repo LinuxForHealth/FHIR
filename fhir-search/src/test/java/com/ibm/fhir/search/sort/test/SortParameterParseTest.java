@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -253,9 +252,9 @@ public class SortParameterParseTest extends BaseSearchTest {
         QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
-        assertEquals(searchParm.getValues().size(), 2);
+        assertEquals(searchParm.getValues().size(), 1);
         QueryParameterValue parmValue = searchParm.getValues().get(0);
-        assertEquals("https://example.com/" + searchParmValue, parmValue.getValueString());
+        assertEquals(parmValue.getValueString(), searchParmValue);
 
         String selfUri =
                 SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
@@ -288,8 +287,8 @@ public class SortParameterParseTest extends BaseSearchTest {
         String searchParmValue = "Practioner/1";
 
         // Build up the QueryParameters
-        queryParameters.put("_sort", Arrays.asList(sortParmCode1 + "," + sortParmCode2, directionDesc.value() + sortParmCode3 + "," + directionDesc.value()
-                + sortParmCode4, sortParmCode5));
+        queryParameters.put("_sort", Collections.singletonList(sortParmCode1 + "," + sortParmCode2 + "," +
+                directionDesc.value() + sortParmCode3 + "," + directionDesc.value() + sortParmCode4 + "," + sortParmCode5));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
 
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
@@ -329,9 +328,11 @@ public class SortParameterParseTest extends BaseSearchTest {
         QueryParameter searchParm = searchContext.getSearchParameters().get(0);
         assertEquals(searchParmName, searchParm.getCode());
         assertNotNull(searchParm.getValues());
-        assertEquals(searchParm.getValues().size(), 2);
+        assertEquals(searchParm.getValues().size(), 1);
+
+        // since #1929 we do not expand search params to include incoming uri
         QueryParameterValue parmValue = searchParm.getValues().get(0);
-        assertEquals("https://example.com/" + searchParmValue, parmValue.getValueString());
+        assertEquals(parmValue.getValueString(), searchParmValue);
 
         // Check the component parts and build up the QueryString parts
         String selfUri =

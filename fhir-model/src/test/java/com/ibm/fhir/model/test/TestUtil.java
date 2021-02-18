@@ -283,6 +283,19 @@ public class TestUtil {
     }
 
     /**
+     * Create a minimal resource of the specified type. Only required fields are present and all data is absent.
+     *
+     * @param type
+     *            the type of the resource to be returned
+     * @return the resource
+     * @throws Exception
+     * @implNote this function creates the resource via {@link #getMinimalResource(ResourceType, Format)} by specifying JSON format
+     */
+    public static <T extends Resource> T getMinimalResource(ResourceType type) throws Exception {
+        return getMinimalResource(type, Format.JSON);
+    }
+
+    /**
      * This function reads the contents of a minimal example resource file of the specified type and format from
      * fhir-examples, and returns a resource of the specified resource type and format.
      *
@@ -304,5 +317,4 @@ public class TestUtil {
             return FHIRParser.parser(format).parse(reader);
         }
     }
-
 }

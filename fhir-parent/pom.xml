@@ -10,11 +10,11 @@
     <name>IBM FHIR Server</name>
 
     <properties>
-        <liberty.version>20.0.0.9</liberty.version>
+        <liberty.version>21.0.0.1</liberty.version>
         <derby.version>10.14.2.0</derby.version>
-        <db2.version>11.5.0.0</db2.version>
-        <postgresql.version>42.2.12</postgresql.version>
-        <cxf.version>3.3.6</cxf.version>
+        <db2.version>11.5.5.0</db2.version>
+        <postgresql.version>42.2.18</postgresql.version>
+        <cxf.version>3.3.9</cxf.version>
         <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>

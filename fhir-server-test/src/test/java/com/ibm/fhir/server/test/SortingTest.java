@@ -309,7 +309,7 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingString(list);
     }
 
-    // Patient?gender=male&_sort=family
+    // Patient?gender=male&_count=50&_sort=family&_elements=gender,name
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
@@ -317,7 +317,7 @@ public class SortingTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort", "family").queryParam("_elements", "gender", "name")
+                .queryParam("_sort", "family").queryParam("_elements", "gender,name")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -473,14 +473,14 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverseInstant(list);
     }
 
-    // Patient?gender=male&_sort=family&_sort=birthdate
+    // Patient?_count=50&_sort=-family,birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTwoParameters() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_count", "50").queryParam("_sort", "-family")
-                .queryParam("_sort", "birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("_count", "50")
+                .queryParam("_sort", "-family,birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -527,14 +527,14 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverse(list);
     }
 
-    // Patient?gender=male&_sort=-family&_sort=-birthdate
+    // Patient?_count=50&_sort=-family,-birthdate
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
     public void testSortTwoParametersDescending() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_count", "50").queryParam("_sort", "-family")
-                .queryParam("_sort", "-birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("_count", "50")
+                .queryParam("_sort", "-family,-birthdate").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
@@ -848,7 +848,7 @@ public class SortingTest extends FHIRServerTestBase {
 
 
 
-    // Patient?gender=male&_sort=family
+    // Patient?gender=male&_count=50&_sort=family&_elements=gender,name&_summary=true
     @SuppressWarnings("rawtypes")
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
             "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
@@ -857,7 +857,7 @@ public class SortingTest extends FHIRServerTestBase {
         // The _summary=true should be ignored.
         Response response =
                 target.path("Patient").queryParam("gender", "male").queryParam("_count", "50")
-                .queryParam("_sort", "family").queryParam("_elements", "gender", "name")
+                .queryParam("_sort", "family").queryParam("_elements", "gender,name")
                 .queryParam("_summary", "true")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());

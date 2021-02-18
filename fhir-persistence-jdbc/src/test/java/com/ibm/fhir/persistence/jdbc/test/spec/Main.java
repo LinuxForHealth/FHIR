@@ -37,8 +37,8 @@ import com.ibm.fhir.database.utils.derby.DerbyNetworkTranslator;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
@@ -533,8 +533,8 @@ public class Main {
     protected void processPostgreSql() throws Exception {
         // Set up a connection provider pointing to the PostgreSql instance described
         // by the configProps
-        JdbcPropertyAdapter adapter = new PostgreSqlPropertyAdapter(configProps);
-        PostgreSqlTranslator translator = new PostgreSqlTranslator();
+        JdbcPropertyAdapter adapter = new PostgresPropertyAdapter(configProps);
+        PostgresTranslator translator = new PostgresTranslator();
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);

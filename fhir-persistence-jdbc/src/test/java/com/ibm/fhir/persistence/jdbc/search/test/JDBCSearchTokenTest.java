@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2019, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,13 +8,10 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
@@ -30,7 +27,7 @@ public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
     private Properties testProps;
 
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
 
     public JDBCSearchTokenTest() throws Exception {
@@ -65,28 +62,5 @@ public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
         if (this.connectionPool != null) {
             this.connectionPool.close();
         }
-    }
-
-
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters.
-     * https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
-    @Override
-    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
-    public void testSearchToken_boolean_chained_missing() throws Exception {
-        super.testSearchToken_boolean_chained_missing();
-    }
-    @Override
-    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
-    public void testSearchToken_code_chained_missing() throws Exception {
-        super.testSearchToken_code_chained_missing();
-    }
-    @Override
-    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
-    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
-        super.testSearchToken_CodeableConcept_chained_missing();
     }
 }

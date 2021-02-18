@@ -123,7 +123,11 @@
                 },
                 "_pgsample": {
                     "type": "postgresql",
-                    "currentSchema": "fhirdata"
+                    "currentSchema": "fhirdata",
+                    "searchOptimizerOptions": {
+                        "from_collapse_limit": 16,
+                        "join_collapse_limit": 16
+                    }
                 }
             }
         },

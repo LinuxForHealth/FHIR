@@ -27,7 +27,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * This testng test class contains methods that test the parsing of the search result _elements parameter in the
  * SearchUtil class.
- * 
+ *
  * @author markd
  * @author pbastide
  *
@@ -72,7 +72,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
-        queryParameters.put("_elements", Arrays.asList("id", "contact", "bogus", "name"));
+        queryParameters.put("_elements", Collections.singletonList("id,contact,bogus,name"));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
@@ -90,7 +90,31 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
-        queryParameters.put("_elements", Arrays.asList("id", "contact", "bogus", "name"));
+        queryParameters.put("_elements", Collections.singletonList("id,contact,bogus,name"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+    }
+
+    @Test
+    public void testFake_multiElementParams_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        queryParameters.put("_elements", Arrays.asList("id","contact","bogus","name"));
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(context);
+        assertNotNull(context.getElementsParameters());
+        assertEquals(1, context.getElementsParameters().size());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        assertTrue(selfUri.contains("id"), selfUri + " does not contain expected elements param 'id'");
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testFake_multiElementParams_strict() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        queryParameters.put("_elements", Arrays.asList("id","contact","bogus","name"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
     }
 
@@ -100,7 +124,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
         String queryString = "&_elements=name";
 
-        queryParameters.put("_elements", Arrays.asList("name"));
+        queryParameters.put("_elements", Collections.singletonList("name"));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
@@ -116,15 +140,15 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<Patient> resourceType = Patient.class;
 
-        queryParameters.put("_elements", Arrays.asList("name", "photo", "identifier"));
+        queryParameters.put("_elements", Collections.singletonList("name,photo,identifier"));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
 
         assertEquals(context.getElementsParameters().size(), 3);
-        for (String element : context.getElementsParameters()) {
-            assertTrue(queryParameters.get("_elements").contains(element));
-        }
+        assertTrue(context.getElementsParameters().contains("name"));
+        assertTrue(context.getElementsParameters().contains("photo"));
+        assertTrue(context.getElementsParameters().contains("identifier"));
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains("name"), selfUri + " does not contain expected elements param 'name'");

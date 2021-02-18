@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,7 @@
 package com.ibm.fhir.jbatch.bulkdata.common;
 
 /**
- * Constants for BulkExportImport.
- *
+ * Constants for BulkExportImport
  */
 public class Constants {
     public static final String DEFAULT_FHIR_TENANT = "default";
@@ -17,12 +16,15 @@ public class Constants {
     /**
      * The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only).
      */
-    public static final int COS_PART_MINIMALSIZE = 10485760;
+    public static final long COS_PART_MINIMALSIZE = 10485760;
 
     /**
      * The maximum number of resources read in each iteration of the system export ChunkReader.
      */
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
+
+    // How many resources should we store in a single COS item
+    public static final int DEFAULT_MAX_RESOURCES_PER_ITEM = 10000;
 
     /**
      * The maximum number of resources read in each iteration of the the patient or group export ChunkReaders.
@@ -82,8 +84,6 @@ public class Constants {
     public static final String IMPORT_PARTITTION_WORKITEM = "import.partition.workitem";
     public static final String PARTITION_RESOURCE_TYPE = "partition.resourcetype";
 
-    // Control if push OperationOutcomes to COS/S3.
-    public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = true;
     // Retry times when https or amazon s3 client timeout or other error happens, e.g, timeout can happen if the batch write to DB takes
     // longer than the socket timeout, set to retry once for now.
     public static final int IMPORT_RETRY_TIMES = 1;

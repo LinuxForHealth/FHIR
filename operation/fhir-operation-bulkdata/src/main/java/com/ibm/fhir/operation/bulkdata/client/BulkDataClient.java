@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -170,9 +170,11 @@ public class BulkDataClient {
      * @return
      * @throws Exception
      */
-    public String submitExport(Instant since, List<String> types, Map<String, String> properties, ExportType exportType)
+    public String submitExport(Instant since, List<String> types, Map<String, String> properties, ExportType exportType,
+        String systemExportVersion)
             throws Exception {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
+
 
         JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
@@ -189,6 +191,8 @@ public class BulkDataClient {
         // Use AES to get a long RandomKey to use for the paths so that they cannot be guessed,
         // replacing '/' with '_' to avoid potential issues with the S3 API
         builder.cosBucketPathPrefix(getRandomKey("AES").replaceAll("/", "_"));
+        final String exportFormat = properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, FHIRMediaType.APPLICATION_NDJSON);
+        builder.fhirExportFormat(exportFormat);
 
         // Export Type - FHIR
         switch (exportType) {
@@ -200,7 +204,17 @@ public class BulkDataClient {
             builder.fhirPatientGroupId(properties.get(BulkDataConstants.PARAM_GROUP_ID));
             break;
         default:
-            builder.jobXMLName("FhirBulkExportChunkJob");
+            // We have two implementations for system export, but the "fast" version
+            // does not support typeFilters. We also allow the configuration to
+            // force use of the legacy implementation for those who don't like change
+            if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null || "legacy".equalsIgnoreCase(systemExportVersion)
+                    || FHIRMediaType.APPLICATION_PARQUET.equals(exportFormat)) {
+                // Use the legacy implementation
+                builder.jobXMLName("FhirBulkExportChunkJob");
+            } else {
+                // No typeFilter, so we use the fast export which bypasses FHIR search
+                builder.jobXMLName("FhirBulkExportFastJob");
+            }
             break;
         }
 
@@ -216,16 +230,22 @@ public class BulkDataClient {
         if (since != null) {
             builder.fhirSearchFromDate(since.getValue().format(Instant.PARSER_FORMATTER));
         } else {
-            builder.fhirSearchFromDate("1970-01-01");
+            builder.fhirSearchFromDate("1970-01-01T00:00:00Z");
         }
 
         if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null) {
             builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
         }
 
-        builder.fhirExportFormat(properties.getOrDefault(BulkDataConstants.PARAM_OUTPUT_FORMAT, FHIRMediaType.APPLICATION_NDJSON));
 
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
+        if (log.isLoggable(Level.FINE)) {
+            // TODO: need to remove secrets before we can log it. Clone the builder?
+            // JobInstanceRequest.Builder secretBuilder = JobInstanceRequest.builder(builder);
+            // secretBuilder.cosApiKey("*****");
+            // secretBuilder.cosSrvInstId("*****");
+            // log.fine("Job instance request: " + JobInstanceRequest.Writer.generate(secretBuilder.build(), true));
+        }
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 
@@ -552,6 +572,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         //      COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
+        log.info(exitStatus);
         if (!"COMPLETED".equals(exitStatus) && request.contains("$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
@@ -619,6 +640,7 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
+        builder.incomingUrl(properties.get(BulkDataConfigUtil.INCOMING_URL));
         builder.jobXMLName("FhirBulkImportChunkJob");
 
         // Add import specific: fhir.dataSourcesInfo

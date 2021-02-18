@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 
 /**
  * Contract for DAO implementations handling persistence of
@@ -31,29 +32,6 @@ public interface IResourceReferenceDAO {
     void flush() throws FHIRPersistenceException;
 
     /**
-     * Delete current external references for a given resource type and logical id. Typically
-     * called when creating a new version of a resource or when re-indexing
-     * @param resourceTypeId
-     * @param logicalId
-     */
-    void deleteExternalReferences(int resourceTypeId, String logicalId);
-
-    /**
-     * Delete current local references for a given resource described by its
-     * logical_resource_id. Typically called when creating a new version of a
-     * resource or when re-indexing.
-     * @param resourceType
-     * @param logicalId
-     */
-    void deleteLocalReferences(long logicalResourceId);
-
-    /**
-     * Delete the membership this resource has with other compartments
-     * @param logicalResourceId
-     */
-    void deleteLogicalResourceCompartments(long logicalResourceId);
-
-    /**
      * Add TOKEN_VALUE_MAP records, creating any CODE_SYSTEMS and COMMON_TOKEN_VALUES
      * as necessary
      * @param resourceType
@@ -67,4 +45,11 @@ public interface IResourceReferenceDAO {
      */
     void persist(Collection<ResourceTokenValueRec> records);
 
+    /**
+     * Find the database id for the given token value and system
+     * @param codeSystem
+     * @param tokenValue
+     * @return the matching id from common_token_values.common_token_value_id or null if not found
+     */
+    CommonTokenValueResult readCommonTokenValueId(String codeSystem, String tokenValue);
 }

@@ -47,7 +47,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
@@ -90,7 +90,7 @@ public class JavaBatchSchemaGeneratorTest {
     public void testJavaBatchSchemaGeneratorPostgres() {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
-        PostgreSqlAdapter adapter = new PostgreSqlAdapter(target);
+        PostgresAdapter adapter = new PostgresAdapter(target);
 
         // Set up the version history service first if it doesn't yet exist
         CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);

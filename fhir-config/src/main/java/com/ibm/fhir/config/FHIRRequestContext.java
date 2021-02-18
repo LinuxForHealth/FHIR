@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,6 +40,9 @@ public class FHIRRequestContext {
 
     // Set to true if the REST layer determines the entire request only needs to read from a persistence layer, not write to it
     private boolean readOnly;
+
+    // Set to false automatically, and override when appropriate.
+    private boolean bulk = false;
 
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
@@ -94,6 +97,22 @@ public class FHIRRequestContext {
      */
     public void setReadOnly(boolean flag) {
         this.readOnly = flag;
+    }
+
+    /**
+     * the status of the FHIR request
+     * @return the status of the FHIRRequest indicating bulk
+     */
+    public boolean isBulk() {
+        return this.bulk;
+    }
+
+    /**
+     * set the bulk status
+     * @param bulk
+     */
+    public void setBulk(boolean bulk) {
+        this.bulk = bulk;
     }
 
     public void setTenantId(String tenantId) throws FHIRException {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import javax.transaction.Status;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
 
 /**
@@ -47,8 +48,8 @@ public class FHIRUserTransactionAdapterTest {
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        
-        
+
+
     }
 
     @Test(groups = {"jdbc"})
@@ -59,18 +60,18 @@ public class FHIRUserTransactionAdapterTest {
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
-        
+
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
         // should still be active
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
-        
+
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
     }
-    
+
     @Test(groups = {"jdbc"})
     public void testNestedBeginAfterRollbackOnly() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
@@ -79,10 +80,10 @@ public class FHIRUserTransactionAdapterTest {
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
-        
+
         adapter.setRollbackOnly();
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
-        
+
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
@@ -104,11 +105,11 @@ public class FHIRUserTransactionAdapterTest {
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
-        
+
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.setRollbackOnly();
-        
+
         // inner transaction, so setRollbackOnly is suppressed
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -117,13 +118,13 @@ public class FHIRUserTransactionAdapterTest {
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.setRollbackOnly();
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
-        
+
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        
+
     }
 
-    
+
     @Test(groups = {"jdbc"})
     public void sharedNestedRollback() throws Exception {
         MockUserTransaction tx = new MockUserTransaction();
@@ -132,11 +133,11 @@ public class FHIRUserTransactionAdapterTest {
         FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
-        
+
         FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
         nested.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
-        
+
         nested.setRollbackOnly();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -152,7 +153,7 @@ public class FHIRUserTransactionAdapterTest {
         // now we can end the transaction (rollback to no transaction)
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        
+
     }
 
 
@@ -188,7 +189,7 @@ public class FHIRUserTransactionAdapterTest {
         // now we can end (commit) the transaction
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        
+
     }
 
 
@@ -217,6 +218,22 @@ public class FHIRUserTransactionAdapterTest {
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
         // now we can end the transaction (rollback to no transaction)
+        adapter.end();
+        assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
+    }
+
+    @Test(groups = {"jdbc"})
+    public void testBulkFlow() throws Exception {
+        FHIRRequestContext ctx = FHIRRequestContext.get();
+        FHIRRequestContext.set(ctx);
+        ctx.setBulk(true);
+
+        MockUserTransaction tx = new MockUserTransaction();
+        MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
+        assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        adapter.begin();
+        assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
     }

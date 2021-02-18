@@ -21,6 +21,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
  * @see https://hl7.org/fhir/r4/search.html#reference
@@ -65,13 +66,12 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
     @Test
     public void testSearchReference_Reference_relative_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Reference-relative", "Patient/123");
-        /*
-         * Currently, as documented in our conformance doc, we do not support modifiers on chained parameters.
-         * See https://ibm.github.io/FHIR/Conformance#search-modifiers and
-         * refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-         */
-        // assertSearchReturnsComposition("subject:Basic.Reference-relative:Patient", "123");
-        // assertSearchReturnsComposition("subject:Basic.Reference-relative:Basic", "123");
+        assertSearchReturnsComposition("subject:Basic.Reference-relative:Patient", "123");
+    }
+
+    @Test(expectedExceptions = { FHIRSearchException.class })
+    public void testSearchReference_Reference_relative_chained_invalid_type() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.Reference-relative:Basic", "123");
     }
 
     @Test

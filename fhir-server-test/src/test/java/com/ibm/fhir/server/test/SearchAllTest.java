@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test;
 import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.Code.code;
 import static com.ibm.fhir.model.type.Uri.uri;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -54,7 +55,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     private static final boolean DEBUG_SEARCH = false;
 
-    private String patientId, patientId2;
+    private String patientId, patientId2, observationId;
     private Instant lastUpdated;
     private Patient patient4DuplicationTest = null;
     private String strUniqueTag = UUID.randomUUID().toString();
@@ -131,6 +132,18 @@ public class SearchAllTest extends FHIRServerTestBase {
                         .header("X-FHIR-DSID", dataStoreId)
                         .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        observationId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new observation and verify it.
+        response  = target.path("Observation/" + observationId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Observation createdObservation = response.readEntity(Observation.class);
+        TestUtil.assertResourceEquals(observation, createdObservation);
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
@@ -173,7 +186,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
-    
+
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingLastUpdatedMultipleGeLe() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
@@ -251,6 +264,102 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagMissing_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag:missing", "true");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagMissing_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", observationId);
+        parameters.searchParam("_tag:missing", "false");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllWithTagNotMissing_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:missing", "false");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllWithTagNotMissing_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:missing", "true");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllChainWithTagNotMissing_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_type", "Observation");
+        parameters.searchParam("_id", observationId);
+        parameters.searchParam("subject:Patient._tag:missing", "false");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllChainWithTagMissing_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_type", "Observation");
+        parameters.searchParam("_id", observationId);
+        parameters.searchParam("subject:Patient._tag:missing", "true");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagNot_Results() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag:not", "tag3");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreateObservation" })
+    public void testSearchAllWithTagNot_NoResults() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        parameters.searchParam("_tag:not", "tag2");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
     }
 
     /*
@@ -598,7 +707,8 @@ public class SearchAllTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-all" })
     public void testSearchAllUrlReflexsivityUsingLastUpdated() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("_lastUpdated", "ge2000");
+        String lastUpdated = "ge2000";
+        parameters.searchParam("_lastUpdated", lastUpdated);
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -616,10 +726,10 @@ public class SearchAllTest extends FHIRServerTestBase {
             String type = link.getRelation().getValue();
             String uri = link.getUrl().getValue();
             if ("self".equals(type)) {
-                verifyReflexsiveUrl(uri);
+                verifyReflexsiveUrl(uri, lastUpdated);
                 validSelf = true;
             } else if ("next".equals(type)) {
-                verifyReflexsiveUrl(uri);
+                verifyReflexsiveUrl(uri, lastUpdated);
                 validRel = true;
             }
         }
@@ -629,18 +739,23 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     /*
-     * queries based on the URI the endpoint with the query parameter and value.
+     * Queries based on the URI the endpoint with the query parameter and value.
      */
-    private void verifyReflexsiveUrl(String uri) throws Exception {
+    private void verifyReflexsiveUrl(String uri, String expectedLastUpdated) throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         WebTarget target = client.getWebTarget();
         String queryParameterStrings = uri.replaceAll(target.getUri().toString() + "_search\\?", "");
         String[] queryParams = queryParameterStrings.split("&");
+        String actualLastUpdated = null;
         for (String queryParam : queryParams) {
             String name = queryParam.split("=")[0];
             String value = queryParam.split("=")[1];
+            if ("_lastUpdated".equals(name)) {
+                actualLastUpdated = value;
+            }
             parameters.searchParam(name, value);
         }
+        assertEquals(actualLastUpdated, expectedLastUpdated);
 
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,7 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.PractitionerRole;
 import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
@@ -67,6 +68,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
     private String encounter2Id;
     private String endpointId;
     private String locationId;
+    private String practitionerRoleId;
     private Instant now = Instant.now();
     private String tag = Long.toString(now.toEpochMilli());
 
@@ -89,6 +91,18 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         // Next, call the 'read' API to retrieve the new Endpoint and verify it.
         response = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Call the 'update' API.
+        endpoint = response.readEntity(Endpoint.class);
+        entity = Entity.entity(endpoint, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = target.path("Endpoint/" + endpointId).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Next, call the 'read' API to retrieve the new Endpoint and verify version is 2.
+        response = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        endpoint = response.readEntity(Endpoint.class);
+        assertEquals("2", endpoint.getMeta().getVersionId().getValue());
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEndpoint"})
@@ -328,6 +342,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Location location = TestUtil.readExampleResource("json/spec/location-example.json");
         location = location.toBuilder()
                 .managingOrganization(Reference.builder().reference(of("Organization/" + organization1Id)).build())
+                .endpoint(Reference.builder().reference(of("Endpoint/" + endpointId + "/_history/2")).build())
                 .build();
 
         // Call the 'create' API.
@@ -340,6 +355,28 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Next, call the 'read' API to retrieve the new Location and verify it.
         response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEndpoint"})
+    public void testCreatePractitionerRole() throws Exception {
+        WebTarget target = getWebTarget();
+
+        PractitionerRole practitionerRole = TestUtil.readExampleResource("json/spec/practitionerrole-example.json");
+        practitionerRole = practitionerRole.toBuilder()
+                .endpoint(Reference.builder().reference(of("Endpoint/" + endpointId + "/_history/1")).build())
+                .build();
+
+        // Call the 'create' API.
+        Entity<PractitionerRole> entity = Entity.entity(practitionerRole, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("PractitionerRole").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the practitioner role's logical id value.
+        practitionerRoleId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new PractitionerRole and verify it.
+        response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
@@ -384,6 +421,10 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         }
         if (locationId != null) {
             Response response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+        }
+        if (practitionerRoleId != null) {
+            Response response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
     }
@@ -1046,6 +1087,107 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertEquals(1, bundle.getEntry().size());
         assertEquals(organization1Id, bundle.getEntry().get(0).getResource().getId());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateLocation"})
+    public void testSearchSingleReverseChainWithValidVersionedReference() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Endpoint")
+                .queryParam("name", tag)
+                .queryParam("_has:Location:endpoint:_id", locationId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getEntry().size());
+        assertEquals(endpointId, bundle.getEntry().get(0).getResource().getId());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePractitionerRole"})
+    public void testSearchSingleReverseChainWithInvalidVersionedReference() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Endpoint")
+                .queryParam("name", tag)
+                .queryParam("_has:PractitionerRole:endpoint:_id", practitionerRoleId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(0, bundle.getEntry().size());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
+    public void testSearchSingleReverseChainWithStringParmMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("given", "1" + tag)
+                .queryParam("_has:Procedure:subject:status:missing", "true")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(0, bundle.getEntry().size());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
+    public void testSearchSingleReverseChainWithStringParmNotMissing() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("given", "1" + tag)
+                .queryParam("_has:Procedure:subject:status:missing", "false")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getEntry().size());
+        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertTrue(bundle.getLink().size() == 1);
+        assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("status:missing=false"));
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
+    public void testSearchSingleReverseChainWithStringParmNot_NoResults() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("given", "1" + tag)
+                .queryParam("_has:Procedure:subject:status:not", "completed")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(0, bundle.getEntry().size());
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
+    public void testSearchSingleReverseChainWithStringParmNot_Results() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("given", "1" + tag)
+                .queryParam("_has:Procedure:subject:status:not", "in-progress")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getEntry().size());
+        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
     }
 
 }

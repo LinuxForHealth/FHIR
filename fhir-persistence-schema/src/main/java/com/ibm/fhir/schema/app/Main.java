@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,7 +57,7 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
@@ -1344,9 +1344,17 @@ public class Main {
                 break;
             case "--drop-schema-batch":
                 this.dropJavaBatchSchema = Boolean.TRUE;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    schema.setJavaBatchSchemaName(args[nextIdx]);
+                    i++;
+                }
                 break;
             case "--drop-schema-oauth":
                 this.dropOauthSchema = Boolean.TRUE;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    schema.setOauthSchemaName(args[nextIdx]);
+                    i++;
+                }
                 break;
             case "--pool-size":
                 if (++i < args.length) {
@@ -1430,7 +1438,7 @@ public class Main {
                     maxConnectionPoolSize = 1;
                     break;
                 case POSTGRESQL:
-                    translator = new PostgreSqlTranslator();
+                    translator = new PostgresTranslator();
                     break;
                 case DB2:
                 default:

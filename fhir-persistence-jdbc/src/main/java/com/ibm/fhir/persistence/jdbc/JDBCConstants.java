@@ -26,6 +26,7 @@ public class JDBCConstants {
     public static final String STR_VALUE = "STR_VALUE";
     public static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
     public static final String TOKEN_VALUE = "TOKEN_VALUE";
+    public static final String COMMON_TOKEN_VALUE_ID = "COMMON_TOKEN_VALUE_ID";
     public static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
     public static final String CODE = "CODE";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";
@@ -50,6 +51,7 @@ public class JDBCConstants {
     public static final char DOT_CHAR = '.';
     public static final String WHERE = " WHERE ";
     public static final String PARAMETER_TABLE_ALIAS = "pX";
+    public static final String PARAMETER_TABLE_NAME_PLACEHOLDER = "pX_TABLE_NAME";
     public static final String LEFT_PAREN = "(";
     public static final String RIGHT_PAREN = ")";
     public static final String BIND_VAR = "?";
@@ -132,7 +134,7 @@ public class JDBCConstants {
         supportedModifiersMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
         supportedModifiersMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
         supportedModifiersMap.put(Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
-        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING));
+        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING, Modifier.NOT));
         supportedModifiersMap.put(Type.NUMBER, Arrays.asList(Modifier.MISSING));
         supportedModifiersMap.put(Type.DATE, Arrays.asList(Modifier.MISSING));
         supportedModifiersMap.put(Type.QUANTITY, Arrays.asList(Modifier.MISSING));
@@ -144,7 +146,7 @@ public class JDBCConstants {
         modifierOperatorMap.put(Modifier.BELOW, LT);
         modifierOperatorMap.put(Modifier.CONTAINS, LIKE);
         modifierOperatorMap.put(Modifier.EXACT, EQ);
-        modifierOperatorMap.put(Modifier.NOT, NE);
+        modifierOperatorMap.put(Modifier.NOT, EQ); // EQ since it will be within a "WHERE NOT EXISTS" subquery
     }
 
     private JDBCConstants() {

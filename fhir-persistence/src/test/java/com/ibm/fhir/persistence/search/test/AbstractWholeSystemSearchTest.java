@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,6 +40,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     protected final String TAG_SYSTEM = "http://ibm.com/fhir/tag";
     protected final String TAG = UUID.randomUUID().toString();
     protected final String TAG2 = UUID.randomUUID().toString();
+    protected final String TAG3 = UUID.randomUUID().toString();
     protected final String SECURITY_SYSTEM = "http://ibm.com/fhir/security";
     protected final String SECURITY = UUID.randomUUID().toString();
     protected final String PROFILE = "http://ibm.com/fhir/profile/" + UUID.randomUUID().toString();
@@ -286,4 +287,26 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
+
+    @Test
+    public void testSearchAllUsingTagNot_Results() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedResource.getId()));
+        queryParms.put("_tag:not", Collections.singletonList(TAG_SYSTEM + "|" + TAG3));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTagNot_NoResults() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedResource.getId()));
+        queryParms.put("_tag:not", Collections.singletonList(TAG_SYSTEM + "|" + TAG));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 0, "Number of resources returned");
+    }
+
 }

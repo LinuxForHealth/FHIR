@@ -8,6 +8,8 @@ package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -21,14 +23,20 @@ import javax.json.JsonArray;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.HTTPReturnPreference;
+import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Date;
@@ -38,6 +46,9 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 
 public class FHIRPatchTest extends FHIRServerTestBase {    
@@ -540,7 +551,103 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         Assert.assertEquals(updatedPatient, responsePatient);
     }
+    
+    @Test(groups = { "fhir-patch" })
+    public void testBundlePatch() throws Exception {
+        
+        WebTarget target = getWebTarget();
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
 
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+               
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        //replace patch request for the patient
+        Parameters replacePatch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("replace"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.active"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("value"))
+                        .value(com.ibm.fhir.model.type.Boolean.FALSE)
+                        .build())
+                    .build())
+                .build();
+        
+        //Delete Patch request for the patient
+        Parameters deletePatch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("delete"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.active"))
+                        .build())
+                    .build())
+                .build();
+        
+        //Creating bundle containing multiple patch request for the patient
+        Bundle.Builder patchBundleBuilder=Bundle.builder();
+        String patientUrl="Patient/" + patientId;
+        
+        //Patch request object for the bundle
+        Request req=Request.builder().method(HTTPVerb.PATCH).url(Uri.of(patientUrl)).build();
+        Entry bundleReplaceReq=Entry.builder().resource(replacePatch).request(req).build();
+        
+        Entry bundleDeletePatch=Entry.builder().resource(deletePatch).request(req).build();
+        
+        Bundle patchRequestBundle= patchBundleBuilder.entry(bundleReplaceReq,bundleDeletePatch).type(BundleType.BATCH).build();
+
+        Entity<Bundle> bundleEntity = Entity.entity(patchRequestBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+      
+        //Call FHRI-Api for the Post operation 
+        Response patchResponce=target.request().post(bundleEntity,Response.class);
+        Bundle responseBundle = patchResponce.readEntity(Bundle.class);
+      
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(),HTTPReturnPreference.MINIMAL);
+        
+    }
+    
+    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
+        assertNotNull(bundle);
+        assertNotNull(bundle.getType());
+        assertNotNull(bundle.getType().getValue());
+        assertEquals(expectedType.getValue(), bundle.getType().getValue());
+        if (expectedEntryCount > 0) {
+            assertNotNull(bundle.getEntry());
+            assertEquals(expectedEntryCount, bundle.getEntry().size());
+        }
+    }
+    
+    
+    private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode, HTTPReturnPreference returnPref) throws Exception {
+        assertNotNull(entry);
+        Bundle.Entry.Response response = entry.getResponse();
+        assertNotNull(response);
+
+        assertNotNull(response.getStatus());
+        assertEquals(java.lang.Integer.toString(expectedStatusCode), response.getStatus().getValue());
+
+        if (returnPref != null && !returnPref.equals(HTTPReturnPreference.MINIMAL)) {
+            Resource rc = entry.getResource();
+            assertNotNull(rc);
+        }
+    }
     private Patient buildPatient() {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         

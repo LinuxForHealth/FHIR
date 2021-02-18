@@ -168,7 +168,7 @@ The elements needed are:
   - Be sure to have a return parameter
   - Typically this is a FHIR Resource
 
-An example operation is [$validate](https://www.hl7.org/fhir/r4/resource-operation-validate.html). The OperationDefinition is at [validation.json](https://github.com/IBM/FHIR/blob/master/operation/fhir-operation-validate/src/main/resources/validate.json).
+An example operation is [$validate](https://www.hl7.org/fhir/r4/resource-operation-validate.html). The OperationDefinition is at [validation.json](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-validate/src/main/resources/validate.json).
 
 # IBM FHIR Server Extended Operations Framework
 
@@ -187,7 +187,7 @@ The Operation's custom logic builds a valid Parameters resource as a response to
 Note, once the Operation is loaded it is available until the server is restarted and redoes the ServiceLoader discovery.
 
 ## Code Examples
-There are a number of examples in the [IBM/FHIR repo](https://github.com/IBM/FHIR/tree/master/operation).
+There are a number of examples in the [IBM/FHIR repo](https://github.com/IBM/FHIR/tree/main/operation).
 
 ## Installation of an Operation
 The Operations are installed into the `userlib` folder of the IBM FHIR Server. Some solutions are installing the operation as a layer in a docker image, or mount it as a volume.

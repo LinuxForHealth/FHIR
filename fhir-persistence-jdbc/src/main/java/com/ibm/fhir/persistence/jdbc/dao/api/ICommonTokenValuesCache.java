@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,7 @@ import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
  * An interface for a cache of code system and related token values. The
  * cache is specialized in that it supports some specific operations to
  * process list of objects with minimal locking.
- * 
+ *
  * The code-systems cache can be pre-filled because it is reasonable to
  * expect that it can be sized to accommodate every value. There are
  * likely to be too many unique token-values to cache, so these need
@@ -38,9 +38,9 @@ public interface ICommonTokenValuesCache {
      * @param xrefs
      * @param misses the objects we couldn't find in the cache
      */
-    void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues, 
+    void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues,
         List<ResourceTokenValueRec> misses);
-    
+
     /**
      * Look up the ids for the common token values. Must be preceded by
      * resolveCodeSystems to make sure we have code-system ids set for each
@@ -49,9 +49,9 @@ public interface ICommonTokenValuesCache {
      * @param commonTokenValues
      * @param misses the objects we couldn't find in the cache
      */
-    void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues, 
+    void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues,
         List<ResourceTokenValueRec> system);
-     
+
      /**
       * Look up the id of the named codeSystem
       * @param codeSystem
@@ -77,7 +77,7 @@ public interface ICommonTokenValuesCache {
      * Clear any thread-local cache maps (probably because a transaction was rolled back)
      */
     void clearLocalMaps();
-    
+
     /**
      * Clear the thread-local and shared caches (for test purposes)
      */
@@ -90,4 +90,13 @@ public interface ICommonTokenValuesCache {
      * @param codeSystems
      */
     void prefillCodeSystems(Map<String, Integer> codeSystems);
+
+    /**
+     * Get the database common_token_value_id for the given code system and
+     * token value.
+     * @param codeSystem
+     * @param tokenValue
+     * @return
+     */
+    Long getCommonTokenValueId(String codeSystem, String tokenValue);
 }

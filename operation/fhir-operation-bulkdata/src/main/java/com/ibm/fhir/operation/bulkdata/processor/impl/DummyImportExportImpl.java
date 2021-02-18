@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,7 +41,7 @@ public class DummyImportExportImpl implements ExportImportBulkData {
     @Override
     public Parameters export(String logicalId, BulkDataConstants.ExportType exportType, MediaType outputFormat,
             Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper, String systemExportImpl) throws FHIROperationException {
         try {
             int count = jobCounter.incrementAndGet();
             if (count % 3 == 0) {

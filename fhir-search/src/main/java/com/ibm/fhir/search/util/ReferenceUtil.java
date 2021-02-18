@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,16 +35,25 @@ public class ReferenceUtil {
             .collect(Collectors.toSet());
 
 
-    // The service base URL string cached after we compute it once.
-    private static volatile String serviceBase;
-
     /**
      * Processes a Reference value from the FHIR model and interprets
      * it according to https://www.hl7.org/fhir/references.html#2.3.0
      *
-     * @param ref
-     * @param fullUrl the server
-     * @return
+     * <p>Absolute literal references will be converted to relative references if their base matches baseUrl.
+     *
+     * <p>The resulting ReferenceValue will contained an inferred ReferenceType
+     * and the structure of the ReferenceValue.value will vary accordingly:
+     * <ol>
+     * <li>LITERAL_RELATIVE: the id of the referenced resource</li>
+     * <li>LITERAL_ABSOLUTE: the full URI of the reference</li>
+     * <li>LOGICAL: the Identifier.value (Identifier.system is not presently stored)</li>
+     * <li>DISPLAY_ONLY: null</li>
+     * <li>INVALID: null</li>
+     * </ol>
+     *
+     * @param ref a non-null FHIR Reference object
+     * @param baseUrl the base URL used to determine whether to convert absolute references to relative references
+     * @return a structured representation of the reference value that varies by its inferred reference type
      */
     public static ReferenceValue createReferenceValueFrom(Reference ref, String baseUrl) {
         String value;
@@ -137,13 +146,8 @@ public class ReferenceUtil {
         if (entry != null) {
             return getBaseUrlFromBundle(entry);
         } else {
-            // return the cached value if we've already computed it
-            if (serviceBase != null) {
-                return serviceBase;
-            }
             return getServiceBaseUrl();
         }
-
     }
 
     /**
@@ -188,6 +192,7 @@ public class ReferenceUtil {
      * @throws FHIRSearchException
      */
     public static String getServiceBaseUrl(String uri) throws FHIRSearchException {
+        String result;
 
         // request URI is not set for all unit-tests, so we need to take that into account
         if (uri == null) {
@@ -239,13 +244,13 @@ public class ReferenceUtil {
                 // make sure we always have a final "/" to make life easier downstream.
                 sb = sb + "/";
             }
-            serviceBase = sb;
+            result = sb;
         } else {
             // log locally, do not leak in exception...might contain server name/ip secrets
             logger.severe("FHIRRequestContext.originalRequestUri is invalid: " + uri);
             throw new FHIRSearchException("Invalid originalRequestUri in FHIRRequestContext. Details in log.");
         }
 
-        return serviceBase;
+        return result;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Arrays;
@@ -24,14 +25,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Device;
+import com.ibm.fhir.model.resource.DeviceRequest;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Patient.Link;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.LinkType;
 
 /**
  *  This class tests the persistence layer support for the FHIR _include and _revinclude search result parameters.
@@ -47,9 +51,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     private static Observation savedObservation3;
     private static Observation savedObservation4;
     private static Observation savedObservation5;
+    private static Observation savedObservation6;
     private static Encounter savedEncounter1;
     private static Device savedDevice1;
     private static Organization savedOrg1;
+    private static DeviceRequest savedDeviceRequest1;
 
     /**
      * Loads up and saves a bunch of resources with various references to one another
@@ -61,6 +67,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
         Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
+        DeviceRequest deviceRequest = TestUtil.readExampleResource("json/ibm/minimal/DeviceRequest-1.json");
 
         // an Organization that will be referenced by a Patient
         savedOrg1 = persistence.create(getDefaultPersistenceContext(), org).getResource();
@@ -85,10 +92,13 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                                        .build();
         savedObservation3 = persistence.create(getDefaultPersistenceContext(), savedObservation3).getResource();
 
-        // a Patient that will be used as a reference within an Observation
+        // a Patient that will be used as a reference within an Observation, and which references itself
         savedPatient2 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         // update the patient
-        savedPatient2 = savedPatient2.toBuilder().name(humanName("Vito", "Corleone")).build();
+        savedPatient2 = savedPatient2.toBuilder()
+                                        .name(humanName("Vito", "Corleone"))
+                                        .link(Link.builder().type(LinkType.REFER).other(reference("Patient/" + savedPatient2.getId())).build())
+                                        .build();
         savedPatient2 = persistence.update(getDefaultPersistenceContext(), savedPatient2.getId(), savedPatient2).getResource();
 
         // an Observation with a reference to a patient and a reference to an Encounter
@@ -116,19 +126,36 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
 
         // a Patient that will have no other resources referencing it
         savedPatient4 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+
+        // An Observation with versioned references to a device
+        savedObservation6 = observation.toBuilder()
+                .subject(reference("Device/" + savedDevice1.getId() + "/_history/1"))
+                .focus(reference("Device/" + savedDevice1.getId() + "/_history/2"))
+                .device(reference("Device/" + savedDevice1.getId() + "/_history/3"))
+                .specimen(reference("Specimen/1"))
+                .build();
+        savedObservation6 = persistence.create(getDefaultPersistenceContext(), savedObservation6).getResource();
+
+        // A DeviceRequest with non-versioned references to a device
+        savedDeviceRequest1 = deviceRequest.toBuilder()
+                .subject(reference("Device/" + savedDevice1.getId()))
+                .performer(reference("Device/" + savedDevice1.getId()))
+                .code(reference("Device/" + savedDevice1.getId()))
+                .build();
+        savedDeviceRequest1 = persistence.create(getDefaultPersistenceContext(), savedDeviceRequest1).getResource();
     }
 
     @AfterClass
     public void deleteResources() throws Exception {
         Resource[] resources = {savedPatient1, savedPatient2, savedPatient3, savedPatient4,
                 savedObservation1, savedObservation2, savedObservation3, savedObservation4, savedObservation5,
-                savedEncounter1, savedDevice1, savedOrg1};
+                savedObservation6, savedEncounter1, savedDevice1, savedOrg1, savedDeviceRequest1};
 
         if (persistence.isDeleteSupported()) {
             if (persistence.isTransactional()) {
                 persistence.getTransaction().begin();
             }
-            
+
             try {
                 for (Resource resource : resources) {
                     persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
@@ -179,14 +206,110 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation2.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
+    }
+
+    /**
+     * This test queries an Observation with _elements search parameter and requests the inclusion of a referenced Device.
+     * The Observation does contain a referenced device, and only the Observation resource has the
+     * _elements processing applied to it.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithElements() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation6.getId()));
+        queryParms.put("_elements", Collections.singletonList("subject,device"));
+        queryParms.put("_include", Collections.singletonList("Observation:focus"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+                // check specified elements
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/1", resource.as(Observation.class).getSubject().getReference().getValue());
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/3", resource.as(Observation.class).getDevice().getReference().getValue());
+                // check filtered out elements
+                assertEquals(0, resource.as(Observation.class).getFocus().size());
+                assertNull((resource.as(Observation.class).getSpecimen()));
+            } else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                // check elements are not filtered out
+                assertEquals("Updated Manufacturer", resource.as(Device.class).getManufacturer().getValue());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries an Observation and requests the inclusion of a referenced Device
+     * where the reference is versioned and the specified version exists.
+     * The Observation does contain a referenced device. The returned resources will
+     * contain the specified version of the referenced device.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithValidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation6.getId()));
+        queryParms.put("_include", Collections.singletonList("Observation:subject:Device"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+            } else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("1", resource.getMeta().getVersionId().getValue());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries an Observation and requests the inclusion of a referenced Device
+     * where the reference is versioned and the specified version does not exist.
+     * The Observation does contain a referenced device, but not with the version
+     * specified. No included resource will be returned.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithInvalidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation6.getId()));
+        queryParms.put("_include", Collections.singletonList("Observation:device:Device"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Observation", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedObservation6.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries a Patient and requests the inclusion of a referenced Patient.
+     * The referenced Patient is the same resoure as the Patient referencing it, so
+     * will not be returned because it is a duplicate resource.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithMatchDuplicate() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedPatient2.getId()));
+        queryParms.put("_include", Collections.singletonList("Patient:link"));
+        List<Resource> resources = runQueryTest(Patient.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals(savedPatient2.getId(), resources.get(0).getId());
     }
 
     /**
@@ -205,11 +328,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation2.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -231,14 +352,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation3.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else if (resource instanceof Encounter) {
+            } else if (resource instanceof Encounter) {
                 assertEquals(savedEncounter1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -261,18 +379,33 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation4.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient2.getId(), resource.getId());
                 assertEquals("2", savedPatient2.getMeta().getVersionId().getValue());
-            }
-            else if (resource instanceof Encounter) {
+            } else if (resource instanceof Encounter) {
                 assertEquals(savedEncounter1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
+    }
+
+    /**
+     * This test queries a DeviceRequest and requests the inclusion of referenced Devices.
+     * The DeviceRequest contains multiple references to the same device, but it is only
+     * returned once.
+     * @throws Exception
+     */
+    @Test
+    public void testMultiIncludeDuplicates() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDeviceRequest1.getId()));
+        queryParms.put("_include", Arrays.asList(new String[] {"DeviceRequest:device", "DeviceRequest:performer", "DeviceRequest:subject"}));
+        List<Resource> resources = runQueryTest(DeviceRequest.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        assertEquals(savedDeviceRequest1.getId(), resources.get(0).getId());
+        assertEquals(savedDevice1.getId(), resources.get(1).getId());
     }
 
     /**
@@ -291,11 +424,9 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation2.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -317,15 +448,111 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertTrue(savedObservation2.getId().equals(resource.getId()) ||
-                           savedObservation3.getId().equals(resource.getId()));
-            }
-            else if (resource instanceof Patient) {
+                        savedObservation3.getId().equals(resource.getId()));
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
+    }
+
+    /**
+     * This test queries a Device with _elements search parameter and requests the reverse inclusion of
+     * an Observation that references the Device.
+     * The Device has an Observation that references it, and only the Device resource has the
+     * _elements processing applied to it.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithElements() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_elements", Collections.singletonList("patient"));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:focus"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+                // check elements are not filtered out
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/1", resource.as(Observation.class).getSubject().getReference().getValue());
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/3", resource.as(Observation.class).getDevice().getReference().getValue());
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/2", resource.as(Observation.class).getFocus().get(0).getReference().getValue());
+                assertEquals("Specimen/1", resource.as(Observation.class).getSpecimen().getReference().getValue());
+            } else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                // check specified elements
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+                // check filtered out elements
+                assertNull(resource.as(Device.class).getManufacturer());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries a Device and requests the reverse inclusion of an Observation that references the Device
+     * where the reference is a versioned reference which specifies the device's current version.
+     * The Observation does contain a referenced device.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithValidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:focus"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+            } else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("2", resource.getMeta().getVersionId().getValue());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries a Device and requests the reverse inclusion of an Observation that references the Device
+     * where the reference is a versioned reference which does not specify the device's current version.
+     * The Observation does contain a referenced device, but the version is not the current version so the
+     * Observation is not included.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithInvalidVersionedReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:subject"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Device", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedDevice1.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries a Patient and requests the reverse inclusion of a Patient that references the Patient.
+     * The referencing patient is the same as the match patient, so is not returned because it's a
+     * duplicate of the match patient..
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithMatchDuplicate() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedPatient2.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Patient:link"));
+        List<Resource> resources = runQueryTest(Patient.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals(savedPatient2.getId(), resources.get(0).getId());
     }
 
     /**
@@ -345,12 +572,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertTrue(savedObservation2.getId().equals(resource.getId()) ||
-                           savedObservation3.getId().equals(resource.getId()));
-            }
-            else if (resource instanceof Patient) {
+                        savedObservation3.getId().equals(resource.getId()));
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -372,12 +597,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertTrue(savedObservation2.getId().equals(resource.getId()) ||
-                           savedObservation3.getId().equals(resource.getId()));
-            }
-            else if (resource instanceof Patient) {
+                        savedObservation3.getId().equals(resource.getId()));
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient1.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -399,14 +622,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation5.getId(), resource.getId());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
@@ -429,18 +649,33 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation5.getId(), resource.getId());
-            }
-            else if (resource instanceof Device) {
+            } else if (resource instanceof Device) {
                 assertEquals(savedDevice1.getId(), resource.getId());
                 assertEquals("2", savedDevice1.getMeta().getVersionId().getValue());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }
+    }
+
+    /**
+     * This test queries a Device and requests the reverse inclusion of referencing DeviceRequests.
+     * There is 1 DeviceRequest that refers back to the Device multiple times. Only one instance of
+     * the DeviceRequest will be returned.
+     * @throws Exception
+     */
+    @Test
+    public void testMultiRevIncludeDuplicates() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_revinclude", Arrays.asList(new String[] {"DeviceRequest:subject", "DeviceRequest:device", "DeviceRequest:performer"}));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        assertEquals(savedDevice1.getId(), resources.get(0).getId());
+        assertEquals(savedDeviceRequest1.getId(), resources.get(1).getId());
     }
 
     /**
@@ -459,8 +694,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         if (resources.get(0) instanceof Patient) {
             Patient patient = (Patient) resources.get(0);
             assertEquals(savedPatient4.getId(), patient.getId());
-        }
-        else {
+        } else {
             fail("Unexpected resource type");
         }
     }
@@ -482,14 +716,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         for (Resource resource : resources) {
             if (resource instanceof Observation) {
                 assertEquals(savedObservation5.getId(), resource.getId());
-            }
-            else if (resource instanceof Organization) {
+            } else if (resource instanceof Organization) {
                 assertEquals(savedOrg1.getId(), resource.getId());
-            }
-            else if (resource instanceof Patient) {
+            } else if (resource instanceof Patient) {
                 assertEquals(savedPatient3.getId(), resource.getId());
-            }
-            else {
+            } else {
                 fail("Unexpected resource type returned.");
             }
         }

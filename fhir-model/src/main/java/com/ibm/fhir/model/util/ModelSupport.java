@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -896,6 +896,17 @@ public final class ModelSupport {
      */
     public static boolean isResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
+    }
+
+    /**
+     * @param name
+     *            the resource type name in titlecase to match the corresponding model class name
+     * @return true if {@code name} is a valid FHIR resource name; otherwise false
+     * @implSpec this method returns false for abstract types like {@code Resource} and {@code DomainResource}
+     */
+    public static boolean isConcreteResourceType(String name) {
+        Class<?> modelClass = RESOURCE_TYPE_MAP.get(name);
+        return modelClass != null && !isAbstract(modelClass);
     }
 
     /**
