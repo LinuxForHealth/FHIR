@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -924,7 +924,7 @@ public class CadfModelTest {
     }
 
     @Test
-    public void testCadfResourceWithAddress() throws IOException {
+    public void testCadfResourceWithAddress() throws IOException, org.json.JSONException {
         CadfGeolocation geo = CadfGeolocation.builder().city("city").region("regionIcann").build();
         CadfEndpoint endpoint = CadfEndpoint.builder().name("test").port("80").url("Here").build();
         CadfResource resource = CadfResource.builder().typeURI(ResourceType.compute_cpu).id("id").geolocation(geo).address(endpoint).build();
