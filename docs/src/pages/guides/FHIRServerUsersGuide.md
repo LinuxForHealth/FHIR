@@ -876,16 +876,16 @@ The [NATS](http://nats.io) implementation of the notification service publishes 
         "notifications":{
             ...
             "nats": {
-                "enabled": true,
-                "cluster": "nats-streaming",
-                "channel": "fhirNotifications",
-                "clientId": "fhir-server",
-                "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
-                "useTLS": true,
-                "truststoreLocation": "resources/security/nats.client.truststore.p12",
-                "truststorePassword": "change-password",
-                "keystoreLocation": "resources/security/nats.client.keystore.p12",
-                "keystorePassword": "change-password"
+		        "enabled": true,
+		        "cluster": "nats-streaming",
+		        "channel": "fhirNotifications",
+		        "clientId": "fhir-server",
+		        "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
+		        "useTLS": true,
+		        "truststoreLocation": "resources/security/nats.client.truststore.p12",
+		        "truststorePassword": "change-password",
+		        "keystoreLocation": "resources/security/nats.client.keystore.p12",
+		        "keystorePassword": "change-password"
     }
         ...
     }
@@ -1654,16 +1654,16 @@ The JavaBatch user is configured in `bulkdata.xml` and the `fhir-server-config.j
 
 ```xml
 <authorization-roles id="com.ibm.ws.batch">
-    <security-role name="batchAdmin">
-        <user name="fhiradmin"/>
-    </security-role>
-    <security-role name="batchSubmitter">
-        <user name="fhiruser"/>
-    </security-role>
-    <security-role name="batchMonitor">
-        <user name="fhiradmin"/>
-        <user name="fhiruser"/>
-    </security-role>
+	<security-role name="batchAdmin">
+		<user name="fhiradmin"/>
+	</security-role>
+	<security-role name="batchSubmitter">
+		<user name="fhiruser"/>
+	</security-role>
+	<security-role name="batchMonitor">
+		<user name="fhiradmin"/>
+		<user name="fhiruser"/>
+	</security-role>
 </authorization-roles>
 ```
 
