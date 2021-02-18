@@ -876,16 +876,16 @@ The [NATS](http://nats.io) implementation of the notification service publishes 
         "notifications":{
             ...
             "nats": {
-		        "enabled": true,
-		        "cluster": "nats-streaming",
-		        "channel": "fhirNotifications",
-		        "clientId": "fhir-server",
-		        "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
-		        "useTLS": true,
-		        "truststoreLocation": "resources/security/nats.client.truststore.p12",
-		        "truststorePassword": "change-password",
-		        "keystoreLocation": "resources/security/nats.client.keystore.p12",
-		        "keystorePassword": "change-password"
+                "enabled": true,
+                "cluster": "nats-streaming",
+                "channel": "fhirNotifications",
+                "clientId": "fhir-server",
+                "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
+                "useTLS": true,
+                "truststoreLocation": "resources/security/nats.client.truststore.p12",
+                "truststorePassword": "change-password",
+                "keystoreLocation": "resources/security/nats.client.keystore.p12",
+                "keystorePassword": "change-password"
     }
         ...
     }
@@ -1654,16 +1654,16 @@ The JavaBatch user is configured in `bulkdata.xml` and the `fhir-server-config.j
 
 ```xml
 <authorization-roles id="com.ibm.ws.batch">
-	<security-role name="batchAdmin">
-		<user name="fhiradmin"/>
-	</security-role>
-	<security-role name="batchSubmitter">
-		<user name="fhiruser"/>
-	</security-role>
-	<security-role name="batchMonitor">
-		<user name="fhiradmin"/>
-		<user name="fhiruser"/>
-	</security-role>
+    <security-role name="batchAdmin">
+        <user name="fhiradmin"/>
+    </security-role>
+    <security-role name="batchSubmitter">
+        <user name="fhiruser"/>
+    </security-role>
+    <security-role name="batchMonitor">
+        <user name="fhiradmin"/>
+        <user name="fhiruser"/>
+    </security-role>
 </authorization-roles>
 ```
 
@@ -2126,7 +2126,28 @@ Omitting the `fhirServer/resources/<resourceType>/interactions` property is equi
 }
 ```
 
-In the example above, for any resource type which is not specifically configured, such as `Encounter`, or for any resource type which is configured but does not specify the `fhirServer/resources/<resourceType>/interactions` property, such as `Procedure`, all of the interactions listed for the `Resource` resource type will be allowed. One final consideration when configuring interactions is the `fhirServer/resources/open` property. If this property is specified and its value is set to `false`, then no interactions will be allowed for resource types which are not specifically listed in the `fhirServer/resources` property group. 
+In the example above, for any resource type which is not specifically configured, such as `Encounter`, or for any resource type which is configured but does not specify the `fhirServer/resources/<resourceType>/interactions` property, such as `Procedure`, all of the interactions listed for the `Resource` resource type will be allowed.
+
+One final consideration when configuring interactions is the `fhirServer/resources/open` property. If this property is specified and its value is set to `false`, then no interactions will be allowed for resource types which are not specifically listed in the `fhirServer/resources` property group. Assume the following configuration:
+
+```
+"resources": {
+    "open": false,
+    "Condition": {
+        "interactions": ["create", "read", "vread", "history", "search", "update", "delete"]
+    },
+    "Observation": {
+        "interactions": ["create", "read", "vread", "history", "delete"]
+    },
+    "Patient": {
+        "interactions": ["read", "vread", "history", "search"]
+    }
+}
+```
+
+In this case, since the `fhirServer/resources/open` property is set to `false`, only the resource types listed (`Condition`, `Observation`, `Patient`) are allowed to be interacted with via the FHIR REST API. For example, a `create` request of a `Procedure` resource will fail since that resource type is not specified.
+
+Whole-system search is a special case of this resource type validation, since no resource type is specified on a whole-system search request. In this case, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
 In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
