@@ -81,8 +81,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         // a Patient that will be used as a reference within an Observation
         savedPatient1 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
 
-        // an Observation with a reference to a patient
-        savedObservation2 = observation.toBuilder().subject(reference("Patient/" + savedPatient1.getId())).build();
+        // an Observation with a reference to a patient and a logical ID-only reference to another observation
+        savedObservation2 = observation.toBuilder()
+                                        .subject(reference("Patient/" + savedPatient1.getId()))
+                                        .hasMember(reference(savedObservation1.getId()))
+                                        .build();
         savedObservation2 = persistence.create(getDefaultPersistenceContext(), savedObservation2).getResource();
 
         // an Observation with a reference to a patient and a reference to an Encounter
@@ -310,6 +313,24 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         assertNotNull(resources);
         assertEquals(1, resources.size());
         assertEquals(savedPatient2.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries an Observation and requests the inclusion of a referenced Observation
+     * where the reference is a logical ID for an existing observation. Since the reference
+     * is a logical ID only, no included resource will be returned.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithLogicalIdOnlyReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation2.getId()));
+        queryParms.put("_include", Collections.singletonList("Observation:has-member"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Observation", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedObservation2.getId(), resources.get(0).getId());
     }
 
     /**
@@ -553,6 +574,24 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         assertNotNull(resources);
         assertEquals(1, resources.size());
         assertEquals(savedPatient2.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries an Observation and requests the reverse inclusion of an observation that
+     * references it, where the reference is a logical ID. Since the reference
+     * is a logical ID only, no included resource will be returned.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithLogicalIdOnlyReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedObservation1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:has-member"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Observation", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedObservation1.getId(), resources.get(0).getId());
     }
 
     /**

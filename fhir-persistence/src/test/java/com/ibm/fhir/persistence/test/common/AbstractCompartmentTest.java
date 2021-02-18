@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,54 +39,68 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     Practitioner savedPractitioner;
     RelatedPerson savedRelatedPerson;
     Observation savedObservation;
-    
+    Observation savedObservation2;
+
     /**
      * Builds and saves an Observation with the following references:
-     * 
+     *
      * Observation.subject = Patient
      * Observation.device = Device
      * Observation.encounter = Encounter
      * Observation.performer[0] = Patient
      * Observation.performer[1] = Practitioner
      * Observation.performer[2] = RelatedPerson
+     *
+     * Builds and saves an Observation with the following logical ID-only reference:
+     *
+     * Observation.subject = Patient
      */
     @BeforeClass
     public void createResources() throws Exception {
         Observation.Builder observationBuilder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
-        
+        Observation.Builder observation2Builder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
+
         Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
         savedPatient = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         observationBuilder.subject(buildReference(savedPatient));
         observationBuilder.performer(buildReference(savedPatient));
-        
+        observation2Builder.subject(Reference.builder().reference(string(savedPatient.getId())).build());
+
         Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
         savedDevice = persistence.create(getDefaultPersistenceContext(), device).getResource();
         observationBuilder.device(buildReference(savedDevice));
-        
+
         Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         savedEncounter = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
         observationBuilder.encounter(buildReference(savedEncounter));
-        
+
         Practitioner practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
         savedPractitioner = persistence.create(getDefaultPersistenceContext(), practitioner).getResource();
         observationBuilder.performer(buildReference(savedPractitioner));
-        
+
         RelatedPerson relatedPerson = TestUtil.readExampleResource("json/ibm/minimal/RelatedPerson-1.json");
         savedRelatedPerson = persistence.create(getDefaultPersistenceContext(), relatedPerson).getResource();
         observationBuilder.performer(buildReference(savedRelatedPerson));
-        
+
         savedObservation = persistence.create(getDefaultPersistenceContext(), observationBuilder.build()).getResource();
         assertNotNull(savedObservation);
         assertNotNull(savedObservation.getId());
         assertNotNull(savedObservation.getMeta());
         assertNotNull(savedObservation.getMeta().getVersionId().getValue());
         assertEquals("1", savedObservation.getMeta().getVersionId().getValue());
+
+        savedObservation2 = persistence.create(getDefaultPersistenceContext(), observation2Builder.build()).getResource();
+        assertNotNull(savedObservation2);
+        assertNotNull(savedObservation2.getId());
+        assertNotNull(savedObservation2.getMeta());
+        assertNotNull(savedObservation2.getMeta().getVersionId().getValue());
+        assertEquals("1", savedObservation2.getMeta().getVersionId().getValue());
     }
 
     private Reference buildReference(Resource resource) {
         assertNotNull(resource);
         assertNotNull(resource.getId());
-        
+
         String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
         return Reference.builder()
                         .reference(string(resourceTypeName + "/" + resource.getId()))
@@ -95,38 +109,45 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
 
     @Test
     public void testPatientCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Patient", savedPatient.getId(), 
+        List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         // This currently returns 2 due to https://github.com/IBM/FHIR/issues/265
 //        assertEquals(1, results.size());
         assertTrue(results.size() > 0);
     }
-    
+
     @Test
     public void testDeviceCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Device", savedDevice.getId(), 
+        List<Resource> results = runQueryTest("Device", savedDevice.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
-    
+
     @Test
     public void testEncounterCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Encounter", savedEncounter.getId(), 
+        List<Resource> results = runQueryTest("Encounter", savedEncounter.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
-    
+
     @Test
     public void testPractitionerCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Practitioner", savedPractitioner.getId(), 
+        List<Resource> results = runQueryTest("Practitioner", savedPractitioner.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
-    
+
     @Test
     public void testRelatedPersonCompartment() throws Exception {
-        List<Resource> results = runQueryTest("RelatedPerson", savedRelatedPerson.getId(), 
+        List<Resource> results = runQueryTest("RelatedPerson", savedRelatedPerson.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
+    }
+
+    @Test
+    public void testPatientCompartmentViaLogicalId() throws Exception {
+        List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
+                                    Observation.class, "_id", savedObservation2.getId());
+        assertEquals(0, results.size());
     }
 }
