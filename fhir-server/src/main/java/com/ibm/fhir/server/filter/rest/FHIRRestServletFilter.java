@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -316,41 +316,51 @@ public class FHIRRestServletFilter extends HttpFilter {
     /**
      * Get the original request URL from either the HttpServletRequest or a configured Header (in case of re-writing proxies).
      *
+     * If configured as a header, the header value will only be used for the protocol, server name, port number, and server path;
+     * the query string will come from the HttpServletRequest.
+     *
      * @param request
-     * @return String The complete request URI
+     * @return String The full request URL
      */
     private String getOriginalRequestURI(HttpServletRequest request) {
-        String requestUri = null;
+        StringBuilder requestUriBuilder = null;
 
         // First, check the configured header for the original request URI (in case any proxies have overwritten the user-facing URL)
         if (originalRequestUriHeaderName != null) {
-            requestUri = request.getHeader(originalRequestUriHeaderName);
-            if (requestUri != null && !requestUri.isEmpty()) {
-                // Try to parse it as a URI to ensure its valid
+            String originalRequestUriString = request.getHeader(originalRequestUriHeaderName);
+            if (originalRequestUriString != null && !originalRequestUriString.isEmpty()) {
                 try {
-                    URI originalRequestUri = new URI(requestUri);
+                    String uriStringSansQuery = originalRequestUriString.contains("?") ?
+                            originalRequestUriString.substring(0, originalRequestUriString.indexOf('?')) :
+                            originalRequestUriString;
+                    // Try to parse it as a URI to ensure its valid
+                    URI originalRequestUri = new URI(uriStringSansQuery);
+
                     // If its not absolute, then construct an absolute URI (or else JAX-RS will append the path to the current baseUri)
-                    if (!originalRequestUri.isAbsolute()) {
-                        requestUri = UriBuilder.fromUri(getRequestURL(request))
-                            .replacePath(originalRequestUri.getPath()).build().toString();
+                    if (originalRequestUri.isAbsolute()) {
+                        requestUriBuilder = new StringBuilder(uriStringSansQuery);
+                    } else {
+                        requestUriBuilder = new StringBuilder(UriBuilder.fromUri(getRequestURL(request))
+                            .replacePath(originalRequestUri.getPath()).build().toString());
                     }
                 } catch (Exception e) {
                     log.log(Level.WARNING, "Error while computing the original request URI", e);
-                    requestUri = null;
                 }
             }
         }
 
         // If there was no configured header or the header wasn't present, construct it from the HttpServletRequest
-        if (requestUri == null || requestUri.isEmpty()) {
-            StringBuilder requestUriBuilder = new StringBuilder(request.getRequestURL());
-            String queryString = request.getQueryString();
-            if (queryString != null && !queryString.isEmpty()) {
-                requestUriBuilder.append("?").append(queryString);
-            }
-            requestUri = requestUriBuilder.toString();
+        if (requestUriBuilder == null || requestUriBuilder.toString().isEmpty()) {
+            requestUriBuilder = new StringBuilder(request.getRequestURL());
         }
-        return requestUri;
+
+        // Append the query string from the HttpServletRequest
+        String queryString = request.getQueryString();
+        if (queryString != null && !queryString.isEmpty()) {
+            requestUriBuilder.append("?").append(queryString);
+        }
+
+        return requestUriBuilder.toString();
     }
 
     @Override
