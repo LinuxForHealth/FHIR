@@ -97,6 +97,7 @@ public class FhirSchemaConstants {
     public static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
     public static final String CODE_SYSTEM_NAME = "CODE_SYSTEM_NAME";
     public static final String TOKEN_VALUE = "TOKEN_VALUE";
+    public static final String COMPOSITE_ID = "COMPOSITE_ID";
 
     public static final String RESOURCE_TYPES = "RESOURCE_TYPES";
     public static final String RESOURCE_TYPE = "RESOURCE_TYPE";

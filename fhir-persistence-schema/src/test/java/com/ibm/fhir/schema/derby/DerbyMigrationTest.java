@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.LogManager;
@@ -38,7 +39,6 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
-import com.ibm.fhir.schema.control.FhirSchemaVersion;
 
 /**
  * Unit test for migration logic within the IBM FHIR Server schema
@@ -143,8 +143,30 @@ public class DerbyMigrationTest {
 
         // 4. Assert they match
         List<String> migrated_ddl = inferDDL(dbPath);
-        System.out.println(FhirSchemaVersion.V0001.name() + " migrated: " + migrated_ddl);
-        System.out.println(FhirSchemaVersion.V0008.name() + "   latest: " + latest_ddl);
+        //System.out.println(FhirSchemaVersion.V0001.name() + " migrated: " + migrated_ddl);
+        //System.out.println(FhirSchemaVersion.V0009.name() + "   latest: " + latest_ddl);
+
+        // If the DDL is different, it's helpful to reveal the delta
+        Set<String> migratedSet = new HashSet<>(migrated_ddl);
+        Set<String> latestSet = new HashSet<>(latest_ddl);
+
+        List<String> differences = latestSet.stream()
+                .filter(element -> !migratedSet.contains(element))
+                .collect(Collectors.toList());
+
+        for (String diff: differences) {
+            System.out.println("MISSING FROM MIGRATION: " + diff);
+        }
+
+        // Check the DDL in the migrated set but not found in the latest
+        differences = migratedSet.stream()
+                .filter(element -> !latestSet.contains(element))
+                .collect(Collectors.toList());
+
+        for (String diff: differences) {
+            System.out.println("MISSING FROM LATEST: " + diff);
+        }
+
         assertEquals(latest_ddl, migrated_ddl);
     }
 

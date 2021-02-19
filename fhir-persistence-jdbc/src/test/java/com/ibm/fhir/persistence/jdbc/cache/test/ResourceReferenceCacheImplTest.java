@@ -7,13 +7,9 @@
 package com.ibm.fhir.persistence.jdbc.cache.test;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -34,18 +30,17 @@ public class ResourceReferenceCacheImplTest {
         impl.addCodeSystem("sys1", 1);
         impl.addCodeSystem("sys2", 2);
         impl.addCodeSystem("sys3", 3);
-        
+
         // The following fetches will be served from the thread-local map because
         // we haven't yet called ResourceReferenceCacheImpl#updateSharedMaps()
-        Set<String> names = new HashSet<>();
         List<ResourceTokenValueRec> xrefs = new ArrayList<>();
-        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys1", "val1"));
-        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys2", "val2"));
-        
+        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys1", "val1", null, false));
+        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys2", "val2", null, false));
+
         // Ask the cache to resolve the system/value strings
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
         impl.resolveCodeSystems(xrefs, systemMisses);
-        
+
         // check we only have misses for what we expected
         assertEquals(0, systemMisses.size());
 
@@ -56,26 +51,26 @@ public class ResourceReferenceCacheImplTest {
         ResourceTokenValueRec sys2 = xrefs.get(1);
         assertEquals("sys2", sys2.getCodeSystemValue());
         assertEquals(2, sys2.getCodeSystemValueId());
-        
+
         List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
         impl.resolveTokenValues(xrefs, valueMisses);
-        assertEquals(2, valueMisses.size());        
-        
+        assertEquals(2, valueMisses.size());
+
         // Update the shared cache, which will also clear the thread-local map
         // Note that the cache size is only 2, put we added 3 key-values. Because
         // we have an LRU policy, we should only keep "sys2" and "sys3".
         impl.updateSharedMaps();
-        
+
         // Now try the fetch again...so we have to read from the shared cache.
         // Should only find "sys2", not "sys1". Reset our inputs first
         sys1.setCodeSystemValueId(-1);
         sys2.setCodeSystemValueId(-1);
         systemMisses.clear();
         valueMisses.clear();
-        
+
         impl.resolveCodeSystems(xrefs, systemMisses);
         assertEquals(0, systemMisses.size());
-        
+
         impl.resolveTokenValues(xrefs, valueMisses);
         assertEquals(2, valueMisses.size());
 
@@ -83,12 +78,12 @@ public class ResourceReferenceCacheImplTest {
         assertEquals(2, sys2.getCodeSystemValueId());
 
         // Make sure sys3 is found
-        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys3", "val3"));
+        xrefs.add(new ResourceTokenValueRec(1, "Patient", 1, 1L, "sys3", "val3", null, false));
         sys1.setCodeSystemValueId(-1);
         sys2.setCodeSystemValueId(-1);
         systemMisses.clear();
         valueMisses.clear();
-        
+
         impl.resolveCodeSystems(xrefs, systemMisses);
         impl.resolveTokenValues(xrefs, valueMisses);
         ResourceTokenValueRec sys3 = xrefs.get(2);
@@ -98,7 +93,7 @@ public class ResourceReferenceCacheImplTest {
 
         assertEquals(1, sys1.getCodeSystemValueId());
         assertEquals(2, sys2.getCodeSystemValueId());
-        
+
         assertEquals("sys3", sys3.getCodeSystemValue());
         assertEquals(3, sys3.getCodeSystemValueId());
     }

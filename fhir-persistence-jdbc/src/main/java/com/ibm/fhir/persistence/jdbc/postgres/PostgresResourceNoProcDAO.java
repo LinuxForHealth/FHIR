@@ -358,7 +358,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             if (p_version == null || p_version > v_version) {
                 // existing resource, so need to delete all its parameters
                 // delete composites first, or else the foreign keys there restrict deletes on referenced tables
-                deleteFromParameterTable(conn, tablePrefix + "_composites", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
@@ -366,6 +365,9 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // replaces _token_values
                 deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
             }
         }
 

@@ -23,6 +23,12 @@ public class ResourceTokenValueRec extends ResourceRefRec {
     private Long commonTokenValueId;
     private final Integer refVersionId;
 
+    // Issue 1683 - optional composite id used to correlate parameters
+    private final Integer compositeId;
+
+    // Is this a system-level search param?
+    private final boolean systemLevel;
+
     /**
      * Public constructor
      * @param parameterNameId
@@ -31,14 +37,16 @@ public class ResourceTokenValueRec extends ResourceRefRec {
      * @param logicalResourceId
      * @param externalSystemName
      * @param externalRefValue
+     * @param compositeId
+     * @param systemLevel
      */
     public ResourceTokenValueRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
-        String codeSystem, String externalRefValue) {
-        this(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, externalRefValue, null);
+        String codeSystem, String externalRefValue, Integer compositeId, boolean systemLevel) {
+        this(parameterNameId, resourceType, resourceTypeId, logicalResourceId, codeSystem, externalRefValue, null, compositeId, systemLevel);
     }
 
     /**
-     * Public constructor. For use to create a versioned resource reference
+     * Public constructor. Used to create a versioned resource reference
      * @param parameterNameId
      * @param resourceType
      * @param resourceTypeId
@@ -46,13 +54,17 @@ public class ResourceTokenValueRec extends ResourceRefRec {
      * @param externalSystemName
      * @param externalRefValue
      * @param refVersionId
+     * @param compositeId
+     * @param systemLevel
      */
     public ResourceTokenValueRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,
-        String externalSystemName, String externalRefValue, Integer refVersionId) {
+        String externalSystemName, String externalRefValue, Integer refVersionId, Integer compositeId, boolean systemLevel) {
         super(parameterNameId, resourceType, resourceTypeId, logicalResourceId);
         this.codeSystemValue = externalSystemName;
         this.tokenValue = externalRefValue;
         this.refVersionId = refVersionId;
+        this.compositeId = compositeId;
+        this.systemLevel = systemLevel;
     }
 
     /**
@@ -104,5 +116,19 @@ public class ResourceTokenValueRec extends ResourceRefRec {
      */
     public Integer getRefVersionId() {
         return refVersionId;
+    }
+
+    /**
+     * @return the compositeId
+     */
+    public Integer getCompositeId() {
+        return compositeId;
+    }
+
+    /**
+     * @return the systemLevel
+     */
+    public boolean isSystemLevel() {
+        return systemLevel;
     }
 }

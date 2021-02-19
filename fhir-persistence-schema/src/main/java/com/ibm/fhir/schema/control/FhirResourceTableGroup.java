@@ -7,10 +7,10 @@
 package com.ibm.fhir.schema.control;
 
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPOSITE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_ALLERGIES_LIST;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_DRUG_ALLERGIES_LIST;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_MEDICATIONS_LIST;
@@ -53,7 +53,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_V;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
@@ -65,17 +64,15 @@ import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddColumn;
-import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
-import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropIndex;
-import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
+import com.ibm.fhir.database.utils.common.DropPrimaryKey;
+import com.ibm.fhir.database.utils.common.DropTable;
+import com.ibm.fhir.database.utils.common.ReorgTable;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.CreateIndex;
-import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
-import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
@@ -114,18 +111,11 @@ public class FhirResourceTableGroup {
     private static final String _LOGICAL_RESOURCES = "_LOGICAL_RESOURCES";
     private static final String _RESOURCES = "_RESOURCES";
 
-    private static final String COMP = "COMP";
     private static final String ROW_ID = "ROW_ID";
 
     // suffix for the token view
     private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
 
-    /**
-     * The maximum number of components we can store in the X_COMPOSITES tables.
-     * Per the current design, each component will add 6 columns to the table, so don't go too high.
-     * Most of the composite parameters in the specification have 2 components, but a couple have 3.
-     */
-    private static final int MAX_COMP = 3;
     private static final String _STR = "_STR";
     private static final String _NUMBER = "_NUMBER";
     private static final String _DATE = "_DATE";
@@ -172,12 +162,11 @@ public class FhirResourceTableGroup {
         addLogicalResources(group, tablePrefix);
         addResources(group, tablePrefix);
         addStrValues(group, tablePrefix);
-        addTokenValues(group, tablePrefix);
         addDateValues(group, tablePrefix);
         addNumberValues(group, tablePrefix);
         addLatLngValues(group, tablePrefix);
         addQuantityValues(group, tablePrefix);
-        addComposites(group, tablePrefix);
+        // composites table removed by issue-1683
         addResourceTokenRefs(group, tablePrefix);
         addTokenValuesView(group, tablePrefix);
 
@@ -201,6 +190,7 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -215,11 +205,24 @@ public class FhirResourceTableGroup {
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
                 .addIndex(IDX + tableName + CURRENT_RESOURCE_ID, CURRENT_RESOURCE_ID)
                 .addIndex(IDX + tableName + LOGICAL_ID, LOGICAL_ID)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        // Yes, this looks a little weird but as part of the migration to our V0009
+                        // schema, we have to drop the <resourceType>_COMPOSITES table which is no
+                        // longer required. But we have to drop it before we get rid of the primary
+                        // key and ROW_ID on any of the parameter tables, which is why we do this here
+                        statements.add(new DropTable(schemaName, prefix + "_COMPOSITES"));
+
+                        // Get rid of the old token values parameter table which no longer
+                        statements.add(new DropTable(schemaName, prefix + "_TOKEN_VALUES"));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         group.add(tbl);
         model.addTable(tbl);
-
 
         // Special case for LIST resource...we need a table to store the list items
         if ("LIST".equalsIgnoreCase(prefix)) {
@@ -296,11 +299,11 @@ public class FhirResourceTableGroup {
     /**
      * Add the STR_VALUES table for the given resource name prefix
      * <pre>
-  row_id                BIGINT             NOT NULL,
   parameter_name_id        INT             NOT NULL,
   str_value            VARCHAR(511 OCTETS),
   str_value_lcase      VARCHAR(511 OCTETS),
-  resource_id           BIGINT             NOT NULL
+  resource_id           BIGINT             NOT NULL,
+  composite_id        SMALLINT
 
 CREATE INDEX idx_device_str_values_psr ON device_str_values(parameter_name_id, str_value, resource_id);
 CREATE INDEX idx_device_str_values_plr ON device_str_values(parameter_name_id, str_value_lcase, resource_id);
@@ -322,89 +325,74 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(             ROW_ID,      false)
+                // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
                 .addVarcharColumn(   STR_VALUE_LCASE, msb,  true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_PSR", PARAMETER_NAME_ID, STR_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PLR", PARAMETER_NAME_ID, STR_VALUE_LCASE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, STR_VALUE)
                 .addIndex(IDX + tableName + "_RPL", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, STR_VALUE_LCASE)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
         group.add(tbl);
         model.addTable(tbl);
+    }
 
-        // issue-1341. Default sequence cache for generated identity columns is too small
-        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
-        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
-        group.add(alterTable);
+    /**
+     * For our V0009 schema version.
+     * Add the steps we need to migrate a parameters table to the new composites design
+     * for issue 1683.
+     * @param statements the list of {@link IDatabaseStatement} to add to
+     * @param tableName the parameter table name (e.g. <code>{resourceType}_STR_VALUES) </code>
+     */
+    private void addCompositeMigrationStepsV0009(List<IDatabaseStatement> statements, String tableName) {
+        // Simplified composite value support. Eliminate the composites table and instead
+        // use a new composite_id column to correlate parameters involved in a composite relationship
+        // drop PK constraint; remove ROW_ID column after data migration
+        statements.add(new DropPrimaryKey(schemaName, tableName));
+        statements.add(new DropColumn(schemaName, tableName, ROW_ID));
+
+        // Add COMPOSITE_ID SMALLINT used to tie together composite parameter rows
+        List<ColumnBase> columns = new ColumnDefBuilder()
+                .addIntColumn(COMPOSITE_ID, true)
+                .buildColumns();
+        for (ColumnBase column : columns) {
+            statements.add(new AddColumn(schemaName, tableName, column));
+        }
+
+        // Db2 requires a REORG before the table can be used again, so
+        // we add this as a final step. This will be ignored by database
+        // adapters that don't require it (e.g. PostgreSQL).
+        statements.add(new ReorgTable(schemaName, tableName));
     }
 
     /**
      * <pre>
-  row_id                BIGINT NOT NULL,
   parameter_name_id        INT NOT NULL,
   code_system_id           INT NOT NULL,
   token_value          VARCHAR(255 OCTETS),
   resource_id           BIGINT NOT NULL
+  composite_id        SMALLINT
 )
 ;
-
-CREATE INDEX idx_device_token_values_pncscv ON device_token_values(parameter_name_id, code_system_id, token_value, resource_id);
-CREATE INDEX idx_device_token_values_rps ON device_token_values(resource_id, parameter_name_id, code_system_id, token_value);
-ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
-ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_cs FOREIGN KEY (code_system_id)    REFERENCES code_systems;
-ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources;
-     * </pre>
-     * @param group
-     * @param prefix
-     */
-    public Table addTokenValues(List<IDatabaseObject> group, String prefix) {
-        final String tableName = prefix + "_TOKEN_VALUES";
-        final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
-
-        Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
-                .addBigIntColumn(             ROW_ID,      false)
-                .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addIntColumn(        CODE_SYSTEM_ID,      false)
-                .addVarcharColumn(       TOKEN_VALUE, 511,  true)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
-                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
-                .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
-                .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
-                .setTablespace(fhirTablespace)
-                .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
-                .build(model)
-                ;
-
-        group.add(tbl);
-        model.addTable(tbl);
-
-        // issue-1341. Default sequence cache for generated identity columns is too small
-        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
-        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
-        group.add(alterTable);
-
-        return tbl;
-    }
 
     /**
      * New schema for issue #1366. Uses a map table to reduce cost of indexing repeated token values
@@ -419,27 +407,27 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0008.vid())
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(               ROW_ID,    false)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
                 .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
+                .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0008 change
                 .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0008 change
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
-                    // Migrate the index definitions as part of the V0008 version of the schema
-                    // This table was originally introduced as part of the V0006 schema, which
-                    // is what we use as the match for the priorVersion
                     List<IDatabaseStatement> statements = new ArrayList<>();
-                    if (priorVersion == FhirSchemaVersion.V0006.vid()) {
+                    if (priorVersion == FhirSchemaVersion.V0008.vid()) {
+                        addCompositeMigrationStepsV0009(statements, tableName);
+                    } else if (priorVersion == FhirSchemaVersion.V0006.vid()) {
+                        // Migrate the index definitions as part of the V0008 version of the schema
+                        // This table was originally introduced as part of the V0006 schema, which
+                        // is what we use as the match for the priorVersion
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_LRTV"));
 
@@ -496,20 +484,20 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
             // in the join condition to give the optimizer the best chance at finding a good nested
             // loop strategy
             select.append("SELECT ref.").append(MT_ID);
-            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id ");
+            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
             select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
         } else {
-            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id ");
+            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
         }
 
         View view = View.builder(schemaName, viewName)
-                .setVersion(FhirSchemaVersion.V0008.vid())
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .setSelectClause(select.toString())
                 .addPrivileges(resourceTablePrivileges)
                 .addDependency(commonTokenValues)
@@ -545,19 +533,17 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(2)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,      true)
                 .addTimestampColumn(        DATE_END,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -570,6 +556,10 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
                         statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
                     }
+
+                    if (priorVersion <= 2) {
+                        addCompositeMigrationStepsV0009(statements, tableName);
+                    }
                     return statements;
                 })
                 .build(model)
@@ -577,11 +567,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         group.add(tbl);
         model.addTable(tbl);
-
-        // issue-1341. Default sequence cache for generated identity columns is too small
-        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
-        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
-        group.add(alterTable);
     }
 
     /**
@@ -609,19 +594,17 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(2)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addDoubleColumn(   NUMBER_VALUE_LOW,       true)
                 .addDoubleColumn(  NUMBER_VALUE_HIGH,       true)
+                .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, NUMBER_VALUE)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -638,6 +621,10 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                             statements.add(new AddColumn(schemaName, tableName, column));
                         }
                     }
+
+                    if (priorVersion <= 2) {
+                        addCompositeMigrationStepsV0009(statements, tableName);
+                    }
                     return statements;
                 })
                 .build(model)
@@ -645,11 +632,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         group.add(tbl);
         model.addTable(tbl);
-
-        // issue-1341. Default sequence cache for generated identity columns is too small
-        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
-        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
-        group.add(alterTable);
     }
 
     /**
@@ -677,33 +659,34 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
                 .addDoubleColumn(    LONGITUDE_VALUE,       true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_PNNLV", PARAMETER_NAME_ID, LATITUDE_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PNNHV", PARAMETER_NAME_ID, LONGITUDE_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPLAT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, LATITUDE_VALUE)
                 .addIndex(IDX + tableName + "_RPLNG", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, LONGITUDE_VALUE)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion <= 2) {
+                        addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
         group.add(tbl);
         model.addTable(tbl);
-
-        // issue-1341. Default sequence cache for generated identity columns is too small
-        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
-        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
-        group.add(alterTable);
     }
 
     /**
@@ -740,8 +723,8 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .setTenantColumnName(MT_ID)
-                .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
                 .addDoubleColumn(     QUANTITY_VALUE,      true)
@@ -749,148 +732,30 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addDoubleColumn(QUANTITY_VALUE_HIGH,      true)
                 .addIntColumn(        CODE_SYSTEM_ID,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, CODE, QUANTITY_VALUE, LOGICAL_RESOURCE_ID, CODE_SYSTEM_ID)
                 .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE, QUANTITY_VALUE, CODE_SYSTEM_ID)
                 .addIndex(IDX + tableName + "_PCLHSR", PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_LOW, QUANTITY_VALUE_HIGH, CODE_SYSTEM_ID, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PCHLSR", PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_HIGH, QUANTITY_VALUE_LOW, CODE_SYSTEM_ID, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPCLHS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_LOW, QUANTITY_VALUE_HIGH, CODE_SYSTEM_ID)
                 .addIndex(IDX + tableName + "_RPCHLS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_HIGH, QUANTITY_VALUE_LOW, CODE_SYSTEM_ID)
-                .addPrimaryKey(PK + tableName, ROW_ID)
-                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
         group.add(tbl);
         model.addTable(tbl);
-
-        // issue-1341. Default sequence cache for generated identity columns is too small
-        AlterTableIdentityCache alterTable = new AlterTableIdentityCache(schemaName, tableName, ROW_ID, FhirSchemaConstants.FHIR_IDENTITY_SEQUENCE_CACHE, FhirSchemaVersion.V0004.vid());
-        alterTable.addDependency(tbl); // Depends on the CREATE TABLE, which obviously must be executed first
-        group.add(alterTable);
-    }
-
-    /**
-     * Add the COMPOSITES table for the given resource name prefix
-     * <pre>
-  parameter_name_id       INT  NOT NULL,
-  comp1_str            BIGINT,
-  comp1_number         BIGINT,
-  comp1_date           BIGINT,
-  comp1_token          BIGINT,
-  comp1_quantity       BIGINT,
-  comp1_latlng         BIGINT,
-  ...
-  logical_resource_id  BIGINT  NOT NULL
-
-CREATE INDEX idx_device_composites_pttr ON device_composites(parameter_name_id, comp1_token, comp2_token, resource_id);
-CREATE INDEX idx_device_composites_ptqr ON device_composites(parameter_name_id, comp1_token, comp2_quantity, resource_id);
-CREATE INDEX idx_device_composites_rptt ON device_composites(resource_id, parameter_name_id, comp1_token, comp2_token);
-CREATE INDEX idx_device_composites_rptq ON device_composites(resource_id, parameter_name_id, comp1_token, comp2_quantity);
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_str      FOREIGN KEY (comp1_str)      REFERENCES device_str_values      NOT ENFORCED;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_number   FOREIGN KEY (comp1_number)   REFERENCES device_number_values   NOT ENFORCED;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_date     FOREIGN KEY (comp1_date)     REFERENCES device_date_values     NOT ENFORCED;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_token    FOREIGN KEY (comp1_token)    REFERENCES device_token_values    NOT ENFORCED;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_quantity FOREIGN KEY (comp1_quantity) REFERENCES device_quantity_values NOT ENFORCED;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_latlng   FOREIGN KEY (comp1_latlng)   REFERENCES device_latlng_values   NOT ENFORCED;
-...
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY (resource_id)       REFERENCES device_logical_resources;
-     * </pre>
-     * @param group
-     * @param prefix
-     */
-    public void addComposites(List<IDatabaseObject> group, String prefix) {
-
-        final String tableName = prefix + "_COMPOSITES";
-        final String logicalResourcesTable = prefix + "_LOGICAL_RESOURCES";
-
-        // Parameters are tied to the logical resource
-        Table.Builder tbl = Table.builder(schemaName, tableName)
-                .setVersion(2)  // Version 1 used enforced foreign key constraints which lead to issue #781.
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
-                .addIntColumn(     PARAMETER_NAME_ID, false)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID, false);
-
-        for (int i = 1; i <= MAX_COMP; i++) {
-             String comp = COMP + i;
-             tbl.addBigIntColumn(     comp + _STR, true)
-                .addBigIntColumn(  comp + _NUMBER, true)
-                .addBigIntColumn(    comp + _DATE, true)
-                .addBigIntColumn(   comp + _TOKEN, true)
-                .addBigIntColumn(comp + _QUANTITY, true)
-                .addBigIntColumn(  comp + _LATLNG, true)
-                .addForeignKeyConstraint(     FK + tableName + "_" + comp + _STR, false, schemaName, prefix + "_STR_VALUES", comp + _STR)
-                .addForeignKeyConstraint(  FK + tableName + "_" + comp + _NUMBER, false, schemaName, prefix + "_NUMBER_VALUES", comp + _NUMBER)
-                .addForeignKeyConstraint(    FK + tableName + "_" + comp + _DATE, false, schemaName, prefix + "_DATE_VALUES", comp + _DATE)
-                .addForeignKeyConstraint(   FK + tableName + "_" + comp + _TOKEN, false, schemaName, prefix + "_TOKEN_VALUES", comp + _TOKEN)
-                .addForeignKeyConstraint(FK + tableName + "_" + comp + _QUANTITY, false, schemaName, prefix + "_QUANTITY_VALUES", comp + _QUANTITY)
-                .addForeignKeyConstraint(  FK + tableName + "_" + comp + _LATLNG, false, schemaName, prefix + "_LATLNG_VALUES", comp + _LATLNG);
-        }
-
-        // add indexes for just the two common cases; token$token and token$quantity
-        tbl.addIndex(IDX + tableName + "_PTTR", PARAMETER_NAME_ID, "COMP1_TOKEN", "COMP2_TOKEN", LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_PTQR", PARAMETER_NAME_ID, "COMP1_TOKEN", "COMP2_QUANTITY", LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPTT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "COMP1_TOKEN", "COMP2_TOKEN")
-                .addIndex(IDX + tableName + "_RPTQ", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "COMP1_TOKEN", "COMP2_QUANTITY")
-                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
-                .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
-                .setTablespace(fhirTablespace)
-                .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable);
-
-        tbl.addMigration(priorVersion -> {
-            List<IDatabaseStatement> statements = new ArrayList<>();
-            if (priorVersion == 1) {
-                for (int i = 1; i <= MAX_COMP; i++) {
-                    String comp = COMP + i;
-                    statements.add(new AddForeignKeyConstraint(schemaName, tableName, MT_ID,
-                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _STR, false, schemaName, prefix + "_STR_VALUES", comp + _STR),
-                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _NUMBER, false, schemaName, prefix + "_NUMBER_VALUES", comp + _NUMBER),
-                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _DATE, false, schemaName, prefix + "_DATE_VALUES", comp + _DATE),
-                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _TOKEN, false, schemaName, prefix + "_TOKEN_VALUES", comp + _TOKEN),
-                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _QUANTITY, false, schemaName, prefix + "_QUANTITY_VALUES", comp + _QUANTITY),
-                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _LATLNG, false, schemaName, prefix + "_LATLNG_VALUES", comp + _LATLNG))
-                    );
-                }
-
-                statements.add(new DropForeignKeyConstraint(schemaName, tableName,
-                        FK + tableName + _STR,
-                        FK + tableName + _NUMBER,
-                        FK + tableName + _DATE,
-                        FK + tableName + _TOKEN,
-                        FK + tableName + _QUANTITY,
-                        FK + tableName + _LATLNG));
-            } else if (priorVersion == FhirSchemaVersion.V0005.vid()) {
-                // Make the change for V0006 (issue 1366 token values refactor). Clear out unused indexes
-                statements.add(new DropIndex(schemaName, IDX + tableName + "_PTTR"));
-                statements.add(new DropIndex(schemaName, IDX + tableName + "_PTQR"));
-                statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTT"));
-                statements.add(new DropIndex(schemaName, IDX + tableName + "_RPTQ"));
-
-                // Add one new index to support access with {logical_resource_id, parameter_name_id}
-                CreateIndex compIdx = CreateIndex.builder()
-                        .setSchemaName(schemaName)
-                        .setTableName(tableName)
-                        .setTenantColumnName(MT_ID)
-                        .setIndexName("IDX_" + tableName + "_LRPN")
-                        .setVersion(FhirSchemaVersion.V0006.vid())
-                        .addColumn(LOGICAL_RESOURCE_ID)
-                        .addColumn(PARAMETER_NAME_ID)
-                        .build();
-
-                statements.add(compIdx.createStatement());
-            }
-            return statements;
-        });
-        Table composites = tbl.build(model);
-        group.add(composites);
-        model.addTable(composites);
     }
 
     /**

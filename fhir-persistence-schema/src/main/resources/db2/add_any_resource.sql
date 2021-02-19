@@ -147,8 +147,6 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = ?';
@@ -163,8 +161,13 @@ BEGIN
       EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
     END IF;
-
   END IF;
 
   -- Persist the data using the given version number if required
