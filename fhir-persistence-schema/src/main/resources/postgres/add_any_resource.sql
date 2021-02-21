@@ -37,6 +37,8 @@
   v_duplicate               INT := 0;
   v_version                 INT := 0;
   v_insert_version          INT := 0;
+  v_change_type            CHAR(1) := NULL;
+  
   -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
   lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
@@ -150,7 +152,6 @@ BEGIN
       EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs  WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
     END IF;
-
   END IF;
 
   -- Persist the data using the given version number if required
@@ -178,6 +179,22 @@ BEGIN
       USING v_resource_id, v_logical_resource_id;
   END IF;
 
+  
+  -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+  -- related to resources changes (issue-1955)
+  IF p_is_deleted = 'Y'
+  THEN
+    v_change_type := 'D';
+  ELSE IF v_new_resource = 0
+  THEN
+    v_change_type := 'U'
+  ELSE
+    v_change_type := 'C'
+  END IF;
+
+  INSERT INTO {{SCHEMA_NAME}}.resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
+       VALUES (v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, v_insert_version, v_change_type);
+  
   -- Hand back the id of the logical resource we created earlier. In the new R4 schema
   -- only the logical_resource_id is the target of any FK, so there's no need to return
   -- the resource_id (which is now private to the _resources tables).

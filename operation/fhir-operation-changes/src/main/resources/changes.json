@@ -1,0 +1,53 @@
+{
+	"resourceType": "OperationDefinition",
+	"id": "changes",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>Reindex</h2><p>OPERATION: Get a list of resources changed since a given point</p><p>The changes operation reads resource changes from the RESOURCE_CHANGE_LOG and returns their URLs in a bundle.</p><p>URL: [base]/$changes</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome does not list any errors, then the server expected to be healthy.</p></td></tr></table></div>"
+	  },
+	"url": "http://ibm.com/fhir/OperationDefinition/changes",
+	"name": "Changes",
+	"status": "draft",
+	"kind": "operation",
+	"publisher": "IBM FHIR Server",
+	"date": "2021-02-19",
+	"description": "The changes operation fetches resource which have been changed.",
+	"code": "changes",
+	"system": true,
+	"type": false,
+	"instance": false,
+        "parameter": [
+          {
+            "name": "resourceCount",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The maximum number of resource URLs to return in one call.",
+            "type": "integer"
+          },
+          {
+            "name": "tstamp",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Fetch changes on or after the given date/timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.",
+            "type": "string"
+          },
+          {
+            "name": "resourceId",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Fetch changes after the given resourceId. Long represented as a string.",
+            "type": "string"
+          },
+          {
+            "name": "resourceType",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Fetch changes only for the given resource type",
+            "type": "string"
+          }
+        ]
+}

@@ -309,6 +309,12 @@ public class DummyImportExportImplTest {
             public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws Exception {
                 return 0;
             }
+
+            @Override
+            public FHIRRestOperationResponse doChanges(FHIROperationContext operationContext, int resourceCount, java.time.Instant fromTstamp,
+                Long afterResourceId, String resourceTypeName) throws Exception {
+                return null;
+            }
         };
     }
 }

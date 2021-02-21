@@ -39,6 +39,7 @@ BEGIN
   DECLARE v_duplicate               INT     DEFAULT 0;
   DECLARE v_version                 INT     DEFAULT 0;
   DECLARE v_insert_version          INT     DEFAULT 0;
+  DECLARE v_change_type            CHAR(1)  DEFAULT NULL;
   DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
   DECLARE stmt,lock_stmt STATEMENT;
   DECLARE lock_cur CURSOR FOR lock_stmt;
@@ -198,6 +199,21 @@ BEGIN
     -- so we can no longer insert the parameters here - instead we have to use individual
     -- JDBC statements.
   END IF;
+  
+    -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+  -- related to resources changes (issue-1955)
+  IF p_is_deleted = 'Y'
+  THEN
+    v_change_type := 'D';
+  ELSE IF v_new_resource = 0
+  THEN
+    v_change_type := 'U'
+  ELSE
+    v_change_type := 'C'
+  END IF;
+
+  INSERT INTO {{SCHEMA_NAME}}.resource_change_log(mt_id, resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
+       VALUES ({ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, v_insert_version, v_change_type);
 
   -- Hand back the id of the logical resource we created earlier
   SET o_logical_resource_id = v_logical_resource_id;

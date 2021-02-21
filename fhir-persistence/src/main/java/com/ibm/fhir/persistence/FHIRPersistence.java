@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -183,4 +184,22 @@ public interface FHIRPersistence {
     ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType,
         Instant fromLastModified, Instant toLastModified,
         Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
+
+    /**
+     * Returns true iff the persistence layer implementation supports the "changes" special operation
+     * @return
+     */
+    default boolean isChangesSupported() {
+        return false;
+    }
+
+    /**
+     * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
+     * @param resourceCount the max number of resource change records to fetch
+     * @param fromLastModified filter records with record.lastUpdate >= fromLastModified. Optional.
+     * @param afterResourceId filter records with record.resourceId > afterResourceId. Optional.
+     * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
+     * @return a list containing up to resourceCount elements describing resources which have changed
+     */
+    List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
 }

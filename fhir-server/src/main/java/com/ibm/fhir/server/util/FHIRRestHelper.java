@@ -15,6 +15,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.net.URI;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -80,6 +82,7 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -126,6 +129,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
     private static final String TOO_MANY_INCLUDE_RESOURCES = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
+    private static final ZoneId UTC = ZoneId.of("UTC");
 
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
@@ -1771,7 +1775,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the response bundle entry
      * @param responseIndexAndEntries
      *            the hashmap containing bundle entry indexes and their associated response entries
-     * @param requestURL 
+     * @param requestURL
      * @param entryIndex
      *            the bundle entry index of the bundle entry being processed
      * @param localRefMap
@@ -1808,11 +1812,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String msg = "Request URL for bundled PATCH request should have path part with two tokens (<resourceType>/<id>).";
             throw buildRestException(msg, IssueType.INVALID);
         }
-       
+
                 if (requestEntry.getResource().is(Parameters.class)) {
 
                     Parameters parameters = requestEntry.getResource().as(Parameters.class);
-                  
+
 
                     FHIRPatch patch = FHIRPathPatch.from(parameters);
 
@@ -1825,7 +1829,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     String msg="Request resource type for PATCH request must be type 'Parameters'";
                     throw buildRestException(msg, IssueType.INVALID);
                 }
-       
+
 
     }
 
@@ -3142,5 +3146,63 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
             throw new IllegalArgumentException(value);
         }
+    }
+
+    @Override
+    public FHIRRestOperationResponse doChanges(FHIROperationContext operationContext, int resourceCount, Instant fromTstamp, Long afterResourceId, String resourceTypeName)
+        throws Exception {
+        FHIRRestOperationResponse result = new FHIRRestOperationResponse();
+        List<ResourceChangeLogRecord> records;
+
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
+        try {
+            records = persistence.changes(resourceCount, fromTstamp, afterResourceId, resourceTypeName);
+        } catch (FHIRPersistenceDataAccessException x) {
+            log.log(Level.SEVERE, "Error reading change log; params = {resourceCount=" + resourceCount + ", fromTstamp=" + fromTstamp
+                + ", afterResourceId=" + afterResourceId + ", resourceTypeName=" + resourceTypeName + "}",
+                x);
+
+            result.setOperationOutcome(FHIRUtil.buildOperationOutcome("Error reading change log",
+                IssueType.EXCEPTION, IssueSeverity.ERROR));
+            records = null;
+        } finally {
+            txn.end();
+        }
+
+        // Create a Bundle resource and add an entry for each record modeled as a GET request
+        if (records != null) {
+            Bundle.Builder bundleBuilder = Bundle.builder();
+            for (ResourceChangeLogRecord changeRecord: records) {
+                Request.Builder requestBuilder = Request.builder();
+                requestBuilder.method(HTTPVerb.GET);
+                requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId() + "/_history/" + changeRecord.getVersionId()));
+
+                // add the resource id value as an extension field
+                Extension.Builder x1 = Extension.builder();
+                x1.url("https://fhir.ibm.com/changes/resourceId");
+                x1.value(Code.of(Long.toString(changeRecord.getResourceId())));
+
+                // add the resource id value as an extension field
+                Extension.Builder x2 = Extension.builder();
+                x2.url("https://fhir.ibm.com/changes/changeTimestamp");
+                x2.value(com.ibm.fhir.model.type.Instant.of(changeRecord.getChangeTstamp().atZone(UTC)));
+
+                // and the type of change that was recorded
+                Extension.Builder x3 = Extension.builder();
+                x3.url("https://fhir.ibm.com/changes/changeType");
+                x3.value(Code.of(changeRecord.getChangeType().name()));
+
+                Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+                entryBuilder.request(requestBuilder.build());
+                entryBuilder.extension(x1.build(), x2.build(), x3.build());
+                bundleBuilder.entry(entryBuilder.build());
+            }
+
+            bundleBuilder.type(BundleType.TRANSACTION);
+            result.setResource(bundleBuilder.build());
+        }
+
+        return result;
     }
 }

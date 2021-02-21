@@ -270,4 +270,17 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
+
+    /**
+     * Invoke the changes call to obtain a list of changes (create, update, delete) that have occurred
+     * since the given timestamp and resource-id parameters.
+     * @param operationContext
+     * @param resourceCount the maximum number of resource references to return in one call
+     * @param tstamp
+     * @param resourceLogicalId
+     * @return a FHIRRestOperationResponse holding a bundle containing the references to the changed resources
+     * @throws Exception
+     */
+    public FHIRRestOperationResponse doChanges(FHIROperationContext operationContext, int resourceCount, Instant fromTstamp, Long afterResourceId, String resourceTypeName) throws Exception;
+
 }

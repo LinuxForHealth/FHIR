@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.schema.control;
 
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TSTAMP;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
@@ -36,6 +38,8 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TXID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_CHANGE_LOG;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
@@ -52,6 +56,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -357,6 +362,8 @@ public class FhirSchemaGenerator {
         addLogicalResources(model); // for system-level parameter search
         addReferencesSequence(model);
         addLogicalResourceCompartments(model);
+        addResourceChangeLog(model); // track changes for easier export
+
 
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
@@ -506,6 +513,39 @@ public class FhirSchemaGenerator {
                     }
                     return statements;
                 })
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
+    /**
+     * Add the resource_change_log table. This table supports tracking of every change made
+     * to a resource at the global level, making it much easier to stream a list of changes
+     * from a known point.
+     * @param pdm
+     */
+    public void addResourceChangeLog(PhysicalDataModel pdm) {
+        final String tableName = RESOURCE_CHANGE_LOG;
+
+        Table tbl = Table.builder(schemaName, tableName)
+                .setTenantColumnName(MT_ID)
+                .setVersion(FhirSchemaVersion.V0009.vid())
+                .addBigIntColumn(RESOURCE_ID, false)
+                .addIntColumn(RESOURCE_TYPE_ID, false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
+                .addTimestampColumn(CHANGE_TSTAMP, false)
+                .addIntColumn(VERSION_ID, false)
+                .addCharColumn(CHANGE_TYPE, 1, false)
+                .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
+                .addUniqueIndex("UNQ_" + RESOURCE_CHANGE_LOG + "_CTRTRI", CHANGE_TSTAMP, RESOURCE_TYPE_ID, RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?

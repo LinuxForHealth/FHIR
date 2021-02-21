@@ -433,6 +433,22 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 }
             }
         }
+
+        // Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+        // related to resources changes (issue-1955)
+        String changeType = p_is_deleted ? "D" : v_new_resource ? "C" :  "U";
+        String INSERT_CHANGE_LOG = "INSERT INTO resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)"
+                + " VALUES (?,?,?,?,?,?)";
+        try (PreparedStatement ps = conn.prepareStatement(INSERT_CHANGE_LOG)) {
+            ps.setLong(     1, v_resource_id);
+            ps.setTimestamp(2, p_last_updated, UTC);
+            ps.setInt(      3, v_resource_type_id);
+            ps.setLong(     4, v_logical_resource_id);
+            ps.setInt(      5, v_insert_version);
+            ps.setString(   6, changeType);
+            ps.executeUpdate();
+        }
+
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
     }
