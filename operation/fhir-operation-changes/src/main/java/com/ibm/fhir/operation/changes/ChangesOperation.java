@@ -108,8 +108,8 @@ public class ChangesOperation extends AbstractOperation {
                             resourceCount = val;
                         }
                     } else if (PARAM_RESOURCE_ID.equals(parameter.getName().getValue())) {
-                        // Starting value for resourceId if given. Provided as a String because FHIR model
-                        // does not support Long.
+                        // Filter value for resourceId if given. Provided as a String because FHIR model
+                        // does not support Long. Results will have a resourceId > afterResourceId
                         String resourceIdStr = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         if (resourceIdStr != null) {
                             afterResourceId = Long.parseLong(resourceIdStr);
