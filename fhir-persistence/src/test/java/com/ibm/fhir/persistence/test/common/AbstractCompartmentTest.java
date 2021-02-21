@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence.test.common;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -111,9 +110,7 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     public void testPatientCompartment() throws Exception {
         List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
                                     Observation.class, "_id", savedObservation.getId());
-        // This currently returns 2 due to https://github.com/IBM/FHIR/issues/265
-//        assertEquals(1, results.size());
-        assertTrue(results.size() > 0);
+        assertEquals(1, results.size());
     }
 
     @Test

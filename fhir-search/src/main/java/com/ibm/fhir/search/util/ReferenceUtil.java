@@ -87,7 +87,7 @@ public class ReferenceUtil {
     }
 
     /**
-     * Processes a Reference value from the FHIR model and interprets
+     * Processes the string value of a Reference object from the FHIR model and interprets
      * it according to https://www.hl7.org/fhir/references.html#2.3.0
      *
      * <p>Absolute literal references will be converted to relative references if their base matches baseUrl.
@@ -100,7 +100,7 @@ public class ReferenceUtil {
      * <li>INVALID: null</li>
      * </ol>
      *
-     * @param refValue a reference value
+     * @param refValue a reference value string
      * @param refType a reference resource type (used for LITERAL_ABSOLUTE only)
      * @param baseUrl the base URL used to determine whether to convert absolute references to relative references
      * @return a structured representation of the reference value that varies by its inferred reference type
