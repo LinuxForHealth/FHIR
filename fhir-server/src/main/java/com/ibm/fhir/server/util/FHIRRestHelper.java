@@ -3180,17 +3180,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // add the resource id value as an extension field
                 Extension.Builder x1 = Extension.builder();
-                x1.url("https://fhir.ibm.com/changes/resourceId");
+                x1.url("http://ibm.com/fhir/changes/resourceId");
                 x1.value(Code.of(Long.toString(changeRecord.getResourceId())));
 
                 // add the resource id value as an extension field
                 Extension.Builder x2 = Extension.builder();
-                x2.url("https://fhir.ibm.com/changes/changeTimestamp");
+                x2.url("http://ibm.com/fhir/changes/changeTimestamp");
                 x2.value(com.ibm.fhir.model.type.Instant.of(changeRecord.getChangeTstamp().atZone(UTC)));
 
                 // and the type of change that was recorded
                 Extension.Builder x3 = Extension.builder();
-                x3.url("https://fhir.ibm.com/changes/changeType");
+                x3.url("http://ibm.com/fhir/changes/changeType");
                 x3.value(Code.of(changeRecord.getChangeType().name()));
 
                 Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
