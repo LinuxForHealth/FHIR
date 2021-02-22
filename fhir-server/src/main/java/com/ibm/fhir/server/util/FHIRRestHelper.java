@@ -15,6 +15,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.net.URI;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -80,10 +82,13 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -126,6 +131,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
     private static final String TOO_MANY_INCLUDE_RESOURCES = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
+    private static final ZoneId UTC = ZoneId.of("UTC");
+
+    // default number of entries in system history if no _count is given
+    private static final int DEFAULT_HISTORY_ENTRIES = 100;
+
+    // clamp the number of entries in system history to 1000
+    private static final int MAX_HISTORY_ENTRIES = 1000;
 
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
@@ -1771,7 +1783,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the response bundle entry
      * @param responseIndexAndEntries
      *            the hashmap containing bundle entry indexes and their associated response entries
-     * @param requestURL 
+     * @param requestURL
      * @param entryIndex
      *            the bundle entry index of the bundle entry being processed
      * @param localRefMap
@@ -1808,11 +1820,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String msg = "Request URL for bundled PATCH request should have path part with two tokens (<resourceType>/<id>).";
             throw buildRestException(msg, IssueType.INVALID);
         }
-       
+
                 if (requestEntry.getResource().is(Parameters.class)) {
 
                     Parameters parameters = requestEntry.getResource().as(Parameters.class);
-                  
+
 
                     FHIRPatch patch = FHIRPathPatch.from(parameters);
 
@@ -1825,7 +1837,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     String msg="Request resource type for PATCH request must be type 'Parameters'";
                     throw buildRestException(msg, IssueType.INVALID);
                 }
-       
+
 
     }
 
@@ -3142,5 +3154,99 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
             throw new IllegalArgumentException(value);
         }
+    }
+
+    @Override
+    public Bundle doHistory(MultivaluedMap<String, String> queryParameters,
+            String requestUri, Map<String, String> requestProperties) throws Exception {
+        log.entering(this.getClass().getName(), "doHistory");
+
+        Bundle bundle = null;
+
+        // extract the query parameters
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+        FHIRSystemHistoryContext historyContext =
+                FHIRPersistenceUtil.parseSystemHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+
+        List<ResourceChangeLogRecord> records;
+
+        // Start a new txn in the persistence layer if one is not already active.
+        Integer count = historyContext.getCount();
+        Instant since = historyContext.getSince() != null ? historyContext.getSince().getValue().toInstant() : null;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+        txn.begin();
+        try {
+            if (count == null) {
+                count = DEFAULT_HISTORY_ENTRIES;
+            } else if (count > MAX_HISTORY_ENTRIES) {
+                count = MAX_HISTORY_ENTRIES;
+            }
+            records = persistence.changes(historyContext.getCount(), since, historyContext.getAfterHistoryId(), null);
+        } catch (FHIRPersistenceDataAccessException x) {
+            log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
+                x);
+            throw x;
+        } finally {
+            txn.end();
+        }
+
+        // Create a history bundle and add an entry for each record
+        Bundle.Builder bundleBuilder = Bundle.builder();
+
+        Long lastChangeId = null;
+        Instant lastUpdated = null;
+
+        for (int i=records.size()-1; i>=0; i--) {
+            ResourceChangeLogRecord changeRecord = records.get(i);
+            if (lastChangeId == null) {
+                // We have to build the bundle in reverse, so grab the lastChangeId from the first item we process
+                lastChangeId = changeRecord.getChangeId();
+                lastUpdated = changeRecord.getChangeTstamp();
+            }
+
+            Request.Builder requestBuilder = Request.builder();
+            if (changeRecord.getChangeType() == ChangeType.DELETE) {
+                requestBuilder.method(HTTPVerb.DELETE);
+                requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
+            } else {
+                requestBuilder.method(HTTPVerb.POST);
+                requestBuilder.url(Url.of(changeRecord.getResourceTypeName()));
+            }
+
+            Bundle.Entry.Response.Builder responseBuilder = Bundle.Entry.Response.builder();
+            responseBuilder.lastModified(com.ibm.fhir.model.type.Instant.of(changeRecord.getChangeTstamp().atZone(UTC)));
+            responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+
+            Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+            entryBuilder.fullUrl(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId() + "/_history/" + changeRecord.getVersionId()));
+            entryBuilder.request(requestBuilder.build());
+            entryBuilder.response(responseBuilder.build());
+            bundleBuilder.entry(entryBuilder.build());
+        }
+
+        if (lastChangeId != null) {
+            // post the next link which a client can use to get the next set of changes.
+            // If this link is not included, the client can assume we've reached the end.
+            String serviceBase = ReferenceUtil.getBaseUrl(null);
+            if (serviceBase.endsWith("/")) {
+                serviceBase = serviceBase.substring(0, serviceBase.length()-1);
+            }
+
+            StringBuilder nextRequest = new StringBuilder();
+            nextRequest.append(serviceBase);
+            nextRequest.append("?");
+            nextRequest.append("_count=").append(count);
+            nextRequest.append("&_since=").append(lastUpdated.toString());
+            nextRequest.append("&_afterHistoryId=").append(lastChangeId);
+            Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
+            linkBuilder.url(Uri.of(nextRequest.toString()));
+            linkBuilder.relation(com.ibm.fhir.model.type.String.of("next"));
+
+            bundleBuilder.link(linkBuilder.build());
+        }
+
+        bundleBuilder.type(BundleType.HISTORY);
+
+        return bundleBuilder.build();
     }
 }

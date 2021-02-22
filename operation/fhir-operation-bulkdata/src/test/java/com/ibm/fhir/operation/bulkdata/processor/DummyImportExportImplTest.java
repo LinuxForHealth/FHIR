@@ -309,6 +309,11 @@ public class DummyImportExportImplTest {
             public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws Exception {
                 return 0;
             }
+
+            @Override
+            public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception {
+                return null;
+            }
         };
     }
 }
