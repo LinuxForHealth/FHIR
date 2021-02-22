@@ -311,8 +311,7 @@ public class DummyImportExportImplTest {
             }
 
             @Override
-            public FHIRRestOperationResponse doChanges(FHIROperationContext operationContext, int resourceCount, java.time.Instant fromTstamp,
-                Long afterResourceId, String resourceTypeName) throws Exception {
+            public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception {
                 return null;
             }
         };

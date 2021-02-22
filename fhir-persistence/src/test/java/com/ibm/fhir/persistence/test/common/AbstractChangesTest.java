@@ -88,7 +88,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         FHIRRequestContext.get().setTenantId("default");
     }
 
-    @Test
+    @Test(singleThreaded = true, groups= {"persistence-changes"})
     public void testSomeData() throws Exception {
 
         // Without a start time filter, we don't know how many records we'll get back because
@@ -104,7 +104,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         assertTrue(result.size() <= 100);
     }
 
-    @Test
+    @Test(singleThreaded = true, groups= {"persistence-changes"})
     public void testChanges() throws Exception {
 
         // Make sure we start the clock at the right place otherwise our
@@ -145,7 +145,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         assertEquals(result.get(6).getLogicalId(), resource4.getId()); // resource4
     }
 
-    @Test
+    @Test(singleThreaded = true, groups= {"persistence-changes"})
     public void testLimit() throws Exception {
 
         // Make sure we start the clock at the right place otherwise our
@@ -162,20 +162,20 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
 
         // Make another call now to get the remaining 3 changes
         fromLastModified = result.get(3).getChangeTstamp();
-        afterResourceId = result.get(3).getResourceId();
+        afterResourceId = result.get(3).getChangeId();
         result = persistence.changes(3, fromLastModified, afterResourceId, resourceTypeName);
         assertNotNull(result);
         assertEquals(result.size(), 3);
 
         // And a final call to make sure we get nothing
         fromLastModified = result.get(2).getChangeTstamp();
-        afterResourceId = result.get(2).getResourceId();
+        afterResourceId = result.get(2).getChangeId();
         result = persistence.changes(100, fromLastModified, afterResourceId, resourceTypeName);
         assertNotNull(result);
         assertEquals(result.size(), 0);
     }
 
-    @Test
+    @Test(singleThreaded = true, groups= {"persistence-changes"})
     public void testResourceTypeFilter() throws Exception {
         // just filter on the resource type name
         Instant fromLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();

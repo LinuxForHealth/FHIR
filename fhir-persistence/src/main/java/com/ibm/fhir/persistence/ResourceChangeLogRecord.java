@@ -25,8 +25,8 @@ public class ResourceChangeLogRecord {
     // The version number of the resource
     private final int versionId;
 
-    // The resource id (PK of the change log)
-    private final long resourceId;
+    // The change id (PK of the change log, which is actually the resourceId)
+    private final long changeId;
 
     // The change tstamp in the change log
     private final Instant changeTstamp;
@@ -35,9 +35,9 @@ public class ResourceChangeLogRecord {
     private final ChangeType changeType;
 
 
-    public ResourceChangeLogRecord(String resourceTypeName, String logicalId, int versionId, long resourceId, Instant changeTstamp, ChangeType ct) {
+    public ResourceChangeLogRecord(String resourceTypeName, String logicalId, int versionId, long changeId, Instant changeTstamp, ChangeType ct) {
         this.resourceTypeName = resourceTypeName;
-        this.resourceId = resourceId;
+        this.changeId = changeId;
         this.logicalId = logicalId;
         this.versionId = versionId;
         this.changeTstamp = changeTstamp;
@@ -55,8 +55,8 @@ public class ResourceChangeLogRecord {
     /**
      * @return the resourceId
      */
-    public long getResourceId() {
-        return resourceId;
+    public long getChangeId() {
+        return changeId;
     }
 
     /**

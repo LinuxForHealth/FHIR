@@ -185,11 +185,13 @@ BEGIN
   IF p_is_deleted = 'Y'
   THEN
     v_change_type := 'D';
-  ELSE IF v_new_resource = 0
-  THEN
-    v_change_type := 'U'
-  ELSE
-    v_change_type := 'C'
+  ELSE 
+    IF v_new_resource = 0
+    THEN
+      v_change_type := 'U';
+    ELSE
+      v_change_type := 'C';
+    END IF;
   END IF;
 
   INSERT INTO {{SCHEMA_NAME}}.resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
