@@ -836,18 +836,12 @@ public class SearchUtil {
                       for (String resType: resourceTypes) {
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
                           searchParameter = getSearchParameter(resType, parameterCode);
-                          if (searchParameter == null) {
-                              throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                  String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resType));
-                          }
+                          throwSearchParameterExceptionIfNull(searchParameter, parameterCode, resType);
                       }
                     } else {
                         // Get the search parameter from our filtered set of applicable SPs for this resource type.
                         searchParameter = getSearchParameter(resourceType.getSimpleName(), parameterCode);
-                        if (searchParameter == null) {
-                            throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resourceType.getSimpleName()));
-                        }
+                        throwSearchParameterExceptionIfNull(searchParameter, parameterCode, resourceType.getSimpleName());
                     }
 
                     // Get the type of parameter so that we can use it to parse the value.
@@ -1593,13 +1587,10 @@ public class SearchUtil {
                     modifier = null;
                 }
 
-                HashSet<String> modifierResourceTypeNameForResourceTypes = new HashSet<>();
+                Set<String> modifierResourceTypeNameForResourceTypes = new HashSet<>();
                 for (String resTypeName: resourceTypes) {
                     searchParameter = getSearchParameter(ModelSupport.getResourceType(resTypeName), parameterName);
-                    if (searchParameter == null) {
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            String.format(SEARCH_PARAMETER_NOT_FOUND, parameterName, resTypeName));
-                    }
+                    throwSearchParameterExceptionIfNull(searchParameter, parameterName, resTypeName);
 
                     type = Type.fromValue(searchParameter.getType().getValue());
                     if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
@@ -1662,14 +1653,8 @@ public class SearchUtil {
 
             if (checkForLogicalId) {
                 // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
-                // value is logical ID only.
-                for (QueryParameterValue value : valueList) {
-                    ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
-                    if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, rootParameter.getChain().getLast().getCode(), value.getValueString()));
-                    }
-                }
+                // value is logical ID only. If so, throw an exception.
+                checkQueryParameterValuesForLogicalIdOnly(rootParameter.getChain().getLast().getCode(), valueList);
             }
 
             rootParameter.getChain().getLast().getValues().addAll(valueList);
@@ -1727,10 +1712,7 @@ public class SearchUtil {
                 }
 
                 searchParameter = getSearchParameter(resourceType, parameterName);
-                if (searchParameter == null) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        String.format(SEARCH_PARAMETER_NOT_FOUND, parameterName, resourceType.getSimpleName()));
-                }
+                throwSearchParameterExceptionIfNull(searchParameter, parameterName, resourceType.getSimpleName());
 
                 type = Type.fromValue(searchParameter.getType().getValue());
                 if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
@@ -1786,14 +1768,8 @@ public class SearchUtil {
 
             if (checkForLogicalId) {
                 // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
-                // value is logical ID only.
-                for (QueryParameterValue value : valueList) {
-                    ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
-                    if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
-                        throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, rootParameter.getChain().getLast().getCode(), value.getValueString()));
-                    }
-                }
+                // value is logical ID only. If so, throw an exception.
+                checkQueryParameterValuesForLogicalIdOnly(rootParameter.getChain().getLast().getCode(), valueList);
             }
 
             rootParameter.getChain().getLast().getValues().addAll(valueList);
@@ -1865,10 +1841,7 @@ public class SearchUtil {
                 // Validate reference search parameter
                 String referenceSearchParameterName = subcomponents.get(1);
                 SearchParameter referenceSearchParameter = getSearchParameter(referencedByResourceType, referenceSearchParameterName);
-                if (referenceSearchParameter == null) {
-                    throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        String.format(SEARCH_PARAMETER_NOT_FOUND, referenceSearchParameterName, referencedByResourceTypeName));
-                }
+                throwSearchParameterExceptionIfNull(referenceSearchParameter, referenceSearchParameterName, referencedByResourceTypeName);
                 if (!Type.REFERENCE.equals(Type.fromValue(referenceSearchParameter.getType().getValue()))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                         String.format(PARAMETER_TYPE_NOT_REFERENCE_FOR_REVERSE_CHAIN_SEARCH, referenceSearchParameterName));
@@ -1914,9 +1887,7 @@ public class SearchUtil {
                         }
 
                         SearchParameter searchParameter = getSearchParameter(referencedByResourceType, parameterName);
-                        if (searchParameter == null) {
-                            throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(SEARCH_PARAMETER_NOT_FOUND, parameterName, referencedByResourceTypeName));
-                        }
+                        throwSearchParameterExceptionIfNull(searchParameter, parameterName, referencedByResourceTypeName);
                         Type type = Type.fromValue(searchParameter.getType().getValue());
 
                         if (modifierName != null) {
@@ -1942,13 +1913,9 @@ public class SearchUtil {
                             modifier, modifierResourceTypeName, valuesString);
 
                         if (Type.REFERENCE == type && searchParameter.getTarget().size() > 1 && modifierResourceTypeName == null) {
-                            for (QueryParameterValue value : valueList) {
-                                ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
-                                if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
-                                    throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                        String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, parameterName, value.getValueString()));
-                                }
-                            }
+                            // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
+                            // value is logical ID only. If so, throw an exception.
+                            checkQueryParameterValuesForLogicalIdOnly(parameterName, valueList);
                         }
 
                         QueryParameter lastParameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName, valueList);
@@ -2438,5 +2405,36 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
         return result;
+    }
+
+    /**
+     * Throw an exception if the specified search parameter is null.
+     *
+     * @param searchParameter the search parameter to check
+     * @param parameterCode   the search parameter code
+     * @param resourceType    the resource type the search parameter was specified for
+     * @throws FHIRSearchException
+     */
+    private static void throwSearchParameterExceptionIfNull(SearchParameter searchParameter, String parameterCode, String resourceType) throws FHIRSearchException {
+        if (searchParameter == null) {
+            throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resourceType));
+        }
+    }
+
+    /**
+     * Throw an exception if a logical ID-only value is found in the list of values.
+     *
+     * @param parameterCode the search parameter code
+     * @param values        the list of parameter values to check
+     * @throws FHIRSearchException
+     */
+    private static void checkQueryParameterValuesForLogicalIdOnly(String parameterCode, List<QueryParameterValue> values) throws FHIRSearchException {
+        for (QueryParameterValue value : values) {
+            ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
+            if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                    String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, parameterCode, value.getValueString()));
+            }
+        }
     }
 }

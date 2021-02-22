@@ -2530,9 +2530,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
             }
 
-            // Check for chained search parameters and for reference search parameters containing only a logical ID
+            // Find chained search parameters and find reference search parameters containing only a logical ID
             List<QueryParameter> chainedSearchParameters = new ArrayList<>();
-            List<String> logicalIdReferenceSearchParameters = new ArrayList<>();
+            List<QueryParameter> logicalIdReferenceSearchParameters = new ArrayList<>();
             for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
                 if (!queryParameter.isReverseChained()) {
                     if (queryParameter.isChained()) {
@@ -2542,19 +2542,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         for (QueryParameterValue value : queryParameter.getValues()) {
                             ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
                             if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
-                                logicalIdReferenceSearchParameters.add(queryParameter.getCode());
+                                logicalIdReferenceSearchParameters.add(queryParameter);
                                 break;
                             }
                         }
                     }
                 }
             }
-
-            // Check for multiple resource types with matching logical ID in 'match' resource references
-            checkForMatchLogicalIdDuplicates(type, logicalIdReferenceSearchParameters, matchResources);
-
-            // Check for versioned references in 'match' resources for chained search
-            List<Issue> issues = checkForVersionedReference(type, chainedSearchParameters, matchResources);
+            List<Issue> issues = new ArrayList<>();
+            if (!chainedSearchParameters.isEmpty() || !logicalIdReferenceSearchParameters.isEmpty()) {
+                // Check 'match' resources for versioned references in chain search parameter fields and
+                // multiple resource types with matching logical ID in reference search parameter fields.
+                issues = performSearchReferenceChecks(type, chainedSearchParameters, logicalIdReferenceSearchParameters, matchResources);
+            }
 
             for (Resource resource : resources) {
                 if (resource.getId() == null) {
@@ -2597,38 +2597,50 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * For a chained search, check for existence of a versioned reference in the field associated with the
-     * chain search parameter for any of the specified resources.
+     * For chained search, check 'match' resources for existence of a versioned reference in the field
+     * associated with the chain search parameter.
+     *
+     * For reference search specifying logical ID only, check 'match' resources for existence of multiple
+     * resource types containing the same logical ID in the field associated with the reference search parameter.
      *
      * @param resourceType
      *            The search resource type.
-     * @param queryParameters
-     *            The chained query parameters.
-     * @param resources
-     *            The list of resources to check for versioned references.
+     * @param chainQueryParameters
+     *            The chained query parameters. These will be mutually exclusive of the logicalIdReferenceQueryParameters.
+     * @param logicalIdReferenceQueryParameters
+     *            The list of reference query parameters that only specified a logical ID.
+     * @param matchResources
+     *            The list of 'match' resources to check.
      * @return
      *            A list of Issues, one per resource in which a versioned reference is found.
-     * @throws Exception
+     * @throws Exception if multiple resource types containing the same logical ID are found
      */
-    private List<Issue> checkForVersionedReference(String resourceType, List<QueryParameter> queryParameters, List<Resource> resources) throws Exception {
+    private List<Issue> performSearchReferenceChecks(String resourceType, List<QueryParameter> chainQueryParameters,
+        List<QueryParameter> logicalIdReferenceQueryParameters, List<Resource> matchResources) throws Exception {
         List<Issue> issues = new ArrayList<>();
 
-        if (!queryParameters.isEmpty()) {
-            Map<QueryParameter, SearchParameter> searchParameterMap = new HashMap<>();
-
-            // Build a map of QueryParameter to SearchParameter for all QueryParameters.
+        if (!chainQueryParameters.isEmpty() || !logicalIdReferenceQueryParameters.isEmpty()) {
+            // Build a map of parameter name to SearchParameter for all queryParameters.
             // Since the search was successful, we can assume search parameters exist, are valid, and of type Reference.
-            // However, if this is a whole-system search, will need to get the SearchParameters based on
+            // However, if this is a whole-system search, we will need to get the SearchParameters based on
             // the resource type returned.
+            Map<QueryParameter, SearchParameter> searchParameterMap = new HashMap<>();
             if (!Resource.class.getSimpleName().equals(resourceType)) {
                 Class<? extends Resource> resourceTypeClass = ModelSupport.getResourceType(resourceType);
-                for (QueryParameter queryParameter : queryParameters) {
+                for (QueryParameter queryParameter : chainQueryParameters) {
+                    searchParameterMap.put(queryParameter, SearchUtil.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
+                }
+                for (QueryParameter queryParameter : logicalIdReferenceQueryParameters) {
                     searchParameterMap.put(queryParameter, SearchUtil.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
                 }
             }
 
-            // Loop through the resources, looking for versioned references
-            for (Resource resource : resources) {
+            List<QueryParameter> queryParameters = new ArrayList<>(chainQueryParameters);
+            queryParameters.addAll(logicalIdReferenceQueryParameters);
+            Map<String, String> logicalIdToTypeMap = new HashMap<>();
+
+            // Loop through the resources, looking for versioned references and references to multiple resource types for the same logical ID
+            for (Resource resource : matchResources) {
                 FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
                 EvaluationContext evaluationContext = new EvaluationContext(resource);
                 for (QueryParameter queryParameter : queryParameters) {
@@ -2636,15 +2648,28 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     if (searchParameter == null) {
                         searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
                     }
+
+                    // For logical ID check, only need to look at search parameters with more than one target resource type
+                    if (logicalIdReferenceQueryParameters.contains(queryParameter) && searchParameter.getTarget().size() == 1) {
+                        continue;
+                    }
+
                     Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
                     for (FHIRPathNode node : nodes) {
                         Reference reference = node.asElementNode().element().as(Reference.class);
                         ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
-                        if (rv.getVersion() != null &&
+                        if (chainQueryParameters.contains(queryParameter) && rv.getVersion() != null &&
                                 (rv.getTargetResourceType() == null || rv.getTargetResourceType().equals(queryParameter.getModifierResourceTypeName()))) {
+                            // Found versioned reference value
                             String msg = "Resource with id '" + resource.getId() +
                                     "' contains a versioned reference in an element used for chained search, but chained search does not act on versioned references.";
                             issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg, node.path()));
+                        } else if (logicalIdReferenceQueryParameters.contains(queryParameter) && rv.getTargetResourceType() != null &&
+                                !rv.getTargetResourceType().equals(logicalIdToTypeMap.computeIfAbsent(queryParameter.getCode() + "|" + rv.getValue(), v -> rv.getTargetResourceType()))) {
+                            // Found multiple resource types this logical ID
+                            String msg = "Multiple resource type matches found for logical ID '" + rv.getValue() +
+                                    "' for search parameter '" + queryParameter.getCode() + "'.";
+                            throw buildRestException(msg, IssueType.INVALID, IssueSeverity.ERROR);
                         }
                     }
                 }
@@ -2652,63 +2677,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         return issues;
-    }
-
-    /**
-     * For reference searches against logical ID only, check for existence of multiple resource types
-     * containing the same logical ID in 'match' resource references.
-     *
-     * @param resourceType
-     *            The search resource type.
-     * @param queryParameters
-     *            The list of reference query parameters that only specified a logical ID.
-     * @param resources
-     *            The list of resources to check for multiple resource types.
-     * @throws Exception
-     */
-    private void checkForMatchLogicalIdDuplicates(String resourceType, List<String> queryParameters, List<Resource> resources) throws Exception {
-        if (!queryParameters.isEmpty()) {
-            // Build a map of parameter name to SearchParameter for all queryParameters.
-            // Since the search was successful, we can assume search parameters exist, are valid, and of type Reference.
-            // However, if this is a whole-system search, we will need to get the SearchParameters based on
-            // the resource type returned.
-            Map<String, SearchParameter> searchParameterMap = new HashMap<>();
-            if (!Resource.class.getSimpleName().equals(resourceType)) {
-                Class<? extends Resource> resourceTypeClass = ModelSupport.getResourceType(resourceType);
-                for (String queryParameterName : queryParameters) {
-                    searchParameterMap.put(queryParameterName, SearchUtil.getSearchParameter(resourceTypeClass, queryParameterName));
-                }
-            }
-
-            // Loop through the resources, looking for references to multiple resource types for the same logical ID
-            Map<String, String> logicalIdToTypeMap = new HashMap<>();
-            for (Resource resource : resources) {
-                FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-                EvaluationContext evaluationContext = new EvaluationContext(resource);
-                for (String queryParameterName : queryParameters) {
-                    SearchParameter searchParameter = searchParameterMap.get(queryParameterName);
-                    if (searchParameter == null) {
-                        searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameterName);
-                    }
-                    // Only need to look at search parameters with more than one target resource type
-                    if (searchParameter.getTarget().size() > 1) {
-                        Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
-                        for (FHIRPathNode node : nodes) {
-                            Reference reference = node.asElementNode().element().as(Reference.class);
-                            ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
-                            String key = queryParameterName + "|" + rv.getValue();
-                            if (rv.getTargetResourceType() != null &&
-                                    !rv.getTargetResourceType().equals(logicalIdToTypeMap.computeIfAbsent(key, v -> rv.getTargetResourceType()))) {
-                                // Multiple resource types found for this logical ID
-                                String msg = "Multiple resource type matches found for logical ID '" + rv.getValue() +
-                                        "' for search parameter '" + queryParameterName + "'.";
-                                throw buildRestException(msg, IssueType.INVALID, IssueSeverity.ERROR);
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     /**

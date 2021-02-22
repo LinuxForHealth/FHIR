@@ -63,7 +63,7 @@ public class ReferenceUtil {
 
         if (ref.getReference() != null && ref.getReference().getValue() != null) {
             return createReferenceValueFrom(ref.getReference().getValue(), ref.getType() != null ? ref.getType().getValue() : null, baseUrl);
-        } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null) {
+        } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null && ref.getIdentifier().getValue().getValue() != null) {
             // LOGICAL REFERENCE
             value = ref.getIdentifier().getValue().getValue();
             referenceType = ReferenceType.LOGICAL;

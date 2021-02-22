@@ -48,11 +48,11 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
-        if (field.equals("organization")) {
+        if ("organization".equals(field)) {
             patient = patient.toBuilder()
                     .gender(AdministrativeGender.MALE)
                     .managingOrganization(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Organization")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
-        } else if (field.equals("general-practitioner")) {
+        } else if ("general-practitioner".equals(field)) {
             patient = patient.toBuilder()
                     .gender(AdministrativeGender.MALE)
                     .generalPractitioner(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Practitioner")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
