@@ -3181,7 +3181,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else if (count > MAX_HISTORY_ENTRIES) {
                 count = MAX_HISTORY_ENTRIES;
             }
-            records = persistence.changes(historyContext.getCount(), since, historyContext.getAfterHistoryId(), null);
+            records = persistence.changes(count, since, historyContext.getAfterHistoryId(), null);
         } catch (FHIRPersistenceDataAccessException x) {
             log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
                 x);
@@ -3227,6 +3227,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (lastChangeId != null) {
             // post the next link which a client can use to get the next set of changes.
             // If this link is not included, the client can assume we've reached the end.
+            // We don't include the _since filter, because the _afterHistoryId is more
+            // specific and avoids any nasty issues related to clock drift in a cluster
+            // of IBM FHIR Servers.
             String serviceBase = ReferenceUtil.getBaseUrl(null);
             if (serviceBase.endsWith("/")) {
                 serviceBase = serviceBase.substring(0, serviceBase.length()-1);
@@ -3235,8 +3238,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             StringBuilder nextRequest = new StringBuilder();
             nextRequest.append(serviceBase);
             nextRequest.append("?");
-            nextRequest.append("_count=").append(count);
-            nextRequest.append("&_since=").append(lastUpdated.toString());
+            if (historyContext.getCount() != null) {
+                nextRequest.append("_count=").append(historyContext.getCount());
+            }
             nextRequest.append("&_afterHistoryId=").append(lastChangeId);
             Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
             linkBuilder.url(Uri.of(nextRequest.toString()));
