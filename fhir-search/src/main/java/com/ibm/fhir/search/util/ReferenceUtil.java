@@ -141,7 +141,6 @@ public class ReferenceUtil {
                         version = Integer.parseInt(tokens[3]);
                     }
                 }
-                // TODO: should the reference type be used if not null and we only have a logical ID?
             } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
                 // - Absolute reference. We only know the type if it is given by the type field
                 referenceType = ReferenceType.LITERAL_ABSOLUTE;
@@ -161,7 +160,6 @@ public class ReferenceUtil {
                         version = Integer.parseInt(tokens[3]);
                     }
                 }
-                // TODO: should the reference type be used if not null and we only have a logical ID?
             }
         }
 
