@@ -3,6 +3,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
+# Stage: Base
 
 FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi as base
 
@@ -13,12 +14,18 @@ RUN yum update -y --nobest && \
     yum install -y unzip && \
     yum clean all -y
 
-USER 1001
+RUN mkdir -p /opt/ibm-fhir-server
+
 COPY target/fhir-server-distribution.zip /tmp/
 RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
-    /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp
+    /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp && \
+    mv /tmp/fhir-server-dist/tools /opt/ibm-fhir-server/tools
+COPY ./src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
+
+USER 1001
 
 # ----------------------------------------------------------------------------
+# Stage: Runnable
 
 FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi
 
@@ -32,6 +39,7 @@ LABEL summary="Image for IBM FHIR Server with OpenJ9 and UBI 8"
 LABEL description="The IBM FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability."
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
+COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 
 COPY target/LICENSE /licenses/
 
@@ -49,7 +57,9 @@ ENV KEYSTORE_REQUIRED "false"
 # Replace links to defaultServer with links to fhir-server and 
 # create the configDropins directories for the fhir-server
 USER root
-RUN ln -sfn ${FHIR} /output && \
+RUN chmod -R 755 /opt/ibm-fhir-server && \
+    chmod -R 755 /opt/ibm-fhir-server/bootstrap.sh && \
+    ln -sfn ${FHIR} /output && \
     ln -sfn ${FHIR} /config && \
     rm -rf /opt/ol/wlp/output && \
     rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
@@ -60,4 +70,5 @@ RUN ln -sfn ${FHIR} /output && \
     rm -rf /var/cache/yum
 
 USER 1001
-CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]
+
+ENTRYPOINT ["/opt/ibm-fhir-server/bootstrap.sh"]
