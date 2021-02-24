@@ -62,56 +62,7 @@ public class ReferenceUtil {
         Integer version = null;
 
         if (ref.getReference() != null && ref.getReference().getValue() != null) {
-            // LITERAL REFERENCE
-            // * an absolute URL
-            // * relative URL, which is relative to the Service Base URL, or, if processing a resource
-            //   from a bundle, which is relative to the base URL implied by the Bundle.entry.fullUrl
-            // Note that fragment (internal) references are not relevant here, because bundle
-            // processing will already have resolved them, replacing them with the relative values
-            value = ref.getReference().getValue();
-
-            if (baseUrl != null && value.startsWith(baseUrl)) {
-                // - relative reference https://example.com/Patient/123
-                // Because this reference is to a local FHIR resource (inside this server), we need use the correct
-                // resource type name (assigned as the code system)
-                //  - https://localhost:9443/fhir-server/api/v4/Patient/1234
-                //  - https://example.com/Patient/1234
-                //  - https://example.com/Patient/1234/_history/2
-                referenceType = ReferenceType.LITERAL_RELATIVE;
-                value = value.substring(baseUrl.length());
-
-                // Patient/1234
-                // Patient/1234/_history/2
-                String[] tokens = value.split("/");
-                if (tokens.length > 1) {
-                    targetResourceType = tokens[0];
-                    value = tokens[1];
-                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
-                        // versioned reference
-                        version = Integer.parseInt(tokens[3]);
-                    }
-                }
-            } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
-                // - Absolute reference. We only know the type if it is given by the type field
-                referenceType = ReferenceType.LITERAL_ABSOLUTE;
-                if (ref.getType() != null) {
-                    targetResourceType = ref.getType().getValue();
-                }
-
-            } else {
-                //  - Relative ==> Patient/1234
-                //  - Relative ==> Patient/1234/_history/2
-                referenceType = ReferenceType.LITERAL_RELATIVE;
-                String[] tokens = value.split("/");
-                if (tokens.length > 1) {
-                    targetResourceType = tokens[0];
-                    value = tokens[1];
-                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
-                        // versioned reference
-                        version = Integer.parseInt(tokens[3]);
-                    }
-                }
-            }
+            return createReferenceValueFrom(ref.getReference().getValue(), ref.getType() != null ? ref.getType().getValue() : null, baseUrl);
         } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null) {
             // LOGICAL REFERENCE
             value = ref.getIdentifier().getValue().getValue();
@@ -130,6 +81,88 @@ public class ReferenceUtil {
             // need to expect and handle this.
             referenceType = ReferenceType.INVALID;
             value = null;
+        }
+
+        return new ReferenceValue(targetResourceType, value, referenceType, version);
+    }
+
+    /**
+     * Processes a Reference value from the FHIR model and interprets
+     * it according to https://www.hl7.org/fhir/references.html#2.3.0
+     *
+     * <p>Absolute literal references will be converted to relative references if their base matches baseUrl.
+     *
+     * <p>The resulting ReferenceValue will contain an inferred ReferenceType
+     * and the structure of the ReferenceValue.value will vary accordingly:
+     * <ol>
+     * <li>LITERAL_RELATIVE: the id of the referenced resource</li>
+     * <li>LITERAL_ABSOLUTE: the full URI of the reference</li>
+     * <li>INVALID: null</li>
+     * </ol>
+     *
+     * @param refValue a reference value
+     * @param refType a reference resource type (used for LITERAL_ABSOLUTE only)
+     * @param baseUrl the base URL used to determine whether to convert absolute references to relative references
+     * @return a structured representation of the reference value that varies by its inferred reference type
+     */
+    public static ReferenceValue createReferenceValueFrom(String refValue, String refType, String baseUrl) {
+        String value = null;
+        String targetResourceType = null;
+        ReferenceType referenceType =  ReferenceType.INVALID;
+        Integer version = null;
+
+        if (refValue != null) {
+            // LITERAL REFERENCE
+            // * an absolute URL
+            // * relative URL, which is relative to the Service Base URL, or, if processing a resource
+            //   from a bundle, which is relative to the base URL implied by the Bundle.entry.fullUrl
+            // Note that fragment (internal) references are not relevant here, because bundle
+            // processing will already have resolved them, replacing them with the relative values
+            value = refValue;
+
+            if (baseUrl != null && value.startsWith(baseUrl)) {
+                // - relative reference https://example.com/Patient/123
+                // Because this reference is to a local FHIR resource (inside this server), we need to
+                // use the correct resource type name (assigned as the code system)
+                //  - https://localhost:9443/fhir-server/api/v4/Patient/1234
+                //  - https://example.com/Patient/1234
+                //  - https://example.com/Patient/1234/_history/2
+                referenceType = ReferenceType.LITERAL_RELATIVE;
+                value = value.substring(baseUrl.length());
+
+                // Patient/1234
+                // Patient/1234/_history/2
+                String[] tokens = value.split("/");
+                if (tokens.length > 1) {
+                    targetResourceType = tokens[0];
+                    value = tokens[1];
+                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
+                        // versioned reference
+                        version = Integer.parseInt(tokens[3]);
+                    }
+                }
+                // TODO: should the reference type be used if not null and we only have a logical ID?
+            } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
+                // - Absolute reference. We only know the type if it is given by the type field
+                referenceType = ReferenceType.LITERAL_ABSOLUTE;
+                if (refType != null) {
+                    targetResourceType = refType;
+                }
+            } else {
+                //  - Relative ==> Patient/1234
+                //  - Relative ==> Patient/1234/_history/2
+                referenceType = ReferenceType.LITERAL_RELATIVE;
+                String[] tokens = value.split("/");
+                if (tokens.length > 1) {
+                    targetResourceType = tokens[0];
+                    value = tokens[1];
+                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
+                        // versioned reference
+                        version = Integer.parseInt(tokens[3]);
+                    }
+                }
+                // TODO: should the reference type be used if not null and we only have a logical ID?
+            }
         }
 
         return new ReferenceValue(targetResourceType, value, referenceType, version);
