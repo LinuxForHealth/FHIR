@@ -2454,7 +2454,14 @@ public class BundleTest extends FHIRServerTestBase {
         }
     }
 
-    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
+    /**
+     * Assert the the given {@link Bundle} is of the expected {@link BundleType} and has the expected entry count.
+     * 
+     * @param bundle the bundle to tet
+     * @param expectedType
+     * @param expectedEntryCount
+     */
+    public static void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
         assertNotNull(bundle);
         assertNotNull(bundle.getType());
         assertNotNull(bundle.getType().getValue());

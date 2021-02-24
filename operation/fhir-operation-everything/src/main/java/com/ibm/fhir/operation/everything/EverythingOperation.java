@@ -18,15 +18,14 @@
  */
 package com.ibm.fhir.operation.everything;
 
-import static com.ibm.fhir.model.type.String.string;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.ZoneOffset;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Logger;
+
+import javax.ws.rs.core.MultivaluedHashMap;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -34,19 +33,16 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Identifier;
-import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -61,15 +57,32 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
  * @author Luis A. García
  */
 public class EverythingOperation extends AbstractOperation {
+    
+    private static final Logger LOG = java.util.logging.Logger.getLogger(EverythingOperation.class.getName());
 
-    private static final String OPERATION_DEFINITION = "everything.json";
+    private static final String PATIENT = "Patient";
 
+    private static final String OPERATION_DEFINITION_FILE = "everything.json";
+    
+    private List<String> includedResourceTypes;
+    
+    /**
+     * 
+     */
+    public EverythingOperation() {
+        try {
+            includedResourceTypes = getIncludedResources();
+        } catch (FHIRSearchException e) {
+            throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
+        }
+    }
+    
     /* (non-Javadoc)
      * @see com.ibm.fhir.server.operation.spi.AbstractOperation#buildOperationDefinition()
      */
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(OPERATION_DEFINITION)) {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(OPERATION_DEFINITION_FILE)) {
             return FHIRParser.parser(Format.JSON).parse(in);
         } catch (FHIRParserException e) {
             throw new Error("There has been a parsing error in the operation definition of the $everything operation.", e);
@@ -83,150 +96,98 @@ public class EverythingOperation extends AbstractOperation {
      */
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        List<String> resourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
-        System.out.println("***********: " + resourceTypes);
+        LOG.entering(this.getClass().getName(), "doInvoke");
+
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead("Patient", logicalId, false, false, null, null);
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null, null);
         } catch (Exception e) {
-            throw buildExceptionWithIssue("An unexpected error occurred while reading patient " + logicalId, IssueType.EXCEPTION);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while reading patient " + logicalId, IssueType.EXCEPTION);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
         }
         if (patient == null) {
-            throw buildExceptionWithIssue("Patient with ID " + logicalId + " does not exist.", IssueType.NOT_FOUND);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID " + logicalId + " does not exist.", IssueType.NOT_FOUND);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
         }
 
-        Bundle.Builder bundleBuilder = Bundle.builder().type(BundleType.SEARCHSET);
-        Bundle.Entry.Builder entryBuilder = Entry.builder();
-        entryBuilder.resource(patient);
-        setFullUrl(operationContext, entryBuilder, "Patient/" + patient.getId());
-        bundleBuilder.entry(entryBuilder.build());
+        Entry patientEntry = buildPatientEntry(operationContext, patient);
+        List<Entry> allEntries = new ArrayList<>(1000);
+        allEntries.add(patientEntry);
+        MultivaluedHashMap<String, String> queryParameters = new MultivaluedHashMap<String, String>();
+        queryParameters.add("_count", "500");
+        for (String compartmentType : includedResourceTypes) {
+            Bundle results = null;
+            try {
+                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, queryParameters, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                LOG.warning("Error retrieving $everything resources of type " + compartmentType + " for patient " + logicalId);
+                continue;
+            }
+            allEntries.addAll(results.getEntry());
+        }
         
-        Map<String, Resource> resources = new HashMap<String, Resource>();
+        Bundle.Builder bundleBuilder = Bundle.builder()
+                .type(BundleType.SEARCHSET)
+                .id(UUID.randomUUID().toString())
+                .entry(allEntries)
+                .total(UnsignedInt.of(allEntries.size()));        
         
-//        // Composition.subject
-//        addBundleEntry(operationContext, documentBuilder, composition.getSubject(), resourceHelper, resources);
-//        
-//        // Composition.author
-//        for (Reference author : composition.getAuthor()) {
-//            addBundleEntry(operationContext, documentBuilder, author, resourceHelper, resources);
-//        }
-//        
-//        // Composition.attester.party
-//        for (Composition.Attester attester : composition.getAttester()) {
-//            addBundleEntry(operationContext, documentBuilder, attester.getParty(), resourceHelper, resources);
-//        }
-//        
-//        // Composition.custodian
-//        addBundleEntry(operationContext, documentBuilder, composition.getCustodian(), resourceHelper, resources);
-//        
-//        // Composition.event.detail
-//        for (Composition.Event event : composition.getEvent()) {
-//            for (Reference detail : event.getDetail()) {
-//                addBundleEntry(operationContext, documentBuilder, detail, resourceHelper, resources);
-//            }
-//        }
-//        
-//        // Composition.encounter
-//        addBundleEntry(operationContext, documentBuilder, composition.getEncounter(), resourceHelper, resources);
-//        
-//        // Composition.section.entry
-//        addBundleEntries(operationContext, documentBuilder, composition.getSection(), resourceHelper, resources);
-        
-        
-        Bundle bundle = bundleBuilder.timestamp(Instant.now(ZoneOffset.UTC))
-                .identifier(Identifier.builder()
-                        .system(Uri.of("http://hl7.org/fhir/OperationDefinition/Composition-document")).value(string("urn:uuid:" + UUID.randomUUID().toString()))
-                        .build())
-                .meta(Meta.builder().lastUpdated(Instant.now(ZoneOffset.UTC)).build())
-                .build();
-        
-//
-//        URI locationURI = response.getLocationURI();
-//        operationContext.setProperty(FHIROperationContext.PROPNAME_LOCATION_URI, locationURI);
-//        FHIRRestOperationResponse response = resourceHelper.doCreate("Bundle", bundle, null, null, false);
-//        
         Parameters outputParameters;
         try {
-            outputParameters = FHIROperationUtil.getOutputParameters(bundle);
+            outputParameters = FHIROperationUtil.getOutputParameters(bundleBuilder.build());
         } catch (Exception e) {
-            throw buildExceptionWithIssue("An unexpected error occurred while creating the operation output parameters for the resulting Bundle.", IssueType.EXCEPTION);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while creating the operation output parameters for the resulting Bundle.", IssueType.EXCEPTION);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
         }
+        LOG.exiting(this.getClass().getName(), "doInvoke", outputParameters);
         return outputParameters;
     }
-    
 
-    private void addBundleEntry(FHIROperationContext operationContext, Bundle.Builder documentBuilder, Reference reference, FHIRResourceHelpers resourceHelper, Map<String, Resource> resources) throws Exception {;
-        if (reference == null) {
-            return;
-        }
-        
-        if (reference.getReference() == null) {
-            throw new FHIROperationException("Empty reference object is not allowed");
-        }
-    
-        String referenceValue = reference.getReference().getValue();
-        if (referenceValue == null) {
-            throw new FHIROperationException("Empty reference value is not allowed");
-        }
-        
-        Resource resource = resources.get(referenceValue);
-        
-        if (resource == null) {
-            String[] referenceTokens = referenceValue.split("/");
-            
-            // assumption: references will be relative {resourceTypeName}/{logicalId}
-            if (referenceTokens.length != 2) {
-                throw new FHIROperationException("Could not parse reference value: " + referenceValue);
-            }
-            
-            String resourceTypeName = referenceTokens[0];
-            String logicalId = referenceTokens[1];
-            
-            resource = resourceHelper.doRead(resourceTypeName, logicalId, false, false, null, null);
-            
-            if (resource == null) {
-                throw new FHIROperationException("Could not find resource for reference value: " + referenceValue);
-            }
-            
-            resources.put(referenceValue, resource);
-            
-            // create a bundle entry for the resource
-            //BundleEntry bundleEntry = factory.createBundleEntry();
-            
-            //ResourceContainer container = factory.createResourceContainer();
-            //FHIRUtil.setResourceContainerResource(container, resource);
-            
-            Bundle.Entry.Builder entryBuilder = Entry.builder(); //createBundleEntry();
-            entryBuilder.resource(resource);
-            
-            setFullUrl(operationContext, entryBuilder, referenceValue);
-            
-            //document.getEntry().add(bundleEntry);
-            documentBuilder.entry(entryBuilder.build());
-        }
+    /**
+     * @return the list of patient subresources that will be included in the $everything operaetion
+     * @throws FHIRSearchException 
+     */
+    private List<String> getIncludedResources() throws FHIRSearchException {
+        List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
+        // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
+        // like a couple of good additional resources to include and they are even mentioned as examples of resources
+        // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html 
+        // resourceTypes.add(Practitioner.class.getSimpleName());
+        // resourceTypes.add(Organization.class.getSimpleName());
+        return resourceTypes;
     }
 
-    private void addBundleEntries(FHIROperationContext operationContext, Bundle.Builder documentBuilder, List<Composition.Section> sections, FHIRResourceHelpers resourceHelper, Map<String, Resource> resources) throws Exception {
-        for (Composition.Section section : sections) {                
-            // process entries for this section
-            for (Reference entry : section.getEntry()) {
-                addBundleEntry(operationContext, documentBuilder, entry, resourceHelper, resources);
-            }
-            
-            // process subsections
-            addBundleEntries(operationContext, documentBuilder, section.getSection(), resourceHelper, resources);
-        }
+    /**
+     * Builds an {@link Entry} out of the given {@link Patient} resource including its fullURL
+     * 
+     * @param operationContext the {@link FHIROperationContext} to get the base URI 
+     * @param patient the patient to wrap
+     * @return the entry with URL
+     */
+    private Entry buildPatientEntry(FHIROperationContext operationContext, Patient patient) {
+        Uri patientURL = uri(operationContext, PATIENT + "/" + patient.getId());
+        Entry patientEntry = Entry.builder()
+                .resource(patient)
+                .fullUrl(patientURL)
+                .build();
+        return patientEntry;
     }
-    
-    private void setFullUrl(FHIROperationContext operationContext, Bundle.Entry.Builder entryBuilder, String referenceValue) {
+
+    /**
+     * Builds a URI with the base URI from the given {@link FHIROperationContext} and then provided URI path.
+     * 
+     * @param operationContext the {@link FHIROperationContext} to get the base URI 
+     * @param uriPath the path to append to the base URI
+     * @return the {@link Uri}
+     */
+    private static Uri uri(FHIROperationContext operationContext, String uriPath) {
         String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
-        if (requestBaseURI != null) {
-            entryBuilder.fullUrl(uri(requestBaseURI + "/" + referenceValue));
-        }
+        return Uri.builder()
+                .value(requestBaseURI + "/" + uriPath)
+                .build();
     }
-    
-    private static Uri uri(String uri) {
-        return Uri.builder().value(uri).build();
-    }
-
 }
