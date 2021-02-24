@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,16 +14,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Populates the Resource Types Table
@@ -117,49 +114,6 @@ public class PopulateResourceTypes implements IDatabaseStatement {
             }
         } catch (SQLException x) {
             throw translator.translate(x);
-        }
-    }
-
-    /**
-     * This method is very intentional to verify the resource_types.properties on EVERY build.
-     * The mapping is intentionally managed, as these KEYS are inserted and used.
-     */
-    public static void verify() {
-        Properties props = new Properties();
-        boolean found = false;
-        try (InputStream fis =
-                PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
-            props.load(fis);
-
-            Set<String> resources = new HashSet<>();
-            for (FHIRResourceType.ValueSet rt : FHIRResourceType.ValueSet.values()) {
-                resources.add(rt.value());
-            }
-
-            // Find the Highest Value to start from:
-            Integer highestValue = 0;
-            Map<String, Integer> valueMap = new HashMap<>();
-            for (Entry<Object, Object> valueEntry : props.entrySet()) {
-                Integer curVal = Integer.parseInt((String) valueEntry.getValue());
-                String resource = (String) valueEntry.getKey();
-                valueMap.put(resource, curVal);
-                if (highestValue < curVal) {
-                    highestValue = curVal;
-                }
-                resources.remove(resource);
-            }
-
-            // Check to see if something is missing
-            for (String resource : resources) {
-                LOGGER.info(resource + "=" + highestValue++);
-                found = true;
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("File access issue for resource_types");
-        }
-
-        if (found) {
-            throw new IllegalArgumentException("Resources are missing from resource_types");
         }
     }
 }
