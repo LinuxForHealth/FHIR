@@ -63,7 +63,7 @@ function _bootstrap_db {
 
 _bootstrap_db
 
-# Pass it back to the Liberty entrypoint
+# Pass it on to the Liberty entrypoint
 /opt/ol/helpers/runtime/docker-server.sh "$@"
 
 # EOF

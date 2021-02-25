@@ -49,6 +49,23 @@ Write-Host 'Installing fhir server in Integration Tests'
 Write-Host ' - Directory - ' $SIT
 & $SIT\fhir-server-dist\install.bat $SIT
 
+# Create datastores for tenant1
+Write-Host 'Creating datastores for tenant1'
+[string]$SCHEMATOOL = $SIT + '\fhir-server-dist\tools\fhir-persistence-schema-*-cli.jar' | Resolve-Path
+[string]$DB_LOC = $SIT + '\wlp\usr\servers\fhir-server\derby'
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\fhirDB --prop db.create=Y `
+  --update-schema
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\profile --prop db.create=Y `
+  --update-schema
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\reference --prop db.create=Y `
+  --update-schema
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\study1 --prop db.create=Y `
+  --update-schema
+
 # If the Config Exists, let's wipe it outfind
 Write-Host 'Copying configuration to install location'
 $RM_ITEM=[string]$SIT + '\wlp\usr\servers\fhir-server\config'

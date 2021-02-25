@@ -53,7 +53,7 @@ copy_server_config(){
     # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides
     echo "Creating an overrides folder in $DIST"
     mkdir -p $DIST/overrides
-    
+
     # Copy and rename the postgres override
     cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/datasource.xml
 
@@ -164,7 +164,7 @@ bringup_fhir(){
         docker logs $containerId  >& ${pre_it_logs}/docker-console.txt
 
         echo "Gathering pre-test server logs from docker container: $containerId"
-        docker cp -L $containerId:/opt/ol/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
+        docker cp -L $containerId:/logs ${pre_it_logs}
 
         echo "Zipping up pre-test server logs"
         zip -r ${zip_file} ${pre_it_logs}
