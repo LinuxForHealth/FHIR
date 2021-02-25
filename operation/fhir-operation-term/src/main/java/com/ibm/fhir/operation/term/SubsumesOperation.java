@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.term;
 import static com.ibm.fhir.model.type.String.string;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -34,8 +35,14 @@ public class SubsumesOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            Coding codingA = getCoding(parameters, "codingA", "codeA");
-            Coding codingB = getCoding(parameters, "codingB", "codeB");
+            CodeSystem codeSystem = FHIROperationContext.Type.INSTANCE.equals(operationContext.getType()) ?
+                    getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class) : null;
+            Coding codingA = getCoding(parameters, "codingA", "codeA", (codeSystem == null));
+            Coding codingB = getCoding(parameters, "codingB", "codeB", (codeSystem == null));
+            if (codeSystem != null) {
+                codingA = codingA.toBuilder().system(codeSystem.getUrl()).build();
+                codingB = codingB.toBuilder().system(codeSystem.getUrl()).build();
+            }
             ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
             if (outcome == null) {
                 throw new FHIROperationException("Subsumption cannot be tested");

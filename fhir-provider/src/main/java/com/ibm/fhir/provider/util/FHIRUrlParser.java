@@ -1,15 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2016,2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.provider.util;
 
+import java.nio.charset.StandardCharsets;
+
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.apache.cxf.jaxrs.impl.MetadataMap;
-import org.apache.cxf.jaxrs.utils.JAXRSUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 /**
  * This class is used for parsing partial URL strings, specifically those
@@ -19,7 +21,7 @@ public class FHIRUrlParser {
     private String path;
     private String query;
     private String[] pathTokens;
-    private MultivaluedMap<String, String> queryParameters = new MetadataMap<>(false, true);
+    private MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
 
     /**
      * Hide the default constructor.
@@ -55,7 +57,7 @@ public class FHIRUrlParser {
         if (tokens.length > 1) {
             query = tokens[1];
             if (query != null && !query.isEmpty()) {
-                JAXRSUtils.getStructuredParams(queryParameters, query, "&", true, false);
+                URLEncodedUtils.parse(query, StandardCharsets.UTF_8).stream().forEachOrdered(k -> queryParameters.add(k.getName(), k.getValue()));
             }
         }
     }
