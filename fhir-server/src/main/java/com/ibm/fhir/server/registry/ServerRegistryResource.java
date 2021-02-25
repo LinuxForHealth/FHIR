@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,7 +42,7 @@ public class ServerRegistryResource extends FHIRRegistryResource {
         String id = resource.getId();
         String url = FHIRRegistryUtil.getUrl(resource);
         String version = FHIRRegistryUtil.getVersion(resource);
-        if (url == null || version == null) {
+        if (url == null) {
             log.warning(String.format("Could not create ServerRegistryResource from Resource with resourceType: %s, id: %s, url: %s, and version: %s", resourceType.getSimpleName(), id, url, version));
             return null;
         }
@@ -56,6 +56,6 @@ public class ServerRegistryResource extends FHIRRegistryResource {
             SearchParameter searchParameter = (SearchParameter) resource;
             type = searchParameter.getType().getValue();
         }
-        return new ServerRegistryResource(resourceType, id, url, Version.from(version), kind, type, resource);
+        return new ServerRegistryResource(resourceType, id, url, (version != null) ? Version.from(version) : FHIRRegistryResource.NO_VERSION, kind, type, resource);
     }
 }

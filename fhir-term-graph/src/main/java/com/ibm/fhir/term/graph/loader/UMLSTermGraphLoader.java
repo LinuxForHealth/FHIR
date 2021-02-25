@@ -1,5 +1,7 @@
 /*
- * (C) Copyright IBM Corp. 2020 SPDX-License-Identifier: Apache-2.0
+ * (C) Copyright IBM Corp. 2020, 2021
+ * 
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.term.graph.loader;
@@ -38,7 +40,6 @@ import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.schema.JanusGraphManagement;
-import org.slf4j.LoggerFactory;
 
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
@@ -55,7 +56,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Load UMLS data using properties provided in arguments
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -101,7 +102,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Generate a consistent label for the given type, removing _ and - characters and camel-casing the resulting string
-     * 
+     *
      * @param typeName
      * @return
      */
@@ -145,7 +146,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Initialize a UMLSTermGraphLoader
-     * 
+     *
      * @param propFileName
      * @param conceptFile
      * @param relationshipFile
@@ -155,9 +156,6 @@ public class UMLSTermGraphLoader {
      * @throws FileNotFoundException
      */
     public UMLSTermGraphLoader(String propFileName, String conceptFile, String relationshipFile, String sourceAttributeFile) {
-        ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-        rootLogger.setLevel(ch.qos.logback.classic.Level.INFO);
-
         this.conceptFile = conceptFile;
         this.relationshipFile = relationshipFile;
         this.sourceAttributeFile = sourceAttributeFile;
@@ -171,7 +169,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Loads UMLS data into JanusGraph
-     * 
+     *
      * @throws ParseException
      * @throws IOException
      * @throws FileNotFoundException
@@ -195,7 +193,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Create a code system vertex for the provided abbreviated source name
-     * 
+     *
      * @param sab
      * @return
      */
@@ -219,7 +217,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Loads all UMLS concept data from the provided conceptFile
-     * 
+     *
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -306,7 +304,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Loads all UMLS relationship data from the provided relationshipFile
-     * 
+     *
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -367,7 +365,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Loads all UMLS source attribute data from the provided sourceAttributeFile
-     * 
+     *
      * @throws IOException
      */
     private void loadSourceAttributes() throws IOException {
@@ -396,7 +394,7 @@ public class UMLSTermGraphLoader {
 
     /**
      * Loads configuration of code systems noted to be case sensitive
-     * 
+     *
      * @throws IOException
      */
     private void loadCaseSensitiveCodeSystems() throws IOException {

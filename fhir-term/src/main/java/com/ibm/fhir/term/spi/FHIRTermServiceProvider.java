@@ -23,31 +23,20 @@ public interface FHIRTermServiceProvider {
      */
     boolean isSupported(CodeSystem codeSystem);
 
-    /**
-     * Find the concept in the provided code system that matches the specified code.
-     *
-     * @param codeSystem
-     *     the code system to search
-     * @param code
-     *     the code to match
-     * @return
-     *     the code system concept that matches the specified code, or null if no such concept exists
-     */
-    Concept findConcept(CodeSystem codeSystem, Code code);
+
+    boolean hasConcept(CodeSystem codeSystem, Code code);
 
     /**
-     * Find the concept in tree rooted by the provided concept that matches the specified code.
+     * Get the concept in the provided code system with the specified code.
      *
      * @param codeSystem
      *     the code system
-     * @param concept
-     *     the root of the hierarchy to search
      * @param code
-     *     the code to match
+     *     the code
      * @return
-     *     the code system concept that matches the specified code, or null if not such concept exists
+     *     the code system concept with the specified code, or null if no such concept exists
      */
-    Concept findConcept(CodeSystem codeSystem, Concept concept, Code code);
+    Concept getConcept(CodeSystem codeSystem, Code code);
 
     /**
      * Get a set containing {@link CodeSystem.Concept} instances where all structural
@@ -61,15 +50,29 @@ public interface FHIRTermServiceProvider {
     Set<Concept> getConcepts(CodeSystem codeSystem);
 
     /**
+     * Find the concept in tree rooted by the provided concept that matches the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codeA
+     *     the root of the hierarchy to search
+     * @param codeB
+     *     the code to match
+     * @return
+     *     the code system concept that matches the specified code, or null if not such concept exists
+     */
+    boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB);
+
+    /**
      * Get a set containing {@link CodeSystem.Concept} instances where all structural
      * hierarchies have been flattened.
      *
      * @param codeSystem
      *     the code system
-     * @param concept
+     * @param code
      *     the root of the hierarchy containing the Concept instances to be flattened
      * @return
      *     flattened set of Concept instances for the given tree
      */
-    Set<Concept> getConcepts(CodeSystem codeSystem, Concept concept);
+    Set<Concept> closure(CodeSystem codeSystem, Code code);
 }

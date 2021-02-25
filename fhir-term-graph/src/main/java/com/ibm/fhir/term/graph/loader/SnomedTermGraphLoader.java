@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,6 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.EdgeLabel;
 import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.schema.JanusGraphManagement;
-import org.slf4j.LoggerFactory;
 
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
@@ -50,9 +49,6 @@ public class SnomedTermGraphLoader {
         FHIRTermGraph graph = null;
         try {
             long start = System.currentTimeMillis();
-
-            ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-            rootLogger.setLevel(ch.qos.logback.classic.Level.INFO);
 
             options = new Options()
                     .addRequiredOption("file", null, true, "Configuration properties file")
@@ -77,7 +73,7 @@ public class SnomedTermGraphLoader {
             AtomicInteger counter = new AtomicInteger(0);
             Map<String, Vertex> vertexMap = new HashMap<>(250000);
 
-            Vertex codeSystemVertex = g.addV("CodeSystem").property("url", "http://snomed.info").next();
+            Vertex codeSystemVertex = g.addV("CodeSystem").property("url", "http://snomed.info/sct").next();
             g.tx().commit();
 
             // concept file

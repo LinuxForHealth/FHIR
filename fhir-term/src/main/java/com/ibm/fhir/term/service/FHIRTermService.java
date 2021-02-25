@@ -58,12 +58,12 @@ public class FHIRTermService {
         }
 
         @Override
-        public Concept findConcept(CodeSystem codeSystem, Code code) {
-            return null;
+        public boolean hasConcept(CodeSystem codeSystem, Code code) {
+            return false;
         }
 
         @Override
-        public Concept findConcept(CodeSystem codeSystem, Concept concept, Code code) {
+        public Concept getConcept(CodeSystem codeSystem, Code code) {
             return null;
         }
 
@@ -73,7 +73,12 @@ public class FHIRTermService {
         }
 
         @Override
-        public Set<Concept> getConcepts(CodeSystem codeSystem, Concept concept) {
+        public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+            return false;
+        }
+
+        @Override
+        public Set<Concept> closure(CodeSystem codeSystem, Code code) {
             return Collections.emptySet();
         }
     };
@@ -84,12 +89,12 @@ public class FHIRTermService {
     }
 
     /**
-     * Register the given {@link FHIRTermServiceProvider}
+     * Add the given {@link FHIRTermServiceProvider} to the service
      *
      * @param provider
      *     the term service provider
      */
-    public void register(FHIRTermServiceProvider provider) {
+    public void addProvider(FHIRTermServiceProvider provider) {
         Objects.requireNonNull(provider);
         providers.add(provider);
     }
@@ -118,33 +123,17 @@ public class FHIRTermService {
     }
 
     /**
-     * Find the concept in the provided code system that matches the specified code.
+     * Get the concept in the provided code system with the specified code.
      *
      * @param codeSystem
      *     the code system to search
      * @param code
      *     the code to match
      * @return
-     *     the code system concept that matches the specified code, or null if no such concept exists
+     *     the code system concept with the specified code, or null if no such concept exists
      */
-    public Concept findConcept(CodeSystem codeSystem, Code code) {
-        return findProvider(codeSystem).findConcept(codeSystem, code);
-    }
-
-    /**
-     * Find the concept in tree rooted by the provided concept that matches the specified code.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param concept
-     *     the root of the hierarchy to search
-     * @param code
-     *     the code to match
-     * @return
-     *     the code system concept that matches the specified code, or null if not such concept exists
-     */
-    public Concept findConcept(CodeSystem codeSystem, Concept concept, Code code) {
-        return findProvider(codeSystem).findConcept(codeSystem, concept, code);
+    public Concept getConcept(CodeSystem codeSystem, Code code) {
+        return findProvider(codeSystem).getConcept(codeSystem, code);
     }
 
     /**
@@ -158,21 +147,6 @@ public class FHIRTermService {
      */
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return findProvider(codeSystem).getConcepts(codeSystem);
-    }
-
-    /**
-     * Get a set containing {@link CodeSystem.Concept} instances where all structural
-     * hierarchies have been flattened.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param concept
-     *     the root of the hierarchy containing the Concept instances to be flattened
-     * @return
-     *     flattened set of Concept instances for the given tree
-     */
-    public Set<Concept> getConcepts(CodeSystem codeSystem, Concept concept) {
-        return findProvider(codeSystem).getConcepts(codeSystem, concept);
     }
 
     /**
@@ -279,7 +253,7 @@ public class FHIRTermService {
             java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
             if (codeSystem != null) {
-                Concept concept = findProvider(codeSystem).findConcept(codeSystem, code);
+                Concept concept = findProvider(codeSystem).getConcept(codeSystem, code);
                 if (concept != null) {
                     return LookupOutcome.builder()
                             .name((codeSystem.getName() != null) ? codeSystem.getName() : STRING_DATA_ABSENT_REASON_UNKNOWN)
@@ -318,6 +292,22 @@ public class FHIRTermService {
     }
 
     /**
+     * Find the concept in tree rooted by the provided concept that matches the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codeA
+     *     the code "A"
+     * @param codeB
+     *     the code "B"
+     * @return
+     *     true if the concept represented by code "A" subsumes the concept represented by code "B", false otherwise
+     */
+    public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+        return findProvider(codeSystem).subsumes(codeSystem, codeA, codeB);
+    }
+
+    /**
      * Perform a subsumption test to determine if the code system concept represented by the given coding "A" subsumes
      * the code system concept represented by the given coding "B"
      *
@@ -350,16 +340,13 @@ public class FHIRTermService {
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
                 FHIRTermServiceProvider provider = findProvider(codeSystem);
-                Concept conceptA = provider.findConcept(codeSystem, codeA);
-                if (conceptA != null) {
-                    Concept conceptB = provider.findConcept(codeSystem, conceptA, codeB);
-                    if (conceptB != null) {
-                        return conceptA.equals(conceptB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
+                if (provider.hasConcept(codeSystem, codeA)) {
+                    boolean subsumes = provider.subsumes(codeSystem, codeA, codeB);
+                    if (subsumes) {
+                        return codeA.equals(codeB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
-                    conceptB = provider.findConcept(codeSystem, codeB);
-                    if (conceptB != null) {
-                        conceptA = provider.findConcept(codeSystem, conceptB, codeA);
-                        return (conceptA != null) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
+                    if (provider.hasConcept(codeSystem, codeB)) {
+                        return provider.subsumes(codeSystem, codeB, codeA) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                     }
                 }
             }
@@ -368,8 +355,8 @@ public class FHIRTermService {
         return null;
     }
 
-    public Set<Concept> closure(CodeSystem codeSystem, Concept concept) {
-        return findProvider(codeSystem).getConcepts(codeSystem, concept);
+    public Set<Concept> closure(CodeSystem codeSystem, Code code) {
+        return findProvider(codeSystem).closure(codeSystem, code);
     }
 
     /**
@@ -390,9 +377,8 @@ public class FHIRTermService {
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
                 FHIRTermServiceProvider provider = findProvider(codeSystem);
-                Concept concept = provider.findConcept(codeSystem, code);
-                if (concept != null) {
-                    return provider.getConcepts(codeSystem, concept);
+                if (provider.hasConcept(codeSystem, code)) {
+                    return provider.closure(codeSystem, code);
                 }
             }
         }

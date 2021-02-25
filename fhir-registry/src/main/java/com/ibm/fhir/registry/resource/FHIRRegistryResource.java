@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,8 @@ import com.ibm.fhir.model.resource.Resource;
  * An abstract base class that contains the metadata for a definitional resource (e.g. StructureDefinition)
  */
 public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
+    public static final Version NO_VERSION = Version.from("<no version>");
+
     protected final Class<? extends Resource> resourceType;
     protected final String id;
     protected final String url;
