@@ -1,20 +1,7 @@
 /*
  * (C) Copyright IBM Corp. 2021
  *
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0 
  */
 package com.ibm.fhir.operation.everything;
 
@@ -35,29 +22,29 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
  * 
- * @author Luis A. García
  */
 public class EverythingOperationTest {
 
     
-    private EverythingOperation exportOperation;
+    private EverythingOperation everythingOperation;
 
     /**
      * 
      */
     public EverythingOperationTest() {
-        exportOperation = new EverythingOperation();
+        everythingOperation = new EverythingOperation();
     }
 
     /**
      * 
      */
     @Test
-    public void testExportOperation() {
+    public void testEverythingOperation() {
         EverythingOperation exportOperation = new EverythingOperation();
         OperationDefinition operationDefinition = exportOperation.buildOperationDefinition();
         assertNotNull(operationDefinition);
@@ -71,7 +58,7 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersType() throws FHIRParserException, IOException, FHIRSearchException {
         Parameters parameters = loadParametersFile("parameters-type.json");
-        List<String> overrideTypes = exportOperation.getOverridenIncludedResourceTypes(parameters);
+        List<String> overrideTypes = everythingOperation.getOverridenIncludedResourceTypes(parameters);
         assertEquals(2, overrideTypes.size());
         assertTrue(overrideTypes.contains("CarePlan"));
         assertTrue(overrideTypes.contains("CareTeam"));
@@ -84,8 +71,8 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersStart() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-start.json");
-        MultivaluedMap<String, String> queryParameters = exportOperation.parseQueryParameters(parameters);
-        assertEquals(EverythingOperation.DEFAULT_RESOURCE_COUNT + "", queryParameters.getFirst(EverythingOperation.COUNT_QUERY_PARAMETER));
+        MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
+        assertEquals(SearchConstants.MAX_PAGE_SIZE + "", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(1, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.STARTING_FROM + "1970-11-04"));
     }
@@ -97,8 +84,8 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersEnd() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-end.json");
-        MultivaluedMap<String, String> queryParameters = exportOperation.parseQueryParameters(parameters);
-        assertEquals(EverythingOperation.DEFAULT_RESOURCE_COUNT + "", queryParameters.getFirst(EverythingOperation.COUNT_QUERY_PARAMETER));
+        MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
+        assertEquals(SearchConstants.MAX_PAGE_SIZE + "", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(1, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.UP_UNTIL+ "1971-01-01"));
     }
@@ -110,8 +97,8 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersStartEnd() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-start-end.json");
-        MultivaluedMap<String, String> queryParameters = exportOperation.parseQueryParameters(parameters);
-        assertEquals(EverythingOperation.DEFAULT_RESOURCE_COUNT + "", queryParameters.getFirst(EverythingOperation.COUNT_QUERY_PARAMETER));
+        MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
+        assertEquals(SearchConstants.MAX_PAGE_SIZE + "", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(2, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.STARTING_FROM + "1970-11-04"));
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.UP_UNTIL+ "1971-01-01"));
@@ -124,8 +111,8 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersStartEndCount() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-start-end-count.json");
-        MultivaluedMap<String, String> queryParameters = exportOperation.parseQueryParameters(parameters);
-        assertEquals("10", queryParameters.getFirst(EverythingOperation.COUNT_QUERY_PARAMETER));
+        MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
+        assertEquals("10", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(2, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.STARTING_FROM + "1970-11-04"));
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.UP_UNTIL+ "1971-01-01"));
@@ -138,8 +125,8 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersStartEndCountSince() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-start-end-count-since.json");
-        MultivaluedMap<String, String> queryParameters = exportOperation.parseQueryParameters(parameters);
-        assertEquals("10", queryParameters.getFirst(EverythingOperation.COUNT_QUERY_PARAMETER));
+        MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
+        assertEquals("10", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(2, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.STARTING_FROM + "1970-11-04"));
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.UP_UNTIL+ "1971-01-01"));

@@ -97,8 +97,11 @@ public class SearchConstants {
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
 
-    // set as unmodifiable
+    /**
+     * https://www.hl7.org/fhir/search.html#lastUpdated
+     */
     public static final String LAST_UPDATED = "_lastUpdated";
+
     public static final String ID = "_id";
     public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList(ID, LAST_UPDATED));
 

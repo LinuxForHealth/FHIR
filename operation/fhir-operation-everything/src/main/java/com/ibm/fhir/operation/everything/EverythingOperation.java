@@ -1,20 +1,7 @@
 /*
  * (C) Copyright IBM Corp. 2021
  *
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0 
  */
 package com.ibm.fhir.operation.everything;
 
@@ -36,23 +23,30 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -64,7 +58,6 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
  * which is used to return all the information related to one or more patients described in the resource or context on 
  * which this operation is invoked.
  * 
- * @author Luis A. García
  */
 public class EverythingOperation extends AbstractOperation {
 
@@ -73,12 +66,12 @@ public class EverythingOperation extends AbstractOperation {
     /**
      * The <a href="https://www.hl7.org/fhir/search.html#prefix">prefix</a> used to indicate the start date for the $everything resources
      */
-    protected static final String STARTING_FROM = "ge";
+    protected static final String STARTING_FROM = SearchConstants.Prefix.GE.value();
 
     /**
      * The <a href="https://www.hl7.org/fhir/search.html#prefix">prefix</a> used to indicate the end date for the $everything resources
      */
-    protected static final String UP_UNTIL = "le";
+    protected static final String UP_UNTIL = SearchConstants.Prefix.LE.value();;
 
     /**
      * The "date" query parameter used in the underlying search operation.
@@ -89,16 +82,6 @@ public class EverythingOperation extends AbstractOperation {
      * The "_lastUpdated" query parameter used in the underlying search operation.
      */
     protected static final String LAST_UPDATED_QUERY_PARAMETER = "_lastUpdated";
-
-    /**
-     * The query parameter to indicate a maximum resource count for the $everything operation
-     */
-    protected static final String COUNT_QUERY_PARAMETER = "_count";
-
-    /**
-     * The query parameter to indicate the resource types for the $everything operation
-     */
-    protected static final String TYPE_QUERY_PARAMETER = "_type";
 
     /**
      * The query parameter to indicate a start date for the $everything operation
@@ -114,11 +97,6 @@ public class EverythingOperation extends AbstractOperation {
      * The query parameter to only return resources last update since a date for the $everything operation
      */
     protected static final String SINCE_QUERY_PARAMETER = "_since";
-
-    /**
-     * The default max number of resources to search for each subsresource
-     */
-    protected static final int DEFAULT_RESOURCE_COUNT = 500;
 
     /**
      * The patient resource name
@@ -165,9 +143,6 @@ public class EverythingOperation extends AbstractOperation {
         }
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.server.operation.spi.AbstractOperation#buildOperationDefinition()
-     */
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream(OPERATION_DEFINITION_FILE)) {
@@ -179,9 +154,6 @@ public class EverythingOperation extends AbstractOperation {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.server.operation.spi.AbstractOperation#doInvoke(com.ibm.fhir.server.operation.spi.FHIROperationContext, java.lang.Class, java.lang.String, java.lang.String, com.ibm.fhir.model.resource.Parameters, com.ibm.fhir.server.operation.spi.FHIRResourceHelpers)
-     */
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         LOG.entering(this.getClass().getName(), "doInvoke");
@@ -190,18 +162,19 @@ public class EverythingOperation extends AbstractOperation {
         try {
             patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null, null);
         } catch (Exception e) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while reading patient " + logicalId, IssueType.EXCEPTION);
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while reading patient '" + logicalId + "'", IssueType.EXCEPTION);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
         if (patient == null) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID " + logicalId + " does not exist.", IssueType.NOT_FOUND);
+            
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
 
         Entry patientEntry = buildPatientEntry(operationContext, patient);
-        List<Entry> allEntries = new ArrayList<>(DEFAULT_RESOURCE_COUNT * 2);
+        List<Entry> allEntries = new ArrayList<>(SearchConstants.MAX_PAGE_SIZE);
         allEntries.add(patientEntry);
         
         // We can't always use the "date" query parameter to query by clinical date, only with some resources.
@@ -209,21 +182,22 @@ public class EverythingOperation extends AbstractOperation {
         // Otherwise the search throws an exception. We create a params map with and without and use as needed
         MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters);
         MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String, String>(queryParameters);
-        queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER);
+        boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
         
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
         
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
-            if (!SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
+            if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
+                LOG.finest("The request specified the a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
                 searchParameters = queryParametersWithoutDates;
             }
             Bundle results = null;
             try {
                 results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
             } catch (Exception e) {
-                LOG.warning("Error retrieving $everything resources of type " + compartmentType + " for patient " + logicalId);
+                LOG.warning("Error retrieving $everything resources of type '" + compartmentType + "' for patient " + logicalId);
                 continue;
             }
             allEntries.addAll(results.getEntry());
@@ -255,11 +229,11 @@ public class EverythingOperation extends AbstractOperation {
      */
     protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters) {
         MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<String, String>();
-        Parameter countParameter = getParameter(parameters, COUNT_QUERY_PARAMETER);
+        Parameter countParameter = getParameter(parameters, SearchConstants.COUNT);
         if (countParameter == null) {
-            queryParameters.add(COUNT_QUERY_PARAMETER, DEFAULT_RESOURCE_COUNT + "");
+            queryParameters.add(SearchConstants.COUNT, SearchConstants.MAX_PAGE_SIZE + "");
         } else {
-            queryParameters.add(COUNT_QUERY_PARAMETER, countParameter.getValue().as(FHIR_INTEGER).getValue() + "");
+            queryParameters.add(SearchConstants.COUNT, countParameter.getValue().as(FHIR_INTEGER).getValue() + "");
         }
         // We use gt/lt here in an effort to be more liberal in terms of what we return
         // https://ibm-watsonhealth.slack.com/archives/C14JTTR6C/p1614181836050500?thread_ts=1614180853.047300&cid=C14JTTR6C
@@ -279,19 +253,34 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     /**
+     * @param parameters the {@link Parameters} object
      * @return the list of patient subresources that will be included in the $everything operation, as provided by the user
      * @throws FHIRSearchException 
      */
     protected List<String> getOverridenIncludedResourceTypes(Parameters parameters) throws FHIRSearchException {
         List<String> typeOverrides = new ArrayList<>();
-        Parameter typesParameter = getParameter(parameters, TYPE_QUERY_PARAMETER);
+        Parameter typesParameter = getParameter(parameters, SearchConstants.RESOURCE_TYPE);
         if (typesParameter == null) {
             return typeOverrides;
         }
         String typeOverridesParam = typesParameter.getValue().as(FHIR_STRING).getValue();
-        String[] typeOverridesList = typeOverridesParam.split(",");
+        String[] typeOverridesList = typeOverridesParam.split(SearchConstants.JOIN_STR);
+        List<String> unknownTypes= new ArrayList<>();
         for (String typeOverride : typeOverridesList) {
-            typeOverrides.add(typeOverride.trim());
+            if (!defaultResourceTypes.contains(typeOverride)) {
+                unknownTypes.add(typeOverride);
+            } else {
+                typeOverrides.add(typeOverride.trim());
+            }
+        }
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+        if (!unknownTypes.isEmpty()) {
+            String msg = "The following resource types are not supported by this operation: " + String.join(",", unknownTypes);
+            if (HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference())) {
+                LOG.fine(msg);
+            } else {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+            }
         }
         return typeOverrides;
     }
@@ -322,6 +311,10 @@ public class EverythingOperation extends AbstractOperation {
         Entry patientEntry = Entry.builder()
                 .resource(patient)
                 .fullUrl(patientURL)
+                .search(Search.builder()
+                    .mode(SearchEntryMode.MATCH)
+                    .score(Decimal.of("1"))
+                    .build())
                 .build();
         return patientEntry;
     }

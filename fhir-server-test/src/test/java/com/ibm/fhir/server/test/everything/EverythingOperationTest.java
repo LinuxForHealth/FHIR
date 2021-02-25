@@ -1,22 +1,9 @@
 /*
  * (C) Copyright IBM Corp. 2021
  *
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0 
  */
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.everything;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -34,6 +21,8 @@ import java.util.Set;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.SerializationUtils;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
@@ -43,10 +32,10 @@ import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * 
- * @author Luis A. García
  */
 public class EverythingOperationTest extends FHIRServerTestBase {
     
@@ -105,26 +94,30 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 .request()
                 .get(Response.class);
 
+        // Create a deep copy of the created resources so we can modify it 
+        // but keep the original so we can delete all created resources
+        Map<String, List<String>> resourcesMap = SerializationUtils.clone((HashMap<String, List<String>>) createdResources);
+
         // Ensure that the 895 resources are accounted for in the returning search set bundle 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
             assertTrue(locationElements.length >= 2, "Incorrect full URL format: " + fullURL);
             String resourceType = locationElements[locationElements.length - 2];
             String resourceId = locationElements[locationElements.length - 1];
-            List<String> resources = createdResources.get(resourceType);
+            List<String> resources = resourcesMap.get(resourceType);
             if (resources.remove(resourceId)) {
                 println("Found expected " + resourceType + ": " + resourceId);
             } else {
-                println("Found unkown " + resourceType + ": " + resourceId);
+                println("Found unknown " + resourceType + ": " + resourceId);
             }
         }
-        
+
         // List all the resources pending removal for each type
-        Set<java.util.Map.Entry<String, List<String>>> entries = createdResources.entrySet();
+        Set<java.util.Map.Entry<String, List<String>>> entries = resourcesMap.entrySet();
         List<String> keysToRemove = new ArrayList<>();
         for (java.util.Map.Entry<String, List<String>> entry : entries) {
             println(entry.getKey() + ": ");
@@ -144,9 +137,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         // Remove all entries from the map that no longer have resources left to account for
         // we should have accounted for all resources of that type such that the map should be empty
         for (String key : keysToRemove) {
-            createdResources.remove(key);
+            resourcesMap.remove(key);
         }
-        assertTrue(createdResources.isEmpty());
+        assertTrue(resourcesMap.isEmpty());
     }
 
     /**
@@ -165,7 +158,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         
         // The initial bundle includes resources from 11 resource types (not counting practitioners and organizations), 
         // here we test that when count = 1 we only get 12 resources, 1 from each resource type + 1 for the Patient
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 12);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 12);
     }
 
     /**
@@ -184,7 +177,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
         
         // The number of companies was reduced as the scope was narrowed down to a decade
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
     }
 
     /**
@@ -202,7 +195,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
         
         // 5 CareTeams + 5 CarePlans + 1 Patient
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
     }
 
     /**
@@ -216,12 +209,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 .request()
                 .get(Response.class);
 
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle everythingBundle = response.readEntity(Bundle.class);
-        
-        // When wrong types are included those types are dropped
-        // 5 CareTeams + 5 CarePlans + 1 Patient + 0 UnknownType
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     /**
@@ -240,7 +228,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
         
         // 5 CareTeams + 5 CarePlans + 1 Patient
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
     }
 
     /**
@@ -261,7 +249,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
         
         // Only the patient and 0 resources
-        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 1);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 1);
     }
     
     /**
@@ -275,7 +263,28 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 .get(Response.class);
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());        
     }
- 
+
+    /**
+     * Clean up all the resources created in this test. 
+     */
+    @AfterClass
+    public void deleteTestResources() {
+        Set<java.util.Map.Entry<String, List<String>>> entries = createdResources.entrySet();
+        for (java.util.Map.Entry<String, List<String>> entry : entries) {
+            String resourceType = entry.getKey();
+            List<String> resourceIds = entry.getValue();
+            for (String resourceId : resourceIds) {
+                Response response = getWebTarget()
+                        .path(resourceType + "/" + resourceId)
+                        .request()
+                        .delete();
+                if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+                    println("Could not delete test resource " + resourceType + "/" + resourceId + ": " + response.getStatus());
+                }
+            }
+        }
+    }
+    
     private void println(String msg) {
         if (DEBUG) {
             System.out.println(msg);
