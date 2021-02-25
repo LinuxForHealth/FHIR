@@ -1,44 +1,15 @@
 <server>
     <!-- ============================================================== -->
-    <!-- These datasources are used by the FHIR server Derby bootstrap  -->
-    <!-- process. We have to name them differently so they do not       -->
-    <!-- clash with other datasources which may be assigned JNDI names  -->
-    <!-- like "jdbc/fhir_default_default"                               -->
+    <!-- This datasource aligns with the Apache Derby database that is  -->
+    <!-- created by the IBM FHIR Server's DB_BOOTSTRAP process.         -->
     <!-- ============================================================== -->
 
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
-    <dataSource id="fhirDatasourceBootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
         <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
-        <connectionManager maxPoolSize="50" minPoolSize="10"/>
-    </dataSource>
-
-    <!-- ============================================================== -->
-    <!-- TENANT: tenant1; DSID: profile; TYPE: read-write               -->
-    <!-- ============================================================== -->
-    <dataSource id="fhirDatasourceBootstrapTenant1Profile" jndiName="jdbc/bootstrap_tenant1_profile" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/profile"/>
-        <connectionManager maxPoolSize="50" minPoolSize="10"/>
-    </dataSource>
-
-    <!-- ============================================================== -->
-    <!-- TENANT: tenant1; DSID: reference; TYPE: read-write             -->
-    <!-- ============================================================== -->
-    <dataSource id="fhirDatasourceBootstrapTenant1Reference" jndiName="jdbc/bootstrap_tenant1_reference" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/reference"/>
-        <connectionManager maxPoolSize="50" minPoolSize="10"/>
-    </dataSource>
-
-    <!-- ============================================================== -->
-    <!-- TENANT: tenant1; DSID: study1; TYPE: read-write                -->
-    <!-- ============================================================== -->
-    <dataSource id="fhirDatasourceBootstrapTenant1Study1" jndiName="jdbc/bootstrap_tenant1_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/study1"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>
 </server>
