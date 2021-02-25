@@ -88,7 +88,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         FHIRRequestContext.get().setTenantId("default");
     }
 
-    @Test(singleThreaded = true, groups= {"persistence-changes"})
+    @Test
     public void testSomeData() throws Exception {
 
         // Without a start time filter, we don't know how many records we'll get back because
@@ -104,7 +104,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         assertTrue(result.size() <= 100);
     }
 
-    @Test(singleThreaded = true, groups= {"persistence-changes"})
+    @Test
     public void testChanges() throws Exception {
 
         // Make sure we start the clock at the right place otherwise our
@@ -145,7 +145,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         assertEquals(result.get(6).getLogicalId(), resource4.getId()); // resource4
     }
 
-    @Test(singleThreaded = true, groups= {"persistence-changes"})
+    @Test
     public void testLimit() throws Exception {
 
         // Make sure we start the clock at the right place otherwise our
@@ -175,7 +175,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         assertEquals(result.size(), 0);
     }
 
-    @Test(singleThreaded = true, groups= {"persistence-changes"})
+    @Test
     public void testResourceTypeFilter() throws Exception {
         // just filter on the resource type name
         Instant fromLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
