@@ -118,6 +118,10 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
+<<<<<<< HEAD
+=======
+                "bootstrapDb": false,
+>>>>>>> 23292dc083... issue #1408 - move advanced bootstrapping into CI
                 "enableProxyDatasource": false,
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,

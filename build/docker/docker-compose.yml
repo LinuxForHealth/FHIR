@@ -32,7 +32,7 @@ services:
           --update-schema &&
         /opt/ol/wlp/bin/server run fhir-server "
     healthcheck:
-      start_period: 60s
+      start_period: 160s
       interval: 10s
       timeout: 10s
       retries: 2
