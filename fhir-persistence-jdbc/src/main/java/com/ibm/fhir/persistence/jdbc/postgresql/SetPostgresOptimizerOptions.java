@@ -24,9 +24,9 @@ public class SetPostgresOptimizerOptions {
 
     // Configuration constants
     private static final String JOIN_COLLAPSE_LIMIT = "join_collapse_limit";
-    private static final int DEFAULT_JOIN_COLLAPSE_LIMIT = 16;
+    private static final int DEFAULT_JOIN_COLLAPSE_LIMIT = 8;
     private static final String FROM_COLLAPSE_LIMIT = "from_collapse_limit";
-    private static final int DEFAULT_FROM_COLLAPSE_LIMIT = 16;
+    private static final int DEFAULT_FROM_COLLAPSE_LIMIT = 8;
 
     private final Integer joinCollapseLimit;
     private final Integer fromCollapseLimit;
