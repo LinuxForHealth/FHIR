@@ -58,7 +58,6 @@ ENV KEYSTORE_REQUIRED "false"
 # create the configDropins directories for the fhir-server
 USER root
 RUN chmod -R 755 /opt/ibm-fhir-server && \
-    chmod -R 755 /opt/ibm-fhir-server/bootstrap.sh && \
     ln -sfn ${FHIR} /output && \
     ln -sfn ${FHIR} /config && \
     rm -rf /opt/ol/wlp/output && \

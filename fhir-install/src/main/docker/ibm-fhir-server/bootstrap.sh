@@ -23,7 +23,6 @@ FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION="/opt/ibm-fhir-server/tools"
 PERFORM_BOOTSTRAP_DB=${BOOTSTRAP_DB}
 [ -z "${BOOTSTRAP_DB}" ] && PERFORM_BOOTSTRAP_DB="false"
 
-
 ##############################################################################
 # Helper Functions
 
@@ -50,7 +49,6 @@ function _bootstrap_db {
     if [ "$PERFORM_BOOTSTRAP_DB" = "true" ]
     then
         info "Performing Derby database bootstrapping"
-        _call_derby_db "--create-schemas"
         _call_derby_db "--update-schema"
         info "Finished Derby database bootstrapping"
     else
