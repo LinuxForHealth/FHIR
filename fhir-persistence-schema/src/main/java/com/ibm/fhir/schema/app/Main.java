@@ -64,11 +64,15 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
+import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
+import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
+import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
 import com.ibm.fhir.schema.control.DisableForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
 import com.ibm.fhir.schema.control.GetTenantList;
@@ -76,6 +80,7 @@ import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
+import com.ibm.fhir.schema.control.SetTenantIdDb2;
 import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
@@ -366,6 +371,14 @@ public class Main {
         // Let's refresh the procedures and functions.
         logger.info("Refreshing procedures and functions");
         updateProcedures();
+
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            logger.info("Refreshing tenant partitions");
+            refreshTenants();
+        }
+
+        // backfill the resource_change_log table if needed
+        backfillResourceChangeLog();
     }
 
     /**
@@ -798,7 +811,9 @@ public class Main {
         // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
         tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
         for (TenantInfo ti: tenants) {
-            if (ti.getTenantSchema() != null) {
+            // For issue 1847 we only want to process for the named data schema if one is provided
+            // If no -schema-name arg is given, we process all tenants.
+            if (ti.getTenantSchema() != null && (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema()))) {
                 // It's crucial we use the correct schema for each particular tenant, which
                 // is why we have to build the PhysicalDataModel separately for each tenant
                 FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), isMultitenant());
@@ -1475,6 +1490,97 @@ public class Main {
             properties.put(kv[0], kv[1]);
         } else {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
+        }
+    }
+
+    /**
+     * Backfill the RESOURCE_CHANGE_LOG table if it is empty
+     */
+    protected void backfillResourceChangeLog() {
+
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // Process each tenant one-by-one
+            List<TenantInfo> tenants = getTenantList();
+            for (TenantInfo ti: tenants) {
+
+                // If no --schema-name override was specified, we process all tenants, otherwise we
+                // process only tenants which belong to the override schema name
+                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
+                    backfillResourceChangeLogDb2(ti);
+                }
+            }
+        } else {
+            // Not a multi-tenant database, so we only have to do this once
+            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
+                    if (adapter.runStatement(isEmpty)) {
+                        // change log is empty, so we need to backfill it with data
+                        doBackfill(adapter);
+                    } else {
+                        logger.info("RESOURCE_CHANGE_LOG has data so skipping backfill");
+                    }
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * backfill the resource_change_log table if it is empty
+     */
+    protected void backfillResourceChangeLogDb2(TenantInfo ti) {
+
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+
+        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
+                .map(FHIRResourceType.ValueSet::value)
+                .collect(Collectors.toSet());
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
+                adapter.runStatement(setTenantId);
+
+                GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
+                if (adapter.runStatement(isEmpty)) {
+                    // change log is empty, so we need to backfill it with data
+                    for (String resourceTypeName: resourceTypes) {
+                        logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
+                            + " resources for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+                        BackfillResourceChangeLogDb2 backfill = new BackfillResourceChangeLogDb2(schema.getSchemaName(), resourceTypeName);
+                        adapter.runStatement(backfill);
+                    }
+                } else {
+                    logger.info("RESOURCE_CHANGE_LOG has data for tenant '" + ti.getTenantName() + "' so skipping backfill");
+                }
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Backfill the RESOURCE_CHANGE_LOG table for all the resource types. Non-multi-tenant
+     * implementation
+     * @param adapter
+     */
+    private void doBackfill(IDatabaseAdapter adapter) {
+        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
+                .map(FHIRResourceType.ValueSet::value)
+                .collect(Collectors.toSet());
+
+        for (String resourceTypeName: resourceTypes) {
+            logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
+                + " resources for schema '" + schema.getSchemaName() + "'");
+            BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);
+            adapter.runStatement(backfill);
         }
     }
 
