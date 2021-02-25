@@ -1,10 +1,10 @@
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2016, 2020
+# (C) Copyright IBM Corp. 2016, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM openliberty/open-liberty:20.0.0.12-full-java8-openj9-ubi as base
+FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi as base
 
 ENV LICENSE accept
 
@@ -20,7 +20,7 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
 
 # ----------------------------------------------------------------------------
 
-FROM openliberty/open-liberty:20.0.0.12-full-java8-openj9-ubi
+FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi
 
 ARG FHIR_VERSION=4.6.0
 

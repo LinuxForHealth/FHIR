@@ -63,7 +63,7 @@ public class ReferenceUtil {
 
         if (ref.getReference() != null && ref.getReference().getValue() != null) {
             return createReferenceValueFrom(ref.getReference().getValue(), ref.getType() != null ? ref.getType().getValue() : null, baseUrl);
-        } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null) {
+        } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null && ref.getIdentifier().getValue().getValue() != null) {
             // LOGICAL REFERENCE
             value = ref.getIdentifier().getValue().getValue();
             referenceType = ReferenceType.LOGICAL;
@@ -87,7 +87,7 @@ public class ReferenceUtil {
     }
 
     /**
-     * Processes a Reference value from the FHIR model and interprets
+     * Processes the string value of a Reference object from the FHIR model and interprets
      * it according to https://www.hl7.org/fhir/references.html#2.3.0
      *
      * <p>Absolute literal references will be converted to relative references if their base matches baseUrl.
@@ -100,7 +100,7 @@ public class ReferenceUtil {
      * <li>INVALID: null</li>
      * </ol>
      *
-     * @param refValue a reference value
+     * @param refValue a reference value string
      * @param refType a reference resource type (used for LITERAL_ABSOLUTE only)
      * @param baseUrl the base URL used to determine whether to convert absolute references to relative references
      * @return a structured representation of the reference value that varies by its inferred reference type
@@ -141,7 +141,6 @@ public class ReferenceUtil {
                         version = Integer.parseInt(tokens[3]);
                     }
                 }
-                // TODO: should the reference type be used if not null and we only have a logical ID?
             } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
                 // - Absolute reference. We only know the type if it is given by the type field
                 referenceType = ReferenceType.LITERAL_ABSOLUTE;
@@ -161,7 +160,6 @@ public class ReferenceUtil {
                         version = Integer.parseInt(tokens[3]);
                     }
                 }
-                // TODO: should the reference type be used if not null and we only have a logical ID?
             }
         }
 

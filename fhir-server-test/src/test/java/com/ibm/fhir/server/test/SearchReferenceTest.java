@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
@@ -33,18 +34,29 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     private String patientResourceIdWithReferenceUrl;
     @SuppressWarnings("unused")
     private String patientWithLiteralReference;
+    @SuppressWarnings("unused")
+    private String patientResourceIdWithPractitionerReferenceTypeId;
+    @SuppressWarnings("unused")
+    private String patientResourceIdWithPractitionerRoleReferenceTypeId;
 
     /*
      * creates the various test cases for a patient with a reference
      */
-    public String createPatientWithReference(String reference) throws Exception {
+    public String createPatientWithReference(String field, String reference) throws Exception {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
-        patient =
-                patient.toBuilder().gender(AdministrativeGender.MALE).managingOrganization(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Organization")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
+        if ("organization".equals(field)) {
+            patient = patient.toBuilder()
+                    .gender(AdministrativeGender.MALE)
+                    .managingOrganization(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Organization")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
+        } else if ("general-practitioner".equals(field)) {
+            patient = patient.toBuilder()
+                    .gender(AdministrativeGender.MALE)
+                    .generalPractitioner(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Practitioner")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
+        }
         Entity<Patient> entity =
                 Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -69,18 +81,25 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     public void testCreatePatient() throws Exception {
         // references without an explicit type will be interpreted as literals (e.g. externals) not local references
         // we will not infer their type, which means that searches specifying a type will not match them by design
-        patientResourceIdWithReferenceId = createPatientWithReference("3001");
+        patientResourceIdWithReferenceId = createPatientWithReference("organization", "3001");
 
         // relative reference
-        patientResourceIdWithReferenceTypeId = createPatientWithReference("Organization/3002");
+        patientResourceIdWithReferenceTypeId = createPatientWithReference("organization", "Organization/3002");
 
         // relative reference because the url aligns with the server base address
-        patientResourceIdWithReferenceUrl = createPatientWithReference("https://localhost:9443/fhir-server/api/v4/Organization/3003");
+        patientResourceIdWithReferenceUrl = createPatientWithReference("organization", "https://localhost:9443/fhir-server/api/v4/Organization/3003");
 
         // patientResourceIdWithReferenceCanonicalUri = createPatientWithReference("https://localhost:9443/fhir-server/api/v4/Organization/3004|1.0.0");
 
         // Literal reference to another server
-        patientWithLiteralReference = createPatientWithReference("https://an.example.com/Organization/3004");
+        patientWithLiteralReference = createPatientWithReference("organization", "https://an.example.com/Organization/3004");
+
+        // relative reference to Practitioner for general practitioner
+        patientResourceIdWithPractitionerReferenceTypeId = createPatientWithReference("general-practitioner", "Practitioner/3002");
+
+        // relative reference to PractitionerRole for general practitioner
+        patientResourceIdWithPractitionerRoleReferenceTypeId = createPatientWithReference("general-practitioner", "PractitionerRole/3002");
+
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -294,4 +313,17 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         assertNotNull(p);
         assertEquals("https://an.example.com/Organization/3004", p.getManagingOrganization().getReference().getValue());
     }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchWithRelativePatientIdUsingIdMultipleTypes() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("general-practitioner", "3002")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "Multiple resource type matches found for logical ID '3002' for search parameter 'general-practitioner'.");
+    }
+
 }
