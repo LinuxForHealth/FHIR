@@ -8,7 +8,6 @@ package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -217,7 +216,7 @@ public class FHIRServletContextListener implements ServletContextListener {
      * Bootstraps derby databases during server startup if requested.
      */
     private void bootstrapDerbyDatabases(PropertyGroup fhirConfig) throws Exception {
-        Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
+        Boolean performDbBootstrap = Boolean.FALSE;
         if (performDbBootstrap) {
             log.info("Performing Derby database bootstrapping...");
 
