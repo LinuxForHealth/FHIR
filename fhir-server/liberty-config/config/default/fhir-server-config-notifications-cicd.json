@@ -138,16 +138,22 @@
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                 "bootstrapDb": false,
 >>>>>>> 23292dc083... issue #1408 - move advanced bootstrapping into CI
+=======
+>>>>>>> 324493ca22... issue #1694 - make liberty datasources the default
                 "enableProxyDatasource": false,
+=======
+>>>>>>> 16554f87ab... issue #1694 - make liberty datasources the default
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
             },
             "datasources": {
                 "default": {
+<<<<<<< HEAD
                     "type": "derby",
                     "currentSchema": "APP"
                 },
@@ -161,6 +167,9 @@
                 "_pgsample": {
                     "type": "postgresql",
                     "currentSchema": "fhirdata"
+=======
+                    "type": "derby"
+>>>>>>> 16554f87ab... issue #1694 - make liberty datasources the default
                 }
             }
         },

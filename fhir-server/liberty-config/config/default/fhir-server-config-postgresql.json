@@ -27,9 +27,9 @@
                     "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
                     "capabilities": [
                         "sso-openid-connect",
-                        "launch-standalone", 
-                        "client-public", 
-                        "client-confidential-symmetric", 
+                        "launch-standalone",
+                        "client-public",
+                        "client-confidential-symmetric",
                         "permission-offline",
                         "context-standalone-patient",
                         "permission-patient"
@@ -50,11 +50,6 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-<<<<<<< HEAD
-=======
-                "bootstrapDb": false,
->>>>>>> 23292dc083... issue #1408 - move advanced bootstrapping into CI
-                "enableProxyDatasource": false,
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
@@ -62,7 +57,6 @@
             "datasources": {
                 "default": {
                     "type": "postgresql",
-                    "currentSchema": "fhirdata",
                     "searchOptimizerOptions": {
                         "from_collapse_limit": 16,
                         "join_collapse_limit": 16

@@ -24,7 +24,7 @@
     </authorization-roles>
 
     <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
-        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
+        <classloader privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
                 <group id="bulkUsersGroup" name="FHIRUsers"/>

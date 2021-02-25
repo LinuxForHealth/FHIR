@@ -35,14 +35,6 @@
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-config</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-core</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.ibm.db2</groupId>
                     <artifactId>db2jcc4</artifactId>
                 </exclusion>
@@ -79,16 +71,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-bulkdata</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-config</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

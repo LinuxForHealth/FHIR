@@ -237,9 +237,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
         this.schemaNameSupplier = new SchemaNameImpl(this);
 
-        // Issue #916: Still default to the old proxy datasource configuration so we don't break existing
-        // configurations. This may change in a future release.
-        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
+        // Now defaults to Liberty-defined JDBC datasources, but the user can still opt in to the old proxy datasource
+        if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.FALSE)) {
             this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain());
         } else {
             //  use separate JNDI datasources for each tenant/dsId (preferred approach)
@@ -444,9 +443,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         if (this.trxSynchRegistry != null) {
             String datastoreId = FHIRRequestContext.get().getDataStoreId();
-            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
+            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN,
+                    schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(),
+                    this.trxSynchRegistry, this.cache, this.getTransactionDataForDatasource(datastoreId));
         } else {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
+            return FHIRResourceDAOFactory.getResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN,
+                    schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(),
+                    this.cache);
         }
     }
 
@@ -458,8 +461,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceException
      * @throws IllegalArgumentException
      */
-    private ResourceReferenceDAO makeResourceReferenceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
-        return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache);
+    private ResourceReferenceDAO makeResourceReferenceDAO(Connection connection)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+        return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN,
+                schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(),
+                this.cache);
     }
 
     /**
@@ -471,9 +477,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private ParameterDAO makeParameterDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException {
         if (this.trxSynchRegistry != null) {
-            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), trxSynchRegistry);
+            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection),
+                    connectionStrategy.getFlavor(), trxSynchRegistry);
         } else {
-            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
+            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection),
+                    connectionStrategy.getFlavor());
         }
     }
 
