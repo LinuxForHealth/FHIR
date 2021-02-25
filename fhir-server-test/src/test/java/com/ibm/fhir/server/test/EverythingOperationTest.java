@@ -1,15 +1,30 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2021
  *
- * SPDX-License-Identifier: Apache-2.0
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package com.ibm.fhir.server.test;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +50,10 @@ import com.ibm.fhir.model.type.code.BundleType;
  */
 public class EverythingOperationTest extends FHIRServerTestBase {
     
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private Map<String, List<String>> createdResources;
+    private String patientId;
     
     /**
      * 
@@ -83,7 +99,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePatientWithEverything" })
     public void testPatientEverything() {
         // Get the patient ID and invoke the $everything operation on it
-        String patientId = createdResources.get("Patient").get(0);
+        patientId = createdResources.get("Patient").get(0);
         Response response = getWebTarget()
                 .path("Patient/" + patientId +"/$everything")
                 .request()
@@ -101,9 +117,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             String resourceId = locationElements[locationElements.length - 1];
             List<String> resources = createdResources.get(resourceType);
             if (resources.remove(resourceId)) {
-                println("Expected " + resourceType + ": " + resourceId);
+                println("Found expected " + resourceType + ": " + resourceId);
             } else {
-                println("Unkown " + resourceType + ": " + resourceId);
+                println("Found unkown " + resourceType + ": " + resourceId);
             }
         }
         
@@ -133,6 +149,121 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertTrue(createdResources.isEmpty());
     }
 
+    /**
+     * 
+     */
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
+    public void testPatientEverythingWithCount() {
+        Response response = getWebTarget()
+                .path("Patient/" + patientId +"/$everything")
+                .queryParam("_count", 1)
+                .request()
+                .get(Response.class);
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle everythingBundle = response.readEntity(Bundle.class);
+        
+        // The initial bundle includes resources from 11 resource types (not counting practitioners and organizations), 
+        // here we test that when count = 1 we only get 12 resources, 1 from each resource type + 1 for the Patient
+        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 12);
+    }
+
+    /**
+     * 
+     */
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
+    public void testPatientEverythingWithStartAndStop() {
+        Response response = getWebTarget()
+                .path("Patient/" + patientId +"/$everything")
+                .queryParam("start", "1990-01-01")
+                .queryParam("end", "2010-01-01")
+                .request()
+                .get(Response.class);
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle everythingBundle = response.readEntity(Bundle.class);
+        
+        // The number of companies was reduced as the scope was narrowed down to a decade
+        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
+    }
+
+    /**
+     * 
+     */
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
+    public void testPatientEverythingWithTypes() {
+        Response response = getWebTarget()
+                .path("Patient/" + patientId +"/$everything")
+                .queryParam("_type", "CareTeam,CarePlan")
+                .request()
+                .get(Response.class);
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle everythingBundle = response.readEntity(Bundle.class);
+        
+        // 5 CareTeams + 5 CarePlans + 1 Patient
+        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+    }
+
+    /**
+     * 
+     */
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
+    public void testPatientEverythingWithBadType() {
+        Response response = getWebTarget()
+                .path("Patient/" + patientId +"/$everything")
+                .queryParam("_type", "CareTeam,CarePlan,UnknownType")
+                .request()
+                .get(Response.class);
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle everythingBundle = response.readEntity(Bundle.class);
+        
+        // When wrong types are included those types are dropped
+        // 5 CareTeams + 5 CarePlans + 1 Patient + 0 UnknownType
+        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+    }
+
+    /**
+     * 
+     */
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
+    public void testPatientEverythingWithSince() {
+        Response response = getWebTarget()
+                .path("Patient/" + patientId +"/$everything")
+                .queryParam("_type", "CareTeam,CarePlan")
+                .queryParam("_since", "2021-01-01T00:00:00Z")
+                .request()
+                .get(Response.class);
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle everythingBundle = response.readEntity(Bundle.class);
+        
+        // 5 CareTeams + 5 CarePlans + 1 Patient
+        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+    }
+
+    /**
+     * 
+     */
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
+    public void testPatientEverythingWithFutureSince() {
+        LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.now());
+        LocalDateTime tomorrow = today.plusDays(1);
+        
+        Response response = getWebTarget()
+                .path("Patient/" + patientId +"/$everything")
+                .queryParam("_since", tomorrow + "Z")
+                .request()
+                .get(Response.class);
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle everythingBundle = response.readEntity(Bundle.class);
+        
+        // Only the patient and 0 resources
+        BundleTest.assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 1);
+    }
+    
     /**
      * 
      */

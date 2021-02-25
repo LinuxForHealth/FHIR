@@ -108,6 +108,8 @@ public final class ModelSupport {
     public static final Class<com.ibm.fhir.model.type.Boolean> FHIR_BOOLEAN = com.ibm.fhir.model.type.Boolean.class;
     public static final Class<com.ibm.fhir.model.type.Integer> FHIR_INTEGER = com.ibm.fhir.model.type.Integer.class;
     public static final Class<com.ibm.fhir.model.type.String> FHIR_STRING = com.ibm.fhir.model.type.String.class;
+    public static final Class<com.ibm.fhir.model.type.Date> FHIR_DATE = com.ibm.fhir.model.type.Date.class;
+    public static final Class<com.ibm.fhir.model.type.Instant> FHIR_INSTANT = com.ibm.fhir.model.type.Instant.class;
 
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();

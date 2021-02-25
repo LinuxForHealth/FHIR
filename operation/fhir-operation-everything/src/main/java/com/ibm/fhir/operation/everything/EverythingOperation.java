@@ -18,14 +18,23 @@
  */
 package com.ibm.fhir.operation.everything;
 
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_DATE;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_INSTANT;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -35,6 +44,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.UnsignedInt;
@@ -57,21 +67,99 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
  * @author Luis A. García
  */
 public class EverythingOperation extends AbstractOperation {
-    
+
     private static final Logger LOG = java.util.logging.Logger.getLogger(EverythingOperation.class.getName());
-
-    private static final String PATIENT = "Patient";
-
-    private static final String OPERATION_DEFINITION_FILE = "everything.json";
-    
-    private List<String> includedResourceTypes;
     
     /**
-     * 
+     * The <a href="https://www.hl7.org/fhir/search.html#prefix">prefix</a> used to indicate the start date for the $everything resources
+     */
+    protected static final String STARTING_FROM = "ge";
+
+    /**
+     * The <a href="https://www.hl7.org/fhir/search.html#prefix">prefix</a> used to indicate the end date for the $everything resources
+     */
+    protected static final String UP_UNTIL = "le";
+
+    /**
+     * The "date" query parameter used in the underlying search operation.
+     */
+    protected static final String DATE_QUERY_PARAMETER = "date";
+
+    /**
+     * The "_lastUpdated" query parameter used in the underlying search operation.
+     */
+    protected static final String LAST_UPDATED_QUERY_PARAMETER = "_lastUpdated";
+
+    /**
+     * The query parameter to indicate a maximum resource count for the $everything operation
+     */
+    protected static final String COUNT_QUERY_PARAMETER = "_count";
+
+    /**
+     * The query parameter to indicate the resource types for the $everything operation
+     */
+    protected static final String TYPE_QUERY_PARAMETER = "_type";
+
+    /**
+     * The query parameter to indicate a start date for the $everything operation
+     */
+    protected static final String START_QUERY_PARAMETER = "start";
+
+    /**
+     * The query parameter to indicate a stop date for the $everything operation
+     */
+    protected static final String END_QUERY_PARAMETER = "end";
+
+    /**
+     * The query parameter to only return resources last update since a date for the $everything operation
+     */
+    protected static final String SINCE_QUERY_PARAMETER = "_since";
+
+    /**
+     * The default max number of resources to search for each subsresource
+     */
+    protected static final int DEFAULT_RESOURCE_COUNT = 500;
+
+    /**
+     * The patient resource name
+     */
+    private static final String PATIENT = Patient.class.getSimpleName();
+
+    /**
+     * The file with the operation definition
+     */
+    private static final String OPERATION_DEFINITION_FILE = "everything.json";
+
+    /**
+     * The list of resources for which the <code>date</code> query parameter can be used
+     */
+    private static final Set<String> SUPPORT_CLINICAL_DATE_QUERY = new HashSet<>(Arrays.asList(
+        "AllergyIntolerance", 
+        "CarePlan", 
+        "CareTeam", 
+        "ClinicalImpression", 
+        "Composition", 
+        "Consent", 
+        "DiagnosticReport", 
+        "Encounter", 
+        "EpisodeOfCare", 
+        "FamilyMemberHistory", 
+        "Flag", 
+        "Immunization", 
+        "List", 
+        "Observation", 
+        "Procedure", 
+        "RiskAssessment", 
+        "SupplyRequest"));
+
+    private List<String> defaultResourceTypes;
+    
+    /**
+     * Initialize the operation and load the sub-resources that will be retrieved.
      */
     public EverythingOperation() {
         try {
-            includedResourceTypes = getIncludedResources();
+            defaultResourceTypes = getDefaultIncludedResourceTypes();
         } catch (FHIRSearchException e) {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
@@ -113,16 +201,28 @@ public class EverythingOperation extends AbstractOperation {
         }
 
         Entry patientEntry = buildPatientEntry(operationContext, patient);
-        List<Entry> allEntries = new ArrayList<>(1000);
+        List<Entry> allEntries = new ArrayList<>(DEFAULT_RESOURCE_COUNT * 2);
         allEntries.add(patientEntry);
-        MultivaluedHashMap<String, String> queryParameters = new MultivaluedHashMap<String, String>();
-        queryParameters.add("_count", "500");
-        for (String compartmentType : includedResourceTypes) {
+        
+        // We can't always use the "date" query parameter to query by clinical date, only with some resources.
+        // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
+        // Otherwise the search throws an exception. We create a params map with and without and use as needed
+        MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters);
+        MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String, String>(queryParameters);
+        queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER);
+        
+        List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters);
+        List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
+        
+        for (String compartmentType : resourceTypes) {
+            MultivaluedMap<String, String> searchParameters = queryParameters;
+            if (!SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
+                searchParameters = queryParametersWithoutDates;
+            }
             Bundle results = null;
             try {
-                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, queryParameters, null, null, null);
+                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
             } catch (Exception e) {
-                e.printStackTrace();
                 LOG.warning("Error retrieving $everything resources of type " + compartmentType + " for patient " + logicalId);
                 continue;
             }
@@ -148,10 +248,59 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     /**
+     * Parse the parameters and turn them into a {@link MultivaluedMap} to pass to the search service
+     * 
+     * @param parameters the operation parameters
+     * @return the {@link MultivaluedMap} for the search service built from the parameters 
+     */
+    protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters) {
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<String, String>();
+        Parameter countParameter = getParameter(parameters, COUNT_QUERY_PARAMETER);
+        if (countParameter == null) {
+            queryParameters.add(COUNT_QUERY_PARAMETER, DEFAULT_RESOURCE_COUNT + "");
+        } else {
+            queryParameters.add(COUNT_QUERY_PARAMETER, countParameter.getValue().as(FHIR_INTEGER).getValue() + "");
+        }
+        // We use gt/lt here in an effort to be more liberal in terms of what we return
+        // https://ibm-watsonhealth.slack.com/archives/C14JTTR6C/p1614181836050500?thread_ts=1614180853.047300&cid=C14JTTR6C
+        Parameter startParameter = getParameter(parameters, START_QUERY_PARAMETER);
+        if (startParameter != null) {
+            queryParameters.add(DATE_QUERY_PARAMETER, STARTING_FROM + startParameter.getValue().as(FHIR_DATE).getValue());
+        }
+        Parameter endParameter = getParameter(parameters, END_QUERY_PARAMETER);
+        if (endParameter != null) {
+            queryParameters.add(DATE_QUERY_PARAMETER, UP_UNTIL + endParameter.getValue().as(FHIR_DATE).getValue());
+        }
+        Parameter sinceParameter = getParameter(parameters, SINCE_QUERY_PARAMETER);
+        if (sinceParameter != null) {
+            queryParameters.add(LAST_UPDATED_QUERY_PARAMETER, STARTING_FROM + sinceParameter.getValue().as(FHIR_INSTANT).getValue());
+        }
+        return queryParameters;
+    }
+
+    /**
+     * @return the list of patient subresources that will be included in the $everything operation, as provided by the user
+     * @throws FHIRSearchException 
+     */
+    protected List<String> getOverridenIncludedResourceTypes(Parameters parameters) throws FHIRSearchException {
+        List<String> typeOverrides = new ArrayList<>();
+        Parameter typesParameter = getParameter(parameters, TYPE_QUERY_PARAMETER);
+        if (typesParameter == null) {
+            return typeOverrides;
+        }
+        String typeOverridesParam = typesParameter.getValue().as(FHIR_STRING).getValue();
+        String[] typeOverridesList = typeOverridesParam.split(",");
+        for (String typeOverride : typeOverridesList) {
+            typeOverrides.add(typeOverride.trim());
+        }
+        return typeOverrides;
+    }
+
+    /**
      * @return the list of patient subresources that will be included in the $everything operaetion
      * @throws FHIRSearchException 
      */
-    private List<String> getIncludedResources() throws FHIRSearchException {
+    private List<String> getDefaultIncludedResourceTypes() throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
         // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
         // like a couple of good additional resources to include and they are even mentioned as examples of resources
