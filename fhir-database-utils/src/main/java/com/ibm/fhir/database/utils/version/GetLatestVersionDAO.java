@@ -70,7 +70,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
                     if (currentValue != null) {
                         // version can't be null due to NOT NULL db constraint
                         newValue = Integer.max(currentValue, version);
-                        logger.warning("Version history entry " + schemaTypeName + " exists with multiple values [" + currentValue
+                        logger.fine("Version history entry " + schemaTypeName + " exists with multiple values [" + currentValue
                                 + ", " + version + "]; using " + newValue + ". Check schema name casing.");
                     }
                     return newValue;
