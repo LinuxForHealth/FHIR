@@ -72,3 +72,4 @@ RUN chmod -R 755 /opt/ibm-fhir-server && \
 USER 1001
 
 ENTRYPOINT ["/opt/ibm-fhir-server/bootstrap.sh"]
+CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]

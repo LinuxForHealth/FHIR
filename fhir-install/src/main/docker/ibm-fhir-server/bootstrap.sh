@@ -6,44 +6,62 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
+##############################################################################
+# Description:
+# This script is the entrypoint used by the ibm-fhir-server docker image, and 
+# optionally bootstraps a derby database prior to running the IBM FHIR Server.  
+
 set -e -o pipefail
-
-# When debugging -x is an accepted practice, when not debugging, please comment out.
-# set -x
-
-# The full path to the directory of this script, no matter where its called from
-# DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 ##############################################################################
 # The global variables used are: 
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
-#FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION="/opt/fhirserver"
+
+FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION="/opt/ibm-fhir-server/tools"
 
 PERFORM_BOOTSTRAP_DB=${BOOTSTRAP_DB}
 [ -z "${BOOTSTRAP_DB}" ] && PERFORM_BOOTSTRAP_DB="false"
 
-# info - labels messages as info
+
+##############################################################################
+# Helper Functions
+
+# info - - local function to echo info message
+# ARGUMENTS:
+#   String of message
 function info {  
     echo "${SCRIPT_NAME} - [INFO]: $(date +"%Y-%m-%d_%T") - ${1}" 
 }
 
-# error_warn - labels messages as error
-function error_warn {  
-    echo "${SCRIPT_NAME} - [ERROR]: $(date +"%Y-%m-%d_%T") - ${1}" 
+# _call_derby_db - local function to call derby database
+# ARGUMENTS:
+#   String of additional parameters
+function _call_derby_db {
+    /opt/java/openjdk/bin/java -jar ${FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION}/fhir-persistence-schema-*-cli.jar \
+        --prop "db.create=Y" \
+        --prop "db.database=derby/fhirDB" \
+        --db-type derby \
+        ${1} 2>&1
+}
+
+# _bootstrap_db - local function to perform database bootstrapping
+function _bootstrap_db {
+    if [ "$PERFORM_BOOTSTRAP_DB" = "true" ]
+    then
+        info "Performing Derby database bootstrapping"
+        _call_derby_db "--create-schemas"
+        _call_derby_db "--update-schema"
+        info "Finished Derby database bootstrapping"
+    else
+        info "Skipping Derby database bootstrapping"
+    fi
 }
 
 ##############################################################################
-# The logic is activated in the following calls:
+# Script logic:
 
-info "PERFORM_BOOTSTRAP_DB is ${PERFORM_BOOTSTRAP_DB}"
-
-## TODO: CALL CLI tool
-#    DIR/path to cli
-## DISABLE the bootstrap done within server...
-### Call createSchema/updateSchema db_type derby  
-
-# Run the IBM FHIR Server
-/opt/ol/wlp/bin/server run fhir-server
+_bootstrap_db
+/opt/ol/helpers/runtime/docker-server.sh "$@"
 
 # EOF
