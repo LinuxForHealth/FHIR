@@ -64,6 +64,12 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     }
 
     @Test
+    public void testSearchToken_boolean_reverse_chained() throws Exception {
+        assertSearchReturnsSavedResource("_has:Composition:subject:composite-status-title", "preliminary$TEST");
+        assertSearchDoesntReturnSavedResource("_has:Composition:subject:composite-status-title", "bad$TEST");
+    }
+
+    @Test
     public void testSearchToken_boolean_revinclude() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
@@ -243,5 +249,17 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("composite-string", "testString$testString");
         assertSearchReturnsSavedResource("composite-string", "test$test");
         assertSearchDoesntReturnSavedResource("composite-string", "String$String");
+    }
+
+    //////////////////////////
+    // Multiple types tests //
+    //////////////////////////
+    @Test
+    public void testSearchMultiple_string_code_date_integer() throws Exception {
+        assertSearchReturnsSavedResource("composite-string-code-date-integer", "test$code$2018-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "string$code$2018-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "testString$badcode$2018-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "testString$code$2020-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "testString$code$2018-10-29$0");
     }
 }

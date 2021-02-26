@@ -12,7 +12,6 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURC
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1349,11 +1348,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 if (SearchParamType.COMPOSITE.equals(sp.getType())) {
                     List<Component> components = sp.getComponent();
-                    if (components.size() > MAX_NUM_OF_COMPOSITE_COMPONENTS) {
-                        throw new UnsupportedOperationException(String.format("Found %d components for search parameter '%s', "
-                                + "but this persistence layer can only support composites of %d or fewer components",
-                                components.size(), code, MAX_NUM_OF_COMPOSITE_COMPONENTS));
-                    }
                     FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
                     for (FHIRPathNode value : values) {
@@ -1398,8 +1392,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 // then we need to generate CompositeParmVal objects for [Code1,Quantity1], [Code1,Quantity2],
                                 // [Code2,Quantity1], and [Code2,Quantity2].
                                 // Assumption: this should be rare.
-                                log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
-                                        + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
+                                if (log.isLoggable(Level.FINE)) {
+                                    log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
+                                            + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
+                                }
                             }
 
                             try {
@@ -1409,8 +1405,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     // retrieve the list of parameters built from all the FHIRPathElementNode values
                                     List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
                                     if (parameters.isEmpty()){
-                                        log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
-                                                + "skipping composite parameter '" + code + "'.");
+                                        if (log.isLoggable(Level.FINE)) {
+                                            log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
+                                                    + "skipping composite parameter '" + code + "'.");
+                                        }
                                         continue;
                                     }
 
@@ -1422,8 +1420,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                         // then we need to generate CompositeParmVal objects for [A,1], [A,2], [B,1], and [B,2]
                                         // Assumption: this should only be common for Quantity search parameters with both a coded unit and a display unit,
                                         // and in these cases, the coded unit is almost always the preferred value for search.
-                                        log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
-                                                + "proceeding with the first extracted value for composite parameter '" + code + "'.");
+                                        if (log.isLoggable(Level.FINE)) {
+                                            log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
+                                                    + "proceeding with the first extracted value for composite parameter '" + code + "'.");
+                                        }
                                     }
                                     ExtractedParameterValue componentParam = parameters.get(0);
                                     // override the component parameter name with the composite parameter name
@@ -1544,7 +1544,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, Resource fhirResource) throws FHIRSearchException {
         final String resourceType = fhirResource.getClass().getSimpleName();
-        log.fine("Processing compartment parameters for resourceType: " + resourceType);
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("Processing compartment parameters for resourceType: " + resourceType);
+        }
         Map<String,Set<String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
         Map<String, Set<CompartmentReference>> compartmentMap = SearchUtil.extractCompartmentParameterValues(fhirResource, compartmentRefParams);
 
