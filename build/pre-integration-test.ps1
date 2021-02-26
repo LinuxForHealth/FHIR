@@ -1,5 +1,5 @@
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -58,12 +58,15 @@ java -jar $SCHEMATOOL `
   --update-schema
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\profile --prop db.create=Y `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
   --update-schema
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\reference --prop db.create=Y `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
   --update-schema
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\study1 --prop db.create=Y `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
   --update-schema
 
 # If the Config Exists, let's wipe it outfind

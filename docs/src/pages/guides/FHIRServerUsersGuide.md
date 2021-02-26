@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-02-22"
+lastupdated: "2021-02-26"
 permalink: /FHIRServerUsersGuide/
 ---
 

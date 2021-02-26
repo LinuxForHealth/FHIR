@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -60,7 +60,8 @@ bringup(){
     docker-compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
-    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 160 && kill $P)
+    # Allow extra time due to bootstrapping
+    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 120 && kill $P)
 
     # Gather up all the server logs so we can trouble-shoot any problems during startup
     cd -

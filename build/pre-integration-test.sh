@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2020
+# (C) Copyright IBM Corp. 2016, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -50,12 +50,15 @@ java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
   --update-schema
 
 echo "Copying configuration to install location..."
