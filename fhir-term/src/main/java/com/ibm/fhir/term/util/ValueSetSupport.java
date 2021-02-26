@@ -280,7 +280,7 @@ public final class ValueSetSupport {
 
     private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
+            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
                 return new DescendentOfFilter(codeSystem, concept);
             }
@@ -309,7 +309,7 @@ public final class ValueSetSupport {
 
     private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
+            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
                 return new GeneralizesFilter(codeSystem, concept);
             }
@@ -329,7 +329,7 @@ public final class ValueSetSupport {
 
     private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
+            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
                 return new IsAFilter(codeSystem, concept);
             }
@@ -339,7 +339,7 @@ public final class ValueSetSupport {
 
     private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
+            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
                 return new IsNotAFilter(codeSystem, concept);
             }
@@ -494,12 +494,12 @@ public final class ValueSetSupport {
             this.value = value;
             children = new LinkedHashSet<>();
             if ("parent".equals(property.getValue())) {
-                Concept parent = FHIRTermService.getInstance().findConcept(codeSystem, code(value));
+                Concept parent = FHIRTermService.getInstance().getConcept(codeSystem, code(value));
                 if (parent != null) {
                     children.addAll(parent.getConcept());
                 }
             }
-            this.child = "child".equals(property.getValue()) ? FHIRTermService.getInstance().findConcept(codeSystem, code(value)) : null;
+            this.child = "child".equals(property.getValue()) ? FHIRTermService.getInstance().getConcept(codeSystem, code(value)) : null;
         }
 
         @Override
@@ -548,7 +548,7 @@ public final class ValueSetSupport {
 
         @Override
         public boolean accept(Concept concept) {
-            return (FHIRTermService.getInstance().findConcept(codeSystem, concept, this.concept.getCode()) != null);
+            return FHIRTermService.getInstance().subsumes(codeSystem, concept.getCode(), this.concept.getCode());
         }
     }
 
@@ -580,7 +580,7 @@ public final class ValueSetSupport {
 
         @Override
         public boolean accept(Concept concept) {
-            return (FHIRTermService.getInstance().findConcept(codeSystem, this.concept, concept.getCode()) != null);
+            return FHIRTermService.getInstance().subsumes(codeSystem, this.concept.getCode(), concept.getCode());
         }
     }
 

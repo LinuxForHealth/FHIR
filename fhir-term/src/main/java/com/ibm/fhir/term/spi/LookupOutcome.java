@@ -105,12 +105,12 @@ public class LookupOutcome {
                 .name(string("version"))
                 .value(version)
                 .build());
-
-            parametersBuilder.parameter(Parameter.builder()
-                .name(string("display"))
-                .value(display)
-                .build());
         }
+
+        parametersBuilder.parameter(Parameter.builder()
+            .name(string("display"))
+            .value(display)
+            .build());
 
         for (Designation designation : this.designation) {
             Parameter.Builder designationParameterBuilder = Parameter.builder();

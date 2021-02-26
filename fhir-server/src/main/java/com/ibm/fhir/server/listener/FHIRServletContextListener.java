@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,8 @@ package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
@@ -25,7 +27,9 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +43,7 @@ import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 import javax.websocket.server.ServerContainer;
 
+import org.apache.commons.configuration.MapConfiguration;
 import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -61,6 +66,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
+import com.ibm.fhir.term.service.FHIRTermService;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -75,6 +82,8 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
     private static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
+
+    private GraphTermServiceProvider graphTermServiceProvider;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -198,6 +207,20 @@ public class FHIRServletContextListener implements ServletContextListener {
                 ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
                 FHIRRegistry.getInstance().register(provider);
                 FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
+            }
+
+            Boolean graphTermServiceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED, Boolean.FALSE);
+            if (graphTermServiceProviderEnabled) {
+                log.info("Adding GraphTermServiceProvider...");
+                PropertyGroup propertyGroup = fhirConfig.getPropertyGroup(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION);
+                if (propertyGroup == null) {
+                    log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+                    propertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
+                    graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map));
+                    FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
+                }
             }
 
             // Finally, set our "initComplete" flag to true.
@@ -411,6 +434,10 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (natsPublisher != null) {
                 natsPublisher.shutdown();
                 natsPublisher = null;
+            }
+
+            if (graphTermServiceProvider != null) {
+                graphTermServiceProvider.getGraph().close();
             }
         } catch (Exception e) {
         } finally {

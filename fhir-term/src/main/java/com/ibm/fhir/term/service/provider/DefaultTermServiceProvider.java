@@ -25,22 +25,29 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public Concept findConcept(CodeSystem codeSystem, Code code) {
+    public boolean hasConcept(CodeSystem codeSystem, Code code) {
+        return getConcept(codeSystem, code) != null;
+    }
+
+    @Override
+    public Concept getConcept(CodeSystem codeSystem, Code code) {
         return CodeSystemSupport.findConcept(codeSystem, code);
-    }
-
-    @Override
-    public Concept findConcept(CodeSystem codeSystem, Concept concept, Code code) {
-        return CodeSystemSupport.findConcept(codeSystem, concept, code);
-    }
-
-    @Override
-    public Set<Concept> getConcepts(CodeSystem codeSystem, Concept concept) {
-        return CodeSystemSupport.getConcepts(concept);
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return CodeSystemSupport.getConcepts(codeSystem);
+    }
+
+    @Override
+    public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+        Concept concept = CodeSystemSupport.findConcept(codeSystem, codeA);
+        return (CodeSystemSupport.findConcept(codeSystem, concept, codeB) != null);
+    }
+
+    @Override
+    public Set<Concept> closure(CodeSystem codeSystem, Code code) {
+        Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
+        return CodeSystemSupport.getConcepts(concept);
     }
 }
