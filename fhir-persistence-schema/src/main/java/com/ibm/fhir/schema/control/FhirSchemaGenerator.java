@@ -59,6 +59,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -85,11 +86,14 @@ import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * Encapsulates the generation of the FHIR schema artifacts
  */
 public class FhirSchemaGenerator {
+    private static final Logger logger = Logger.getLogger(FhirSchemaGenerator.class.getName());
+
     // The schema holding all the data-bearing tables
     private final String schemaName;
 
@@ -98,6 +102,10 @@ public class FhirSchemaGenerator {
 
     /// Build the multitenant variant of the schema
     private final boolean multitenant;
+
+    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+            .map(t -> ModelSupport.getTypeName(t).toUpperCase())
+            .collect(Collectors.toSet());
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
@@ -714,8 +722,14 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable,
+                this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
+
+            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+                logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
+            }
+
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 

@@ -137,7 +137,7 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb": true,
+                "bootstrapDb": false,
                 "enableProxyDatasource": false,
                 "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,

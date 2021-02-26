@@ -29,7 +29,7 @@ else
     docker logs $containerId  >& ${it_results}/docker-console.txt
 
     echo "Gathering pre-test server logs from docker container: $containerId"
-    docker cp -L $containerId:/opt/ol/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
+    docker cp -L $containerId:/logs ${it_results}/server-logs
 fi
 
 echo "Gathering integration test output"

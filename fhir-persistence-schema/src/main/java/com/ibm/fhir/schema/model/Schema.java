@@ -23,6 +23,9 @@ public class Schema {
     // The schema we will use for all the FHIR data tables
     private String schemaName = Main.DATA_SCHEMANAME;
 
+    // Used to determine whether the schema name has been explicitly set or not
+    private boolean isDefault = true;
+
     /**
      * @return the adminSchemaName
      */
@@ -80,6 +83,14 @@ public class Schema {
      *            the schemaName to set
      */
     public void setSchemaName(String schemaName) {
+        isDefault = false;
         this.schemaName = schemaName;
+    }
+
+    /**
+     * @return false if the FHIR schemaName has been explicitly set; otherwise true
+     */
+    public boolean isDefaultSchemaName() {
+        return isDefault;
     }
 }

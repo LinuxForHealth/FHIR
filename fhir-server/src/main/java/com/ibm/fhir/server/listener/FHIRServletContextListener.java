@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -201,7 +201,6 @@ public class FHIRServletContextListener implements ServletContextListener {
         }
     }
 
-
     /**
      * Safely rollback the transaction, logging any exception but not throwing it
      * @param tx
@@ -237,6 +236,7 @@ public class FHIRServletContextListener implements ServletContextListener {
                 natsPublisher = null;
             }
         } catch (Exception e) {
+            // Ignore it
         } finally {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");

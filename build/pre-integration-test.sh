@@ -43,6 +43,24 @@ unzip ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip -d ${SIT}
 echo "Installing fhir server in ${SIT}"
 ${SIT}/fhir-server-dist/install.sh ${SIT}
 
+echo "Creating datastores for tenant1"
+DB_LOC=${SIT}/wlp/usr/servers/fhir-server/derby
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
+  --update-schema
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --update-schema
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --update-schema
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --update-schema
+
 echo "Copying configuration to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/

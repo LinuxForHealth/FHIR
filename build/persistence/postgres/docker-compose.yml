@@ -9,9 +9,9 @@ services:
     stdin_open: true
     hostname: postgres-db
     volumes:
-       - type: bind
-         source: ./db
-         target: /db/data
+      - type: bind
+        source: ./db
+        target: /db/data
     # Stop Grace Period - 2 minutes (very intentional)
     stop_grace_period: 2m
     sysctls:
@@ -29,34 +29,48 @@ services:
     ports:
       - "5432:5432"
   fhir-server:
-     image: ibmcom/ibm-fhir-server:latest
-     hostname: fhir
-     volumes:
-       - type: bind
-         source: ./workarea/volumes/dist/config
-         target: /opt/ol/wlp/usr/servers/fhir-server/config
-         read_only: true
-       - type: bind
-         source: ./workarea/volumes/dist/overrides
-         target: /opt/ol/wlp/usr/servers/fhir-server/configDropins/overrides
-         read_only: true
-       - type: bind
-         source: ./workarea/volumes/dist/userlib/
-         target: /opt/ol/wlp/usr/servers/fhir-server/userlib
-         read_only: true
-     healthcheck:
-       start_period: 60s
-       interval: 10s
-       timeout: 10s
-       retries: 2
-       # https://docs.docker.com/compose/compose-file/#variable-substitution
-       test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
-     ports:
-       - 9443:9443
-     depends_on:
-       - postgres
-     networks:
-       - fhir
+    image: ibmcom/ibm-fhir-server:latest
+    hostname: fhir
+    volumes:
+      - type: bind
+        source: ./workarea/volumes/dist/config
+        target: /opt/ol/wlp/usr/servers/fhir-server/config
+        read_only: true
+      - type: bind
+        source: ./workarea/volumes/dist/overrides
+        target: /opt/ol/wlp/usr/servers/fhir-server/configDropins/overrides
+        read_only: true
+      - type: bind
+        source: ./workarea/volumes/dist/userlib/
+        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
+        read_only: true
+    command: bash -c "
+      java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/profile --prop db.create=Y
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+        --update-schema &&
+      java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/reference --prop db.create=Y
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+        --update-schema &&
+      java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/study1 --prop db.create=Y
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+        --update-schema &&
+      /opt/ol/wlp/bin/server run fhir-server "
+    healthcheck:
+      start_period: 60s
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+    ports:
+      - 9443:9443
+    depends_on:
+      - postgres
+    networks:
+      - fhir
 networks:
   fhir:
     driver: bridge
