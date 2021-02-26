@@ -8,13 +8,13 @@
 
 ##############################################################################
 # Description:
-# This script is the entrypoint used by the ibm-fhir-server docker image, and 
-# optionally bootstraps a derby database prior to running the IBM FHIR Server.  
+# This script is the entrypoint used by the ibm-fhir-server docker image, and
+# optionally bootstraps a derby database prior to running the IBM FHIR Server.
 
 set -e -o pipefail
 
 ##############################################################################
-# The global variables used are: 
+# The global variables used are:
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
@@ -31,8 +31,8 @@ PERFORM_BOOTSTRAP_DB=${BOOTSTRAP_DB}
 # info - - local function to echo info message
 # ARGUMENTS:
 #   String of message
-function info {  
-    echo "${SCRIPT_NAME} - [INFO]: $(date +"%Y-%m-%d_%T") - ${1}" 
+function info {
+    echo "${SCRIPT_NAME} - [INFO]: $(date +"%Y-%m-%d_%T") - ${1}"
 }
 
 # _call_derby_db - local function to call derby database
@@ -63,6 +63,8 @@ function _bootstrap_db {
 
 info "Current directory: $CUR_DIR"
 _bootstrap_db
+
+# Pass it on to the Liberty entrypoint
 /opt/ol/helpers/runtime/docker-server.sh "$@"
 
 # EOF

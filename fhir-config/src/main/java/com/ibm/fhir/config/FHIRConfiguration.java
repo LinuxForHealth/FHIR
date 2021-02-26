@@ -92,8 +92,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
-    public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
-    public static final String PROPERTY_JDBC_BOOTSTRAP_DATASOURCE_BASE = "fhirServer/persistence/jdbc/bootstrapDataSourceBase";
     public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
     public static final String PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE = "fhirServer/persistence/jdbc/enableProxyDatasource";
     public static final String PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS = "fhirServer/persistence/jdbc/enableReadOnlyReplicas";

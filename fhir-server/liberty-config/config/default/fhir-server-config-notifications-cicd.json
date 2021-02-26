@@ -137,16 +137,13 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb": true,
                 "enableProxyDatasource": false,
-                "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
             },
             "datasources": {
                 "default": {
-                    "jndiName": "jdbc/bootstrap_default_default",
                     "type": "derby",
                     "currentSchema": "APP"
                 },
