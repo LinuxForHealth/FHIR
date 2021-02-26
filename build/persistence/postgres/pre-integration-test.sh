@@ -54,8 +54,9 @@ copy_server_config(){
     echo "Creating an overrides folder in $DIST"
     mkdir -p $DIST/overrides
 
-    # Copy and rename the postgres override
-    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/datasource.xml
+    # Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml $DIST/overrides/
 
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB

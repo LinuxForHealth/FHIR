@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,7 +85,6 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
@@ -100,10 +99,11 @@ public class FhirSchemaGenerator {
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
 
-    /// Build the multitenant variant of the schema
+    // Build the multitenant variant of the schema
     private final boolean multitenant;
 
-    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+    // TODO pass 'false' to getResourceTypes to avoid building tables for abstract resource types
+    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(true).stream()
             .map(t -> ModelSupport.getTypeName(t).toUpperCase())
             .collect(Collectors.toSet());
 
@@ -183,9 +183,7 @@ public class FhirSchemaGenerator {
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
-        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet()));
+        this(adminSchemaName, schemaName, multitenant, ALL_RESOURCE_TYPES);
     }
 
     /**
@@ -726,6 +724,7 @@ public class FhirSchemaGenerator {
                 this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
 
+            resourceType = resourceType.toUpperCase().trim();
             if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
                 logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
             }
