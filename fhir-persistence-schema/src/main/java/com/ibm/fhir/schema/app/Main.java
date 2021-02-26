@@ -220,7 +220,16 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            String resourceTypesString = properties.getProperty("resourceTypes");
+
+            FhirSchemaGenerator gen;
+            if (resourceTypesString == null || resourceTypesString.isEmpty()) {
+                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            } else {
+                Set<String> resourceTypes = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
+                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypes);
+            }
+
             gen.buildSchema(pdm);
             switch (dbType) {
             case DB2:

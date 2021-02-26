@@ -59,7 +59,7 @@ bringup(){
     docker-compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
-    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 160 && kill $P)
+    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 60 && kill $P)
 
     # Gather up all the server logs so we can trouble-shoot any problems during startup
     cd -

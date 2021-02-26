@@ -45,7 +45,7 @@ echo "Bringing up the FHIR server... be patient, this will take a minute"
 docker-compose up -d fhir-server
 echo ">>> Current time: " $(date)
 
-(docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 160 && kill $P)
+(docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 60 && kill $P)
 
 # Gather up all the server logs so we can trouble-shoot any problems during startup
 cd -
