@@ -76,9 +76,17 @@ If ( Test-Path $RM_ITEM ) {
     Write-Host 'Removing -> ' $RM_ITEM
     Remove-Item -path $RM_ITEM -Recurse -Force
 }
+$RM_ITEM2=[string]$SIT + '\wlp\usr\servers\fhir-server\configDropins'
+If ( Test-Path $RM_ITEM2 ) {
+    Write-Host 'Removing -> ' $RM_ITEM2
+    Remove-Item -path $RM_ITEM2 -Recurse -Force
+}
 
 $SERVER_ROOT=[string]$SIT + '\wlp\usr\servers\fhir-server\'
 New-Item -Path $SERVER_ROOT -Name 'config' -ItemType 'directory'
+New-Item -Path $SERVER_ROOT -Name 'configDropins' -ItemType 'directory'
+$CONFIGS_DROPINS=[string]$SERVER_ROOT + 'configDropins\'
+New-Item -Path $CONFIGS_DROPINS -Name 'overrides' -ItemType 'directory'
 
 # Copy over the Files for default, tenant1, tenant2
 $DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\config\*'
@@ -87,6 +95,11 @@ Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 
 $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config-tenants\config\*'
 Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
+
+# Only copy over the Derby datasource definition for this instance
+$OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\datasource-derby.xml'
+$OVR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource.xml'
+Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
 
 Write-Host 'Copying test artifacts to install location'
 $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*-tests.jar'
