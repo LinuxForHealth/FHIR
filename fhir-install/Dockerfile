@@ -38,8 +38,7 @@ LABEL version="$FHIR_VERSION"
 LABEL summary="Image for IBM FHIR Server with OpenJ9 and UBI 8"
 LABEL description="The IBM FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability."
 
-COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
-COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
+COPY --chown=1001:0 --from=base /opt /opt
 
 COPY target/LICENSE /licenses/
 

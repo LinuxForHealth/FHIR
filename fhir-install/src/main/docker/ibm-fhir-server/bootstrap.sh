@@ -18,6 +18,8 @@ set -e -o pipefail
 
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
+CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION="/opt/ibm-fhir-server/tools"
 
 PERFORM_BOOTSTRAP_DB=${BOOTSTRAP_DB}
@@ -59,6 +61,7 @@ function _bootstrap_db {
 ##############################################################################
 # Script logic:
 
+info "Current directory: $CUR_DIR"
 _bootstrap_db
 /opt/ol/helpers/runtime/docker-server.sh "$@"
 
