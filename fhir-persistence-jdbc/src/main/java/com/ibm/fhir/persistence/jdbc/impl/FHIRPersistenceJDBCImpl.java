@@ -1427,7 +1427,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     }
                                     ExtractedParameterValue componentParam = parameters.get(0);
                                     // override the component parameter name with the composite parameter name
-                                    componentParam.setName(code);
+                                    componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
                                     componentParam.setResourceType(p.getResourceType());
                                     componentParam.setBase(p.getBase());
                                     p.addComponent(componentParam);
