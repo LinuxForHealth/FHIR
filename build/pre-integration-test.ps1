@@ -86,6 +86,7 @@ $SERVER_ROOT=[string]$SIT + '\wlp\usr\servers\fhir-server\'
 New-Item -Path $SERVER_ROOT -Name 'config' -ItemType 'directory'
 New-Item -Path $SERVER_ROOT -Name 'configDropins' -ItemType 'directory'
 $CONFIGS_DROPINS=[string]$SERVER_ROOT + 'configDropins\'
+New-Item -Path $CONFIGS_DROPINS -Name 'defaults' -ItemType 'directory'
 New-Item -Path $CONFIGS_DROPINS -Name 'overrides' -ItemType 'directory'
 
 # Copy over the Files for default, tenant1, tenant2
