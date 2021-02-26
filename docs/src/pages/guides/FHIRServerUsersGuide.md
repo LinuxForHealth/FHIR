@@ -129,7 +129,7 @@ The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub
 
 Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
 
-The IBM FHIR Server is configured using Environment variables using: 
+The IBM FHIR Server is configured using Environment variables using:
 
 | Environment Variable | Description |
 |----------------------|-------------|
@@ -1671,7 +1671,7 @@ Note: The batch-user referenced in the `fhir-server-config.json` must have a rol
 
 By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/defaults/bulkdata.xml`. This database is destroyed on the restart of the IBM FHIR Server, and does not support load balancing.
 
-To support IBM Db2 on IBM Cloud, copy `fhir-server/configDropins/disabled/db2-cloud/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+To support IBM Db2 on IBM Cloud, copy `fhir-server/configDropins/disabled/db2-cloud/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables:
 
 | Variable          | Default     | Description                                                    |
 |-------------------|-------------|----------------------------------------------------------------|
@@ -1683,7 +1683,7 @@ To support IBM Db2 on IBM Cloud, copy `fhir-server/configDropins/disabled/db2-cl
 
 Instruction is also provided in 'Configuring a Liberty Datasource with API Key' section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. The JavaBatch schema is created using the `fhir-persistence-schema` command line interface jar.
 
-To support IBM Db2 with a user-name and password , copy `fhir-server/configDropins/disabled/db2/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+To support IBM Db2 with a user-name and password , copy `fhir-server/configDropins/disabled/db2/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables:
 
 | Variable          | Default         | Description                                                    |
 |-------------------|-----------------|----------------------------------------------------------------|
@@ -1695,7 +1695,7 @@ To support IBM Db2 with a user-name and password , copy `fhir-server/configDropi
 | BATCH_DB_PASSWORD | `blank`         | The password for the Db2 database                              |
 | BATCH_DB_SSL      | true            | The ssl connection is either true or false                     |
 
-If one wants to support Postgres with a user-name and password , one should copy `fhir-server/configDropins/disabled/postgres/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables: 
+If one wants to support Postgres with a user-name and password , one should copy `fhir-server/configDropins/disabled/postgres/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables:
 
 | Variable               | Default         | Description                                                    |
 |------------------------|-----------------|----------------------------------------------------------------|
@@ -1797,7 +1797,7 @@ Please refer to the property names that start with `fhirServer/audit/` in [5.1 C
 
 There are two types of configuration for the Audit Logging Service. The first type is using the environment variable, and the second is the configuration driven from the fhir-server-config.json.
 
-For example, the following uses the 'config' in order to config the Kafka publisher as part of the audit logging service. 
+For example, the following uses the 'config' in order to config the Kafka publisher as part of the audit logging service.
 
 ```
 "audit": {
@@ -1807,7 +1807,7 @@ For example, the following uses the 'config' in order to config the Kafka publis
     }
 ```
 
-Or, you could load from an environment, note, this is the default behavior. 
+Or, you could load from an environment, note, this is the default behavior.
 
 ```
 "audit": {
@@ -1884,7 +1884,7 @@ Please refer to https://cloud.ibm.com/docs/containers?topic=containers-service-b
     }
 ```
 
-The service can map to the CADF format or the FHIR AuditEvent resource format by declaring a mapper type - 'cadf' or 'auditevent'. 
+The service can map to the CADF format or the FHIR AuditEvent resource format by declaring a mapper type - 'cadf' or 'auditevent'.
 
 - *CADF* Example
 ```
@@ -2150,6 +2150,17 @@ In this case, since the `fhirServer/resources/open` property is set to `false`, 
 Whole-system search is a special case of this resource type validation, since no resource type is specified on a whole-system search request. In this case, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
 In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
+
+## 4.12.1 Using the IBM FHIR Server behind a proxy
+It is possible to run the IBM FHIR Server behind a reverse proxy such as Kubernetes Ingress or an API Gateway.
+
+Because the FHIR API relies on links and references between resources (both absolute and relative), operators must ensure that the IBM FHIR Server is configured appropriately for the front-end URL being used by the FHIR clients.
+
+This can be accomplished by configuring the `fhirServer/core/originalRequestUriHeaderName` property in the default fhir-server-config.json. When this parameter is configured, the IBM FHIR Server will use the value of the corresponding header to set the "originalRequestUri" for the scope of the request.
+
+For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123).
+
+The originalRequestUriHeader is expected to contain the full path of the original request. Values with no scheme (e.g. `https://`) will be handled like relative URLs, but full URL values (including scheme, hostname, optional port, and path) are recommended. Query string values can be included in the header value but will be ignored by the server; the server will use the query string of the actual request to process the request.
 
 # 5 Appendix
 
@@ -2711,8 +2722,9 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 
 | Header Name      | Description                |
 |------------------|----------------------------|
-|`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. Header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
-|`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. Header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
+|`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
+|`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
+|`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`.|
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:

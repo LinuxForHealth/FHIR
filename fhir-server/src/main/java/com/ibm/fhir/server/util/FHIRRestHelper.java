@@ -78,7 +78,6 @@ import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
@@ -104,8 +103,10 @@ import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
@@ -1009,8 +1010,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildUnsupportedResourceTypeException(type);
             }
 
-            Class<? extends Resource> resourceType =
-                    getResourceType(resourceTypeName);
+            Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
 
             FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
                 HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
@@ -1217,8 +1217,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * Performs validation of a request Bundle and returns a Bundle containing response entries corresponding to the
-     * request entries in the request Bundle. holding the responses for the requests contained in the request Bundle.
+     * Performs validation of a request Bundle and returns a Bundle containing response entries that correspond
+     * to the request entries in the request Bundle.
      *
      * @param bundle
      *            the bundle to be validated
@@ -1269,7 +1269,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<OperationOutcome.Issue> issueList = new ArrayList<OperationOutcome.Issue>();
 
             List<Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
-
             Set<String> localIdentifiers = new HashSet<>();
 
             for (Bundle.Entry requestEntry : bundle.getEntry()) {
@@ -1594,7 +1593,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PATCH,
                     txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
 
-
             // Commit transaction if started
             if (txn != null) {
                 if (log.isLoggable(Level.FINE)) {
@@ -1646,9 +1644,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws Exception
      */
     private Bundle processEntriesForMethod(Bundle requestBundle, Bundle responseBundle,
-        HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
-        Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId)
-        throws Exception {
+            HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
+            Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId)
+            throws Exception {
         log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {"httpMethod", httpMethod });
 
         try {
@@ -1784,22 +1782,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param responseIndexAndEntries
      *            the hashmap containing bundle entry indexes and their associated response entries
      * @param requestURL
+     *            the request URL
      * @param entryIndex
      *            the bundle entry index of the bundle entry being processed
-     * @param localRefMap
-     *            the map of local references to external references
-     * @param requestURL
-     *            the request URL
-     * @param absoluteUri
-     *            the absolute URI
      * @param requestDescription
      *            a description of the request
      * @param initialTime
      *            the time the bundle entry processing started
      * @throws Exception
      */
-    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime)
-        throws Exception {
+    private void processEntryforPatch(Entry requestEntry, Entry responseEntry, Map<Integer, Entry> responseIndexAndEntries,
+            FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime) throws Exception {
         FHIRRestOperationResponse ior = null;
         String[] pathTokens = requestURL.getPathTokens();
         String resourceType = null;
@@ -1821,24 +1814,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             throw buildRestException(msg, IssueType.INVALID);
         }
 
-                if (requestEntry.getResource().is(Parameters.class)) {
+        if (requestEntry.getResource().is(Parameters.class)) {
+            Parameters parameters = requestEntry.getResource().as(Parameters.class);
+            FHIRPatch patch = FHIRPathPatch.from(parameters);
+            ior = doPatch(resourceType, resourceId, patch, null, null, null);
 
-                    Parameters parameters = requestEntry.getResource().as(Parameters.class);
-
-
-                    FHIRPatch patch = FHIRPathPatch.from(parameters);
-
-                    ior = doPatch(resourceType, resourceId, patch, null, null, null);
-                    // Process and replace bundle entry.
-                    Bundle.Entry resultEntry =
-                            setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription, initialTime);
-                    responseIndexAndEntries.put(entryIndex, resultEntry);
-                }else {
-                    String msg="Request resource type for PATCH request must be type 'Parameters'";
-                    throw buildRestException(msg, IssueType.INVALID);
-                }
-
-
+            // Process and replace bundle entry.
+            Bundle.Entry resultEntry =
+                    setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription, initialTime);
+            responseIndexAndEntries.put(entryIndex, resultEntry);
+        } else {
+            String msg="Request resource type for PATCH request must be type 'Parameters'";
+            throw buildRestException(msg, IssueType.INVALID);
+        }
     }
 
     /**
@@ -2547,21 +2535,37 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (totalCount.getValue() < offset + pageSize) {
                 matchResourceCount = totalCount.getValue() - offset;
             }
+            List<Resource> matchResources = resources.subList(0,  matchResourceCount);
 
             // Check if too many included resources
             if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
                 throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
             }
 
-            // Check for versioned references in 'match' resources for chained search
-            List<Issue> issues = new ArrayList<>();
-            List<Resource> matchResources = resources.subList(0,  matchResourceCount);
+            // Find chained search parameters and find reference search parameters containing only a logical ID
+            List<QueryParameter> chainedSearchParameters = new ArrayList<>();
+            List<QueryParameter> logicalIdReferenceSearchParameters = new ArrayList<>();
             for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
-                if (queryParameter.isChained() && !queryParameter.isReverseChained()) {
-                    // This is a chained search. Loop through results and generate an issue for any returned resource
-                    // that contains a versioned reference in the element associated with the chain search parameter.
-                    issues.addAll(checkForVersionedReference(ModelSupport.getResourceType(type), queryParameter, matchResources));
+                if (!queryParameter.isReverseChained()) {
+                    if (queryParameter.isChained()) {
+                        chainedSearchParameters.add(queryParameter);
+                    } else if (SearchConstants.Type.REFERENCE == queryParameter.getType()) {
+                        // Look for logical ID-only value
+                        for (QueryParameterValue value : queryParameter.getValues()) {
+                            ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
+                            if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
+                                logicalIdReferenceSearchParameters.add(queryParameter);
+                                break;
+                            }
+                        }
+                    }
                 }
+            }
+            List<Issue> issues = new ArrayList<>();
+            if (!chainedSearchParameters.isEmpty() || !logicalIdReferenceSearchParameters.isEmpty()) {
+                // Check 'match' resources for versioned references in chain search parameter fields and
+                // multiple resource types with matching logical ID in reference search parameter fields.
+                issues = performSearchReferenceChecks(type, chainedSearchParameters, logicalIdReferenceSearchParameters, matchResources);
             }
 
             for (Resource resource : resources) {
@@ -2605,50 +2609,82 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * For a chained search, check for existence of a versioned reference in the field associated with the
-     * chain search parameter for any of the specified resources.
+     * For chained search, check 'match' resources for existence of a versioned reference in the field
+     * associated with the chain search parameter.
+     *
+     * For reference search specifying logical ID only, check 'match' resources for existence of multiple
+     * resource types containing the same logical ID in the field associated with the reference search parameter.
      *
      * @param resourceType
      *            The search resource type.
-     * @param queryParameter
-     *            The chained query parameter.
-     * @param resources
-     *            The list of resources to check for versioned references.
+     * @param chainQueryParameters
+     *            The chained query parameters. These will be mutually exclusive of the logicalIdReferenceQueryParameters.
+     * @param logicalIdReferenceQueryParameters
+     *            The list of reference query parameters that only specified a logical ID.
+     * @param matchResources
+     *            The list of 'match' resources to check.
      * @return
      *            A list of Issues, one per resource in which a versioned reference is found.
-     * @throws Exception
+     * @throws Exception if multiple resource types containing the same logical ID are found
      */
-    private List<Issue> checkForVersionedReference(Class<? extends Resource> resourceType, QueryParameter queryParameter, List<Resource> resources) throws Exception {
+    private List<Issue> performSearchReferenceChecks(String resourceType, List<QueryParameter> chainQueryParameters,
+        List<QueryParameter> logicalIdReferenceQueryParameters, List<Resource> matchResources) throws Exception {
         List<Issue> issues = new ArrayList<>();
 
-        // Since the chained search was successful, we can assume the search parameter exists and is valid and is of type Reference
-        SearchParameter chainSearchParm = null;
-        if (!Resource.class.equals(resourceType)) {
-            chainSearchParm = SearchUtil.getSearchParameter(resourceType, queryParameter.getCode());
-        }
-        for (Resource resource : resources) {
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-            EvaluationContext evaluationContext = new EvaluationContext(resource);
-            SearchParameter searchParameter = null;
-            try {
-                if (chainSearchParm != null) {
-                    searchParameter = chainSearchParm;
-                } else {
-                    searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
+        if (!chainQueryParameters.isEmpty() || !logicalIdReferenceQueryParameters.isEmpty()) {
+            // Build a map of parameter name to SearchParameter for all queryParameters.
+            // Since the search was successful, we can assume search parameters exist, are valid, and of type Reference.
+            // However, if this is a whole-system search, we will need to get the SearchParameters based on
+            // the resource type returned.
+            Map<QueryParameter, SearchParameter> searchParameterMap = new HashMap<>();
+            if (!Resource.class.getSimpleName().equals(resourceType)) {
+                Class<? extends Resource> resourceTypeClass = ModelSupport.getResourceType(resourceType);
+                for (QueryParameter queryParameter : chainQueryParameters) {
+                    searchParameterMap.put(queryParameter, SearchUtil.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
                 }
-                Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
-                for (FHIRPathNode node : nodes) {
-                    Reference reference = node.asElementNode().element().as(Reference.class);
-                    ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
-                    if (rv.getVersion() != null &&
-                            (rv.getTargetResourceType() == null || rv.getTargetResourceType().equals(queryParameter.getModifierResourceTypeName()))) {
-                        String msg = "Resource with id '" + resource.getId() + "' contains a versioned reference in an element used for chained search, but chained search does not act on versioned references.";
-                        issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg, node.path()));
+                for (QueryParameter queryParameter : logicalIdReferenceQueryParameters) {
+                    searchParameterMap.put(queryParameter, SearchUtil.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
+                }
+            }
+
+            List<QueryParameter> queryParameters = new ArrayList<>(chainQueryParameters);
+            queryParameters.addAll(logicalIdReferenceQueryParameters);
+            Map<String, String> logicalIdToTypeMap = new HashMap<>();
+
+            // Loop through the resources, looking for versioned references and references to multiple resource types for the same logical ID
+            for (Resource resource : matchResources) {
+                FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+                EvaluationContext evaluationContext = new EvaluationContext(resource);
+                for (QueryParameter queryParameter : queryParameters) {
+                    SearchParameter searchParameter = searchParameterMap.get(queryParameter);
+                    if (searchParameter == null) {
+                        searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
+                    }
+
+                    // For logical ID check, only need to look at search parameters with more than one target resource type
+                    if (logicalIdReferenceQueryParameters.contains(queryParameter) && searchParameter.getTarget().size() == 1) {
+                        continue;
+                    }
+
+                    Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, searchParameter.getExpression().getValue());
+                    for (FHIRPathNode node : nodes) {
+                        Reference reference = node.asElementNode().element().as(Reference.class);
+                        ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, ReferenceUtil.getBaseUrl(null));
+                        if (chainQueryParameters.contains(queryParameter) && rv.getVersion() != null &&
+                                (rv.getTargetResourceType() == null || rv.getTargetResourceType().equals(queryParameter.getModifierResourceTypeName()))) {
+                            // Found versioned reference value
+                            String msg = "Resource with id '" + resource.getId() +
+                                    "' contains a versioned reference in an element used for chained search, but chained search does not act on versioned references.";
+                            issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg, node.path()));
+                        } else if (logicalIdReferenceQueryParameters.contains(queryParameter) && rv.getTargetResourceType() != null &&
+                                !rv.getTargetResourceType().equals(logicalIdToTypeMap.computeIfAbsent(queryParameter.getCode() + "|" + rv.getValue(), v -> rv.getTargetResourceType()))) {
+                            // Found multiple resource types this logical ID
+                            String msg = "Multiple resource type matches found for logical ID '" + rv.getValue() +
+                                    "' for search parameter '" + queryParameter.getCode() + "'.";
+                            throw buildRestException(msg, IssueType.INVALID, IssueSeverity.ERROR);
+                        }
                     }
                 }
-            } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                log.warning(String.format("Search Parameter includes an unsupported operation or bad expression : [%s] [%s] [%s]",
-                    searchParameter.getCode().getValue(), searchParameter.getExpression().getValue(), uoe.getMessage()));
             }
         }
 
@@ -2761,10 +2797,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 String nextLinkUrl = selfUri;
 
                 // remove existing _page parameters from the query string
-                nextLinkUrl =
-                        nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
-                                + context.getPageNumber() + "&", "").replace("_page="
-                                        + context.getPageNumber(), "");
+                nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
+                        + context.getPageNumber() + "&", "").replace("_page=" + context.getPageNumber(), "");
 
                 if (nextLinkUrl.contains("?")) {
                     if (!nextLinkUrl.endsWith("?")) {
@@ -2862,14 +2896,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (resourceNamePathLocation != -1) {
                 baseUri = requestUri.substring(0, resourceNamePathLocation);
             } else {
-                // Assume the request was a batch/transaction and just use the requestUri as the base
-                baseUri = requestUri;
+                // Assume the request was a batch/transaction; nothing to strip
             }
-        } else {
-            if (baseUri.endsWith("/_history")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
-            } else if (baseUri.endsWith("/_search")) {
+        }
+
+        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type)
+        if (type == null || type.isEmpty() || "Resource".equals(type)) {
+            if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
+            } else if (baseUri.endsWith("/_history")) {
+                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
             } else if (baseUri.contains("/$")) {
                 baseUri = baseUri.substring(0, baseUri.lastIndexOf("/$"));
             }
