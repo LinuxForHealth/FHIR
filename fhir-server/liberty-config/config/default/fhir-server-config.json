@@ -108,17 +108,21 @@
             },
             "datasources": {
                 "default": {
-                    "type": "derby"
+                    "jndiName": "jdbc/bootstrap_default_default",
+                    "type": "derby",
+                    "currentSchema": "APP"
                 },
                 "_db2sample": {
                     "type": "db2",
                     "tenantKey": "<the-tenant-key>",
+                    "currentSchema": "fhirdata",
                     "hints" : {
                       "search.reopt": "ONCE"
                     }
                 },
                 "_pgsample": {
                     "type": "postgresql",
+                    "currentSchema": "fhirdata",
                     "searchOptimizerOptions": {
                         "from_collapse_limit": 16,
                         "join_collapse_limit": 16

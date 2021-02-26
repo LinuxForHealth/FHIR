@@ -111,7 +111,9 @@
             },
             "datasources": {
                 "default": {
-                    "type": "derby"
+                    "jndiName": "jdbc/bootstrap_default_default",
+                    "type": "derby",
+                    "currentSchema": "APP"
                 }
             }
         },

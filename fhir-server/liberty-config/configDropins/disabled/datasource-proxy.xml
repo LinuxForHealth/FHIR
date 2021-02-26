@@ -3,6 +3,7 @@
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
+        <!-- Copy the fhir-persisence-proxy jar and its dependencies to this dir to enable it -->
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
     

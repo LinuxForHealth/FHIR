@@ -112,17 +112,17 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 For more information about the capabilities of the implementation, see [Conformance](https://ibm.github.io/FHIR/Conformance).
 
 ## 2.2 Upgrading an existing server
-The IBM FHIR Server does not include an upgrade installer. To upgrade a server to the next version, you can run the installer on a separate server, and then copy the resulting configuration files over to the existing server.
+The IBM FHIR Server does not include an upgrade installer. To upgrade a server to the next version, install the new version to a separate location and copy the configuration files from your existing installation (reconciling any configuration-related changes from the new release in the process).
 
-To manage database updates over time, the IBM FHIR Server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database and apply any new changes that are needed to bring the database to the current level.
+To manage database updates over time, the IBM FHIR Server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database schema and apply any new changes that are needed to bring the database to the current level.
 
 Complete the following steps to upgrade the server:
 
 1. Run the fhir-installer on a separate server.
 2. Configure the new server as appropriate (`fhir-server/server.xml` and anything under the `fhir-server/configDropins`, `fhir-server/config`, and `fhir-server/userlib` directories).
 3. Back up your database.  
-4. Run the migration program (see [Section 3.3.1.3.2 Db2](#33132-db2)).  
-5. Disable traffic to the old server and enable traffic to the new server  
+4. Run the migration program (see [Section 3.3.1.3 Supported databases](#3313-supported-databases)).  
+5. Disable traffic to the old server and enable traffic to the new server.
 
 ## 2.3 Docker
 The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
@@ -360,7 +360,7 @@ To use the proxy datasource:
     }
     ```
 
-    The `connectionProperties` property is a set of driver-specific properties needed to connect to an instance of that database type. For a Db2-related datasource definition, any bean property supported by the `DB2XADataSource` class can be specified within the `connectionProperties` property group. For a discussion of the specific properties that can be used to configure a `DB2XADataSource` instance, see the [Db2 Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.apdv.java.doc/src/tpc/imjcc_rjvdsprp.html).
+    The `connectionProperties` property is a set of driver-specific properties needed to connect to an instance of that database type. For a Db2, any datasource property supported by the `DB2XADataSource` class can be specified within the `connectionProperties` property group. For a discussion of the specific properties that can be used to configure a `DB2XADataSource` instance, see the [Db2 Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.apdv.java.doc/src/tpc/imjcc_rjvdsprp.html).
 
     For a Derby-related datasource definition, any bean property supported by the `EmbeddedXADataSource` class can be specified within the `connectionProperties` property group. For more information about the properties supported by the `EmbeddedXADataSource` class, and its super classes, see the [Apache Derby documentation](https://db.apache.org/derby/docs/10.13/publishedapi/org/apache/derby/jdbc/EmbeddedXADataSource.html).
 
@@ -370,10 +370,11 @@ When the proxy datasource is obtained via a JNDI lookup by the JDBC persistence 
 The proxy datasource relies on the presence of the tenant-id and datastore-id information within the thread-local `FHIRRequestContext` information. In a simple configuration of the FHIR server that involves the use of the JDBC persistence layer implementation, the `FHIRRequestContext` information is obtained via request headers from the incoming REST API request. The tenant-id is obtained from the `X-FHIR-TENANT-ID` request header and the datastore-id is obtained from the `X-FHIR-DSID` request header<sup id="a3">[3](#f3)</sup>.
 
 #### 3.3.1.3 Supported databases
-##### 3.3.1.3.1 Embedded Derby (default)
-If you are using the `ibmcom/ibm-fhir-server` docker image, you can ask the entrypoint script to create (bootstrap) the database and the schema and tables during startup by setting the `DB_BOOTSTRAP` environment variable to `true`.
+##### Embedded Derby (default)
+If you are using the `ibmcom/ibm-fhir-server` docker image, you can ask the entrypoint script to create (bootstrap) the database and the schema and tables during startup by setting the `BOOTSTRAP_DB` environment variable to `true`.
 
 This database bootstrap step is only supported for Embedded Derby and will only bootstrap the default datastore of the default tenant (the default for requests with no tenant or datastore headers).
+Reminder:  the Embedded Derby support is designed to support simple getting started scenarios and is not recommended for production use.
 
 ```
 <server>
@@ -389,14 +390,14 @@ This database bootstrap step is only supported for Embedded Derby and will only 
 </server>
 ```
 
-##### 3.3.1.3.2 Db2
+##### Db2
 If you configure the FHIR server to use an IBM Db2 database, you must:
 
-1. create the database if it doesn't already exist
+1. Create the database if it doesn't already exist.
 
-2. execute the `fhir-persistence-schema` utility to create the necessary schemas (tables, indices, stored procedures, etc) and tenants
+2. Execute the `fhir-persistence-schema` utility to create the necessary schemas (tables, indices, stored procedures, etc) and tenants.
 
-3. configure the IBM FHIR Server with the tenantKey generated in step number 2.
+3. Configure the IBM FHIR Server with the tenantKey generated in step number 2.
 
 An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
 
@@ -404,7 +405,7 @@ For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, se
 
 Since release 4.3.2 you can use the `search.reopt` query optimizer hint to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for Db2. Valid values are "ALWAYS" and "ONCE". See Db2 documentation for `REOPT` for more details.
 
-##### 3.3.1.3.3 PostgreSQL
+##### PostgreSQL
 If you configure the FHIR server to use a PostgreSQL database, you must:
 
 1. create the database if it doesn't already exist
@@ -415,7 +416,7 @@ An executable `fhir-persistence-schema` jar can be downloaded from the project's
 
 Since release 4.5.5 you can set the `searchOptimizerOptions/from_collapse_limit` and `searchOptimizerOptions/join_collapse_limit` properties to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for PostgreSQL.
 
-##### 3.3.1.3.4 Other
+##### Other
 
 To enable the IBM FHIR Server to work with other relational database systems, see
 https://ibm.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-another-relational-database
@@ -424,7 +425,7 @@ https://ibm.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-ano
 #### 3.3.1.4 Datastore configuration examples
 To understand how the configuration properties are defined for one or more datastores, let's start off with a couple of examples.
 
-##### 3.3.1.4.1 Example 1
+##### Example 1
 Here is a simple example of a single (default) Derby datastore using the proxy mechanism:
 ```
 {
@@ -453,7 +454,7 @@ Here is a simple example of a single (default) Derby datastore using the proxy m
 
 In this example, we define an embedded Derby database named `derby/fhirDB` (a location relative to the `<WLP_HOME>/usr/servers/fhir-server` directory). The datastore-id associated with this datastore is `default`, which is the value that is used if no `X-FHIR-DSID` request header is found in the incoming request. So, when only a single database is being used, it's wise to leverage the `default` datastore-id value to allow REST API consumers to avoid having to set the `X-FHIR-DSID` request header on each request.
 
-##### 3.3.1.4.2 Example 2
+##### Example 2
 This example shows a slightly more complex scenario. In this scenario, the `acme` tenant would like to store data in one of two study-specific Db2 databases with datastore-id values `study1` and `study2`. All resource types pertaining to a given study will be stored in that study's database so there's no need for a proxy persistence layer or routing rules, and so forth.
 
 Furthermore, the REST API consumers associated with Acme applications will be coded to always set the `X-FHIR-TENANT-ID` request header to be `acme` and the `X-FHIR-DSID` request header to the specific datastore-id associated with each request (either `study1` or `study2`). In this case, the following properties would be configured within the “acme” tenant's `fhir-server-config.json` file<sup id="a4">[4](#f4)</sup> (`$⁠{server.config.dir}/config/acme/fhir-server-config.json`):
@@ -500,7 +501,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
 }
 ```
 
-##### 3.3.1.4.3 Example 3
+##### Example 3
 Example 3 implements the same configuration as Example 2 using standard Liberty datasource definitions.
 
 ```

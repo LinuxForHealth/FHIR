@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -25,7 +25,7 @@ do
   EXIT_CODE="${PIPESTATUS[0]}"
   LOG_OUT=`cat ${TMP_FILE}`
   if [ "$EXIT_CODE" == "0" ]
-  then 
+  then
     # We now just send out the output and stop the loop
     echo "${LOG_OUT}"
     not_ready="false"
@@ -43,13 +43,13 @@ do
       exit "$EXIT_CODE"
     fi
   else
-    # We need to check and/or fail. 
+    # We need to check and/or fail.
     echo "$LOG_OUT"
   fi
 done
 
 if [ -f ${TMP_FILE} ]
-then 
+then
   rm ${TMP_FILE}
 fi
 
@@ -69,5 +69,5 @@ tenantKey=$(java -jar schema/fhir-persistence-schema-*-cli.jar \
   | grep "key=" | sed -e 's/.*key\=\(.*\)\].*/\1/')
 
 # Creating a backup file is the easiest way to make in-place sed portable across OSX and Linux
-sed -i'.bak' -e 's%"default": {%"default": { "tenantKey":"'${tenantKey}'",%' \
+sed -i'.bak' -e 's%"<the-tenant-key>"%"'${tenantKey}'"%' \
   fhir-server/volumes/config/default/fhir-server-config.json

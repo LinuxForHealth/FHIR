@@ -108,6 +108,7 @@
             "datasources": {
                 "default": {
                     "type": "db2",
+                    "currentSchema": "fhirdata",
                     "tenantKey": "<the-tenant-key>",
                     "hints" : {
                       "search.reopt": "ONCE"
