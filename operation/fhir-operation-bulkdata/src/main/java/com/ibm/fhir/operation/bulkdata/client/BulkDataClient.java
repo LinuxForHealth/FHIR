@@ -53,6 +53,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
 import com.ibm.fhir.operation.bulkdata.model.type.JobType;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 
 /**
@@ -118,7 +119,8 @@ public class BulkDataClient {
 
     /**
      *
-     * @param bulkdataSource the source
+     * @param bulkdataSource
+     *            the source
      * @param outcomeSource
      * @param incomingUrl
      * @param baseUri
@@ -143,7 +145,8 @@ public class BulkDataClient {
      * @return
      * @throws Exception
      */
-    public String submitExport(Instant since, List<String> types, ExportType exportType, String outputFormat, String typeFilters, String groupId) throws Exception {
+    public String submitExport(Instant since, List<String> types, ExportType exportType, String outputFormat, String typeFilters, String groupId)
+        throws Exception {
         JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(adapter.getApplicationName());
         builder.moduleName(adapter.getModuleName());
@@ -209,7 +212,7 @@ public class BulkDataClient {
 
         String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances";
 
-        CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(),adapter.getCoreApiBatchPassword());
+        CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
         HttpPost jobPost = new HttpPost(baseUrl);
         StringEntity entity = new StringEntity(entityStr, ContentType.create("plain/text", Consts.UTF_8));
         jobPost.setEntity(entity);
@@ -258,9 +261,7 @@ public class BulkDataClient {
         // It's highly unlikely at this point the job is any other job than the client's job.
         String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job;
 
-        CloseableHttpClient cli = wrapper.getHttpClient(
-                adapter.getCoreApiBatchUser(),
-                adapter.getCoreApiBatchPassword());
+        CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
         HttpGet statusGet = new HttpGet(baseUrl);
         CloseableHttpResponse statusResponse = cli.execute(statusGet);
 
@@ -269,7 +270,7 @@ public class BulkDataClient {
             handleStandardResponseStatus(statusResponse.getStatusLine().getStatusCode());
             HttpEntity entity = statusResponse.getEntity();
 
-            try(InputStream is = entity.getContent()){
+            try (InputStream is = entity.getContent()) {
                 bulkExportJobInstanceResponse = JobInstanceResponse.Parser.parse(is);
             }
             EntityUtils.consume(entity);
@@ -293,7 +294,7 @@ public class BulkDataClient {
                 handleStandardResponseStatus(executionStatusResponse.getStatusLine().getStatusCode());
                 HttpEntity entity = executionStatusResponse.getEntity();
 
-                try(InputStream is = entity.getContent()){
+                try (InputStream is = entity.getContent()) {
                     bulkExportJobExecutionResponse = JobExecutionResponse.Parser.parse(is);
                 }
                 EntityUtils.consume(entity);
@@ -318,14 +319,12 @@ public class BulkDataClient {
                 /*
                  * @implNote we should handle this in the Job not in the client.
                  * - In the case of partial success a useful response should be sent back.
-                 *
                  * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX.
                  * The choice of when to determine that an export job has failed in its entirety (error status) vs
                  * returning a partial success (complete status) is left up to the implementer.
                  * XXX Can we do something better like return a 2XX response with a link to a file that explains the
                  * error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
-                 *
                  */
                 throw BulkDataExportUtil.buildOperationException("The job has failed", IssueType.EXCEPTION);
             } else if (OperationConstants.STOPPED_STATUS.contains(batchStatus)) {
@@ -353,7 +352,8 @@ public class BulkDataClient {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while checking the status - " + ex.getMessage(), IssueType.TRANSIENT);
+            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while checking the status - "
+                    + ex.getMessage(), IssueType.TRANSIENT);
         }
 
         return result;
@@ -362,7 +362,7 @@ public class BulkDataClient {
     public void handleStandardResponseStatus(int httpStatus) throws FHIROperationException {
         // e.g. if it comes back with 404 it may fail on the JobInstanceResponse.Parser.parse!
 
-        if(httpStatus == 401) {
+        if (httpStatus == 401) {
             throw BulkDataExportUtil.buildOperationException("Unauthorized to access the framework", IssueType.FORBIDDEN);
         }
 
@@ -375,9 +375,11 @@ public class BulkDataClient {
         }
 
         if (httpStatus == 500) {
-            //if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected request/response.")) {
-            //    throw BulkDataExportUtil.buildOperationException("Invalid job id sent to $bulkdata-status", IssueType.INVALID);
-            //}
+            // if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected
+            // request/response.")) {
+            // throw BulkDataExportUtil.buildOperationException("Invalid job id sent to $bulkdata-status",
+            // IssueType.INVALID);
+            // }
             throw BulkDataExportUtil.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
         }
 
@@ -447,7 +449,7 @@ public class BulkDataClient {
         Response.Status status = Response.Status.NO_CONTENT;
         try {
             // NOT_LOCAL - follow location
-            String baseUrl =  adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job + "?action=stop";
+            String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job + "?action=stop";
 
             // The documentation says this is a PUT and confirmed in the source code.
             // @see
@@ -485,7 +487,7 @@ public class BulkDataClient {
                     try {
                         // Skip consuming the body
                         int statusCodeAgain = stopAgainResponse.getStatusLine().getStatusCode();
-                        if(log.isLoggable(Level.FINE)) {
+                        if (log.isLoggable(Level.FINE)) {
                             log.fine("status code for stop on location is '" + statusCodeAgain + "' at location '" + location + "'");
                         }
                     } finally {
@@ -534,7 +536,7 @@ public class BulkDataClient {
             // The tenant is known, and now we need to query to delete the Job.
 
             HttpWrapper wrapper = new HttpWrapper();
-            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(),adapter.getCoreApiBatchPassword());
+            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
 
             String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job;
             HttpDelete delete = new HttpDelete(baseUrl);
@@ -550,7 +552,8 @@ public class BulkDataClient {
                     log.fine("The Response body is [" + responseString + "]");
                 }
 
-                if (Status.NO_CONTENT.getStatusCode() != deleteResponse.getStatusLine().getStatusCode() && Status.BAD_REQUEST.getStatusCode() != deleteResponse.getStatusLine().getStatusCode()) {
+                if (Status.NO_CONTENT.getStatusCode() != deleteResponse.getStatusLine().getStatusCode()
+                        && Status.BAD_REQUEST.getStatusCode() != deleteResponse.getStatusLine().getStatusCode()) {
                     status = Response.Status.fromStatusCode(deleteResponse.getStatusLine().getStatusCode());
                 }
 
@@ -579,7 +582,7 @@ public class BulkDataClient {
         try {
             JobExecutionResponse response = null;
             HttpWrapper wrapper = new HttpWrapper();
-            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(),adapter.getCoreApiBatchPassword());
+            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
 
             HttpGet get = new HttpGet(baseUrl);
             CloseableHttpResponse getResponse = cli.execute(get);
@@ -670,9 +673,15 @@ public class BulkDataClient {
                 String[] resourceCounts =
                         resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
-                    String downloadUrl = baseUrl + "/" + cosBucketPathPrefix + "/" + resourceType + "_" + (i + 1)
-                            + ".ndjson";
-                    outputList.add(new PollingLocationResponse.Output(resourceType, downloadUrl, resourceCounts[i]));
+                    String region = adapter.getSourceLocation(source);
+                    String bucketName = adapter.getSourceBucketName(source);
+                    String objectKey = resourceType + "_" + (i + 1);
+                    String accessKey = adapter.getSourceAuthTypeHmacAccessKey(source);
+                    String secretKey = adapter.getSourceAuthTypeHmacSecretKey(source);
+                    boolean parquet = adapter.isSourceParquetEnabled(source);
+                    boolean presigned = adapter.isSourceHmacPresigned(source);
+                    DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned);
+                    outputList.add(new PollingLocationResponse.Output(resourceType, url.getUrl(), resourceCounts[i]));
                 }
             }
             result.setOutput(outputList);
@@ -746,7 +755,7 @@ public class BulkDataClient {
             log.fine("The Entity posted to the server " + entityStr);
         }
 
-        CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(),adapter.getCoreApiBatchPassword());
+        CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
         HttpPost jobPost = new HttpPost(baseUrl);
         StringEntity entity = new StringEntity(entityStr, ContentType.create("plain/text", Consts.UTF_8));
         jobPost.setEntity(entity);
@@ -786,7 +795,6 @@ public class BulkDataClient {
     /*
      * Generate a random key using the passed algorithm or, if that algorithm isn't supported, a random 32 byte value.
      * In either case, the resulting value is encoded as URL Encoded string before returning.
-     *
      * @implNote S3 API barfs on '/' thus URL Encoding... Also isolating this code as private and self-contained
      * in order to justify AppScan
      * @return a url-encoded random prefix

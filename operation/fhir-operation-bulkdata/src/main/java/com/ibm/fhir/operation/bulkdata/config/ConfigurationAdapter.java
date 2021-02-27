@@ -262,4 +262,10 @@ public interface ConfigurationAdapter {
      * @return
      */
     String getBaseFileLocation(String source);
+
+    /**
+     * @param source
+     * @return
+     */
+    boolean isSourceHmacPresigned(String source);
 }

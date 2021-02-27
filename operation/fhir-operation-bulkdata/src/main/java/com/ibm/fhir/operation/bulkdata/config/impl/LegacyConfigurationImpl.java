@@ -108,7 +108,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     public String getSourceAuthType(String source) {
         String iam = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.credential.ibm", "N");
         String auth = "hmac";
-        if( "Y".equalsIgnoreCase(iam)) {
+        if ("Y".equalsIgnoreCase(iam)) {
             auth = "iam";
         }
         return auth;
@@ -206,5 +206,11 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     public boolean isFastExport() {
         String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/systemExportImpl", null);
         return "fast".equals(type);
+    }
+
+    @Override
+    public boolean isSourceHmacPresigned(String source) {
+        return this.isSourceAuthTypeHmac(source)
+                && FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/presigned", Boolean.FALSE);
     }
 }

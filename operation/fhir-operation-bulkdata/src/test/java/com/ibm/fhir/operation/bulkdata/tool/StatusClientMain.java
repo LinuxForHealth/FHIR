@@ -354,6 +354,12 @@ public class StatusClientMain {
                 // TODO Auto-generated method stub
                 return null;
             }
+
+            @Override
+            public boolean isSourceHmacPresigned(String source) {
+                // TODO Auto-generated method stub
+                return false;
+            }
         };
     }
 }
