@@ -17,8 +17,8 @@ public class CharColumn extends ColumnBase {
     /**
      * @param name
      */
-    public CharColumn(String name, int size, boolean nullable) {
-        super(name, nullable);
+    public CharColumn(String name, int size, boolean nullable, String defaultValue) {
+        super(name, nullable, defaultValue);
         this.size = size;
     }
 

@@ -294,11 +294,11 @@ public class Table extends BaseObject {
             }
 
             cd.setNullable(nullable);
-            
+
             if (defaultValue != null) {
                 cd.setDefaultVal(defaultValue);
             }
-            
+
             cd.setColumnType(ColumnType.BIGINT);
             columns.add(cd);
             return this;
@@ -328,7 +328,7 @@ public class Table extends BaseObject {
             }
 
             cd.setNullable(nullable);
-            
+
             if (defaultValue != null) {
                 cd.setDefaultVal(defaultValue);
             }
@@ -403,6 +403,28 @@ public class Table extends BaseObject {
             return this;
         }
 
+        /**
+         * Add char (fixed-width) column with a default value specified
+         * @param columnName
+         * @param size
+         * @param nullable
+         * @param defaultValue
+         * @return
+         */
+        public Builder addCharColumn(String columnName, int size, boolean nullable, String defaultValue) {
+            ColumnDef cd = new ColumnDef(columnName);
+            if (columns.contains(cd)) {
+                throw new IllegalArgumentException("Duplicate column: " + columnName);
+            }
+
+            cd.setNullable(nullable);
+            cd.setColumnType(ColumnType.CHAR);
+            cd.setSize(size);
+            cd.setDefaultVal(defaultValue);
+            columns.add(cd);
+            return this;
+        }
+
         public Builder addBlobColumn(String columnName, long size, int inlineSize, boolean nullable) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
@@ -472,21 +494,21 @@ public class Table extends BaseObject {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
-            
+
             if (columns.length > 0) {
                 // Make sure all the given column names are valid for this table
                 checkColumns(columns);
-                
+
                 List<OrderedColumnDef> columnDefs = new ArrayList<>(columns.length);
                 for (String c: columns) {
                     columnDefs.add(new OrderedColumnDef(c, null, null));
                 }
-                
+
                 indexes.put(indexName, new IndexDef(indexName, columnDefs, false));
             }
             return this;
         }
-        
+
         public Builder addIndex(String indexName, OrderedColumnDef... columns) {
             List<OrderedColumnDef> columnList = Arrays.asList(columns);
             indexes.put(indexName, new IndexDef(indexName, columnList, false));
@@ -503,11 +525,11 @@ public class Table extends BaseObject {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
-            
+
             if (columns.length > 0) {
                 // Make sure all the given column names are valid for this table
                 checkColumns(columns);
-                
+
                 List<OrderedColumnDef> columnDefs = new ArrayList<>(columns.length);
                 for (String c: columns) {
                     columnDefs.add(new OrderedColumnDef(c, null, null));
@@ -533,12 +555,12 @@ public class Table extends BaseObject {
                 // Make sure all the given column names are valid for this table
                 checkColumns(indexColumns);
                 checkColumns(includeColumns);
-                
+
                 List<OrderedColumnDef> columnDefs = new ArrayList<>(indexColumns.size());
                 for (String c: indexColumns) {
                     columnDefs.add(new OrderedColumnDef(c, null, null));
                 }
-            
+
                 indexes.put(indexName, new IndexDef(indexName, columnDefs, includeColumns));
             }
             return this;
@@ -711,7 +733,7 @@ public class Table extends BaseObject {
                     if (cd.getSize() > Integer.MAX_VALUE) {
                         throw new IllegalStateException("Invalid size for column: " + cd.getName());
                     }
-                    column = new CharColumn(cd.getName(), (int)cd.getSize(), cd.isNullable());
+                    column = new CharColumn(cd.getName(), (int)cd.getSize(), cd.isNullable(), cd.getDefaultVal());
                     break;
                 case BLOB:
                     column = new BlobColumn(cd.getName(), cd.getSize(), cd.getInlineSize(), cd.isNullable());
@@ -798,7 +820,7 @@ public class Table extends BaseObject {
     @Override
     public void visit(DataModelVisitor v) {
         v.visited(this);
-        
+
         this.fkConstraints.forEach(fk -> v.visited(this, fk));
     }
 
@@ -809,7 +831,7 @@ public class Table extends BaseObject {
     public void visitReverse(DataModelVisitor v) {
         // visit the child objects first when going in reverse
         this.fkConstraints.forEach(fk -> v.visited(this, fk));
-        
+
         v.visited(this);
     }
 }

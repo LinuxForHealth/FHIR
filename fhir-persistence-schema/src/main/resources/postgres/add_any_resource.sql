@@ -72,8 +72,8 @@ BEGIN
     THEN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
-      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id) '
-      || '     VALUES ($1, $2)' USING v_logical_resource_id, p_logical_id;
+      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted) '
+      || '     VALUES ($1, $2, $3)' USING v_logical_resource_id, p_logical_id, p_is_deleted;
       v_new_resource := 1;
     ELSE
       v_logical_resource_id := t_logical_resource_id;
@@ -129,11 +129,7 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
       EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
       EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
@@ -175,8 +171,8 @@ BEGIN
   THEN
     -- only update the logical resource if the resource we are adding supercedes the
     -- the current resource. mt_id isn't needed here...implied via permission
-    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1 WHERE logical_resource_id = $2'
-      USING v_resource_id, v_logical_resource_id;
+    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2 WHERE logical_resource_id = $3'
+      USING v_resource_id, p_is_deleted, v_logical_resource_id;
   END IF;
 
   

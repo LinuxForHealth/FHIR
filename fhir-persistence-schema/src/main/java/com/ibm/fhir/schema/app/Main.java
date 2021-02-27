@@ -72,10 +72,12 @@ import com.ibm.fhir.schema.control.DisableForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.GetLogicalResourceIsDeletedNeedsMigration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
 import com.ibm.fhir.schema.control.GetTenantList;
+import com.ibm.fhir.schema.control.InitializeLogicalIdIsDeleted;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
@@ -379,6 +381,9 @@ public class Main {
 
         // backfill the resource_change_log table if needed
         backfillResourceChangeLog();
+
+        // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
+        applyDataMigrationForV0010();
     }
 
     /**
@@ -1490,6 +1495,94 @@ public class Main {
             properties.put(kv[0], kv[1]);
         } else {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
+        }
+    }
+
+    /**
+     * Perform the special data migration steps required for the V0010 version of the schema
+     */
+    protected void applyDataMigrationForV0010() {
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // Process each tenant one-by-one
+            List<TenantInfo> tenants = getTenantList();
+            for (TenantInfo ti: tenants) {
+
+                // If no --schema-name override was specified, we process all tenants, otherwise we
+                // process only tenants which belong to the override schema name
+                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
+                    dataMigrationForV0010(ti);
+                }
+            }
+        } else {
+            doMigrationForV0010();
+        }
+
+    }
+
+    /**
+     * Migrate the IS_DELETED data for the given tenant
+     * @param ti
+     */
+    private void dataMigrationForV0010(TenantInfo ti) {
+        // Multi-tenant schema so we know this is Db2:
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+
+        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
+                .map(FHIRResourceType.ValueSet::value)
+                .collect(Collectors.toSet());
+
+        // Process each update in its own transaction so we don't stress the tx log space
+        for (String resourceTypeName: resourceTypes) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
+                    adapter.runStatement(setTenantId);
+
+                    GetLogicalResourceIsDeletedNeedsMigration needsMigrating = new GetLogicalResourceIsDeletedNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    if (adapter.runStatement(needsMigrating)) {
+                        logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED "
+                                + "for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+                        InitializeLogicalIdIsDeleted cmd = new InitializeLogicalIdIsDeleted(schema.getSchemaName(), resourceTypeName);
+                        adapter.runStatement(cmd);
+                    }
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * Perform the data migration for V0010 (non-multi-tenant schema)
+     */
+    private void doMigrationForV0010() {
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
+                .map(FHIRResourceType.ValueSet::value)
+                .collect(Collectors.toSet());
+
+        // Process each resource type in its own transaction to avoid pressure on the tx log
+        for (String resourceTypeName: resourceTypes) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    // only process tables which have been converted to the V0010 schema but
+                    // which have not yet had their data migrated. The migration can't be
+                    // done as part of the schema change because some tables need a REORG which
+                    // has to be done after the transaction in which the alter table was performed.
+                    GetLogicalResourceIsDeletedNeedsMigration needsMigrating = new GetLogicalResourceIsDeletedNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    if (adapter.runStatement(needsMigrating)) {
+                        logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED in schema " + schema.getSchemaName());
+                        InitializeLogicalIdIsDeleted cmd = new InitializeLogicalIdIsDeleted(schema.getSchemaName(), resourceTypeName);
+                        adapter.runStatement(cmd);
+                    }
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
         }
     }
 

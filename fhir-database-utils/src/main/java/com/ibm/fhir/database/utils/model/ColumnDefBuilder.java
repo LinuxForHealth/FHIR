@@ -96,7 +96,7 @@ public class ColumnDefBuilder {
         columns.add(cd);
         return this;
     }
-    
+
     public ColumnDefBuilder addTimestampColumn(String columnName, boolean nullable, String defaultValue) {
         ColumnDef cd = new ColumnDef(columnName);
         checkColumnAlreadyExists(cd, columnName);
@@ -134,6 +134,25 @@ public class ColumnDefBuilder {
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.CHAR);
         cd.setSize(size);
+        columns.add(cd);
+        return this;
+    }
+
+    /**
+     * Add char (fixed-width) column with a default value
+     * @param columnName
+     * @param size
+     * @param nullable
+     * @return
+     */
+    public ColumnDefBuilder addCharColumn(String columnName, int size, boolean nullable, String defaultValue) {
+        ColumnDef cd = new ColumnDef(columnName);
+        checkColumnAlreadyExists(cd, columnName);
+
+        cd.setNullable(nullable);
+        cd.setColumnType(ColumnType.CHAR);
+        cd.setSize(size);
+        cd.setDefaultVal(defaultValue);
         columns.add(cd);
         return this;
     }
@@ -206,7 +225,7 @@ public class ColumnDefBuilder {
                 if (cd.getSize() > Integer.MAX_VALUE) {
                     throw new IllegalStateException("Invalid size for column: " + cd.getName());
                 }
-                column = new CharColumn(cd.getName(), (int)cd.getSize(), cd.isNullable());
+                column = new CharColumn(cd.getName(), (int)cd.getSize(), cd.isNullable(), cd.getDefaultVal());
                 break;
             case BLOB:
                 column = new BlobColumn(cd.getName(), cd.getSize(), cd.getInlineSize(), cd.isNullable());
