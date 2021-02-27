@@ -190,11 +190,12 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0009.vid()) // because we're dropping composites and token_values
+                .setVersion(FhirSchemaVersion.V0010.vid()) // for is_deleted support
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addBigIntColumn(CURRENT_RESOURCE_ID, true)
+                .addCharColumn(IS_DELETED, 1, false, "'X'")
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addForeignKeyConstraint("FK_" + tableName + "_LRID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -207,15 +208,19 @@ public class FhirResourceTableGroup {
                 .addIndex(IDX + tableName + LOGICAL_ID, LOGICAL_ID)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
-                    if (priorVersion == 1) {
+                    if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         // Yes, this looks a little weird but as part of the migration to our V0009
                         // schema, we have to drop the <resourceType>_COMPOSITES table which is no
                         // longer required. But we have to drop it before we get rid of the primary
                         // key and ROW_ID on any of the parameter tables, which is why we do this here
                         statements.add(new DropTable(schemaName, prefix + "_COMPOSITES"));
 
-                        // Get rid of the old token values parameter table which no longer
+                        // Get rid of the old token values parameter table which is no longer used
                         statements.add(new DropTable(schemaName, prefix + "_TOKEN_VALUES"));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0010.vid()) {
+                        addLogicalResourcesIsDeletedMigrationV0010(statements, tableName);
                     }
                     return statements;
                 })
@@ -236,6 +241,36 @@ public class FhirResourceTableGroup {
             addPatientCurrentRefs(group, prefix);
         }
     }
+
+    /**
+     * For the V0010 schema, IS_DELETED is added to each xxx_LOGICAL_RESOURCES. This
+     * migration step also includes populating. Note that we don't attempt to perform
+     * the data migration here because migration for Db2 multi-tenant schemas requires
+     * iterating over each tenant. The data migration step is therefore left as an
+     * operation to be applied by the schema tool.
+     * @param statements
+     * @param tableName
+     */
+    private void addLogicalResourcesIsDeletedMigrationV0010(List<IDatabaseStatement> statements, String tableName) {
+        // Note that we use 'X' as the default value because this acts as a marker
+        // for the schema tool to easily check to see if the table needs to be
+        // migrated. This is fine as long as we made sure that inserts into
+        // the xxx_logical_resources tables always include a proper value for
+        // this column. For Db2 and PostgreSQL, this happens in the add_any_resource
+        // stored procedures.
+        List<ColumnBase> columns = new ColumnDefBuilder()
+                .addCharColumn(IS_DELETED, 1, false, "'X'")
+                .buildColumns();
+        for (ColumnBase column : columns) {
+            statements.add(new AddColumn(schemaName, tableName, column));
+        }
+
+        // Db2 requires a REORG before the table can be used again, so
+        // we add this as a final step. This will be ignored by database
+        // adapters that don't require it (e.g. PostgreSQL).
+        statements.add(new ReorgTable(schemaName, tableName));
+    }
+
 
     /**
      * Add the resources table definition

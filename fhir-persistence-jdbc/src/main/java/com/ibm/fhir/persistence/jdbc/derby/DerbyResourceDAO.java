@@ -296,11 +296,12 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
                 // so it gets stored again here for convenience
-                final String sql3 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id) VALUES (?, ?)";
+                final String sql3 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id, is_deleted) VALUES (?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
                     stmt.setString(2, p_logical_id);
+                    stmt.setString(3, p_is_deleted ? "Y" : "N");
                     stmt.executeUpdate();
                 }
             }
@@ -323,7 +324,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 }
             }
 
-            // so if we are storing a specific version, do a quick check to make
+            // if we are storing a specific version, do a quick check to make
             // sure that this version doesn't currently exist. This is only done when processing
             // replication messages which might be duplicated. We want the operation to be idempotent,
             // so if the resource already exists, we don't need to do anything else.
@@ -420,11 +421,12 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (p_version == null || p_version > v_version) {
             //only update the logical resource if the resource we are adding supercedes the
             //current resource
-            String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ? WHERE logical_resource_id = ?";
+            String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ?, is_deleted = ? WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
                 // bind parameters
                 stmt.setLong(1, v_resource_id);
-                stmt.setLong(2, v_logical_resource_id);
+                stmt.setString(2, p_is_deleted ? "Y" : "N");
+                stmt.setLong(3, v_logical_resource_id);
                 stmt.executeUpdate();
             }
 

@@ -89,9 +89,9 @@ BEGIN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
       PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id) '
-      || '     VALUES (?, ?, ?)';
-      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id, is_deleted) '
+      || '     VALUES (?, ?, ?, ?)';
+      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted;
       SET v_new_resource = 1;
     END IF;
   END IF;
@@ -150,8 +150,6 @@ BEGIN
       -- TODO patch parameter sets instead of all delete/all insert.
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
@@ -192,8 +190,8 @@ BEGIN
   THEN
     -- only update the logical resource if the resource we are adding supercedes the
     -- the current resource. mt_id isn't needed here...implied via permission
-    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ? WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_resource_id, v_logical_resource_id;
+    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ? WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_resource_id, p_is_deleted, v_logical_resource_id;
 
     -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
     -- so we can no longer insert the parameters here - instead we have to use individual
