@@ -179,4 +179,10 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/file-base", null);
     }
 
+    @Override
+    public boolean isSourceHmacPresigned(String source) {
+        return this.isSourceAuthTypeHmac(source)
+                && FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/presigned", Boolean.FALSE);
+    }
+
 }

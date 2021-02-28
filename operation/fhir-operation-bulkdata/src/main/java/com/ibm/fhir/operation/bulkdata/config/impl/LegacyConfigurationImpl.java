@@ -210,7 +210,6 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isSourceHmacPresigned(String source) {
-        return this.isSourceAuthTypeHmac(source)
-                && FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/presigned", Boolean.FALSE);
+        return false;
     }
 }
