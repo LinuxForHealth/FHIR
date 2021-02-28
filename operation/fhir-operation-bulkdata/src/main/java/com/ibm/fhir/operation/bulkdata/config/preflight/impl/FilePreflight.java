@@ -40,11 +40,6 @@ public class FilePreflight extends NopPreflight {
         }
     }
 
-    @Override
-    public void healthcheck() throws FHIROperationException {
-        super.healthcheck();
-    }
-
     private void checkFile(String base) throws FHIROperationException {
         if (base != null) {
             Path p = Paths.get(base);

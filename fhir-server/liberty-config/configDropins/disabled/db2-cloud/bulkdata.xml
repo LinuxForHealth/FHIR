@@ -35,8 +35,8 @@
     <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
     <variable name="BATCH_DB_PORT" defaultValue="50001"/>
 
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB"  type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
             apiKey="${BATCH_DB_APIKEY}"
             serverName="${BATCH_DB_HOSTNAME}"

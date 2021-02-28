@@ -21,6 +21,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.dto.ReadResultDTO;
 import com.ibm.fhir.jbatch.bulkdata.load.data.ImportTransientUserData;
 import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapper;
 import com.ibm.fhir.model.format.Format;
@@ -40,6 +41,9 @@ public class FileWrapper implements SourceWrapper {
     private long parseFailures = 0l;
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
+    private String fhirResourceType = null;
+
+    private int total = 0;
 
     private TransientUserData chunkData = null;
 
@@ -97,8 +101,13 @@ public class FileWrapper implements SourceWrapper {
     @Override
     public void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
         boolean isExportPublic) throws Exception {
-        this.chunkData = transientUserData;
+        if (transientUserData == null) {
+            logger.warning("registerTransient: chunkData is null, this should never happen!");
+            throw new Exception("registerTransient: chunkData is null, this should never happen!");
+        }
 
+        this.chunkData = transientUserData;
+        this.fhirResourceType = fhirResourceType;
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         String fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
         String base = adapter.getBaseFileLocation(source);
@@ -106,7 +115,8 @@ public class FileWrapper implements SourceWrapper {
         String fn = base + "/" + fileName;
         Path p1 = Paths.get(fn);
         try {
-            out = Files.newOutputStream(p1, StandardOpenOption.CREATE);
+            // This is a trap. Be sure to mark CREATE and APPEND.
+            out = Files.newOutputStream(p1, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             logger.warning("Error creating a file '" + fn + "'");
             throw e;
@@ -121,10 +131,23 @@ public class FileWrapper implements SourceWrapper {
     }
 
     @Override
-    public void writeResources(String mediaType, List<Resource> resources) throws Exception {
-        for (Resource r : resources) {
-            FHIRGenerator.generator(Format.JSON).generate(r, out);
-            out.write(Constants.NDJSON_LINESEPERATOR);
+    public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
+        for (ReadResultDTO dto : dtos) {
+            total += dto.size();
+            for (Resource r : dto.getResources()) {
+                FHIRGenerator.generator(Format.JSON).generate(r, out);
+                out.write(Constants.NDJSON_LINESEPERATOR);
+            }
+
+            // This replaces the existing numbers each time.
+            chunkData.setCurrentUploadResourceNum(total);
+            StringBuilder output = new StringBuilder();
+            output.append(fhirResourceType);
+            output.append('[');
+            output.append(total);
+            output.append(']');
+
+            chunkData.setResourceTypeSummary(output.toString());
         }
     }
 }

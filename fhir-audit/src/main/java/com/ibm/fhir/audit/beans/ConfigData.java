@@ -21,7 +21,6 @@ import javax.json.JsonValue;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 
-import com.google.gson.annotations.SerializedName;
 import com.ibm.fhir.exception.FHIRException;
 
 /**
@@ -30,7 +29,6 @@ import com.ibm.fhir.exception.FHIRException;
  */
 public class ConfigData {
 
-    @SerializedName("server_startup_parameters")
     private String serverStartupParms;
 
     public String getServerStartupParms() {

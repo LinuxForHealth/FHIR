@@ -34,6 +34,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.dto.ReadResultDTO;
 import com.ibm.fhir.jbatch.bulkdata.export.writer.SparkParquetWriter;
 import com.ibm.fhir.jbatch.bulkdata.load.data.ImportTransientUserData;
 import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapper;
@@ -308,32 +309,39 @@ public class S3Wrapper implements SourceWrapper {
     }
 
     @Override
-    public void writeResources(String mediaType, List<Resource> resources) throws Exception {
-
-        switch (mediaType) {
-        case FHIRMediaType.APPLICATION_PARQUET:
-            boolean isTimeToWriteParquet = chunkData.getPageNum() > chunkData.getLastPageNum()
-                    || chunkData.isFinishCurrentUpload();
-            if (isTimeToWriteParquet) {
-                pushFhirParquetToCos(resources);
-                chunkData.setLastWritePageNum(chunkData.getPageNum());
-            }
-            break;
-        case FHIRMediaType.APPLICATION_NDJSON:
-        default:
-            boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
-                    || chunkData.getBufferStream().size() > COS_PART_MINIMALSIZE
-                    || chunkData.isFinishCurrentUpload();
-            if (isTimeToWrite && chunkData.getBufferStream().size() > 0) {
-                // TODO try PipedOutputStream -> PipedInputStream instead?
-                pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
-                chunkData.setLastWritePageNum(chunkData.getPageNum());
+    public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
+        for (ReadResultDTO dto : dtos) {
+            switch (mediaType) {
+            case FHIRMediaType.APPLICATION_PARQUET:
+                boolean isTimeToWriteParquet = chunkData.getPageNum() > chunkData.getLastPageNum()
+                        || chunkData.isFinishCurrentUpload();
+                if (isTimeToWriteParquet) {
+                    pushFhirParquetToCos(dto.getResources());
+                    chunkData.setLastWritePageNum(chunkData.getPageNum());
+                }
+                break;
+            case FHIRMediaType.APPLICATION_NDJSON:
+            default:
+                boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
+                        || chunkData.getBufferStream().size() > COS_PART_MINIMALSIZE
+                        || chunkData.isFinishCurrentUpload();
+                if (isTimeToWrite && chunkData.getBufferStream().size() > 0) {
+                    // TODO try PipedOutputStream -> PipedInputStream instead?
+                    pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
+                    chunkData.setLastWritePageNum(chunkData.getPageNum());
+                }
             }
         }
     }
 
     @Override
-    public void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType, boolean isExportPublic) {
+    public void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
+        boolean isExportPublic) throws Exception {
+        if (transientUserData == null) {
+            logger.warning("registerTransient: chunkData is null, this should never happen!");
+            throw new Exception("registerTransient: chunkData is null, this should never happen!");
+        }
+
         this.executionId = executionId;
         this.chunkData = transientUserData;
         this.cosBucketPathPrefix = cosBucketPathPrefix;

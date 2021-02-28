@@ -13,12 +13,14 @@ import java.util.logging.Logger;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
- *
+ * Common between the Legacy and V2 Configuration and Implementation
+ * Also the system defaults.
  */
 public abstract class AbstractSystemConfigurationImpl implements ConfigurationAdapter {
 
@@ -47,6 +49,105 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     private static final String FHIR_BULKDATA_ALLOWED_TYPES = "FHIR_BULKDATA_ALLOWED_TYPES";
     private static final Set<String> ALLOWED_STORAGE_TYPES = determineAllowedStorageType();
+
+    // The following are set on startup:
+    private static final int coreCosMaxResources = defaultCoreCosMaxResources();
+    private static final int coreCosMinSize = defaultCoreCosMinSize();
+    private static final int coreCosMaxSize = defaultCoreCosMaxSize();
+    private static final boolean coreCosUseServerTruststore = defaultCoreCosUseServerTruststore();
+    private static final int coreCosRequestTimeout = defaultCoreCosRequestTimeout();
+    private static final int coreCosSocketTimeout = defaultCoreCosSocketTimeout();
+    private static final String coreBatchIdEncryptionKey = defaultCoreBatchIdEncryptionKey();
+    private static final int coreMaxParititions = defaultCoreMaxParititions();
+    private static final int inputLimits = defaultInputLimits();
+
+    @Override
+    public boolean getCoreCosTcpKeepAlive() {
+        return true;
+    }
+
+    @Override
+    public int getCoreMaxPartitions() {
+        return coreMaxParititions;
+    }
+
+    private static final int defaultCoreMaxParititions() {
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/max-partitions", MAX_PARTITIONPROCESSING_THREADNUMBER);
+    }
+
+    @Override
+    public String getCoreBatchIdEncryptionKey() {
+        return coreBatchIdEncryptionKey;
+    }
+
+    private static final String defaultCoreBatchIdEncryptionKey() {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batch-id-encryption-key", null);
+    }
+
+    @Override
+    public int getCoreCosSocketTimeout() {
+        return coreCosSocketTimeout;
+    }
+
+    private static final int defaultCoreCosSocketTimeout() {
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/socket-timeout", 12000);
+    }
+
+    @Override
+    public int getInputLimit() {
+        return inputLimits;
+    }
+
+    private static final int defaultInputLimits() {
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/max-inputs", OperationConstants.IMPORT_MAX_DEFAULT_INPUTS);
+    }
+
+    @Override
+    public int getCoreCosRequestTimeout() {
+        return coreCosRequestTimeout;
+    }
+
+    private static final int defaultCoreCosRequestTimeout() {
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/request-timeout", 10000);
+    }
+
+    @Override
+    public boolean shouldCoreCosUseServerTruststore() {
+        return coreCosUseServerTruststore;
+    }
+
+    private static final boolean defaultCoreCosUseServerTruststore() {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/cos/use-server-truststore", Boolean.TRUE);
+    }
+
+    @Override
+    public int getCoreCosMaxSize() {
+        return coreCosMaxSize;
+    }
+
+    private static final int defaultCoreCosMaxSize() {
+        final String PATH = "fhirServer/bulkdata/core/cos/max-size";
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
+    }
+
+    @Override
+    public int getCoreCosMinSize() {
+        return coreCosMinSize;
+    }
+
+    private static final int defaultCoreCosMinSize() {
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/min-size", COS_PART_MINIMALSIZE);
+    }
+
+    @Override
+    public int getCoreCosMaxResources() {
+        return coreCosMaxResources;
+    }
+
+    private static final int defaultCoreCosMaxResources() {
+        final String PATH = "fhirServer/bulkdata/core/cos/max-resources";
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
+    }
 
     @Override
     public String getApplicationName() {
@@ -108,34 +209,9 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public int getCoreCosMinSize() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/min-size", COS_PART_MINIMALSIZE);
-    }
-
-    @Override
-    public boolean shouldCoreCosUseServerTruststore() {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/cos/use-server-truststore", Boolean.TRUE);
-    }
-
-    @Override
-    public int getCoreCosRequestTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/request-timeout", 10000);
-    }
-
-    @Override
-    public int getCoreCosSocketTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/socket-timeout", 12000);
-    }
-
-    @Override
     public int getCorePageSize() {
         int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/page-size", SearchConstants.MAX_PAGE_SIZE);
         return Math.min(SearchConstants.MAX_PAGE_SIZE, pageSize);
-    }
-
-    @Override
-    public int getCoreMaxPartitions() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/max-partitions", MAX_PARTITIONPROCESSING_THREADNUMBER);
     }
 
     @Override
@@ -154,11 +230,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public boolean checkValidFileBase(String source, String fileName) {
-        return false;
-    }
-
-    @Override
     public StorageType getSourceStorageType(String source) {
         String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/type", "none");
         return StorageType.from(type);
@@ -167,11 +238,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     @Override
     public String getTenant() {
         return FHIRRequestContext.get().getTenantId();
-    }
-
-    @Override
-    public boolean getCoreCosTcpKeepAlive() {
-        return true;
     }
 
     @Override
@@ -185,4 +251,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
                 && FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/presigned", Boolean.FALSE);
     }
 
+    @Override
+    public boolean shouldCoreApiBatchTrustAll() {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/api/trust-all", Boolean.FALSE);
+    }
 }

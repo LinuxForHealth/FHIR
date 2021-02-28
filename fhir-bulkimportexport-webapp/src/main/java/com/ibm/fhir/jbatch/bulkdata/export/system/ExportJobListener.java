@@ -94,8 +94,6 @@ public class ExportJobListener implements JobListener {
         try {
             executionId = jobCtx.getExecutionId();
             // Used for generating response for all the import data resources.
-            @SuppressWarnings("unchecked")
-            List<CheckPointUserData> partitionSummaries = (List<CheckPointUserData>) jobCtx.getTransientUserData();
 
             JobOperator jobOperator = BatchRuntime.getJobOperator();
             long totalJobExecutionMilliSeconds = 0;
@@ -103,9 +101,7 @@ public class ExportJobListener implements JobListener {
             // execution duration.
             for (JobExecution jobExecution : jobOperator.getJobExecutions(jobOperator.getJobInstance(jobCtx.getExecutionId()))) {
                 // For current execution, jobExecution.getEndTime() is either null or with wrong value because the
-                // current
-                // execution is not
-                // finished yet, so always use system time for both job execution start time and end time.
+                // current execution is not finished yet, so always use system time for both job execution start time and end time.
                 if (jobExecution.getExecutionId() == jobCtx.getExecutionId()) {
                     totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - currentExecutionStartTimeInMS);
                 } else {
@@ -113,8 +109,14 @@ public class ExportJobListener implements JobListener {
                 }
             }
 
+            @SuppressWarnings("unchecked")
+            List<CheckPointUserData> partitionSummaries = (List<CheckPointUserData>) jobCtx.getTransientUserData();
+
             // If the job is stopped before any partition is finished, then nothing to show.
             if (partitionSummaries == null) {
+                if(logger.isLoggable(Level.FINE)) {
+                    logger.fine("Partition Summaries is null, therefore something wasn't processed");
+                }
                 return;
             }
 

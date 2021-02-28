@@ -8,10 +8,7 @@ package com.ibm.fhir.jbatch.bulkdata.export.system;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
@@ -26,22 +23,19 @@ import javax.inject.Inject;
 
 import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
 import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.dto.ReadResultDTO;
 import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapper;
 import com.ibm.fhir.jbatch.bulkdata.source.type.SourceWrapperFactory;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 
 /**
- * BulkExport ChunkWriter
+ * BulkExport System ChunkWriter outputs the incoming data to the given source.
  */
 @Dependent
 public class ChunkWriter extends AbstractItemWriter {
-
-    private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
-
     private boolean isExportPublic = true;
 
     private BulkDataContext ctx = null;
@@ -68,70 +62,44 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        try {
-            executionId = jobContext.getExecutionId();
-            JobOperator jobOperator = BatchRuntime.getJobOperator();
-            JobExecution jobExecution = jobOperator.getJobExecution(executionId);
+        executionId = jobContext.getExecutionId();
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        JobExecution jobExecution = jobOperator.getJobExecution(executionId);
 
-            BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
-            ctx = contextAdapter.getStepContextForSystemChunkWriter();
+        BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+        ctx = contextAdapter.getStepContextForSystemChunkWriter();
 
-            // Register the context to get the right configuration.
-            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-            adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
+        // Register the context to get the right configuration.
+        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+        adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-            String source = ctx.getSource();
-            wrapper = SourceWrapperFactory.getSourceWrapper(source, adapter.getSourceStorageType(source).value());
+        String source = ctx.getSource();
+        wrapper = SourceWrapperFactory.getSourceWrapper(source, adapter.getSourceStorageType(source).value());
 
-            cosBucketPathPrefix = ctx.getCosBucketPathPrefix();
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Export ChunkWriter: open failed job[" + executionId + "]", e);
-            throw e;
-        }
+        cosBucketPathPrefix = ctx.getCosBucketPathPrefix();
     }
 
     @Override
     public void close() throws Exception {
-        try {
-            wrapper.close();
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Export ChunkWriter: close failed job[" + executionId + "]", e);
-            throw e;
-        }
+        wrapper.close();
     }
 
     @Override
     public void writeItems(List<java.lang.Object> resourceLists) throws Exception {
-        try {
-            wrapper.createSource();
+        wrapper.createSource();
 
-            TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
-            if (chunkData == null) {
-                logger.warning("writeItems: chunkData is null, this should never happen!");
-                throw new Exception("writeItems: chunkData is null, this should never happen!");
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        wrapper.registerTransient(executionId, chunkData, cosBucketPathPrefix, fhirResourceType, isExportPublic);
+
+        List<ReadResultDTO> dtos = new ArrayList<>();
+        // Is there a cleaner way to add these in a type-safe way?
+        for (Object resourceDtos : resourceLists) {
+            if (resourceDtos instanceof ReadResultDTO) {
+                dtos.add((ReadResultDTO) resourceDtos);
             }
-
-            List<Resource> resources = new ArrayList<>();
-            // Is there a cleaner way to add these in a type-safe way?
-            if (resourceLists instanceof List) {
-                for (Object resourceList : resourceLists) {
-                    if (resourceList instanceof Collection<?>) {
-                        for (Object resource : (Collection<?>) resourceList) {
-                            if (resource instanceof Resource) {
-                                resources.add((Resource) resource);
-                            }
-                        }
-                    }
-                }
-            }
-
-            wrapper.registerTransient(executionId, chunkData, cosBucketPathPrefix, fhirResourceType, isExportPublic);
-            wrapper.writeResources(ctx.getFhirExportFormat(), resources);
-            stepCtx.setTransientUserData(chunkData);
-
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Export ChunkWriter: writeItems failed job[" + executionId + "]", e);
-            throw e;
         }
+
+        wrapper.writeResources(ctx.getFhirExportFormat(), dtos);
+        stepCtx.setTransientUserData(chunkData);
     }
 }

@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.client;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
 import org.apache.http.auth.AuthScope;
@@ -19,14 +21,18 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.ssl.SSLContextBuilder;
 
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+
 /**
- *
+ * Manages the access to the HttpClient applying a consistent approach/configuration.
  */
 public class HttpWrapper {
     private static final String CLASSNAME = HttpWrapper.class.getName();
@@ -55,11 +61,22 @@ public class HttpWrapper {
     private static SSLConnectionSocketFactory generateSSF() {
         try {
             org.apache.http.ssl.SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
-            //sslContextBuilder.loadTrustMaterial(new org.apache.http.conn.ssl.TrustSelfSignedStrategy());
-            sslContextBuilder.loadTrustMaterial(new org.apache.http.conn.ssl.TrustAllStrategy());
+
+            // Turn on/off the trust for the batch api.
+            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+            boolean trustAll = adapter.shouldCoreApiBatchTrustAll();
+            HostnameVerifier verifier;
+            if (trustAll) {
+                verifier = new org.apache.http.conn.ssl.NoopHostnameVerifier();
+                TrustStrategy strategy = new org.apache.http.conn.ssl.TrustAllStrategy();
+                sslContextBuilder.loadTrustMaterial(strategy);
+            } else {
+                verifier = new org.apache.http.conn.ssl.DefaultHostnameVerifier();
+            }
+
             SSLContext sslContext = sslContextBuilder.build();
 
-            return new SSLConnectionSocketFactory(sslContext, new org.apache.http.conn.ssl.NoopHostnameVerifier());
+            return new SSLConnectionSocketFactory(sslContext, verifier);
         } catch (NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
             log.warning("Default Algorithm for BulkData Http Client not found " + e.getMessage());
         }

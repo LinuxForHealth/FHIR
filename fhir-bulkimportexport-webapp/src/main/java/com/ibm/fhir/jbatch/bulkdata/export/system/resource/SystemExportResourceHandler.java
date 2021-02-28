@@ -7,7 +7,6 @@ package com.ibm.fhir.jbatch.bulkdata.export.system.resource;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +14,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.dto.ReadResultDTO;
 import com.ibm.fhir.jbatch.bulkdata.export.system.ChunkReader;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -40,7 +40,7 @@ public class SystemExportResourceHandler {
         // No Operation
     }
 
-    public void fillChunkDataBuffer(String source, String exportFormat, TransientUserData chunkData, List<Resource> resources) throws Exception {
+    public void fillChunkDataBuffer(String source, String exportFormat, TransientUserData chunkData, ReadResultDTO dto) throws Exception {
         boolean isDoDuplicationCheck = ConfigurationFactory.getInstance().shouldSourceCheckDuplicate(source);
         int resSubTotal = 0;
         if (chunkData == null) {
@@ -48,7 +48,7 @@ public class SystemExportResourceHandler {
             throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
         }
 
-        for (Resource res : resources) {
+        for (Resource res : dto.getResources()) {
             if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
                 continue;
             }
@@ -80,7 +80,9 @@ public class SystemExportResourceHandler {
         chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
         chunkData.setCurrentUploadSize(chunkData.getCurrentUploadSize() + chunkData.getBufferStream().size());
         chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
-        logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
-                + chunkData.getBufferStream().size());
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
+                        + chunkData.getBufferStream().size());
+        }
     }
 }

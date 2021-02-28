@@ -18,11 +18,4 @@ public interface Preflight {
      * @throws FHIROperationException
      */
     public void preflight() throws FHIROperationException;
-
-    /**
-     * Health checks the source
-     *
-     * @throws FHIROperationException
-     */
-    public void healthcheck() throws FHIROperationException;
 }

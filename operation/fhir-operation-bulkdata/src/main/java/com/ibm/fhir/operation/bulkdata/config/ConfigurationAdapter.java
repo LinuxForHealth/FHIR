@@ -14,11 +14,15 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 /**
  * Configuration provides a common interface to the fhir-server-config.json.
  * and enables seamless reads of constant values which may be set in the future.
+ *
+ * The interface adds an @implNote for fixed or system (default), All other are dynamic.
  */
 public interface ConfigurationAdapter {
 
     /**
      * get the application name used in the javabatch framework.
+     *
+     * @implNote FIXED value.
      *
      * @return
      */
@@ -27,12 +31,16 @@ public interface ConfigurationAdapter {
     /**
      * get the module name used in javabatch framework.
      *
+     * @implNote FIXED value.
+     *
      * @return
      */
     String getModuleName();
 
     /**
      * get the job xml used in the javabatch framework.
+     *
+     * @implNote FIXED value.
      *
      * @return
      */
@@ -90,7 +98,15 @@ public interface ConfigurationAdapter {
     String getCoreApiBatchTrustStorePassword();
 
     /**
+     *
+     * @return should we trust the calls to the backend.
+     */
+    boolean shouldCoreApiBatchTrustAll();
+
+    /**
      * The maximum number of resources in a COS part.
+     *
+     * @implNote System value.
      *
      * @return
      */
@@ -99,6 +115,8 @@ public interface ConfigurationAdapter {
     /**
      * The minimum size of resources in a COS part.
      *
+     * @implNote System value.
+     *
      * @return
      */
     int getCoreCosMinSize();
@@ -106,11 +124,15 @@ public interface ConfigurationAdapter {
     /**
      * The maximum size of resources in a COS part.
      *
+     * @implNote System value.
+     *
      * @return
      */
     int getCoreCosMaxSize();
 
     /**
+     *
+     * @implNote System value.
      *
      * @return the system wide setting for using the server truststore.
      */
@@ -118,12 +140,13 @@ public interface ConfigurationAdapter {
 
     /**
      *
+     * @implNote System value.
      * @return the timeout for the s3 request
      */
     int getCoreCosRequestTimeout();
 
     /**
-     *
+     * @implNote System value.
      * @return the timeout for the s3 socket
      */
     int getCoreCosSocketTimeout();
@@ -138,12 +161,16 @@ public interface ConfigurationAdapter {
     /**
      * get core batch id encryption key for the job id that is returned
      *
+     * @implNote System value. We want to minimize the conflict possiblity.
+     *
      * @return
      */
     String getCoreBatchIdEncryptionKey();
 
     /**
      * get core max partitions
+     *
+     * @implNote System value.
      *
      * @return
      */
@@ -152,6 +179,8 @@ public interface ConfigurationAdapter {
     /**
      * get the core iam endpoint (it is set one time for the whole system)
      *
+     * @implNote System value. Only able to set once per system.
+     *
      * @return
      */
     String getCoreIamEndpoint();
@@ -159,14 +188,33 @@ public interface ConfigurationAdapter {
     /**
      * get the tx for the fast endpoint
      *
+     * @implNote System value.
+     *
      * @return
      */
     int getCoreFastTxTimeout();
 
+    /**
+     * gets the source type which aligns with the StorageType
+     * @param source
+     * @return
+     */
     String getSourceType(String source);
 
+    /**
+     * gets the source's valid base urls for HTTPS sources.
+     *
+     * @param source
+     * @return
+     */
     List<String> getSourceValidBaseUrls(String source);
 
+    /**
+     * gets the source's bucket name for cos sources.
+     *
+     * @param source
+     * @return
+     */
     String getSourceBucketName(String source);
 
     String getSourceLocation(String source);
@@ -212,15 +260,6 @@ public interface ConfigurationAdapter {
     boolean isStorageTypeAllowed(String storageType);
 
     /**
-     * checks the given file name and it's absolute path are accepted and valid
-     *
-     * @param source
-     * @param fileName
-     * @return
-     */
-    boolean checkValidFileBase(String source, String fileName);
-
-    /**
      *
      * @param type
      *            of the storage type
@@ -230,6 +269,8 @@ public interface ConfigurationAdapter {
 
     /**
      * limit of inputs
+     *
+     * @implNote System value.
      *
      * @return
      */
@@ -252,12 +293,15 @@ public interface ConfigurationAdapter {
     /**
      * get the COS TCP Keep alive setting (true or false)
      *
+     * @implNote System value.
+     *
      * @return
      */
     boolean getCoreCosTcpKeepAlive();
 
     /**
      * get the base file location
+     *
      * @param source
      * @return
      */

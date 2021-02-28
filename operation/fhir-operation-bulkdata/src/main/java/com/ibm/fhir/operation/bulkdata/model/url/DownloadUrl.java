@@ -145,6 +145,7 @@ public class DownloadUrl {
         // create and send the request
         return server + "/" +
                 bucketName + "/" +
+                cosBucketPathPrefix + "/" +
                 objectKey + "?" +
                 standardizedQuerystring +
                 "&X-Amz-Signature=" +

@@ -15,8 +15,7 @@ import java.util.logging.Logger;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
  * Manages the Job Id Encryption.
@@ -38,7 +37,7 @@ public class JobIdEncodingTransformer {
      * @return
      */
     private static SecretKeySpec getJobIdEncryptionKey() {
-        String encryptionKey = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY, null);
+        String encryptionKey = ConfigurationFactory.getInstance().getCoreBatchIdEncryptionKey();
         SecretKeySpec secretKey = null;
 
         if (encryptionKey != null && !encryptionKey.isEmpty()) {

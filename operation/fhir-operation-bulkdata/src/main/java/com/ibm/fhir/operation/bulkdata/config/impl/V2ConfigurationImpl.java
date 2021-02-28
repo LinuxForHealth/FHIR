@@ -46,23 +46,6 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public int getCoreCosMaxResources() {
-        final String PATH = "fhirServer/bulkdata/core/cos/max-resources";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
-    }
-
-    @Override
-    public int getCoreCosMaxSize() {
-        final String PATH = "fhirServer/bulkdata/core/cos/max-size";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
-    }
-
-    @Override
-    public String getCoreBatchIdEncryptionKey() {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batch-id-encryption-key", null);
-    }
-
-    @Override
     public String getSourceType(String source) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/type", "ibm-cos");
     }
@@ -184,11 +167,6 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
     @Override
     public boolean shouldSourceCreate(String source) {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/create", Boolean.FALSE);
-    }
-
-    @Override
-    public int getInputLimit() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/max-inputs", 3);
     }
 
     @Override

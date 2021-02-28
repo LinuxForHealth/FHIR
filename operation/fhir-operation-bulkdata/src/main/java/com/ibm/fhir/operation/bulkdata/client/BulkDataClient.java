@@ -53,6 +53,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
 import com.ibm.fhir.operation.bulkdata.model.type.JobType;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 
@@ -195,10 +196,12 @@ public class BulkDataClient {
         String resourceType = String.join(",", types);
         builder.fhirResourceType(resourceType);
 
+        /*
+         * There used to be an else path here where since is null, then set <code>builder.fhirSearchFromDate("1970-01-01T00:00:00Z");</code>.
+         * It drove needless parameters in the query. By removing this path, we let the db use the optimal selectivity.
+         */
         if (since != null) {
             builder.fhirSearchFromDate(since.getValue().format(Instant.PARSER_FORMATTER));
-        } else {
-            builder.fhirSearchFromDate("1970-01-01T00:00:00Z");
         }
 
         if (typeFilters != null) {
@@ -680,8 +683,22 @@ public class BulkDataClient {
                     String secretKey = adapter.getSourceAuthTypeHmacSecretKey(source);
                     boolean parquet = adapter.isSourceParquetEnabled(source);
                     boolean presigned = adapter.isSourceHmacPresigned(source);
+                    StorageType storageType = adapter.getSourceStorageType(source);
+                    String sUrl;
                     DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned);
-                    outputList.add(new PollingLocationResponse.Output(resourceType, url.getUrl(), resourceCounts[i]));
+                    if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
+                        sUrl = url.getUrl();
+                    } else {
+                        // Must be File
+                        String ext;
+                        if (parquet) {
+                            ext = ".parquet";
+                        } else {
+                            ext = ".ndjson";
+                        }
+                        sUrl = cosBucketPathPrefix + "_" + resourceType + "_" + resourceCounts[i] + ext;
+                    }
+                    outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
                 }
             }
             result.setOutput(outputList);

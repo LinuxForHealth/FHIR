@@ -66,4 +66,13 @@ public class TransientUserData extends CheckPointUserData {
             return transientUserData;
         }
     }
+
+    @Override
+    public String toString() {
+        return "TransientUserData [bufferStream=" + bufferStream + ", pageNum=" + pageNum + ", lastPageNum=" + lastPageNum + ", partNum=" + partNum
+                + ", uploadId=" + uploadId + ", uploadCount=" + uploadCount + ", cosDataPacks=" + cosDataPacks + ", currentUploadResourceNum="
+                + currentUploadResourceNum + ", currentUploadSize=" + currentUploadSize + ", totalResourcesNum=" + totalResourcesNum
+                + ", indexOfCurrentTypeFilter=" + indexOfCurrentTypeFilter + ", resourceTypeSummary=" + resourceTypeSummary + ", lastWritePageNum="
+                + lastWritePageNum + "]";
+    }
 }

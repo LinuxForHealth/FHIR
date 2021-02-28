@@ -268,4 +268,13 @@ public class CheckPointUserData implements java.io.Serializable {
         this.lastWritePageNum = lastWritePageNum;
     }
 
+    @Override
+    public String toString() {
+        return "CheckPointUserData [pageNum=" + pageNum + ", lastPageNum=" + lastPageNum + ", partNum=" + partNum + ", uploadId=" + uploadId + ", uploadCount="
+                + uploadCount + ", cosDataPacks=" + cosDataPacks + ", currentUploadResourceNum=" + currentUploadResourceNum + ", currentUploadSize="
+                + currentUploadSize + ", isFinishCurrentUpload=" + isFinishCurrentUpload + ", totalResourcesNum=" + totalResourcesNum
+                + ", indexOfCurrentTypeFilter=" + indexOfCurrentTypeFilter + ", resourceTypeSummary=" + resourceTypeSummary + ", isMoreToExport="
+                + isMoreToExport + ", lastWritePageNum=" + lastWritePageNum + "]";
+    }
+
 }

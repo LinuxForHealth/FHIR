@@ -9,11 +9,12 @@ import java.util.List;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
+import com.ibm.fhir.jbatch.bulkdata.export.dto.ReadResultDTO;
 import com.ibm.fhir.jbatch.bulkdata.load.data.ImportTransientUserData;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
- *
+ * Wraps the Complexities of a Source for the Given Type
  */
 public interface SourceWrapper {
 
@@ -26,9 +27,31 @@ public interface SourceWrapper {
      */
     long getSize(String workItem) throws FHIRException;
 
+    /**
+     * reads from a given workitem (or file) in a source
+     * and skips a certain noumber of lines
+     * @param numOfLinesToSkip
+     * @param workItem
+     * @throws FHIRException
+     */
     void readResources(long numOfLinesToSkip, String workItem) throws FHIRException;
 
-    default void writeResources(String mediaType, List<Resource> resources) throws Exception{
+    /**
+     * gets the read resources.
+     *
+     * @return
+     * @throws FHIRException
+     */
+    List<Resource> getResources() throws FHIRException;
+
+    /**
+     * wraps the complexity of writing FHIR Resources out to a target
+     *
+     * @param mediaType
+     * @param dtos
+     * @throws Exception
+     */
+    default void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception{
         // No Operation
     }
 
@@ -41,7 +64,6 @@ public interface SourceWrapper {
         // No Operation
     }
 
-    List<Resource> getResources() throws FHIRException;
 
     long getNumberOfParseFailures() throws FHIRException;
 

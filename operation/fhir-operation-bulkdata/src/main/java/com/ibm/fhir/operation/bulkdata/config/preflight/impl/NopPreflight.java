@@ -39,11 +39,6 @@ public class NopPreflight implements Preflight {
         }
     }
 
-    @Override
-    public void healthcheck() throws FHIROperationException {
-        // No Operation
-    }
-
     protected String getSource() {
         return source;
     }

@@ -11,20 +11,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
 /**
  * BulkData Import Util captures common methods
@@ -35,11 +38,13 @@ public class BulkDataImportUtil {
 
     private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
     private EvaluationContext evaluationContext = null;
+    private FHIROperationContext operationContext = null;
 
-    public BulkDataImportUtil(Parameters parameters) throws FHIROperationException {
+    public BulkDataImportUtil(FHIROperationContext operationContext, Parameters parameters) throws FHIROperationException {
         if (parameters == null) {
             throw common.buildExceptionWithIssue("$import parameters are empty or null", IssueType.INVALID);
         }
+        this.operationContext = operationContext;
 
         evaluationContext = new EvaluationContext(parameters);
     }
@@ -156,8 +161,7 @@ public class BulkDataImportUtil {
      * @throws FHIROperationException
      */
     public void checkAllowedTotalSizeForTenantOrSystem(Integer inputSize) throws FHIROperationException {
-        Integer tenantCount =
-                FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT, OperationConstants.IMPORT_MAX_DEFAULT_INPUTS);
+        Integer tenantCount = ConfigurationFactory.getInstance().getInputLimit();
         if (tenantCount == null || tenantCount < inputSize) {
             throw common.buildExceptionWithIssue("$import maximum input per bulkdata import request 'fhirServer/bulkdata/maxInputPerRequest'", IssueType.INVALID);
         }
@@ -170,13 +174,16 @@ public class BulkDataImportUtil {
      * @throws FHIROperationException
      */
     public void verifyUrlAllowed(String url) throws FHIROperationException {
-        Boolean disabled =
-                FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED, Boolean.FALSE);
-        if (!disabled.booleanValue()) {
-            List<String> baseUrls =
-                    FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS);
+        ConfigurationAdapter config = ConfigurationFactory.getInstance();
+        OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
+        String source = adapter.getBulkDataSourceFromConfiguration();
+        Boolean disabled = config.shouldSourceValidateBaseUrl(source);
+
+        // Only for https do we need to check the urls.
+        if (!disabled.booleanValue() && StorageType.HTTPS.equals(config.getSourceStorageType(source))) {
+            List<String> baseUrls = config.getSourceValidBaseUrls(source);
             if (url == null || baseUrls == null) {
-                throw common.buildExceptionWithIssue("$import requires an approved and valid 'fhirServer/bulkdata/validBaseUrls'", IssueType.INVALID);
+                throw common.buildExceptionWithIssue("$import requires an approved and valid baseUrl", IssueType.INVALID);
             }
 
             if (!url.contains("//")) {

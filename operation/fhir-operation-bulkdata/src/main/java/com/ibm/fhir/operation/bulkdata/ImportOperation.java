@@ -59,7 +59,7 @@ public class ImportOperation extends AbstractOperation {
         // Checks the Import Type
         checkImportType(operationContext.getType());
 
-        BulkDataImportUtil util = new BulkDataImportUtil(parameters);
+        BulkDataImportUtil util = new BulkDataImportUtil(operationContext, parameters);
 
         // Parameter: inputFormat
         String inputFormat = util.retrieveInputFormat();

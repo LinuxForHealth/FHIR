@@ -19,6 +19,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.jbatch.bulkdata.context.BatchContextAdapter;
 import com.ibm.fhir.jbatch.bulkdata.export.data.TransientUserData;
 import com.ibm.fhir.jbatch.bulkdata.export.group.resource.GroupHandler;
+import com.ibm.fhir.jbatch.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.model.resource.Group.Member;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -32,7 +33,7 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
 
     private GroupHandler groupHandler = new GroupHandler();
-
+    private PatientResourceHandler patientHandler = new PatientResourceHandler();
     private BulkDataContext ctx = null;
 
     @Inject
@@ -57,7 +58,8 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
             return null;
         }
 
-        groupHandler.register(fhirPersistence);
+        // We don't want to recreated the persistence layer, we want to reuse it.
+        groupHandler.register(getPersistence());
         groupHandler.process(ctx.getGroupId());
 
         // Get a Page of Patients
@@ -67,7 +69,7 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = (TransientUserData)TransientUserData.Builder.builder()
+            chunkData = (TransientUserData) TransientUserData.Builder.builder()
                 .pageNum(pageNum)
                 .uploadId(null)
                 .cosDataPacks(new ArrayList<PartETag>())
@@ -92,7 +94,8 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
             List<String> patientIds = pageOfMembers.stream().filter(patientRef -> patientRef != null).map(patientRef
                     -> patientRef.getEntity().getReference().getValue().substring(8)).collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
-                fillChunkData(groupHandler.patientIdsToPatients(patientIds), patientIds);
+                patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes);
+                patientHandler.fillChunkData(groupHandler.patientIdsToPatients(patientIds), patientIds);
             }
         } else {
             logger.fine("readItem: End of reading!");

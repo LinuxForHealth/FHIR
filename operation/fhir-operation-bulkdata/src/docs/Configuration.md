@@ -1,6 +1,8 @@
+The following is a brief template of the V2 Configuration. 
+
+```
 {
-    "__comment": "FHIR Server - Bulk Data - Test Configuration",
-    "fhirServer": {
+    ...
         "bulkdata": {
             "legacy": false,
             "enabled": true,
@@ -10,7 +12,7 @@
                     "user": "fhiradmin",
                     "password": "change-password",
                     "truststore": "resources/security/fhirTrustStore.p12",
-                    "truststore-password": "asdf", 
+                    "truststore-password": "change-password", 
                     "trust-all": true
                 },
                 "cos" : { 
@@ -18,40 +20,45 @@
                     "min-size": 10485760,
                     "max-size": 209715200,
                     "use-server-truststore": true,
-                    "_request-timeout": 120,
-                    "_socket-timeout": 20
+                    "request-timeout": 120,
+                    "socket-timeout": 20
                 },
                 "page-size": 100,
                 "_comment": "max of 1000",
                 "batch-id-encryption-key": "change-password",
                 "max-partitions": 3,
-                "_iam-endpoint": "",
+                "iam-endpoint": "",
                 "fast-tx-timeout": 90000, 
                 "max-inputs": 5,
                 "systemExportImpl": "none"
+                "_systemExportImpl": "none|fast"
             },
             "source": {
                 "default" : {
-                    "type": "ibm-cos",
+                    "type": "file",
+                    "_typea": "ibm-cos",
+                    "_type": "ibm-cos|aws-s3|file|https",
                     "valid-base-urls": [],
-                    "file-base": "/Users/asdf/wffh/ol-fhir/wlp/usr/output",
-                    "bucket-name": "fhir-a",
+                    "file-base": "/Users/<path>/wffh/ol-fhir/wlp/usr/output",
+                    "bucket-name": "fhir-bucketname",
                     "location": "us",
-                    "endpoint-internal": "https://s3.x.cloud-object-storage.appdomain.cloud",
-                    "endpoint-external": "https://s3.x.cloud-object-storage.appdomain.cloud",
+                    "endpoint-internal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "endpoint-external": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
                     "_iam_auth" : {
+                        "_comment": "https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-curl",
                         "type": "iam",
-                        "iam-api-key": "g",
-                        "iam-resource-instance-id": "a:"
+                        "iam-api-key": "",
+                        "iam-resource-instance-id": ""
                      },
-                     "auth" : { 
+                     "auth" : {
+                        "_comment": "https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-uhc-hmac-credentials-main",
                         "type": "hmac",
-                        "access_key_id": " ",
-                        "secret_access_key": " "
+                        "access_key_id": "",
+                        "secret_access_key": ""
                      },
                      "_basic_auth" : {
                         "type": "basic",
-                        "username": " ",
+                        "username": "",
                         "password": ""
                      },
                     "enableParquet": false,
@@ -67,3 +74,6 @@
         }
     }
 }
+```
+
+

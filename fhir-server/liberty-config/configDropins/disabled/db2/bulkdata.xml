@@ -39,8 +39,8 @@
     <variable name="BATCH_DB_PASS" defaultValue=""/>
     <variable name="BATCH_DB_SSL" defaultValue="true"/>
 
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
             serverName="${BATCH_DB_HOSTNAME}"
             currentSchema="${BATCH_DB_SCHEMA}"
