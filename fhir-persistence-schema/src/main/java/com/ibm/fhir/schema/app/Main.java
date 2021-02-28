@@ -200,7 +200,7 @@ public class Main {
      * can perform the DDL deployment in parallel
      */
     protected void configureConnectionPool() {
-        if ("derby".equals(dbType) && maxConnectionPoolSize > 1) {
+        if (dbType == DbType.DERBY && maxConnectionPoolSize > 1) {
             logger.warning("Embedded Derby does not support concurrent schema updates;" +
                     " ignoring '--pool-size' and using a single thread.");
             this.maxConnectionPoolSize = 1;
