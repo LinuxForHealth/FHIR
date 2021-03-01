@@ -63,8 +63,24 @@ services:
         source: ./workarea/volumes/dist/userlib/
         target: /opt/ol/wlp/usr/servers/fhir-server/userlib
         read_only: true
+    environment:
+      - BOOTSTRAP_DB=true
+    command: bash -c "
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/profile --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/reference --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/study1 --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        /opt/ol/wlp/bin/server run fhir-server "
     healthcheck:
-      start_period: 60s
+      start_period: 120s
       interval: 10s
       timeout: 10s
       retries: 2
