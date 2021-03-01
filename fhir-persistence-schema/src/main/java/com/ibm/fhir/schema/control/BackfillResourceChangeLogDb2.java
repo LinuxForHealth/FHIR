@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Backfill the RESOURCE_CHANGE_LOG table using all the existing _RESOURCE
- * records for the given resourceType. For non-multi-tenant schemas, the
+ * records for the given resourceType. For multi-tenant schemas, the
  * table definition looks like this:
  *
                                  Data type                     Column

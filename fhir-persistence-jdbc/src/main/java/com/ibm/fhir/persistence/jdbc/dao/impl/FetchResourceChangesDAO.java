@@ -41,6 +41,7 @@ public class FetchResourceChangesDAO {
     /**
      * Public constructor
      * @param tx
+     * @param schemaName
      * @param resourceCount
      * @param resourceTypeName
      * @param fromTstamp

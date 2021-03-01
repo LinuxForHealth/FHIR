@@ -35,7 +35,7 @@ public class ResourceTokenValueRec extends ResourceRefRec {
      * @param resourceType
      * @param resourceTypeId
      * @param logicalResourceId
-     * @param externalSystemName
+     * @param codeSystem
      * @param externalRefValue
      * @param compositeId
      * @param systemLevel
