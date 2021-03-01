@@ -39,8 +39,7 @@ public class DropPrimaryKey implements IDatabaseStatement {
 
         try (Statement s = c.createStatement()) {
             s.executeUpdate(ddl);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }

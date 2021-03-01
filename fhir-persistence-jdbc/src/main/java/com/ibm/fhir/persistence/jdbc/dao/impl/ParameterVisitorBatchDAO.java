@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -222,8 +222,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     systemStrings.executeBatch();
                     systemStringCount = 0;
                 }
-            }
-            else {
+            } else {
                 // standard resource property
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
@@ -237,8 +236,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     stringCount = 0;
                 }
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + value, x);
         }
     }
@@ -248,8 +246,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         if (value != null) {
             insert.setString(2, value);
             insert.setString(3, value.toLowerCase());
-        }
-        else {
+        } else {
             insert.setNull(2, Types.VARCHAR);
             insert.setNull(3, Types.VARCHAR);
         }
@@ -331,8 +328,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     systemDates.executeBatch();
                     systemDateCount = 0;
                 }
-            }
-            else {
+            } else {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
                             + "period: [" + dateStart + ", " + dateEnd + "]");
@@ -346,8 +342,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     dateCount = 0;
                 }
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + dateStart + ", " + dateEnd + "}", x);
         }
 
@@ -388,8 +383,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             } else {
                 this.tokenValueRecs.add(rec);
             }
-        }
-        catch (FHIRPersistenceDataAccessException x) {
+        } catch (FHIRPersistenceDataAccessException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + codeSystem + ":" + tokenValue, x);
         }
     }
@@ -410,8 +404,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("CODELESS QUANTITY (skipped): " + parameterName + "=" + code + ":" + codeSystem + "{" + quantityValue + ", " + quantityLow + ", " + quantityHigh + "}");
             }
-        }
-        else {
+        } else {
             try {
                 int parameterNameId = getParameterNameId(parameterName);
 
@@ -427,12 +420,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     quantities.executeBatch();
                     quantityCount = 0;
                 }
-            }
-            catch (FHIRPersistenceDataAccessException x) {
+            } catch (FHIRPersistenceDataAccessException x) {
                 // wrap the exception so we have more context about the parameter causing the problem
                 throw new FHIRPersistenceDataAccessException(parameterName + "=" + code + ":" + codeSystem + "{" + quantityValue + ", " + quantityLow + ", " + quantityHigh + "}", x);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw new FHIRPersistenceDataAccessException(parameterName + "=" + code + ":" + codeSystem + "{" + quantityValue + ", " + quantityLow + ", " + quantityHigh + "}", x);
             }
         }
@@ -461,8 +452,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             PreparedStatement insert = connection.prepareStatement(insertLocation);
             setLocationParms(insert, getParameterNameId(parameterName), lat, lng);
             insert.executeUpdate();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + lat + ", " + lng + "}", x);
         }
     }
@@ -532,8 +522,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 systemDates.executeBatch();
                 systemDateCount = 0;
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             SQLException batchException = x.getNextException();
             if (batchException != null) {
                 // We're really interested in the underlying cause here
@@ -564,8 +553,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private void closeStatement(PreparedStatement ps) {
         try {
             ps.close();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             logger.warning("failed to close statement");
         }
     }
@@ -611,7 +599,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         final boolean isSystemParam = false;
         if (refResourceType != null) {
             // Store a token value configured as a reference to another resource
-            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId,                   refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
+            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
         } else {
             // stored as a token with the default system
             rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);

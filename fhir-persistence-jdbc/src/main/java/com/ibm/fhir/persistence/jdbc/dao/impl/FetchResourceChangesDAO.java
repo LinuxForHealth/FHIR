@@ -62,7 +62,7 @@ public class FetchResourceChangesDAO {
      * @throws FHIRPersistenceException
      */
     public List<ResourceChangeLogRecord> run(Connection c) throws FHIRPersistenceException {
-        ArrayList<ResourceChangeLogRecord> result = new ArrayList<>();
+        List<ResourceChangeLogRecord> result = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
         query.append(" SELECT c.resource_id, rt.resource_type, lr.logical_id, c.change_tstamp, c.version_id, c.change_type")
