@@ -207,6 +207,11 @@ public class Main {
      * can perform the DDL deployment in parallel
      */
     protected void configureConnectionPool() {
+        if (dbType == DbType.DERBY && maxConnectionPoolSize > 1) {
+            logger.warning("Embedded Derby does not support concurrent schema updates;" +
+                    " ignoring '--pool-size' and using a single thread.");
+            this.maxConnectionPoolSize = 1;
+        }
         JdbcPropertyAdapter adapter = getPropertyAdapter(dbType, properties);
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
         this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
@@ -222,7 +227,16 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            String resourceTypesString = properties.getProperty("resourceTypes");
+
+            FhirSchemaGenerator gen;
+            if (resourceTypesString == null || resourceTypesString.isEmpty()) {
+                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
+            } else {
+                Set<String> resourceTypes = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
+                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypes);
+            }
+
             gen.buildSchema(pdm);
             switch (dbType) {
             case DB2:
@@ -1454,8 +1468,6 @@ public class Main {
                 switch (dbType) {
                 case DERBY:
                     translator = new DerbyTranslator();
-                    // For some reason, embedded derby deadlocks if we use multiple threads
-                    maxConnectionPoolSize = 1;
                     break;
                 case POSTGRESQL:
                     translator = new PostgresTranslator();
@@ -1466,7 +1478,7 @@ public class Main {
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Invalid argument: " + arg);
+                throw new IllegalArgumentException("Invalid argument: '" + arg + "'");
             }
         }
     }
@@ -1687,6 +1699,14 @@ public class Main {
 
         if (this.checkCompatibility) {
             checkCompatibility();
+        }
+
+        if (translator.isDerby() && !"APP".equals(schema.getSchemaName())) {
+            if (schema.isOverrideDataSchema()) {
+                logger.warning("Only the APP schema is supported for Apache Derby; ignoring the passed"
+                        + " schema name '" + schema.getSchemaName() + "' and using APP.");
+            }
+            schema.setSchemaName("APP");
         }
 
         if (addKeyForTenant != null) {

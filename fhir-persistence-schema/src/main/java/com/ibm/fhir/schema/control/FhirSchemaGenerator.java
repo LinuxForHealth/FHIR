@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -89,20 +90,27 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * Encapsulates the generation of the FHIR schema artifacts
  */
 public class FhirSchemaGenerator {
+    private static final Logger logger = Logger.getLogger(FhirSchemaGenerator.class.getName());
+
     // The schema holding all the data-bearing tables
     private final String schemaName;
 
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
 
-    /// Build the multitenant variant of the schema
+    // Build the multitenant variant of the schema
     private final boolean multitenant;
+
+    // TODO pass 'false' to getResourceTypes to avoid building tables for abstract resource types
+    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(true).stream()
+            .map(t -> ModelSupport.getTypeName(t).toUpperCase())
+            .collect(Collectors.toSet());
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
@@ -180,9 +188,7 @@ public class FhirSchemaGenerator {
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
-        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet()));
+        this(adminSchemaName, schemaName, multitenant, ALL_RESOURCE_TYPES);
     }
 
     /**
@@ -722,8 +728,15 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable,
+                this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
+
+            resourceType = resourceType.toUpperCase().trim();
+            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+                logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
+            }
+
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -28,7 +28,7 @@ config(){
     touch ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
-    
+
 
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
@@ -60,7 +60,7 @@ bringup(){
     docker-compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
-    # TODO wait for it to be healthy instead of just Sleeping
+    # Allow extra time due to bootstrapping
     (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 120 && kill $P)
 
     # Gather up all the server logs so we can trouble-shoot any problems during startup

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,7 +65,16 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
                 int version = rs.getInt(4);
 
                 String schemaTypeName = schema + ":" + type + ":" + name;
-                result.put(schemaTypeName, version);
+                result.compute(schemaTypeName, (key, currentValue) -> {
+                    Integer newValue = version;
+                    if (currentValue != null) {
+                        // version can't be null due to NOT NULL db constraint
+                        newValue = Integer.max(currentValue, version);
+                        logger.fine("Version history entry " + schemaTypeName + " exists with multiple values [" + currentValue
+                                + ", " + version + "]; using " + newValue + ". Check schema name casing.");
+                    }
+                    return newValue;
+                });
             }
         }
         catch (SQLException x) {
