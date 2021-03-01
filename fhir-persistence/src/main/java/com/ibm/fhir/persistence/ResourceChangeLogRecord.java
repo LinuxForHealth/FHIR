@@ -51,7 +51,6 @@ public class ResourceChangeLogRecord {
         return resourceTypeName;
     }
 
-
     /**
      * @return the resourceId
      */

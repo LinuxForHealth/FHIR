@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2020
+# (C) Copyright IBM Corp. 2016, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -45,7 +45,6 @@ echo "Bringing up the FHIR server... be patient, this will take a minute"
 docker-compose up -d fhir-server
 echo ">>> Current time: " $(date)
 
-# TODO wait for it to be healthy instead of just Sleeping
 (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 60 && kill $P)
 
 # Gather up all the server logs so we can trouble-shoot any problems during startup
@@ -70,7 +69,7 @@ else
     docker logs $containerId  >& ${pre_it_logs}/docker-console.txt
 
     echo "Gathering pre-test server logs from docker container: $containerId"
-    docker cp -L $containerId:/opt/ol/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
+    docker cp -L $containerId:/logs ${pre_it_logs}
 
     echo "Zipping up pre-test server logs"
     zip -r ${zip_file} ${pre_it_logs}

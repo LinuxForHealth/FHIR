@@ -106,5 +106,14 @@
                 <include>org.postgresql:postgresql</include>
             </includes>
         </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>tools</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.groupId}:fhir-persistence-schema:jar:cli</include>
+            </includes>
+        </dependencySet>
     </dependencySets>
 </assembly>
