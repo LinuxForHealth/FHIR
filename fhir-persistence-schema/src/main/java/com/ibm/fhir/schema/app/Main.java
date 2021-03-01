@@ -64,7 +64,7 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
@@ -1539,8 +1539,12 @@ public class Main {
     private Set<String> getResourceTypes() {
         Set<String> result;
         if (this.resourceTypeSubset == null || this.resourceTypeSubset.isEmpty()) {
-            result = Arrays.stream(FHIRResourceType.ValueSet.values())
-                    .map(FHIRResourceType.ValueSet::value)
+            // pass 'false' to getResourceTypes to avoid building tables for abstract resource types
+            // Should simplify FhirSchemaGenerator and always pass in this list. When switching
+            // over to false, migration is required to drop the tables no longer required.
+            final boolean includeAbstractResourceTypes = true;
+            result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream()
+                    .map(t -> ModelSupport.getTypeName(t))
                     .collect(Collectors.toSet());
         } else {
             result = this.resourceTypeSubset;
