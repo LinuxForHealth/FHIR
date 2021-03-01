@@ -19,14 +19,34 @@
 
     <dependencies>
         <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-examples</artifactId>
-            <scope>test</scope>
+            <artifactId>fhir-search</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -37,20 +57,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-schema</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derbytools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.ibm.db2</groupId>
-                    <artifactId>jcc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -69,6 +75,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-examples</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -95,16 +106,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-search</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
             <scope>test</scope>
@@ -113,11 +114,6 @@
             <groupId>com.ibm.db2</groupId>
             <artifactId>jcc</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.transaction</groupId>
-            <artifactId>jakarta.transaction-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>

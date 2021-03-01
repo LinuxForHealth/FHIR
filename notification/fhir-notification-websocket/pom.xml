@@ -19,6 +19,7 @@
         <dependency>
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-api</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -33,24 +33,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-server</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.ibm.db2</groupId>
-                    <artifactId>db2jcc4</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derbyclient</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.websocket</groupId>
-                    <artifactId>javax.websocket-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -96,22 +78,6 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-database-utils</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <!-- exclude artifacts packaged in shared library dir -->
-                <exclusion>
-                    <groupId>com.ibm.db2</groupId>
-                    <artifactId>jcc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

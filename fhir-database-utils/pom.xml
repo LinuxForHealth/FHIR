@@ -14,11 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>

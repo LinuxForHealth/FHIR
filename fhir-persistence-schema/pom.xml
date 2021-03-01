@@ -14,6 +14,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-database-utils</artifactId>
             <version>${project.version}</version>
@@ -23,32 +28,33 @@
             <artifactId>fhir-model</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- The specific DB driver jars are marked as optional; must be re-declared by consuming modules -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.ibm.db2</groupId>
             <artifactId>jcc</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <optional>true</optional>
         </dependency>
+        <!-- End of optional DB drivers -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-registry</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.transaction</groupId>
-            <artifactId>jakarta.transaction-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
