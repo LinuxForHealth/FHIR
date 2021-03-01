@@ -64,7 +64,7 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
@@ -153,6 +153,9 @@ public class Main {
     private DbType dbType = DbType.DB2;
     private IDatabaseTranslator translator = new Db2Translator();
 
+    // Optional subset of resource types (for faster schema builds when testing)
+    private Set<String> resourceTypeSubset;
+
     // Tenant management
     private boolean allocateTenant;
     private boolean refreshTenants;
@@ -227,14 +230,12 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            String resourceTypesString = properties.getProperty("resourceTypes");
 
             FhirSchemaGenerator gen;
-            if (resourceTypesString == null || resourceTypesString.isEmpty()) {
+            if (resourceTypeSubset == null || resourceTypeSubset.isEmpty()) {
                 gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
             } else {
-                Set<String> resourceTypes = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
-                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypes);
+                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypeSubset);
             }
 
             gen.buildSchema(pdm);
@@ -1532,6 +1533,27 @@ public class Main {
     }
 
     /**
+     * Get the list of resource types to drive resource-by-resource operations
+     * @return the full list of FHIR R4 resource types, or a subset of names if so configured
+     */
+    private Set<String> getResourceTypes() {
+        Set<String> result;
+        if (this.resourceTypeSubset == null || this.resourceTypeSubset.isEmpty()) {
+            // pass 'false' to getResourceTypes to avoid building tables for abstract resource types
+            // Should simplify FhirSchemaGenerator and always pass in this list. When switching
+            // over to false, migration is required to drop the tables no longer required.
+            final boolean includeAbstractResourceTypes = true;
+            result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream()
+                    .map(t -> ModelSupport.getTypeName(t))
+                    .collect(Collectors.toSet());
+        } else {
+            result = this.resourceTypeSubset;
+        }
+
+        return result;
+    }
+
+    /**
      * Migrate the IS_DELETED data for the given tenant
      * @param ti
      */
@@ -1539,9 +1561,7 @@ public class Main {
         // Multi-tenant schema so we know this is Db2:
         Db2Adapter adapter = new Db2Adapter(connectionPool);
 
-        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet());
+        Set<String> resourceTypes = getResourceTypes();
 
         // Process each update in its own transaction so we don't stress the tx log space
         for (String resourceTypeName: resourceTypes) {
@@ -1571,9 +1591,7 @@ public class Main {
      */
     private void doMigrationForV0010() {
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet());
+        Set<String> resourceTypes = getResourceTypes();
 
         // Process each resource type in its own transaction to avoid pressure on the tx log
         for (String resourceTypeName: resourceTypes) {
@@ -1642,9 +1660,7 @@ public class Main {
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
 
-        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet());
+        Set<String> resourceTypes = getResourceTypes();
 
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
@@ -1677,9 +1693,7 @@ public class Main {
      * @param adapter
      */
     private void doBackfill(IDatabaseAdapter adapter) {
-        Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet());
+        Set<String> resourceTypes = getResourceTypes();
 
         for (String resourceTypeName: resourceTypes) {
             logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
@@ -1707,6 +1721,12 @@ public class Main {
                         + " schema name '" + schema.getSchemaName() + "' and using APP.");
             }
             schema.setSchemaName("APP");
+        }
+
+        // [optional] use a subset of resource types to make testing quicker
+        String resourceTypesString = properties.getProperty("resourceTypes");
+        if (resourceTypesString != null && resourceTypesString.length() > 0) {
+            resourceTypeSubset = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
         }
 
         if (addKeyForTenant != null) {

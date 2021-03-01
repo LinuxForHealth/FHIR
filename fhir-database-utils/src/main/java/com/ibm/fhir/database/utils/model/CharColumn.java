@@ -12,16 +12,26 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
  * CharColumn
  */
 public class CharColumn extends ColumnBase {
+
+    // The number of characters supported by this column
     private final int size;
 
     /**
+     * Public constructor
      * @param name
+     * @param size
+     * @param nullable
+     * @param defaultValue
      */
     public CharColumn(String name, int size, boolean nullable, String defaultValue) {
         super(name, nullable, defaultValue);
         this.size = size;
     }
 
+    /**
+     * Getter for the column size
+     * @return
+     */
     public int getSize() {
         return size;
     }
