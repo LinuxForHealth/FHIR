@@ -24,7 +24,7 @@ do
     --prop-file db2.properties --schema-name FHIRDATA --create-schemas | tee -a ${TMP_FILE}
   EXIT_CODE="${PIPESTATUS[0]}"
   LOG_OUT=`cat ${TMP_FILE}`
-  if [ "$EXIT_CODE" == "0" ]
+  if [[ "$EXIT_CODE" == "0" ]]
   then
     # We now just send out the output and stop the loop
     echo "${LOG_OUT}"
@@ -48,7 +48,7 @@ do
   fi
 done
 
-if [ -f ${TMP_FILE} ]
+if [ -f "${TMP_FILE}" ]
 then
   rm ${TMP_FILE}
 fi
