@@ -283,12 +283,10 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
         // existing resource, so need to delete all its parameters
         // delete composites first, or else the foreign keys there restrict deletes on referenced tables
-        deleteFromParameterTable(connection, tablePrefix + "_composites", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_str_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_number_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_date_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_latlng_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_token_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_resource_token_refs", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
 

@@ -84,4 +84,38 @@ public class History extends FHIRResource {
             log.exiting(this.getClass().getName(), "history(String,String)");
         }
     }
+
+    @GET
+    @Path("_history")
+    public Response systemHistory() {
+        log.entering(this.getClass().getName(), "systemHistory()");
+        Date startTime = new Date();
+        Response.Status status = null;
+        Bundle bundle = null;
+
+        try {
+            checkInitComplete();
+
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri(), null);
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
+        } catch (FHIROperationException e) {
+            status = issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
+        } catch (Exception e) {
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
+        } finally {
+            try {
+                RestAuditLogger.logHistory(httpServletRequest, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "systemHistory()");
+        }
+    }
+
 }

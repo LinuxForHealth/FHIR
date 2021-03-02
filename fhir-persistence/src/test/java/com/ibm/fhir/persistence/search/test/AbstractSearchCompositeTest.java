@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,6 @@ import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 
 /**
- * @author lmsurpre
  * @see https://hl7.org/fhir/r4/search.html#token
  */
 public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
@@ -61,6 +60,12 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "true$false");
         assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "false$true");
         assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "false$false");
+    }
+
+    @Test
+    public void testSearchToken_boolean_reverse_chained() throws Exception {
+        assertSearchReturnsSavedResource("_has:Composition:subject:composite-status-title", "preliminary$TEST");
+        assertSearchDoesntReturnSavedResource("_has:Composition:subject:composite-status-title", "bad$TEST");
     }
 
     @Test
@@ -243,5 +248,17 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("composite-string", "testString$testString");
         assertSearchReturnsSavedResource("composite-string", "test$test");
         assertSearchDoesntReturnSavedResource("composite-string", "String$String");
+    }
+
+    //////////////////////////
+    // Multiple types tests //
+    //////////////////////////
+    @Test
+    public void testSearchMultiple_string_code_date_integer() throws Exception {
+        assertSearchReturnsSavedResource("composite-string-code-date-integer", "test$code$2018-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "string$code$2018-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "testString$badcode$2018-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "testString$code$2020-10-29$12");
+        assertSearchDoesntReturnSavedResource("composite-string-code-date-integer", "testString$code$2018-10-29$0");
     }
 }

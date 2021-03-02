@@ -182,7 +182,11 @@ public class QueryParameterValue {
             String componentDelim = "";
             for (QueryParameter componentParam : component) {
                 List<QueryParameterValue> componentValues = componentParam.getValues();
-                if (componentValues.size() != 1) {
+                if (componentValues.size() == 0) {
+                    // It is possible that there will be no component value in the case of a
+                    // composite parm with :missing modifier, so just ignore and continue.
+                    continue;
+                } else if (componentValues.size() > 1) {
                     throw new IllegalStateException("Components of a composite search parameter may only have a single value");
                 }
                 returnString.append(componentDelim).append(componentValues.get(0));

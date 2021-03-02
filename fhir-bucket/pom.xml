@@ -55,6 +55,10 @@
             <artifactId>httpcore</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.ibm.db2</groupId>
             <artifactId>jcc</artifactId>
         </dependency>

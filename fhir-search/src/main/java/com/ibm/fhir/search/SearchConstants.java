@@ -90,7 +90,8 @@ public class SearchConstants {
     // _has
     public static final String HAS = "_has";
 
-    public static final String IMPLICIT_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/implicit-system";
+    public static final String BASE_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/";
+    public static final String IMPLICIT_SYSTEM_EXT_URL = BASE_SYSTEM_EXT_URL + "implicit-system";
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =

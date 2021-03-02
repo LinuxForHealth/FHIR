@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,6 +60,10 @@ public class FhirSchemaConstants {
     public static final String REINDEX_TSTAMP = "REINDEX_TSTAMP";
     public static final String REINDEX_TXID = "REINDEX_TXID";
     public static final String REINDEX_SEQ = "REINDEX_SEQ";
+    public static final String RESOURCE_CHANGE_LOG = "RESOURCE_CHANGE_LOG";
+
+    // Type of change C - Create, U - Update, S - Soft Delete. H - Hard Delete
+    public static final String CHANGE_TYPE = "CHANGE_TYPE";
 
     // R4 Logical Resource Tags and Security are modeled as token values
     public static final String TOKEN_VALUES = "TOKEN_VALUES";
@@ -87,6 +91,7 @@ public class FhirSchemaConstants {
     public static final String DATA = "DATA";
     public static final String RESOURCE_ID = "RESOURCE_ID";
     public static final String CURRENT_RESOURCE_ID = "CURRENT_RESOURCE_ID";
+    public static final String CHANGE_TSTAMP = "CHANGE_TSTAMP";
     public static final String VERSION_ID = "VERSION_ID";
     public static final String IS_DELETED = "IS_DELETED";
     public static final String LAST_UPDATED = "LAST_UPDATED";
@@ -97,6 +102,7 @@ public class FhirSchemaConstants {
     public static final String CODE_SYSTEM_ID = "CODE_SYSTEM_ID";
     public static final String CODE_SYSTEM_NAME = "CODE_SYSTEM_NAME";
     public static final String TOKEN_VALUE = "TOKEN_VALUE";
+    public static final String COMPOSITE_ID = "COMPOSITE_ID";
 
     public static final String RESOURCE_TYPES = "RESOURCE_TYPES";
     public static final String RESOURCE_TYPE = "RESOURCE_TYPE";

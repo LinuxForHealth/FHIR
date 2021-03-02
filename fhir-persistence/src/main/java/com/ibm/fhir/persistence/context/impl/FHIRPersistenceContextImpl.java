@@ -20,7 +20,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRPersistenceEvent persistenceEvent;
     private FHIRHistoryContext historyContext;
     private FHIRSearchContext searchContext;
-    private boolean includeDeleted;
+    private boolean includeDeleted = false;
 
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
         this.persistenceEvent = pe;

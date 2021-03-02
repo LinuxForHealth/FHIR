@@ -9,21 +9,21 @@ module.exports = {
   plugins: [
     "gatsby-plugin-slug",
     {
-      resolve : 'gatsby-theme-carbon', 
-      options : { 
+      resolve : 'gatsby-theme-carbon',
+      options : {
         mdxExtensions: ['.mdx', '.md'],
         titleType: 'append',
         isSearchEnabled: false,
         repository: {
           baseUrl: 'https://github.com/IBM/FHIR',
           subDirectory: '/docs',
-          branch: 'master',
+          branch: 'main',
         },
         withWebp: true,
         iconPath: 'src/images/fhir-transparent.png',
         display: 'browser',
       }
-    }, 
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
