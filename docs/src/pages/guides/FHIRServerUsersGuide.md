@@ -207,7 +207,7 @@ Note that this parameter only enables or disables the compartment search query o
 ## 3.3 Persistence layer configuration
 The IBM FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
 
-Before you can configure the FHIR server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use and is covered in more detail in [Section 3.3.1.1 Supported databases](#3311-supported-databases).
+Before you can configure the server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use and is covered in more detail in [Section 3.3.1.1 Supported databases](#3311-supported-databases).
 
 The IBM FHIR Server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup.
 
