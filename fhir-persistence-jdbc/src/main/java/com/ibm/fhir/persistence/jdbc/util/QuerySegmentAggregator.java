@@ -10,7 +10,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FETCH_NEXT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
@@ -567,7 +566,8 @@ public class QuerySegmentAggregator {
                     final String querySegmentString = querySegment.getQueryString()
                             .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".")
                             .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
-                            .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
+                            .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable)
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "_p", paramTableAlias + "_p");
 
                     // Append queryString to a separate StringBuilder which will get appended to the where clause last.
                     if (missingOrNotModifierWhereClause.length() == 0) {
@@ -636,43 +636,8 @@ public class QuerySegmentAggregator {
                             }
                         }
                     } else {
-                        // add an alias for the composite table
-                        String compositeAlias = "comp" + (i + 1);
-                        String whereClauseSegment =
-                                querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.",
-                                        compositeAlias + ".");
-
-                        whereClause.append(JOIN)
-                                .append("(SELECT " + compositeAlias + ".LOGICAL_RESOURCE_ID FROM ");
-                        whereClause.append(tableName(overrideType, param))
-                                .append(compositeAlias);
-
-                        if (param.getValues() != null && !param.getValues().isEmpty()) {
-                            // Assumption:  all the values should have the same number of components and the same types
-                            QueryParameterValue queryParameterValue = param.getValues().get(0);
-                            List<QueryParameter> components = queryParameterValue.getComponent();
-                            for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
-                                String alias = compositeAlias + "_p" + componentNum;
-                                QueryParameter component = components.get(componentNum - 1);
-                                String tableName = tableName(overrideType, component);
-                                // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
-                                if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
-                                    tableName = overrideType + "_TOKEN_VALUES ";
-                                }
-                                whereClause.append(JOIN).append(tableName).append(alias)
-                                        .append(ON)
-                                        .append(compositeAlias).append(".COMP").append(componentNum).append(abbr(component))
-                                        .append(EQ)
-                                        .append(alias).append(".ROW_ID");
-                                whereClauseSegment =
-                                        whereClauseSegment.replaceAll(
-                                                PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
-                            }
-                        }
-                        whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
-                        String tmpTableName = overrideType + i;
-                        whereClause.append(tmpTableName).append(ON).append(tmpTableName)
-                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
+                        whereClause.append(querySegment.getQueryString()
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "_p", paramTableAlias + "_p"));
                     }
                 }
             } // end if SKIP_WHERE
@@ -706,7 +671,7 @@ public class QuerySegmentAggregator {
             }
             break;
         case COMPOSITE:
-            name.append("_COMPOSITES ");
+            name.append("_LOGICAL_RESOURCES ");
             break;
         }
         return name.toString();

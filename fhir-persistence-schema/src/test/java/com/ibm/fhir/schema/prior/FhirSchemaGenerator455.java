@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control;
+package com.ibm.fhir.schema.prior;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TSTAMP;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
@@ -38,8 +36,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TXID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_CHANGE_LOG;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
@@ -56,14 +52,13 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -71,7 +66,6 @@ import com.ibm.fhir.database.utils.common.AddColumn;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
-import com.ibm.fhir.database.utils.common.DropTable;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.ColumnBase;
@@ -90,27 +84,23 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import com.ibm.fhir.schema.control.FhirSchemaVersion;
+import com.ibm.fhir.schema.control.SchemaGeneratorUtil;
 
 /**
  * Encapsulates the generation of the FHIR schema artifacts
  */
-public class FhirSchemaGenerator {
-    private static final Logger logger = Logger.getLogger(FhirSchemaGenerator.class.getName());
-
+public class FhirSchemaGenerator455 {
     // The schema holding all the data-bearing tables
     private final String schemaName;
 
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
 
-    // Build the multitenant variant of the schema
+    /// Build the multitenant variant of the schema
     private final boolean multitenant;
-
-    // TODO pass 'false' to getResourceTypes to avoid building tables for abstract resource types
-    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(true).stream()
-            .map(t -> ModelSupport.getTypeName(t).toUpperCase())
-            .collect(Collectors.toSet());
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
@@ -187,8 +177,10 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
-        this(adminSchemaName, schemaName, multitenant, ALL_RESOURCE_TYPES);
+    public FhirSchemaGenerator455(String adminSchemaName, String schemaName, boolean multitenant) {
+        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
+                .map(FHIRResourceType.ValueSet::value)
+                .collect(Collectors.toSet()));
     }
 
     /**
@@ -197,7 +189,7 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant, Set<String> resourceTypes) {
+    public FhirSchemaGenerator455(String adminSchemaName, String schemaName, boolean multitenant, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
         this.multitenant = multitenant;
@@ -368,9 +360,8 @@ public class FhirSchemaGenerator {
         addLogicalResources(model); // for system-level parameter search
         addReferencesSequence(model);
         addLogicalResourceCompartments(model);
-        addResourceChangeLog(model); // track changes for easier export
 
-
+        Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
 
@@ -379,7 +370,7 @@ public class FhirSchemaGenerator {
 
         // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing
         // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
-        addResourceTables(model, globalStrValues, globalDateValues, globalResourceTokenRefs);
+        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues, globalResourceTokenRefs);
 
         // All the table objects and types should be ready now, so create our NOP
         // which is used as a single dependency for all procedures. This means
@@ -492,7 +483,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0006.vid())
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0001.vid()) {
@@ -511,12 +502,6 @@ public class FhirSchemaGenerator {
                         List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null));
                         statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, mtId, indexCols));
                     }
-
-                    if (priorVersion < FhirSchemaVersion.V0009.vid()) {
-                        // Get rid of the old global token values parameter table which no longer
-                        // used
-                        statements.add(new DropTable(schemaName, "TOKEN_VALUES"));
-                    }
                     return statements;
                 })
                 .build(pdm);
@@ -529,29 +514,31 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Add the resource_change_log table. This table supports tracking of every change made
-     * to a resource at the global level, making it much easier to stream a list of changes
-     * from a known point.
+     * Add the system-wide TOKEN_VALUES table which is used for
+     * _tag and _security search properties in R4
      * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
      */
-    public void addResourceChangeLog(PhysicalDataModel pdm) {
-        final String tableName = RESOURCE_CHANGE_LOG;
+    public Table addResourceTokenValues(PhysicalDataModel pdm) {
 
+        final String tableName = TOKEN_VALUES;
+        final int tvb = MAX_TOKEN_VALUE_BYTES;
+
+        // logical_resources (0|1) ---- (*) token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0009.vid())
-                .addBigIntColumn(RESOURCE_ID, false)
-                .addIntColumn(RESOURCE_TYPE_ID, false)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
-                .addTimestampColumn(CHANGE_TSTAMP, false)
-                .addIntColumn(VERSION_ID, false)
-                .addCharColumn(CHANGE_TYPE, 1, false)
-                .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
-                .addUniqueIndex("UNQ_" + RESOURCE_CHANGE_LOG + "_CTRTRI", CHANGE_TSTAMP, RESOURCE_TYPE_ID, RESOURCE_ID)
+                .addIntColumn(     PARAMETER_NAME_ID,      false)
+                .addIntColumn(        CODE_SYSTEM_ID,      false)
+                .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
+                .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0009.vid())
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -559,6 +546,8 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
+
+        return tbl;
     }
 
     /**
@@ -728,15 +717,8 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable,
-                this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup455 frg = new FhirResourceTableGroup455(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
-
-            resourceType = resourceType.toUpperCase().trim();
-            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
-                logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
-            }
-
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
@@ -874,9 +856,7 @@ public class FhirSchemaGenerator {
      * _tag and _security search properties in R4 (new table
      * for issue #1366 V0006 schema change). Replaces the
      * previous TOKEN_VALUES table. All token values are now
-     * normalized in the COMMON_TOKEN_VALUES table. Because this
-     * is for system-level params, there's no need to support
-     * composite params
+     * normalized in the COMMON_TOKEN_VALUES table
      * @param pdm
      * @return Table the table that was added to the PhysicalDataModel
      */
@@ -886,49 +866,20 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0006.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
                 .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
-                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0009 change
-                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0009 change
+                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .addMigration(priorVersion -> {
-                    // Replace the indexes initially defined in the V0006 version with better ones
-                    List<IDatabaseStatement> statements = new ArrayList<>();
-                    if (priorVersion == FhirSchemaVersion.V0006.vid()) {
-                        // Migrate the index definitions as part of the V0008 version of the schema
-                        // This table was originally introduced as part of the V0006 schema, which
-                        // is what we use as the match for the priorVersion
-                        statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
-                        statements.add(new DropIndex(schemaName, IDX + tableName + "_LRTV"));
-
-                        final String mtId = multitenant ? MT_ID : null;
-                        // Replace the original TVLR index on (common_token_value_id, parameter_name_id, logical_resource_id)
-                        List<OrderedColumnDef> tplr = Arrays.asList(
-                            new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null),
-                            new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
-                            new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null)
-                            );
-                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_TPLR", tableName, mtId, tplr));
-
-                        // Replace the original LRTV index with a new index on (logical_resource_id, parameter_name_id, common_token_value_id)
-                        List<OrderedColumnDef> lrpt = Arrays.asList(
-                            new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null),
-                            new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
-                            new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null)
-                            );
-                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
-                    }
-                    return statements;
-                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?

@@ -6,6 +6,7 @@
 package com.ibm.fhir.server.test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -18,6 +19,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -146,6 +148,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
         java.time.Instant toLastModified, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
+        // NOP
+        return null;
+    }
+
+    @Override
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName)
+        throws FHIRPersistenceException {
         // NOP
         return null;
     }

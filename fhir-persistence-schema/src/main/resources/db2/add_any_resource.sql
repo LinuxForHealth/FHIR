@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2016, 2020
+-- (C) Copyright IBM Corp. 2016, 2021
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -39,6 +39,7 @@ BEGIN
   DECLARE v_duplicate               INT     DEFAULT 0;
   DECLARE v_version                 INT     DEFAULT 0;
   DECLARE v_insert_version          INT     DEFAULT 0;
+  DECLARE v_change_type            CHAR(1)  DEFAULT NULL;
   DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
   DECLARE stmt,lock_stmt STATEMENT;
   DECLARE lock_cur CURSOR FOR lock_stmt;
@@ -88,9 +89,9 @@ BEGIN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
       PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id) '
-      || '     VALUES (?, ?, ?)';
-      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id, is_deleted) '
+      || '     VALUES (?, ?, ?, ?)';
+      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted;
       SET v_new_resource = 1;
     END IF;
   END IF;
@@ -147,11 +148,7 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
@@ -163,8 +160,13 @@ BEGIN
       EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
     END IF;
-
   END IF;
 
   -- Persist the data using the given version number if required
@@ -188,13 +190,30 @@ BEGIN
   THEN
     -- only update the logical resource if the resource we are adding supercedes the
     -- the current resource. mt_id isn't needed here...implied via permission
-    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ? WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_resource_id, v_logical_resource_id;
+    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ? WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_resource_id, p_is_deleted, v_logical_resource_id;
 
     -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
     -- so we can no longer insert the parameters here - instead we have to use individual
     -- JDBC statements.
   END IF;
+  
+    -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+  -- related to resources changes (issue-1955)
+  IF p_is_deleted = 'Y'
+  THEN
+    SET v_change_type = 'D';
+  ELSE 
+    IF v_new_resource = 0
+    THEN
+      SET v_change_type = 'U';
+    ELSE
+      SET v_change_type = 'C';
+    END IF;
+  END IF;
+
+  INSERT INTO {{SCHEMA_NAME}}.resource_change_log(mt_id, resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
+       VALUES ({{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, v_insert_version, v_change_type);
 
   -- Hand back the id of the logical resource we created earlier
   SET o_logical_resource_id = v_logical_resource_id;

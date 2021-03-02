@@ -209,6 +209,18 @@ public interface FHIRResourceHelpers {
     public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception;
 
     /**
+     * Implement the system level history operation to obtain a list of changes to resources
+     *
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     * @param requestProperties
+     * @return a Bundle containing the history of the specified Resource
+     * @throws Exception
+     */
+    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception;
+
+    /**
      * Performs heavy lifting associated with a 'search' operation.
      *
      * @param type
