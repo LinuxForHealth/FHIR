@@ -8,22 +8,39 @@ package com.ibm.fhir.term.util;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Integer;
+import com.ibm.fhir.model.type.String;
+import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 /**
  * A utility class for FHIR code systems
  */
 public final class CodeSystemSupport {
-    private static final Map<String, Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
+    private static final Logger log = Logger.getLogger(CodeSystemSupport.class.getName());
+
+    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
 
     private CodeSystemSupport() { }
 
@@ -75,15 +92,33 @@ public final class CodeSystemSupport {
     }
 
     /**
-     * Indicates whether the code system with the given url is case sensitive
+     * Determine whether a code system property with the specified code exists in the
+     * provided code system.
      *
-     * @param url
-     *     the url
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
      * @return
-     *     true if the code system with the given is case sensitive, false otherwise
+     *     true if the code system property exists, false otherwise
      */
-    public static boolean isCaseSensitive(String url) {
-        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+    public static boolean hasCodeSystemProperty(CodeSystem codeSystem, Code code) {
+        return getCodeSystemProperty(codeSystem, code) != null;
+    }
+
+    /**
+     * Determine whether a concept property with the specified code exists on the
+     * provided concept.
+     *
+     * @param concept
+     *     the concept
+     * @param code
+     *     the property code
+     * @return
+     *     true if the concept property exists, false otherwise
+     */
+    public static boolean hasConceptProperty(Concept concept, Code code) {
+        return getConceptProperty(concept, code) != null;
     }
 
     /**
@@ -96,9 +131,21 @@ public final class CodeSystemSupport {
      */
     public static boolean isCaseSensitive(CodeSystem codeSystem) {
         if (codeSystem != null && codeSystem.getCaseSensitive() != null) {
-            return Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
+            return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
         }
         return false;
+    }
+
+    /**
+     * Indicates whether the code system with the given url is case sensitive
+     *
+     * @param url
+     *     the url
+     * @return
+     *     true if the code system with the given is case sensitive, false otherwise
+     */
+    public static boolean isCaseSensitive(java.lang.String url) {
+        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
     }
 
     /**
@@ -185,6 +232,28 @@ public final class CodeSystemSupport {
 
     /**
      * Get a set containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param filters
+     *     the value set include filters
+     * @return
+     *     flattened / filtered list of Concept instances for the given code system
+     */
+    public static Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        Set<Concept> concepts = new LinkedHashSet<>();
+        List<ConceptFilter> conceptFilters = buildConceptFilters(codeSystem, filters);
+        for (Concept concept : getConcepts(codeSystem)) {
+            if (accept(conceptFilters, concept)) {
+                concepts.add(concept);
+            }
+        }
+        return concepts;
+    }
+
+    /**
+     * Get a set containing {@link CodeSystem.Concept} instances where all structural
      * hierarchies have been flattened.
      *
      * @param concept
@@ -204,33 +273,331 @@ public final class CodeSystemSupport {
         return concepts;
     }
 
-    /**
-     * Determine whether a code system property with the specified code exists in the
-     * provided code system.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the property code
-     * @return
-     *     true if the code system property exists, false otherwise
-     */
-    public static boolean hasCodeSystemProperty(CodeSystem codeSystem, Code code) {
-        return getCodeSystemProperty(codeSystem, code) != null;
+    private static boolean accept(List<ConceptFilter> conceptFilters, Concept concept) {
+        for (ConceptFilter conceptFilter : conceptFilters) {
+            if (!conceptFilter.accept(concept)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    /**
-     * Determine whether a concept property with the specified code exists on the
-     * provided concept.
-     *
-     * @param concept
-     *     the concept
-     * @param code
-     *     the property code
-     * @return
-     *     true if the concept property exists, false otherwise
-     */
-    public static boolean hasConceptProperty(Concept concept, Code code) {
-        return getConceptProperty(concept, code) != null;
+    private static List<ConceptFilter> buildConceptFilters(CodeSystem codeSystem, List<Filter> filters) {
+        List<ConceptFilter> conceptFilters = new ArrayList<>(filters.size());
+        for (Filter filter : filters) {
+            ConceptFilter conceptFilter = null;
+            switch (filter.getOp().getValueAsEnumConstant()) {
+            case DESCENDENT_OF:
+                conceptFilter = createDescendentOfFilter(codeSystem, filter);
+                break;
+            case EQUALS:
+                conceptFilter = createEqualsFilter(codeSystem, filter);
+                break;
+            case EXISTS:
+                conceptFilter = createExistsFilter(codeSystem, filter);
+                break;
+            case GENERALIZES:
+                conceptFilter = createGeneralizesFilter(codeSystem, filter);
+                break;
+            case IN:
+                conceptFilter = createInFilter(codeSystem, filter);
+                break;
+            case IS_A:
+                conceptFilter = createIsAFilter(codeSystem, filter);
+                break;
+            case IS_NOT_A:
+                conceptFilter = createIsNotAFilter(codeSystem, filter);
+                break;
+            case NOT_IN:
+                conceptFilter = createNotInFilter(codeSystem, filter);
+                break;
+            case REGEX:
+                conceptFilter = createRegexFilter(codeSystem, filter);
+                break;
+            }
+            if (conceptFilter != null) {
+                conceptFilters.add(conceptFilter);
+            } else {
+                log.log(Level.WARNING, java.lang.String.format("Unable to create concept filter from property: %s, op: %s, value: %s", filter.getProperty().getValue(), filter.getOp().getValue(), filter.getValue().getValue()));
+            }
+        }
+        return conceptFilters;
+    }
+
+    private static Code code(String value) {
+        return Code.of(value.getValue());
+    }
+
+    private static Element convert(String value, Class<?> targetType) {
+        if (Code.class.equals(targetType)) {
+            return Code.of(value.getValue());
+        }
+        if (Integer.class.equals(targetType)) {
+            return Integer.of(value.getValue());
+        }
+        if (Boolean.class.equals(targetType)) {
+            return Boolean.of(value.getValue());
+        }
+        if (DateTime.class.equals(targetType)) {
+            return DateTime.of(value.getValue());
+        }
+        if (Decimal.class.equals(targetType)) {
+            return Decimal.of(value.getValue());
+        }
+        return value;
+    }
+
+    private static boolean convertsToBoolean(String value) {
+        return "true".equals(value.getValue()) || "false".equals(value.getValue());
+    }
+
+    private static Boolean toBoolean(String value) {
+        return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
+    }
+
+    private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Filter filter) {
+        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            Concept concept = findConcept(codeSystem, code(filter.getValue()));
+            if (concept != null) {
+                return new DescendentOfFilter(concept);
+            }
+        }
+        return null;
+    }
+
+    private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Filter filter) {
+        Code property = filter.getProperty();
+        if ("parent".equals(property.getValue()) ||
+                "child".equals(property.getValue()) ||
+                hasCodeSystemProperty(codeSystem, property)) {
+            return new EqualsFilter(codeSystem, property, filter.getValue());
+        }
+        return null;
+    }
+
+    private static ConceptFilter createExistsFilter(CodeSystem codeSystem, Filter filter) {
+        Code property = filter.getProperty();
+        String value = filter.getValue();
+        if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
+            return new ExistsFilter(property, toBoolean(value));
+        }
+        return null;
+    }
+
+    private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Filter filter) {
+        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            Concept concept = findConcept(codeSystem, code(filter.getValue()));
+            if (concept != null) {
+                return new GeneralizesFilter(concept);
+            }
+        }
+        return null;
+    }
+
+    private static ConceptFilter createInFilter(CodeSystem codeSystem, Filter filter) {
+        Code property = filter.getProperty();
+        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
+             return new InFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                 .map(Code::of)
+                 .collect(Collectors.toSet()));
+        }
+        return null;
+    }
+
+    private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Filter filter) {
+        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            Concept concept = findConcept(codeSystem, code(filter.getValue()));
+            if (concept != null) {
+                return new IsAFilter(concept);
+            }
+        }
+        return null;
+    }
+
+    private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Filter filter) {
+        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            Concept concept = findConcept(codeSystem, code(filter.getValue()));
+            if (concept != null) {
+                return new IsNotAFilter(concept);
+            }
+        }
+        return null;
+    }
+
+    private static ConceptFilter createNotInFilter(CodeSystem codeSystem, Filter filter) {
+        Code property = filter.getProperty();
+        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
+             return new NotInFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                 .map(Code::of)
+                 .collect(Collectors.toSet()));
+        }
+        return null;
+    }
+
+    private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Filter filter) {
+        Code property = filter.getProperty();
+        if (hasCodeSystemProperty(codeSystem, property)) {
+            return new RegexFilter(property, filter.getValue());
+        }
+        return null;
+    }
+
+    private interface ConceptFilter {
+        boolean accept(Concept concept);
+    }
+
+    private static class DescendentOfFilter implements ConceptFilter {
+        private final Set<Concept> descendants;
+
+        public DescendentOfFilter(Concept concept) {
+            Set<Concept> descendants = getConcepts(concept);
+            descendants.remove(concept);
+            this.descendants = descendants;
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return descendants.contains(concept);
+        }
+    }
+
+    private static class EqualsFilter implements ConceptFilter {
+        private final Code property;
+        private final String value;
+        private final Set<Concept> children;
+        private final Concept child;
+
+        public EqualsFilter(CodeSystem codeSystem, Code property, String value) {
+            this.property = property;
+            this.value = value;
+            children = new LinkedHashSet<>();
+            if ("parent".equals(property.getValue())) {
+                Concept parent = findConcept(codeSystem, code(value));
+                if (parent != null) {
+                    children.addAll(parent.getConcept());
+                }
+            }
+            this.child = "child".equals(property.getValue()) ? findConcept(codeSystem, code(value)) : null;
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            if ("parent".equals(property.getValue())) {
+                return children.contains(concept);
+            }
+            if ("child".equals(property.getValue())) {
+                return concept.getConcept().contains(child);
+            }
+            if (hasConceptProperty(concept, property)) {
+                Element value = getConceptPropertyValue(concept, property);
+                if (value != null && !value.is(CodeableConcept.class)) {
+                    return value.equals(convert(this.value, value.getClass()));
+                }
+            }
+            return false;
+        }
+    }
+
+    private static class ExistsFilter implements ConceptFilter {
+        private Code property;
+        private Boolean value;
+
+        public ExistsFilter(Code property, Boolean value) {
+            this.property = property;
+            this.value = value;
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return Boolean.TRUE.equals(value) ?
+                    hasConceptProperty(concept, property) :
+                        !hasConceptProperty(concept, property);
+        }
+    }
+
+    private static class GeneralizesFilter implements ConceptFilter {
+        private final Concept concept;
+
+        public GeneralizesFilter(Concept concept) {
+            this.concept = concept;
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return getConcepts(concept).contains(this.concept);
+        }
+    }
+
+    private static class InFilter implements ConceptFilter {
+        protected final Code property;
+        protected final Set<Code> set;
+
+        public InFilter(Code property, Set<Code> set) {
+            this.property = property;
+            this.set = set;
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return "concept".equals(property.getValue()) ?
+                    set.contains(concept.getCode()) :
+                        set.contains(getConceptPropertyValue(concept, property));
+        }
+    }
+
+    private static class IsAFilter implements ConceptFilter {
+        protected final Set<Concept> descendantsAndSelf;
+
+        public IsAFilter(Concept concept) {
+            descendantsAndSelf = getConcepts(concept);
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return descendantsAndSelf.contains(concept);
+        }
+    }
+
+    private static class IsNotAFilter extends IsAFilter {
+        public IsNotAFilter(Concept concept) {
+            super(concept);
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return !super.accept(concept);
+        }
+    }
+
+    static class NotInFilter extends InFilter {
+        public NotInFilter(Code property, Set<Code> set) {
+            super(property, set);
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return !super.accept(concept);
+        }
+    }
+
+    private static class RegexFilter implements ConceptFilter {
+        private final Code property;
+        private final Pattern pattern;
+
+        public RegexFilter(Code property, String value) {
+            this.property = property;
+            this.pattern = Pattern.compile(value.getValue());
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            if (hasConceptProperty(concept, property)) {
+                Element value = getConceptPropertyValue(concept, property);
+                if (value.is(String.class)) {
+                    return pattern.matcher(value.as(String.class).getValue()).matches();
+                }
+            }
+            return false;
+        }
     }
 }

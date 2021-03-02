@@ -6,15 +6,17 @@
 
 package com.ibm.fhir.term.spi;
 
+import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
 
 public interface FHIRTermServiceProvider {
     /**
-     * Indicates whether the given code system is supported
+     * Indicates whether the given code system is supported.
      *
      * @param codeSystem
      *     the code system
@@ -23,7 +25,16 @@ public interface FHIRTermServiceProvider {
      */
     boolean isSupported(CodeSystem codeSystem);
 
-
+    /**
+     * Indicates whether the given code system contains a concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     true if the given code system contains a concept with the specified code, false otherwise
+     */
     boolean hasConcept(CodeSystem codeSystem, Code code);
 
     /**
@@ -48,6 +59,19 @@ public interface FHIRTermServiceProvider {
      *     flattened list of Concept instances for the given code system
      */
     Set<Concept> getConcepts(CodeSystem codeSystem);
+
+    /**
+     * Get a set containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param filters
+     *     the value set include filters
+     * @return
+     *     flattened / filtered list of Concept instances for the given code system
+     */
+    Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters);
 
     /**
      * Find the concept in tree rooted by the provided concept that matches the specified code.

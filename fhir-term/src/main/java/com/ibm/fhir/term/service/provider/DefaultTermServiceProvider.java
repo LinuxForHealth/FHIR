@@ -6,10 +6,12 @@
 
 package com.ibm.fhir.term.service.provider;
 
+import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.CodeSystemContentMode;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
@@ -37,6 +39,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return CodeSystemSupport.getConcepts(codeSystem);
+    }
+
+    @Override
+    public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        return CodeSystemSupport.getConcepts(codeSystem, filters);
     }
 
     @Override

@@ -9,14 +9,10 @@ package com.ibm.fhir.term.util;
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
-import static com.ibm.fhir.term.util.CodeSystemSupport.getConceptPropertyValue;
-import static com.ibm.fhir.term.util.CodeSystemSupport.hasCodeSystemProperty;
-import static com.ibm.fhir.term.util.CodeSystemSupport.hasConceptProperty;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -26,7 +22,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
@@ -35,21 +30,14 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Compose;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
-import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
-import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Decimal;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
-import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.service.FHIRTermService;
 
@@ -183,57 +171,6 @@ public final class ValueSetSupport {
         return FHIRRegistry.getInstance().getResource(url, ValueSet.class);
     }
 
-    private static boolean accept(List<ConceptFilter> conceptFilters, Concept concept) {
-        for (ConceptFilter conceptFilter : conceptFilters) {
-            if (!conceptFilter.accept(concept)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static List<ConceptFilter> buildConceptFilters(CodeSystem codeSystem, List<Filter> filters) {
-        List<ConceptFilter> conceptFilters = new ArrayList<>(filters.size());
-        for (Filter filter : filters) {
-            ConceptFilter conceptFilter = null;
-            switch (FilterOperator.ValueSet.from(filter.getOp().getValue())) {
-            case DESCENDENT_OF:
-                conceptFilter = createDescendentOfFilter(codeSystem, filter);
-                break;
-            case EQUALS:
-                conceptFilter = createEqualsFilter(codeSystem, filter);
-                break;
-            case EXISTS:
-                conceptFilter = createExistsFilter(codeSystem, filter);
-                break;
-            case GENERALIZES:
-                conceptFilter = createGeneralizesFilter(codeSystem, filter);
-                break;
-            case IN:
-                conceptFilter = createInFilter(codeSystem, filter);
-                break;
-            case IS_A:
-                conceptFilter = createIsAFilter(codeSystem, filter);
-                break;
-            case IS_NOT_A:
-                conceptFilter = createIsNotAFilter(codeSystem, filter);
-                break;
-            case NOT_IN:
-                conceptFilter = createNotInFilter(codeSystem, filter);
-                break;
-            case REGEX:
-                conceptFilter = createRegexFilter(codeSystem, filter);
-                break;
-            }
-            if (conceptFilter != null) {
-                conceptFilters.add(conceptFilter);
-            } else {
-                log.log(Level.WARNING, java.lang.String.format("Unable to create concept filter from property: %s, op: %s, value: %s", filter.getProperty().getValue(), filter.getOp().getValue(), filter.getValue().getValue()));
-            }
-        }
-        return conceptFilters;
-    }
-
     private static Contains buildContains(Uri system, String version, Code code, String display) {
         return wrap(Expansion.Contains.builder()
             .system(system)
@@ -251,119 +188,7 @@ public final class ValueSetSupport {
         return null;
     }
 
-    private static Code code(String value) {
-        return Code.of(value.getValue());
-    }
 
-    private static Element convert(String value, Class<?> targetType) {
-        if (Code.class.equals(targetType)) {
-            return Code.of(value.getValue());
-        }
-        if (Integer.class.equals(targetType)) {
-            return Integer.of(value.getValue());
-        }
-        if (Boolean.class.equals(targetType)) {
-            return Boolean.of(value.getValue());
-        }
-        if (DateTime.class.equals(targetType)) {
-            return DateTime.of(value.getValue());
-        }
-        if (Decimal.class.equals(targetType)) {
-            return Decimal.of(value.getValue());
-        }
-        return value;
-    }
-
-    private static boolean convertsToBoolean(String value) {
-        return "true".equals(value.getValue()) || "false".equals(value.getValue());
-    }
-
-    private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new DescendentOfFilter(codeSystem, concept);
-            }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if ("parent".equals(property.getValue()) ||
-                "child".equals(property.getValue()) ||
-                hasCodeSystemProperty(codeSystem, property)) {
-            return new EqualsFilter(codeSystem, property, filter.getValue());
-        }
-        return null;
-    }
-
-    private static ConceptFilter createExistsFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        String value = filter.getValue();
-        if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
-            return new ExistsFilter(property, toBoolean(value));
-        }
-        return null;
-    }
-
-    private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new GeneralizesFilter(codeSystem, concept);
-            }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createInFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-             return new InFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(Code::of)
-                 .collect(Collectors.toSet()));
-        }
-        return null;
-    }
-
-    private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new IsAFilter(codeSystem, concept);
-            }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().getConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new IsNotAFilter(codeSystem, concept);
-            }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createNotInFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-             return new NotInFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(Code::of)
-                 .collect(Collectors.toSet()));
-        }
-        return null;
-    }
-
-    private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if (hasCodeSystemProperty(codeSystem, property)) {
-            return new RegexFilter(property, filter.getValue());
-        }
-        return null;
-    }
 
     private static Set<Contains> expand(Compose compose) {
         if (compose == null) {
@@ -411,15 +236,12 @@ public final class ValueSetSupport {
                 if (version != null) {
                     url = url + "|" + version.getValue();
                 }
-                if (hasResource(url, CodeSystem.class)) {
-                    CodeSystem codeSystem = getCodeSystem(url);
-                    List<ConceptFilter> conceptFilters = buildConceptFilters(codeSystem, includeOrExclude.getFilter());
-                    for (Concept concept : FHIRTermService.getInstance().getConcepts(codeSystem)) {
-                        if (accept(conceptFilters, concept)) {
-                            Contains contains = buildContains(system, version, concept);
-                            if (contains != null) {
-                                systemContains.add(contains);
-                            }
+                CodeSystem codeSystem = getCodeSystem(url);
+                if (codeSystem != null) {
+                    for (Concept concept : FHIRTermService.getInstance().getConcepts(codeSystem, includeOrExclude.getFilter())) {
+                        Contains contains = buildContains(system, version, concept);
+                        if (contains != null) {
+                            systemContains.add(contains);
                         }
                     }
                 }
@@ -462,169 +284,6 @@ public final class ValueSetSupport {
 
     private static boolean hasResource(java.lang.String url, Class<? extends Resource> resourceType) {
         return FHIRRegistry.getInstance().hasResource(url, resourceType);
-    }
-
-    private static Boolean toBoolean(String value) {
-        return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
-    }
-
-    private interface ConceptFilter {
-        boolean accept(Concept concept);
-    }
-
-    private static class DescendentOfFilter extends IsAFilter {
-        public DescendentOfFilter(CodeSystem codeSystem, Concept concept) {
-            super(codeSystem, concept);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !this.concept.equals(concept) && super.accept(concept);
-        }
-    }
-
-    private static class EqualsFilter implements ConceptFilter {
-        private final Code property;
-        private final String value;
-        private final Set<Concept> children;
-        private final Concept child;
-
-        public EqualsFilter(CodeSystem codeSystem, Code property, String value) {
-            this.property = property;
-            this.value = value;
-            children = new LinkedHashSet<>();
-            if ("parent".equals(property.getValue())) {
-                Concept parent = FHIRTermService.getInstance().getConcept(codeSystem, code(value));
-                if (parent != null) {
-                    children.addAll(parent.getConcept());
-                }
-            }
-            this.child = "child".equals(property.getValue()) ? FHIRTermService.getInstance().getConcept(codeSystem, code(value)) : null;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            if ("parent".equals(property.getValue())) {
-                return children.contains(concept);
-            }
-            if ("child".equals(property.getValue())) {
-                return concept.getConcept().contains(child);
-            }
-            if (hasConceptProperty(concept, property)) {
-                Element value = getConceptPropertyValue(concept, property);
-                if (value != null && !value.is(CodeableConcept.class)) {
-                    return value.equals(convert(this.value, value.getClass()));
-                }
-            }
-            return false;
-        }
-    }
-
-    private static class ExistsFilter implements ConceptFilter {
-        private Code property;
-        private Boolean value;
-
-        public ExistsFilter(Code property, Boolean value) {
-            this.property = property;
-            this.value = value;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return Boolean.TRUE.equals(value) ?
-                    hasConceptProperty(concept, property) :
-                        !hasConceptProperty(concept, property);
-        }
-    }
-
-    private static class GeneralizesFilter implements ConceptFilter {
-        private final CodeSystem codeSystem;
-        private final Concept concept;
-
-        public GeneralizesFilter(CodeSystem codeSystem, Concept concept) {
-            this.codeSystem = codeSystem;
-            this.concept = concept;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return FHIRTermService.getInstance().subsumes(codeSystem, concept.getCode(), this.concept.getCode());
-        }
-    }
-
-    private static class InFilter implements ConceptFilter {
-        protected final Code property;
-        protected final Set<Code> set;
-
-        public InFilter(Code property, Set<Code> set) {
-            this.property = property;
-            this.set = set;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return "concept".equals(property.getValue()) ?
-                    set.contains(concept.getCode()) :
-                        set.contains(getConceptPropertyValue(concept, property));
-        }
-    }
-
-    private static class IsAFilter implements ConceptFilter {
-        protected final CodeSystem codeSystem;
-        protected final Concept concept;
-
-        public IsAFilter(CodeSystem codeSystem, Concept concept) {
-            this.codeSystem = codeSystem;
-            this.concept = concept;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return FHIRTermService.getInstance().subsumes(codeSystem, this.concept.getCode(), concept.getCode());
-        }
-    }
-
-    private static class IsNotAFilter extends IsAFilter {
-        public IsNotAFilter(CodeSystem codeSystem, Concept concept) {
-            super(codeSystem, concept);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !super.accept(concept);
-        }
-    }
-
-    private static class NotInFilter extends InFilter {
-        public NotInFilter(Code property, Set<Code> set) {
-            super(property, set);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !super.accept(concept);
-        }
-    }
-
-    private static class RegexFilter implements ConceptFilter {
-        private final Code property;
-        private final Pattern pattern;
-
-        public RegexFilter(Code property, String value) {
-            this.property = property;
-            this.pattern = Pattern.compile(value.getValue());
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            if (hasConceptProperty(concept, property)) {
-                Element value = getConceptPropertyValue(concept, property);
-                if (value.is(String.class)) {
-                    return pattern.matcher(value.as(String.class).getValue()).matches();
-                }
-            }
-            return false;
-        }
     }
 
     private static Contains wrap(Expansion.Contains contains) {

@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.ConceptMap.Group;
 import com.ibm.fhir.model.resource.ConceptMap.Group.Element;
 import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -73,6 +74,11 @@ public class FHIRTermService {
         }
 
         @Override
+        public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+            return Collections.emptySet();
+        }
+
+        @Override
         public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
             return false;
         }
@@ -104,7 +110,7 @@ public class FHIRTermService {
     }
 
     /**
-     * Indicates whether the given code system is supported
+     * Indicates whether the given code system is supported.
      *
      * @param codeSystem
      *     the code system
@@ -120,6 +126,20 @@ public class FHIRTermService {
             }
         }
         return false;
+    }
+
+    /**
+     * Indicates whether the given code system contains a concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     true if the given code system contains a concept with the specified code, false otherwise
+     */
+    public boolean hasConcept(CodeSystem codeSystem, Code code) {
+        return findProvider(codeSystem).hasConcept(codeSystem, code);
     }
 
     /**
@@ -147,6 +167,21 @@ public class FHIRTermService {
      */
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return findProvider(codeSystem).getConcepts(codeSystem);
+    }
+
+    /**
+     * Get a set containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param filters
+     *     the value set include filters
+     * @return
+     *     flattened / filtered list of Concept instances for the given code system
+     */
+    public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        return findProvider(codeSystem).getConcepts(codeSystem, filters);
     }
 
     /**

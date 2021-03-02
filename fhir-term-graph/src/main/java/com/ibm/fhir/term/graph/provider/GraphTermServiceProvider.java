@@ -28,6 +28,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
@@ -100,6 +101,11 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             .toStream()
             .forEach(elementMap -> concepts.add(createConcept(elementMap)));
         return Collections.emptySet();
+    }
+
+    @Override
+    public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
