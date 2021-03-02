@@ -87,10 +87,15 @@ public class ExportOperation extends AbstractOperation {
                 throw BulkDataExportUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
             }
 
-            if (ExportType.PATIENT.equals(exportType) && types != null) {
-                BulkDataExportUtil.checkExportPatientResourceTypes(types);
+            if (ExportType.PATIENT.equals(exportType)) {
+                if (types != null && !types.isEmpty()) {
+                    BulkDataExportUtil.checkExportPatientResourceTypes(types);
+                } else {
+                    types = BulkDataExportUtil.addDefaultsForPatientCompartment();
+                }
             }
 
+            // Early detection of potential issues.
             Preflight preflight =  PreflightFactory.getInstance(operationContext, null);
             preflight.preflight();
 

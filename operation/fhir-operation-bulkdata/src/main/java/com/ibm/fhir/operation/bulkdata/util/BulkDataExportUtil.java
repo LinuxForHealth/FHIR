@@ -29,6 +29,7 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
 /**
@@ -206,6 +207,20 @@ public class BulkDataExportUtil {
             }
         }
         return result;
+    }
+
+    /**
+     * gets the defaults for the patient compartment.
+     * @param types
+     * @return
+     * @throws FHIROperationException
+     */
+    public static List<String> addDefaultsForPatientCompartment() throws FHIROperationException {
+        try {
+            return CompartmentUtil.getCompartmentResourceTypes("Patient");
+        } catch (FHIRSearchException e) {
+            throw buildOperationException("unable to process the Patient compartment into types", IssueType.UNKNOWN);
+        }
     }
 
     public static List<String> checkAndValidateTypeFilters(Parameters parameters) throws FHIROperationException {

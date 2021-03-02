@@ -11,8 +11,14 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.batch.api.BatchProperty;
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
+import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
@@ -24,6 +30,7 @@ import com.ibm.fhir.model.resource.Group.Member;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 
 /**
  * BulkData Group Export ChunkReader
@@ -37,7 +44,15 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
     private BulkDataContext ctx = null;
 
     @Inject
+    @Any
+    @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
+    private String partResourceType;
+
+    @Inject
     StepContext stepCtx;
+
+    @Inject
+    JobContext jobCtx;
 
     public ChunkReader() {
         super();
@@ -45,8 +60,13 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
 
     @Override
     public Object readItem() throws Exception {
-        BatchContextAdapter stepContextAdapter = new BatchContextAdapter(stepCtx);
-        ctx = stepContextAdapter.getStepContextForGroupChunkReader();
+        long executionId = jobCtx.getExecutionId();
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        JobExecution jobExecution = jobOperator.getJobExecution(executionId);
+
+        BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+        ctx = contextAdapter.getStepContextForGroupChunkReader();
+        ctx.setPartitionResourceType(partResourceType);
 
         // Register the context to get the right configuration.
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
