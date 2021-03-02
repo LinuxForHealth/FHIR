@@ -24,5 +24,5 @@ public interface Migration {
      * @implSpec this method should only be executed when the current version > priorVersion and so the steps need not be
      *         idempotent
      */
-    public List<IDatabaseStatement> migrateFrom(Integer priorVersion);
+    public List<IDatabaseStatement> migrateFrom(int priorVersion);
 }
