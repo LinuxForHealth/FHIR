@@ -98,7 +98,7 @@ For PostgreSQL:
 --db-type postgresql
 ```
 
-### Deploy new schema
+### Deploy new schema or update an existing schema
 For Db2:
 
 ```
@@ -106,11 +106,12 @@ For Db2:
 --schema-name FHIRDATA
 --update-schema
 ```
+
 For PostgreSQL:
 
 ```
 --prop-file postgresql.properties
---schema-name fhirdata
+--schema-name FHIRDATA
 --update-schema
 --db-type postgresql
 ```
@@ -346,7 +347,7 @@ Run the Update Schema with
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --prop-file /Users/paulbastide/git/wffh/FHIR/fhir-persistence-schema/postgresql.properties  \
---schema-name fhirdata \
+--schema-name FHIRDATA \
 --update-schema \
 --db-type postgresql
 ```
