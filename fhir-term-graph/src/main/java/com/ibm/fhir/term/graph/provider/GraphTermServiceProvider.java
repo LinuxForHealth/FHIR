@@ -28,9 +28,11 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
+import com.ibm.fhir.model.resource.CodeSystem.Concept.Property;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
@@ -63,10 +65,10 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        return getConcept(codeSystem, code, true);
+        return getConcept(codeSystem, code, true, true);
     }
 
-    private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations) {
+    private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations, boolean includeProperties) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         return createConcept(
             codeSystem,
@@ -74,7 +76,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             whereCodeSystem(hasCode(g.V(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
                 .elementMap()
                 .tryNext(),
-            includeDesignations);
+            includeDesignations,
+            includeProperties);
     }
 
     @Override
@@ -112,7 +115,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         Set<Concept> concepts = new LinkedHashSet<>();
-        concepts.add(getConcept(codeSystem, code, false));
+        concepts.add(getConcept(codeSystem, code, false, false));
         whereCodeSystem(hasCode(g.V(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
             .repeat(__.in("isA")
                 .simplePath()
@@ -164,22 +167,23 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return g.where(hasVersion(hasUrl(__.in("concept").hasLabel("CodeSystem"), codeSystem.getUrl()), codeSystem.getVersion()));
     }
 
-    private Concept createConcept(CodeSystem codeSystem, String code, Optional<Map<Object, Object>> optional, boolean includeDesignations) {
+    private Concept createConcept(CodeSystem codeSystem, String code, Optional<Map<Object, Object>> optional, boolean includeDesignations, boolean includeProperties) {
         if (optional.isPresent()) {
-            return createConcept(optional.get(), includeDesignations ? getDesignations(codeSystem, code) : Collections.emptyList());
+            return createConcept(optional.get(), includeDesignations ? getDesignations(codeSystem, code) : Collections.emptyList(), includeProperties ? getProperties(codeSystem, code) : Collections.emptyList());
         }
         return null;
     }
 
     private Concept createConcept(Map<Object, Object> elementMap) {
-        return createConcept(elementMap, Collections.emptyList());
+        return createConcept(elementMap, Collections.emptyList(), Collections.emptyList());
     }
 
-    private Concept createConcept(Map<Object, Object> elementMap, List<Designation> designations) {
+    private Concept createConcept(Map<Object, Object> elementMap, List<Designation> designations, List<Property> properties) {
         return Concept.builder()
                 .code(Code.of((String) elementMap.get("code")))
                 .display(string((String) elementMap.get("display")))
                 .designation(designations)
+                .property(properties)
                 .build();
     }
 
@@ -208,6 +212,33 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             .toStream()
             .forEach(elementMap -> designations.add(createDesignation(elementMap, designationUseSystem)));
         return designations;
+    }
+
+    private List<Property> getProperties(CodeSystem codeSystem, String code) {
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        List<Property> properties = new ArrayList<>();
+        whereCodeSystem(hasCode(g.V(), code, isCaseSensitive(codeSystem)), codeSystem)
+            .out("property_")
+            .elementMap()
+            .toStream()
+            .forEach(elementMap -> properties.add(createProperty(elementMap)));
+        return properties;
+    }
+
+    private Property createProperty(Map<Object, Object> elementMap) {
+        return Property.builder()
+                .code(Code.of((String) elementMap.get("code")))
+                .value(getElement(elementMap))
+                .build();
+    }
+
+    private Element getElement(Map<Object, Object> elementMap) {
+        for (Object value : elementMap.values()) {
+            if (value instanceof Element) {
+                return (Element) value;
+            }
+        }
+        return null;
     }
 
     private String getDesignationUseSystem(CodeSystem codeSystem) {

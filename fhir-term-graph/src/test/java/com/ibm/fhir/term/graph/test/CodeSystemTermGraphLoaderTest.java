@@ -29,6 +29,7 @@ public class CodeSystemTermGraphLoaderTest {
 
             GraphTermServiceProvider provider = new GraphTermServiceProvider(new PropertiesConfiguration("conf/local-graph.properties"));
             System.out.println(provider.subsumes(codeSystem, Code.of("m"), Code.of("p")));
+            System.out.println(provider.getConcept(codeSystem, Code.of("o")));
             provider.getGraph().close();
         }
     }
