@@ -48,4 +48,14 @@
             <class name="com.ibm.fhir.persistence.jdbc.search.test.JDBCWholeSystemSearchTest" />
         </classes>
     </test>
+    <test name="JDBCChangesTests">
+        <groups>
+            <run>
+                <include name="persistence-changes"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.ibm.fhir.persistence.jdbc.test.JDBCChangesTest" />
+        </classes>
+    </test>
 </suite>

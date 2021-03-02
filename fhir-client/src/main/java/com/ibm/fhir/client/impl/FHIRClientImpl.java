@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -402,6 +402,18 @@ public class FHIRClientImpl implements FHIRClient {
         }
         WebTarget endpoint = getWebTarget();
         endpoint = endpoint.path(resourceType).path(resourceId).path("_history");
+        endpoint = addParametersToWebTarget(endpoint, parameters);
+        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        builder = addRequestHeaders(builder, headers);
+        Response response = builder.get();
+        return new FHIRResponseImpl(response);
+    }
+
+    @Override
+    public FHIRResponse history(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+        // System level history request [base]/_history?...
+        WebTarget endpoint = getWebTarget();
+        endpoint = endpoint.path("_history");
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);

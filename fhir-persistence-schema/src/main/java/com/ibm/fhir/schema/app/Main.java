@@ -64,18 +64,25 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
+import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
+import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
 import com.ibm.fhir.schema.control.DisableForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.GetLogicalResourceIsDeletedNeedsMigration;
+import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
 import com.ibm.fhir.schema.control.GetTenantList;
+import com.ibm.fhir.schema.control.InitializeLogicalIdIsDeleted;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
+import com.ibm.fhir.schema.control.SetTenantIdDb2;
 import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
@@ -145,6 +152,9 @@ public class Main {
     // The database type being populated (default: Db2)
     private DbType dbType = DbType.DB2;
     private IDatabaseTranslator translator = new Db2Translator();
+
+    // Optional subset of resource types (for faster schema builds when testing)
+    private Set<String> resourceTypeSubset;
 
     // Tenant management
     private boolean allocateTenant;
@@ -220,14 +230,12 @@ public class Main {
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
-            String resourceTypesString = properties.getProperty("resourceTypes");
 
             FhirSchemaGenerator gen;
-            if (resourceTypesString == null || resourceTypesString.isEmpty()) {
+            if (resourceTypeSubset == null || resourceTypeSubset.isEmpty()) {
                 gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
             } else {
-                Set<String> resourceTypes = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
-                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypes);
+                gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant(), resourceTypeSubset);
             }
 
             gen.buildSchema(pdm);
@@ -380,6 +388,17 @@ public class Main {
         // Let's refresh the procedures and functions.
         logger.info("Refreshing procedures and functions");
         updateProcedures();
+
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            logger.info("Refreshing tenant partitions");
+            refreshTenants();
+        }
+
+        // backfill the resource_change_log table if needed
+        backfillResourceChangeLog();
+
+        // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
+        applyDataMigrationForV0010();
     }
 
     /**
@@ -812,7 +831,9 @@ public class Main {
         // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
         tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
         for (TenantInfo ti: tenants) {
-            if (ti.getTenantSchema() != null) {
+            // For issue 1847 we only want to process for the named data schema if one is provided
+            // If no -schema-name arg is given, we process all tenants.
+            if (ti.getTenantSchema() != null && (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema()))) {
                 // It's crucial we use the correct schema for each particular tenant, which
                 // is why we have to build the PhysicalDataModel separately for each tenant
                 FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), isMultitenant());
@@ -1491,6 +1512,198 @@ public class Main {
     }
 
     /**
+     * Perform the special data migration steps required for the V0010 version of the schema
+     */
+    protected void applyDataMigrationForV0010() {
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // Process each tenant one-by-one
+            List<TenantInfo> tenants = getTenantList();
+            for (TenantInfo ti: tenants) {
+
+                // If no --schema-name override was specified, we process all tenants, otherwise we
+                // process only tenants which belong to the override schema name
+                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
+                    dataMigrationForV0010(ti);
+                }
+            }
+        } else {
+            doMigrationForV0010();
+        }
+
+    }
+
+    /**
+     * Get the list of resource types to drive resource-by-resource operations
+     * @return the full list of FHIR R4 resource types, or a subset of names if so configured
+     */
+    private Set<String> getResourceTypes() {
+        Set<String> result;
+        if (this.resourceTypeSubset == null || this.resourceTypeSubset.isEmpty()) {
+            // pass 'false' to getResourceTypes to avoid building tables for abstract resource types
+            // Should simplify FhirSchemaGenerator and always pass in this list. When switching
+            // over to false, migration is required to drop the tables no longer required.
+            final boolean includeAbstractResourceTypes = true;
+            result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream()
+                    .map(t -> ModelSupport.getTypeName(t))
+                    .collect(Collectors.toSet());
+        } else {
+            result = this.resourceTypeSubset;
+        }
+
+        return result;
+    }
+
+    /**
+     * Migrate the IS_DELETED data for the given tenant
+     * @param ti
+     */
+    private void dataMigrationForV0010(TenantInfo ti) {
+        // Multi-tenant schema so we know this is Db2:
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+
+        Set<String> resourceTypes = getResourceTypes();
+
+        // Process each update in its own transaction so we don't stress the tx log space
+        for (String resourceTypeName: resourceTypes) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
+                    adapter.runStatement(setTenantId);
+
+                    GetLogicalResourceIsDeletedNeedsMigration needsMigrating = new GetLogicalResourceIsDeletedNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    if (adapter.runStatement(needsMigrating)) {
+                        logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED "
+                                + "for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+                        InitializeLogicalIdIsDeleted cmd = new InitializeLogicalIdIsDeleted(schema.getSchemaName(), resourceTypeName);
+                        adapter.runStatement(cmd);
+                    }
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * Perform the data migration for V0010 (non-multi-tenant schema)
+     */
+    private void doMigrationForV0010() {
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        Set<String> resourceTypes = getResourceTypes();
+
+        // Process each resource type in its own transaction to avoid pressure on the tx log
+        for (String resourceTypeName: resourceTypes) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    // only process tables which have been converted to the V0010 schema but
+                    // which have not yet had their data migrated. The migration can't be
+                    // done as part of the schema change because some tables need a REORG which
+                    // has to be done after the transaction in which the alter table was performed.
+                    GetLogicalResourceIsDeletedNeedsMigration needsMigrating = new GetLogicalResourceIsDeletedNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    if (adapter.runStatement(needsMigrating)) {
+                        logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED in schema " + schema.getSchemaName());
+                        InitializeLogicalIdIsDeleted cmd = new InitializeLogicalIdIsDeleted(schema.getSchemaName(), resourceTypeName);
+                        adapter.runStatement(cmd);
+                    }
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * Backfill the RESOURCE_CHANGE_LOG table if it is empty
+     */
+    protected void backfillResourceChangeLog() {
+
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // Process each tenant one-by-one
+            List<TenantInfo> tenants = getTenantList();
+            for (TenantInfo ti: tenants) {
+
+                // If no --schema-name override was specified, we process all tenants, otherwise we
+                // process only tenants which belong to the override schema name
+                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
+                    backfillResourceChangeLogDb2(ti);
+                }
+            }
+        } else {
+            // Not a multi-tenant database, so we only have to do this once
+            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
+                    if (adapter.runStatement(isEmpty)) {
+                        // change log is empty, so we need to backfill it with data
+                        doBackfill(adapter);
+                    } else {
+                        logger.info("RESOURCE_CHANGE_LOG has data so skipping backfill");
+                    }
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * backfill the resource_change_log table if it is empty
+     */
+    protected void backfillResourceChangeLogDb2(TenantInfo ti) {
+
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+
+        Set<String> resourceTypes = getResourceTypes();
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
+                adapter.runStatement(setTenantId);
+
+                GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
+                if (adapter.runStatement(isEmpty)) {
+                    // change log is empty, so we need to backfill it with data
+                    for (String resourceTypeName: resourceTypes) {
+                        logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
+                            + " resources for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+                        BackfillResourceChangeLogDb2 backfill = new BackfillResourceChangeLogDb2(schema.getSchemaName(), resourceTypeName);
+                        adapter.runStatement(backfill);
+                    }
+                } else {
+                    logger.info("RESOURCE_CHANGE_LOG has data for tenant '" + ti.getTenantName() + "' so skipping backfill");
+                }
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Backfill the RESOURCE_CHANGE_LOG table for all the resource types. Non-multi-tenant
+     * implementation
+     * @param adapter
+     */
+    private void doBackfill(IDatabaseAdapter adapter) {
+        Set<String> resourceTypes = getResourceTypes();
+
+        for (String resourceTypeName: resourceTypes) {
+            logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
+                + " resources for schema '" + schema.getSchemaName() + "'");
+            BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);
+            adapter.runStatement(backfill);
+        }
+    }
+
+    /**
      * Process the requested operation
      */
     protected void process() {
@@ -1503,11 +1716,17 @@ public class Main {
         }
 
         if (translator.isDerby() && !"APP".equals(schema.getSchemaName())) {
-            if (!schema.isDefaultSchemaName()) {
+            if (schema.isOverrideDataSchema()) {
                 logger.warning("Only the APP schema is supported for Apache Derby; ignoring the passed"
                         + " schema name '" + schema.getSchemaName() + "' and using APP.");
             }
             schema.setSchemaName("APP");
+        }
+
+        // [optional] use a subset of resource types to make testing quicker
+        String resourceTypesString = properties.getProperty("resourceTypes");
+        if (resourceTypesString != null && resourceTypesString.length() > 0) {
+            resourceTypeSubset = new HashSet<>(Arrays.asList(resourceTypesString.split(",")));
         }
 
         if (addKeyForTenant != null) {

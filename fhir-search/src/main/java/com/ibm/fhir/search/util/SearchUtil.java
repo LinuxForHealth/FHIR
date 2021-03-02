@@ -124,6 +124,8 @@ public class SearchUtil {
     // compartment parameter reference which can be ignore
     private static final String COMPARTMENT_PARM_DEF = "{def}";
 
+    private static final String IBM_COMPOSITE_PREFIX = "ibm_composite_";
+
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
 
@@ -1110,31 +1112,48 @@ public class SearchUtil {
         String parameterCode = searchParameter.getCode().getValue();
         Type type = Type.fromValue(searchParameter.getType().getValue());
         List<QueryParameterValue> queryParameterValues;
-        if (Modifier.MISSING.equals(modifier)) {
+        if (Type.COMPOSITE == type) {
+            List<Component> components = searchParameter.getComponent();
+
+            // Generate parallel lists of type and code (parameter name) representing each
+            // component parameter of the composite
+            List<Type> compTypes = new ArrayList<>(components.size());
+            List<String> compCodes = new ArrayList<>(components.size());
+            for (Component component : components) {
+                if (component.getDefinition() == null || !component.getDefinition().hasValue()) {
+                    throw new IllegalStateException(String.format("Composite search parameter '%s' is "
+                            + "missing one or more component definition", searchParameter.getName()));
+                }
+                SearchParameter referencedParam = getSearchParameter(resourceType, component.getDefinition());
+                compTypes.add(Type.fromValue(referencedParam.getType().getValue()));
+                compCodes.add(referencedParam.getCode().getValue());
+            }
+
+            if (Modifier.MISSING.equals(modifier)) {
+                queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName, queryParameterValueString);
+                // Still need to populate the components for the query builder to properly build the SQL
+                for (QueryParameterValue queryParameterValue : queryParameterValues) {
+                    for (int i=0; i<compTypes.size(); i++) {
+                        Type componentType = compTypes.get(i);
+                        final String compositeSubParamCode = compCodes.get(i);
+                        final String compositeParamCode = SearchUtil.makeCompositeSubCode(parameterCode, compositeSubParamCode);
+                        queryParameterValue.addComponent(new QueryParameter(componentType, compositeParamCode, null, null));
+                    }
+                }
+            } else {
+                queryParameterValues = parseCompositeQueryParameterValuesString(searchParameter, parameterCode, compTypes, compCodes, queryParameterValueString);
+            }
+        } else if (Modifier.MISSING.equals(modifier)) {
             // FHIR search considers booleans a special case of token for some reason...
             queryParameterValues = parseQueryParameterValuesString(searchParameter, Type.TOKEN, modifier, modifierResourceTypeName, queryParameterValueString);
         } else {
-            if (Type.COMPOSITE == type) {
-                List<Component> components = searchParameter.getComponent();
-                List<Type> compTypes = new ArrayList<>(components.size());
-                for (Component component : components) {
-                    if (component.getDefinition() == null || !component.getDefinition().hasValue()) {
-                        throw new IllegalStateException(String.format("Composite search parameter '%s' is "
-                                + "missing one or more component definition", searchParameter.getName()));
-                    }
-                    SearchParameter referencedParam = getSearchParameter(resourceType, component.getDefinition());
-                    compTypes.add(Type.fromValue(referencedParam.getType().getValue()));
-                }
-                queryParameterValues = parseCompositeQueryParameterValuesString(searchParameter, parameterCode, compTypes, queryParameterValueString);
-            } else {
-                queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifier, modifierResourceTypeName, queryParameterValueString);
-            }
+            queryParameterValues = parseQueryParameterValuesString(searchParameter, type, modifier, modifierResourceTypeName, queryParameterValueString);
         }
         return queryParameterValues;
     }
 
-    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(SearchParameter searchParameter, String compositeParamCode,
-            List<Type> compTypes, String queryParameterValuesString) throws FHIRSearchException {
+    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(SearchParameter searchParameter, final String compositeParamCode,
+            List<Type> compTypes, List<String> compCodes, String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
         // BACKSLASH_NEGATIVE_LOOKBEHIND prevents it from splitting on ',' that are preceded by a '\'
@@ -1152,8 +1171,11 @@ public class SearchUtil {
                 } else if (values.size() > 1) {
                     throw new IllegalStateException("A single component can only have a single value");
                 } else {
-                    // exactly one
-                    QueryParameter parameter = new QueryParameter(compTypes.get(i), compositeParamCode, null, null, values);
+                    // exactly one. Override the parameter code (parameter_name) so that it uniquely
+                    // referenced the correct sub-parameter for this composite
+                    final String compositeSubParamCode = compCodes.get(i);
+                    final String compositeParamName = SearchUtil.makeCompositeSubCode(compositeParamCode, compositeSubParamCode);
+                    QueryParameter parameter = new QueryParameter(compTypes.get(i), compositeParamName, null, null, values);
                     parameterValue.addComponent(parameter);
                 }
             }
@@ -2436,5 +2458,24 @@ public class SearchUtil {
                     String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, parameterCode, value.getValueString()));
             }
         }
+    }
+
+    /**
+     * Build a parameter name (code) which can be used to uniquely represent the stored
+     * composite sub-parameter (the values get added to the parameter_names table). We use
+     * a prefix just to avoid any (albeit already remote) possibility of collision. Also
+     * makes these more visible as something added by the implementation code, not from
+     * a configuration file.
+     * @param compositeCode
+     * @param subParameterCode
+     * @return
+     */
+    public static String makeCompositeSubCode(String compositeCode, String subParameterCode) {
+        final StringBuilder result = new StringBuilder();
+        result.append(IBM_COMPOSITE_PREFIX);
+        result.append(compositeCode);
+        result.append("_");
+        result.append(subParameterCode);
+        return result.toString();
     }
 }

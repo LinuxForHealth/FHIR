@@ -124,8 +124,8 @@
                     "type": "postgresql",
                     "currentSchema": "fhirdata",
                     "searchOptimizerOptions": {
-                        "from_collapse_limit": 16,
-                        "join_collapse_limit": 16
+                        "from_collapse_limit": 7,
+                        "join_collapse_limit": 7
                     }
                 }
             }
