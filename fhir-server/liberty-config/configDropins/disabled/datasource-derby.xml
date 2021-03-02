@@ -1,4 +1,8 @@
 <server>
+    <library id="fhirSharedLib">
+        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
+    </library>
+    
     <!-- ============================================================== -->
     <!-- TENANT: tenant1; DSID: profile; TYPE: read-write               -->
     <!-- ============================================================== -->

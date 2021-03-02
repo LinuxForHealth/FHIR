@@ -28,9 +28,9 @@
                     "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
                     "capabilities": [
                         "sso-openid-connect",
-                        "launch-standalone", 
-                        "client-public", 
-                        "client-confidential-symmetric", 
+                        "launch-standalone",
+                        "client-public",
+                        "client-confidential-symmetric",
                         "permission-offline",
                         "context-standalone-patient",
                         "permission-patient"
@@ -101,7 +101,6 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
@@ -110,17 +109,9 @@
                 "default": {
                     "type": "db2",
                     "currentSchema": "fhirdata",
+                    "tenantKey": "<the-tenant-key>",
                     "hints" : {
                       "search.reopt": "ONCE"
-                    },
-                    "connectionProperties": {
-                        "serverName": "db2",
-                        "portNumber": 50000,
-                        "user": "fhirserver",
-                        "password": "change-password",
-                        "databaseName": "FHIRDB",
-                        "currentSchema": "FHIRDATA",
-                        "driverType": 4
                     }
                 }
             }

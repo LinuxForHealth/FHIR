@@ -104,6 +104,9 @@ Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
 $OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\datasource-derby.xml'
 $OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource-derby.xml'
 Copy-Item $OVR_ITEM2 -Destination $OVR_ITEM_DST2
+$OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\jvm.options'
+$OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\jvm.options'
+Copy-Item $OVR_ITEM3 -Destination $OVR_ITEM_DST3
 
 Write-Host 'Copying test artifacts to install location'
 $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*-tests.jar'

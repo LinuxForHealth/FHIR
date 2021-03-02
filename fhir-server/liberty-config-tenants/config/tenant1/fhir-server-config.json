@@ -22,24 +22,15 @@
             "datasources": {
                 "profile": {
                     "type": "derby",
-                    "currentSchema": "APP",
-                    "connectionProperties": {
-                        "databaseName": "derby/profile"
-                    }
+                    "currentSchema": "APP"
                 },
                 "reference": {
                     "type": "derby",
-                    "currentSchema": "APP",
-                    "connectionProperties": {
-                        "databaseName": "derby/reference"
-                    }
+                    "currentSchema": "APP"
                 },
                 "study1": {
                     "type": "derby",
-                    "currentSchema": "APP",
-                    "connectionProperties": {
-                        "databaseName": "derby/study1"
-                    }
+                    "currentSchema": "APP"
                 }
             }
         }
