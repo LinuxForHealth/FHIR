@@ -22,13 +22,9 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
  */
 public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     @Override
-    public boolean isSupported(CodeSystem codeSystem) {
-        return CodeSystemContentMode.COMPLETE.equals(codeSystem.getContent());
-    }
-
-    @Override
-    public boolean hasConcept(CodeSystem codeSystem, Code code) {
-        return getConcept(codeSystem, code) != null;
+    public Set<Concept> closure(CodeSystem codeSystem, Code code) {
+        Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
+        return CodeSystemSupport.getConcepts(concept);
     }
 
     @Override
@@ -47,14 +43,18 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
-        Concept concept = CodeSystemSupport.findConcept(codeSystem, codeA);
-        return (CodeSystemSupport.findConcept(codeSystem, concept, codeB) != null);
+    public boolean hasConcept(CodeSystem codeSystem, Code code) {
+        return getConcept(codeSystem, code) != null;
     }
 
     @Override
-    public Set<Concept> closure(CodeSystem codeSystem, Code code) {
-        Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
-        return CodeSystemSupport.getConcepts(concept);
+    public boolean isSupported(CodeSystem codeSystem) {
+        return CodeSystemContentMode.COMPLETE.equals(codeSystem.getContent());
+    }
+
+    @Override
+    public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+        Concept concept = CodeSystemSupport.findConcept(codeSystem, codeA);
+        return (CodeSystemSupport.findConcept(codeSystem, concept, codeB) != null);
     }
 }

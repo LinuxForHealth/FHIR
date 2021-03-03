@@ -16,26 +16,17 @@ import com.ibm.fhir.model.type.Code;
 
 public interface FHIRTermServiceProvider {
     /**
-     * Indicates whether the given code system is supported.
-     *
-     * @param codeSystem
-     *     the code system
-     * @return
-     *     true if the given code system is supported, false otherwise
-     */
-    boolean isSupported(CodeSystem codeSystem);
-
-    /**
-     * Indicates whether the given code system contains a concept with the specified code.
+     * Get a set containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened.
      *
      * @param codeSystem
      *     the code system
      * @param code
-     *     the code
+     *     the root of the hierarchy containing the Concept instances to be flattened
      * @return
-     *     true if the given code system contains a concept with the specified code, false otherwise
+     *     flattened set of Concept instances for the given tree
      */
-    boolean hasConcept(CodeSystem codeSystem, Code code);
+    Set<Concept> closure(CodeSystem codeSystem, Code code);
 
     /**
      * Get the concept in the provided code system with the specified code.
@@ -74,6 +65,28 @@ public interface FHIRTermServiceProvider {
     Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters);
 
     /**
+     * Indicates whether the given code system contains a concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     true if the given code system contains a concept with the specified code, false otherwise
+     */
+    boolean hasConcept(CodeSystem codeSystem, Code code);
+
+    /**
+     * Indicates whether the given code system is supported.
+     *
+     * @param codeSystem
+     *     the code system
+     * @return
+     *     true if the given code system is supported, false otherwise
+     */
+    boolean isSupported(CodeSystem codeSystem);
+
+    /**
      * Find the concept in tree rooted by the provided concept that matches the specified code.
      *
      * @param codeSystem
@@ -86,17 +99,4 @@ public interface FHIRTermServiceProvider {
      *     the code system concept that matches the specified code, or null if not such concept exists
      */
     boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB);
-
-    /**
-     * Get a set containing {@link CodeSystem.Concept} instances where all structural
-     * hierarchies have been flattened.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the root of the hierarchy containing the Concept instances to be flattened
-     * @return
-     *     flattened set of Concept instances for the given tree
-     */
-    Set<Concept> closure(CodeSystem codeSystem, Code code);
 }

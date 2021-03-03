@@ -54,13 +54,8 @@ public class FHIRTermService {
     private static final FHIRTermService INSTANCE = new FHIRTermService();
     private static final FHIRTermServiceProvider NULL_TERM_SERVICE_PROVIDER = new FHIRTermServiceProvider() {
         @Override
-        public boolean isSupported(CodeSystem codeSystem) {
-            return false;
-        }
-
-        @Override
-        public boolean hasConcept(CodeSystem codeSystem, Code code) {
-            return false;
+        public Set<Concept> closure(CodeSystem codeSystem, Code code) {
+            return Collections.emptySet();
         }
 
         @Override
@@ -79,13 +74,18 @@ public class FHIRTermService {
         }
 
         @Override
-        public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+        public boolean hasConcept(CodeSystem codeSystem, Code code) {
             return false;
         }
 
         @Override
-        public Set<Concept> closure(CodeSystem codeSystem, Code code) {
-            return Collections.emptySet();
+        public boolean isSupported(CodeSystem codeSystem) {
+            return false;
+        }
+
+        @Override
+        public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+            return false;
         }
     };
     private final List<FHIRTermServiceProvider> providers;
@@ -105,41 +105,64 @@ public class FHIRTermService {
         providers.add(provider);
     }
 
-    public static FHIRTermService getInstance() {
-        return INSTANCE;
+    public Set<Concept> closure(CodeSystem codeSystem, Code code) {
+        return findProvider(codeSystem).closure(codeSystem, code);
     }
 
     /**
-     * Indicates whether the given code system is supported.
+     * Generate the transitive closure for the code system concept represented by the given coding
      *
-     * @param codeSystem
-     *     the code system
+     * @param coding
+     *     the coding
      * @return
-     *     true if the given code system is supported, false otherwise
+     *     a set containing the transitive closure for the code system concept represented by the given coding
      */
-    public boolean isSupported(CodeSystem codeSystem) {
-        if (codeSystem != null) {
-            for (FHIRTermServiceProvider provider : providers) {
-                if (provider.isSupported(codeSystem)) {
-                    return true;
+    public Set<Concept> closure(Coding coding) {
+        Uri system = coding.getSystem();
+        java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+        Code code = coding.getCode();
+
+        if (system != null && code != null) {
+            java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                FHIRTermServiceProvider provider = findProvider(codeSystem);
+                if (provider.hasConcept(codeSystem, code)) {
+                    return provider.closure(codeSystem, code);
                 }
             }
         }
-        return false;
+
+        return Collections.emptySet();
     }
 
     /**
-     * Indicates whether the given code system contains a concept with the specified code.
+     * Expand the given value set
      *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the code
+     * @param valueSet
+     *     the value set to expand
      * @return
-     *     true if the given code system contains a concept with the specified code, false otherwise
+     *     the expanded value set, or the original value set if already expanded or unable to expand
      */
-    public boolean hasConcept(CodeSystem codeSystem, Code code) {
-        return findProvider(codeSystem).hasConcept(codeSystem, code);
+    public ValueSet expand(ValueSet valueSet) {
+        return ValueSetSupport.expand(valueSet);
+    }
+
+    /**
+     * Expand the given value set and expansion parameters
+     *
+     * @param valueSet
+     *     the value set to expand
+     * @param parameters
+     *     the expansion parameters
+     * @return
+     *     the expanded value set, or the original value set if already expanded or unable to expand
+     */
+    public ValueSet expand(ValueSet valueSet, ExpansionParameters parameters) {
+        if (!ExpansionParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Expansion parameters are not supported");
+        }
+        return ValueSetSupport.expand(valueSet);
     }
 
     /**
@@ -185,6 +208,20 @@ public class FHIRTermService {
     }
 
     /**
+     * Indicates whether the given code system contains a concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     true if the given code system contains a concept with the specified code, false otherwise
+     */
+    public boolean hasConcept(CodeSystem codeSystem, Code code) {
+        return findProvider(codeSystem).hasConcept(codeSystem, code);
+    }
+
+    /**
      * Indicates whether the given value set is expandable
      *
      * @param valueSet
@@ -197,74 +234,34 @@ public class FHIRTermService {
     }
 
     /**
-     * Expand the given value set and expansion parameters
+     * Indicates whether the given code system is supported.
      *
-     * @param valueSet
-     *     the value set to expand
-     * @param parameters
-     *     the expansion parameters
+     * @param codeSystem
+     *     the code system
      * @return
-     *     the expanded value set, or the original value set if already expanded or unable to expand
+     *     true if the given code system is supported, false otherwise
      */
-    public ValueSet expand(ValueSet valueSet, ExpansionParameters parameters) {
-        if (!ExpansionParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Expansion parameters are not supported");
+    public boolean isSupported(CodeSystem codeSystem) {
+        if (codeSystem != null) {
+            for (FHIRTermServiceProvider provider : providers) {
+                if (provider.isSupported(codeSystem)) {
+                    return true;
+                }
+            }
         }
-        return ValueSetSupport.expand(valueSet);
+        return false;
     }
 
     /**
-     * Expand the given value set
+     * Lookup the code system concept for the given coding
      *
-     * @param valueSet
-     *     the value set to expand
-     * @return
-     *     the expanded value set, or the original value set if already expanded or unable to expand
-     */
-    public ValueSet expand(ValueSet valueSet) {
-        return ValueSetSupport.expand(valueSet);
-    }
-
-    /**
-     * Lookup the code system concept for the given system, version, code and lookup parameters
-     *
-     * @param system
-     *     the system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
-     * @param parameters
-     *     the lookup parameters
+     * @param coding
+     *     the coding to lookup
      * @return
      *     the outcome of the lookup
      */
-    public LookupOutcome lookup(Uri system, String version, Code code, LookupParameters parameters) {
-        if (!LookupParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Lookup parameters are not suppored");
-        }
-        Coding coding = Coding.builder()
-                .system(system)
-                .version(version)
-                .code(code)
-                .build();
-        return lookup(coding, parameters);
-    }
-
-    /**
-     * Lookup the code system concept for the given system, version, and code
-     *
-     * @param system
-     *     the system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
-     * @return
-     *     the outcome of the lookup
-     */
-    public LookupOutcome lookup(Uri system, String version, Code code) {
-        return lookup(system, version, code, LookupParameters.EMPTY);
+    public LookupOutcome lookup(Coding coding) {
+        return lookup(coding, LookupParameters.EMPTY);
     }
 
     /**
@@ -315,15 +312,45 @@ public class FHIRTermService {
     }
 
     /**
-     * Lookup the code system concept for the given coding
+     * Lookup the code system concept for the given system, version, and code
      *
-     * @param coding
-     *     the coding to lookup
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
      * @return
      *     the outcome of the lookup
      */
-    public LookupOutcome lookup(Coding coding) {
-        return lookup(coding, LookupParameters.EMPTY);
+    public LookupOutcome lookup(Uri system, String version, Code code) {
+        return lookup(system, version, code, LookupParameters.EMPTY);
+    }
+
+    /**
+     * Lookup the code system concept for the given system, version, code and lookup parameters
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the lookup parameters
+     * @return
+     *     the outcome of the lookup
+     */
+    public LookupOutcome lookup(Uri system, String version, Code code, LookupParameters parameters) {
+        if (!LookupParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Lookup parameters are not suppored");
+        }
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return lookup(coding, parameters);
     }
 
     /**
@@ -390,375 +417,60 @@ public class FHIRTermService {
         return null;
     }
 
-    public Set<Concept> closure(CodeSystem codeSystem, Code code) {
-        return findProvider(codeSystem).closure(codeSystem, code);
-    }
-
     /**
-     * Generate the transitive closure for the code system concept represented by the given coding
-     *
-     * @param coding
-     *     the coding
-     * @return
-     *     a set containing the transitive closure for the code system concept represented by the given coding
-     */
-    public Set<Concept> closure(Coding coding) {
-        Uri system = coding.getSystem();
-        java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-        Code code = coding.getCode();
-
-        if (system != null && code != null) {
-            java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
-            if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                FHIRTermServiceProvider provider = findProvider(codeSystem);
-                if (provider.hasConcept(codeSystem, code)) {
-                    return provider.closure(codeSystem, code);
-                }
-            }
-        }
-
-        return Collections.emptySet();
-    }
-
-    /**
-     * Validate a code and display using the provided code system, version and validation parameters
-     *
-     * @param codeSystem
-     *     the code system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
-     * @param display
-     *     the display
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        Coding coding = Coding.builder()
-                .version(version)
-                .code(code)
-                .display(display)
-                .build();
-        return validateCode(codeSystem, coding, parameters);
-    }
-
-    /**
-     * Validate a code and display using the provided code system and version
-     *
-     * @param code system
-     *     the code system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
-     * @param display
-     *     the display
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display) {
-        return validateCode(codeSystem, version, code, display, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Validate a coding using the provided code system and validation parameters
-     *
-     * @param codeSystem
-     *     the code system
-     * @param coding
-     *     the coding
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        LookupOutcome outcome = lookup(coding, LookupParameters.EMPTY);
-        return validateCode(codeSystem, coding, (outcome != null), outcome);
-    }
-
-    /**
-     * Validate a coding using the provided code system
-     *
-     * @param codeSystem
-     *     the codeSystem
-     * @param coding
-     *     the coding
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding) {
-        return validateCode(codeSystem, coding, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Validate a codeable concept using the provided code system and validation parameters
-     *
-     * @param codeSystem
-     *     the code system
-     * @param codeableConcept
-     *     the codeable concept
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        for (Coding coding : codeableConcept.getCoding()) {
-            ValidationOutcome outcome = validateCode(codeSystem, coding, parameters);
-            if (Boolean.TRUE.equals(outcome.getResult())) {
-                return outcome;
-            }
-        }
-        return validateCode(null, false, null);
-    }
-
-    /**
-     * Validate a codeable concept using the provided code system
-     *
-     * @param codeableConcept
-     *     the codeable concept
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept) {
-        return validateCode(codeSystem, codeableConcept, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Validate a code using the provided value set and validation parameters
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param code
-     *     the code
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, Code code, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        boolean result = ValueSetSupport.validateCode(valueSet, code);
-        return validateCode(null, Coding.builder().code(code).build(), result, null);
-    }
-
-    /**
-     * Validate a code using the provided value set
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param code
-     *     the code
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, Code code) {
-        return validateCode(valueSet, code, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Validate a code and display using the provided value set and validation parameters
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param system
-     *     the system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
-     * @param display
-     *     the display
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, Uri system, String version, Code code, String display, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        Coding coding = Coding.builder()
-                .system(system)
-                .version(version)
-                .code(code)
-                .build();
-        return validateCode(valueSet, coding, parameters);
-    }
-
-    /**
-     * Validate a code and display using the provided value set
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param system
-     *     the system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
-     * @param display
-     *     the display
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, Uri system, String version, Code code, String display) {
-        return validateCode(valueSet, system, version, code, display, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Validate a coding using the provided value set using the provided validation parameters
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param coding
-     *     the coding
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        boolean result = ValueSetSupport.validateCode(valueSet, coding);
-        LookupOutcome outcome = result ? lookup(coding) : null;
-        return validateCode(coding, result, outcome);
-    }
-
-    /**
-     * Validate a coding using the provided value set using the provided validation parameters
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param coding
-     *     the coding
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, Coding coding) {
-        return validateCode(valueSet, coding, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Validate a codeable concept using the provided value set using the provided validation parameters
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param codeable concept
-     *     the codeable concept
-     * @param parameters
-     *     the validation parameters
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept, ValidationParameters parameters) {
-        if (!ValidationParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Validation parameters are not supported");
-        }
-        for (Coding coding : codeableConcept.getCoding()) {
-            boolean result = ValueSetSupport.validateCode(valueSet, coding);
-            if (result) {
-                LookupOutcome outcome = lookup(coding);
-                return validateCode(coding, result, outcome);
-            }
-        }
-        return validateCode(null, false, null);
-    }
-
-    /**
-     * Validate a codeable concept using the provided value set
-     *
-     * @apiNote
-     *     the implementation will expand the provided value set if needed
-     * @param valueSet
-     *     the value set
-     * @param codeable concept
-     *     the codeable concept
-     * @return
-     *     the outcome of validation
-     */
-    public ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
-        return validateCode(valueSet, codeableConcept, ValidationParameters.EMPTY);
-    }
-
-    /**
-     * Translate the given system, version and code using the provided concept map and translation parameters
+     * Translate the given coding using the provided concept map
      *
      * @param conceptMap
      *     the concept map
-     * @param system
-     *     the system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
+     * @param codeable concept
+     *     the codeable concept
+     * @return
+     *     the outcome of translation
+     */
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept) {
+        return translate(conceptMap, codeableConcept, TranslationParameters.EMPTY);
+    }
+
+    /**
+     * Translate the given codeable concept using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeableConcept
+     *     the codeable concept
      * @param parameters
      *     the translation parameters
      * @return
      *     the outcome of translation
      */
-    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code, TranslationParameters parameters) {
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters) {
         if (!TranslationParameters.EMPTY.equals(parameters)) {
             throw new UnsupportedOperationException("Translation parameters are not supported");
         }
-        Coding coding = Coding.builder()
-                .system(system)
-                .version(version)
-                .code(code)
+        for (Coding coding : codeableConcept.getCoding()) {
+            TranslationOutcome outcome = translate(conceptMap, coding, parameters);
+            if (Boolean.TRUE.equals(outcome.getResult())) {
+                return outcome;
+            }
+        }
+        return TranslationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("No matches found"))
                 .build();
-        return translate(conceptMap, coding, parameters);
     }
 
     /**
-     * Translate the given system, version and code using the provided concept map
+     * Translate the given coding using the provided concept map
      *
      * @param conceptMap
      *     the concept map
-     * @param system
-     *     the system
-     * @param version
-     *     the version
-     * @param code
-     *     the code
+     * @param coding
+     *     the coding
      * @return
      *     the outcome of translation
      */
-    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code) {
-        return translate(conceptMap, system, version, code, TranslationParameters.EMPTY);
+    public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
+        return translate(conceptMap, coding, TranslationParameters.EMPTY);
     }
 
     /**
@@ -813,69 +525,343 @@ public class FHIRTermService {
     }
 
     /**
-     * Translate the given coding using the provided concept map
+     * Translate the given system, version and code using the provided concept map
      *
      * @param conceptMap
      *     the concept map
-     * @param coding
-     *     the coding
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
      * @return
      *     the outcome of translation
      */
-    public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
-        return translate(conceptMap, coding, TranslationParameters.EMPTY);
+    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code) {
+        return translate(conceptMap, system, version, code, TranslationParameters.EMPTY);
     }
 
     /**
-     * Translate the given codeable concept using the provided concept map and translation parameters
+     * Translate the given system, version and code using the provided concept map and translation parameters
      *
      * @param conceptMap
      *     the concept map
-     * @param codeableConcept
-     *     the codeable concept
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
      * @param parameters
      *     the translation parameters
      * @return
      *     the outcome of translation
      */
-    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters) {
+    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code, TranslationParameters parameters) {
         if (!TranslationParameters.EMPTY.equals(parameters)) {
             throw new UnsupportedOperationException("Translation parameters are not supported");
         }
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return translate(conceptMap, coding, parameters);
+    }
+
+    /**
+     * Validate a codeable concept using the provided code system
+     *
+     * @param codeableConcept
+     *     the codeable concept
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept) {
+        return validateCode(codeSystem, codeableConcept, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a codeable concept using the provided code system and validation parameters
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codeableConcept
+     *     the codeable concept
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
+        }
         for (Coding coding : codeableConcept.getCoding()) {
-            TranslationOutcome outcome = translate(conceptMap, coding, parameters);
+            ValidationOutcome outcome = validateCode(codeSystem, coding, parameters);
             if (Boolean.TRUE.equals(outcome.getResult())) {
                 return outcome;
             }
         }
-        return TranslationOutcome.builder()
-                .result(Boolean.FALSE)
-                .message(string("No matches found"))
-                .build();
+        return validateCode(null, false, null);
     }
 
     /**
-     * Translate the given coding using the provided concept map
+     * Validate a coding using the provided code system
      *
-     * @param conceptMap
-     *     the concept map
+     * @param codeSystem
+     *     the codeSystem
+     * @param coding
+     *     the coding
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding) {
+        return validateCode(codeSystem, coding, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a coding using the provided code system and validation parameters
+     *
+     * @param codeSystem
+     *     the code system
+     * @param coding
+     *     the coding
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
+        }
+        LookupOutcome outcome = lookup(coding, LookupParameters.EMPTY);
+        return validateCode(codeSystem, coding, (outcome != null), outcome);
+    }
+
+    /**
+     * Validate a code and display using the provided code system and version
+     *
+     * @param code system
+     *     the code system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param display
+     *     the display
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display) {
+        return validateCode(codeSystem, version, code, display, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a code and display using the provided code system, version and validation parameters
+     *
+     * @param codeSystem
+     *     the code system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param display
+     *     the display
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
+        }
+        Coding coding = Coding.builder()
+                .version(version)
+                .code(code)
+                .display(display)
+                .build();
+        return validateCode(codeSystem, coding, parameters);
+    }
+
+    /**
+     * Validate a code using the provided value set
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, Code code) {
+        return validateCode(valueSet, code, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a code using the provided value set and validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param code
+     *     the code
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, Code code, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
+        }
+        boolean result = ValueSetSupport.validateCode(valueSet, code);
+        return validateCode(null, Coding.builder().code(code).build(), result, null);
+    }
+
+    /**
+     * Validate a codeable concept using the provided value set
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
      * @param codeable concept
      *     the codeable concept
      * @return
-     *     the outcome of translation
+     *     the outcome of validation
      */
-    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept) {
-        return translate(conceptMap, codeableConcept, TranslationParameters.EMPTY);
+    public ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
+        return validateCode(valueSet, codeableConcept, ValidationParameters.EMPTY);
     }
 
-    private List<FHIRTermServiceProvider> loadProviders() {
-        List<FHIRTermServiceProvider> providers = new ArrayList<>();
-        providers.add(new DefaultTermServiceProvider());
-        Iterator<FHIRTermServiceProvider> iterator = ServiceLoader.load(FHIRTermServiceProvider.class).iterator();
-        while (iterator.hasNext()) {
-            providers.add(iterator.next());
+    /**
+     * Validate a codeable concept using the provided value set using the provided validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param codeable concept
+     *     the codeable concept
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
         }
-        return providers;
+        for (Coding coding : codeableConcept.getCoding()) {
+            boolean result = ValueSetSupport.validateCode(valueSet, coding);
+            if (result) {
+                LookupOutcome outcome = lookup(coding);
+                return validateCode(coding, result, outcome);
+            }
+        }
+        return validateCode(null, false, null);
+    }
+
+    /**
+     * Validate a coding using the provided value set using the provided validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param coding
+     *     the coding
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, Coding coding) {
+        return validateCode(valueSet, coding, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a coding using the provided value set using the provided validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param coding
+     *     the coding
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
+        }
+        boolean result = ValueSetSupport.validateCode(valueSet, coding);
+        LookupOutcome outcome = result ? lookup(coding) : null;
+        return validateCode(coding, result, outcome);
+    }
+
+    /**
+     * Validate a code and display using the provided value set
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param display
+     *     the display
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, Uri system, String version, Code code, String display) {
+        return validateCode(valueSet, system, version, code, display, ValidationParameters.EMPTY);
+    }
+
+    /**
+     * Validate a code and display using the provided value set and validation parameters
+     *
+     * @apiNote
+     *     the implementation will expand the provided value set if needed
+     * @param valueSet
+     *     the value set
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param display
+     *     the display
+     * @param parameters
+     *     the validation parameters
+     * @return
+     *     the outcome of validation
+     */
+    public ValidationOutcome validateCode(ValueSet valueSet, Uri system, String version, Code code, String display, ValidationParameters parameters) {
+        if (!ValidationParameters.EMPTY.equals(parameters)) {
+            throw new UnsupportedOperationException("Validation parameters are not supported");
+        }
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return validateCode(valueSet, coding, parameters);
     }
 
     private FHIRTermServiceProvider findProvider(CodeSystem codeSystem) {
@@ -887,8 +873,22 @@ public class FHIRTermService {
         return NULL_TERM_SERVICE_PROVIDER;
     }
 
-    private ValidationOutcome validateCode(Coding coding, boolean result, LookupOutcome outcome) {
-        return validateCode(null, coding, result, outcome);
+    private Uri getSource(ConceptMap conceptMap) {
+        StringBuilder sb = new StringBuilder(conceptMap.getUrl().getValue());
+        if (conceptMap.getVersion() != null) {
+            sb.append("|").append(conceptMap.getVersion().getValue());
+        }
+        return Uri.of(sb.toString());
+    }
+
+    private List<FHIRTermServiceProvider> loadProviders() {
+        List<FHIRTermServiceProvider> providers = new ArrayList<>();
+        providers.add(new DefaultTermServiceProvider());
+        Iterator<FHIRTermServiceProvider> iterator = ServiceLoader.load(FHIRTermServiceProvider.class).iterator();
+        while (iterator.hasNext()) {
+            providers.add(iterator.next());
+        }
+        return providers;
     }
 
     private ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, boolean result, LookupOutcome outcome) {
@@ -919,11 +919,11 @@ public class FHIRTermService {
                 .build();
     }
 
-    private Uri getSource(ConceptMap conceptMap) {
-        StringBuilder sb = new StringBuilder(conceptMap.getUrl().getValue());
-        if (conceptMap.getVersion() != null) {
-            sb.append("|").append(conceptMap.getVersion().getValue());
-        }
-        return Uri.of(sb.toString());
+    private ValidationOutcome validateCode(Coding coding, boolean result, LookupOutcome outcome) {
+        return validateCode(null, coding, result, outcome);
+    }
+
+    public static FHIRTermService getInstance() {
+        return INSTANCE;
     }
 }

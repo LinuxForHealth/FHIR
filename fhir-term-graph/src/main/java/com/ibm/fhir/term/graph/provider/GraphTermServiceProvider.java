@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
@@ -40,75 +39,9 @@ import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     private final FHIRTermGraph graph;
-    private final GraphTraversalSource g;
 
     public GraphTermServiceProvider(Configuration configuration) {
         graph = FHIRTermGraphFactory.open(configuration);
-        g = graph.traversal();
-    }
-
-    public FHIRTermGraph getGraph() {
-        return graph;
-    }
-
-    @Override
-    public boolean isSupported(CodeSystem codeSystem) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        return hasVersion(hasUrl(g.V(), codeSystem.getUrl()), codeSystem.getVersion()).hasNext();
-    }
-
-    @Override
-    public boolean hasConcept(CodeSystem codeSystem, Code code) {
-        return whereCodeSystem(hasCode(g.V(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem).hasNext();
-    }
-
-    @Override
-    public Concept getConcept(CodeSystem codeSystem, Code code) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        return getConcept(codeSystem, code, true, true);
-    }
-
-    private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations, boolean includeProperties) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        return createConcept(
-            codeSystem,
-            code.getValue(),
-            whereCodeSystem(hasCode(g.V(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
-                .elementMap()
-                .tryNext(),
-            includeDesignations,
-            includeProperties);
-    }
-
-    @Override
-    public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        boolean caseSensitive = isCaseSensitive(codeSystem);
-        if (codeA.equals(codeB) || (!caseSensitive && normalize(codeA.getValue()).equals(normalize(codeB.getValue())))) {
-            return true;
-        }
-        return whereCodeSystem(hasCode(g.V(), codeA.getValue(), caseSensitive), codeSystem)
-            .repeat(__.in("isA")
-                .simplePath())
-            .until(hasCode(codeB.getValue(), caseSensitive))
-            .hasNext();
-    }
-
-    @Override
-    public Set<Concept> getConcepts(CodeSystem codeSystem) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        List<Concept> concepts = new ArrayList<>(getCount(codeSystem));
-        hasVersion(hasUrl(g.V(), codeSystem.getUrl()), codeSystem.getVersion())
-            .out("concept")
-            .elementMap()
-            .toStream()
-            .forEach(elementMap -> concepts.add(createConcept(elementMap)));
-        return Collections.emptySet();
-    }
-
-    @Override
-    public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -116,7 +49,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         Set<Concept> concepts = new LinkedHashSet<>();
         concepts.add(getConcept(codeSystem, code, false, false));
-        whereCodeSystem(hasCode(g.V(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
+        whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
             .repeat(__.in("isA")
                 .simplePath()
                 .dedup())
@@ -127,44 +60,81 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return concepts;
     }
 
-    private int getCount(CodeSystem codeSystem) {
-        Optional<Map<Object, Object>> optional = hasVersion(hasUrl(g.V(), codeSystem.getUrl()), codeSystem.getVersion())
-                .elementMap("count")
-                .tryNext();
-        if (optional.isPresent()) {
-            return (Integer) optional.get().get("count");
+    @Override
+    public Concept getConcept(CodeSystem codeSystem, Code code) {
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        return getConcept(codeSystem, code, true, true);
+    }
+
+    @Override
+    public Set<Concept> getConcepts(CodeSystem codeSystem) {
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        List<Concept> concepts = new ArrayList<>(getCount(codeSystem));
+        hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
+            .out("concept")
+            .elementMap()
+            .toStream()
+            .forEach(elementMap -> concepts.add(createConcept(elementMap)));
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        GraphTraversal<Vertex, Vertex> g = vertices();
+        for (Filter filter : filters) {
+            switch (filter.getOp().getValueAsEnumConstant()) {
+            case DESCENDENT_OF:
+                break;
+            case EQUALS:
+                break;
+            case EXISTS:
+                break;
+            case GENERALIZES:
+                break;
+            case IN:
+                break;
+            case IS_A:
+                break;
+            case IS_NOT_A:
+                break;
+            case NOT_IN:
+                break;
+            case REGEX:
+                break;
+            default:
+                break;
+            }
         }
-        return -1;
+        throw new UnsupportedOperationException();
     }
 
-    // anonymous graph traversal
-    private GraphTraversal<Object, Object> hasCode(String code, boolean caseSensitive) {
-        if (caseSensitive) {
-            return __.has("code", code);
+    public FHIRTermGraph getGraph() {
+        return graph;
+    }
+
+    @Override
+    public boolean hasConcept(CodeSystem codeSystem, Code code) {
+        return whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem).hasNext();
+    }
+
+    @Override
+    public boolean isSupported(CodeSystem codeSystem) {
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        return hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion()).hasNext();
+    }
+
+    @Override
+    public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        if (codeA.equals(codeB) || (!caseSensitive && normalize(codeA.getValue()).equals(normalize(codeB.getValue())))) {
+            return true;
         }
-        return __.has("codeLowerCase", normalize(code));
-    }
-
-    private GraphTraversal<Vertex, Vertex> hasCode(GraphTraversal<Vertex, Vertex> g, String code, boolean caseSensitive) {
-        if (caseSensitive) {
-            return g.has("code", code);
-        }
-        return g.has("codeLowerCase", normalize(code));
-    }
-
-    private GraphTraversal<Vertex, Vertex> hasUrl(GraphTraversal<Vertex, Vertex> g, Uri url) {
-        return g.has("url", url.getValue());
-    }
-
-    private GraphTraversal<Vertex, Vertex> hasVersion(GraphTraversal<Vertex, Vertex> g, com.ibm.fhir.model.type.String version) {
-        if (version != null) {
-            return g.has("version", version.getValue());
-        }
-        return g;
-    }
-
-    private GraphTraversal<Vertex, Vertex> whereCodeSystem(GraphTraversal<Vertex, Vertex> g, CodeSystem codeSystem) {
-        return g.where(hasVersion(hasUrl(__.in("concept").hasLabel("CodeSystem"), codeSystem.getUrl()), codeSystem.getVersion()));
+        return whereCodeSystem(hasCode(vertices(), codeA.getValue(), caseSensitive), codeSystem)
+            .repeat(__.in("isA")
+                .simplePath())
+            .until(hasCode(codeB.getValue(), caseSensitive))
+            .hasNext();
     }
 
     private Concept createConcept(CodeSystem codeSystem, String code, Optional<Map<Object, Object>> optional, boolean includeDesignations, boolean includeProperties) {
@@ -202,11 +172,40 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return builder.build();
     }
 
+    private Property createProperty(Map<Object, Object> elementMap) {
+        return Property.builder()
+                .code(Code.of((String) elementMap.get("code")))
+                .value(getElement(elementMap))
+                .build();
+    }
+
+    private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations, boolean includeProperties) {
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        return createConcept(
+            codeSystem,
+            code.getValue(),
+            whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
+                .elementMap()
+                .tryNext(),
+            includeDesignations,
+            includeProperties);
+    }
+
+    private int getCount(CodeSystem codeSystem) {
+        Optional<Map<Object, Object>> optional = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
+                .elementMap("count")
+                .tryNext();
+        if (optional.isPresent()) {
+            return (Integer) optional.get().get("count");
+        }
+        return -1;
+    }
+
     private List<Designation> getDesignations(CodeSystem codeSystem, String code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         List<Designation> designations = new ArrayList<>();
         String designationUseSystem = getDesignationUseSystem(codeSystem);
-        whereCodeSystem(hasCode(g.V(), code, isCaseSensitive(codeSystem)), codeSystem)
+        whereCodeSystem(hasCode(vertices(), code, isCaseSensitive(codeSystem)), codeSystem)
             .out("designation")
             .elementMap()
             .toStream()
@@ -214,22 +213,15 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return designations;
     }
 
-    private List<Property> getProperties(CodeSystem codeSystem, String code) {
+    private String getDesignationUseSystem(CodeSystem codeSystem) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        List<Property> properties = new ArrayList<>();
-        whereCodeSystem(hasCode(g.V(), code, isCaseSensitive(codeSystem)), codeSystem)
-            .out("property_")
-            .elementMap()
-            .toStream()
-            .forEach(elementMap -> properties.add(createProperty(elementMap)));
-        return properties;
-    }
-
-    private Property createProperty(Map<Object, Object> elementMap) {
-        return Property.builder()
-                .code(Code.of((String) elementMap.get("code")))
-                .value(getElement(elementMap))
-                .build();
+        Optional<Map<Object, Object>> optional = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
+                .elementMap("designationUseSystem")
+                .tryNext();
+        if (optional.isPresent()) {
+            return (String) optional.get().get("designationUseSystem");
+        }
+        return null;
     }
 
     private Element getElement(Map<Object, Object> elementMap) {
@@ -241,14 +233,48 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return null;
     }
 
-    private String getDesignationUseSystem(CodeSystem codeSystem) {
+    private List<Property> getProperties(CodeSystem codeSystem, String code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        Optional<Map<Object, Object>> optional = hasVersion(hasUrl(g.V(), codeSystem.getUrl()), codeSystem.getVersion())
-                .elementMap("designationUseSystem")
-                .tryNext();
-        if (optional.isPresent()) {
-            return (String) optional.get().get("designationUseSystem");
+        List<Property> properties = new ArrayList<>();
+        whereCodeSystem(hasCode(vertices(), code, isCaseSensitive(codeSystem)), codeSystem)
+            .out("property_")
+            .elementMap()
+            .toStream()
+            .forEach(elementMap -> properties.add(createProperty(elementMap)));
+        return properties;
+    }
+
+    private GraphTraversal<Vertex, Vertex> hasCode(GraphTraversal<Vertex, Vertex> g, String code, boolean caseSensitive) {
+        if (caseSensitive) {
+            return g.has("code", code);
         }
-        return null;
+        return g.has("codeLowerCase", normalize(code));
+    }
+
+    // anonymous graph traversal
+    private GraphTraversal<Object, Object> hasCode(String code, boolean caseSensitive) {
+        if (caseSensitive) {
+            return __.has("code", code);
+        }
+        return __.has("codeLowerCase", normalize(code));
+    }
+
+    private GraphTraversal<Vertex, Vertex> hasUrl(GraphTraversal<Vertex, Vertex> g, Uri url) {
+        return g.has("url", url.getValue());
+    }
+
+    private GraphTraversal<Vertex, Vertex> hasVersion(GraphTraversal<Vertex, Vertex> g, com.ibm.fhir.model.type.String version) {
+        if (version != null) {
+            return g.has("version", version.getValue());
+        }
+        return g;
+    }
+
+    private GraphTraversal<Vertex, Vertex> vertices(Object... vertexIds) {
+        return graph.traversal().V(vertexIds);
+    }
+
+    private GraphTraversal<Vertex, Vertex> whereCodeSystem(GraphTraversal<Vertex, Vertex> g, CodeSystem codeSystem) {
+        return g.where(hasVersion(hasUrl(__.in("concept").hasLabel("CodeSystem"), codeSystem.getUrl()), codeSystem.getVersion()));
     }
 }
