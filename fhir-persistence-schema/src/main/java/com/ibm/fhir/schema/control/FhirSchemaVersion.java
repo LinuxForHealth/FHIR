@@ -25,6 +25,7 @@ public enum FhirSchemaVersion {
     ,V0008(8, "issue-1929 expose common_token_value_id in xxx_TOKEN_VALUES_V view")
     ,V0009(9, "issue-1683 refactor composite values")
     ,V0010(10, "issue-1958 add IS_DELETED flag to each xxx_LOGICAL_RESOURCES table")
+    ,V0011(11, "issue-2011 add LAST_UPDATED to each xxx_LOGICAL_RESOURCES table")
     ;
 
     // The version number recorded in the VERSION_HISTORY
