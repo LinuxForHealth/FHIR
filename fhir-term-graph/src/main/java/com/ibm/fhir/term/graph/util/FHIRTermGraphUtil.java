@@ -41,7 +41,7 @@ public class FHIRTermGraphUtil {
     }
 
     public static String toLabel(String typeName) {
-        List<String> tokens = Arrays.asList(typeName.split(" |_|-"));
+        List<String> tokens = Arrays.asList(typeName.split(" - | |_|-"));
         String label = tokens.stream()
                 .map(token -> token.substring(0, 1).toUpperCase() + token.substring(1))
                 .collect(Collectors.joining(""));

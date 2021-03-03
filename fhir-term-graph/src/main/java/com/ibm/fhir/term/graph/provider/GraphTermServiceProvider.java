@@ -175,7 +175,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     private Property createProperty(Map<Object, Object> elementMap) {
         return Property.builder()
                 .code(Code.of((String) elementMap.get("code")))
-                .value(getElement(elementMap))
+                .value(getValue(elementMap))
                 .build();
     }
 
@@ -224,7 +224,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return null;
     }
 
-    private Element getElement(Map<Object, Object> elementMap) {
+    private Element getValue(Map<Object, Object> elementMap) {
         for (Object value : elementMap.values()) {
             if (value instanceof Element) {
                 return (Element) value;

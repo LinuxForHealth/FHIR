@@ -23,7 +23,7 @@ public class CodeSystemTermGraphLoaderTest {
     public static void main(String[] args) throws Exception {
         try (InputStream in = CodeSystemTermGraphLoaderTest.class.getClassLoader().getResourceAsStream("JSON/CodeSystem-cs5.json")) {
             CodeSystem codeSystem = FHIRParser.parser(Format.JSON).parse(in);
-            FHIRTermGraph termGraph = FHIRTermGraphFactory.open("conf/local-graph.properties");
+            FHIRTermGraph termGraph = FHIRTermGraphFactory.open("conf/janusgraph-berkeleyje-lucene.properties");
             CodeSystemTermGraphLoader loader = new CodeSystemTermGraphLoader(termGraph, codeSystem);
             loader.load();
 

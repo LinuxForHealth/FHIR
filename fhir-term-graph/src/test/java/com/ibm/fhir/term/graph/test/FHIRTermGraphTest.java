@@ -19,7 +19,7 @@ import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
 
 public class FHIRTermGraphTest {
     public static void main(String[] args) throws Exception {
-        FHIRTermGraph graph = FHIRTermGraphFactory.open("conf/local-graph.properties");
+        FHIRTermGraph graph = FHIRTermGraphFactory.open("conf/janusgraph-berkeleyje-lucene.properties");
 
         GraphTraversalSource g = graph.traversal();
 
