@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.client;
 
 import java.io.InputStream;
@@ -74,6 +75,8 @@ public class BulkDataClient {
     private static final HttpWrapper wrapper = new HttpWrapper();
 
     private static final JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
+
+    private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     // @formatter:off
     private static final DateTimeFormatter DATE_TIME_PARSER_FORMATTER =
@@ -234,7 +237,7 @@ public class BulkDataClient {
 
             if (status != 201) {
                 // Job is not created
-                throw BulkDataExportUtil.buildOperationException("Unable to create the $export job", IssueType.INVALID);
+                throw export.buildOperationException("Unable to create the $export job", IssueType.INVALID);
             }
 
             String responseString = new BasicResponseHandler().handleResponse(jobResponse);
@@ -315,7 +318,7 @@ public class BulkDataClient {
 
             String batchStatus = bulkExportJobExecutionResponse.getBatchStatus();
             if (batchStatus == null) {
-                throw BulkDataExportUtil.buildOperationException("Error while reading the bulk export status", IssueType.INVALID);
+                throw export.buildOperationException("Error while reading the bulk export status", IssueType.INVALID);
             } else if (OperationConstants.SUCCESS_STATUS.contains(batchStatus)) {
                 result = process(bulkExportJobExecutionResponse);
             } else if (OperationConstants.FAILED_STATUS.contains(batchStatus)) {
@@ -329,7 +332,7 @@ public class BulkDataClient {
                  * error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
                  */
-                throw BulkDataExportUtil.buildOperationException("The job has failed", IssueType.EXCEPTION);
+                throw export.buildOperationException("The job has failed", IssueType.EXCEPTION);
             } else if (OperationConstants.STOPPED_STATUS.contains(batchStatus)) {
                 // If the job is stopped, then restart the job.
                 baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job + "?action=restart&reusePreviousParams=true";
@@ -341,7 +344,7 @@ public class BulkDataClient {
                     HttpEntity entity = restartResponse.getEntity();
 
                     if (restartResponse.getStatusLine().getStatusCode() != Status.OK.getStatusCode()) {
-                        throw BulkDataExportUtil.buildOperationException("The job has failed to restart", IssueType.EXCEPTION);
+                        throw export.buildOperationException("The job has failed to restart", IssueType.EXCEPTION);
                     }
                     EntityUtils.consume(entity);
                 } finally {
@@ -355,7 +358,7 @@ public class BulkDataClient {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while checking the status - "
+            throw export.buildOperationException("An unexpected error has ocurred while checking the status - "
                     + ex.getMessage(), IssueType.TRANSIENT);
         }
 
@@ -366,24 +369,24 @@ public class BulkDataClient {
         // e.g. if it comes back with 404 it may fail on the JobInstanceResponse.Parser.parse!
 
         if (httpStatus == 401) {
-            throw BulkDataExportUtil.buildOperationException("Unauthorized to access the framework", IssueType.FORBIDDEN);
+            throw export.buildOperationException("Unauthorized to access the framework", IssueType.FORBIDDEN);
         }
 
         if (httpStatus == 400) {
-            throw BulkDataExportUtil.buildOperationException("Batch Job not found", IssueType.NOT_FOUND);
+            throw export.buildOperationException("Batch Job not found", IssueType.NOT_FOUND);
         }
 
         if (httpStatus == 404) {
-            throw BulkDataExportUtil.buildOperationException("Bad URL for Batch Framework", IssueType.FORBIDDEN);
+            throw export.buildOperationException("Bad URL for Batch Framework", IssueType.FORBIDDEN);
         }
 
         if (httpStatus == 500) {
             // if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected
             // request/response.")) {
-            // throw BulkDataExportUtil.buildOperationException("Invalid job id sent to $bulkdata-status",
+            // throw export.buildOperationException("Invalid job id sent to $bulkdata-status",
             // IssueType.INVALID);
             // }
-            throw BulkDataExportUtil.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
+            throw export.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
         }
 
         if (httpStatus == 200 && log.isLoggable(Level.FINE)) {
@@ -427,7 +430,7 @@ public class BulkDataClient {
         if (Status.INTERNAL_SERVER_ERROR == status) {
             // 3.C - ERROR Condition
             // The Server hit an error
-            throw BulkDataExportUtil.buildOperationException("Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
+            throw export.buildOperationException("Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
         } else if (Status.NO_CONTENT != status) {
             // The Delete was unsuccessful
             // 3.B - STOP Condition and now step 4 in the flow.
@@ -468,7 +471,7 @@ public class BulkDataClient {
                 HttpEntity entity = stop.getEntity();
 
                 if (statusCode != Status.OK.getStatusCode()) {
-                    throw BulkDataExportUtil.buildOperationException("The job has failed to stop", IssueType.EXCEPTION);
+                    throw export.buildOperationException("The job has failed to stop", IssueType.EXCEPTION);
                 }
                 responseString = new BasicResponseHandler().handleResponse(stopResponse);
                 EntityUtils.consume(entity);
@@ -515,13 +518,13 @@ public class BulkDataClient {
                 status = Response.Status.ACCEPTED;
             } else {
                 // Error Condition (should be 400, but capturing here as a general error including Server Error).
-                throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while stopping/deleting the job", IssueType.TRANSIENT);
+                throw export.buildOperationException("An unexpected error has ocurred while stopping/deleting the job", IssueType.TRANSIENT);
             }
             cli.close();
         } catch (FHIROperationException ex) {
             throw ex;
         } catch (Exception ex) {
-            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
+            throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
         }
         return status;
     }
@@ -561,7 +564,7 @@ public class BulkDataClient {
                 }
 
                 if (deleteResponse.getStatusLine().getStatusCode() != Status.OK.getStatusCode()) {
-                    throw BulkDataExportUtil.buildOperationException("The existing job has failed to delete", IssueType.EXCEPTION);
+                    throw export.buildOperationException("The existing job has failed to delete", IssueType.EXCEPTION);
                 }
                 EntityUtils.consume(entity);
             } finally {
@@ -571,7 +574,7 @@ public class BulkDataClient {
         } catch (FHIROperationException ex) {
             throw ex;
         } catch (Exception ex) {
-            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
+            throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
         }
         return status;
     }
@@ -604,7 +607,7 @@ public class BulkDataClient {
                 }
 
                 if (responseString == null || responseString.isEmpty() || responseString.startsWith("Unexpected request/response.")) {
-                    throw BulkDataExportUtil.buildOperationException("Invalid job id sent to $bulkdata-status", IssueType.INVALID);
+                    throw export.buildOperationException("Invalid job id sent to $bulkdata-status", IssueType.INVALID);
                 }
 
                 response = JobExecutionResponse.Parser.parse(responseString);
@@ -619,7 +622,7 @@ public class BulkDataClient {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.EXCEPTION);
+            throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.EXCEPTION);
         }
     }
 
@@ -634,7 +637,7 @@ public class BulkDataClient {
         if (jobParameters == null || jobParameters.getFhirTenant() == null
                 || !jobParameters.getFhirTenant().equals(fhirTenant)) {
             log.warning("Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters.getFhirTenant() + "]");
-            throw BulkDataExportUtil.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
+            throw export.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
         }
     }
 
@@ -649,7 +652,7 @@ public class BulkDataClient {
         String resourceTypes = response.getJobParameters().getFhirResourceType();
         String cosBucketPathPrefix = response.getJobParameters().getCosBucketPathPrefix();
 
-        String baseUrl = adapter.getSourceEndpointExternal(source);
+        String baseUrl = adapter.getStorageProviderEndpointExternal(source);
 
         String request = "$import";
         if (resourceTypes != null) {
@@ -676,14 +679,14 @@ public class BulkDataClient {
                 String[] resourceCounts =
                         resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
-                    String region = adapter.getSourceLocation(source);
-                    String bucketName = adapter.getSourceBucketName(source);
+                    String region = adapter.getStorageProviderLocation(source);
+                    String bucketName = adapter.getStorageProviderBucketName(source);
                     String objectKey = resourceType + "_" + (i + 1);
-                    String accessKey = adapter.getSourceAuthTypeHmacAccessKey(source);
-                    String secretKey = adapter.getSourceAuthTypeHmacSecretKey(source);
-                    boolean parquet = adapter.isSourceParquetEnabled(source);
-                    boolean presigned = adapter.isSourceHmacPresigned(source);
-                    StorageType storageType = adapter.getSourceStorageType(source);
+                    String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
+                    String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
+                    boolean parquet = adapter.isStorageProviderParquetEnabled(source);
+                    boolean presigned = adapter.isStorageProviderHmacPresigned(source);
+                    StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
                     DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned);
                     if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
@@ -791,7 +794,7 @@ public class BulkDataClient {
 
             if (status != 201) {
                 // Job is not created
-                throw BulkDataExportUtil.buildOperationException("Unable to create the $import job", IssueType.INVALID);
+                throw export.buildOperationException("Unable to create the $import job", IssueType.INVALID);
             }
 
             String responseString = new BasicResponseHandler().handleResponse(jobResponse);

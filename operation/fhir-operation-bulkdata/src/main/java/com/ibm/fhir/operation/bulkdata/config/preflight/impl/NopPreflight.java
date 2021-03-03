@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 
@@ -25,11 +27,13 @@ public class NopPreflight implements Preflight {
     private String source = null;
     private String outcome = null;
     private List<Input> inputs = null;
+    private OperationConstants.ExportType exportType = null;
 
-    public NopPreflight(String source, String outcome, List<Input> inputs) {
+    public NopPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
         this.source = source;
         this.outcome = outcome;
         this.inputs = inputs;
+        this.exportType = exportType;
     }
 
     @Override
@@ -39,15 +43,27 @@ public class NopPreflight implements Preflight {
         }
     }
 
+    /**
+     * The storage provider that provides the source.
+     * @return
+     */
     protected String getSource() {
         return source;
     }
 
+    /**
+     * The storage provider that provides the destination of the operational outcomes.
+     * @return
+     */
     protected String getOutcome() {
         return outcome;
     }
 
     protected List<Input> getInputs() {
         return inputs;
+    }
+
+    protected OperationConstants.ExportType getExportType(){
+        return exportType;
     }
 }

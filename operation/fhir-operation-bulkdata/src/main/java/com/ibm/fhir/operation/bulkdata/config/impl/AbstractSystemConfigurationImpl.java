@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.impl;
 
 import java.util.HashSet;
@@ -27,28 +28,32 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final String CLASSNAME = AbstractSystemConfigurationImpl.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
-    public static final String APPLICATION_NAME = "fhir-bulkimportexport-webapp";
-    public static final String MODULE_NAME = "fhir-bulkimportexport.war";
-    public static final String JOB_XML_NAME = "jobXMLName";
+    private static final String APPLICATION_NAME = "fhir-bulkdata-webapp";
+    private static final String MODULE_NAME = "fhir-bulkdata-webapp.war";
+    private static final String JOB_XML_NAME = "jobXMLName";
 
-    public static final String IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
+    private static final String IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
 
     // gets the maximum number of current threads that are supported in the bulkdata processing.
-    public static final int MAX_PARTITIONPROCESSING_THREADNUMBER = 5;
+    private static final int MAX_PARTITIONPROCESSING_THREADNUMBER = 5;
 
     // The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only).
-    public static final int COS_PART_MINIMALSIZE = 10485760;
+    private static final int COS_PART_MINIMALSIZE = 10485760;
 
     // The threshold size (200MiB) for when to start writing to a new file (NDJSON-only).
-    public static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
+    protected static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
 
     // The number of resources at which the server will start a new file for the next page of results (NDJSON and
-    // Parquet).
-    // 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COSFILE_MAX_SIZE.
-    public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 200000;
+    // Parquet). 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COSFILE_MAX_SIZE.
+    protected static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 200000;
 
     private static final String FHIR_BULKDATA_ALLOWED_TYPES = "FHIR_BULKDATA_ALLOWED_TYPES";
     private static final Set<String> ALLOWED_STORAGE_TYPES = determineAllowedStorageType();
+
+    private static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
+
+    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
+    public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
     // The following are set on startup:
     private static final int coreCosMaxResources = defaultCoreCosMaxResources();
@@ -175,7 +180,10 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final Set<String> determineAllowedStorageType() {
-        Set<String> allowedStorageLimits = new HashSet<>();
+        /*
+         * Restricts the Allowed Storage Types.
+         */
+        Set<String> allowedStorageTypes = new HashSet<>();
 
         Map<String, String> envs = System.getenv();
         String env = envs.get(FHIR_BULKDATA_ALLOWED_TYPES);
@@ -186,7 +194,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
                 if (storageType != null && !storageType.isEmpty()) {
                     try {
                         StorageType type = StorageType.from(storageType);
-                        allowedStorageLimits.add(type.value());
+                        allowedStorageTypes.add(type.value());
                     } catch (IllegalArgumentException iae) {
                         logger.warning("Invalid Storage Type passed in, skipping '" + storageType + "'");
                     }
@@ -197,10 +205,10 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
         } else {
             // We're allowing them all.
             for (StorageType t : StorageType.values()) {
-                allowedStorageLimits.add(t.value());
+                allowedStorageTypes.add(t.value());
             }
         }
-        return allowedStorageLimits;
+        return allowedStorageTypes;
     }
 
     @Override
@@ -230,8 +238,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public StorageType getSourceStorageType(String source) {
-        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/type", "none");
+    public StorageType getStorageProviderStorageType(String provider) {
+        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/type", "none");
         return StorageType.from(type);
     }
 
@@ -241,18 +249,35 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public String getBaseFileLocation(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/file-base", null);
+    public String getBaseFileLocation(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/file-base", null);
     }
 
     @Override
-    public boolean isSourceHmacPresigned(String source) {
-        return this.isSourceAuthTypeHmac(source)
-                && FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/presigned", Boolean.FALSE);
+    public boolean isStorageProviderHmacPresigned(String provider) {
+        return this.isStorageProviderAuthTypeHmac(provider)
+                && FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/presigned", Boolean.FALSE);
     }
 
     @Override
     public boolean shouldCoreApiBatchTrustAll() {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/api/trust-all", Boolean.FALSE);
+    }
+
+    @Override
+    public byte[] getEndOfFileDelimiter(String provider) {
+        return NDJSON_LINESEPERATOR;
+    }
+
+    @Override
+    public int getImportNumberOfFhirResourcesPerRead(String provider) {
+        // The number of resources to commit to DB in each batch, the slower the DB connection, the smaller
+        // this value should be set.
+        return IMPORT_NUMOFFHIRRESOURCES_PERREAD;
+    }
+
+    @Override
+    public int getImportInflyRateNumberOfFhirResources(String provider) {
+        return IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES;
     }
 }

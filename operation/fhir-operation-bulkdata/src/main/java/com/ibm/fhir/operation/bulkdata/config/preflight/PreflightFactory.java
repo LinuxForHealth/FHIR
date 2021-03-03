@@ -3,10 +3,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.preflight;
 
 import java.util.List;
 
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
@@ -31,30 +33,31 @@ public class PreflightFactory {
      * gets an instance of the Preflight check based on the source,outcome
      * @param operationContext
      * @param inputs
+     * @param exportType
      * @return
      */
-    public static Preflight getInstance(FHIROperationContext operationContext, List<Input> inputs) {
+    public static Preflight getInstance(FHIROperationContext operationContext, List<Input> inputs, OperationConstants.ExportType exportType) {
         // Get the Source
         OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
-        String source = adapter.getBulkDataSourceFromConfiguration();
-        String outcome = adapter.getOutcomeSourceFromConfiguration();
+        String source = adapter.getStorageProvider();
+        String outcome = adapter.getStorageProviderOutcomes();
 
         ConfigurationAdapter config = ConfigurationFactory.getInstance();
 
-        Preflight preflight = new NopPreflight(source, outcome, inputs);
+        Preflight preflight = new NopPreflight(source, outcome, inputs, exportType);
         if (!config.legacy()) {
-            StorageType storageType = config.getSourceStorageType(source);
+            StorageType storageType = config.getStorageProviderStorageType(source);
 
             switch (storageType) {
             case HTTPS:
-                preflight = new HttpsPreflight(source, outcome, inputs);
+                preflight = new HttpsPreflight(source, outcome, inputs, exportType);
                 break;
             case FILE:
-                preflight = new FilePreflight(source, outcome, inputs);
+                preflight = new FilePreflight(source, outcome, inputs, exportType);
                 break;
             case AWSS3:
             case IBMCOS:
-                preflight = new S3Preflight(source, outcome, inputs);
+                preflight = new S3Preflight(source, outcome, inputs, exportType);
                 break;
             }
         }

@@ -3,13 +3,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model.type;
 
-
 /**
- *
+ * List of the Jobs
  */
 public enum JobType {
+
     EXPORT_PATIENT("FhirBulkExportPatientChunkJob"),
     EXPORT_GROUP("FhirBulkExportGroupChunkJob"),
     EXPORT("FhirBulkExportChunkJob"),

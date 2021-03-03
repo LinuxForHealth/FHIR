@@ -33,7 +33,7 @@ The following is a brief template of the V2 Configuration.
                 "systemExportImpl": "none"
                 "_systemExportImpl": "none|fast"
             },
-            "source": {
+            "storageProviders": {
                 "default" : {
                     "type": "file",
                     "_typea": "ibm-cos",

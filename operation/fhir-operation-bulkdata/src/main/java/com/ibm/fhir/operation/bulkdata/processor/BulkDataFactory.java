@@ -20,8 +20,8 @@ public class BulkDataFactory {
 
     public static ExportImportBulkData getInstance(FHIROperationContext operationContext) {
         OperationContextAdapter sourceAdapter = new OperationContextAdapter(operationContext);
-        String bulkdataSource = sourceAdapter.getBulkDataSourceFromConfiguration();
-        String outcomeSource = sourceAdapter.getOutcomeSourceFromConfiguration();
+        String bulkdataSource = sourceAdapter.getStorageProvider();
+        String outcomeSource = sourceAdapter.getStorageProviderOutcomes();
         String baseUri = sourceAdapter.getBaseUri();
         return new ExportImportImpl(bulkdataSource, outcomeSource, baseUri);
     }

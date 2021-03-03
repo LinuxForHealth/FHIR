@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
 import java.net.URL;
@@ -21,24 +22,27 @@ import javax.net.ssl.HttpsURLConnection;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 
 /**
- *
+ * Checks the S3 Configuration.
  */
 public class S3Preflight extends NopPreflight {
 
-    public S3Preflight(String source, String outcome, List<Input> inputs) {
-        super(source, outcome, inputs);
+    private static final BulkDataExportUtil export = new BulkDataExportUtil();
+
+    public S3Preflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
+        super(source, outcome, inputs, exportType);
     }
 
     @Override
     public void preflight() throws FHIROperationException {
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-        boolean outcomes = adapter.shouldSourceCollectOperationOutcomes(getSource());
+        boolean outcomes = adapter.shouldStorageProviderCollectOperationOutcomes(getSource());
 
         // Check that we can access it.
         Set<Callable<Boolean>> callables = new HashSet<>(2);
@@ -60,13 +64,13 @@ public class S3Preflight extends NopPreflight {
             List<Future<Boolean>> futures = executor.invokeAll(callables, 60, TimeUnit.SECONDS);
             for (Future<Boolean> future : futures) {
                 if (!future.get()) {
-                    throw BulkDataExportUtil.buildOperationException("Unable to access s3 source or outcome during timeout", IssueType.INVALID);
+                    throw export.buildOperationException("Unable to access s3 source or outcome during timeout", IssueType.INVALID);
                 }
             }
         } catch (ExecutionException ee) {
-            throw BulkDataExportUtil.buildOperationException("Failed to execute the s3 access, check the s3 configuration", IssueType.INVALID);
+            throw export.buildOperationException("Failed to execute the s3 access, check the s3 configuration", IssueType.INVALID);
         } catch (InterruptedException e) {
-            throw BulkDataExportUtil.buildOperationException("Timeout hit trying to access s3, check the s3 configuration", IssueType.INVALID);
+            throw export.buildOperationException("Timeout hit trying to access s3, check the s3 configuration", IssueType.INVALID);
         }
         executor.shutdown();
 
@@ -81,26 +85,26 @@ public class S3Preflight extends NopPreflight {
      */
     public void validate(String source) throws FHIROperationException {
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-        if (adapter.isSourceAuthTypeIam(source)) {
-            String apiKey = adapter.getSourceAuthTypeIamApiKey(source);
-            String resourceId = adapter.getSourceAuthTypeIamApiResourceInstanceId(source);
+        if (adapter.isStorageProviderAuthTypeIam(source)) {
+            String apiKey = adapter.getStorageProviderAuthTypeIamApiKey(source);
+            String resourceId = adapter.getStorageProviderAuthTypeIamApiResourceInstanceId(source);
             if (apiKey == null || resourceId == null || apiKey.isEmpty() || resourceId.isEmpty()) {
-                throw BulkDataExportUtil.buildOperationException("bad configuration for the iam configuration", IssueType.INVALID);
+                throw export.buildOperationException("bad configuration for the iam configuration", IssueType.INVALID);
             }
-        } else if (adapter.isSourceAuthTypeHmac(source)) {
-            String accessKey = adapter.getSourceAuthTypeHmacAccessKey(source);
-            String secretKey = adapter.getSourceAuthTypeHmacSecretKey(source);
+        } else if (adapter.isStorageProviderAuthTypeHmac(source)) {
+            String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
+            String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
             if (accessKey == null || secretKey == null || accessKey.isEmpty() || secretKey.isEmpty()) {
-                throw BulkDataExportUtil.buildOperationException("bad configuration for the hmac configuration", IssueType.INVALID);
+                throw export.buildOperationException("bad configuration for the hmac configuration", IssueType.INVALID);
             }
-        } else if (adapter.isSourceAuthTypeBasic(source)) {
-            String user = adapter.getSourceAuthTypeUsername(source);
-            String password = adapter.getSourceAuthTypePassword(source);
+        } else if (adapter.isStorageProviderAuthTypeBasic(source)) {
+            String user = adapter.getStorageProviderAuthTypeUsername(source);
+            String password = adapter.getStorageProviderAuthTypePassword(source);
             if (user == null || password == null || user.isEmpty() || password.isEmpty()) {
-                throw BulkDataExportUtil.buildOperationException("bad configuration for the basic configuration", IssueType.INVALID);
+                throw export.buildOperationException("bad configuration for the basic configuration", IssueType.INVALID);
             }
         } else {
-            throw BulkDataExportUtil.buildOperationException("Failed to specify the source or outcome bucket's authentication mechanism", IssueType.INVALID);
+            throw export.buildOperationException("Failed to specify the source or outcome bucket's authentication mechanism", IssueType.INVALID);
         }
     }
 
@@ -115,9 +119,9 @@ public class S3Preflight extends NopPreflight {
         public BucketHostCallable(String source) throws FHIROperationException {
             this.source = source;
             ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-            url = adapter.getSourceEndpointExternal(source);
+            url = adapter.getStorageProviderEndpointExternal(source);
             if (url == null || url.isEmpty()) {
-                throw BulkDataExportUtil.buildOperationException("endpoint-internal is undefined.", IssueType.INVALID);
+                throw export.buildOperationException("endpoint-internal is undefined.", IssueType.INVALID);
             }
         }
 
@@ -129,6 +133,7 @@ public class S3Preflight extends NopPreflight {
             try {
                 httpsConnection = (HttpsURLConnection) new URL(url).openConnection();
                 httpsConnection.setRequestMethod("HEAD");
+                httpsConnection.getContentLengthLong();
                 result = true;
             } catch (Exception e) {
                 throw new FHIRException("Unable to connect to s3 endpoint '" + source + '"', e);

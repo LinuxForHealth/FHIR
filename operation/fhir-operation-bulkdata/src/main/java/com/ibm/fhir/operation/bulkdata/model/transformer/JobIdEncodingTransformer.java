@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model.transformer;
 
 import java.nio.charset.StandardCharsets;
@@ -26,7 +27,7 @@ public class JobIdEncodingTransformer {
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     // Encryption key used for JavaBatch Job ID
-    public static final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY =  getJobIdEncryptionKey();
+    private static final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY =  getJobIdEncryptionKey();
 
     public JobIdEncodingTransformer() {
         // No Operation

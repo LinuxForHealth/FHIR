@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model.transformer;
 
 import static org.testng.Assert.assertEquals;
@@ -23,7 +24,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 
 /**
- *
+ * Tests the Job ID Encoding Transformer.
  */
 public class JobIdEncodingTransformerTest {
 

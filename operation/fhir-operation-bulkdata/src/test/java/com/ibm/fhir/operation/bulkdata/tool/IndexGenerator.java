@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,11 +18,14 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.util.Index;
 import com.ibm.fhir.registry.util.Index.Entry;
 
+/**
+ * Generates the Index file for the IG
+ */
 public class IndexGenerator {
     public static void main(String[] args) throws Exception {
         final String DIR_PATH = "src/main/resources/hl7/fhir/uv/bulkdata/package/";
         final String INDEX_FILE_PATH = DIR_PATH + ".index.json";
-        
+
         Index index = new Index(1);
         File dir = new File(DIR_PATH);
         for (File file : dir.listFiles()) {

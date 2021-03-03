@@ -3,13 +3,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.operation.bulkdata.model.type;
 
+package com.ibm.fhir.operation.bulkdata.model.type;
 
 /**
  * Used with $import operation to outline the type and url
  */
 public class BulkDataSource {
+
     private String type;
     private String url;
 

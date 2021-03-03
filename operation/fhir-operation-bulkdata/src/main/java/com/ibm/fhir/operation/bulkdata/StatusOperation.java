@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,7 @@ public class StatusOperation extends AbstractOperation {
     private static final String FILE = "status.json";
 
     private static final CommonUtil common = new CommonUtil();
+    private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     public StatusOperation() {
         super();
@@ -55,13 +56,13 @@ public class StatusOperation extends AbstractOperation {
             String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
             if ("DELETE".equalsIgnoreCase(method)) {
                 // Assume GET or POST
-                String job = BulkDataExportUtil.checkAndValidateJob(parameters);
+                String job = export.checkAndValidateJob(parameters);
                 // For now, we're going to execute the status update, and check.
                 // If Base, Export Status (Else Invalid)
                 return BulkDataFactory.getInstance(operationContext).delete(job, operationContext);
             } else {
                 // Assume GET or POST
-                String job = BulkDataExportUtil.checkAndValidateJob(parameters);
+                String job = export.checkAndValidateJob(parameters);
 
                 // @implNote We don't need a preflight... we wouldn't have go here otherwise.
 

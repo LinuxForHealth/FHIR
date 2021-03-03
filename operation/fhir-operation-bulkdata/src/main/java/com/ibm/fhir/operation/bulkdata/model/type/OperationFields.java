@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.operation.bulkdata.model.type;
 
-
 /**
- *
+ * OperationFields which are used in the JobParameters or ExitStatus.
  */
-public class OperationFields {
+public final class OperationFields {
+
     // Minimally Required
     public static final String FHIR_TENANT_ID = "fhir.tenant";
     public static final String FHIR_DATASTORE_ID = "fhir.datastoreid";
@@ -79,7 +79,6 @@ public class OperationFields {
      */
     public static final String FHIR_DATA_SOURCES_INFO = "fhir.dataSourcesInfo";
 
-
     /**
      * The data source storage type.
      * e.g, https, file, aws-s3, ibm-cos
@@ -88,5 +87,8 @@ public class OperationFields {
 
     // Prefix is to obfuscate the public path.
     public static final String COS_BUCKET_PATH_PREFIX = "cos.bucket.pathprefix";
+
+    public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
+    public static final String IMPORT_INPUT_RESOURCE_URL = "url";
 
 }

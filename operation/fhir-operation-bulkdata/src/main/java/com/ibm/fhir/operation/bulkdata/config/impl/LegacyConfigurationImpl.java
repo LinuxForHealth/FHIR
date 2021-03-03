@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.impl;
 
 import java.util.Collections;
@@ -12,8 +13,9 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
- * Configuration Prior to 4.6
+ * Configuration Prior to 4.6, and it will be phased out.
  */
+@Deprecated
 public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
@@ -70,12 +72,12 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public String getSourceType(String source) {
+    public String getStorageProviderType(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/type", "ibm-cos");
     }
 
     @Override
-    public List<String> getSourceValidBaseUrls(String source) {
+    public List<String> getStorageProviderValidBaseUrls(String provider) {
         final String PATH = "fhirServer/bulkdata/validBaseUrls";
         List<String> results = FHIRConfigHelper.getStringListProperty(PATH);
         if (results == null) {
@@ -85,27 +87,27 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public String getSourceBucketName(String source) {
+    public String getStorageProviderBucketName(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.bucket.name", null);
     }
 
     @Override
-    public String getSourceLocation(String source) {
+    public String getStorageProviderLocation(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.location", null);
     }
 
     @Override
-    public String getSourceEndpointInternal(String source) {
+    public String getStorageProviderEndpointInternal(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.endpoint.internal", null);
     }
 
     @Override
-    public String getSourceEndpointExternal(String source) {
+    public String getStorageProviderEndpointExternal(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.endpoint.external", null);
     }
 
     @Override
-    public String getSourceAuthType(String source) {
+    public String getStorageProviderAuthType(String provider) {
         String iam = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.credential.ibm", "N");
         String auth = "hmac";
         if ("Y".equalsIgnoreCase(iam)) {
@@ -115,85 +117,85 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public boolean isSourceAuthTypeIam(String source) {
+    public boolean isStorageProviderAuthTypeIam(String provider) {
         String iam = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.credential.ibm", "N");
         return "Y".equalsIgnoreCase(iam);
     }
 
     @Override
-    public String getSourceAuthTypeIamApiKey(String source) {
+    public String getStorageProviderAuthTypeIamApiKey(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.api.key", null);
     }
 
     @Override
-    public String getSourceAuthTypeIamApiResourceInstanceId(String source) {
+    public String getStorageProviderAuthTypeIamApiResourceInstanceId(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.srvinst.id", null);
     }
 
     @Override
-    public boolean isSourceAuthTypeHmac(String source) {
+    public boolean isStorageProviderAuthTypeHmac(String provider) {
         String iam = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.credential.ibm", "N");
         return !"Y".equalsIgnoreCase(iam);
     }
 
     @Override
-    public String getSourceAuthTypeHmacAccessKey(String source) {
+    public String getStorageProviderAuthTypeHmacAccessKey(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.api.key", null);
     }
 
     @Override
-    public String getSourceAuthTypeHmacSecretKey(String source) {
+    public String getStorageProviderAuthTypeHmacSecretKey(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.srvinst.id", null);
     }
 
     @Override
-    public boolean isSourceAuthTypeBasic(String source) {
+    public boolean isStorageProviderAuthTypeBasic(String provider) {
         String iam = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.credential.ibm", "N");
         return !"Y".equalsIgnoreCase(iam);
     }
 
     @Override
-    public String getSourceAuthTypeUsername(String source) {
+    public String getStorageProviderAuthTypeUsername(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.api.key", null);
     }
 
     @Override
-    public String getSourceAuthTypePassword(String source) {
+    public String getStorageProviderAuthTypePassword(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/jobParameters/cos.srvinst.id", null);
     }
 
     @Override
-    public boolean isSourceParquetEnabled(String source) {
+    public boolean isStorageProviderParquetEnabled(String provider) {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/enableParquet", Boolean.FALSE);
     }
 
     @Override
-    public boolean shouldSourceValidateBaseUrl(String source) {
+    public boolean shouldStorageProviderValidateBaseUrl(String provider) {
         return !FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/validBaseUrlsDisabled", Boolean.FALSE);
     }
 
     @Override
-    public boolean isSourceExportPublic(String source) {
+    public boolean isStorageProviderExportPublic(String provider) {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/isExportPublic", Boolean.FALSE);
     }
 
     @Override
-    public boolean shouldSourceCollectOperationOutcomes(String source) {
+    public boolean shouldStorageProviderCollectOperationOutcomes(String provider) {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/ignoreImportOutcomes", Boolean.FALSE);
     }
 
     @Override
-    public boolean shouldSourceCheckDuplicate(String source) {
+    public boolean shouldStorageProviderCheckDuplicate(String provider) {
         return false;
     }
 
     @Override
-    public boolean shouldSourceValidateResources(String source) {
+    public boolean shouldStorageProviderValidateResources(String provider) {
         return true;
     }
 
     @Override
-    public boolean shouldSourceCreate(String source) {
+    public boolean shouldStorageProviderCreate(String provider) {
         return false;
     }
 
@@ -209,7 +211,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public boolean isSourceHmacPresigned(String source) {
+    public boolean isStorageProviderHmacPresigned(String provider) {
         return false;
     }
 }
