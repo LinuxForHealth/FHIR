@@ -10,9 +10,7 @@ FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi as base
 ENV LICENSE accept
 
 USER root
-RUN yum update -y --nobest && \
-    yum install -y unzip && \
-    yum clean all -y
+RUN yum install -y unzip
 
 RUN mkdir -p /opt/ibm-fhir-server
 
@@ -38,7 +36,8 @@ LABEL version="$FHIR_VERSION"
 LABEL summary="Image for IBM FHIR Server with OpenJ9 and UBI 8"
 LABEL description="The IBM FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability."
 
-COPY --chown=1001:0 --from=base /opt /opt
+COPY --chown=1001:0 --from=base /opt/ol/wlp/usr /opt/ol/wlp/usr
+COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 
 COPY target/LICENSE /licenses/
 
