@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
 import java.io.File;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
@@ -25,8 +27,8 @@ public class FilePreflight extends NopPreflight {
 
     private CommonUtil util = new CommonUtil();
 
-    public FilePreflight(String source, String outcome, List<Input> inputs) {
-        super(source, outcome, inputs);
+    public FilePreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
+        super(source, outcome, inputs, exportType);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class FilePreflight extends NopPreflight {
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         String base = adapter.getBaseFileLocation(getSource());
         checkFile(base);
-        if (adapter.shouldSourceCollectOperationOutcomes(getSource())) {
+        if (adapter.shouldStorageProviderCollectOperationOutcomes(getSource())) {
             checkFile(adapter.getBaseFileLocation(getOutcome()));
         }
     }

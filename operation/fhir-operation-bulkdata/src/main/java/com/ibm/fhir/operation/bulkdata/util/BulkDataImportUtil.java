@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.util;
 
 import java.util.ArrayList;
@@ -176,12 +177,12 @@ public class BulkDataImportUtil {
     public void verifyUrlAllowed(String url) throws FHIROperationException {
         ConfigurationAdapter config = ConfigurationFactory.getInstance();
         OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
-        String source = adapter.getBulkDataSourceFromConfiguration();
-        Boolean disabled = config.shouldSourceValidateBaseUrl(source);
+        String source = adapter.getStorageProvider();
+        Boolean disabled = config.shouldStorageProviderValidateBaseUrl(source);
 
         // Only for https do we need to check the urls.
-        if (!disabled.booleanValue() && StorageType.HTTPS.equals(config.getSourceStorageType(source))) {
-            List<String> baseUrls = config.getSourceValidBaseUrls(source);
+        if (!disabled.booleanValue() && StorageType.HTTPS.equals(config.getStorageProviderStorageType(source))) {
+            List<String> baseUrls = config.getStorageProviderValidBaseUrls(source);
             if (url == null || baseUrls == null) {
                 throw common.buildExceptionWithIssue("$import requires an approved and valid baseUrl", IssueType.INVALID);
             }

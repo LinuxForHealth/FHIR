@@ -13,6 +13,7 @@ import com.ibm.fhir.operation.bulkdata.config.impl.V2ConfigurationImpl;
 /**
  * Controls the selection of the legacy versus the new implementation.
  */
+@SuppressWarnings("deprecation")
 public class ConfigurationFactory {
     private ConfigurationFactory() {
         // No Operation

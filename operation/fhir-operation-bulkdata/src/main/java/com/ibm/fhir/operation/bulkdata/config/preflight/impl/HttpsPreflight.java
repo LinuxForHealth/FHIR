@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 
@@ -29,9 +30,10 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
  * Verifies the Export/Import is valid for Https
  */
 public class HttpsPreflight extends NopPreflight {
+    private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
-    public HttpsPreflight(String source, String outcome, List<Input> inputs) {
-        super(source, outcome, inputs);
+    public HttpsPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
+        super(source, outcome, inputs, exportType);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class HttpsPreflight extends NopPreflight {
         // If inputs are null, then we know we want to stop this right away.
         // We just don't export to HTTPS. Only S3 Compatible and File
         if (getInputs() == null) {
-            throw BulkDataExportUtil.buildOperationException("Export does not support 'https' destination", IssueType.INVALID);
+            throw export.buildOperationException("Export does not support 'https' destination", IssueType.INVALID);
         }
 
         // We know this MUST be an $import + Check valid URL
@@ -57,13 +59,13 @@ public class HttpsPreflight extends NopPreflight {
             List<Future<Boolean>> futures = executor.invokeAll(callables, 60, TimeUnit.SECONDS);
             for (Future<Boolean> future : futures) {
                 if (!future.get()) {
-                    throw BulkDataExportUtil.buildOperationException("Unable to access input urls during timeout", IssueType.INVALID);
+                    throw export.buildOperationException("Unable to access input urls during timeout", IssueType.INVALID);
                 }
             }
         } catch (ExecutionException ee) {
-            throw BulkDataExportUtil.buildOperationException("Failed to execute the URL access, check the urls", IssueType.INVALID);
+            throw export.buildOperationException("Failed to execute the URL access, check the urls", IssueType.INVALID);
         } catch (InterruptedException e) {
-            throw BulkDataExportUtil.buildOperationException("Timeout hit trying to access URL, check the urls", IssueType.INVALID);
+            throw export.buildOperationException("Timeout hit trying to access URL, check the urls", IssueType.INVALID);
         }
         executor.shutdown();
 
@@ -89,6 +91,7 @@ public class HttpsPreflight extends NopPreflight {
             try {
                 httpsConnection = (HttpsURLConnection) new URL(workItem).openConnection();
                 httpsConnection.setRequestMethod("HEAD");
+                httpsConnection.getContentLengthLong();
                 result = true;
             } catch (Exception e) {
                 throw new FHIRException("Unable to connect to https '" + workItem + '"', e);

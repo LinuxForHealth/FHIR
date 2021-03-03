@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,8 +31,8 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
  *
  * <pre>
  * {
-    "applicationName": "fhir-bulkimportexport-webapp",
-    "moduleName": "fhir-bulkimportexport.war",
+    "applicationName": "fhir-bulkdata-webapp",
+    "moduleName": "fhir-bulkdata-webapp.war",
     "jobXMLName": "FhirBulkExportChunkJob",
     "jobParameters": {
         "fhir.resourcetype": "Patient",

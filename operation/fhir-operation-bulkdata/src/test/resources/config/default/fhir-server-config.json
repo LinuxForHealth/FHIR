@@ -30,7 +30,7 @@
                 "max-inputs": 5,
                 "systemExportImpl": "none"
             },
-            "source": {
+            "storageProviders": {
                 "default" : {
                     "type": "ibm-cos",
                     "valid-base-urls": [],

@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model.url;
 
 import java.net.URLEncoder;
@@ -22,7 +23,6 @@ import javax.ws.rs.HttpMethod;
  * Based on the IBM Cloud Documentation
  *
  * @see https://cloud.ibm.com/docs/cloud-object-storage/hmac?topic=cloud-object-storage-presign-url#presign-url-put-python
- *
  */
 public class DownloadUrl {
 

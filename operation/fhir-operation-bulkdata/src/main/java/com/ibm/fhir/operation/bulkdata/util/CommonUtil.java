@@ -42,8 +42,8 @@ public class CommonUtil {
     public void checkAllowed(FHIROperationContext operationContext) throws FHIROperationException {
         try {
             OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
-            String source = adapter.getBulkDataSourceFromConfiguration();
-            StorageType type = ConfigurationFactory.getInstance().getSourceStorageType(source);
+            String source = adapter.getStorageProvider();
+            StorageType type = ConfigurationFactory.getInstance().getStorageProviderStorageType(source);
             verifyAllowedType(type.value());
         } catch (FHIROperationException foe) {
             throw foe;

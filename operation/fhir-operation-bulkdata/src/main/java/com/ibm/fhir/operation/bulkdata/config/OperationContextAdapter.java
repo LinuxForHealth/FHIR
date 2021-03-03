@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config;
 
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
@@ -16,16 +17,28 @@ public class OperationContextAdapter {
         this.operationContext = operationContext;
     }
 
-    public String getBulkDataSourceFromConfiguration() {
-        String bulkdataSource = operationContext.getHeaderString("X-FHIR-BULKDATA-SOURCE");
+    /**
+     * gets the storage provider
+     * @return
+     */
+    public String getStorageProvider() {
+        String bulkdataSource = operationContext.getHeaderString("X-FHIR-BULKDATA-PROVIDER");
         return bulkdataSource == null ? "default" : bulkdataSource;
     }
 
-    public String getOutcomeSourceFromConfiguration() {
-        String outcomeSource = operationContext.getHeaderString("X-FHIR-BULKDATA-OUTCOME");
+    /**
+     * gets the storage provider for the outcomes
+     * @return
+     */
+    public String getStorageProviderOutcomes() {
+        String outcomeSource = operationContext.getHeaderString("X-FHIR-BULKDATA-PROVIDER-OUTCOME");
         return outcomeSource == null ? "default" : outcomeSource;
     }
 
+    /**
+     * get the base uri
+     * @return
+     */
     public String getBaseUri() {
         String baseUri = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
         return baseUri;

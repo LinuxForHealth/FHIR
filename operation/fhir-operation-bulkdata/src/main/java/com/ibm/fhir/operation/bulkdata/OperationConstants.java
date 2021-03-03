@@ -1,8 +1,9 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata;
 
 import java.util.Arrays;
@@ -13,7 +14,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
- * BulkData operation Constants
+ * The Bulk Data Import Export Constants are used to control the Operaiton behavior.
  */
 public class OperationConstants {
     // Import

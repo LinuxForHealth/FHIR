@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +39,7 @@ public class BulkDataExportUtil {
 
     private static JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
 
-    private BulkDataExportUtil() {
+    public BulkDataExportUtil() {
         // No Operation
     }
 
@@ -50,7 +50,7 @@ public class BulkDataExportUtil {
      * @param resourceType
      * @return
      */
-    public static OperationConstants.ExportType checkExportType(FHIROperationContext.Type type,
+    public OperationConstants.ExportType checkExportType(FHIROperationContext.Type type,
         Class<? extends Resource> resourceType) {
         ExportType exportType = ExportType.INVALID;
         if (FHIROperationContext.Type.INSTANCE.equals(type) && "Group".equals(resourceType.getSimpleName())) {
@@ -71,7 +71,7 @@ public class BulkDataExportUtil {
      * @param resourceTypes
      * @throws FHIROperationException
      */
-    public static void checkExportPatientResourceTypes(List<String> resourceTypes) throws FHIROperationException {
+    public void checkExportPatientResourceTypes(List<String> resourceTypes) throws FHIROperationException {
         boolean valid = false;
         try {
             // Also Check to see if the Export is valid for the Compartment.
@@ -86,7 +86,7 @@ public class BulkDataExportUtil {
         }
     }
 
-    public static MediaType checkAndConvertToMediaType(Parameters parameters)
+    public MediaType checkAndConvertToMediaType(Parameters parameters)
         throws FHIROperationException {
         /*
          * The format for the requested bulk data files to be generated as per [FHIR Asynchronous Request
@@ -106,7 +106,7 @@ public class BulkDataExportUtil {
         return MediaType.valueOf(mediaType);
     }
 
-    private static String retrieveOutputFormat(String requestedFormat) throws FHIROperationException {
+    private String retrieveOutputFormat(String requestedFormat) throws FHIROperationException {
         // If the parameter isn't passed, use application/fhir+ndjson
         String finalValue = FHIRMediaType.APPLICATION_NDJSON;
 
@@ -131,7 +131,7 @@ public class BulkDataExportUtil {
         return finalValue;
     }
 
-    public static FHIROperationException buildOperationException(String errMsg, IssueType issueType) {
+    public FHIROperationException buildOperationException(String errMsg, IssueType issueType) {
         FHIROperationException operationException = new FHIROperationException(errMsg);
 
         List<Issue> issues = new ArrayList<>();
@@ -146,7 +146,7 @@ public class BulkDataExportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public static Instant checkAndExtractSince(Parameters parameters) {
+    public Instant checkAndExtractSince(Parameters parameters) {
         /*
          * Resources will be included in the response if their state has changed after the supplied time (e.g. if
          * Resource.meta.lastUpdated is later than the supplied _since time).
@@ -170,7 +170,7 @@ public class BulkDataExportUtil {
         return null;
     }
 
-    public static List<String> checkAndValidateTypes(Parameters parameters) throws FHIROperationException {
+    public List<String> checkAndValidateTypes(Parameters parameters) throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -215,7 +215,7 @@ public class BulkDataExportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public static List<String> addDefaultsForPatientCompartment() throws FHIROperationException {
+    public List<String> addDefaultsForPatientCompartment() throws FHIROperationException {
         try {
             return CompartmentUtil.getCompartmentResourceTypes("Patient");
         } catch (FHIRSearchException e) {
@@ -223,7 +223,7 @@ public class BulkDataExportUtil {
         }
     }
 
-    public static List<String> checkAndValidateTypeFilters(Parameters parameters) throws FHIROperationException {
+    public List<String> checkAndValidateTypeFilters(Parameters parameters) throws FHIROperationException {
         /*
          * To request finer-grained filtering, a client MAY supply a _typeFilter parameter alongside the _type
          * parameter. The value of the _typeFilter parameter is a comma-separated list of FHIR REST API queries that
@@ -261,7 +261,7 @@ public class BulkDataExportUtil {
         return result;
     }
 
-    public static Parameters getOutputParametersWithJson(PollingLocationResponse resource) throws Exception {
+    public Parameters getOutputParametersWithJson(PollingLocationResponse resource) throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.parameter(Parameter.builder().name(string("return")).value(string(PollingLocationResponse.Writer.generate(resource))).build());
         return parametersBuilder.build();
@@ -274,7 +274,7 @@ public class BulkDataExportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public static String checkAndValidateJob(Parameters parameters) throws FHIROperationException {
+    public String checkAndValidateJob(Parameters parameters) throws FHIROperationException {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())

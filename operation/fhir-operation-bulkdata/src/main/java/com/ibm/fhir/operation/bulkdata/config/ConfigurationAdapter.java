@@ -195,68 +195,174 @@ public interface ConfigurationAdapter {
     int getCoreFastTxTimeout();
 
     /**
-     * gets the source type which aligns with the StorageType
-     * @param source
+     * gets the StorageProvider type which aligns with the StorageType
+     * @param provider
      * @return
      */
-    String getSourceType(String source);
+    String getStorageProviderType(String provider);
 
     /**
-     * gets the source's valid base urls for HTTPS sources.
+     * gets the StorageProvider's valid base urls for HTTPS sources.
      *
-     * @param source
+     * @param provider
      * @return
      */
-    List<String> getSourceValidBaseUrls(String source);
+    List<String> getStorageProviderValidBaseUrls(String provider);
 
     /**
-     * gets the source's bucket name for cos sources.
+     * gets the StorageProvider's bucket name for cos sources.
      *
-     * @param source
+     * @param provider
      * @return
      */
-    String getSourceBucketName(String source);
+    String getStorageProviderBucketName(String provider);
 
-    String getSourceLocation(String source);
+    /**
+     * gets the location of the cos endpoint.
+     * @param provider
+     * @return
+     */
+    String getStorageProviderLocation(String provider);
 
-    String getSourceEndpointInternal(String source);
+    /**
+     * get the internal endpoint for the storage provider.
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderEndpointInternal(String provider);
 
-    String getSourceEndpointExternal(String source);
+    /**
+     * get the external endpoint for the storage provider.
+     * @param provider
+     * @return
+     */
+    String getStorageProviderEndpointExternal(String provider);
 
-    String getSourceAuthType(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthType(String provider);
 
-    boolean isSourceAuthTypeIam(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean isStorageProviderAuthTypeIam(String provider);
 
-    String getSourceAuthTypeIamApiKey(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeIamApiKey(String provider);
 
-    String getSourceAuthTypeIamApiResourceInstanceId(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeIamApiResourceInstanceId(String provider);
 
-    boolean isSourceAuthTypeHmac(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean isStorageProviderAuthTypeHmac(String provider);
 
-    String getSourceAuthTypeHmacAccessKey(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeHmacAccessKey(String provider);
 
-    String getSourceAuthTypeHmacSecretKey(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeHmacSecretKey(String provider);
 
-    boolean isSourceAuthTypeBasic(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean isStorageProviderAuthTypeBasic(String provider);
 
-    String getSourceAuthTypeUsername(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeUsername(String provider);
 
-    String getSourceAuthTypePassword(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypePassword(String provider);
 
-    boolean isSourceParquetEnabled(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean isStorageProviderParquetEnabled(String provider);
 
-    boolean shouldSourceValidateBaseUrl(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean shouldStorageProviderValidateBaseUrl(String provider);
 
-    boolean isSourceExportPublic(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean isStorageProviderExportPublic(String provider);
 
-    boolean shouldSourceCollectOperationOutcomes(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean shouldStorageProviderCollectOperationOutcomes(String provider);
 
-    boolean shouldSourceCheckDuplicate(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean shouldStorageProviderCheckDuplicate(String provider);
 
-    boolean shouldSourceValidateResources(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean shouldStorageProviderValidateResources(String provider);
 
-    boolean shouldSourceCreate(String source);
+    /**
+     *
+     * @param provider
+     * @return
+     */
+    boolean shouldStorageProviderCreate(String provider);
 
+    /**
+     * checks if the
+     * @param storageType
+     * @return
+     */
     boolean isStorageTypeAllowed(String storageType);
 
     /**
@@ -265,7 +371,7 @@ public interface ConfigurationAdapter {
      *            of the storage type
      * @return
      */
-    StorageType getSourceStorageType(String type);
+    StorageType getStorageProviderStorageType(String type);
 
     /**
      * limit of inputs
@@ -302,14 +408,34 @@ public interface ConfigurationAdapter {
     /**
      * get the base file location
      *
-     * @param source
+     * @param provider
      * @return
      */
-    String getBaseFileLocation(String source);
+    String getBaseFileLocation(String provider);
 
     /**
-     * @param source
+     * @param provider
      * @return
      */
-    boolean isSourceHmacPresigned(String source);
+    boolean isStorageProviderHmacPresigned(String provider);
+
+    /**
+     * @param provider
+     * @return
+     */
+    byte[] getEndOfFileDelimiter(String provider);
+
+    /**
+     * get the import fhir resources per read
+     * @param provider
+     * @return
+     */
+    int getImportNumberOfFhirResourcesPerRead(String provider);
+
+    /**
+     * the infly rate for the import
+     * @param provider
+     * @return
+     */
+    int getImportInflyRateNumberOfFhirResources(String provider);
 }

@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.impl;
 
 import java.util.Collections;
@@ -46,13 +47,13 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public String getSourceType(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/type", "ibm-cos");
+    public String getStorageProviderType(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/type", "ibm-cos");
     }
 
     @Override
-    public List<String> getSourceValidBaseUrls(String source) {
-        final String PATH = "fhirServer/bulkdata/source/" + source + "/valid-base-urls";
+    public List<String> getStorageProviderValidBaseUrls(String provider) {
+        final String PATH = "fhirServer/bulkdata/storageProviders/" + provider + "/valid-base-urls";
         List<String> results = FHIRConfigHelper.getStringListProperty(PATH);
         if (results == null) {
             results = Collections.emptyList();
@@ -61,117 +62,117 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public String getSourceBucketName(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/bucket-name", null);
+    public String getStorageProviderBucketName(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/bucket-name", null);
     }
 
     @Override
-    public String getSourceLocation(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/location", null);
+    public String getStorageProviderLocation(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/location", null);
     }
 
     @Override
-    public String getSourceEndpointInternal(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/endpoint-internal", null);
+    public String getStorageProviderEndpointInternal(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/endpoint-internal", null);
     }
 
     @Override
-    public String getSourceEndpointExternal(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/endpoint-external", null);
+    public String getStorageProviderEndpointExternal(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/endpoint-external", null);
     }
 
     @Override
-    public String getSourceAuthType(String source) {
-        String path = "fhirServer/bulkdata/source/" + source + "/auth/type";
+    public String getStorageProviderAuthType(String provider) {
+        String path = "fhirServer/bulkdata/storageProviders/" + provider + "/auth/type";
         return FHIRConfigHelper.getStringProperty(path, null);
     }
 
     @Override
-    public boolean isSourceAuthTypeIam(String source) {
-        String auth = getSourceAuthType(source);
+    public boolean isStorageProviderAuthTypeIam(String provider) {
+        String auth = getStorageProviderAuthType(provider);
         return "iam".equalsIgnoreCase(auth);
     }
 
     @Override
-    public String getSourceAuthTypeIamApiKey(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/auth/iam-api-key", null);
+    public String getStorageProviderAuthTypeIamApiKey(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iam-api-key", null);
     }
 
     @Override
-    public String getSourceAuthTypeIamApiResourceInstanceId(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/auth/iam-resource-instance-id", null);
+    public String getStorageProviderAuthTypeIamApiResourceInstanceId(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iam-resource-instance-id", null);
     }
 
     @Override
-    public boolean isSourceAuthTypeHmac(String source) {
-        String auth = getSourceAuthType(source);
+    public boolean isStorageProviderAuthTypeHmac(String provider) {
+        String auth = getStorageProviderAuthType(provider);
         return "hmac".equalsIgnoreCase(auth);
     }
 
     @Override
-    public String getSourceAuthTypeHmacAccessKey(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/auth/access_key_id", null);
+    public String getStorageProviderAuthTypeHmacAccessKey(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/access_key_id", null);
     }
 
     @Override
-    public String getSourceAuthTypeHmacSecretKey(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/auth/secret_access_key", null);
+    public String getStorageProviderAuthTypeHmacSecretKey(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/secret_access_key", null);
     }
 
     @Override
-    public boolean isSourceAuthTypeBasic(String source) {
-        String auth = getSourceAuthType(source);
+    public boolean isStorageProviderAuthTypeBasic(String provider) {
+        String auth = getStorageProviderAuthType(provider);
         return "basic".equalsIgnoreCase(auth);
     }
 
     @Override
-    public String getSourceAuthTypeUsername(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/auth/username", null);
+    public String getStorageProviderAuthTypeUsername(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/username", null);
     }
 
     @Override
-    public String getSourceAuthTypePassword(String source) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/source/" + source + "/auth/password", null);
+    public String getStorageProviderAuthTypePassword(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/password", null);
     }
 
     @Override
-    public boolean isSourceParquetEnabled(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/enableParquet", Boolean.FALSE);
+    public boolean isStorageProviderParquetEnabled(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/enableParquet", Boolean.FALSE);
     }
 
     @Override
-    public boolean shouldSourceValidateBaseUrl(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/disable-base-url-validation", Boolean.FALSE);
+    public boolean shouldStorageProviderValidateBaseUrl(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disable-base-url-validation", Boolean.FALSE);
     }
 
     @Override
-    public boolean isSourceExportPublic(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/export-public", Boolean.FALSE);
+    public boolean isStorageProviderExportPublic(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/export-public", Boolean.FALSE);
     }
 
     @Override
-    public boolean shouldSourceCollectOperationOutcomes(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/disable-operation-outcomes", Boolean.FALSE);
+    public boolean shouldStorageProviderCollectOperationOutcomes(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disable-operation-outcomes", Boolean.FALSE);
     }
 
     @Override
-    public boolean shouldSourceCheckDuplicate(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/duplication-check", Boolean.TRUE);
+    public boolean shouldStorageProviderCheckDuplicate(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/duplication-check", Boolean.TRUE);
     }
 
     @Override
-    public boolean shouldSourceValidateResources(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/validate-resources", Boolean.TRUE);
+    public boolean shouldStorageProviderValidateResources(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/validate-resources", Boolean.TRUE);
     }
 
     @Override
-    public boolean shouldSourceCreate(String source) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/source/" + source + "/create", Boolean.FALSE);
+    public boolean shouldStorageProviderCreate(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/create", Boolean.FALSE);
     }
 
     @Override
     public boolean isFastExport() {
-        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/systemExportImpl", null);
+        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/systemExportImpl", null);
         return "fast".equals(type);
     }
 }

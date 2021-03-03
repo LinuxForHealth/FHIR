@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.config.preflight;
 
 import com.ibm.fhir.exception.FHIROperationException;
 
 /**
- * Preflight is designed to sanity check a request
- * prior to executing the bulkdata request.
+ * Preflight is designed to sanity check a request prior to executing the bulkdata request.
  */
 public interface Preflight {
     /**

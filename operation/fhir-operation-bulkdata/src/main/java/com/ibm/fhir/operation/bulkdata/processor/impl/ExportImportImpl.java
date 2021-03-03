@@ -193,7 +193,6 @@ public class ExportImportImpl implements ExportImportBulkData {
             if (log.isLoggable(Level.FINE)) {
                 log.log(Level.FINE, "Exception is " + e.getMessage(), e);
             }
-            e.printStackTrace();
             throw new FHIROperationException("Error while processing the $import request", e);
         }
     }

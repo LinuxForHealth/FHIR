@@ -3,10 +3,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model.type;
 
 /**
- *
+ * Bulk Data Context wraps the Partitions, JobContext details
  */
 public class BulkDataContext {
 
