@@ -27,7 +27,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_RESOURCE_ID;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
@@ -760,7 +759,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil();
                     StringBuilder lastUpdatedWhereClause = new StringBuilder();
                     util.executeBehavior(lastUpdatedWhereClause, currentParm);
-                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString(), util.getBindVariables());
+
+                    // issue-2011 LAST_UPDATED now in both XXX_resources and XXX_logical_resources so we need an alias
+                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString()
+                        .replaceAll(LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME,
+                            chainedResourceVar + DOT + LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME), util.getBindVariables());
                 } else {
                     sqlQueryData = buildQueryParm(chainedResourceType, currentParm, chainedParmVar, chainedLogicalResourceVar, true);
                 }

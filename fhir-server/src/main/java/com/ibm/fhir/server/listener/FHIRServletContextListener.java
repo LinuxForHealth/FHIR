@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.transaction.UserTransaction;
 import javax.websocket.server.ServerContainer;
 
 import org.owasp.encoder.Encode;
@@ -66,7 +65,6 @@ public class FHIRServletContextListener implements ServletContextListener {
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
-    private static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -198,20 +196,6 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
             }
-        }
-    }
-
-    /**
-     * Safely rollback the transaction, logging any exception but not throwing it
-     * @param tx
-     */
-    private void safeRollback(UserTransaction tx) {
-        try {
-            log.fine("Rolling back transaction");
-            tx.rollback();
-        } catch (Exception x) {
-            // log but don't throw this exception, as it often hides the original cause
-            log.log(Level.SEVERE, "transaction rollback failed", x);
         }
     }
 
