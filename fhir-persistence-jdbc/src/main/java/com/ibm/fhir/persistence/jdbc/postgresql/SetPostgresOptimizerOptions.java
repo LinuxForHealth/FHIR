@@ -22,11 +22,11 @@ public class SetPostgresOptimizerOptions {
 
     private static final Logger log = Logger.getLogger(SetPostgresOptimizerOptions.class.getName());
 
-    // Configuration constants
+    // Configuration constants. Further testing (issue-1993) shows 12 gives the best results overall.
     private static final String JOIN_COLLAPSE_LIMIT = "join_collapse_limit";
-    private static final int DEFAULT_JOIN_COLLAPSE_LIMIT = 16;
+    private static final int DEFAULT_JOIN_COLLAPSE_LIMIT = 12;
     private static final String FROM_COLLAPSE_LIMIT = "from_collapse_limit";
-    private static final int DEFAULT_FROM_COLLAPSE_LIMIT = 16;
+    private static final int DEFAULT_FROM_COLLAPSE_LIMIT = 12;
 
     private final Integer joinCollapseLimit;
     private final Integer fromCollapseLimit;

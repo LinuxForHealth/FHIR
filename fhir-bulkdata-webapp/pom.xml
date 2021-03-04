@@ -18,24 +18,32 @@
     <packaging>war</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.ibm.cos</groupId>
-            <artifactId>ibm-cos-java-sdk</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.batch</groupId>
             <artifactId>jakarta.batch-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.inject</groupId>
             <artifactId>jakarta.inject-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.json</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.cos</groupId>
+            <artifactId>ibm-cos-java-sdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
         </dependency>
         <dependency>
             <!-- This is provided, yet never used. -->
@@ -58,106 +66,31 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <!-- exclude artifacts packaged in shared library dir -->
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-model</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <!-- exclude artifacts packaged in shared library dir -->
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-jdbc</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <!-- exclude artifacts packaged in shared library dir -->
-                <exclusion>
-                    <groupId>com.ibm.db2</groupId>
-                    <artifactId>jcc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derbyclient</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-persistence-schema</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derbytools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <!-- exclude artifacts packaged in shared library dir -->
-                <exclusion>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-core</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-config</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-database-utils</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <!-- exclude artifacts packaged in shared library dir -->
-                <exclusion>
-                    <groupId>com.ibm.db2</groupId>
-                    <artifactId>jcc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.derby</groupId>
-                    <artifactId>derby</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-provider</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.ws.rs</groupId>
-                    <artifactId>javax.ws.rs-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>

@@ -23,6 +23,9 @@ public enum FhirSchemaVersion {
     ,V0006(6, "issue-1366 normalized schema for storing resource references")
     ,V0007(7, "issue-1273 add ref_version_id column to xxx_TOKEN_VALUES_V view")
     ,V0008(8, "issue-1929 expose common_token_value_id in xxx_TOKEN_VALUES_V view")
+    ,V0009(9, "issue-1683 refactor composite values")
+    ,V0010(10, "issue-1958 add IS_DELETED flag to each xxx_LOGICAL_RESOURCES table")
+    ,V0011(11, "issue-2011 add LAST_UPDATED to each xxx_LOGICAL_RESOURCES table")
     ;
 
     // The version number recorded in the VERSION_HISTORY

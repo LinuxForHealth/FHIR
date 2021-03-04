@@ -93,8 +93,11 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         savedPatient1 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg2.getId())).build();
         savedPatient1 = persistence.create(getDefaultPersistenceContext(), savedPatient1).getResource();
 
-        // an Observation with a reference to a Patient
-        savedObservation2 = observation.toBuilder().subject(reference("Patient/" + savedPatient1.getId())).build();
+        // an Observation with a reference to a Patient and a logical ID-only reference to another observation
+        savedObservation2 = observation.toBuilder()
+                                        .subject(reference("Patient/" + savedPatient1.getId()))
+                                        .hasMember(reference(savedObservation1.getId()))
+                                        .build();
         savedObservation2 = persistence.create(getDefaultPersistenceContext(), savedObservation2).getResource();
 
         // an Observation with a reference to a Patient and a reference to an Encounter
@@ -634,6 +637,36 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         assertEquals(1, resources.size());
         assertEquals("Observation", resources.get(0).getClass().getSimpleName());
         assertEquals(savedObservation6.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries for Observations which reference Observations with a specified id.
+     * There is one Observation which references the Observation with the specified id, but
+     * the reference is a logical ID only, thus no Observations are returned.
+     * @throws Exception
+     */
+    @Test
+    public void testChainSingleWithLogicalIdReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("has-member:Observation._id", Collections.singletonList(savedObservation1.getId()));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(0, resources.size());
+    }
+
+    /**
+     * This test queries for Observations which are referenced by Observations with a specified id.
+     * There is one Observation which is referenced by the Observation with the specified id, but
+     * the reference is a logical ID only, thus no Observations are returned.
+     * @throws Exception
+     */
+    @Test
+    public void testReverseChainSingleWithLogicalIdReference() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_has:Observation:has-member:_id", Collections.singletonList(savedObservation2.getId()));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(0, resources.size());
     }
 
     private Reference reference(String reference) {

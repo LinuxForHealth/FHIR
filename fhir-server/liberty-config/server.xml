@@ -61,7 +61,7 @@
 
     <!-- This is the main IBM FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
-        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
+        <classloader privateLibraryRef="configResources,fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
         <application-bnd id="bind">
             <security-role id="users" name="FHIRUsers">
@@ -87,20 +87,6 @@
     <library id="fhirUserLib">
         <fileset dir="${server.config.dir}/userlib" includes="*.jar"/>
     </library>
-
-    <!-- Definitions related to the JDBC proxy datasource -->
-    <library id="fhirSharedLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
-        <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
-        <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
-    </library>
-
-    <!-- issue #916 fhirProxyDataSource remains the default configuration so keep this for now -->
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" validationTimeout="30s">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" libraryRef="fhirSharedLib"/>
-        <connectionManager/>
-    </dataSource>
 
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
     

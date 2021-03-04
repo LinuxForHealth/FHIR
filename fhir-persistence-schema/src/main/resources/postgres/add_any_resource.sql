@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020
+-- (C) Copyright IBM Corp. 2020, 2021
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -37,6 +37,8 @@
   v_duplicate               INT := 0;
   v_version                 INT := 0;
   v_insert_version          INT := 0;
+  v_change_type            CHAR(1) := NULL;
+  
   -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
   lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
@@ -65,13 +67,13 @@ BEGIN
       OPEN lock_cur (t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
       FETCH lock_cur INTO t_logical_resource_id;
       CLOSE lock_cur;
-           
+
     IF v_logical_resource_id = t_logical_resource_id
     THEN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
-      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id) '
-      || '     VALUES ($1, $2)' USING v_logical_resource_id, p_logical_id;
+      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated) '
+      || '     VALUES ($1, $2, $3, $4)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated;
       v_new_resource := 1;
     ELSE
       v_logical_resource_id := t_logical_resource_id;
@@ -127,11 +129,7 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites          WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
       EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_token_values        WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
       EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
@@ -143,8 +141,13 @@ BEGIN
         USING v_logical_resource_id;
       EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
         USING v_logical_resource_id;
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values           WHERE logical_resource_id = $1'
+        USING v_logical_resource_id;
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values          WHERE logical_resource_id = $1'
+        USING v_logical_resource_id;
+      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs  WHERE logical_resource_id = $1'
+        USING v_logical_resource_id;
     END IF;
-
   END IF;
 
   -- Persist the data using the given version number if required
@@ -168,10 +171,28 @@ BEGIN
   THEN
     -- only update the logical resource if the resource we are adding supercedes the
     -- the current resource. mt_id isn't needed here...implied via permission
-    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1 WHERE logical_resource_id = $2'
-      USING v_resource_id, v_logical_resource_id;
+    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3 WHERE logical_resource_id = $4'
+      USING v_resource_id, p_is_deleted, p_last_updated, v_logical_resource_id;
   END IF;
 
+  
+  -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+  -- related to resources changes (issue-1955)
+  IF p_is_deleted = 'Y'
+  THEN
+    v_change_type := 'D';
+  ELSE 
+    IF v_new_resource = 0
+    THEN
+      v_change_type := 'U';
+    ELSE
+      v_change_type := 'C';
+    END IF;
+  END IF;
+
+  INSERT INTO {{SCHEMA_NAME}}.resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
+       VALUES (v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, v_insert_version, v_change_type);
+  
   -- Hand back the id of the logical resource we created earlier. In the new R4 schema
   -- only the logical_resource_id is the target of any FK, so there's no need to return
   -- the resource_id (which is now private to the _resources tables).

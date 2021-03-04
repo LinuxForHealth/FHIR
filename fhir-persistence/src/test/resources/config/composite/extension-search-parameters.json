@@ -858,5 +858,61 @@
         "expression": "where(url='http://example.org/string').value"
       }]
     }
+  },
+  
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-string-code-date-integer",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-string-code-date-integer",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-string-code-date-integer",
+      "name": "composite-string-code-date-integer",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-string-code-date-integer",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite')",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-string",
+        "expression": "extension.where(url='http://example.org/string').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-code",
+        "expression": "extension.where(url='http://example.org/code').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-date",
+        "expression": "extension.where(url='http://example.org/date').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+        "expression": "extension.where(url='http://example.org/integer').value"
+      }]
+    }
+  },
+  
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Composition-composite-status-title",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Composition-composite-status-title",
+      "url": "http://hl7.org/fhir/SearchParameter/Composition-composite-status-title",
+      "name": "composite-status-title",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-status-title",
+      "base": ["Composition"],
+      "type": "composite",
+      "expression": "Composition",
+      "component": [{
+        "definition": "http://hl7.org/fhir/SearchParameter/Composition-status",
+        "expression": "status"
+      },
+      {
+        "definition": "http://hl7.org/fhir/SearchParameter/Composition-title",
+        "expression": "title"
+      }]
+    }
   }]
 }

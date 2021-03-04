@@ -296,11 +296,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
                 // so it gets stored again here for convenience
-                final String sql3 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id) VALUES (?, ?)";
+                final String sql3 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
                     stmt.setString(2, p_logical_id);
+                    stmt.setString(3, p_is_deleted ? "Y" : "N");
+                    stmt.setTimestamp(4, p_last_updated, UTC);
                     stmt.executeUpdate();
                 }
             }
@@ -323,7 +325,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 }
             }
 
-            // so if we are storing a specific version, do a quick check to make
+            // if we are storing a specific version, do a quick check to make
             // sure that this version doesn't currently exist. This is only done when processing
             // replication messages which might be duplicated. We want the operation to be idempotent,
             // so if the resource already exists, we don't need to do anything else.
@@ -362,15 +364,17 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             // later than the current version
             if (p_version == null || p_version > v_version) {
                 // existing resource, so need to delete all its parameters
-                // delete composites first, or else the foreign keys there restrict deletes on referenced tables
-                deleteFromParameterTable(conn, tablePrefix + "_composites", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_token_values", v_logical_resource_id); // still used for composites
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // non-composite token values
+                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
+
+                // delete any system level parameters we have for this resource
+                deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
             }
         }
 
@@ -418,11 +422,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (p_version == null || p_version > v_version) {
             //only update the logical resource if the resource we are adding supercedes the
             //current resource
-            String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ? WHERE logical_resource_id = ?";
+            String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
                 // bind parameters
                 stmt.setLong(1, v_resource_id);
-                stmt.setLong(2, v_logical_resource_id);
+                stmt.setString(2, p_is_deleted ? "Y" : "N");
+                stmt.setTimestamp(3, p_last_updated, UTC);
+                stmt.setLong(4, v_logical_resource_id);
                 stmt.executeUpdate();
             }
 
@@ -440,6 +446,22 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 }
             }
         }
+
+        // Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+        // related to resources changes (issue-1955)
+        String changeType = p_is_deleted ? "D" : v_new_resource ? "C" :  "U";
+        String INSERT_CHANGE_LOG = "INSERT INTO resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)"
+                + " VALUES (?,?,?,?,?,?)";
+        try (PreparedStatement ps = conn.prepareStatement(INSERT_CHANGE_LOG)) {
+            ps.setLong(     1, v_resource_id);
+            ps.setTimestamp(2, p_last_updated, UTC);
+            ps.setInt(      3, v_resource_type_id);
+            ps.setLong(     4, v_logical_resource_id);
+            ps.setInt(      5, v_insert_version);
+            ps.setString(   6, changeType);
+            ps.executeUpdate();
+        }
+
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
     }

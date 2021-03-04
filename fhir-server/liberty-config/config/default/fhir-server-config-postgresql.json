@@ -27,9 +27,9 @@
                     "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
                     "capabilities": [
                         "sso-openid-connect",
-                        "launch-standalone", 
-                        "client-public", 
-                        "client-confidential-symmetric", 
+                        "launch-standalone",
+                        "client-public",
+                        "client-confidential-symmetric",
                         "permission-offline",
                         "context-standalone-patient",
                         "permission-patient"
@@ -50,9 +50,6 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb": true,
-                "enableProxyDatasource": false,
-                "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
@@ -62,8 +59,8 @@
                     "type": "postgresql",
                     "currentSchema": "fhirdata",
                     "searchOptimizerOptions": {
-                        "from_collapse_limit": 16,
-                        "join_collapse_limit": 16
+                        "from_collapse_limit": 12,
+                        "join_collapse_limit": 12
                     }
                 }
             }

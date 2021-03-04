@@ -181,8 +181,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
-                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
-                + "VALUES (?, ?, ?, ?)";
+                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id, composite_id) "
+                + "VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(insert)) {
             int count = 0;
             for (ResourceTokenValueRec xr: xrefs) {
@@ -201,6 +201,13 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     ps.setInt(4, xr.getRefVersionId());
                 } else {
                     ps.setNull(4, Types.INTEGER);
+                }
+
+                // compositeId can be null
+                if (xr.getCompositeId() != null) {
+                    ps.setInt(5, xr.getCompositeId());
+                } else {
+                    ps.setNull(5, Types.INTEGER);
                 }
                 ps.addBatch();
                 if (++count == BATCH_SIZE) {

@@ -16,11 +16,6 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-persistence-proxy</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-bulkdata-webapp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
@@ -32,6 +27,11 @@
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>io.openliberty</groupId>
+            <artifactId>openliberty-runtime</artifactId>
+            <type>zip</type>
+        </dependency>
+        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
         </dependency>
@@ -40,13 +40,12 @@
             <artifactId>derby</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.openliberty</groupId>
-            <artifactId>openliberty-runtime</artifactId>
-            <type>zip</type>
-        </dependency>
-        <dependency>
             <groupId>com.ibm.db2</groupId>
             <artifactId>jcc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -59,10 +58,6 @@
             <artifactId>fhir-swagger-generator</artifactId>
             <version>${project.version}</version>
             <classifier>cli</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
         </dependency>
     </dependencies>
 
