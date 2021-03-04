@@ -100,8 +100,8 @@ public class ExportOperation extends AbstractOperation {
             Preflight preflight =  PreflightFactory.getInstance(operationContext, null, exportType);
             preflight.preflight();
 
-            response = BulkDataFactory.getInstance(operationContext).export(logicalId, exportType, outputFormat, since, types,
-                    typeFilters, operationContext);
+            response = BulkDataFactory.getInstance(operationContext)
+                        .export(logicalId, exportType, outputFormat, since, types, typeFilters, operationContext);
         } else {
             // Unsupported on instance, specific types other than group/patient/system
             throw buildExceptionWithIssue(

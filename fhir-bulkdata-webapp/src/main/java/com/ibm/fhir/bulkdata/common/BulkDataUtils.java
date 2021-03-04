@@ -153,7 +153,9 @@ public class BulkDataUtils {
                 try {
                     fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
                     exported++;
-                    if (exported == adapter.getImportNumberOfFhirResourcesPerRead(null)) {
+
+                    // Per Code Review, this could be a trap if always compare ==.
+                    if (exported >= adapter.getImportNumberOfFhirResourcesPerRead(null)) {
                         break;
                     }
                 } catch (FHIRParserException e) {

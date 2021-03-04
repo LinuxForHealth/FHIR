@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,8 +9,8 @@ package com.ibm.fhir.bulkdata.jbatch.export.data;
 import java.io.ByteArrayOutputStream;
 
 /**
- * Bulk export Chunk implementation - job cache data.
- *
+ * Bulk Export Job Transient data
+ * @implNote instances of this class are very unlikely to be persisted to disk.
  */
 public class TransientUserData extends CheckPointUserData {
     private static final long serialVersionUID = -5892726731783560418L;

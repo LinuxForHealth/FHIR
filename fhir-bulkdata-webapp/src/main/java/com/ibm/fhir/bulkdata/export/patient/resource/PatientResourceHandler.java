@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.bulkdata.export.patient.resource;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- *
+ * The PatientResourceHandler controls the population of the Patient Resources (Or Group member Resources into the TransientData object)
  */
 public class PatientResourceHandler {
 

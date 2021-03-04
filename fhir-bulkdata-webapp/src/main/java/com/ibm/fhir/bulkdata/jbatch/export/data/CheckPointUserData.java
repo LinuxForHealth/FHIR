@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,7 @@ import java.util.List;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
 /**
- * Bulk export Chunk implementation - job check point data.
- *
+ * Bulk Export Job Checkpoint data.
  */
 public class CheckPointUserData implements java.io.Serializable {
     private static final long serialVersionUID = 5722923276076940517L;

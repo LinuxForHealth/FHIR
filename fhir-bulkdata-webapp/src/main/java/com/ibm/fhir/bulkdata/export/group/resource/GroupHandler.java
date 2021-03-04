@@ -27,7 +27,9 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
+ * GroupHandler handles each Page of Members in a Group (enabling paging of the members of the Group)
  *
+ * @implNote we support nested Groups.
  */
 public class GroupHandler {
 

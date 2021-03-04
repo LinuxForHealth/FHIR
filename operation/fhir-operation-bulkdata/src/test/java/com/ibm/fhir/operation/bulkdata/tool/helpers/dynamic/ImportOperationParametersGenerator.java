@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 
 /**
- * 
+ *
  */
 public class ImportOperationParametersGenerator {
 
@@ -39,7 +39,7 @@ public class ImportOperationParametersGenerator {
         // Required: inputFormat
         parameters.add(Parameter.builder().name(string("inputFormat")).value(string(inputFormat)).build());
 
-        // Required: inputSource - where it came from. 
+        // Required: inputSource - where it came from.
         parameters.add(Parameter.builder().name(string("inputSource")).value(Uri.uri(inputSource)).build());
 
         // Required: Input Values
@@ -89,7 +89,7 @@ public class ImportOperationParametersGenerator {
         parameters
                 .add(Parameter.builder().name(string("inputFormat")).value(string("application/fhir+ndjson")).build());
 
-        // Required: inputSource - where it came from. 
+        // Required: inputSource - where it came from.
         parameters.add(Parameter.builder().name(string("inputSource"))
                 .value(Uri.uri("https://other-server.example.org")).build());
 

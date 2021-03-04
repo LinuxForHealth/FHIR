@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.crypto.KeyGenerator;
 import javax.ws.rs.core.Response;
@@ -42,6 +43,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -57,6 +59,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 
 /**
  * BulkData Client to connect to the other server.
@@ -171,13 +174,20 @@ public class BulkDataClient {
         builder.fhirExportFormat(outputFormat);
 
         // Export Type - FHIR
+        String resourceType = String.join(",", types);
         switch (exportType) {
         case PATIENT:
             builder.jobXMLName(JobType.EXPORT_PATIENT.value());
+            if (resourceType == null) {
+                resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
+            }
             break;
         case GROUP:
             builder.jobXMLName(JobType.EXPORT_GROUP.value());
             builder.fhirPatientGroupId(groupId);
+            if (resourceType == null) {
+                resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
+            }
             break;
         default:
             // We have two implementations for system export, but the "fast" version
@@ -193,10 +203,15 @@ public class BulkDataClient {
                 // No typeFilter, so we use the fast export which bypasses FHIR search
                 builder.jobXMLName(JobType.EXPORT_FAST.value());
             }
+            if (resourceType == null) {
+                resourceType = ModelSupport.getResourceTypes()
+                            .stream()
+                            .map(r -> r.getSimpleName())
+                            .collect(Collectors.joining(","));
+            }
             break;
         }
 
-        String resourceType = String.join(",", types);
         builder.fhirResourceType(resourceType);
 
         /*

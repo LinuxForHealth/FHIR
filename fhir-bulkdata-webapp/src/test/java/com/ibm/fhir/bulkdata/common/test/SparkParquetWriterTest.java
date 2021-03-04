@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkcommon;
+package com.ibm.fhir.bulkdata.common.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertTrue;
