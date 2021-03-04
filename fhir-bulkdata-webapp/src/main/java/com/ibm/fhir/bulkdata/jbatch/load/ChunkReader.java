@@ -27,7 +27,6 @@ import com.ibm.fhir.bulkdata.jbatch.load.data.ImportCheckPointData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.bulkdata.provider.ProviderFactory;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -50,17 +49,19 @@ public class ChunkReader extends AbstractItemReader {
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITTION_WORKITEM)
+    @BatchProperty(name = OperationFields.PARTITTION_WORKITEM)
     private String workItem;
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITION_RESOURCETYPE)
+    @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
     private String resourceType;
 
     long numOfLinesToSkip = 0;
 
     private BulkDataContext ctx = null;
+
+    private long executionId = -1;
 
     public ChunkReader() {
         super();
@@ -68,53 +69,45 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        long executionId = -1;
-        try {
-            executionId = jobCtx.getExecutionId();
-            JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(executionId);
+        executionId = jobCtx.getExecutionId();
+        JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(executionId);
 
-            BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
-            ctx = ctxAdapter.getStepContextForImportChunkReader();
-            ctx.setPartitionResourceType(resourceType);
-            ctx.setImportPartitionWorkitem(workItem);
+        BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+        ctx = ctxAdapter.getStepContextForImportChunkReader();
+        ctx.setPartitionResourceType(resourceType);
+        ctx.setImportPartitionWorkitem(workItem);
 
-            // Register the context to get the right configuration.
-            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-            adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
+        // Register the context to get the right configuration.
+        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+        adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-            if (checkpoint != null) {
-                ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
-                // importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
-                numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
-                checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
-                stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
-            } else {
-                ImportTransientUserData chunkData =
-                        (ImportTransientUserData) ImportTransientUserData.Builder.builder().importPartitionWorkitem(ctx.getImportPartitionWorkitem()).numOfProcessedResources(numOfLinesToSkip).importPartitionResourceType(ctx.getPartitionResourceType())
-                            // This naming pattern is used in bulkdata operation to generate file links for import
-                            // OperationOutcomes.
-                            // e.g, for input file test1.ndjson, if there is any error during the importing, then the
-                            // errors are in
-                            // test1.ndjson_oo_errors.ndjson
-                            // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
-                            // so only error import
-                            // OperationOutcomes are supported for now.
-                            .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem()
-                                    + "_oo_success.ndjson").uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem()
-                                            + "_oo_errors.ndjson").build();
+        if (checkpoint != null) {
+            ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
+            // importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
+            numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
+            checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
+            stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
+        } else {
 
-                Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
-                long importFileSize = wrapper.getSize(workItem);
-                chunkData.setImportFileSize(importFileSize);
-                chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
-                stepCtx.setTransientUserData(chunkData);
-            }
-        } catch (FHIRException e) {
-            logger.log(Level.SEVERE, "Import ChunkReader.open during job[" + executionId + "] - " + e.getMessage(), e);
-            throw e;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Import ChunkReader.open during job[" + executionId + "]", e);
-            throw e;
+            ImportTransientUserData chunkData =
+                    (ImportTransientUserData) ImportTransientUserData.Builder.builder().importPartitionWorkitem(ctx.getImportPartitionWorkitem()).numOfProcessedResources(numOfLinesToSkip).importPartitionResourceType(ctx.getPartitionResourceType())
+                        // This naming pattern is used in bulkdata operation to generate file links for import
+                        // OperationOutcomes.
+                        // e.g, for input file test1.ndjson, if there is any error during the importing, then the
+                        // errors are in
+                        // test1.ndjson_oo_errors.ndjson
+                        // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
+                        // so only error import
+                        // OperationOutcomes are supported for now.
+                        .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem()
+                                + "_oo_success.ndjson").uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem()
+                                        + "_oo_errors.ndjson").build();
+
+            Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+            long importFileSize = wrapper.getSize(workItem);
+            chunkData.setImportFileSize(importFileSize);
+            chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
+            stepCtx.setTransientUserData(chunkData);
         }
     }
 
@@ -136,45 +129,36 @@ public class ChunkReader extends AbstractItemReader {
             return null;
         }
 
-        long executionId = -1;
-        try {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("readItem: get work item:" + ctx.getImportPartitionWorkitem() + " resource type: " + ctx.getPartitionResourceType());
-            }
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: get work item:" + ctx.getImportPartitionWorkitem() + " resource type: " + ctx.getPartitionResourceType());
+        }
 
-            ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
-            numOfLinesToSkip = chunkData.getNumOfProcessedResources();
+        ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
+        numOfLinesToSkip = chunkData.getNumOfProcessedResources();
 
-            Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
-            wrapper.registerTransient(chunkData);
+        Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+        wrapper.registerTransient(chunkData);
 
-            long readStartTimeInMilliSeconds = System.currentTimeMillis();
-            wrapper.readResources(readStartTimeInMilliSeconds, ctx.getImportPartitionWorkitem());
+        long readStartTimeInMilliSeconds = System.currentTimeMillis();
+        wrapper.readResources(readStartTimeInMilliSeconds, ctx.getImportPartitionWorkitem());
 
-            long numOfParseFailures = wrapper.getNumberOfParseFailures();
-            long numOfLoaded = wrapper.getNumberOfLoaded();
+        long numOfParseFailures = wrapper.getNumberOfParseFailures();
+        long numOfLoaded = wrapper.getNumberOfLoaded();
 
-            List<Resource> resources = wrapper.getResources();
+        List<Resource> resources = wrapper.getResources();
 
-            chunkData.addToTotalReadMilliSeconds(System.currentTimeMillis() - readStartTimeInMilliSeconds);
-            chunkData.setNumOfParseFailures(numOfParseFailures);
+        chunkData.addToTotalReadMilliSeconds(System.currentTimeMillis() - readStartTimeInMilliSeconds);
+        chunkData.setNumOfParseFailures(numOfParseFailures);
 
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("readItem: loaded '" + numOfLoaded + "' '" + ctx.getPartitionResourceType() + "' from '" + ctx.getImportPartitionWorkitem() + "'");
-            }
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: loaded '" + numOfLoaded + "' '" + ctx.getPartitionResourceType() + "' from '" + ctx.getImportPartitionWorkitem() + "'");
+        }
 
-            chunkData.setNumOfToBeImported(numOfLoaded);
-            if (numOfLoaded == 0) {
-                return null;
-            } else {
-                return resources;
-            }
-        } catch (FHIRException e) {
-            logger.log(Level.SEVERE, "Import ChunkReader.readItem during job[" + executionId + "] - " + e.getMessage(), e);
-            throw e;
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Import ChunkReader.readItem during job [" + executionId + "]", e);
-            throw e;
+        chunkData.setNumOfToBeImported(numOfLoaded);
+        if (numOfLoaded == 0) {
+            return null;
+        } else {
+            return resources;
         }
     }
 }

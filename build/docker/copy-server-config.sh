@@ -19,6 +19,9 @@ mkdir -p $CONFIG
 BULKDATA="${WORKSPACE}/build/docker/fhir-server/volumes/output"
 mkdir -p ${BULKDATA}
 
+# Appending the path 
+echo "test.bulkdata.path = ${BULKDATA}" >> ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+
 echo "Copying the server config files..."
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}

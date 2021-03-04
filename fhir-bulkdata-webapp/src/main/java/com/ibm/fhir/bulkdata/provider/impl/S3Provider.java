@@ -146,7 +146,10 @@ public class S3Provider implements Provider {
         }
 
         ClientConfiguration clientConfig =
-                new ClientConfiguration().withRequestTimeout(configAdapter.getCoreCosRequestTimeout()).withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive()).withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
+                new ClientConfiguration()
+                    .withRequestTimeout(configAdapter.getCoreCosRequestTimeout())
+                    .withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive())
+                    .withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
 
         if (useFhirServerTrustStore) {
             ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
@@ -156,7 +159,12 @@ public class S3Provider implements Provider {
             apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
         }
 
-        return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation)).withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
+        return AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
+                .withPathStyleAccessEnabled(true)
+                .withClientConfiguration(clientConfig)
+                .build();
     }
 
     /**
@@ -197,7 +205,10 @@ public class S3Provider implements Provider {
     public ListObjectsV2Result getListObject(String continuationToken) throws FHIRException {
         if (client != null) {
             ListObjectsV2Request request =
-                    new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(1000).withContinuationToken(continuationToken);
+                    new ListObjectsV2Request()
+                        .withBucketName(bucketName)
+                        .withMaxKeys(1000)
+                        .withContinuationToken(continuationToken);
             return client.listObjectsV2(request);
         } else {
             throw new FHIRException("Client is not created");

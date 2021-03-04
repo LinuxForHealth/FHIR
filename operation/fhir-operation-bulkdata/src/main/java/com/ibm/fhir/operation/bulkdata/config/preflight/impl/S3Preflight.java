@@ -26,7 +26,10 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * Checks the S3 Configuration.
@@ -143,6 +146,14 @@ public class S3Preflight extends NopPreflight {
                 }
             }
             return result;
+        }
+    }
+
+    @Override
+    public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
+        if (storageDetail != null && (!StorageType.AWSS3.value().equals(storageDetail.getType()) || !StorageType.IBMCOS.value().equals(storageDetail.getType()))){
+            CommonUtil util = new CommonUtil();
+            throw util.buildExceptionWithIssue("Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }

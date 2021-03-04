@@ -74,9 +74,10 @@ public class ImportOperation extends AbstractOperation {
         StorageDetail storageDetail = util.retrieveStorageDetails();
 
         Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null);
+        preflight.checkStorageAllowed(storageDetail);
         preflight.preflight();
-        return BulkDataFactory.getInstance(operationContext).importBulkData(inputFormat, inputSource, inputs, storageDetail,
-                operationContext);
+        return BulkDataFactory.getInstance(operationContext)
+                .importBulkData(inputFormat, inputSource, inputs, storageDetail, operationContext);
     }
 
     private void checkImportType(FHIROperationContext.Type type) throws FHIROperationException {

@@ -24,7 +24,10 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * Verifies the Export/Import is valid for Https
@@ -101,6 +104,14 @@ public class HttpsPreflight extends NopPreflight {
                 }
             }
             return result;
+        }
+    }
+
+    @Override
+    public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
+        if (storageDetail != null && !StorageType.HTTPS.value().equals(storageDetail.getType())){
+            CommonUtil util = new CommonUtil();
+            throw util.buildExceptionWithIssue("Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }

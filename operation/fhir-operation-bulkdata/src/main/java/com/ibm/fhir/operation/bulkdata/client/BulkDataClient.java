@@ -699,7 +699,8 @@ public class BulkDataClient {
                         } else {
                             ext = ".ndjson";
                         }
-                        sUrl = cosBucketPathPrefix + "_" + resourceType + "_" + resourceCounts[i] + ext;
+                        // Originally we set i to resourceCounts[i], however we don't always know the count when create the file.
+                        sUrl = cosBucketPathPrefix + "_" + resourceType + "_" + (i + 1) + ext;
                     }
                     outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
                 }

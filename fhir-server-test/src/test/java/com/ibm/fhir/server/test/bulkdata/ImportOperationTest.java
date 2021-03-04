@@ -122,7 +122,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         parameters.add(inputParameter);
 
         // Optional: Storage Detail
-        Parameter storageDetailParameter = Parameter.builder().name(string("storageDetail")).value(string("ibm-cos")).build();
+        Parameter storageDetailParameter = Parameter.builder().name(string("storageDetail")).value(string("file")).build();
         parameters.add(storageDetailParameter);
 
         Parameters.Builder builder = Parameters.builder();

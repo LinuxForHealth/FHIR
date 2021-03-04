@@ -1,8 +1,9 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.server.test.bulkdata;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -12,10 +13,12 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +27,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
@@ -79,6 +83,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     private String savedGroupId, savedGroupId2;
     private String minioUserName;
     private String minioPassword;
+    private String path;
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
@@ -86,10 +91,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.export.enabled", "false"));
-        isUseMinio = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio", "false"));
-        minioUserName = testProperties.getProperty("test.bulkdata.minio.username");
-        minioPassword = testProperties.getProperty("test.bulkdata.minio.password");
-        isUseMinioInBuildPipeline = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio.inbuildpipeline", "false"));
+        path = testProperties.getProperty("test.bulkdata.path");
+        /*
+         * isUseMinio = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio", "false"));
+         * minioUserName = testProperties.getProperty("test.bulkdata.minio.username");
+         * minioPassword = testProperties.getProperty("test.bulkdata.minio.password");
+         * isUseMinioInBuildPipeline =
+         * Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio.inbuildpipeline", "false"));
+         */
     }
 
     public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters)
@@ -217,7 +226,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
             JsonObject object = jsonReader.readObject();
             return object.getJsonObject("result").getString("token");
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -284,7 +293,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
@@ -300,12 +309,29 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(body.contains("output"));
-        // Find and try the first download link
-        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
-        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
-        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
+        verifyUrl(body);
+    }
 
-        verifyDownloadUrl(downloadUrl);
+    public void verifyUrl(String body) throws Exception {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes());
+                JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
+            JsonObject object = jsonReader.readObject();
+            JsonArray arr = object.getJsonArray("output");
+            assertTrue(arr.size() > 0);
+            for (int i = 0; i < arr.size(); i++) {
+                JsonObject obj = arr.get(i).asJsonObject();
+                String str = obj.getString("url");
+                assertNotNull(str);
+                assertTrue(str.endsWith(".ndjson"));
+                verifyFileLines(str, obj.getInt("count"));
+            }
+        }
+    }
+
+    public void verifyFileLines(String workItem, int count) throws IOException {
+        int actual = Files.readAllLines(new File(path + "/" + workItem).toPath()).size();
+        System.out.println(" Verfied the Export Test [" + actual + "] [" + count +"]");
+        assertEquals(actual, count);
     }
 
     @Test(groups = { TEST_GROUP_NAME })
@@ -532,21 +558,15 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // Update the patient and verify the response.
         entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
         //@formatter:on
-        response = target.path("Group/" + savedGroupId)
-                            .request()
-                            .header("X-FHIR-TENANT-ID", tenantName)
-                            .header("X-FHIR-DSID", dataStoreId)
-                            .put(entity, Response.class);
+        response = target.path("Group/"
+                + savedGroupId).request().header("X-FHIR-TENANT-ID", tenantName).header("X-FHIR-DSID", dataStoreId).put(entity, Response.class);
         //@formatter:on
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Next, call the 'read' API to retrieve the new group and verify it.
         //@formatter:on
-        response = target.path("Group/" + savedGroupId)
-                            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                            .header("X-FHIR-TENANT-ID", tenantName)
-                            .header("X-FHIR-DSID", dataStoreId)
-                            .get();
+        response = target.path("Group/"
+                + savedGroupId).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", tenantName).header("X-FHIR-DSID", dataStoreId).get();
         //@formatter:off
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseGroup = response.readEntity(Group.class);

@@ -14,6 +14,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 
 /**
  * For the legacy configurations, we don't want to run the preflight checks.
@@ -65,5 +66,10 @@ public class NopPreflight implements Preflight {
 
     protected OperationConstants.ExportType getExportType(){
         return exportType;
+    }
+
+    @Override
+    public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
+        // No Operation
     }
 }

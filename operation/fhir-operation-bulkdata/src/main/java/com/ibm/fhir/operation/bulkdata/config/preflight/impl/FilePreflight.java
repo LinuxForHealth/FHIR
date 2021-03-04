@@ -18,6 +18,8 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
@@ -67,6 +69,14 @@ public class FilePreflight extends NopPreflight {
             }
         } else {
             throw util.buildExceptionWithIssue("No File Base Configured for FHIR bulkdata operation", IssueType.INVALID);
+        }
+    }
+
+    @Override
+    public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
+        if (storageDetail != null && !StorageType.FILE.value().equals(storageDetail.getType())){
+            CommonUtil util = new CommonUtil();
+            throw util.buildExceptionWithIssue("Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }

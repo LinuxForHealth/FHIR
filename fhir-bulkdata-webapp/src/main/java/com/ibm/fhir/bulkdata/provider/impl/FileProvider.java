@@ -53,11 +53,15 @@ public class FileProvider implements Provider {
         this.source = source;
     }
 
+    private String getFilePath(String workItem) {
+        return configuration.getBaseFileLocation(source) + "/" + workItem;
+    }
+
     @Override
     public long getSize(String workItem) throws FHIRException {
         // This may be error prone as the file itself may be compressed or on a compressed volume.
         try {
-            return Files.size((new File(workItem)).toPath());
+            return Files.size(new File(getFilePath(workItem)).toPath());
         } catch (IOException e) {
             throw new FHIRException("Files size is not computable '" + workItem + "'", e);
         }
@@ -66,7 +70,7 @@ public class FileProvider implements Provider {
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
         try {
-            parseFailures = BulkDataUtils.readFhirResourceFromLocalFile(workItem, (int) numOfLinesToSkip, resources, transientUserData);
+            parseFailures = BulkDataUtils.readFhirResourceFromLocalFile(getFilePath(workItem), (int) numOfLinesToSkip, resources, transientUserData);
         } catch (Exception e) {
             throw new FHIRException("Unable to read from Local File", e);
         }
@@ -102,9 +106,9 @@ public class FileProvider implements Provider {
 
         this.chunkData = transientUserData;
         this.fhirResourceType = fhirResourceType;
-        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+
         String fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
-        String base = adapter.getBaseFileLocation(source);
+        String base = configuration.getBaseFileLocation(source);
 
         String fn = base + "/" + fileName;
         Path p1 = Paths.get(fn);
