@@ -28,6 +28,7 @@ import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
 import com.ibm.fhir.model.resource.Group.Member;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
@@ -65,6 +66,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
             // short-circuit
             return null;
         }
+
         long executionId = jobCtx.getExecutionId();
         JobOperator jobOperator = BatchRuntime.getJobOperator();
         JobExecution jobExecution = jobOperator.getJobExecution(executionId);
@@ -72,6 +74,8 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
         ctx = contextAdapter.getStepContextForGroupChunkReader();
         ctx.setPartitionResourceType(partResourceType);
+
+        resourceType = ModelSupport.getResourceType(ctx.getPartitionResourceType());
 
         // Register the context to get the right configuration.
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
@@ -116,15 +120,19 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         chunkData.setLastPageNum((pageOfMembers.size() + pageSize -1)/pageSize );
 
         if (!pageOfMembers.isEmpty()) {
-            List<String> patientIds = pageOfMembers.stream().filter(patientRef -> patientRef != null).map(patientRef
-                    -> patientRef.getEntity().getReference().getValue().substring(8)).collect(Collectors.toList());
+            List<String> patientIds = pageOfMembers.stream()
+                    .filter(patientRef -> patientRef != null)
+                    .map(patientRef -> patientRef.getEntity().getReference().getValue().substring(8))
+                    .collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
+                System.out.println("HERE " + resourceType);
                 patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes);
                 patientHandler.fillChunkData(groupHandler.patientIdsToPatients(patientIds), patientIds);
             }
         } else {
             logger.fine("readItem: End of reading!");
         }
+        stepCtx.setTransientUserData(chunkData);
         return pageOfMembers;
     }
 }

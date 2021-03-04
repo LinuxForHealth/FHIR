@@ -31,8 +31,8 @@ public class JobControlContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         log.info("Starting up the Bulk Data Web App");
         try {
+            @SuppressWarnings("unused")
             Subject subject = Subject.getSubject(AccessController.getContext());
-
 
             // @implNote The following will fail, I leave it here as a pattern for reporting on startup.
             // The case where we hit an exception, the stacktrace/logs are swallowed and never presented

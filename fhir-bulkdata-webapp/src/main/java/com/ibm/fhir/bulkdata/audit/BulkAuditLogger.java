@@ -81,20 +81,19 @@ public class BulkAuditLogger {
 
     /*
      * Creates an audit log entry with attributes common to all the bulkdata jobs.
-     * @param eventType - the type of event
-     * @param resource
-     * - The Resource object.
+     * @param eventType the type of event
+     * @param resource The Resource object.
      * @param startTime
-     * - The start time of the request execution.
+     * The start time of the request execution.
      * @param endTime
-     * - The end time of the request execution.
+     * The end time of the request execution.
      * @param responseStatus
-     * - The response status.
+     * The response status.
      * @param location
      * the destination or source for the export or import
      * @param users
      * the principals that initiated the request
-     * @return AuditLogEntry - an audit log entry.
+     * @return AuditLogEntry an audit log entry.
      */
     private AuditLogEntry createAuditLogEntry(AuditLogEventType eventType, Resource resource, Date startTime, Date endTime, Response.Status responseStatus,
         String location, String users) {
@@ -157,13 +156,13 @@ public class BulkAuditLogger {
      * Builds an audit log entry for a 'create' in a bulkdata service invocation.
      *
      * @param newResource
-     *            - The Resource object being created.
+     *            The Resource object being created.
      * @param startTime
-     *            - The start time of the create request execution.
+     *            The start time of the create request execution.
      * @param endTime
-     *            - The end time of the create request execution.
+     *            The end time of the create request execution.
      * @param responseStatus
-     *            - The response status.
+     *            The response status.
      * @param location
      *            the destination or source for the export or import
      * @param users
@@ -184,13 +183,13 @@ public class BulkAuditLogger {
      * Builds an audit log entry for a 'validate' in a bulkdata service invocation.
      *
      * @param newResource
-     *            - The Resource object being created.
+     *            The Resource object being created.
      * @param startTime
-     *            - The start time of the create request execution.
+     *            The start time of the create request execution.
      * @param endTime
-     *            - The end time of the create request execution.
+     *            The end time of the create request execution.
      * @param responseStatus
-     *            - The response status.
+     *            The response status.
      * @param location
      *            the destination or source for the export or import
      * @param users
@@ -198,28 +197,28 @@ public class BulkAuditLogger {
      * @throws Exception
      */
     public void logValidateOnImport(Resource newResource, Date startTime, Date endTime, Response.Status responseStatus, String location, String users)
-            throws Exception {
-            final String METHODNAME = "logValidateOnImport";
-            log.entering(CLASSNAME, METHODNAME);
-            if (shouldLog()) {
-                log(AuditLogEventType.FHIR_OPERATION, "R", "FHIR BulkData Validate on Import request", null, newResource, startTime, endTime, responseStatus, null, null, location, users);
-            }
-            log.exiting(CLASSNAME, METHODNAME);
+        throws Exception {
+        final String METHODNAME = "logValidateOnImport";
+        log.entering(CLASSNAME, METHODNAME);
+        if (shouldLog()) {
+            log(AuditLogEventType.FHIR_OPERATION, "R", "FHIR BulkData Validate on Import request", null, newResource, startTime, endTime, responseStatus, null, null, location, users);
         }
+        log.exiting(CLASSNAME, METHODNAME);
+    }
 
     /**
      * Builds an audit log entry for an 'update' in a bulkdata service invocation.
      *
      * @param oldResource
-     *            - The previous version of the Resource, before it was updated.
+     *            The previous version of the Resource, before it was updated.
      * @param updatedResource
-     *            - The updated version of the Resource.
+     *            The updated version of the Resource.
      * @param startTime
-     *            - The start time of the update request execution.
+     *            The start time of the update request execution.
      * @param endTime
-     *            - The end time of the update request execution.
+     *            The end time of the update request execution.
      * @param responseStatus
-     *            - The response status.
+     *            The response status.
      * @param location
      *            the destination or source for the export or import
      * @param users
@@ -272,15 +271,15 @@ public class BulkAuditLogger {
      * Builds an audit log entry for a 'search' in a bulkdata service invocation.
      *
      * @param queryParms
-     *            - The query parameters passed to the search service.
+     *            The query parameters passed to the search service.
      * @param bundle
-     *            - The Bundle that is returned to the service caller.
+     *            The Bundle that is returned to the service caller.
      * @param startTime
-     *            - The start time of the bundle request execution.
+     *            The start time of the bundle request execution.
      * @param endTime
-     *            - The end time of the bundle request execution.
+     *            The end time of the bundle request execution.
      * @param responseStatus
-     *            - The response status.
+     *            The response status.
      * @param location
      *            the destination or source for the export or import
      * @param users
