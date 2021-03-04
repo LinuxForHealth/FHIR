@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.util;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -15,6 +16,8 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
@@ -91,7 +94,9 @@ public class FHIRPersistenceUtil {
                     context.setAfterHistoryId(id);
                 } else if ("_count".equals(name)) {
                     int resourceCount = Integer.parseInt(first);
-                    context.setCount(resourceCount);
+                    if (resourceCount >= 0) {
+                        context.setCount(resourceCount);
+                    }
                 } else if ("_since".equals(name)) {
                     DateTime dt = DateTime.of(first);
                     if (!dt.isPartial()) {
@@ -99,17 +104,25 @@ public class FHIRPersistenceUtil {
                         context.setSince(since);
                     }
                     else {
-                        throw new FHIRPersistenceException("The '_since' parameter must be a fully specified ISO 8601 date/time");
+                        String msg = "The '_since' parameter must be a fully specified ISO 8601 date/time";
+                        throw new FHIRPersistenceException(msg)
+                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                     }
                 } else if ("_format".equals(name)) {
                     // safely ignore
                     continue;
                 } else {
-                    throw new FHIRPersistenceException("Unrecognized history parameter: '" + name + "'");
+                    String msg = "Unrecognized history parameter: '" + name + "'";
+                    throw new FHIRPersistenceException(msg)
+                            .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                 }
             }
         } catch (FHIRPersistenceException e) {
             throw e;
+        } catch (NumberFormatException | DateTimeParseException e) {
+            String msg = "Error parsing history parameters";
+            throw new FHIRPersistenceException(msg, e)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
         } catch (Exception e) {
             throw new FHIRPersistenceException("Error parsing history parameters", e);
         } finally {
