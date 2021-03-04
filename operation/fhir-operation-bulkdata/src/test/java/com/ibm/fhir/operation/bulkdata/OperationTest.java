@@ -8,14 +8,44 @@ package com.ibm.fhir.operation.bulkdata;
 
 import static org.testng.Assert.assertNotNull;
 
+import java.lang.reflect.Method;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
-public class BulkdataOperationTest {
+public class OperationTest {
+    @BeforeClass
+    public void setup() {
+        FHIRConfiguration.setConfigHome("target/test-classes");
+    }
+
+    @BeforeMethod
+    public void startMethod(Method method) throws FHIRException {
+
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        FHIRRequestContext.set(context);
+        context.setTenantId("default");
+    }
+
+    @AfterMethod
+    public void clearThreadLocal() {
+        FHIRRequestContext.remove();
+    }
+
     @Test
     public void testExportOperation() {
         ExportOperation exportOperation = new ExportOperation();

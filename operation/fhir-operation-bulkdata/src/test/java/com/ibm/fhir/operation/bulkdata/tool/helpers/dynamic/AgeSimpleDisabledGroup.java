@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bulkdata.helpers;
+package com.ibm.fhir.operation.bulkdata.tool.helpers.dynamic;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
@@ -41,12 +41,12 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.QuantityComparator;
 
 /**
- * Shows a simple age included in a Dynamic Group.
+ * Shows a simple age included in a Dynamic Group that is disabled.
  */
-public class AgeSimpleGroup extends GroupExample {
+public class AgeSimpleDisabledGroup extends GroupExample {
     @Override
     public String filename() {
-        return "age-simple";
+        return "age-simple-disabled";
     }
 
     @Override
@@ -65,7 +65,7 @@ public class AgeSimpleGroup extends GroupExample {
                 .div(xhtml(div))
                 .build();
 
-        com.ibm.fhir.model.type.Boolean active = com.ibm.fhir.model.type.Boolean.of(true);
+        com.ibm.fhir.model.type.Boolean active = com.ibm.fhir.model.type.Boolean.of(false);
 
         com.ibm.fhir.model.type.Boolean actual = com.ibm.fhir.model.type.Boolean.of(false);
 

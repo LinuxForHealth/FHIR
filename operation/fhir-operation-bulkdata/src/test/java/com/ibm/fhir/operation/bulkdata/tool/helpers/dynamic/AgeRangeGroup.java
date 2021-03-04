@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bulkdata.helpers;
+package com.ibm.fhir.operation.bulkdata.tool.helpers.dynamic;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
@@ -35,7 +34,6 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Xhtml;
-import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.GroupType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
@@ -43,12 +41,12 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.QuantityComparator;
 
 /**
- * Shows an age range with gender included in a Dynamic Group.
+ * Shows an age range included in a Dynamic Group.
  */
-public class AgeRangeWithGenderGroup extends GroupExample {
+public class AgeRangeGroup extends GroupExample {
     @Override
     public String filename() {
-        return "age-range-with-gender";
+        return "age-range";
     }
 
     @Override
@@ -74,7 +72,6 @@ public class AgeRangeWithGenderGroup extends GroupExample {
         Collection<Characteristic> characteristics = new ArrayList<>();
         characteristics.add(generateLowerBoundBirthdateCharacteristic());
         characteristics.add(generateUpperBoundBirthdateCharacteristic());
-        characteristics.add(generateGenderCharacteristic());
 
         Group group = Group.builder()
                 .id(id)
@@ -89,26 +86,6 @@ public class AgeRangeWithGenderGroup extends GroupExample {
         return group;
     }
 
-    private Characteristic generateGenderCharacteristic() {
-        CodeableConcept code = CodeableConcept.builder()
-                .coding(Coding.builder().code(Code.of("AdministrativeGender"))
-                    .system(Uri.of("http://hl7.org/fhir/administrative-gender"))
-                    .build())
-            .text(string("Gender"))
-            .build();
-
-        CodeableConcept value = CodeableConcept.builder().coding(Coding.builder().code(Code.of("Female"))
-            .system(Uri.of("http://hl7.org/fhir/administrative-gender")).build())
-            .text(string("female"))
-            .build();
-
-        Characteristic characteristic = Characteristic.builder()
-            .code(code)
-            .value(value)
-            .exclude(com.ibm.fhir.model.type.Boolean.FALSE)
-            .build();
-        return characteristic;
-    }
 
     private Characteristic generateLowerBoundBirthdateCharacteristic() {
         CodeableConcept code = CodeableConcept.builder().coding(Coding.builder().code(Code.of("29553-5"))
@@ -192,8 +169,7 @@ public class AgeRangeWithGenderGroup extends GroupExample {
         return Patient.builder().id(id)
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .multipleBirth(com.ibm.fhir.model.type.Integer.of(2))
-                .meta(meta).name(name).birthDate(Date.of(LocalDate.now().minus(30,ChronoUnit.YEARS)))
-                .gender(AdministrativeGender.FEMALE)
+                .meta(meta).name(name).birthDate(Date.of(LocalDate.now()))
                 .generalPractitioner(providerRef).text(
                     Narrative.builder()
                         .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))

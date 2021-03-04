@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bulkdata.helpers;
+package com.ibm.fhir.operation.bulkdata.tool.helpers.dynamic;
 
 import java.io.File;
 import java.io.FileNotFoundException;

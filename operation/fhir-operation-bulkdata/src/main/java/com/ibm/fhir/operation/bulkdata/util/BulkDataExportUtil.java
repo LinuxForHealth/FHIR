@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.util;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -86,8 +87,7 @@ public class BulkDataExportUtil {
         }
     }
 
-    public MediaType checkAndConvertToMediaType(Parameters parameters)
-        throws FHIROperationException {
+    public MediaType checkAndConvertToMediaType(Parameters parameters) throws FHIROperationException {
         /*
          * The format for the requested bulk data files to be generated as per [FHIR Asynchronous Request
          * Pattern](http://hl7.org/fhir/async.html). Defaults to application/fhir+ndjson. Servers SHALL support [Newline

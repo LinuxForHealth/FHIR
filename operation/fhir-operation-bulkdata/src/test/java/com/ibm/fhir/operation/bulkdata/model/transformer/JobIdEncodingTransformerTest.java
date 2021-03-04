@@ -30,7 +30,7 @@ public class JobIdEncodingTransformerTest {
 
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
     @BeforeMethod

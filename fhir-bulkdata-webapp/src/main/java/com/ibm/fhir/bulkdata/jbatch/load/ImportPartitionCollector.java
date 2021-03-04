@@ -29,6 +29,7 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 @Dependent
 public class ImportPartitionCollector implements PartitionCollector {
@@ -60,7 +61,10 @@ public class ImportPartitionCollector implements PartitionCollector {
 
             ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
 
-            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource());
+            StorageType type = adapter.getStorageProviderStorageType(ctx.getOutcome());
+            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
+                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
+
             String cosOperationOutcomesBucketName = adapter.getStorageProviderBucketName(ctx.getOutcome());
             if (collectImportOperationOutcomes) {
                 wrapper = new S3Provider(ctx.getOutcome());

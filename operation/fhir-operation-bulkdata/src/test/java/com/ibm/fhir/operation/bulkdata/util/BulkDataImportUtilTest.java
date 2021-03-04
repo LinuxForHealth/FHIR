@@ -13,6 +13,7 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,9 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -41,12 +44,28 @@ public class BulkDataImportUtilTest {
 
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
+    }
+
+    @BeforeMethod
+    public void startMethod(Method method) throws FHIRException {
+
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        FHIRRequestContext.set(context);
+        context.setTenantId("default");
+    }
+
+    @AfterMethod
+    public void clearThreadLocal() {
+        FHIRRequestContext.remove();
     }
 
     @Test
     public void testBulkImportUtilInputs() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
         BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo.json"));
         assertFalse(util.retrieveInputs().isEmpty());
         assertEquals(util.retrieveInputs().size(), 2);
@@ -54,7 +73,6 @@ public class BulkDataImportUtilTest {
 
     @Test
     public void testBulkImportUtilStorageDetails() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo.json"));
         assertNotNull(util.retrieveStorageDetails());
         assertEquals(util.retrieveStorageDetails().getType(), "https");
@@ -62,7 +80,6 @@ public class BulkDataImportUtilTest {
 
     @Test
     public void testBulkImportUtilFormat() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo.json"));
         assertNotNull(util.retrieveInputFormat());
         assertEquals(util.retrieveInputFormat(), "application/fhir+ndjson");
@@ -70,42 +87,42 @@ public class BulkDataImportUtilTest {
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilFormatNull() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         @SuppressWarnings("unused")
         BulkDataImportUtil util = new BulkDataImportUtil(null, null);
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilFormatEmptyParameters() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-empty.json"));
         util.retrieveInputFormat();
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilFormatBadFormat() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-bad-format.json"));
         util.retrieveInputFormat();
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilFormatBadFormatNull() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-bad-format2.json"));
         util.retrieveInputFormat();
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilFormatBadFormatWrongType() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-bad-format3.json"));
         util.retrieveInputFormat();
     }
 
     @Test
     public void testBulkImportUtilSource() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo.json"));
         assertNotNull(util.retrieveInputSource());
         assertEquals(util.retrieveInputSource(), "inputSource");
@@ -113,14 +130,14 @@ public class BulkDataImportUtilTest {
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilSourceBadFormatNull() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-bad-format2.json"));
         util.retrieveInputSource();
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkImportUtilSourceBadFormatWrongType() throws IOException, FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext("default"));
+
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-bad-format3.json"));
         util.retrieveInputSource();
     }

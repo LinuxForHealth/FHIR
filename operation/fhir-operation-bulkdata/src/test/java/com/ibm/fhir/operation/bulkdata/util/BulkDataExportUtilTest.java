@@ -14,6 +14,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,8 +25,14 @@ import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Medication;
@@ -42,14 +49,35 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext.Type;
 
 /**
- *  Test Export util
+ * Test Export util
  */
 public class BulkDataExportUtilTest {
 
-    private BulkDataExportUtil util = new BulkDataExportUtil();
+    @BeforeClass
+    public void setup() {
+        FHIRConfiguration.setConfigHome("target/test-classes");
+    }
+
+    @BeforeMethod
+    public void startMethod(Method method) throws FHIRException {
+
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        FHIRRequestContext.set(context);
+        context.setTenantId("default");
+    }
+
+    @AfterMethod
+    public void clearThreadLocal() {
+        FHIRRequestContext.remove();
+    }
 
     @Test
     public void testCheckExportTypeInstance() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         FHIROperationContext.Type type = Type.INSTANCE;
 
         Class<? extends Resource> resourceType = Patient.class;
@@ -67,6 +95,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckExportTypeResourceType() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         FHIROperationContext.Type type = Type.RESOURCE_TYPE;
 
         Class<? extends Resource> resourceType = Patient.class;
@@ -84,6 +113,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckExportTypeSystem() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         FHIROperationContext.Type type = Type.SYSTEM;
 
         Class<? extends Resource> resourceType = Patient.class;
@@ -101,6 +131,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndConvertToMediaType() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // QueryParameters Map
         Map<String, List<String>> _mvm = new HashMap<>();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir+ndjson"));
@@ -187,6 +218,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceNull() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // No Parameters
         assertNull(util.checkAndExtractSince(null));
 
@@ -204,6 +236,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceEmpty() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         Parameters.Builder builder = Parameters.builder();
@@ -217,6 +250,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceWithString() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("_since")).value(string("2018-07-01T00:00:00Z")).build());
@@ -231,6 +265,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceWithInvalidString() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("invalid")).value(string("2018-07-01T00:00:00Z")).build());
@@ -253,12 +288,14 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
+        BulkDataExportUtil util = new BulkDataExportUtil();
         Instant inst = util.checkAndExtractSince(ps);
         assertNotNull(inst);
     }
 
     @Test
     public void testCheckAndExtractSinceWithInvalidType() {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("_since")).value(PositiveInt.of(1)).build());
@@ -273,6 +310,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesEmpty() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         // Value requires a string greater than 1
@@ -288,6 +326,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesNull() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("_type")).value(null).build());
@@ -310,12 +349,14 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> types = util.checkAndValidateTypes(ps);
         assertNotNull(types);
     }
 
     @Test
     public void testCheckAndValidateTypesPatientWithComma() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("_type")).value(string("Patient,")).build());
@@ -338,12 +379,14 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> types = util.checkAndValidateTypes(ps);
         assertNotNull(types);
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesPatientMedicationWithExtraComma() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("_type")).value(string("Patient,,Medication")).build());
@@ -366,6 +409,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypes(ps);
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -373,6 +417,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypesNoParameters() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
@@ -388,6 +433,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypes(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -395,6 +441,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypeFilters() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -402,6 +449,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypeFiltersNoParameters() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
@@ -425,6 +473,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -439,7 +488,7 @@ public class BulkDataExportUtilTest {
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
-
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -455,6 +504,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
+        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -469,7 +519,7 @@ public class BulkDataExportUtilTest {
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
-
+        BulkDataExportUtil util = new BulkDataExportUtil();
         util.checkAndValidateTypeFilters(ps);
         fail();
     }
@@ -483,13 +533,14 @@ public class BulkDataExportUtilTest {
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
-
+        BulkDataExportUtil util = new BulkDataExportUtil();
         util.checkAndValidateTypeFilters(ps);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNull() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("job")).value(null).build());
@@ -504,6 +555,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobInvalidType() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("job")).value(PositiveInt.of(2)).build());
@@ -518,6 +570,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNoJob() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("fred")).value(PositiveInt.of(2)).build());
@@ -532,12 +585,14 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNullParameters() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         util.checkAndValidateJob(null);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobInvalidQuestion() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("job")).value(string("1?")).build());
@@ -552,6 +607,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobInvalidSlash() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("job")).value(string("1/")).build());
@@ -566,6 +622,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateJobValid() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder().name(string("job")).value(string("1234q346")).build());
@@ -581,6 +638,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testGetOutputParametersWithJson() throws Exception {
+        BulkDataExportUtil util = new BulkDataExportUtil();
         PollingLocationResponse pollingLocationResponse = new PollingLocationResponse();
         Parameters result = util.getOutputParametersWithJson(pollingLocationResponse);
         assertNotNull(result);
