@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
@@ -39,7 +40,9 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class PatientResourceHandler {
 
-    private final static Logger logger = Logger.getLogger(PatientResourceHandler.class.getName());
+    private static final Logger logger = Logger.getLogger(PatientResourceHandler.class.getName());
+
+    private static final byte[] NDJSON_EOF = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
     // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
     // resource type are used, which leads to multiple search requests which can have overlaps of resources,
@@ -69,7 +72,7 @@ public class PatientResourceHandler {
         this.searchParametersForResoureTypes = searchParametersForResoureTypes;
     }
 
-    public void fillChunkDataBuffer(List<String> patientIds) throws Exception {
+    public void fillChunkDataBuffer(List<String> patientIds, ReadResultDTO dto) throws Exception {
         boolean isDoDuplicationCheck = adapter.shouldStorageProviderCheckDuplicate(ctx.getSource());
         int indexOfCurrentTypeFilter = 0;
         int compartmentPageNum = 1;
@@ -80,9 +83,7 @@ public class PatientResourceHandler {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
             throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
         }
-        // TODO the following replaceAll can be dropped after issue(https://github.com/IBM/FHIR/issues/300) is
-        // fixed.
-        patientIds.replaceAll(x -> "Patient/" + x);
+
         do {
             Map<String, List<String>> queryParameters = new HashMap<>();
             // Add the search parameters from the current typeFilter for current resource type.
@@ -135,8 +136,12 @@ public class PatientResourceHandler {
                             // No need to fill buffer for parquet because we're letting spark write to COS;
                             // we don't need to control the Multi-part upload like in the NDJSON case
                             if (!FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
-                                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                                chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
+                                if (dto != null) {
+                                    dto.addResource(res);
+                                } else {
+                                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                                    chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
+                                }
                             }
                             resSubTotal++;
                             if (isDoDuplicationCheck) {
@@ -163,14 +168,13 @@ public class PatientResourceHandler {
         } while (searchParametersForResoureTypes.get(resourceType) != null
                 && indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
 
-        chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
-        chunkData.setCurrentUploadSize(chunkData.getCurrentUploadSize() + chunkData.getBufferStream().size());
-        chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
+        chunkData.addCurrentUploadResourceNum(resSubTotal);
+        chunkData.addCurrentUploadSize(chunkData.getBufferStream().size());
+        chunkData.addTotalResourcesNum(resSubTotal);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
         }
-
     }
 
     public void fillChunkPatientDataBuffer(List<Resource> patients) throws Exception {
@@ -181,7 +185,7 @@ public class PatientResourceHandler {
                 // we don't need to control the Multi-part upload like in the NDJSON case
                 if (!FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
                     FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                    chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
+                    chunkData.getBufferStream().write(NDJSON_EOF);
                 }
                 resSubTotal++;
             } catch (FHIRGeneratorException e) {
@@ -196,11 +200,10 @@ public class PatientResourceHandler {
                 throw e;
             }
         }
-        chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
-        chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
+        chunkData.addCurrentUploadResourceNum(resSubTotal);
+        chunkData.addTotalResourcesNum(resSubTotal);
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("fillChunkPatientDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
-                    + chunkData.getBufferStream().size());
+            logger.fine("fillChunkPatientDataBuffer: Processed resources - '" + resSubTotal + "' Bufferred data size - '" + chunkData.getBufferStream().size() + "'");
         }
     }
 
@@ -208,7 +211,7 @@ public class PatientResourceHandler {
         if ("Patient".equals(ctx.getPartitionResourceType()) && resources != null) {
             fillChunkPatientDataBuffer(resources);
         } else if ("Patient".equals(ctx.getPartitionResourceType()) && patientIds != null) {
-            fillChunkDataBuffer(patientIds);
+            fillChunkDataBuffer(patientIds, null);
         }
     }
 }

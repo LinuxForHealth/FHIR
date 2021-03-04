@@ -114,6 +114,7 @@ public class FileProvider implements Provider {
         Path p1 = Paths.get(fn);
         try {
             // This is a trap. Be sure to mark CREATE and APPEND.
+            // We do create empty files.
             out = Files.newOutputStream(p1, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         } catch (IOException e) {
             logger.warning("Error creating a file '" + fn + "'");
@@ -146,6 +147,7 @@ public class FileProvider implements Provider {
             output.append(']');
 
             chunkData.setResourceTypeSummary(output.toString());
+
         }
     }
 }

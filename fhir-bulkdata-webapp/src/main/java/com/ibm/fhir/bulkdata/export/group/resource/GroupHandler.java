@@ -108,7 +108,7 @@ public class GroupHandler {
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        queryParameters.put("_id", Arrays.asList(groupId));
+        queryParameters.put(SearchConstants.ID, Arrays.asList(groupId));
         searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -128,25 +128,21 @@ public class GroupHandler {
     }
 
     public List<Resource> patientIdsToPatients(List<String> patientIds) throws Exception {
-        FHIRSearchContext searchContext;
-        FHIRPersistenceContext persistenceContext;
         List<Resource> patients;
         Map<String, List<String>> queryParameters = new HashMap<>();
-
         queryParameters.put(SearchConstants.ID, patientIds);
-        searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
-        searchContext.setPageSize(pageSize);
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchContext.setPageSize(pageSize);
+
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
         try {
-            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             patients = fhirPersistence.search(persistenceContext, Patient.class).getResource();
         } finally {
             txn.end();
         }
-
         return patients;
     }
-
 }

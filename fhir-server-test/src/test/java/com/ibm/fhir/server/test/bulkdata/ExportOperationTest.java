@@ -31,10 +31,8 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -74,15 +72,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     // Disabled by default
     private static boolean ON = false;
-    private static boolean isUseMinio = false;
-    private static boolean isUseMinioInBuildPipeline = false;
 
     public static final boolean DEBUG = false;
     private String exportStatusUrl;
     private String savedPatientId, savedPatientId2;
     private String savedGroupId, savedGroupId2;
-    private String minioUserName;
-    private String minioPassword;
     private String path;
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
@@ -219,71 +213,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
                      .header("X-FHIR-DSID", dataStoreId)
                      .get(Response.class);
         // @formatter:on
-    }
-
-    private String parseMinioToken(String minioTokenJson) throws Exception {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(minioTokenJson.getBytes());
-                JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
-            JsonObject object = jsonReader.readObject();
-            return object.getJsonObject("result").getString("token");
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    private void verifyDownloadUrl(String downloadUrl) throws Exception {
-        // Minio doesn't support file level ACL using which we make can make the published file public, so we have to
-        // get the token first, and then use the token to download the file.
-        if (isUseMinio) {
-            downloadUrl = downloadUrl.substring(8);
-            String minioHost = downloadUrl.substring(0, downloadUrl.indexOf("/"));
-            String minioFilePath = downloadUrl.substring(minioHost.length());
-
-            // If using minio in build pipeline, then we have to change the host name to "localhost" to all the
-            // build machine to access the minio server via it.
-            if (isUseMinioInBuildPipeline) {
-                String[] minioHostArray = minioHost.split(":");
-                minioHostArray[0] = "localhost";
-                minioHost = String.join(":", minioHostArray);
-            }
-
-            String minioAuthUrl = "https://" + minioHost + "/minio/webrpc";
-            String minioAuthRequestBody = "{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":{\"username\":\""
-                    + minioUserName + "\",\"password\":\"" + minioPassword + "\"},\"method\":\"web.Login\"}";
-
-            //@formatter:off
-            WebTarget client2 = ClientBuilder
-                                    .newBuilder()
-                                    .trustStore(client.getTrustStore())
-                                    .build()
-                                    .target(minioAuthUrl);
-            Response response =
-                    client2
-                        .request()
-                        .header("Content-Type", MediaType.APPLICATION_JSON)
-                        .header("User-Agent", "Mozilla")
-                        .post(Entity.json(minioAuthRequestBody));
-            //@formatter:on
-            String strToken = parseMinioToken(response.readEntity(String.class));
-
-            downloadUrl = "https://" + minioHost + "/minio/download" + minioFilePath + "?token=" + strToken;
-            //@formatter:off
-            client2 = ClientBuilder.newBuilder()
-                        .trustStore(client.getTrustStore())
-                        .build()
-                        .target(downloadUrl);
-
-            response = client2
-                        .request()
-                        .header("User-Agent", "Mozilla")
-                        .get(Response.class);
-            //@formatter:on
-            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
-        } else {
-            WebTarget client2 = ClientBuilder.newClient().target(downloadUrl);
-            Response response = client2.request().get(Response.class);
-            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
-        }
     }
 
     private void checkExportStatus(boolean isCheckPatient) throws Exception {
@@ -684,7 +613,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void testGroupExport() throws Exception {
         if (ON) {
             Response response =
-                    doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), null, null);
+                    doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient", "Group", "Condition", "Observation"), null);
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
             // check the content-location that's returned.
@@ -741,36 +670,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // which includes all the COS objects download urls.
         String body = response.readEntity(String.class);
         assertTrue(body.contains("output"));
-        // Find and try the first download link
-        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
-        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
-        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
-        if (DEBUG) {
-            System.out.println("downloadUrl = " + downloadUrl);
-        }
 
-        // Verify to make sure there are Groups, Condition and Observation in the output
-        // (1) Verify that there is one condition exported
-        assertTrue(body.contains("Condition_1.ndjson"));
-        String conditionStr = body.substring(body.lastIndexOf("Condition_1.ndjson"));
-        conditionStr = conditionStr.substring(0, conditionStr.indexOf("}") + 1);
-        assertTrue(conditionStr.contains("\"count\": 1"));
-        // (2) Verify that there is one observation exported
-        assertTrue(body.contains("Observation_1.ndjson"));
-        String observationStr = body.substring(body.lastIndexOf("Observation_1.ndjson"));
-        observationStr = observationStr.substring(0, observationStr.indexOf("}") + 1);
-        assertTrue(observationStr.contains("\"count\": 1"));
-        // (3) Verify that there are 2 groups exported
-        assertTrue(body.contains("Group_1.ndjson"));
-        String groupStr = body.substring(body.lastIndexOf("Group_1.ndjson"));
-        groupStr = groupStr.substring(0, groupStr.indexOf("}") + 1);
-        assertTrue(groupStr.contains("\"count\": 2"));
-        // (4) Verify that there are 2 patients exported
-        assertTrue(body.contains("Patient_1.ndjson"));
-        String patientStr = body.substring(body.lastIndexOf("Patient_1.ndjson"));
-        patientStr = patientStr.substring(0, patientStr.indexOf("}") + 1);
-        assertTrue(patientStr.contains("\"count\": 2"));
-
-        verifyDownloadUrl(downloadUrl);
+        verifyUrl(body);
     }
 }

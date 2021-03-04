@@ -178,14 +178,14 @@ public class BulkDataClient {
         switch (exportType) {
         case PATIENT:
             builder.jobXMLName(JobType.EXPORT_PATIENT.value());
-            if (resourceType == null) {
+            if (resourceType == null || resourceType.isEmpty() ) {
                 resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
             }
             break;
         case GROUP:
             builder.jobXMLName(JobType.EXPORT_GROUP.value());
             builder.fhirPatientGroupId(groupId);
-            if (resourceType == null) {
+            if (resourceType == null || resourceType.isEmpty()) {
                 resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
             }
             break;
@@ -203,7 +203,7 @@ public class BulkDataClient {
                 // No typeFilter, so we use the fast export which bypasses FHIR search
                 builder.jobXMLName(JobType.EXPORT_FAST.value());
             }
-            if (resourceType == null) {
+            if (resourceType == null || resourceType.isEmpty()) {
                 resourceType = ModelSupport.getResourceTypes()
                             .stream()
                             .map(r -> r.getSimpleName())

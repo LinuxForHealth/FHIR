@@ -87,6 +87,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Override
     public void writeItems(List<java.lang.Object> resourceLists) throws Exception {
+
         if (!BatchStatus.STARTED.equals(jobContext.getBatchStatus())) {
             // short-circuit
             return;

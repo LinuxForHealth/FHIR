@@ -23,6 +23,7 @@ import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.group.resource.GroupHandler;
 import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
@@ -119,20 +120,26 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         }
         chunkData.setLastPageNum((pageOfMembers.size() + pageSize -1)/pageSize );
 
+        ReadResultDTO dto = new ReadResultDTO();
         if (!pageOfMembers.isEmpty()) {
             List<String> patientIds = pageOfMembers.stream()
                     .filter(patientRef -> patientRef != null)
-                    .map(patientRef -> patientRef.getEntity().getReference().getValue().substring(8))
+                    .map(patientRef -> patientRef.getEntity().getReference().getValue().replace("Patient/", ""))
                     .collect(Collectors.toList());
-            if (patientIds != null && patientIds.size() > 0) {
-                System.out.println("HERE " + resourceType);
+            if (patientIds != null && !patientIds.isEmpty()) {
                 patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes);
-                patientHandler.fillChunkData(groupHandler.patientIdsToPatients(patientIds), patientIds);
+
+                if ("Patient".equals(ctx.getPartitionResourceType())) {
+                    dto.setResources(groupHandler.patientIdsToPatients(patientIds));
+                } else {
+                    patientHandler.fillChunkDataBuffer(patientIds, dto);
+                }
             }
         } else {
             logger.fine("readItem: End of reading!");
         }
+
         stepCtx.setTransientUserData(chunkData);
-        return pageOfMembers;
+        return dto;
     }
 }

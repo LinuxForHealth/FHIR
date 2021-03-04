@@ -175,6 +175,7 @@ public class ChunkReader extends AbstractItemReader {
         try {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             List<Resource> resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+
             dto = new ReadResultDTO(resources);
             pageNum++;
 
@@ -204,13 +205,14 @@ public class ChunkReader extends AbstractItemReader {
 
             if (dto != null && !dto.empty()) {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("readItem(" + ctx.getPartitionResourceType() + "): loaded " + dto.size() + " patients");
+                    logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + dto.size() + " patients");
                 }
 
                 List<String> patientIds = dto.getResources().stream()
                             .filter(item -> item.getId() != null)
                             .map(item -> item.getId())
                             .collect(Collectors.toList());
+
                 if (patientIds != null && patientIds.size() > 0) {
                     handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes);
                     handler.fillChunkData(resources, patientIds);

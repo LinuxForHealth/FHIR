@@ -45,6 +45,10 @@ public class ReadResultDTO implements Serializable {
         this.resources = resources;
     }
 
+    public void addResource(Resource resource) {
+        this.resources.add(resource);
+    }
+
     public int size() {
         return resources.size();
     }

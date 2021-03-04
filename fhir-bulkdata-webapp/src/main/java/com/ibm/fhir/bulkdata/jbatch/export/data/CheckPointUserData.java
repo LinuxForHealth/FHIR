@@ -200,6 +200,10 @@ public class CheckPointUserData implements java.io.Serializable {
         this.currentUploadResourceNum = currentUploadResourceNum;
     }
 
+    public void addCurrentUploadResourceNum(int currentUploadResourceNum) {
+        this.currentUploadResourceNum += currentUploadResourceNum;
+    }
+
     public int getIndexOfCurrentTypeFilter() {
         return indexOfCurrentTypeFilter;
     }
@@ -232,12 +236,20 @@ public class CheckPointUserData implements java.io.Serializable {
         this.totalResourcesNum = totalResourcesNum;
     }
 
+    public void addTotalResourcesNum(int totalResourcesNum) {
+        this.totalResourcesNum += totalResourcesNum;
+    }
+
     public int getCurrentUploadSize() {
         return currentUploadSize;
     }
 
     public void setCurrentUploadSize(int currentUploadSize) {
         this.currentUploadSize = currentUploadSize;
+    }
+
+    public void addCurrentUploadSize(int currentUploadSize) {
+        this.currentUploadSize += currentUploadSize;
     }
 
     public boolean isFinishCurrentUpload() {
