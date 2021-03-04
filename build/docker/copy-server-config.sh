@@ -16,6 +16,9 @@ CONFIG="${WORKSPACE}/build/docker/fhir-server/volumes/config"
 rm -rf $CONFIG/* 2> /dev/null
 mkdir -p $CONFIG
 
+BULKDATA="${WORKSPACE}/build/docker/fhir-server/volumes/output"
+mkdir -p ${BULKDATA}
+
 echo "Copying the server config files..."
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}
