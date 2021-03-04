@@ -3,6 +3,7 @@
         This configDropin work with Db2 and user-password
     -->
     <featureManager>
+        <feature>batch-1.0</feature>
         <feature>batchManagement-1.0</feature>
         <feature>jdbc-4.1</feature>
         <feature>servlet-4.0</feature>

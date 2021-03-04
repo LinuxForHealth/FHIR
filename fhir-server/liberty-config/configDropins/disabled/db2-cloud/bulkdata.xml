@@ -3,6 +3,7 @@
         This configDropin work with the IBM Cloud hosted Db2 and securityMechanism 15 (apiKey)
     -->
     <featureManager>
+        <feature>batch-1.0</feature>
         <feature>batchManagement-1.0</feature>
         <feature>jdbc-4.1</feature>
         <feature>servlet-4.0</feature>

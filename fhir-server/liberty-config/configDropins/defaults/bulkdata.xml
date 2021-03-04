@@ -4,6 +4,7 @@
         If you need an alternative, check the disabled folder for your persistence datastore/provider.
     -->
     <featureManager>
+        <feature>batch-1.0</feature>
         <feature>batchManagement-1.0</feature>
         <feature>jdbc-4.1</feature>
         <feature>servlet-4.0</feature>

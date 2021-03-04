@@ -14,7 +14,6 @@
         <!-- mpJwt-1.1 isn't used by default,
              but we include it here to avoid NoClassDefFound in our classes that *can* use it -->
         <feature>mpJwt-1.1</feature>
-    	<feature>batch-1.0</feature>
 	</featureManager>
 
     <!-- Disable welcome page so that internal server info won't be revealed in responses
