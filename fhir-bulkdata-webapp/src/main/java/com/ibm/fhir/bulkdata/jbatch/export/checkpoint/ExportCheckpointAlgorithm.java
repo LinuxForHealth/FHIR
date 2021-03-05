@@ -20,14 +20,14 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
  * BulkData Export Custom CheckpointAlgorithm which considers COS size requirements while checkpointing.
  */
 @Dependent
-public class CheckPointAlgorithm implements CheckpointAlgorithm {
+public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
 
-    private final static Logger logger = Logger.getLogger(CheckPointAlgorithm.class.getName());
+    private final static Logger logger = Logger.getLogger(ExportCheckpointAlgorithm.class.getName());
 
     @Inject
     StepContext stepCtx;
 
-    public CheckPointAlgorithm() {
+    public ExportCheckpointAlgorithm() {
         // No Operation
     }
 

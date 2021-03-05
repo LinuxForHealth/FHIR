@@ -45,7 +45,7 @@
                     <property name="fhir.exportFormat" value="#{jobParameters['fhir.exportFormat']}"/>
                 </properties>
             </writer>
-            <checkpoint-algorithm ref="com.ibm.fhir.bulkdata.jbatch.export.checkpoint.CheckPointAlgorithm">
+            <checkpoint-algorithm ref="com.ibm.fhir.bulkdata.jbatch.export.checkpoint.ExportCheckpointAlgorithm">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>

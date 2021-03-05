@@ -138,10 +138,9 @@ public class PatientResourceHandler {
                             if (!FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
                                 if (dto != null) {
                                     dto.addResource(res);
-                                } else {
-                                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                                    chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
                                 }
+                                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                                chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
                             }
                             resSubTotal++;
                             if (isDoDuplicationCheck) {
@@ -210,7 +209,7 @@ public class PatientResourceHandler {
     public void fillChunkData(List<Resource> resources, List<String> patientIds) throws Exception {
         if ("Patient".equals(ctx.getPartitionResourceType()) && resources != null) {
             fillChunkPatientDataBuffer(resources);
-        } else if ("Patient".equals(ctx.getPartitionResourceType()) && patientIds != null) {
+        } else {
             fillChunkDataBuffer(patientIds, null);
         }
     }

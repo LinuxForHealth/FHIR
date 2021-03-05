@@ -125,7 +125,7 @@ public class BulkDataExportUtil {
             if (OperationConstants.EXPORT_FORMATS.contains(requestedFormat)) {
                 finalValue = requestedFormat;
             } else {
-                throw buildOperationException("Invalid requested format: '" + requestedFormat + "'", IssueType.INVALID);
+                throw buildOperationException("Invalid requested format must be one of '" + OperationConstants.EXPORT_FORMATS + "'", IssueType.INVALID);
             }
         }
         return finalValue;

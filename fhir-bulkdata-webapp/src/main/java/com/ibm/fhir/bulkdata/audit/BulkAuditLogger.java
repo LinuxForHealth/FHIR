@@ -96,7 +96,7 @@ public class BulkAuditLogger {
      * @return AuditLogEntry an audit log entry.
      */
     private AuditLogEntry createAuditLogEntry(AuditLogEventType eventType, Resource resource, Date startTime, Date endTime, Response.Status responseStatus,
-        String location, String users) {
+            String location, String users) {
         final String METHODNAME = "createAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -170,7 +170,7 @@ public class BulkAuditLogger {
      * @throws Exception
      */
     public void logCreateOnImport(Resource newResource, Date startTime, Date endTime, Response.Status responseStatus, String location, String users)
-        throws Exception {
+            throws Exception {
         final String METHODNAME = "logCreateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
@@ -197,7 +197,7 @@ public class BulkAuditLogger {
      * @throws Exception
      */
     public void logValidateOnImport(Resource newResource, Date startTime, Date endTime, Response.Status responseStatus, String location, String users)
-        throws Exception {
+            throws Exception {
         final String METHODNAME = "logValidateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
@@ -226,8 +226,7 @@ public class BulkAuditLogger {
      * @throws Exception
      */
     public void logUpdateOnImport(Resource oldResource, Resource updatedResource, Date startTime, Date endTime, Response.Status responseStatus, String location,
-        String users)
-        throws Exception {
+            String users) throws Exception {
         final String METHODNAME = "logUpdateOnImport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
@@ -242,21 +241,21 @@ public class BulkAuditLogger {
      * Builds an audit log entry for a 'read' in a bulkdata service invocation.
      *
      * @param resource
-     *            - The Resource object being read.
+     *            The Resource object being read.
      * @param startTime
-     *            - The start time of the read request execution.
+     *            The start time of the read request execution.
      * @param endTime
-     *            - The end time of the read request execution.
+     *            The end time of the read request execution.
      * @param responseStatus
-     *            - The response status.
-     *            * @param location
+     *            The response status.
+     * @param location
      *            the destination or source for the export or import
      * @param users
      *            the principals that initiated the request
      * @throws Exception
      */
     public void logReadOnExport(Resource resource, Date startTime, Date endTime, Response.Status responseStatus, String location, String users)
-        throws Exception {
+            throws Exception {
         final String METHODNAME = "logReadOnExport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {
@@ -287,8 +286,7 @@ public class BulkAuditLogger {
      * @throws Exception
      */
     public void logSearchOnExport(MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus,
-        String location, String users)
-        throws Exception {
+            String location, String users) throws Exception {
         final String METHODNAME = "logSearchOnExport";
         log.entering(CLASSNAME, METHODNAME);
         if (shouldLog()) {

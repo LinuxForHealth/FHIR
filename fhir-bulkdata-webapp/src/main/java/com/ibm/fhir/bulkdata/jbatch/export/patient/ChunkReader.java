@@ -203,6 +203,7 @@ public class ChunkReader extends AbstractItemReader {
                 chunkData.setLastPageNum(searchContext.getLastPageNumber());
             }
 
+            resourceType = ModelSupport.getResourceType(ctx.getPartitionResourceType());
             if (dto != null && !dto.empty()) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + dto.size() + " patients");

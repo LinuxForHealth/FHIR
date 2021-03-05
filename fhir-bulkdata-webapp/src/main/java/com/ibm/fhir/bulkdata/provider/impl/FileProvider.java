@@ -40,7 +40,7 @@ public class FileProvider implements Provider {
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;
-
+    private String fileName = null;
     private int total = 0;
 
     private TransientUserData chunkData = null;
@@ -106,20 +106,7 @@ public class FileProvider implements Provider {
 
         this.chunkData = transientUserData;
         this.fhirResourceType = fhirResourceType;
-
-        String fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
-        String base = configuration.getBaseFileLocation(source);
-
-        String fn = base + "/" + fileName;
-        Path p1 = Paths.get(fn);
-        try {
-            // This is a trap. Be sure to mark CREATE and APPEND.
-            // We do create empty files.
-            out = Files.newOutputStream(p1, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            logger.warning("Error creating a file '" + fn + "'");
-            throw e;
-        }
+        this.fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
     }
 
     @Override
@@ -131,6 +118,21 @@ public class FileProvider implements Provider {
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
+        if (out == null) {
+
+            String base = configuration.getBaseFileLocation(source);
+
+            String fn = base + "/" + fileName;
+            Path p1 = Paths.get(fn);
+            try {
+                // This is a trap. Be sure to mark CREATE and APPEND.
+                out = Files.newOutputStream(p1, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                logger.warning("Error creating a file '" + fn + "'");
+                throw e;
+            }
+        }
+
         for (ReadResultDTO dto : dtos) {
             total += dto.size();
             for (Resource r : dto.getResources()) {
