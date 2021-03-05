@@ -151,9 +151,9 @@ public class S3Preflight extends NopPreflight {
 
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
-        if (storageDetail != null && (!StorageType.AWSS3.value().equals(storageDetail.getType()) || !StorageType.IBMCOS.value().equals(storageDetail.getType()))){
+        if (storageDetail != null && !(StorageType.AWSS3.value().equals(storageDetail.getType()) || StorageType.IBMCOS.value().equals(storageDetail.getType()))){
             CommonUtil util = new CommonUtil();
-            throw util.buildExceptionWithIssue("Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw util.buildExceptionWithIssue("S3: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }
