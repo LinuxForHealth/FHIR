@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.graph;
+package com.ibm.fhir.term.graph.factory;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.impl.FHIRTermGraphImpl;
 
 public final class FHIRTermGraphFactory {

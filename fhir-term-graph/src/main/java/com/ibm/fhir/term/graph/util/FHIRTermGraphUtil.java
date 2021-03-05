@@ -6,26 +6,52 @@
 
 package com.ibm.fhir.term.graph.util;
 
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
+
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAccessor;
 
 import org.slf4j.LoggerFactory;
+
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Decimal;
+import com.ibm.fhir.model.type.Element;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 
 public class FHIRTermGraphUtil {
-    private final static Set<String> RESERVED_WORDS = new HashSet<>(Arrays.asList("key", "vertex", "edge", "element", "property", "label"));
-
     private FHIRTermGraphUtil() { }
 
-    public static boolean isReservedWord(String s) {
-        return RESERVED_WORDS.contains(s.toLowerCase());
+    public static Object convert(Element value) {
+        if (value.is(FHIR_BOOLEAN)) {
+            return value.as(FHIR_BOOLEAN).getValue();
+        }
+        if (value.is(Code.class)) {
+            return value.as(Code.class).getValue();
+        }
+        if (value.is(DateTime.class)) {
+            return DateTime.PARSER_FORMATTER.format(value.as(DateTime.class).getValue());
+        }
+        if (value.is(Decimal.class)) {
+            return value.as(Decimal.class).getValue().doubleValue();
+        }
+        if (value.is(FHIR_INTEGER)) {
+            return value.as(FHIR_INTEGER).getValue();
+        }
+        if (value.is(FHIR_STRING)) {
+            return value.as(FHIR_STRING).getValue();
+        }
+        throw new IllegalArgumentException();
     }
 
     public static String normalize(String value) {
@@ -40,12 +66,24 @@ public class FHIRTermGraphUtil {
         rootLogger.setLevel(level);
     }
 
-    public static String toLabel(String typeName) {
-        List<String> tokens = Arrays.asList(typeName.split(" - | |_|-"));
-        String label = tokens.stream()
-                .map(token -> token.substring(0, 1).toUpperCase() + token.substring(1))
-                .collect(Collectors.joining(""));
-        label = label.substring(0, 1).toLowerCase() + label.substring(1);
-        return isReservedWord(label) ? label + "_" : label;
+    public static Long toLong(DateTime dateTime) {
+        TemporalAccessor value = dateTime.getValue();
+        if (value instanceof ZonedDateTime) {
+            ZonedDateTime zonedDateTime = (ZonedDateTime) value;
+            return zonedDateTime.toInstant().toEpochMilli();
+        }
+        if (value instanceof LocalDate) {
+            LocalDate localDate = (LocalDate) value;
+            return localDate.atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        }
+        if (value instanceof YearMonth) {
+            YearMonth yearMonth = (YearMonth) value;
+            return yearMonth.atDay(1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        }
+        if (value instanceof Year) {
+            Year year = (Year) value;
+            return year.atMonth(1).atDay(1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        }
+        throw new IllegalArgumentException();
     }
 }

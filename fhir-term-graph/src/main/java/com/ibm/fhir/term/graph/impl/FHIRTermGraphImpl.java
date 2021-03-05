@@ -24,9 +24,6 @@ import org.janusgraph.core.PropertyKey;
 import org.janusgraph.core.RelationType;
 import org.janusgraph.core.schema.JanusGraphManagement;
 
-import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 
 public class FHIRTermGraphImpl implements FHIRTermGraph {
@@ -53,8 +50,6 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         boolean readOnly = configuration.getBoolean(STORAGE_READ_ONLY, false);
         configuration.setProperty(STORAGE_READ_ONLY, false);
 
-        addCustomAttributeSerializers(configuration);
-
         setRootLoggerLevel(ch.qos.logback.classic.Level.INFO);
         JanusGraph graph = JanusGraphFactory.open(configuration);
 
@@ -71,21 +66,6 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         return graph;
     }
 
-    private void addCustomAttributeSerializers(Configuration configuration) {
-        configuration.setProperty("attributes.custom.attribute1.attribute-class", "com.ibm.fhir.model.type.Boolean");
-        configuration.setProperty("attributes.custom.attribute1.serializer-class",  "com.ibm.fhir.term.graph.serialize.BooleanSerializer");
-        configuration.setProperty("attributes.custom.attribute2.attribute-class", "com.ibm.fhir.model.type.Code");
-        configuration.setProperty("attributes.custom.attribute2.serializer-class",  "com.ibm.fhir.term.graph.serialize.CodeSerializer");
-        configuration.setProperty("attributes.custom.attribute3.attribute-class", "com.ibm.fhir.model.type.DateTime");
-        configuration.setProperty("attributes.custom.attribute3.serializer-class",  "com.ibm.fhir.term.graph.serialize.DateTimeSerializer");
-        configuration.setProperty("attributes.custom.attribute4.attribute-class", "com.ibm.fhir.model.type.Decimal");
-        configuration.setProperty("attributes.custom.attribute4.serializer-class",  "com.ibm.fhir.term.graph.serialize.DecimalSerializer");
-        configuration.setProperty("attributes.custom.attribute5.attribute-class", "com.ibm.fhir.model.type.Integer");
-        configuration.setProperty("attributes.custom.attribute5.serializer-class",  "com.ibm.fhir.term.graph.serialize.IntegerSerializer");
-        configuration.setProperty("attributes.custom.attribute6.attribute-class", "com.ibm.fhir.model.type.String");
-        configuration.setProperty("attributes.custom.attribute6.serializer-class",  "com.ibm.fhir.term.graph.serialize.StringSerializer");
-    }
-
     private void createSchema(JanusGraph graph) {
         log.info("Creating schema...");
 
@@ -96,26 +76,23 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         PropertyKey code = management.makePropertyKey("code").dataType(String.class).make();
         PropertyKey codeLowerCase = management.makePropertyKey("codeLowerCase").dataType(String.class).make();
         PropertyKey display = management.makePropertyKey("display").dataType(String.class).make();
-        PropertyKey displayLowerCase = management.makePropertyKey("displayLowerCase").dataType(String.class).make();
         PropertyKey url = management.makePropertyKey("url").dataType(String.class).make();
         PropertyKey value = management.makePropertyKey("value").dataType(String.class).make();
 
-        PropertyKey valueBoolean = management.makePropertyKey("valueBoolean").dataType(com.ibm.fhir.model.type.Boolean.class).make();
-        PropertyKey valueCode = management.makePropertyKey("valueCode").dataType(Code.class).make();
-        PropertyKey valueDateTime = management.makePropertyKey("valueDateTime").dataType(DateTime.class).make();
-        PropertyKey valueDecimal = management.makePropertyKey("valueDecimal").dataType(Decimal.class).make();
-        PropertyKey valueInteger = management.makePropertyKey("valueInteger").dataType(com.ibm.fhir.model.type.Integer.class).make();
-        PropertyKey valueString = management.makePropertyKey("valueString").dataType(com.ibm.fhir.model.type.String.class).make();
-
+        PropertyKey valueBoolean = management.makePropertyKey("valueBoolean").dataType(Boolean.class).make();
+        PropertyKey valueCode = management.makePropertyKey("valueCode").dataType(String.class).make();
+        PropertyKey valueDateTime = management.makePropertyKey("valueDateTime").dataType(String.class).make();
+        PropertyKey valueDateTimeLong = management.makePropertyKey("valueDateTimeLong").dataType(Long.class).make();
+        PropertyKey valueDecimal = management.makePropertyKey("valueDecimal").dataType(Double.class).make();
+        PropertyKey valueInteger = management.makePropertyKey("valueInteger").dataType(Integer.class).make();
+        PropertyKey valueString = management.makePropertyKey("valueString").dataType(String.class).make();
 
         // property keys (not indexed)
         management.makePropertyKey("count").dataType(Integer.class).make();
-        management.makePropertyKey("group").dataType(Integer.class).make();
+        management.makePropertyKey("group").dataType(String.class).make();
         management.makePropertyKey("language").dataType(String.class).make();
         management.makePropertyKey("system").dataType(String.class).make();
         management.makePropertyKey("use").dataType(String.class).make();
-        management.makePropertyKey("caseSensitive").dataType(Boolean.class).make();
-        management.makePropertyKey("designationUseSystem").dataType(String.class).make();
 
         // vertex labels
         management.makeVertexLabel("CodeSystem").make();
@@ -124,6 +101,7 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         management.makeVertexLabel("Property_").make();
 
         // edge labels
+        management.makeEdgeLabel(FHIRTermGraph.ISA).make();
         management.makeEdgeLabel("concept").make();
         management.makeEdgeLabel("designation").make();
         management.makeEdgeLabel("property_").make();
@@ -132,7 +110,6 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         management.buildIndex("byCode", Vertex.class).addKey(code).buildCompositeIndex();
         management.buildIndex("byCodeLowerCase", Vertex.class).addKey(codeLowerCase).buildCompositeIndex();
         management.buildIndex("byDisplay", Vertex.class).addKey(display).buildCompositeIndex();
-        management.buildIndex("byDisplayLowerCase", Vertex.class).addKey(displayLowerCase).buildCompositeIndex();
         management.buildIndex("byUrl", Vertex.class).addKey(url).buildCompositeIndex();
         management.buildIndex("byUrlAndVersion", Vertex.class).addKey(url).addKey(version).buildCompositeIndex();
         management.buildIndex("byValue", Vertex.class).addKey(value).buildCompositeIndex();
@@ -140,6 +117,7 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         management.buildIndex("byValueBoolean", Vertex.class).addKey(valueBoolean).buildCompositeIndex();
         management.buildIndex("byValueCode", Vertex.class).addKey(valueCode).buildCompositeIndex();
         management.buildIndex("byValueDateTime", Vertex.class).addKey(valueDateTime).buildCompositeIndex();
+        management.buildIndex("byValueDateTimeLong", Vertex.class).addKey(valueDateTimeLong).buildCompositeIndex();
         management.buildIndex("byValueDecimal", Vertex.class).addKey(valueDecimal).buildCompositeIndex();
         management.buildIndex("byValueInteger", Vertex.class).addKey(valueInteger).buildCompositeIndex();
         management.buildIndex("byValueString", Vertex.class).addKey(valueString).buildCompositeIndex();

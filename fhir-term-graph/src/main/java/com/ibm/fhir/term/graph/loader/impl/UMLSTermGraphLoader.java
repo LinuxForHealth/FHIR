@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.graph.loader;
+package com.ibm.fhir.term.graph.loader.impl;
 
+import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toLabel;
+import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.normalize;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLabel;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -33,69 +34,23 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.schema.JanusGraphManagement;
 
-import com.ibm.fhir.term.graph.FHIRTermGraph;
-import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
+import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
 
 /*
  * This class will load UMLS concepts and relationships into a JanusGraph.
  */
-public class UMLSTermGraphLoader {
+public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
     private static final Logger LOG = Logger.getLogger(UMLSTermGraphLoader.class.getName());
 
+    private static final String UMLS_CONCEPT_NAMES_AND_SOURCES_FILE = "MRCONSO.RRF";
+    private static final String UMLS_SOURCE_INFORMATION_FILE = "MRSAB.RRF";
+    private static final String UMLS_RELATED_CONCEPTS_FILE = "MRREL.RRF";
+
     private static final String UMLS_DELIMITER = "\\|";
-
-    /**
-     * Load UMLS data using properties provided in arguments
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        UMLSTermGraphLoader loader = null;
-        Options options = null;
-        try {
-            long start = System.currentTimeMillis();
-
-            // Parse arguments
-            options = new Options()
-                    .addRequiredOption("file", null, true, "Configuration properties file")
-                    .addRequiredOption("base", null, true, "UMLS base directory")
-                    .addRequiredOption("conceptFile", null, true, "UMLS concept (MRCONSO) file")
-                    .addRequiredOption("relationFile", null, true, "UMLS relationship (MRREL) file")
-                    .addRequiredOption("sourceAttributeFile", null, true, "UMLS source attribute (MRSAB) file");
-
-            CommandLineParser parser = new DefaultParser();
-            CommandLine commandLine = parser.parse(options, args);
-
-            String baseDir = commandLine.getOptionValue("base");
-            String relationshipFile = baseDir + "/" + commandLine.getOptionValue("relationFile");
-            String conceptFile = baseDir + "/" + commandLine.getOptionValue("conceptFile");
-            String sabFile = baseDir + "/" + commandLine.getOptionValue("sourceAttributeFile");
-            String propFileName = commandLine.getOptionValue("file");
-
-            loader = new UMLSTermGraphLoader(propFileName, conceptFile, relationshipFile, sabFile);
-            loader.load();
-
-            long end = System.currentTimeMillis();
-            LOG.info("Loading time (milliseconds): " + (end - start));
-        } catch (MissingOptionException e) {
-            LOG.log(Level.SEVERE, "MissingOptionException: ", e);
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("UMLSTermGraphLoader", options);
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "An error occurred: " + e.getMessage());
-        } finally {
-            if (loader != null) {
-                loader.close();
-            }
-        }
-    }
 
     // Map to track AUI to SCUI relationships, since MRREL uses AUI, but granularity of concepts used in MRCONSO is at SCUI level
     private Map<String, String> auiToScuiMap = new ConcurrentHashMap<>(1000000);
@@ -112,10 +67,6 @@ public class UMLSTermGraphLoader {
     // Name of file containing UMLS concept data
     private String conceptFile = null;
 
-    private GraphTraversalSource g = null;
-    private FHIRTermGraph graph = null;
-    private JanusGraph janusGraph = null;
-
     // Name of file containing UMLS concept relationship data
     private String relationshipFile = null;
 
@@ -131,46 +82,33 @@ public class UMLSTermGraphLoader {
     /**
      * Initialize a UMLSTermGraphLoader
      *
-     * @param propFileName
-     * @param conceptFile
-     * @param relationshipFile
-     * @param sourceAttributeFile
-     * @throws ParseException
-     * @throws IOException
-     * @throws FileNotFoundException
+     * @param options
      */
-    public UMLSTermGraphLoader(String propFileName, String conceptFile, String relationshipFile, String sourceAttributeFile) {
-        this.conceptFile = conceptFile;
-        this.relationshipFile = relationshipFile;
-        this.sourceAttributeFile = sourceAttributeFile;
+    public UMLSTermGraphLoader(Map<String, String> options) {
+        super(options);
 
-        graph = FHIRTermGraphFactory.open(propFileName);
-        janusGraph = graph.getJanusGraph();
-        g = graph.traversal();
+        String baseDir = options.get("base");
+        conceptFile = baseDir + "/" + UMLS_CONCEPT_NAMES_AND_SOURCES_FILE;
+        relationshipFile = baseDir + "/" + UMLS_RELATED_CONCEPTS_FILE;
+        sourceAttributeFile = baseDir + "/" + UMLS_SOURCE_INFORMATION_FILE;
+
         vertexMap = new HashMap<>(250000);
     }
 
     /**
      * Loads UMLS data into JanusGraph
      *
-     * @throws ParseException
-     * @throws IOException
-     * @throws FileNotFoundException
+     * @throws RuntimeException
      */
-    public void load() throws ParseException, IOException, FileNotFoundException {
-        loadSourceAttributes();
-        loadCaseSensitiveCodeSystems();
-        loadConcepts();
-        loadRelations();
-    }
-
-    /**
-     * Close loader, thereby closing connection to JanusGraph
-     */
-    public void close() {
-        if (graph != null) {
-            graph.close();
-            graph = null;
+    @Override
+    public void load() {
+        try {
+            loadSourceAttributes();
+            loadCaseSensitiveCodeSystems();
+            loadConcepts();
+            loadRelations();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -192,10 +130,6 @@ public class UMLSTermGraphLoader {
         g.tx().commit();
         return csv;
 
-    }
-
-    public JanusGraph getJanusGraph() {
-        return janusGraph;
     }
 
     /**
@@ -223,8 +157,8 @@ public class UMLSTermGraphLoader {
                 String tty = tokens[12];
                 String str = tokens[14];
                 String suppress = tokens[16];
-                if (!"O".equals(suppress)) {
 
+                if (!"O".equals(suppress)) {
                     auiToScuiMap.put(aui, scui);
 
                     Vertex codeSystemVertex = codeSystemVertices.computeIfAbsent(sab, s -> createCodeSystemVertex(s));
@@ -246,11 +180,8 @@ public class UMLSTermGraphLoader {
                         LOG.severe("Could not find SCUI in vertexMap");
                     } else {
                         if (tty.equals("PT")) { // Preferred entries provide preferred name and language
-                            String displayLowerCase = normalize(str);
                             v.property("display", str);
-                            v.property("displayLowerCase", displayLowerCase);
                             v.property("language", lat);
-
                         }
                         // add new designation
                         Vertex w = g.addV("Designation").property("language", lat).property("value", str).next();
@@ -299,12 +230,14 @@ public class UMLSTermGraphLoader {
                 String aui1 = tokens[1];
                 String rela = tokens[7];
                 String aui2 = tokens[5];
+                String rg = tokens[12]; // relationship group
                 String dir = tokens[13];
                 String suppress = tokens[14];
-                if (!"N".equals(dir) && !"O".equals(suppress)) { // Don't load relations that are not in source order or suppressed
 
+                if (!"N".equals(dir) && !"O".equals(suppress)) { // Don't load relations that are not in source order or suppressed
                     String scui1 = auiToScuiMap.get(aui1);
                     String scui2 = auiToScuiMap.get(aui2);
+
                     if (scui1 != null && scui2 != null) {
                         Vertex v1 = vertexMap.get(scui1);
                         Vertex v2 = vertexMap.get(scui2);
@@ -312,15 +245,20 @@ public class UMLSTermGraphLoader {
                         if (v1 != null && v2 != null) {
                             String label = toLabel(rela);
 
-                            if (janusGraph.getEdgeLabel(label) == null) {
-                                LOG.info("Adding label: " + label);
-                                JanusGraphManagement management = janusGraph.openManagement();
-                                management.makeEdgeLabel(label).make();
-                                management.commit();
-                            }
+                            if (labelFilter.accept(label)) {
+                                if (janusGraph.getEdgeLabel(label) == null) {
+                                    LOG.info("Adding label: " + label);
+                                    JanusGraphManagement management = janusGraph.openManagement();
+                                    management.makeEdgeLabel(label).make();
+                                    management.commit();
+                                }
 
-                            Edge e = g.V(v2).addE(label).to(v1).next();
-                            g.E(e).next();
+                                Edge e = g.V(v2).addE(label).to(v1).next();
+
+                                if (!"".equals(rg)) {
+                                    g.E(e).property("group", rg).next();
+                                }
+                            }
                         }
 
                         if ((counter.get() % 10000) == 0) {
@@ -357,6 +295,7 @@ public class UMLSTermGraphLoader {
                 String rsab = tokens[3];
                 String sver = tokens[6];
                 String curver = tokens[21];
+
                 if ("Y".equals(curver)) {
                     if ("SNOMEDCT_US".equals(rsab)) {
                         // special case version for SNOMED
@@ -378,6 +317,40 @@ public class UMLSTermGraphLoader {
             String line = reader.readLine().trim();
             if (!line.isEmpty()) {
                 caseSensitiveCodeSystems.add(reader.readLine());
+            }
+        }
+    }
+
+    /**
+     * Load UMLS data using properties provided in arguments
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        UMLSTermGraphLoader loader = null;
+        Options options = null;
+        try {
+            long start = System.currentTimeMillis();
+
+            options = FHIRTermGraphLoader.Type.UMLS.options();
+
+            CommandLineParser parser = new DefaultParser();
+            CommandLine commandLine = parser.parse(options, args);
+
+            loader = new UMLSTermGraphLoader(toMap(commandLine));
+            loader.load();
+
+            long end = System.currentTimeMillis();
+            LOG.info("Loading time (milliseconds): " + (end - start));
+        } catch (MissingOptionException e) {
+            LOG.log(Level.SEVERE, "MissingOptionException: ", e);
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("UMLSTermGraphLoader", options);
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "An error occurred: " + e.getMessage());
+        } finally {
+            if (loader != null) {
+                loader.close();
             }
         }
     }

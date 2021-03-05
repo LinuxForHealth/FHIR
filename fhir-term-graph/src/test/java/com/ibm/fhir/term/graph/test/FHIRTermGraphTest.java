@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.term.graph.test;
 
+import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.convert;
+
 import java.util.stream.Stream;
 
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
@@ -15,7 +17,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
-import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
+import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 
 public class FHIRTermGraphTest {
     public static void main(String[] args) throws Exception {
@@ -33,29 +35,29 @@ public class FHIRTermGraphTest {
         Vertex v3 = g.addV("Concept").property("code", "c").next();
         System.out.println(v3.id());
 
-        g.V(v1).addE("isA").from(v2).next();
-        g.V(v2).addE("isA").from(v3).next();
+        g.V(v1).addE(FHIRTermGraph.ISA).from(v2).next();
+        g.V(v2).addE(FHIRTermGraph.ISA).from(v3).next();
 
         Stream.concat(
             g.V(v1)
                 .elementMap()
                 .toStream(),
             g.V(v1)
-                .repeat(__.in("isA").simplePath())
+                .repeat(__.in(FHIRTermGraph.ISA).simplePath())
                 .emit()
                 .elementMap()
                 .toStream())
         .forEach(System.out::println);
 
-        g.V(v1).property("valueCode", Code.of("someCode")).next();
-        g.V(v1).property("valueDecimal", Decimal.of(100.0)).next();
-        g.V(v1).property("valueInteger", com.ibm.fhir.model.type.Integer.of(0)).next();
+        g.V(v1).property("valueCode", convert(Code.of("someCode"))).next();
+        g.V(v1).property("valueDecimal", convert(Decimal.of(100.0))).next();
+        g.V(v1).property("valueInteger", convert(com.ibm.fhir.model.type.Integer.of(0))).next();
 
         g.tx().commit();
 
-        System.out.println(g.V().has("valueCode", Code.of("someCode")).hasNext());
-        System.out.println(g.V().has("valueDecimal", Decimal.of(100)).hasNext());
-        System.out.println(g.V().has("valueInteger", com.ibm.fhir.model.type.Integer.of(-0)).hasNext());
+        System.out.println(g.V().has("valueCode", convert(Code.of("someCode"))).hasNext());
+        System.out.println(g.V().has("valueDecimal", convert(Decimal.of(100))).hasNext());
+        System.out.println(g.V().has("valueInteger", convert(com.ibm.fhir.model.type.Integer.of(-0))).hasNext());
 
         System.out.println(Integer.valueOf(0).equals(Integer.valueOf(-0)));
 

@@ -14,7 +14,11 @@ import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.JanusGraphIndexQuery.Result;
 import org.janusgraph.core.JanusGraphVertex;
 
+/*
+ * A graph that represents FHIR CodeSystem content and is backed by a graph database (Janusgraph)
+ */
 public interface FHIRTermGraph {
+    public static final String ISA = "isa";
     Configuration configuration();
     JanusGraph getJanusGraph();
     GraphTraversalSource traversal();

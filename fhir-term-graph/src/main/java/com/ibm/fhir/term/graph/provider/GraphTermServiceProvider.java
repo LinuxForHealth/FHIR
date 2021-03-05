@@ -31,10 +31,12 @@ import com.ibm.fhir.model.resource.CodeSystem.Concept.Property;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
-import com.ibm.fhir.term.graph.FHIRTermGraphFactory;
+import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
@@ -50,7 +52,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         Set<Concept> concepts = new LinkedHashSet<>();
         concepts.add(getConcept(codeSystem, code, false, false));
         whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
-            .repeat(__.in("isA")
+            .repeat(__.in(FHIRTermGraph.ISA)
                 .simplePath()
                 .dedup())
             .emit()
@@ -131,7 +133,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             return true;
         }
         return whereCodeSystem(hasCode(vertices(), codeA.getValue(), caseSensitive), codeSystem)
-            .repeat(__.in("isA")
+            .repeat(__.in(FHIRTermGraph.ISA)
                 .simplePath())
             .until(hasCode(codeB.getValue(), caseSensitive))
             .hasNext();
@@ -204,33 +206,12 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     private List<Designation> getDesignations(CodeSystem codeSystem, String code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         List<Designation> designations = new ArrayList<>();
-        String designationUseSystem = getDesignationUseSystem(codeSystem);
         whereCodeSystem(hasCode(vertices(), code, isCaseSensitive(codeSystem)), codeSystem)
             .out("designation")
             .elementMap()
             .toStream()
-            .forEach(elementMap -> designations.add(createDesignation(elementMap, designationUseSystem)));
+            .forEach(elementMap -> designations.add(createDesignation(elementMap, codeSystem.getUrl().getValue())));
         return designations;
-    }
-
-    private String getDesignationUseSystem(CodeSystem codeSystem) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        Optional<Map<Object, Object>> optional = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
-                .elementMap("designationUseSystem")
-                .tryNext();
-        if (optional.isPresent()) {
-            return (String) optional.get().get("designationUseSystem");
-        }
-        return null;
-    }
-
-    private Element getValue(Map<Object, Object> elementMap) {
-        for (Object value : elementMap.values()) {
-            if (value instanceof Element) {
-                return (Element) value;
-            }
-        }
-        return null;
     }
 
     private List<Property> getProperties(CodeSystem codeSystem, String code) {
@@ -242,6 +223,28 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             .toStream()
             .forEach(elementMap -> properties.add(createProperty(elementMap)));
         return properties;
+    }
+
+    private Element getValue(Map<Object, Object> elementMap) {
+        if (elementMap.containsKey("valueBoolean")) {
+            return com.ibm.fhir.model.type.Boolean.of((Boolean) elementMap.get("valueBoolean"));
+        }
+        if (elementMap.containsKey("valueCode")) {
+            return Code.of((String) elementMap.get("valueCode"));
+        }
+        if (elementMap.containsKey("valueDateTime")) {
+            return DateTime.of((String) elementMap.get("valueDateTime"));
+        }
+        if (elementMap.containsKey("valueDecimal")) {
+            return Decimal.of((Double) elementMap.get("valueDecimal"));
+        }
+        if (elementMap.containsKey("valueInteger")) {
+            return com.ibm.fhir.model.type.Integer.of((Integer) elementMap.get("valueInteger"));
+        }
+        if (elementMap.containsKey("valueString")) {
+            return string((String) elementMap.get("valueString"));
+        }
+        return null;
     }
 
     private GraphTraversal<Vertex, Vertex> hasCode(GraphTraversal<Vertex, Vertex> g, String code, boolean caseSensitive) {
