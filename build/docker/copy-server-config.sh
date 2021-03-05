@@ -19,6 +19,8 @@ mkdir -p $CONFIG
 BULKDATA="${WORKSPACE}/build/docker/fhir-server/volumes/output"
 mkdir -p ${BULKDATA}
 
+cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ${BULKDATA}
+
 # Appending the path 
 echo "test.bulkdata.path = ${BULKDATA}" >> ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
 

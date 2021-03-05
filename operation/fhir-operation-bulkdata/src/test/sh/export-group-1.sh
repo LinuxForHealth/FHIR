@@ -25,6 +25,10 @@ curl -k -u "fhiruser:${PASS}" -H "Content-Type: application/fhir+json" -X GET \
 # Repeat until 200(OK)
 curl --location --request GET 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=O5X6d9LOYDZV35OjHkt5wA' \
     --header 'Content-Type: application/fhir+json' -k \
-    -u "fhiruser:${PASS}" -v --header "X-FHIR-TENANT-ID: ${TENANT_ID}"
+    -u "fhiruser:${PASS}" -v --header "X-FHIR-TENANT-ID: ${TENANT_ID}" -o /tmp/export.json
 
 # 4 - Check the file that is output.
+for DOWNLOAD in $(cat /tmp/export.json | jq -r .output[].url)
+do
+    curl "$DOWNLOAD"
+done
