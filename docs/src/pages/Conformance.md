@@ -15,54 +15,14 @@ The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/
 The IBM FHIR Server supports only version 4.0.1 of the specification and ignores the optional MIME-type parameter `fhirVersion`.
 
 ## FHIR HTTP API
-The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements almost the full API for every resource defined in the specification, with the following exceptions:
-* history is only supported at the resource instance level (no resource type history and no whole-system history)
+The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:
+* history is not supported at the resource-type level (only the resource instance level and the whole-system level)
+* whole-system history is not conformant to the HL7 FHIR specification; we chose not to include the resource in the history response bundle
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
-The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
+The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history-instance` interactions, as well as version-aware updates.
 
 By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`). However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules. See the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
-
-### Extended operations
-The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
-The IBM FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
-
-Operations are invoked via HTTP POST.
-* All operations can be invoked by passing a Parameters resource instance in the body of the request.
-* For operations with no input parameters, no body is required.
-* For operations with a single input parameter named "resource", the Parameters wrapper can be omitted.
-
-Alternatively, for operations with only simple input parameters (i.e. no complex datatypes like 'Identifier' or 'Reference'), operations can be invoked via HTTP GET by passing the parameters in the URL.
-
-#### System operations
-System operations are invoked at `[base]/$[operation]`
-
-|Operation|Short Description|Notes|
-|---------|-----------------|-----|
-| [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
-| [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
-| [$import](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
-| [$healthcheck](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
-
-#### Type operations
-Type operations are invoked at `[base]/[resourceType]/$[operation]`
-
-|Operation|Type|Short Description|Notes|
-|---------|----|-----------------|-----|
-| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
-| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations) for config info |
-| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
-| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
-
-#### Instance operations
-Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
-
-|Operation|Type|Short Description|Notes|
-|---------|----|-----------------|-----|
-| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a resource instance | Uses fhir-validate |
-| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-group-export.html) | Group | Obtain a set resources pertaining to patients in a specific Group | Only supports static membership; does not resolve inclusion/exclusion criteria |
-| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
-| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 
 ### HTTP Headers
 In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
@@ -72,6 +32,7 @@ In addition to the content negotiation headers required in the FHIR specificatio
 The default return preference is `minimal`.
 The default handling preference is configurable via the server's `fhirServer/core/defaultHandling` config property, but defaults to `strict`.
 Additionally, server administrators can configure whether or not to honor the client's handling preference by setting `fhirServer/core/allowClientHandlingPref` which defaults to `true`.
+
 For example, to ask the server to be lenient in processing a given request, but to return warnings for non-fatal errors, a client should set the Prefer header as follows:
 ```
 Prefer: return=OperationOutcome; handling=lenient
@@ -87,6 +48,38 @@ Finally, the IBM FHIR Server supports multi-tenancy through custom headers as de
 The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
 
 The `_pretty` parameter is also supported.
+
+## System-level history
+The system-level history interaction can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
+
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
+```
+
+The response is a history bundle as described by the [FHIR specification](https://www.hl7.org/fhir/http.html#history) with one exception. Whereas the specification requires each entry in the history bundle to contain the full contents of the resource (at least for entries with a `entry.request.method` of PUT or POST), the IBM FHIR Server whole-system history response bundle contains only references to the resources. Clients may choose which resources they fetch. They may also fetch the resources in parallel, which may greatly improve throughput.
+
+To return all changes that have occurred since a known point in time, use the `_since` query parameter:
+
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z'
+```
+
+By default, the returned bundle will contain up to 100 resource references. The number of resources can be increased (up to 1000) using the `_count` parameter. Specifying `_count` values larger than 1000 will return no more than 1000 resource references:
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000'
+```
+
+Client applications can use the `_since` parameter to scan sequentially through all the changes recorded by the IBM FHIR Server. Each result bundle contains a `next` link which can be used to fetch the next set of data. To simplify client implementations, the IBM FHIR Server also includes a custom attribute `_afterHistoryId`. This value can be used by a client to checkpoint where they are in the list of changes, and ask for only changes that come after the given id:
+
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000&_afterHistoryId=3004'
+```
+
+When specifying `_afterHistoryId` the `_since` does not have to be provided. Several resources can share the same timestamp, but the ids used for `_afterHistoryId` are unique.
+
+It is important to understand how transaction boundaries and concurrency can affect how ids and `last_updated` times are allocated during ingestion (create, update and delete operations). For the majority of data, the `_afterHistoryId` values are fetched in order and can be used to reliably get the list of changes in the correct order. However, an issue arises when the `_history` API is used to fetch recent changes, specifically those within the current transaction timeout window. A resource may be allocated an id and last_updated value, but not committed for some time. This most often occurs when processing very large bundles. If another, smaller and quicker transaction inserts or modifies a resource and that transaction is committed, the history id and last_updated time will be after the values already assigned to the first resource. If the client calls the `_history` operation before the first transaction commits and uses the `next` link to continue fetching data, the client may miss the data from the first transaction once it is finally committed. This behavior is a common concern in databases and not specific to the IBM FHIR Server. Note too that this only applies to different resources. Changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
+
+To guarantee no data is skipped, clients should not process resources with a last_updated timestamp which is after `{current-time} - {transaction-timeout}`. By waiting for the transaction timeout window to close, the client can be sure the data being returned is complete and in order, and new data will not appear. The transaction timeout default value is 120s but this value is configurable. Implementers should check with server administrators on the correct value to use.
 
 ## Search
 The IBM FHIR Server supports all search parameter types defined in the specification:
@@ -137,7 +130,7 @@ The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be s
 
 The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit.
 
-The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results. 
+The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results.
 
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
@@ -277,7 +270,50 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
 
+## Extended operations
+The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
+The IBM FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
+
+Operations are invoked via HTTP POST.
+* All operations can be invoked by passing a Parameters resource instance in the body of the request.
+* For operations with no input parameters, no body is required.
+* For operations with a single input parameter named "resource", the Parameters wrapper can be omitted.
+
+Alternatively, for operations with only primitive input parameters (i.e. no complex datatypes like 'Identifier' or 'Reference'), operations can be invoked via HTTP GET by passing the parameters in the URL.
+
+### System operations
+System operations are invoked at `[base]/$[operation]`
+
+|Operation|Short Description|Notes|
+|---------|-----------------|-----|
+| [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
+| [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
+| [$import](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
+| [$healthcheck](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
+
+### Type operations
+Type operations are invoked at `[base]/[resourceType]/$[operation]`
+
+|Operation|Type|Short Description|Notes|
+|---------|----|-----------------|-----|
+| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations) for config info |
+| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+
+### Instance operations
+Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
+
+|Operation|Type|Short Description|Notes|
+|---------|----|-----------------|-----|
+| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a resource instance | Uses fhir-validate |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-group-export.html) | Group | Obtain a set resources pertaining to patients in a specific Group | Only supports static membership; does not resolve inclusion/exclusion criteria |
+| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+
 ## HL7 FHIR R4 (v4.0.1) errata
 We add information here as we find issues with the artifacts provided with this version of the specification.
+
+---
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

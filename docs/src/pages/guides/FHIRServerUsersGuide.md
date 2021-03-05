@@ -1365,7 +1365,7 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresponding failure and success counts.
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJSON files and the corresponding failure and success counts.
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
@@ -1881,7 +1881,7 @@ One final consideration when configuring interactions is the `fhirServer/resourc
 
 In this case, since the `fhirServer/resources/open` property is set to `false`, only the resource types listed (`Condition`, `Observation`, `Patient`) are allowed to be interacted with via the FHIR REST API. For example, a `create` request of a `Procedure` resource will fail since that resource type is not specified.
 
-Whole-system search is a special case of this resource type validation, since no resource type is specified on a whole-system search request. In this case, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
+Whole-system search and whole-system history are special cases. Since no resource type is specified on a whole-system search request, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
 In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
@@ -1895,40 +1895,6 @@ This can be accomplished by configuring the `fhirServer/core/originalRequestUriH
 For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123).
 
 The originalRequestUriHeader is expected to contain the full path of the original request. Values with no scheme (e.g. `https://`) will be handled like relative URLs, but full URL values (including scheme, hostname, optional port, and path) are recommended. Query string values can be included in the header value but will be ignored by the server; the server will use the query string of the actual request to process the request.
-
-## 4.12.2 System Level History Usage and Concurrency Implications
-
-The System Level History operation can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
-
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
-```
-
-The response is a FHIR bundle as described by the FHIR `_history` specification. The bundle contains only references to the resources, not the resources themselves. Clients may choose which resources they fetch. They may also fetch the resources in parallel, which may greatly improve throughput.
-
-To return all changes that have occurred since a known point in time, use the `_since` query parameter:
-
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z'
-```
-
-By default, the returned bundle will contain up to 100 resource references. The number of resources can be increased (up to 1000) using the `_count` parameter. Specifying `_count` values larger than 1000 will return no more than 1000 resource references:
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000'
-```
-
-Client applications can use the `_since` parameter to scan sequentially through all the changes recorded by the IBM FHIR Server. Each result bundle contains a `next` link which can be used to fetch the next set of data. To simplify client implementations, the IBM FHIR Server also includes a custom attribute `_afterHistoryId`. This value can be used by a client to checkpoint where they are in the list of changes, and ask for only changes that come after the given id:
-
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000&_afterHistoryId=3004'
-```
-
-When specifying `_afterHistoryId` the `_since` does not have to be provided. Several resources can share the same timestamp, but the ids used for `_afterHistoryId` are unique.
-
-It is important to understand how transaction boundaries and concurrency can affect how ids and `last_updated` times are allocated during ingestion (create, update and delete operations). For the majority of data, the `_afterHistoryId` values are fetched in order and can be used to reliably get the list of changes in the correct order. However, an issue arises when the `_history` API is used to fetch recent changes, specifically those within the current transaction timeout window. A resource may be allocated an id and last_updated value, but not committed for some time. This most often occurs when processing very large bundles. If another, smaller and quicker transaction inserts or modifies a resource and that transaction is committed, the history id and last_updated time will be after the values already assigned to the first resource. If the client calls the `_history` operation before the first transaction commits and uses the `next` link to continue fetching data, the client may miss the data from the first transaction once it is finally committed. This behavior is a common concern in databases and not specific to the IBM FHIR Server. Note too that this only applies to different resources. Changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
-
-To guarantee no data is skipped, clients should not process resources with a last_updated timestamp which is after `{current-time} - {transaction-timeout}`. By waiting for the transaction timeout window to close, the client can be sure the data being returned is complete and in order, and new data will not appear. The transaction timeout default value is 120s but this value is configurable. Implementers should check with server administrators on the correct value to use.
-
 
 # 5 Appendix
 
