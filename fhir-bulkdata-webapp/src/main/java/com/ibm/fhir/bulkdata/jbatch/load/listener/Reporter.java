@@ -90,7 +90,12 @@ public class Reporter {
             long processed = importedResourceTypeSummary.getNumOfImportedResources();
             long fileSize = importedResourceTypeSummary.getImportFileSize();
 
-            double resourceSize = fileSize / (success + failures);
+            double resourceSize = -1.0;
+            if (success + failures > 0) {
+                resourceSize = fileSize / (success + failures);
+            } else {
+                logger.fine("No Content was imported");
+            }
             logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
                resourceType,failures, success, processed, totalRead, totalValidation, totalWrite, fileSize, resourceSize));
         }

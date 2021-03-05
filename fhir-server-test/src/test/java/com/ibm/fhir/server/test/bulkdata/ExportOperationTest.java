@@ -95,7 +95,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
          */
     }
 
-    public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters)
+    public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters, String... providers)
         throws FHIRGeneratorException, IOException {
         WebTarget target = getWebTarget();
         target = target.path(path);
@@ -108,11 +108,21 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
         Parameters parameters = generateParameters(outputFormat, since, types, null);
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        String provider = "default";
+        String outcome = "default";
+        if (providers != null && providers[0] != null) {
+            provider = providers[0];
+            outcome = providers[0];
+        }
+
         //@formatter:off
         return target
                 .request(mimeType)
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
+                .header("X-FHIR-BULKDATA-PROVIDER", provider)
+                .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", outcome)
                 .post(entity, Response.class);
         //@formatter:on
     }
@@ -204,13 +214,22 @@ public class ExportOperationTest extends FHIRServerTestBase {
         return target;
     }
 
-    public Response doGet(String path, String mimeType) {
+    public Response doGet(String path, String mimeType, String... providers) {
+        String provider = "default";
+        String outcome = "default";
+        if (providers != null && providers[0] != null) {
+            provider = providers[0];
+            outcome = providers[0];
+        }
+
         WebTarget target = getWebTarget();
         target = target.path(path);
         // @formatter:off
         return target.request(mimeType)
                      .header("X-FHIR-TENANT-ID", tenantName)
                      .header("X-FHIR-DSID", dataStoreId)
+                     .header("X-FHIR-BULKDATA-PROVIDER", provider)
+                     .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", outcome)
                      .get(Response.class);
         // @formatter:on
     }
@@ -508,6 +527,27 @@ public class ExportOperationTest extends FHIRServerTestBase {
         if (ON) {
             Response response =
                     doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(false);
+        } else {
+            System.out.println("Base Export Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
+    public void testBaseExportToS3() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null, "minio");
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
             // check the content-location that's returned.

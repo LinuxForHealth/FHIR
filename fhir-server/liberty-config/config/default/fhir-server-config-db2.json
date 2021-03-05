@@ -172,6 +172,26 @@
                     "validate-resources": false, 
                     "create": false,
                     "presigned": true
+                },
+                "minio" : {
+                    "type": "aws-s3",
+                    "bucket-name": "fhirbulkdata",
+                    "location": "us",
+                    "endpoint-internal": "https://minio:9000",
+                    "endpoint-external": "https://localhost:9000",
+                    "auth" : {
+                        "type": "hmac",
+                        "access_key_id": "minio",
+                        "secret_access_key": "change-password"
+                     },
+                    "enableParquet": false,
+                    "disable-base-url-validation": true,
+                    "export-public": true,
+                    "disable-operation-outcomes": true,
+                    "duplication-check": false, 
+                    "validate-resources": false, 
+                    "create": false,
+                    "presigned": true
                 }
             }
         }
