@@ -7,23 +7,29 @@
 package com.ibm.fhir.server.test.bulkdata;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.json.Json;
@@ -31,11 +37,24 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -60,6 +79,16 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  */
 public class ExportOperationTest extends FHIRServerTestBase {
 
+    private static final String CLASSNAME = ExportOperationTest.class.getName();
+    private static final Logger log = Logger.getLogger(CLASSNAME);
+
+    private static final int TIMEOUT = 10000;
+
+    private static final SSLConnectionSocketFactory sf = generateSSF();
+    private static final HttpRequestRetryHandler rh=new HttpRequestRetryHandler(){@Override public boolean retryRequest(IOException exception,int executionCount,HttpContext context){return executionCount<2;}};
+
+    private static final RequestConfig config =
+            RequestConfig.custom().setConnectTimeout(TIMEOUT).setConnectionRequestTimeout(TIMEOUT).setSocketTimeout(TIMEOUT).build();
     public static final String TEST_GROUP_NAME = "export-operation";
     public static final String PATIENT_VALID_URL = "Patient/$export";
     public static final String GROUP_VALID_URL = "Group/?/$export";
@@ -95,7 +124,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
          */
     }
 
-    public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters, String provider, String outcome)
+    public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters, String provider,
+        String outcome)
         throws FHIRGeneratorException, IOException {
         WebTarget target = getWebTarget();
         target = target.path(path);
@@ -220,7 +250,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // @formatter:on
     }
 
-    private void checkExportStatus(boolean isCheckPatient) throws Exception {
+    private void checkExportStatus(boolean isCheckPatient, boolean s3) throws Exception {
         Response response;
         do {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
@@ -243,10 +273,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(body.contains("output"));
-        verifyUrl(body);
+        verifyUrl(body, s3);
     }
 
-    public void verifyUrl(String body) throws Exception {
+    public void verifyUrl(String body, boolean s3) throws Exception {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes());
                 JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
             JsonObject object = jsonReader.readObject();
@@ -256,15 +286,72 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 JsonObject obj = arr.get(i).asJsonObject();
                 String str = obj.getString("url");
                 assertNotNull(str);
-                assertTrue(str.endsWith(".ndjson"));
-                verifyFileLines(str, obj.getInt("count"));
+                assertTrue(str.contains(".ndjson"));
+                if (!s3) {
+                    verifyFileLines(str, obj.getInt("count"));
+                } else {
+                    verifyS3Lines(str, obj.getInt("count"));
+                }
             }
         }
     }
 
+    public void verifyS3Lines(String workItem, int count) throws IOException {
+        CloseableHttpClient cli = getHttpClient();
+        HttpGet get = new HttpGet(workItem);
+        CloseableHttpResponse getResponse = cli.execute(get);
+
+        int actual = -1;
+        try {
+            HttpEntity entity = getResponse.getEntity();
+
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()))) {
+                List<String> str = br.lines().collect(Collectors.toList());
+                actual = str.size();
+            }
+            EntityUtils.consume(entity);
+        } finally {
+            get.releaseConnection();
+            getResponse.close();
+        }
+        assertEquals(actual, count);
+    }
+
+    /**
+     * generates a static SSL Connection socket factory.
+     * @return
+     */
+    public static SSLConnectionSocketFactory generateSSF() {
+        try {
+            org.apache.http.ssl.SSLContextBuilder sslContextBuilder = org.apache.http.ssl.SSLContextBuilder.create();
+
+            HostnameVerifier                 verifier = new org.apache.http.conn.ssl.NoopHostnameVerifier();
+                TrustStrategy strategy = new org.apache.http.conn.ssl.TrustAllStrategy();
+                sslContextBuilder.loadTrustMaterial(strategy);
+
+
+            SSLContext sslContext = sslContextBuilder.build();
+
+            return new SSLConnectionSocketFactory(sslContext, verifier);
+        }catch(NoSuchAlgorithmException|KeyStoreException|
+
+    KeyManagementException e)
+    {
+        log.warning("Default Algorithm for Http Client not found " + e.getMessage());
+    }return SSLConnectionSocketFactory.getSocketFactory();
+    }
+
+    public CloseableHttpClient getHttpClient() {
+        return HttpClients.custom()
+                .setSSLSocketFactory(generateSSF())
+                .setRetryHandler(rh)
+                .setDefaultRequestConfig(config)
+                .build();
+    }
+
     public void verifyFileLines(String workItem, int count) throws IOException {
         int actual = Files.readAllLines(new File(path + "/" + workItem).toPath()).size();
-        System.out.println(" Verfied the Export Test [" + actual + "] [" + count +"]");
+        System.out.println(" Verfied the Export Test [" + actual + "] [" + count + "]");
         assertEquals(actual, count);
     }
 
@@ -523,7 +610,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false);
+            checkExportStatus(false, false);
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
@@ -544,7 +631,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false);
+            checkExportStatus(false, true);
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
@@ -583,7 +670,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false);
+            checkExportStatus(false, false);
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
@@ -604,7 +691,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(true);
+            checkExportStatus(true, false);
         } else {
             System.out.println("Patient Export Test Disabled, Skipping");
         }
@@ -625,7 +712,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(true);
+            checkExportStatus(true, true);
         } else {
             System.out.println("Patient Export Test Disabled, Skipping");
         }
@@ -650,7 +737,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(true);
+            checkExportStatus(true, false);
         } else {
             System.out.println("Patient Export Test Disabled, Skipping");
         }
@@ -671,7 +758,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkGroupExportStatus();
+            checkGroupExportStatus(false);
         } else {
             System.out.println("Group Export Test Disabled, Skipping");
         }
@@ -692,7 +779,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkGroupExportStatus();
+            checkGroupExportStatus(true);
         } else {
             System.out.println("Group Export Test Disabled, Skipping");
         }
@@ -717,13 +804,13 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkGroupExportStatus();
+            checkGroupExportStatus(false);
         } else {
             System.out.println("Group Export Test Disabled, Skipping");
         }
     }
 
-    private void checkGroupExportStatus() throws Exception {
+    private void checkGroupExportStatus(boolean s3) throws Exception {
         Response response;
         do {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
@@ -739,6 +826,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
         String body = response.readEntity(String.class);
         assertTrue(body.contains("output"));
 
-        verifyUrl(body);
+        verifyUrl(body, s3);
     }
 }

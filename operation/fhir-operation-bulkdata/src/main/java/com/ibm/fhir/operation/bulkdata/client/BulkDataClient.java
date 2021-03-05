@@ -663,15 +663,18 @@ public class BulkDataClient {
     private PollingLocationResponse process(JobExecutionResponse response) {
         PollingLocationResponse result = new PollingLocationResponse();
 
+        // Override the source:
+        String source = response.getJobParameters().getSource();
+
         // Assemble the URL
         String resourceTypes = response.getJobParameters().getFhirResourceType();
         String cosBucketPathPrefix = response.getJobParameters().getCosBucketPathPrefix();
 
         String baseUrl = adapter.getStorageProviderEndpointExternal(source);
 
-        String request = "$import";
-        if (resourceTypes != null) {
-            request = "$export?_type=" + resourceTypes;
+        String request = "$export?_type=" + resourceTypes;
+        if (JobType.IMPORT.value().equals(response.getJobName())) {
+            request = "$import";
         }
         result.setRequest(request);
         result.setRequiresAccessToken(false);
