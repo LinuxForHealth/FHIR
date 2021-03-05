@@ -40,6 +40,7 @@ import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.operation.bulkdata.client.HttpWrapper;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
@@ -156,7 +157,11 @@ public class S3Provider implements Provider {
             // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
             // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3
             // compatible object store, e.g, minio object store with self signed cert.
-            apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
+            if(configAdapter.shouldCoreApiBatchTrustAll()) {
+                apacheClientConfig.setSslSocketFactory(HttpWrapper.generateSSF());
+            } else {
+                apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
+            }
         }
 
         return AmazonS3ClientBuilder.standard()

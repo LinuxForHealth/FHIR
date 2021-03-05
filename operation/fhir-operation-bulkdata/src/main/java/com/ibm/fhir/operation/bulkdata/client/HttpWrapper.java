@@ -54,11 +54,11 @@ public class HttpWrapper {
             .setSocketTimeout(TIMEOUT)
             .build();
 
-    /*
+    /**
      * generates a static SSL Connection socket factory.
      * @return
      */
-    private static SSLConnectionSocketFactory generateSSF() {
+    public static SSLConnectionSocketFactory generateSSF() {
         try {
             org.apache.http.ssl.SSLContextBuilder sslContextBuilder = SSLContextBuilder.create();
 

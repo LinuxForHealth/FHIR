@@ -543,7 +543,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
     public void testBaseExportToS3() throws Exception {
         if (ON) {
             Response response =
