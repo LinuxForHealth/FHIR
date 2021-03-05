@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -49,7 +49,7 @@ public class PatientResourceHandler {
     // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
     Set<String> loadedResourceIds = new HashSet<>();
 
-    private TransientUserData chunkData;
+    private ExportTransientUserData chunkData;
     private BulkDataContext ctx;
     private FHIRPersistence fhirPersistence;
     private int pageSize = 1;
@@ -62,7 +62,7 @@ public class PatientResourceHandler {
         // No Operation
     }
 
-    public void register(TransientUserData chunkData, BulkDataContext ctx, FHIRPersistence fhirPersistence,
+    public void register(ExportTransientUserData chunkData, BulkDataContext ctx, FHIRPersistence fhirPersistence,
         int pageSize, Class<? extends Resource> resourceType, Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes) {
         this.chunkData = chunkData;
         this.ctx = ctx;

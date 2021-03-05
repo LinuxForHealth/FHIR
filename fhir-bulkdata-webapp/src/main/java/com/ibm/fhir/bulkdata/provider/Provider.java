@@ -8,7 +8,7 @@ package com.ibm.fhir.bulkdata.provider;
 import java.util.List;
 
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Resource;
@@ -71,7 +71,7 @@ public interface Provider {
 
     void registerTransient(ImportTransientUserData transientUserData);
 
-    void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType, boolean isExportPublic) throws Exception;
+    void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType, boolean isExportPublic) throws Exception;
 
     /**
      * Pushes the Operation Outcomes

@@ -27,7 +27,7 @@ public class NopWriter extends AbstractItemWriter {
     @Inject
     JobContext jobContext;
 
-    /*
+    /**
      * Get a prefix which can be used to identify the job in log messages
      * @return
      */

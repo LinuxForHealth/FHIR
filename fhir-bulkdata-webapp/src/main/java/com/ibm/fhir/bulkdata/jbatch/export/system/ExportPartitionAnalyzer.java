@@ -16,14 +16,14 @@ import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.bulkdata.jbatch.export.data.CheckPointUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
 
 @Dependent
 public class ExportPartitionAnalyzer implements PartitionAnalyzer {
     @Inject
     JobContext jobContext;
 
-    private List<CheckPointUserData> partitionSummaries = new ArrayList<>();
+    private List<ExportCheckpointUserData> partitionSummaries = new ArrayList<>();
 
     public ExportPartitionAnalyzer() {
         // No Operation
@@ -40,7 +40,7 @@ public class ExportPartitionAnalyzer implements PartitionAnalyzer {
             return;
         }
 
-        CheckPointUserData partitionSummary  = (CheckPointUserData) data;
+        ExportCheckpointUserData partitionSummary  = (ExportCheckpointUserData) data;
         partitionSummaries.add(partitionSummary);
         jobContext.setTransientUserData(partitionSummaries);
     }

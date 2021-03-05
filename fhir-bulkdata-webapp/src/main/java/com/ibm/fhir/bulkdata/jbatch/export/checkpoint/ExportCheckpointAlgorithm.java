@@ -13,7 +13,7 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
@@ -49,7 +49,7 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
 
     @Override
     public boolean isReadyToCheckpoint() {
-        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
             return false;
         }

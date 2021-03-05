@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
@@ -43,7 +43,7 @@ public class FileProvider implements Provider {
     private String fileName = null;
     private int total = 0;
 
-    private TransientUserData chunkData = null;
+    private ExportTransientUserData chunkData = null;
 
     private OutputStream out = null;
 
@@ -97,7 +97,7 @@ public class FileProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
         boolean isExportPublic) throws Exception {
         if (transientUserData == null) {
             logger.warning("registerTransient: chunkData is null, this should never happen!");

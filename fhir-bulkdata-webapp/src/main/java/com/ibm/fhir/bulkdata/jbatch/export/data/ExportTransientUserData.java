@@ -12,17 +12,17 @@ import java.io.ByteArrayOutputStream;
  * Bulk Export Job Transient data
  * @implNote instances of this class are very unlikely to be persisted to disk.
  */
-public class TransientUserData extends CheckPointUserData {
+public class ExportTransientUserData extends ExportCheckpointUserData {
     private static final long serialVersionUID = -5892726731783560418L;
 
     private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream(2 ^ 16); // 2 ^ 20 = 1 MiB
 
-    protected TransientUserData() {
+    protected ExportTransientUserData() {
         super();
     }
 
-    public static TransientUserData fromCheckPointUserData(CheckPointUserData checkPointData) {
-        return (TransientUserData)TransientUserData.Builder.builder()
+    public static ExportTransientUserData fromCheckPointUserData(ExportCheckpointUserData checkPointData) {
+        return (ExportTransientUserData)ExportTransientUserData.Builder.builder()
             .pageNum(checkPointData.pageNum)
             .uploadId(checkPointData.uploadId)
             .cosDataPacks(checkPointData.cosDataPacks)
@@ -42,15 +42,15 @@ public class TransientUserData extends CheckPointUserData {
         return bufferStream;
     }
 
-    public static class Builder extends CheckPointUserData.Builder {
+    public static class Builder extends ExportCheckpointUserData.Builder {
 
         public static Builder builder() {
             return new Builder();
         }
 
         @Override
-        public CheckPointUserData build(){
-            TransientUserData transientUserData = new TransientUserData();
+        public ExportCheckpointUserData build(){
+            ExportTransientUserData transientUserData = new ExportTransientUserData();
             transientUserData.pageNum  = this.pageNum;
             transientUserData.lastPageNum = this.lastPageNum;
             transientUserData.partNum = this.partNum;

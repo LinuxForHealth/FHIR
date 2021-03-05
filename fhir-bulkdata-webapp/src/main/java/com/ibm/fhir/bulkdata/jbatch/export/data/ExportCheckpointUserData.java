@@ -13,7 +13,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 /**
  * Bulk Export Job Checkpoint data.
  */
-public class CheckPointUserData implements java.io.Serializable {
+public class ExportCheckpointUserData implements java.io.Serializable {
     private static final long serialVersionUID = 5722923276076940517L;
     protected int pageNum;
     protected int lastPageNum;
@@ -33,12 +33,12 @@ public class CheckPointUserData implements java.io.Serializable {
     private boolean isMoreToExport = true;
     protected int lastWritePageNum;
 
-    protected CheckPointUserData() {
+    protected ExportCheckpointUserData() {
         super();
     }
 
-    public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
-        return CheckPointUserData.Builder.builder()
+    public static ExportCheckpointUserData fromTransientUserData(ExportTransientUserData userData) {
+        return ExportCheckpointUserData.Builder.builder()
             .pageNum(userData.pageNum)
             .uploadId(userData.uploadId)
             .cosDataPacks(userData.cosDataPacks)
@@ -136,8 +136,8 @@ public class CheckPointUserData implements java.io.Serializable {
             return this;
         }
 
-        public CheckPointUserData build(){
-            CheckPointUserData checkPointUserData = new CheckPointUserData();
+        public ExportCheckpointUserData build(){
+            ExportCheckpointUserData checkPointUserData = new ExportCheckpointUserData();
             checkPointUserData.pageNum  = this.pageNum;
             checkPointUserData.lastPageNum = this.lastPageNum;
             checkPointUserData.partNum = this.partNum;

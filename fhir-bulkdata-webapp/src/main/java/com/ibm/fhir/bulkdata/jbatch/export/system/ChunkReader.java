@@ -32,8 +32,8 @@ import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.system.resource.SystemExportResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
-import com.ibm.fhir.bulkdata.jbatch.export.data.CheckPointUserData;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -108,12 +108,12 @@ public class ChunkReader extends AbstractItemReader {
         ctx.setPartitionResourceType(partResourceType);
 
         if (checkpoint != null) {
-            CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
+            ExportCheckpointUserData checkPointData = (ExportCheckpointUserData) checkpoint;
             pageNum = checkPointData.getLastWritePageNum();
             indexOfCurrentTypeFilter = checkPointData.getIndexOfCurrentTypeFilter();
 
             // We use setTransient from checkpoint when we have just uploaded to COS.
-            stepCtx.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
+            stepCtx.setTransientUserData(ExportTransientUserData.fromCheckPointUserData(checkPointData));
         }
 
         // Register the context to get the right configuration.
@@ -135,7 +135,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return CheckPointUserData.fromTransientUserData((TransientUserData) stepCtx.getTransientUserData());
+        return ExportCheckpointUserData.fromTransientUserData((ExportTransientUserData) stepCtx.getTransientUserData());
     }
 
     @Override
@@ -145,7 +145,7 @@ public class ChunkReader extends AbstractItemReader {
             return null;
         }
 
-        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         // If the search already reaches the last page, then check if need to move to the next typeFilter.
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             // We've hit the end the current set of pages, so see if there's another batch to work on
@@ -211,7 +211,7 @@ public class ChunkReader extends AbstractItemReader {
         if (chunkData == null) {
             // @formatter:off
                 chunkData =
-                        (TransientUserData) TransientUserData.Builder.builder()
+                        (ExportTransientUserData) ExportTransientUserData.Builder.builder()
                             .pageNum(pageNum)
                             .uploadId(null)
                             .cosDataPacks(new ArrayList<PartETag>())

@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import org.apache.spark.sql.SparkSession;
 
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
-import com.ibm.fhir.bulkdata.jbatch.export.data.CheckPointUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -110,7 +110,7 @@ public class ExportJobListener implements JobListener {
             }
 
             @SuppressWarnings("unchecked")
-            List<CheckPointUserData> partitionSummaries = (List<CheckPointUserData>) jobCtx.getTransientUserData();
+            List<ExportCheckpointUserData> partitionSummaries = (List<ExportCheckpointUserData>) jobCtx.getTransientUserData();
 
             // If the job is stopped before any partition is finished, then nothing to show.
             if (partitionSummaries == null) {
@@ -128,7 +128,7 @@ public class ExportJobListener implements JobListener {
             logger.info("ResourceType \t| Exported");
             int totalExportedFhirResources = 0;
             List<String> resourceTypeSummaries = new ArrayList<>();
-            for (CheckPointUserData partitionSummary : partitionSummaries) {
+            for (ExportCheckpointUserData partitionSummary : partitionSummaries) {
                 logger.info(partitionSummary.getResourceTypeSummary() + "\t|"
                         + partitionSummary.getTotalResourcesNum());
                 resourceTypeSummaries.add(partitionSummary.getResourceTypeSummary());

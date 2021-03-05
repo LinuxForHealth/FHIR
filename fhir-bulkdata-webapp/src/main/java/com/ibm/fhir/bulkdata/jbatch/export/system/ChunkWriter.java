@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.bulkdata.provider.ProviderFactory;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -94,7 +94,7 @@ public class ChunkWriter extends AbstractItemWriter {
         }
         wrapper.createSource();
 
-        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         wrapper.registerTransient(executionId, chunkData, cosBucketPathPrefix, fhirResourceType, isExportPublic);
 
         List<ReadResultDTO> dtos = new ArrayList<>();

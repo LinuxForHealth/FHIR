@@ -544,7 +544,7 @@ public class BulkDataClient {
         return status;
     }
 
-    /*
+    /**
      * deletes the job
      */
     private Response.Status runDeleteJobForTenant(String job) throws Exception {
@@ -594,7 +594,7 @@ public class BulkDataClient {
         return status;
     }
 
-    /*
+    /**
      * checks the job is owned by the tenant.
      */
     private void runVerificationOfTenantForJob(String job) throws Exception {
@@ -828,7 +828,7 @@ public class BulkDataClient {
         return baseUri + "/$bulkdata-status?job=" + transformer.endcodeJobId(jobId);
     }
 
-    /*
+    /**
      * Generate a random key using the passed algorithm or, if that algorithm isn't supported, a random 32 byte value.
      * In either case, the resulting value is encoded as URL Encoded string before returning.
      * @implNote S3 API barfs on '/' thus URL Encoding... Also isolating this code as private and self-contained

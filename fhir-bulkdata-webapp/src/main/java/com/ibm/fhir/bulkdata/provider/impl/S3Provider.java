@@ -34,7 +34,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.writer.SparkParquetWriter;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.core.FHIRMediaType;
@@ -53,7 +53,7 @@ public class S3Provider implements Provider {
     private static final int COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosMinSize();
 
     private ImportTransientUserData transientUserData = null;
-    private TransientUserData chunkData = null;
+    private ExportTransientUserData chunkData = null;
 
     private long parseFailures = 0l;
 
@@ -347,7 +347,7 @@ public class S3Provider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
         boolean isExportPublic) throws Exception {
         if (transientUserData == null) {
             logger.warning("registerTransient: chunkData is null, this should never happen!");

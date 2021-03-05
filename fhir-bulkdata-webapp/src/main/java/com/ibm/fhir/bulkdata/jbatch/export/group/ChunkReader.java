@@ -27,7 +27,7 @@ import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.group.resource.GroupHandler;
 import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.model.resource.Group.Member;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -82,7 +82,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             chunkData.setMoreToExport(false);
             return null;
@@ -99,7 +99,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = (TransientUserData) TransientUserData.Builder.builder()
+            chunkData = (ExportTransientUserData) ExportTransientUserData.Builder.builder()
                 .pageNum(pageNum)
                 .uploadId(null)
                 .cosDataPacks(new ArrayList<PartETag>())

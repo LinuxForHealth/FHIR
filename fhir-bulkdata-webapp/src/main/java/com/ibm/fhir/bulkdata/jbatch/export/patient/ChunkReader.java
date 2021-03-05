@@ -33,8 +33,8 @@ import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
-import com.ibm.fhir.bulkdata.jbatch.export.data.CheckPointUserData;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -101,9 +101,9 @@ public class ChunkReader extends AbstractItemReader {
         ctx.setPartitionResourceType(partResourceType);
 
         if (checkpoint != null) {
-            CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
+            ExportCheckpointUserData checkPointData = (ExportCheckpointUserData) checkpoint;
             pageNum = checkPointData.getLastWritePageNum();
-            stepCtx.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
+            stepCtx.setTransientUserData(ExportTransientUserData.fromCheckPointUserData(checkPointData));
         }
 
         // Register the context to get the right configuration.
@@ -126,7 +126,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        CheckPointUserData chunkData = CheckPointUserData.fromTransientUserData((TransientUserData) stepCtx.getTransientUserData());
+        ExportCheckpointUserData chunkData = ExportCheckpointUserData.fromTransientUserData((ExportTransientUserData) stepCtx.getTransientUserData());
         return chunkData;
     }
 
@@ -137,7 +137,7 @@ public class ChunkReader extends AbstractItemReader {
             return null;
         }
 
-        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             // No more page to read, so return null to end the reading.
             chunkData.setMoreToExport(false);
@@ -182,7 +182,7 @@ public class ChunkReader extends AbstractItemReader {
             if (chunkData == null) {
                 // @formatter:off
                 chunkData =
-                        (TransientUserData) TransientUserData.Builder.builder()
+                        (ExportTransientUserData) ExportTransientUserData.Builder.builder()
                             .pageNum(pageNum)
                             .uploadId(null)
                             .cosDataPacks(new ArrayList<PartETag>())

@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.export.system.ChunkReader;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
@@ -42,7 +42,7 @@ public class SystemExportResourceHandler {
         // No Operation
     }
 
-    public void fillChunkDataBuffer(String source, String exportFormat, TransientUserData chunkData, ReadResultDTO dto) throws Exception {
+    public void fillChunkDataBuffer(String source, String exportFormat, ExportTransientUserData chunkData, ReadResultDTO dto) throws Exception {
         boolean isDoDuplicationCheck = adapter.shouldStorageProviderCheckDuplicate(source);
         int resSubTotal = 0;
         if (chunkData == null) {

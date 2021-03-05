@@ -13,7 +13,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
-import com.ibm.fhir.bulkdata.jbatch.export.data.TransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
@@ -85,7 +85,7 @@ public class HttpsProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, TransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
         boolean isExportPublic) {
 
     }
