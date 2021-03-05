@@ -76,7 +76,7 @@ public class FilePreflight extends NopPreflight {
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.FILE.value().equals(storageDetail.getType())){
             CommonUtil util = new CommonUtil();
-            throw util.buildExceptionWithIssue("Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw util.buildExceptionWithIssue("File: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }
