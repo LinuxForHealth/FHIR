@@ -6,18 +6,20 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
@@ -25,6 +27,8 @@ import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -37,6 +41,7 @@ public class FileProvider implements Provider {
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
     private String source = null;
     private long parseFailures = 0l;
+    @SuppressWarnings("unused")
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;
@@ -46,6 +51,7 @@ public class FileProvider implements Provider {
     private ExportTransientUserData chunkData = null;
 
     private OutputStream out = null;
+    private BufferedReader br = null;
 
     private ConfigurationAdapter configuration = ConfigurationFactory.getInstance();
 
@@ -69,8 +75,38 @@ public class FileProvider implements Provider {
 
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
+        resources = new ArrayList<>();
         try {
-            parseFailures = BulkDataUtils.readFhirResourceFromLocalFile(getFilePath(workItem), (int) numOfLinesToSkip, resources, transientUserData);
+            long line = 0;
+            try {
+                if (br == null) {
+                    br = Files.newBufferedReader(Paths.get(getFilePath(workItem)));
+                }
+                for (int i = 0; i <= numOfLinesToSkip; i++) {
+                    line++;
+                    br.readLine(); // We know the file has at least this number.
+                }
+
+                String resourceStr = br.readLine();
+                int chunkRead = 0;
+                int maxRead = configuration.getImportNumberOfFhirResourcesPerRead(null);
+                while (resourceStr != null && chunkRead <= maxRead) {
+                    line++;
+                    chunkRead++;
+                    try {
+                        resources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resourceStr)));
+                    } catch (FHIRParserException e) {
+                        // Log and skip the invalid FHIR resource.
+                        parseFailures++;
+                        logger.log(Level.INFO, "readResources: " + "Failed to parse line " + line + " of [" + source + "].", e);
+                    }
+                    resourceStr = br.readLine();
+                }
+            } finally {
+                if (br != null) {
+                    br.close();
+                }
+            }
         } catch (Exception e) {
             throw new FHIRException("Unable to read from Local File", e);
         }

@@ -140,7 +140,7 @@ public class ChunkReader extends AbstractItemReader {
         wrapper.registerTransient(chunkData);
 
         long readStartTimeInMilliSeconds = System.currentTimeMillis();
-        wrapper.readResources(readStartTimeInMilliSeconds, ctx.getImportPartitionWorkitem());
+        wrapper.readResources(numOfLinesToSkip, ctx.getImportPartitionWorkitem());
 
         long numOfParseFailures = wrapper.getNumberOfParseFailures();
         long numOfLoaded = wrapper.getNumberOfLoaded();

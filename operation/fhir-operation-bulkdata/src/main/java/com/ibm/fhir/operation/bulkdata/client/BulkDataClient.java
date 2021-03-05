@@ -373,6 +373,7 @@ public class BulkDataClient {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw export.buildOperationException("An unexpected error has ocurred while checking the status - "
                     + ex.getMessage(), IssueType.TRANSIENT);
         }
@@ -673,7 +674,8 @@ public class BulkDataClient {
         String baseUrl = adapter.getStorageProviderEndpointExternal(source);
 
         String request = "$export?_type=" + resourceTypes;
-        if (JobType.IMPORT.value().equals(response.getJobName())) {
+        log.fine(response.getJobName());
+        if ("bulkimportchunkjob".equals(response.getJobName())) {
             request = "$import";
         }
         result.setRequest(request);
@@ -688,7 +690,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        log.info(exitStatus);
+        log.fine(exitStatus);
         if (!"COMPLETED".equals(exitStatus) && request.contains("$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();

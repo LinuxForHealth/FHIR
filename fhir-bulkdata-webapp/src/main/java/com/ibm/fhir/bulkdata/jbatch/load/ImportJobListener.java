@@ -68,6 +68,9 @@ public class ImportJobListener implements JobListener {
 
             // If the job is stopped before any partition is finished, then nothing to show.
             if (partitionSummaries == null) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Partition Summaries are null");
+                }
                 return;
             }
 

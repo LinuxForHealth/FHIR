@@ -192,6 +192,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
             // 200 mean export is finished
             status = response.getStatus();
 
+            System.out.println(status);
             assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
 
             Thread.sleep(5000);
