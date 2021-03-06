@@ -87,9 +87,15 @@ public class FetchResourceChangesDAO {
             query.append(" AND rt.resource_type = ? ");
         }
 
-        query
-            .append(" ORDER BY c.change_tstamp, c.resource_id ")
-            .append(translator.limit(Integer.toString(resourceCount)))
+        // To avoid bad plans resulting in full table scans, only order by resource_id if that's the only filter
+        if (fromTstamp != null) {
+            // ORDER BY needs to match the index unq_resource_change_log_ctrtri
+            query.append(" ORDER BY c.change_tstamp, c.resource_type_id, c.resource_id "); // index scan with limit
+        } else {
+            // ORDER BY can match the PK. Because this is unique, no additional order columns required
+            query.append(" ORDER BY c.resource_id "); // PK scan with limit
+        }
+        query.append(translator.limit(Integer.toString(resourceCount)))
             ;
 
         final String SQL = query.toString();
