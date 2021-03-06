@@ -86,6 +86,7 @@ curl -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k
  * </pre>
  */
 public class ImportOperationTest extends FHIRServerTestBase {
+
     // Test Specific
     public static final String TEST_GROUP_NAME = "import-operation";
     private static boolean ON = false;
@@ -104,7 +105,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.import.enabled", "false"));
     }
 
-    private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url) throws FHIRGeneratorException, IOException {
+    private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url, String provider) throws FHIRGeneratorException, IOException {
         List<Parameter> parameters = new ArrayList<>();
 
         // Required: inputFormat
@@ -122,8 +123,13 @@ public class ImportOperationTest extends FHIRServerTestBase {
         parameters.add(inputParameter);
 
         // Optional: Storage Detail
-        Parameter storageDetailParameter = Parameter.builder().name(string("storageDetail")).value(string("file")).build();
-        parameters.add(storageDetailParameter);
+        if (provider.equals("default")) {
+            Parameter storageDetailParameter = Parameter.builder().name(string("storageDetail")).value(string("file")).build();
+            parameters.add(storageDetailParameter);
+        } else {
+            Parameter storageDetailParameter = Parameter.builder().name(string("storageDetail")).value(string("aws-s3")).build();
+            parameters.add(storageDetailParameter);
+        }
 
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
@@ -162,23 +168,27 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public Response doGet(String path, String mimeType) {
         WebTarget target = getWebTarget();
         target = target.path(path);
-        return target.request(mimeType)
-                .header("X-FHIR-TENANT-ID", tenantName)
-                .header("X-FHIR-DSID", dataStoreId)
-                .get(Response.class);
+        return target.request(mimeType).header("X-FHIR-TENANT-ID", tenantName).header("X-FHIR-DSID", dataStoreId).get(Response.class);
     }
 
     public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url) throws FHIRGeneratorException, IOException {
+        return doPost(path, inputFormat, inputSource, resourceType, url, "default");
+    }
+
+    public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url, String provider)
+        throws FHIRGeneratorException, IOException {
         WebTarget target = getWebTarget();
         target = target.path(path);
         if (DEBUG) {
             System.out.println("URL -> " + target.getUri());
         }
-        Parameters parameters = generateParameters(inputFormat, inputSource, resourceType, url);
+        Parameters parameters = generateParameters(inputFormat, inputSource, resourceType, url, provider);
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
         return target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
+                .header("X-FHIR-BULKDATA-PROVIDER", provider)
+                .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", provider)
                 .post(entity, Response.class);
     }
 
@@ -234,7 +244,36 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods= {"testImport"})
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromS3() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
+            String url = "test-import.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testImport" })
     public void testImportCheckQuery() throws Exception {
         if (ON) {
             WebTarget target = getWebTarget();
@@ -242,11 +281,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
             assertResponse(response, Response.Status.OK.getStatusCode());
 
             response =
-                    target.path("Patient")
-                        .queryParam("gender", "male")
-                        .queryParam("_id", "1772b6bb75a-fd1b2296-6666-4ac1-8b06-f3651eebcc0a")
-                        .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                        .get();
+                    target.path("Patient").queryParam("gender", "male").queryParam("_id", "1772b6bb75a-fd1b2296-6666-4ac1-8b06-f3651eebcc0a").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
             assertResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.readEntity(Bundle.class);
             assertNotNull(bundle);

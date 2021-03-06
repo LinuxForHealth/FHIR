@@ -111,7 +111,7 @@ public class HttpsPreflight extends NopPreflight {
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.HTTPS.value().equals(storageDetail.getType())){
             CommonUtil util = new CommonUtil();
-            throw util.buildExceptionWithIssue("Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw util.buildExceptionWithIssue("Https: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }
