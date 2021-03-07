@@ -98,7 +98,7 @@ public class S3Preflight extends NopPreflight {
             String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
             String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
             if (accessKey == null || secretKey == null || accessKey.isEmpty() || secretKey.isEmpty()) {
-                throw export.buildOperationException("bad configuration for the hmac configuration", IssueType.INVALID);
+                throw export.buildOperationException("bad configuration for the hmac configuration", IssueType.EXCEPTION);
             }
         } else if (adapter.isStorageProviderAuthTypeBasic(source)) {
             String user = adapter.getStorageProviderAuthTypeUsername(source);
