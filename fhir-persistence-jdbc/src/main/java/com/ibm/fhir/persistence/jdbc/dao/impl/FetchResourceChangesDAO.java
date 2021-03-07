@@ -75,6 +75,14 @@ public class FetchResourceChangesDAO {
             .append("   AND rt.resource_type_id = c.resource_type_id ")
             ;
 
+        // Only filter/order by _since or _afterHistoryId never both. This is crucial because
+        // the values are not strictly correlated and mixing them could cause the client to miss
+        // data without realizing.
+        if (fromTstamp != null && afterResourceId != null) {
+            // Shouldn't get here because this condition should be trapped in the REST helper
+            throw new FHIRPersistenceException("_since and _afterHistoryId filters must be used exclusively");
+        }
+
         if (fromTstamp != null) {
             query.append(" AND c.change_tstamp >= ? ");
         }
@@ -87,8 +95,7 @@ public class FetchResourceChangesDAO {
             query.append(" AND rt.resource_type = ? ");
         }
 
-        // If resource_id filter is given, always order by resource-id
-        if (afterResourceId != null || fromTstamp == null) {
+        if (afterResourceId != null) {
             // ORDER BY can match the PK. Because this is unique, no additional order columns required
             query.append(" ORDER BY c.resource_id "); // PK scan with limit
         } else {
@@ -96,8 +103,7 @@ public class FetchResourceChangesDAO {
             query.append(" ORDER BY c.change_tstamp, c.resource_type_id, c.resource_id "); // index scan with limit
         }
 
-        query.append(translator.limit(Integer.toString(resourceCount)))
-            ;
+        query.append(translator.limit(Integer.toString(resourceCount)));
 
         final String SQL = query.toString();
 

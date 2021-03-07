@@ -26,6 +26,7 @@ public enum FhirSchemaVersion {
     ,V0009(9, "issue-1683 refactor composite values")
     ,V0010(10, "issue-1958 add IS_DELETED flag to each xxx_LOGICAL_RESOURCES table")
     ,V0011(11, "issue-2011 add LAST_UPDATED to each xxx_LOGICAL_RESOURCES table")
+    ,V0012(12, "issue-2032 change column order for index on RESOURCE_CHANGE_LOG")
     ;
 
     // The version number recorded in the VERSION_HISTORY
