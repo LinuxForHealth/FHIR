@@ -92,7 +92,7 @@ public class S3Preflight extends NopPreflight {
             String apiKey = adapter.getStorageProviderAuthTypeIamApiKey(source);
             String resourceId = adapter.getStorageProviderAuthTypeIamApiResourceInstanceId(source);
             if (apiKey == null || resourceId == null || apiKey.isEmpty() || resourceId.isEmpty()) {
-                throw export.buildOperationException("bad configuration for the iam configuration", IssueType.INVALID);
+                throw export.buildOperationException("bad configuration for the iam configuration", IssueType.EXCEPTION);
             }
         } else if (adapter.isStorageProviderAuthTypeHmac(source)) {
             String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
