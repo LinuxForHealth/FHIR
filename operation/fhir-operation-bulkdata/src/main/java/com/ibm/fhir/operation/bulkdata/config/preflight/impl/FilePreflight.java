@@ -65,7 +65,7 @@ public class FilePreflight extends NopPreflight {
                 }
             }
             if (!accessible) {
-                throw util.buildExceptionWithIssue("The location for the bulkdata operation is not found", IssueType.NOT_FOUND);
+                throw util.buildExceptionWithIssue("The location for the bulkdata operation is not found", IssueType.NO_STORE);
             }
         } else {
             throw util.buildExceptionWithIssue("No File Base Configured for FHIR bulkdata operation", IssueType.INVALID);
