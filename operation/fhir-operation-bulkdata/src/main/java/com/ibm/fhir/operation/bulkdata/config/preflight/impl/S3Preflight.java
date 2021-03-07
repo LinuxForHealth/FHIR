@@ -107,7 +107,7 @@ public class S3Preflight extends NopPreflight {
                 throw export.buildOperationException("bad configuration for the basic configuration", IssueType.INVALID);
             }
         } else {
-            throw export.buildOperationException("Failed to specify the source or outcome bucket's authentication mechanism", IssueType.INVALID);
+            throw export.buildOperationException("Failed to specify the source or outcome bucket's authentication mechanism", IssueType.EXCEPTION);
         }
     }
 
