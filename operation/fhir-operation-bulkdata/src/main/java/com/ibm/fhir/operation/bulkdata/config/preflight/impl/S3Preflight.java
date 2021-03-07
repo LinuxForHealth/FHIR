@@ -124,7 +124,7 @@ public class S3Preflight extends NopPreflight {
             ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
             url = adapter.getStorageProviderEndpointExternal(source);
             if (url == null || url.isEmpty()) {
-                throw export.buildOperationException("endpoint-internal is undefined.", IssueType.INVALID);
+                throw export.buildOperationException("endpoint-internal is undefined.", IssueType.EXCEPTION);
             }
         }
 
