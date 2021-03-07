@@ -172,7 +172,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isFastExport() {
-        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/systemExportImpl", null);
+        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/systemExportImpl", "fast");
         return "fast".equals(type);
     }
 }
