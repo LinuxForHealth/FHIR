@@ -67,7 +67,7 @@ public class S3Preflight extends NopPreflight {
             List<Future<Boolean>> futures = executor.invokeAll(callables, 60, TimeUnit.SECONDS);
             for (Future<Boolean> future : futures) {
                 if (!future.get()) {
-                    throw export.buildOperationException("Unable to access s3 source or outcome during timeout", IssueType.INVALID);
+                    throw export.buildOperationException("Unable to access s3 source or outcome during timeout", IssueType.EXCEPTION);
                 }
             }
         } catch (ExecutionException ee) {
