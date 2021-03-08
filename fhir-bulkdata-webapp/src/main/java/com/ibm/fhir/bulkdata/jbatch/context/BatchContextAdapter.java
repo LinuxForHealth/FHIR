@@ -52,6 +52,7 @@ public class BatchContextAdapter {
         source(ctx);
         audit(ctx);
         search(ctx);
+        systemWrite(ctx);
         return ctx;
     }
 
@@ -61,6 +62,7 @@ public class BatchContextAdapter {
         source(ctx);
         audit(ctx);
         search(ctx);
+        systemWrite(ctx);
         ctx.setPartitionResourceType(props.getProperty(OperationFields.PARTITION_RESOURCETYPE));
         format(ctx);
         return ctx;
@@ -72,6 +74,7 @@ public class BatchContextAdapter {
         source(ctx);
         audit(ctx);
         search(ctx);
+        systemWrite(ctx);
         ctx.setPartitionResourceType(props.getProperty(OperationFields.PARTITION_RESOURCETYPE));
         ctx.setGroupId(props.getProperty(OperationFields.FHIR_SEARCH_PATIENT_GROUP_ID));
         format(ctx);

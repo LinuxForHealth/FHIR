@@ -60,14 +60,16 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
 
         // Stop writing to the current COS object if we hit either the max size or max number
         // of resource limits.
+        boolean size = cosFileMaxSize != -1 && chunkData.getCurrentUploadSize() >= cosFileMaxSize;
+        boolean max = cosFileMaxResources != -1 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
+        chunkData.setFinishCurrentUpload(size || max);
 
-        chunkData.setFinishCurrentUpload(cosFileMaxSize != -1 && chunkData.getCurrentUploadSize() >= cosFileMaxSize
-                || cosFileMaxResources != -1 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources);
+        // The End of The Paging
+        boolean end = chunkData.getPageNum() > chunkData.getLastPageNum();
+        boolean multipart = chunkData.getBufferStream().size() > cosFileMinSize;
 
         // Trigger a checkpoint each time we start a new page, if the data written to the reader-to-writer
         // buffer exceeds our min threshold, or we've reached the end for this chunk.
-        return (chunkData.getPageNum() > chunkData.getLastPageNum()
-                || chunkData.getBufferStream().size() > cosFileMinSize
-                || chunkData.isFinishCurrentUpload());
+        return end || multipart || chunkData.isFinishCurrentUpload();
     }
 }

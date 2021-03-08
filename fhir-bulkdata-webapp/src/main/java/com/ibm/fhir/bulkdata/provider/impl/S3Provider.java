@@ -374,13 +374,14 @@ public class S3Provider implements Provider {
             itemName = "system_export_" + executionId + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
         }
 
-        if (chunkData.getUploadId() == null) {
-            chunkData.setUploadId(BulkDataUtils.startPartUpload(client, bucketName, itemName, isExportPublic));
+        String uploadId = chunkData.getUploadId();
+        if (uploadId == null) {
+            uploadId = BulkDataUtils.startPartUpload(client, bucketName, itemName, isExportPublic);
+            chunkData.setUploadId(uploadId);
         }
 
-        chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, chunkData.getUploadId(), in, dataLength, chunkData.getPartNum()));
-        logger.info("pushFhirJsonsToCos: " + dataLength + " bytes were successfully appended to COS object - "
-                + itemName);
+        chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, uploadId, in, dataLength, chunkData.getPartNum()));
+        logger.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
         chunkData.setPartNum(chunkData.getPartNum() + 1);
         chunkData.getBufferStream().reset();
 
