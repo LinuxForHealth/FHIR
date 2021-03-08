@@ -101,6 +101,7 @@ public class BatchContextAdapter {
         context(ctx);
         source(ctx);
         audit(ctx);
+        systemWrite(ctx);
         search(ctx);
         format(ctx);
         return ctx;
