@@ -71,9 +71,9 @@ public class S3Preflight extends NopPreflight {
                 }
             }
         } catch (ExecutionException ee) {
-            throw export.buildOperationException("Failed to execute the s3 access, check the s3 configuration", IssueType.NO_STORE);
+            throw export.buildOperationException("Failed to execute the s3 access, check the s3 configuration", IssueType.NO_STORE, ee);
         } catch (InterruptedException e) {
-            throw export.buildOperationException("Timeout hit trying to access s3, check the s3 configuration", IssueType.NO_STORE);
+            throw export.buildOperationException("Timeout hit trying to access s3, check the s3 configuration", IssueType.NO_STORE, e);
         }
         executor.shutdown();
 

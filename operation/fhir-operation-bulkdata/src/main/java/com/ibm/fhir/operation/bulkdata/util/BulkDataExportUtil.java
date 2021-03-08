@@ -132,13 +132,16 @@ public class BulkDataExportUtil {
     }
 
     public FHIROperationException buildOperationException(String errMsg, IssueType issueType) {
-        FHIROperationException operationException = new FHIROperationException(errMsg);
+        return buildOperationException(errMsg, issueType, null);
+    }
 
-        List<Issue> issues = new ArrayList<>();
-        issues.add(Issue.builder().code(issueType).diagnostics(string(errMsg)).severity(IssueSeverity.ERROR).build());
-
-        operationException.setIssues(issues);
-        return operationException;
+    public FHIROperationException buildOperationException(String errMsg, IssueType issueType, Exception e) {
+        return new FHIROperationException(errMsg, e)
+                .withIssue(Issue.builder()
+                    .code(issueType)
+                    .diagnostics(string(errMsg))
+                    .severity(IssueSeverity.ERROR)
+                    .build());
     }
 
     /**
