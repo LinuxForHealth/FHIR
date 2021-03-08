@@ -18,7 +18,7 @@ import org.janusgraph.core.JanusGraphVertex;
  * A graph that represents FHIR CodeSystem content and is backed by a graph database (Janusgraph)
  */
 public interface FHIRTermGraph {
-    public static final String ISA = "isa";
+    public static final String IS_A = "isa";
     Configuration configuration();
     JanusGraph getJanusGraph();
     GraphTraversalSource traversal();

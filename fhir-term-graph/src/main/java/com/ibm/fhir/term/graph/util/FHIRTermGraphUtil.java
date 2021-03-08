@@ -32,7 +32,7 @@ import ch.qos.logback.classic.Logger;
 public class FHIRTermGraphUtil {
     private FHIRTermGraphUtil() { }
 
-    public static Object convert(Element value) {
+    public static Object toObject(Element value) {
         if (value.is(FHIR_BOOLEAN)) {
             return value.as(FHIR_BOOLEAN).getValue();
         }

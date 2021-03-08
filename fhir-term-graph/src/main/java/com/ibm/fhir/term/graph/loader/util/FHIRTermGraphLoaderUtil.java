@@ -37,7 +37,7 @@ public class FHIRTermGraphLoaderUtil {
         label = label.substring(0, 1).toLowerCase() + label.substring(1);
         if ("isA".equals(label)) {
             // for consistency between SNOMED-CT and UMLS
-            return FHIRTermGraph.ISA;
+            return FHIRTermGraph.IS_A;
         }
         return isReservedWord(label) ? label + "_" : label;
     }

@@ -101,7 +101,7 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         management.makeVertexLabel("Property_").make();
 
         // edge labels
-        management.makeEdgeLabel(FHIRTermGraph.ISA).make();
+        management.makeEdgeLabel(FHIRTermGraph.IS_A).make();
         management.makeEdgeLabel("concept").make();
         management.makeEdgeLabel("designation").make();
         management.makeEdgeLabel("property_").make();
@@ -123,7 +123,7 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         management.buildIndex("byValueString", Vertex.class).addKey(valueString).buildCompositeIndex();
 
         // mixed indexes
-        management.buildIndex("vertices", Vertex.class).addKey(display).addKey(value).buildMixedIndex("search");
+        management.buildIndex("vertices", Vertex.class).addKey(display).addKey(value).addKey(valueString).buildMixedIndex("search");
 
         log.info(System.lineSeparator() + management.printSchema());
 

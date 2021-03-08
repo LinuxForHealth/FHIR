@@ -25,13 +25,13 @@ import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
+import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 /**
@@ -43,6 +43,10 @@ public final class CodeSystemSupport {
     private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
 
     private CodeSystemSupport() { }
+
+    public static boolean convertsToBoolean(String value) {
+        return "true".equals(value.getValue()) || "false".equals(value.getValue());
+    }
 
     /**
      * Find the concept in the provided code system that matches the specified code.
@@ -180,6 +184,24 @@ public final class CodeSystemSupport {
     }
 
     /**
+     * Get the type of the code system property that matches the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code to match
+     * @return
+     *     the type of the code system property that matches the specified code, or null if no such property exists
+     */
+    public static PropertyType getCodeSystemPropertyType(CodeSystem codeSystem, Code code) {
+        CodeSystem.Property property = getCodeSystemProperty(codeSystem, code);
+        if (property != null) {
+            return property.getType();
+        }
+        return null;
+    }
+
+    /**
      * Get the concept property that matches the specified code.
      *
      * @param concept
@@ -273,6 +295,30 @@ public final class CodeSystemSupport {
         return concepts;
     }
 
+    public static Boolean toBoolean(String value) {
+        return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
+    }
+
+    public static Element toElement(String value, PropertyType type) {
+        switch (type.getValueAsEnumConstant()) {
+        case BOOLEAN:
+            return Boolean.of(value.getValue());
+        case CODE:
+            return Code.of(value.getValue());
+//      case CODING:
+        case DATE_TIME:
+            return DateTime.of(value.getValue());
+        case DECIMAL:
+            return Decimal.of(value.getValue());
+        case INTEGER:
+            return Integer.of(value.getValue());
+        case STRING:
+            return value;
+        default:
+            return null;
+        }
+    }
+
     private static boolean accept(List<ConceptFilter> conceptFilters, Concept concept) {
         for (ConceptFilter conceptFilter : conceptFilters) {
             if (!conceptFilter.accept(concept)) {
@@ -328,33 +374,6 @@ public final class CodeSystemSupport {
         return Code.of(value.getValue());
     }
 
-    private static Element convert(String value, Class<?> targetType) {
-        if (Code.class.equals(targetType)) {
-            return Code.of(value.getValue());
-        }
-        if (Integer.class.equals(targetType)) {
-            return Integer.of(value.getValue());
-        }
-        if (Boolean.class.equals(targetType)) {
-            return Boolean.of(value.getValue());
-        }
-        if (DateTime.class.equals(targetType)) {
-            return DateTime.of(value.getValue());
-        }
-        if (Decimal.class.equals(targetType)) {
-            return Decimal.of(value.getValue());
-        }
-        return value;
-    }
-
-    private static boolean convertsToBoolean(String value) {
-        return "true".equals(value.getValue()) || "false".equals(value.getValue());
-    }
-
-    private static Boolean toBoolean(String value) {
-        return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
-    }
-
     private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
@@ -369,7 +388,7 @@ public final class CodeSystemSupport {
         Code property = filter.getProperty();
         if ("parent".equals(property.getValue()) ||
                 "child".equals(property.getValue()) ||
-                hasCodeSystemProperty(codeSystem, property)) {
+                (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(getCodeSystemPropertyType(codeSystem, property)))) {
             return new EqualsFilter(codeSystem, property, filter.getValue());
         }
         return null;
@@ -436,7 +455,8 @@ public final class CodeSystemSupport {
 
     private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Filter filter) {
         Code property = filter.getProperty();
-        if (hasCodeSystemProperty(codeSystem, property)) {
+        if (hasCodeSystemProperty(codeSystem, property) &&
+                PropertyType.STRING.equals(getCodeSystemPropertyType(codeSystem, property))) {
             return new RegexFilter(property, filter.getValue());
         }
         return null;
@@ -462,12 +482,14 @@ public final class CodeSystemSupport {
     }
 
     private static class EqualsFilter implements ConceptFilter {
+        private final PropertyType type;
         private final Code property;
         private final String value;
         private final Set<Concept> children;
         private final Concept child;
 
         public EqualsFilter(CodeSystem codeSystem, Code property, String value) {
+            this.type = getCodeSystemPropertyType(codeSystem, property);
             this.property = property;
             this.value = value;
             children = new LinkedHashSet<>();
@@ -490,8 +512,8 @@ public final class CodeSystemSupport {
             }
             if (hasConceptProperty(concept, property)) {
                 Element value = getConceptPropertyValue(concept, property);
-                if (value != null && !value.is(CodeableConcept.class)) {
-                    return value.equals(convert(this.value, value.getClass()));
+                if (value != null) {
+                    return value.equals(toElement(this.value, type));
                 }
             }
             return false;

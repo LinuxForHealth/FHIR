@@ -7,7 +7,7 @@
 package com.ibm.fhir.term.graph.loader.impl;
 
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.convert;
+import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.normalize;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLong;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
@@ -50,7 +50,7 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
 
     private Vertex codeSystemVertex = null;
 
-    public CodeSystemTermGraphLoader(Map<java.lang.String, java.lang.String> options) {
+    public CodeSystemTermGraphLoader(Map<String, String> options) {
         super(options);
 
         CodeSystem codeSystem = null;
@@ -84,7 +84,7 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
     }
 
     private void createCodeSystemVertex() {
-        java.lang.String url = codeSystem.getUrl().getValue();
+        String url = codeSystem.getUrl().getValue();
 
         codeSystemVertex = g.addV("CodeSystem")
                 .property("url", url)
@@ -102,14 +102,14 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
 
     private void createConceptVertices() {
         for (Concept concept : concepts) {
-            java.lang.String code = concept.getCode().getValue();
+            String code = concept.getCode().getValue();
             Vertex conceptVertex = g.addV("Concept")
                     .property("code", code)
                     .property("codeLowerCase", normalize(code))
                     .next();
 
             if (concept.getDisplay() != null) {
-                java.lang.String display = concept.getDisplay().getValue();
+                String display = concept.getDisplay().getValue();
                 g.V(conceptVertex)
                     .property("display", display)
                     .next();
@@ -138,11 +138,11 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
             for (Property property : concept.getProperty()) {
                 Element value = property.getValue();
 
-                java.lang.String key = "value" + value.getClass().getSimpleName();
+                String key = "value" + value.getClass().getSimpleName();
 
                 Vertex propertyVertex = g.addV("Property_")
                         .property("code", property.getCode().getValue())
-                        .property(key, convert(value))
+                        .property(key, toObject(value))
                         .next();
 
                 if (value.is(DateTime.class)) {
@@ -165,7 +165,7 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
             Vertex v = conceptVertexMap.get(concept);
             for (Concept child : concept.getConcept()) {
                 Vertex w = conceptVertexMap.get(child);
-                g.V(w).addE(FHIRTermGraph.ISA).to(v).next();
+                g.V(w).addE(FHIRTermGraph.IS_A).to(v).next();
             }
         }
 
