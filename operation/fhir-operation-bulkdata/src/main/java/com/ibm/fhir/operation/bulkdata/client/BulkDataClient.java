@@ -174,6 +174,7 @@ public class BulkDataClient {
         builder.fhirExportFormat(outputFormat);
 
         // Export Type - FHIR
+        types = types.stream().filter(t -> !t.isEmpty()).collect(Collectors.toList());
         String resourceType = String.join(",", types);
         switch (exportType) {
         case PATIENT:
