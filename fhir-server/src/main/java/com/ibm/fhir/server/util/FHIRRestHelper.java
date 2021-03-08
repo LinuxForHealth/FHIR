@@ -3197,6 +3197,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String requestUri, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
 
+        // Validate that the interaction is allowed
+        validateInteraction(Interaction.HISTORY.value(), "Resource");
+
         // extract the query parameters
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         FHIRSystemHistoryContext historyContext =
