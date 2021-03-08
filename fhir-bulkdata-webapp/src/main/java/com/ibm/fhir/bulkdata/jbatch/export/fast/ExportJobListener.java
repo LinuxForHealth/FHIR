@@ -15,7 +15,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.bulkdata.export.fast.data.PartitionSummary;
+import com.ibm.fhir.bulkdata.jbatch.export.fast.data.PartitionSummary;
 
 @Dependent
 public class ExportJobListener implements JobListener {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkdata.export.fast.checkpoint;
+package com.ibm.fhir.bulkdata.jbatch.export.fast.checkpoint;
 
 import java.util.logging.Logger;
 

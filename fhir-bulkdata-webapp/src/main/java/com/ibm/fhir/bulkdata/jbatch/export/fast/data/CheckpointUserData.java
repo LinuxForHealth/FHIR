@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkdata.export.fast.data;
+package com.ibm.fhir.bulkdata.jbatch.export.fast.data;
 
 import java.io.Serializable;
 import java.time.Instant;
