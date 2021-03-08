@@ -116,7 +116,7 @@ public class FHIRTermGraphTest {
 
         graphTraversal = graphTraversal.timeLimit(100L);
 
-        TimeLimitStep<?> timeLimitStep = (TimeLimitStep<?>) graphTraversal.asAdmin().getEndStep();
+        TimeLimitStep timeLimitStep = (TimeLimitStep) graphTraversal.asAdmin().getEndStep();
 
         graphTraversal.not(__.repeat(__.out("isa")).until(__.has("code", "b"))).hasLabel("Concept").elementMap().toStream().forEach(System.out::println);
 

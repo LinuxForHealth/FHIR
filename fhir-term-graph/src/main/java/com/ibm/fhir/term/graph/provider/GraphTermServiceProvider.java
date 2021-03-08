@@ -100,13 +100,12 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
         Set<Concept> concepts = new LinkedHashSet<>();
 
-
         GraphTraversal<Vertex, Vertex> g = vertices();
 
         /*
         // TODO: make the time limit configurable
         GraphTraversal<Vertex, Vertex> g = vertices().timeLimit(30000L);
-        TimeLimitStep<?> timeLimitStep = (TimeLimitStep<?>) g.asAdmin().getEndStep();
+        TimeLimitStep timeLimitStep = (TimeLimitStep) g.asAdmin().getEndStep();
         */
 
         boolean caseSensitive = isCaseSensitive(codeSystem);
@@ -118,9 +117,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             switch (filter.getOp().getValueAsEnumConstant()) {
             case DESCENDENT_OF:
                 // descendants
-                if ("concept".equals(property.getValue()) &&
-                        CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = hasCode(g, value.getValue(), caseSensitive)
+                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
                             .repeat(__.in(FHIRTermGraph.IS_A)
                                 .simplePath()
                                 .dedup())
@@ -129,20 +127,19 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 break;
             case EQUALS:
                 PropertyType type = getCodeSystemPropertyType(codeSystem, property);
-                if ("parent".equals(property.getValue()) ||
-                        "child".equals(property.getValue()) ||
-                        (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(type))) {
+                if ((("parent".equals(property.getValue()) || "child".equals(property.getValue())) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()))
+                        || (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(type))) {
                     if ("parent".equals(property.getValue())) {
-                        g = hasCode(g, value.getValue(), caseSensitive).in(FHIRTermGraph.IS_A);
+                        g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).in(FHIRTermGraph.IS_A);
                     } else if ("child".equals(property.getValue())) {
-                        g = hasCode(g, value.getValue(), caseSensitive).out(FHIRTermGraph.IS_A);
+                        g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).out(FHIRTermGraph.IS_A);
                     } else {
                         String propertyKey = getPropertyKey(type);
                         Element element = toElement(value, type);
                         if (element.is(DateTime.class)) {
-                            g = g.has(propertyKey, toLong(element.as(DateTime.class)));
+                            g = whereCodeSystem(g.has(propertyKey, toLong(element.as(DateTime.class))), codeSystem);
                         } else {
-                            g = g.has(propertyKey, toObject(element));
+                            g = whereCodeSystem(g.has(propertyKey, toObject(element)), codeSystem);
                         }
                     }
                 }
@@ -150,18 +147,17 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             case EXISTS:
                 if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
                     if (Boolean.valueOf(value.getValue())) {
-                        g = g.has("code", property.getValue()).in("property_");
+                        g = whereCodeSystem(g.has("code", property.getValue()).in("property_"), codeSystem);
                     } else {
-                        g = g.hasNot("code").in("property_");
+                        g = whereCodeSystem(g.hasNot("code").in("property_"), codeSystem);
                     }
                 }
                 break;
             case GENERALIZES:
                 // ancestors and self
-                if ("concept".equals(property.getValue()) &&
-                        CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = hasCode(g, value.getValue(), caseSensitive)
-                            .union(__.identity(), hasCode(g, value.getValue(), caseSensitive)
+                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                            .union(__.identity(), whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
                                 .repeat(__.out(FHIRTermGraph.IS_A)
                                     .simplePath()
                                     .dedup())
@@ -171,21 +167,20 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             case IN:
                 if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
                     if (caseSensitive) {
-                        g = g.has("code", P.within(Arrays.stream(value.getValue().split(","))
-                            .collect(Collectors.toSet())));
+                        g = whereCodeSystem(g.has("code", P.within(Arrays.stream(value.getValue().split(","))
+                            .collect(Collectors.toSet()))), codeSystem);
                     } else {
-                        g = g.has("codeLowerCase", P.within(Arrays.stream(value.getValue().split(","))
+                        g = whereCodeSystem(g.has("codeLowerCase", P.within(Arrays.stream(value.getValue().split(","))
                             .map(FHIRTermGraphUtil::normalize)
-                            .collect(Collectors.toSet())));
+                            .collect(Collectors.toSet()))), codeSystem);
                     }
                 }
                 break;
             case IS_A:
                 // descendants and self
-                if ("concept".equals(property.getValue()) &&
-                        CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = hasCode(g, value.getValue(), caseSensitive)
-                            .union(__.identity(), hasCode(g, value.getValue(), caseSensitive)
+                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                            .union(__.identity(), whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
                                 .repeat(__.in(FHIRTermGraph.IS_A)
                                     .simplePath()
                                     .dedup())
@@ -194,29 +189,28 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 break;
             case IS_NOT_A:
                 // not descendants or self
-                if ("concept".equals(property.getValue()) &&
-                        CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = g.not(__.repeat(__.out(FHIRTermGraph.IS_A).simplePath())
+                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    g = whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A).simplePath())
                             .until(hasCode(value.getValue(), caseSensitive)))
                             .not(hasCode(value.getValue(), caseSensitive))
-                            .hasLabel("Concept");
+                            .hasLabel("Concept"), codeSystem);
                 }
                 break;
             case NOT_IN:
                 if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
                     if (caseSensitive) {
-                        g = g.has("code", P.without(Arrays.stream(value.getValue().split(","))
-                            .collect(Collectors.toSet())));
+                        g = whereCodeSystem(g.has("code", P.without(Arrays.stream(value.getValue().split(","))
+                            .collect(Collectors.toSet()))), codeSystem);
                     } else {
-                        g = g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
+                        g = whereCodeSystem(g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
                             .map(FHIRTermGraphUtil::normalize)
-                            .collect(Collectors.toSet())));
+                            .collect(Collectors.toSet()))), codeSystem);
                     }
                 }
                 break;
             case REGEX:
                 if (hasCodeSystemProperty(codeSystem, property) && PropertyType.STRING.equals(getCodeSystemPropertyType(codeSystem, property))) {
-                    g = g.has("valueString", Text.textContainsRegex(value.getValue()));
+                    g = whereCodeSystem(g.has("valueString", Text.textContainsRegex(value.getValue())), codeSystem);
                 }
                 break;
             default:
@@ -224,10 +218,13 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
 
+        /*
         whereCodeSystem(g, codeSystem)
             .elementMap()
             .toStream()
             .forEach(elementMap -> concepts.add(createConcept(elementMap)));
+        */
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
 
         /*
         if (timeLimitStep.getTimedOut()) {

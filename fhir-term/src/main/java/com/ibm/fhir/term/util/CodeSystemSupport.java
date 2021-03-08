@@ -386,8 +386,7 @@ public final class CodeSystemSupport {
 
     private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Filter filter) {
         Code property = filter.getProperty();
-        if ("parent".equals(property.getValue()) ||
-                "child".equals(property.getValue()) ||
+        if ((("parent".equals(property.getValue()) || "child".equals(property.getValue())) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) ||
                 (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(getCodeSystemPropertyType(codeSystem, property)))) {
             return new EqualsFilter(codeSystem, property, filter.getValue());
         }
@@ -455,8 +454,7 @@ public final class CodeSystemSupport {
 
     private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Filter filter) {
         Code property = filter.getProperty();
-        if (hasCodeSystemProperty(codeSystem, property) &&
-                PropertyType.STRING.equals(getCodeSystemPropertyType(codeSystem, property))) {
+        if (hasCodeSystemProperty(codeSystem, property) && PropertyType.STRING.equals(getCodeSystemPropertyType(codeSystem, property))) {
             return new RegexFilter(property, filter.getValue());
         }
         return null;
