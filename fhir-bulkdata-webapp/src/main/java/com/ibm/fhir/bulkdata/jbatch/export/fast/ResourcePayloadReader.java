@@ -19,10 +19,14 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
@@ -38,6 +42,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
+import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -166,6 +171,11 @@ public class ResourcePayloadReader extends AbstractItemReader {
     // Tracking the resource counts for each COS object we've loaded (for final status)
     private List<Integer> resourceCounts = new ArrayList<>();
 
+    @Inject
+    @Any
+    @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
+    private String resourceTypeStr;
+
     /**
      * Public constructor
      */
@@ -186,13 +196,17 @@ public class ResourcePayloadReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         // Crucially important to set up the request context to make sure we
         // use the correct tenant and datasource going forward
-        BatchContextAdapter stepContextAdapter = new BatchContextAdapter(stepCtx);
-        ctx = stepContextAdapter.getStepContextForFastResourceWriter();
+        long executionId = jobContext.getExecutionId();
+        JobExecution jobExecution = BatchRuntime.getJobOperator().getJobExecution(executionId);
+
+        BatchContextAdapter ctxAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+        ctx = ctxAdapter.getStepContextForFastResourceWriter();
+        ctx.setPartitionResourceType(resourceTypeStr);
 
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-        fhirResourceType = ctx.getFhirResourceType();
+        fhirResourceType = ctx.getPartitionResourceType();
 
         String source = ctx.getSource();
 
