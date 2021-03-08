@@ -669,12 +669,11 @@ public class BulkDataClient {
         String source = response.getJobParameters().getSource();
 
         // Assemble the URL
-        String resourceTypes = response.getJobParameters().getFhirResourceType();
         String cosBucketPathPrefix = response.getJobParameters().getCosBucketPathPrefix();
 
         String baseUrl = adapter.getStorageProviderEndpointExternal(source);
 
-        String request = "$export?_type=" + resourceTypes;
+        String request = response.getJobParameters().getIncomingUrl();
         log.fine(response.getJobName());
         if ("bulkimportchunkjob".equals(response.getJobName())) {
             request = "$import";
@@ -692,7 +691,7 @@ public class BulkDataClient {
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
         log.fine(exitStatus);
-        if (!"COMPLETED".equals(exitStatus) && request.contains("$export")) {
+        if (!"COMPLETED".equals(exitStatus) && request.contains("/$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
@@ -729,7 +728,7 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
-        if (request.contains("$import")) {
+        if (request.contains("/$import")) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
