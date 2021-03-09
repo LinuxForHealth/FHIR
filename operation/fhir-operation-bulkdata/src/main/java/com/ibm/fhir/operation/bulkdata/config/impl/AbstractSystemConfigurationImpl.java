@@ -38,7 +38,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final int MAX_PARTITIONPROCESSING_THREADNUMBER = 5;
 
     // The minimal size (10MiB) for COS multiple-parts upload (NDJSON-only).
-    private static final int COS_PART_MINIMALSIZE = 10485760;
+    // 10M 10485760;
+    private static final int COS_PART_MINIMALSIZE = 10;
 
     // The threshold size (200MiB) for when to start writing to a new file (NDJSON-only).
     protected static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
@@ -56,9 +57,9 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
     // The following are set on startup:
-    private static final int coreCosMaxResources = defaultCoreCosMaxResources();
-    private static final int coreCosMinSize = defaultCoreCosMinSize();
-    private static final int coreCosMaxSize = defaultCoreCosMaxSize();
+    private static final long coreCosMaxResources = defaultCoreCosMaxResources();
+    private static final long coreCosMinSize = defaultCoreCosMinSize();
+    private static final long coreCosMaxSize = defaultCoreCosMaxSize();
     private static final boolean coreCosUseServerTruststore = defaultCoreCosUseServerTruststore();
     private static final int coreCosRequestTimeout = defaultCoreCosRequestTimeout();
     private static final int coreCosSocketTimeout = defaultCoreCosSocketTimeout();
@@ -126,32 +127,32 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public int getCoreCosMaxSize() {
+    public long getCoreCosThresholdSize() {
         return coreCosMaxSize;
     }
 
-    private static final int defaultCoreCosMaxSize() {
-        final String PATH = "fhirServer/bulkdata/core/cos/max-size";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
+    private static final long defaultCoreCosMaxSize() {
+        final String PATH = "fhirServer/bulkdata/core/cos/maxFileSizeThreshold";
+        return 1024 * 1024 * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
     }
 
     @Override
-    public int getCoreCosMinSize() {
+    public long getCoreCosMultiPartMinSize() {
         return coreCosMinSize;
     }
 
-    private static final int defaultCoreCosMinSize() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/min-size", COS_PART_MINIMALSIZE);
+    private static final long defaultCoreCosMinSize() {
+        return 1024 * 1024 * FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/minPartSize", COS_PART_MINIMALSIZE);
     }
 
     @Override
-    public int getCoreCosMaxResources() {
+    public long getCoreCosMaxResources() {
         return coreCosMaxResources;
     }
 
-    private static final int defaultCoreCosMaxResources() {
-        final String PATH = "fhirServer/bulkdata/core/cos/max-resources";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
+    private static final long defaultCoreCosMaxResources() {
+        final String PATH = "fhirServer/bulkdata/core/cos/maxResourcesThreshold";
+        return 1000 * 1000 * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class S3Provider implements Provider {
 
     private static final Logger logger = Logger.getLogger(S3Provider.class.getName());
 
-    private static final int COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosMinSize();
+    private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize();
 
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
@@ -147,29 +147,21 @@ public class S3Provider implements Provider {
         }
 
         ClientConfiguration clientConfig =
-                new ClientConfiguration()
-                    .withRequestTimeout(configAdapter.getCoreCosRequestTimeout())
-                    .withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive())
-                    .withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
+                new ClientConfiguration().withRequestTimeout(configAdapter.getCoreCosRequestTimeout()).withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive()).withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
 
         if (useFhirServerTrustStore) {
             ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
             // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
             // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3
             // compatible object store, e.g, minio object store with self signed cert.
-            if(configAdapter.shouldCoreApiBatchTrustAll()) {
+            if (configAdapter.shouldCoreApiBatchTrustAll()) {
                 apacheClientConfig.setSslSocketFactory(HttpWrapper.generateSSF());
             } else {
                 apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
             }
         }
 
-        return AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
-                .withPathStyleAccessEnabled(true)
-                .withClientConfiguration(clientConfig)
-                .build();
+        return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation)).withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 
     /**
@@ -210,10 +202,7 @@ public class S3Provider implements Provider {
     public ListObjectsV2Result getListObject(String continuationToken) throws FHIRException {
         if (client != null) {
             ListObjectsV2Request request =
-                    new ListObjectsV2Request()
-                        .withBucketName(bucketName)
-                        .withMaxKeys(1000)
-                        .withContinuationToken(continuationToken);
+                    new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(1000).withContinuationToken(continuationToken);
             return client.listObjectsV2(request);
         } else {
             throw new FHIRException("Client is not created");
@@ -330,19 +319,14 @@ public class S3Provider implements Provider {
         for (ReadResultDTO dto : dtos) {
             switch (mediaType) {
             case FHIRMediaType.APPLICATION_PARQUET:
-                boolean isTimeToWriteParquet = chunkData.getPageNum() > chunkData.getLastPageNum()
-                        || chunkData.isFinishCurrentUpload();
-                if (isTimeToWriteParquet) {
+                if (chunkData.isFinishCurrentUpload()) {
                     pushFhirParquetToCos(dto.getResources());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
                 break;
             case FHIRMediaType.APPLICATION_NDJSON:
             default:
-                boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
-                        || chunkData.getBufferStream().size() > COS_PART_MINIMALSIZE
-                        || chunkData.isFinishCurrentUpload();
-                if (isTimeToWrite && chunkData.getBufferStream().size() > 0) {
+                if (chunkData.isFinishCurrentUpload()) {
                     // TODO try PipedOutputStream -> PipedInputStream instead?
                     pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
@@ -380,34 +364,38 @@ public class S3Provider implements Provider {
             chunkData.setUploadId(uploadId);
         }
 
-        chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, uploadId, in, dataLength, chunkData.getPartNum()));
-        logger.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
-        chunkData.setPartNum(chunkData.getPartNum() + 1);
-        chunkData.getBufferStream().reset();
+        // Only if we're greater than zero....Otherwise there is nothing to upload.
+        if (chunkData.getBufferStream().size() > 0) {
+            chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, uploadId, in, dataLength, chunkData.getPartNum()));
+            logger.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
+            chunkData.setPartNum(chunkData.getPartNum() + 1);
+            chunkData.getBufferStream().reset();
 
-        if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
-            BulkDataUtils.finishMultiPartUpload(client, bucketName, itemName, chunkData.getUploadId(), chunkData.getCosDataPacks());
-            // Partition status for the exported resources, e.g, Patient[1000,1000,200]
-            if (chunkData.getResourceTypeSummary() == null) {
-                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
-                if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+            // Close it out...
+            if (chunkData.isFinishCurrentUpload()) {
+                BulkDataUtils.finishMultiPartUpload(client, bucketName, itemName, uploadId, chunkData.getCosDataPacks());
+                // Partition status for the exported resources, e.g, Patient[1000,1000,200]
+                if (chunkData.getResourceTypeSummary() == null) {
+                    chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
+                    if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+                        chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                    }
+                } else {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
+                    if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+                        chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                    }
                 }
-            } else {
-                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
-                if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                }
-            }
 
-            if (chunkData.getPageNum() <= chunkData.getLastPageNum()) {
-                chunkData.setPartNum(1);
-                chunkData.setUploadId(null);
-                chunkData.setCurrentUploadResourceNum(0);
-                chunkData.setCurrentUploadSize(0);
-                chunkData.setFinishCurrentUpload(false);
-                chunkData.getCosDataPacks().clear();
-                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+                if (chunkData.getPageNum() <= chunkData.getLastPageNum()) {
+                    chunkData.setPartNum(1);
+                    chunkData.setUploadId(null);
+                    chunkData.setCurrentUploadResourceNum(0);
+                    chunkData.setCurrentUploadSize(0);
+                    chunkData.setFinishCurrentUpload(false);
+                    chunkData.getCosDataPacks().clear();
+                    chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+                }
             }
         }
     }

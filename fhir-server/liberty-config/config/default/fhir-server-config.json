@@ -142,9 +142,9 @@
                     "trust-all": true
                 },
                 "cos" : { 
-                    "max-resources": 200000,
-                    "min-size": 10485760,
-                    "max-size": 209715200,
+                    "maxResourcesThreshold": 200,
+                    "minPartSize": 10,
+                    "maxFileSizeThreshold": 200,
                     "use-server-truststore": true
                 },
                 "page-size": 100,

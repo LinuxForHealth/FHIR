@@ -110,7 +110,7 @@ public interface ConfigurationAdapter {
      *
      * @return
      */
-    int getCoreCosMaxResources();
+    long getCoreCosMaxResources();
 
     /**
      * The minimum size of resources in a COS part.
@@ -119,7 +119,7 @@ public interface ConfigurationAdapter {
      *
      * @return
      */
-    int getCoreCosMinSize();
+    long getCoreCosMultiPartMinSize();
 
     /**
      * The maximum size of resources in a COS part.
@@ -128,7 +128,7 @@ public interface ConfigurationAdapter {
      *
      * @return
      */
-    int getCoreCosMaxSize();
+    long getCoreCosThresholdSize();
 
     /**
      *

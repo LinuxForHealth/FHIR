@@ -54,22 +54,22 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             return false;
         }
 
-        int cosFileMaxResources = ConfigurationFactory.getInstance().getCoreCosMaxResources();
-        int cosFileMaxSize = ConfigurationFactory.getInstance().getCoreCosMaxSize();
-        int cosFileMinSize = ConfigurationFactory.getInstance().getCoreCosMinSize();
+        long cosFileMaxResources = ConfigurationFactory.getInstance().getCoreCosMaxResources();
+        long cosFileThresholdSize = ConfigurationFactory.getInstance().getCoreCosThresholdSize();
+        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize();
 
-        // Stop writing to the current COS object if we hit either the max size or max number
-        // of resource limits.
-        boolean size = cosFileMaxSize != -1 && chunkData.getCurrentUploadSize() >= cosFileMaxSize;
-        boolean max = cosFileMaxResources != -1 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
-        chunkData.setFinishCurrentUpload(size || max);
-
-        // The End of The Paging
+        // Stop writing to the current COS object
+        boolean overFileSizeThreshold = cosFileThresholdSize != -1 && chunkData.getBufferStream().size() >= cosFileThresholdSize;
+        boolean overMaxResourceCountThreshold = cosFileMaxResources != -1 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
         boolean end = chunkData.getPageNum() > chunkData.getLastPageNum();
-        boolean multipart = chunkData.getBufferStream().size() > cosFileMinSize;
+        chunkData.setFinishCurrentUpload(overFileSizeThreshold || overMaxResourceCountThreshold || end);
 
-        // Trigger a checkpoint each time we start a new page, if the data written to the reader-to-writer
-        // buffer exceeds our min threshold, or we've reached the end for this chunk.
-        return end || multipart || chunkData.isFinishCurrentUpload();
+        // Indicates a multipart read.
+        boolean multiPartChunkMinimum = chunkData.getBufferStream().size() > cosMultiPartMinSize;
+
+        // At this point, there are three conditions that trigger a checkpoint:
+        // 1 - Multipart Chunk
+        // 2 - Or the end of a write
+        return multiPartChunkMinimum || chunkData.isFinishCurrentUpload();
     }
 }

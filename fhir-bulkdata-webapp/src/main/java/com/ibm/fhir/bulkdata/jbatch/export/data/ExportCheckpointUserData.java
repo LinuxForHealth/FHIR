@@ -19,12 +19,12 @@ public class ExportCheckpointUserData implements java.io.Serializable {
     protected int lastPageNum;
     protected int partNum;
     protected String uploadId;
-    protected int uploadCount = 1;
+    protected long uploadCount = 1;
     protected List<PartETag> cosDataPacks;
-    protected int currentUploadResourceNum = 0;
-    protected int currentUploadSize = 0;
+    protected long currentUploadResourceNum = 0;
+    protected long currentUploadSize = 0;
     private boolean isFinishCurrentUpload = false;
-    protected int totalResourcesNum = 0;
+    protected long totalResourcesNum = 0;
     // One resource type can have 0 to multiple typeFilters, indexOfCurrentTypeFilter is used to tell the currently processed typeFilter.
     protected int indexOfCurrentTypeFilter;
     // Partition status for the exported resources, e.g, Patient[1000,1000,200]
@@ -59,11 +59,11 @@ public class ExportCheckpointUserData implements java.io.Serializable {
         protected int lastPageNum;
         protected int partNum;
         protected String uploadId;
-        protected int uploadCount = 1;
+        protected long uploadCount = 1;
         protected List<PartETag> cosDataPacks;
-        protected int currentUploadResourceNum = 0;
-        protected int currentUploadSize = 0;
-        protected int totalResourcesNum = 0;
+        protected long currentUploadResourceNum = 0;
+        protected long currentUploadSize = 0;
+        protected long totalResourcesNum = 0;
         protected int indexOfCurrentTypeFilter;
         protected String resourceTypeSummary = null;
         protected int lastWritePageNum;
@@ -96,7 +96,7 @@ public class ExportCheckpointUserData implements java.io.Serializable {
             return this;
         }
 
-        public Builder uploadCount(int uploadCount) {
+        public Builder uploadCount(long uploadCount) {
             this.uploadCount = uploadCount;
             return this;
         }
@@ -106,17 +106,17 @@ public class ExportCheckpointUserData implements java.io.Serializable {
             return this;
         }
 
-        public Builder currentUploadResourceNum(int currentUploadResourceNum) {
+        public Builder currentUploadResourceNum(long currentUploadResourceNum) {
             this.currentUploadResourceNum = currentUploadResourceNum;
             return this;
         }
 
-        public Builder currentUploadSize(int currentUploadSize) {
+        public Builder currentUploadSize(long currentUploadSize) {
             this.currentUploadSize = currentUploadSize;
             return this;
         }
 
-        public Builder totalResourcesNum(int totalResourcesNum) {
+        public Builder totalResourcesNum(long totalResourcesNum) {
             this.totalResourcesNum = totalResourcesNum;
             return this;
         }
@@ -192,15 +192,15 @@ public class ExportCheckpointUserData implements java.io.Serializable {
         this.lastPageNum = lastPageNum;
     }
 
-    public int getCurrentUploadResourceNum() {
+    public long getCurrentUploadResourceNum() {
         return currentUploadResourceNum;
     }
 
-    public void setCurrentUploadResourceNum(int currentUploadResourceNum) {
+    public void setCurrentUploadResourceNum(long currentUploadResourceNum) {
         this.currentUploadResourceNum = currentUploadResourceNum;
     }
 
-    public void addCurrentUploadResourceNum(int currentUploadResourceNum) {
+    public void addCurrentUploadResourceNum(long currentUploadResourceNum) {
         this.currentUploadResourceNum += currentUploadResourceNum;
     }
 
@@ -228,11 +228,11 @@ public class ExportCheckpointUserData implements java.io.Serializable {
         this.isMoreToExport = isMoreToExport;
     }
 
-    public int getTotalResourcesNum() {
+    public long getTotalResourcesNum() {
         return totalResourcesNum;
     }
 
-    public void setTotalResourcesNum(int totalResourcesNum) {
+    public void setTotalResourcesNum(long totalResourcesNum) {
         this.totalResourcesNum = totalResourcesNum;
     }
 
@@ -240,15 +240,15 @@ public class ExportCheckpointUserData implements java.io.Serializable {
         this.totalResourcesNum += totalResourcesNum;
     }
 
-    public int getCurrentUploadSize() {
+    public long getCurrentUploadSize() {
         return currentUploadSize;
     }
 
-    public void setCurrentUploadSize(int currentUploadSize) {
+    public void setCurrentUploadSize(long currentUploadSize) {
         this.currentUploadSize = currentUploadSize;
     }
 
-    public void addCurrentUploadSize(int currentUploadSize) {
+    public void addCurrentUploadSize(long currentUploadSize) {
         this.currentUploadSize += currentUploadSize;
     }
 
@@ -260,11 +260,11 @@ public class ExportCheckpointUserData implements java.io.Serializable {
         this.isFinishCurrentUpload = isFinishCurrentUpload;
     }
 
-    public int getUploadCount() {
+    public long getUploadCount() {
         return uploadCount;
     }
 
-    public void setUploadCount(int uploadCount) {
+    public void setUploadCount(long uploadCount) {
         this.uploadCount = uploadCount;
     }
 

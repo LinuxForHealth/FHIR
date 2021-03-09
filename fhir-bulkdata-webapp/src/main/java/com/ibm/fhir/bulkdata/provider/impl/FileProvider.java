@@ -39,6 +39,10 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
+
+    private static final long MAX_RES = ConfigurationFactory.getInstance().getCoreCosMaxResources();
+    private static final long MAX_BUFFER = ConfigurationFactory.getInstance().getCoreCosThresholdSize();
+
     private String source = null;
     private long parseFailures = 0l;
     @SuppressWarnings("unused")
@@ -47,8 +51,10 @@ public class FileProvider implements Provider {
     private String fhirResourceType = null;
     private String fileName = null;
     private int total = 0;
+    private String cosBucketPathPrefix = null;
 
     private ExportTransientUserData chunkData = null;
+    private long bSize = 0;
 
     private OutputStream out = null;
     private BufferedReader br = null;
@@ -142,7 +148,7 @@ public class FileProvider implements Provider {
 
         this.chunkData = transientUserData;
         this.fhirResourceType = fhirResourceType;
-        this.fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
+        this.cosBucketPathPrefix = cosBucketPathPrefix;
     }
 
     @Override
@@ -155,7 +161,7 @@ public class FileProvider implements Provider {
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
         if (out == null) {
-
+            this.fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
             String base = configuration.getBaseFileLocation(source);
 
             String fn = base + "/" + fileName;
@@ -167,10 +173,12 @@ public class FileProvider implements Provider {
                 logger.warning("Error creating a file '" + fn + "'");
                 throw e;
             }
+            bSize = 0;
         }
 
         for (ReadResultDTO dto : dtos) {
             total += dto.size();
+            bSize += dto.size();
             for (Resource r : dto.getResources()) {
                 FHIRGenerator.generator(Format.JSON).generate(r, out);
                 out.write(configuration.getEndOfFileDelimiter(source));
@@ -185,7 +193,15 @@ public class FileProvider implements Provider {
             output.append(']');
 
             chunkData.setResourceTypeSummary(output.toString());
+        }
 
+        if (chunkData.isFinishCurrentUpload() && (bSize > MAX_RES
+                || chunkData.getBufferStream().size() > MAX_BUFFER)) {
+            out.close();
+            out = null;
+            chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            chunkData.getBufferStream().reset();
+            bSize = 0;
         }
     }
 }

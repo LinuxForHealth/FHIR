@@ -71,7 +71,7 @@ public class ChunkReader extends AbstractItemReader {
 
     int pageNum = 1;
     // Control the number of records to read in each "item".
-    int pageSize = 100;
+    int pageSize = ConfigurationFactory.getInstance().getCorePageSize();
 
     int indexOfCurrentTypeFilter = 0;
 
