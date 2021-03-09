@@ -367,11 +367,11 @@ public interface ConfigurationAdapter {
 
     /**
      *
-     * @param type
+     * @param provider
      *            of the storage type
      * @return
      */
-    StorageType getStorageProviderStorageType(String type);
+    StorageType getStorageProviderStorageType(String provider);
 
     /**
      * limit of inputs

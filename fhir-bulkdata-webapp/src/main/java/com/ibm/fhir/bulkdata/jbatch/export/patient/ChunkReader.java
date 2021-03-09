@@ -224,6 +224,7 @@ public class ChunkReader extends AbstractItemReader {
         } finally {
             txn.end();
         }
+
         stepCtx.setTransientUserData(chunkData);
         return dto;
     }

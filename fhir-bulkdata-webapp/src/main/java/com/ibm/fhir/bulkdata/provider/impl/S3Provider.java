@@ -319,14 +319,14 @@ public class S3Provider implements Provider {
         for (ReadResultDTO dto : dtos) {
             switch (mediaType) {
             case FHIRMediaType.APPLICATION_PARQUET:
-                if (chunkData.isFinishCurrentUpload()) {
+                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
                     pushFhirParquetToCos(dto.getResources());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
                 break;
             case FHIRMediaType.APPLICATION_NDJSON:
             default:
-                if (chunkData.isFinishCurrentUpload()) {
+                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
                     // TODO try PipedOutputStream -> PipedInputStream instead?
                     pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
@@ -372,7 +372,7 @@ public class S3Provider implements Provider {
             chunkData.getBufferStream().reset();
 
             // Close it out...
-            if (chunkData.isFinishCurrentUpload()) {
+            if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
                 BulkDataUtils.finishMultiPartUpload(client, bucketName, itemName, uploadId, chunkData.getCosDataPacks());
                 // Partition status for the exported resources, e.g, Patient[1000,1000,200]
                 if (chunkData.getResourceTypeSummary() == null) {

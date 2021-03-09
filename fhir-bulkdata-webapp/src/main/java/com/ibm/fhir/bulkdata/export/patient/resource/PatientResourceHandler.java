@@ -170,6 +170,7 @@ public class PatientResourceHandler {
         chunkData.addCurrentUploadResourceNum(resSubTotal);
         chunkData.addCurrentUploadSize(chunkData.getBufferStream().size());
         chunkData.addTotalResourcesNum(resSubTotal);
+
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());

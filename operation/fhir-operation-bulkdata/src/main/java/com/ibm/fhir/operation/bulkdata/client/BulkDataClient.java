@@ -197,7 +197,8 @@ public class BulkDataClient {
 
             if (typeFilters != null
                     || !adapter.isFastExport()
-                    || FHIRMediaType.APPLICATION_PARQUET.equals(outputFormat)) {
+                    || FHIRMediaType.APPLICATION_PARQUET.equals(outputFormat)
+                    || StorageType.FILE.equals(adapter.getStorageProviderStorageType(source))) {
                 // Use the legacy implementation
                 builder.jobXMLName(JobType.EXPORT.value());
             } else {
@@ -691,7 +692,7 @@ public class BulkDataClient {
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
         log.fine(exitStatus);
-        if (!"COMPLETED".equals(exitStatus) && request.contains("/$export")) {
+        if (!"COMPLETED".equals(exitStatus) && request.contains("$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
