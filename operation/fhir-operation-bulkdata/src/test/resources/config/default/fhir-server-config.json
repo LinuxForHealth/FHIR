@@ -11,57 +11,30 @@
                     "password": "change-password",
                     "truststore": "resources/security/fhirTrustStore.p12",
                     "truststore-password": "asdf", 
-                    "trust-all": true
+                    "trustAll": true
                 },
                 "cos" : { 
-                    "max-resources": 200000,
-                    "min-size": 10485760,
-                    "max-size": 209715200,
-                    "use-server-truststore": true,
-                    "_request-timeout": 120,
-                    "_socket-timeout": 20
+                    "maxResources": 200,
+                    "minSize": 10,
+                    "maxSize": 15,
+                    "useServerTruststore": true
                 },
-                "page-size": 100,
+                "pageSize": 100,
                 "_comment": "max of 1000",
-                "batch-id-encryption-key": "change-password",
-                "max-partitions": 3,
-                "_iam-endpoint": "",
-                "fast-tx-timeout": 90000, 
-                "max-inputs": 5,
+                "batchIdEncryptionKey": "change-password",
+                "maxPartitions": 3,
+                "maxInputs": 5,
                 "systemExportImpl": "none"
             },
             "storageProviders": {
                 "default" : {
                     "type": "ibm-cos",
-                    "valid-base-urls": [],
-                    "file-base": "/Users/asdf/wffh/ol-fhir/wlp/usr/output",
-                    "bucket-name": "fhir-a",
+                    "validBaseRrls": [],
+                    "fileBase": "/Users/asdf/wffh/ol-fhir/wlp/usr/output",
+                    "bucketName": "fhir-a",
                     "location": "us",
-                    "endpoint-internal": "https://s3.x.cloud-object-storage.appdomain.cloud",
-                    "endpoint-external": "https://s3.x.cloud-object-storage.appdomain.cloud",
-                    "_iam_auth" : {
-                        "type": "iam",
-                        "iam-api-key": "g",
-                        "iam-resource-instance-id": "a:"
-                     },
-                     "auth" : { 
-                        "type": "hmac",
-                        "access_key_id": " ",
-                        "secret_access_key": " "
-                     },
-                     "_basic_auth" : {
-                        "type": "basic",
-                        "username": " ",
-                        "password": ""
-                     },
-                    "enableParquet": false,
-                    "disable-base-url-validation": true,
-                    "export-public": true,
-                    "disable-operation-outcomes": true,
-                    "duplication-check": false, 
-                    "validate-resources": false, 
-                    "create": false,
-                    "presigned": true
+                    "endpointInternal": "https://s3.x.cloud-object-storage.appdomain.cloud",
+                    "endpointExternal": "https://s3.x.cloud-object-storage.appdomain.cloud"
                 }
             }
         }
