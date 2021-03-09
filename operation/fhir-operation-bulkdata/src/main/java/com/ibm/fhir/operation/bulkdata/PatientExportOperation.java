@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.OperationDefinition;
  * <code>$export</code>
  */
 public class PatientExportOperation extends ExportOperation {
-    private static final String FILE = "OperationDefinition-patient-export.json";
+    private static final String FILE = "export-patient.json";
 
     public PatientExportOperation() {
         super();

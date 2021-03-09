@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-bulkimportexport-webapp</artifactId>
+            <artifactId>fhir-bulkdata-webapp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
