@@ -79,9 +79,9 @@ public class SystemExportResourceHandler {
                 throw e;
             }
         }
-        chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
+        chunkData.addCurrentUploadResourceNum(resSubTotal);
         chunkData.addCurrentUploadSize(chunkData.getBufferStream().size());
-        chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
+        chunkData.addTotalResourcesNum(resSubTotal);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                         + chunkData.getBufferStream().size());
