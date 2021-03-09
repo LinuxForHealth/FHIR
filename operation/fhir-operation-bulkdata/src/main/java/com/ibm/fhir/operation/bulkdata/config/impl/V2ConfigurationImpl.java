@@ -43,7 +43,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getCoreApiBatchTrustStorePassword() {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/api/truststore-password", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/api/truststorePassword", null);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public List<String> getStorageProviderValidBaseUrls(String provider) {
-        final String PATH = "fhirServer/bulkdata/storageProviders/" + provider + "/valid-base-urls";
+        final String PATH = "fhirServer/bulkdata/storageProviders/" + provider + "/validBaseUrls";
         List<String> results = FHIRConfigHelper.getStringListProperty(PATH);
         if (results == null) {
             results = Collections.emptyList();
@@ -63,7 +63,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getStorageProviderBucketName(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/bucket-name", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/bucketBame", null);
     }
 
     @Override
@@ -73,12 +73,12 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getStorageProviderEndpointInternal(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/endpoint-internal", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/endpointInternal", null);
     }
 
     @Override
     public String getStorageProviderEndpointExternal(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/endpoint-external", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/endpointExternal", null);
     }
 
     @Override
@@ -95,12 +95,12 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getStorageProviderAuthTypeIamApiKey(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iam-api-key", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iamApiKey", null);
     }
 
     @Override
     public String getStorageProviderAuthTypeIamApiResourceInstanceId(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iam-resource-instance-id", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iamResourceIinstanceId", null);
     }
 
     @Override
@@ -142,27 +142,27 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean shouldStorageProviderValidateBaseUrl(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disable-base-url-validation", Boolean.FALSE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableBaseUrlValidation", Boolean.FALSE);
     }
 
     @Override
     public boolean isStorageProviderExportPublic(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/export-public", Boolean.FALSE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/exportPublic", Boolean.FALSE);
     }
 
     @Override
     public boolean shouldStorageProviderCollectOperationOutcomes(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disable-operation-outcomes", Boolean.FALSE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableOperationOutcomes", Boolean.FALSE);
     }
 
     @Override
     public boolean shouldStorageProviderCheckDuplicate(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/duplication-check", Boolean.TRUE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/duplicationCheck", Boolean.TRUE);
     }
 
     @Override
     public boolean shouldStorageProviderValidateResources(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/validate-resources", Boolean.TRUE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/validateResources", Boolean.TRUE);
     }
 
     @Override

@@ -78,7 +78,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final int defaultCoreMaxParititions() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/max-partitions", MAX_PARTITIONPROCESSING_THREADNUMBER);
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/maxPartitions", MAX_PARTITIONPROCESSING_THREADNUMBER);
     }
 
     @Override
@@ -87,7 +87,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final String defaultCoreBatchIdEncryptionKey() {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batch-id-encryption-key", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncryptionKey", null);
     }
 
     @Override
@@ -96,7 +96,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final int defaultCoreCosSocketTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/socket-timeout", 12000);
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/socketTimeout", 12000);
     }
 
     @Override
@@ -105,7 +105,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final int defaultInputLimits() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/max-inputs", OperationConstants.IMPORT_MAX_DEFAULT_INPUTS);
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/maxInputs", OperationConstants.IMPORT_MAX_DEFAULT_INPUTS);
     }
 
     @Override
@@ -114,7 +114,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final int defaultCoreCosRequestTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/request-timeout", 10000);
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/requestTimeout", 10000);
     }
 
     @Override
@@ -123,7 +123,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final boolean defaultCoreCosUseServerTruststore() {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/cos/use-server-truststore", Boolean.TRUE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/cos/useServerTruststore", Boolean.TRUE);
     }
 
     @Override
@@ -219,18 +219,18 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public int getCorePageSize() {
-        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/page-size", SearchConstants.MAX_PAGE_SIZE);
+        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/pageSize", SearchConstants.MAX_PAGE_SIZE);
         return Math.min(SearchConstants.MAX_PAGE_SIZE, pageSize);
     }
 
     @Override
     public String getCoreIamEndpoint() {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/iam-endpoint", IAM_ENDPOINT);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/iamEndpoint", IAM_ENDPOINT);
     }
 
     @Override
     public int getCoreFastTxTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/fast-tx-timeout", MAX_PARTITIONPROCESSING_THREADNUMBER);
+        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/fastTxTimeout", MAX_PARTITIONPROCESSING_THREADNUMBER);
     }
 
     @Override
@@ -251,7 +251,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public String getBaseFileLocation(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/file-base", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/fileBase", null);
     }
 
     @Override
@@ -262,7 +262,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public boolean shouldCoreApiBatchTrustAll() {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/api/trust-all", Boolean.FALSE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/api/trustAll", Boolean.FALSE);
     }
 
     @Override

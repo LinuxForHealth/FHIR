@@ -124,40 +124,40 @@
                     "user": "fhiradmin",
                     "password": "change-password",
                     "truststore": "resources/security/fhirTrustStore.p12",
-                    "truststore-password": "change-password", 
-                    "trust-all": true
+                    "truststorePassword": "change-password", 
+                    "trustAll": true
                 },
                 "cos" : { 
                     "maxResourcesThreshold": 200,
                     "minPartSize": 10,
                     "maxFileSizeThreshold": 200,
-                    "use-server-truststore": true
+                    "useServerTruststore": true
                 },
-                "page-size": 100,
-                "batch-id-encryption-key": "change-password",
-                "max-partitions": 3, 
-                "max-inputs": 5,
+                "pageSize": 100,
+                "batchIdEncryptionKey": "change-password",
+                "maxPartitions": 3, 
+                "maxInputs": 5,
                 "systemExportImpl": "fast"
             },
             "storageProviders": {
                 "default" : {
                     "type": "file",
                     "_type": "ibm-cos|aws-s3|file|https",
-                    "valid-base-urls": [],
-                    "file-base": "${WLP_OUTPUT_DIR}/fhir-server/output",
-                    "bucket-name": "fhir-performance",
+                    "validBaseUrls": [],
+                    "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
+                    "bucketName": "fhir-performance",
                     "location": "us",
-                    "endpoint-internal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
-                    "endpoint-external": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "endpointInternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "endpointExternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
                      "auth" : {
                         "type": "hmac",
-                        "access_key_id": "key",
-                        "secret_access_key": "secret"
+                        "accessKeyId": "key",
+                        "secretAccessKey": "secret"
                      },
                      "_iam_auth" : {
                         "type": "iam",
-                        "iam-api-key": "apiKey",
-                        "iam-resource-instance-id": "resourceId"
+                        "iamApiKey": "apiKey",
+                        "iamResourceInstanceId": "resourceId"
                      },
                      "_basic_auth" : {
                         "type": "basic",
@@ -165,31 +165,29 @@
                         "password": "password"
                      },
                     "enableParquet": false,
-                    "disable-base-url-validation": true,
-                    "export-public": true,
-                    "disable-operation-outcomes": true,
-                    "duplication-check": false, 
-                    "validate-resources": false, 
-                    "create": false,
-                    "presigned": true
+                    "disableBaseUrlValidation": true,
+                    "exportPublic": true,
+                    "disableOperationOutcomes": true,
+                    "duplicationCheck": false, 
+                    "validateResources": false
                 },
                 "minio" : {
                     "type": "aws-s3",
                     "bucket-name": "fhirbulkdata",
                     "location": "us",
-                    "endpoint-internal": "https://minio:9000",
-                    "endpoint-external": "https://localhost:9000",
+                    "endpointInternal": "https://minio:9000",
+                    "endpointExternal": "https://localhost:9000",
                     "auth" : {
                         "type": "hmac",
-                        "access_key_id": "minio",
-                        "secret_access_key": "change-password"
+                        "accessKeyId": "minio",
+                        "secretAccessKey": "change-password"
                      },
                     "enableParquet": false,
-                    "disable-base-url-validation": true,
-                    "export-public": true,
-                    "disable-operation-outcomes": true,
-                    "duplication-check": false,
-                    "validate-resources": false,
+                    "disableBaseUrlValidation": true,
+                    "exportPublic": true,
+                    "disableOperationOutcomes": true,
+                    "duplicationCheck": false, 
+                    "validateResources": false, 
                     "create": false,
                     "presigned": true
                 }
