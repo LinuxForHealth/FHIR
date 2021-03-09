@@ -133,7 +133,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     private static final long defaultCoreCosMaxSize() {
         final String PATH = "fhirServer/bulkdata/core/cos/maxFileSizeThreshold";
-        return 1024 * 1024 * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
+        return 1024l * 1024l * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
     }
 
     @Override
@@ -142,7 +142,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final long defaultCoreCosMinSize() {
-        return 1024 * 1024 * FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/minPartSize", COS_PART_MINIMALSIZE);
+        return 1024l * 1024l * FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/minPartSize", COS_PART_MINIMALSIZE);
     }
 
     @Override
@@ -152,7 +152,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     private static final long defaultCoreCosMaxResources() {
         final String PATH = "fhirServer/bulkdata/core/cos/maxResourcesThreshold";
-        return 1000 * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
+        return 1000l * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
     }
 
     @Override
