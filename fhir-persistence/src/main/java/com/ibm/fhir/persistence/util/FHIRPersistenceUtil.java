@@ -117,6 +117,12 @@ public class FHIRPersistenceUtil {
                             .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                 }
             }
+
+            if (context.getAfterHistoryId() != null && context.getSince() != null) {
+                String msg = "_since and _afterHistoryId can only be used exclusively, not together";
+                throw new FHIRPersistenceException(msg)
+                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+            }
         } catch (FHIRPersistenceException e) {
             throw e;
         } catch (NumberFormatException | DateTimeParseException e) {

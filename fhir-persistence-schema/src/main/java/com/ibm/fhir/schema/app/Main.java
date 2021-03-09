@@ -1671,7 +1671,7 @@ public class Main {
                 if (adapter.runStatement(isEmpty)) {
                     // change log is empty, so we need to backfill it with data
                     for (String resourceTypeName: resourceTypes) {
-                        logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
+                        logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
                             + " resources for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
                         BackfillResourceChangeLogDb2 backfill = new BackfillResourceChangeLogDb2(schema.getSchemaName(), resourceTypeName);
                         adapter.runStatement(backfill);
@@ -1696,7 +1696,7 @@ public class Main {
         Set<String> resourceTypes = getResourceTypes();
 
         for (String resourceTypeName: resourceTypes) {
-            logger.info("Backfilling RESOURCE_TYPE_LOG with " + resourceTypeName
+            logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
                 + " resources for schema '" + schema.getSchemaName() + "'");
             BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);
             adapter.runStatement(backfill);

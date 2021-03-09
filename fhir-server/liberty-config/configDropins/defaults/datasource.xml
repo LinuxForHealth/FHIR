@@ -3,15 +3,12 @@
     <!-- This datasource aligns with the Apache Derby database that is  -->
     <!-- created by the ibmcom/ibm-fhir-server BOOTSTRAP_DB process.    -->
     <!-- ============================================================== -->
-    <library id="fhirSharedLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-    </library>
 
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
     <dataSource id="bootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>

@@ -403,8 +403,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Simplified composite value support. Eliminate the composites table and instead
         // use a new composite_id column to correlate parameters involved in a composite relationship
         // drop PK constraint; remove ROW_ID column after data migration
-        statements.add(new DropPrimaryKey(schemaName, tableName));
-        statements.add(new DropColumn(schemaName, tableName, ROW_ID));
+        statements.add(new DropPrimaryKey(schemaName, tableName, true));
+        statements.add(new DropColumn(schemaName, tableName, true, ROW_ID));
 
         // Add COMPOSITE_ID SMALLINT used to tie together composite parameter rows
         List<ColumnBase> columns = new ColumnDefBuilder()
@@ -484,7 +484,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     }
 
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
-                            addCompositeMigrationStepsV0009(statements, tableName);
+                        addCompositeMigrationStepsV0009(statements, tableName);
                     }
                     return statements;
                 })

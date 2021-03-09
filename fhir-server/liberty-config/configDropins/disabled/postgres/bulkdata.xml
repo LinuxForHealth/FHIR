@@ -41,8 +41,7 @@
     <variable name="BATCH_DB_SSL_CERT_PATH" defaultValue=""/>
 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="fhirSharedLib"/>
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
         <properties.postgresql
             databaseName="${BATCH_DB_NAME}"
             portNumber="${BATCH_DB_PORT}"
