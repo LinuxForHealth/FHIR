@@ -100,7 +100,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getStorageProviderAuthTypeIamApiResourceInstanceId(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iamResourceIinstanceId", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/iamResourceInstanceId", null);
     }
 
     @Override
