@@ -327,7 +327,7 @@ public class S3Provider implements Provider {
             case FHIRMediaType.APPLICATION_NDJSON:
             default:
                 if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
-                    // TODO try PipedOutputStream -> PipedInputStream instead?
+                    // TODO try PipedOutputStream -> PipedInputStream instead?  Or maybe a ByteBuffer with a flip instead?
                     pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }

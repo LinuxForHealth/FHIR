@@ -57,7 +57,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     @Override
     public long getCoreCosThresholdSize() {
         final String PATH = "fhirServer/bulkdata/cosFileMaxSize";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE_MB);
     }
 
     @Override

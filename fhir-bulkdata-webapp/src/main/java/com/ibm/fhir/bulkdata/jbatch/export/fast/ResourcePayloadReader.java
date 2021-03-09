@@ -128,14 +128,14 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private Instant toLastModified;
 
     // Cap the part upload size to avoid local memory issues. Also need to avoid transaction timeout
-    private long partUploadTriggerSize = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize() * 10L;
+    // Used as an offset for internal byte array output stream, so should be an int
+    private int partUploadTriggerSize = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize() * 10;
 
     // How large should a single COS item (file) be
     private long maxObjectSize = ConfigurationFactory.getInstance().getCoreCosThresholdSize();
 
-    // The initial size of the buffer we use for export. Most resources are
-    // under 10K so this is a reasonable initial value
-    private final int initialBufferSize = 10 * 1024;
+    // The initial size of the buffer we use for export; 128 KiB more than partUploadTriggerSize
+    private final int initialBufferSize = partUploadTriggerSize + (128 * 1024);
 
     private static final char NDJSON_LINE_SEPARATOR = '\n';
 
@@ -299,7 +299,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
                 // Ask the persistence layer to start fetching the records in the current scan window,
                 // using the #processPayload lambda to handle each value as it is retrieved.
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("Fetching data from: " + fromLastModified + " to " + toLastModified);
+                    logger.fine("Fetching " + resourceType.getSimpleName() + " from: " + fromLastModified + " to " + toLastModified);
                 }
 
                 // Make a note of how many resources were actually processed. If none were processed, this
@@ -385,8 +385,8 @@ public class ResourcePayloadReader extends AbstractItemReader {
                 this.resourcesForLastTimestamp.add(t.getResourceId());
                 this.resourcesProcessed++; // track how many we've processed this transaction
 
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine(logPrefix() + " Processing payload for '" + this.resourceType.getSimpleName() + "/" + t.getLogicalId() + "'");
+                if (logger.isLoggable(Level.FINER)) {
+                    logger.finer(logPrefix() + " Processing payload for '" + this.resourceType.getSimpleName() + "/" + t.getLogicalId() + "'");
                 }
 
                 // Check if this data would cause us to exceed max object size. If

@@ -50,18 +50,24 @@ public class ResourcePayload {
      * @return the number of bytes transferred into the {@link OutputStream}
      */
     public long transferTo(OutputStream os) throws IOException {
-        long result = 0;
-        byte[] buffer = new byte[4096];
-        int len;
-        while ((len = this.decompressedPayload.read(buffer)) >= 0) {
-            if (len > 0) {
-                os.write(buffer, 0, len);
-                result += len;
-            }
-        }
+        try {
+            long result = 0;
 
-        // how many bytes did we transfer
-        return result;
+            byte[] buffer = new byte[4096];
+            int len;
+
+            while ((len = this.decompressedPayload.read(buffer)) >= 0) {
+                if (len > 0) {
+                    os.write(buffer, 0, len);
+                    result += len;
+                }
+            }
+
+            // how many bytes did we transfer
+            return result;
+        } finally {
+            decompressedPayload.close();
+        }
     }
 
     /**
@@ -70,5 +76,4 @@ public class ResourcePayload {
     public Instant getLastUpdated() {
         return lastUpdated;
     }
-
 }

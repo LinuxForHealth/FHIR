@@ -142,7 +142,7 @@
                     "trustAll": true
                 },
                 "cos" : { 
-                    "maxResourcesThreshold": 200,
+                    "maxResourcesThreshold": 200000,
                     "minPartSize": 10,
                     "maxFileSizeThreshold": 200,
                     "useServerTruststore": true

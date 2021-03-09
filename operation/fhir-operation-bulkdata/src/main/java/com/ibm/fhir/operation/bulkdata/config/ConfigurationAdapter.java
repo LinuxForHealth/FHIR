@@ -119,7 +119,7 @@ public interface ConfigurationAdapter {
      *
      * @return
      */
-    long getCoreCosMultiPartMinSize();
+    int getCoreCosMultiPartMinSize();
 
     /**
      * The maximum size of resources in a COS part.

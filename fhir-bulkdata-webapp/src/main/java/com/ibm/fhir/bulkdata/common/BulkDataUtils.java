@@ -112,6 +112,8 @@ public class BulkDataUtils {
             log("multiPartUpload", "Upload part Error - " + sdke.getMessage());
             cosClient.abortMultipartUpload(new AbortMultipartUploadRequest(bucketName, itemName, uploadID));
             throw sdke;
+        } finally {
+            dataStream.close();
         }
     }
 
