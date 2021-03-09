@@ -384,9 +384,12 @@ public class ResourcePayloadReader extends AbstractItemReader {
                     logger.fine(logPrefix() + " Processing payload for '" + this.resourceType.getSimpleName() + "/" + t.getLogicalId() + "'");
                 }
 
-                // Check if this data would cause us to exceed the max object size. If
+                // Check if this data would cause us to exceed max object size. If
                 // so, close the current upload and start a new one
-                if (this.uploadId != null && (currentObjectSize + this.outputStream.size() > maxObjectSize
+                //
+                // @implNote outputStream.size() is not set for the current resource yet set at this point of the current Resource, comparing it
+                //  can lead to unintended results with double counting.
+                if (this.uploadId != null && (currentObjectSize > maxObjectSize
                         || this.currentObjectResourceCount >= this.resourcesPerObject)) {
                     if (logger.isLoggable(Level.FINE)) {
                         logger.fine(logPrefix() + " Completing current upload '" + this.uploadId + "', resources = " + currentObjectResourceCount

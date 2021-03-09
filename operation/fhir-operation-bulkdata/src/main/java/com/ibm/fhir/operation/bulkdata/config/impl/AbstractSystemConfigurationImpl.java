@@ -42,11 +42,11 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final int COS_PART_MINIMALSIZE = 10;
 
     // The threshold size (200MiB) for when to start writing to a new file (NDJSON-only).
-    protected static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
+    protected static final int DEFAULT_COSFILE_MAX_SIZE = 200;
 
     // The number of resources at which the server will start a new file for the next page of results (NDJSON and
     // Parquet). 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COSFILE_MAX_SIZE.
-    protected static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 200000;
+    protected static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 200;
 
     private static final String FHIR_BULKDATA_ALLOWED_TYPES = "FHIR_BULKDATA_ALLOWED_TYPES";
     private static final Set<String> ALLOWED_STORAGE_TYPES = determineAllowedStorageType();
@@ -152,7 +152,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     private static final long defaultCoreCosMaxResources() {
         final String PATH = "fhirServer/bulkdata/core/cos/maxResourcesThreshold";
-        return 1000 * 1000 * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
+        return 1000 * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
     }
 
     @Override
