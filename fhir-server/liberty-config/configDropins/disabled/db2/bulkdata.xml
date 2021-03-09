@@ -40,7 +40,7 @@
     <variable name="BATCH_DB_SSL" defaultValue="true"/>
 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <jdbcDriver libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="${BATCH_DB_HOSTNAME}"
             currentSchema="${BATCH_DB_SCHEMA}"

@@ -255,15 +255,11 @@ The datasource definitions themselves are configured in accordance with the [Lib
 For example, the fhir-server-config snippet from above would have a corresponding Liberty config like this:
 ```xml
 <server>
-    <library id="fhirSharedLib">
-        <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
-    </library>
-
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
         <properties.postgresql
              serverName="postgres_postgres_1"
              portNumber="5432"
@@ -283,6 +279,11 @@ The IBM FHIR Server is packaged with the following sample datasource definitions
 * datasource-postgresql.xml
 * datasource-db2.xml
 * datasource-derby.xml
+
+There are 3 libraries defined in the main `server.xml` that reference the required client drivers for each database type:
+* sharedLibDerby
+* sharedLibDb2
+* sharedLibPostgres
 
 When a datasource definition is included in a configDropin under `configDropins/overrides`, this file is picked up when the server starts as indicated by the following AUDIT message:
 
@@ -306,7 +307,7 @@ Reminder:  the Embedded Derby support is designed to support simple getting star
     <!-- created by the IBM FHIR Server's DB_BOOTSTRAP process.         -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>
@@ -380,7 +381,7 @@ Here is a simple example of a single (default) Derby datastore.
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>
@@ -430,7 +431,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     <!-- TENANT: acme; DSID: study1; TYPE: read-write                   -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dbserver1"
             portNumber="50000"
@@ -447,7 +448,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     <!-- TENANT: acme; DSID: study2; TYPE: read-write                   -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study2" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dbserver1"
             portNumber="50000"
@@ -2300,12 +2301,8 @@ A copy of this snippet is provided here for illustrative purposes:
 
 <dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
     <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db" />
-    <jdbcDriver libraryRef="derbyLib" />
+    <jdbcDriver libraryRef="sharedLibDerby" />
 </dataSource>
-
-<library id="derbyLib">
-    <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar" />
-</library>
 ```
 
 ### 5.3.1.1 oidcProvider.xml snippet details

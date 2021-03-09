@@ -40,7 +40,7 @@
     <variable name="BATCH_DB_SSL_CERT_PATH" defaultValue=""/>
 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <jdbcDriver libraryRef="sharedLibPostgres"/>
         <properties.postgresql
             databaseName="${BATCH_DB_NAME}"
             portNumber="${BATCH_DB_PORT}"
