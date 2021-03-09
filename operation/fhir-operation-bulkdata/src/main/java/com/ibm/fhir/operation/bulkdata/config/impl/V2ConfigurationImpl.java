@@ -111,12 +111,12 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getStorageProviderAuthTypeHmacAccessKey(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/access_key_id", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/accessKeyId", null);
     }
 
     @Override
     public String getStorageProviderAuthTypeHmacSecretKey(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/secret_access_key", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/secretAccessKey", null);
     }
 
     @Override
