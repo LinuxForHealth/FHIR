@@ -7,10 +7,11 @@
 package com.ibm.fhir.bulkdata.audit;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.audit.AuditLogEventType;
@@ -26,7 +27,6 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.util.handler.IPHandler;
-import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
 
@@ -55,7 +55,7 @@ public class BulkAuditLogger {
     public boolean shouldLog() {
         // Wraps common code for logging
         if (log.isLoggable(Level.FINE)) {
-            log.fine("Bulk Data Audit Log is off");
+            log.fine("Bulk Data Audit Log is '" + svc.isEnabled() + "'");
         }
         return svc.isEnabled();
     }
@@ -107,6 +107,8 @@ public class BulkAuditLogger {
 
         AuditLogEntry entry = new AuditLogEntry(COMPONENT_ID, eventType.value(), timestamp, componentIp, tenantId);
 
+        entry.setContext(new Context());
+
         // Start Time and End Time of the Event
         entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
         entry.getContext().setEndTime(FHIRUtilities.formatTimestamp(endTime));
@@ -117,8 +119,7 @@ public class BulkAuditLogger {
         // Set the Batch Request as the Source or Destination
         entry.setLocation(location);
 
-        // Create the Context
-        entry.setContext(new Context());
+
 
         // Uses the FHIRRestServletFilter to pass the OriginalRequestUri to the backend.
         entry.getContext().setApiParameters(ApiParameters.builder().request(FHIRRequestContext.get().getOriginalRequestUri()).status(responseStatus.getStatusCode()).build());
@@ -271,8 +272,8 @@ public class BulkAuditLogger {
      *
      * @param queryParms
      *            The query parameters passed to the search service.
-     * @param bundle
-     *            The Bundle that is returned to the service caller.
+     * @param totalSearch
+     *            The total retrieved
      * @param startTime
      *            The start time of the bundle request execution.
      * @param endTime
@@ -285,7 +286,7 @@ public class BulkAuditLogger {
      *            the principals that initiated the request
      * @throws Exception
      */
-    public void logSearchOnExport(MultivaluedMap<String, String> queryParms, Bundle bundle, Date startTime, Date endTime, Response.Status responseStatus,
+    public void logSearchOnExport(Map<String, List<String>> queryParms, int totalSearch, Date startTime, Date endTime, Response.Status responseStatus,
             String location, String users) throws Exception {
         final String METHODNAME = "logSearchOnExport";
         log.entering(CLASSNAME, METHODNAME);
@@ -295,14 +296,41 @@ public class BulkAuditLogger {
                 queryString = queryParms.toString();
             }
 
-            long totalSearch = 0;
-            if (bundle != null && bundle.getTotal() != null) {
-                totalSearch = bundle.getTotal().getValue().longValue();
-            }
+            // Right now, we don't log or treat the oldResource or newResource. The signature is left for the
+            // commonality with the REST Audit Logger.
+            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Search request", null, null, startTime, endTime, responseStatus, queryString, (long) totalSearch, location, users);
+        }
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Builds an audit log entry for a 'search' in a bulkdata service invocation.
+     *
+     * @param queryParm
+     *            The query parameter passed to the search service.
+     * @param totalSearch
+     *            The total retrieved
+     * @param startTime
+     *            The start time of the bundle request execution.
+     * @param endTime
+     *            The end time of the bundle request execution.
+     * @param responseStatus
+     *            The response status.
+     * @param location
+     *            the destination or source for the export or import
+     * @param users
+     *            the principals that initiated the request
+     * @throws Exception
+     */
+    public void logFastOnExport(String queryParm, int totalSearch, Date startTime, Date endTime, Response.Status responseStatus,
+            String location, String users) throws Exception {
+        final String METHODNAME = "logSearchOnExport";
+        log.entering(CLASSNAME, METHODNAME);
+        if (shouldLog()) {
 
             // Right now, we don't log or treat the oldResource or newResource. The signature is left for the
             // commonality with the REST Audit Logger.
-            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Search request", null, null, startTime, endTime, responseStatus, queryString, totalSearch, location, users);
+            log(AuditLogEventType.FHIR_SEARCH, "R", "FHIR BulkData Fast request", null, null, startTime, endTime, responseStatus, queryParm, (long) totalSearch, location, users);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }

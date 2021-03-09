@@ -9,6 +9,7 @@ package com.ibm.fhir.bulkdata.jbatch.export.patient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,10 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
@@ -59,6 +62,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class ChunkReader extends AbstractItemReader {
 
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
+
+    private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
     private PatientResourceHandler handler = new PatientResourceHandler();
 
@@ -174,7 +179,13 @@ public class ChunkReader extends AbstractItemReader {
         txn.begin();
         try {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            Date startTime = new Date(System.currentTimeMillis());
             List<Resource> resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+
+            if (auditLogger.shouldLog() && resources != null) {
+                Date endTime = new Date(System.currentTimeMillis());
+                auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+            }
 
             dto = new ReadResultDTO(resources);
             pageNum++;
@@ -215,7 +226,7 @@ public class ChunkReader extends AbstractItemReader {
                             .collect(Collectors.toList());
 
                 if (patientIds != null && patientIds.size() > 0) {
-                    handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes);
+                    handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
                     handler.fillChunkData(resources, patientIds);
                 }
             } else {

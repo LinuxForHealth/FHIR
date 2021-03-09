@@ -89,7 +89,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         }
 
         // We don't want to recreated the persistence layer, we want to reuse it.
-        groupHandler.register(getPersistence());
+        groupHandler.register(getPersistence(), ctx.getSource());
         groupHandler.process(ctx.getGroupId());
 
         // Get a Page of Patients
@@ -127,7 +127,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
                     .map(patientRef -> patientRef.getEntity().getReference().getValue())
                     .collect(Collectors.toList());
             if (patientIds != null && !patientIds.isEmpty()) {
-                patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes);
+                patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
 
                 if ("Patient".equals(ctx.getPartitionResourceType())) {
                     dto.setResources(groupHandler.patientIdsToPatients(patientIds));

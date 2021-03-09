@@ -9,6 +9,7 @@ package com.ibm.fhir.bulkdata.jbatch.export.system;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,10 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.export.system.resource.SystemExportResourceHandler;
@@ -57,6 +60,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class ChunkReader extends AbstractItemReader {
 
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
+
+    private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
     private SystemExportResourceHandler handler = new SystemExportResourceHandler();
 
@@ -198,6 +203,7 @@ public class ChunkReader extends AbstractItemReader {
         // so this txn will just wrap it...the commit won't happen until the checkpoint
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
+        Date startTime = new Date(System.currentTimeMillis());
         try {
             // Execute the search query to obtain the page of resources
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
@@ -205,6 +211,10 @@ public class ChunkReader extends AbstractItemReader {
             dto = new ReadResultDTO(resources);
         } finally {
             txn.end();
+            if (auditLogger.shouldLog() && dto != null) {
+                Date endTime = new Date(System.currentTimeMillis());
+                auditLogger.logSearchOnExport(queryParameters, dto.size(), startTime, endTime, Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
+            }
         }
         pageNum++;
 

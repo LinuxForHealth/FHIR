@@ -7,12 +7,16 @@ package com.ibm.fhir.bulkdata.export.group.resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.core.Response;
+
+import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Group.Member;
 import com.ibm.fhir.model.resource.Patient;
@@ -33,11 +37,14 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class GroupHandler {
 
+    private BulkAuditLogger auditLogger = new BulkAuditLogger();
+
     protected FHIRPersistence fhirPersistence;
     private int pageSize = ConfigurationFactory.getInstance().getCorePageSize();
 
     // List for the patients
     private List<Member> patientMembers = null;
+    private String provider = null;
 
     public GroupHandler() {
         // No Operation
@@ -47,9 +54,11 @@ public class GroupHandler {
      * register the fhir persistence from the calling class.
      *
      * @param fhirPersistence
+     * @param provider
      */
-    public void register(FHIRPersistence fhirPersistence) {
+    public void register(FHIRPersistence fhirPersistence, String provider) {
         this.fhirPersistence = fhirPersistence;
+        this.provider = provider;
     }
 
     /**
@@ -111,6 +120,7 @@ public class GroupHandler {
         queryParameters.put(SearchConstants.ID, Arrays.asList(groupId));
         searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
         List<Resource> resources = null;
+        Date startTime = new Date(System.currentTimeMillis());
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
         try {
@@ -118,6 +128,10 @@ public class GroupHandler {
             resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
         } finally {
             txn.end();
+            if (auditLogger.shouldLog() && resources != null) {
+                Date endTime = new Date(System.currentTimeMillis());
+                auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+            }
         }
 
         if (resources != null) {
@@ -128,13 +142,14 @@ public class GroupHandler {
     }
 
     public List<Resource> patientIdsToPatients(List<String> patientIds) throws Exception {
-        List<Resource> patients;
+        List<Resource> patients = null;
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put(SearchConstants.ID, patientIds);
 
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
         searchContext.setPageSize(pageSize);
 
+        Date startTime = new Date(System.currentTimeMillis());
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
         try {
@@ -142,6 +157,10 @@ public class GroupHandler {
             patients = fhirPersistence.search(persistenceContext, Patient.class).getResource();
         } finally {
             txn.end();
+            if (auditLogger.shouldLog() && patients != null) {
+                Date endTime = new Date(System.currentTimeMillis());
+                auditLogger.logSearchOnExport(queryParameters, patients.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+            }
         }
         return patients;
     }

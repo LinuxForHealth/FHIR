@@ -9,6 +9,7 @@ package com.ibm.fhir.bulkdata.export.patient.resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ws.rs.core.Response;
+
+import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.core.FHIRMediaType;
@@ -44,6 +48,8 @@ public class PatientResourceHandler {
 
     private static final byte[] NDJSON_EOF = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
+    private BulkAuditLogger auditLogger = new BulkAuditLogger();
+
     // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
     // resource type are used, which leads to multiple search requests which can have overlaps of resources,
     // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
@@ -55,6 +61,7 @@ public class PatientResourceHandler {
     private int pageSize = 1;
     private Class<? extends Resource> resourceType;
     private Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes;
+    private String provider = null;
 
     private ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
 
@@ -62,14 +69,14 @@ public class PatientResourceHandler {
         // No Operation
     }
 
-    public void register(ExportTransientUserData chunkData, BulkDataContext ctx, FHIRPersistence fhirPersistence,
-        int pageSize, Class<? extends Resource> resourceType, Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes) {
+    public void register(ExportTransientUserData chunkData, BulkDataContext ctx, FHIRPersistence fhirPersistence, int pageSize, Class<? extends Resource> resourceType, Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes, String provider) {
         this.chunkData = chunkData;
         this.ctx = ctx;
         this.fhirPersistence = fhirPersistence;
         this.pageSize = pageSize;
         this.resourceType = resourceType;
         this.searchParametersForResoureTypes = searchParametersForResoureTypes;
+        this.provider = provider;
     }
 
     public void fillChunkDataBuffer(List<String> patientIds, ReadResultDTO dto) throws Exception {
@@ -125,6 +132,7 @@ public class PatientResourceHandler {
 
                     FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
 
+                    Date startTime = new Date(System.currentTimeMillis());
                     List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
                     compartmentPageNum++;
 
@@ -158,7 +166,10 @@ public class PatientResourceHandler {
                             throw e;
                         }
                     }
-
+                    if (auditLogger.shouldLog() && resources != null) {
+                        Date endTime = new Date(System.currentTimeMillis());
+                        auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                    }
                 } while (searchContext.getLastPageNumber() >= compartmentPageNum);
                 compartmentPageNum = 1;
             }

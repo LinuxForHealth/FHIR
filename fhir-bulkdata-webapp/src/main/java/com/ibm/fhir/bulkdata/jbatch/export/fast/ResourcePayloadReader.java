@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,9 +29,11 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.checkpoint.ResourceExportCheckpointAlgorithm;
@@ -80,6 +83,8 @@ import com.ibm.fhir.search.date.DateTimeHandler;
 public class ResourcePayloadReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ResourcePayloadReader.class.getName());
     private static final String CLASS = ResourcePayloadReader.class.getName();
+
+    private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
     // S3 client API to IBM Cloud Object Storage
     private S3Provider wrapper = null;
@@ -329,6 +334,11 @@ public class ResourcePayloadReader extends AbstractItemReader {
             // Log a simple stat to give us an idea how quickly we processed the data for this transaction
             double delta = (System.nanoTime() - readStartTime) / 1e9;
             logger.info(String.format("%s processed %d resources in %.2f seconds (rate=%.1f resources/second)", logPrefix(), this.resourcesProcessed, delta, resourcesProcessed/delta));
+
+            if (auditLogger.shouldLog() && resourcesProcessed >= 0) {
+                Date endTime = new Date(System.currentTimeMillis());
+                auditLogger.logFastOnExport("_lastUpdated=" + this.lastTimestamp + "&" + "_type=" + this.fhirResourceType, resourcesProcessed, endTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+            }
         }
 
         if (!moreData) {

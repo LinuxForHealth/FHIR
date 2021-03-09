@@ -23,6 +23,7 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Any;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
@@ -175,11 +176,23 @@ public class ChunkWriter extends AbstractItemWriter {
                             }
                             OperationOutcome operationOutcome;
                             if (id == null) {
+                                long startTime = System.currentTimeMillis();
                                 operationOutcome =
                                         fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
+                                if (auditLogger.shouldLog()) {
+                                    long endTime = System.currentTimeMillis();
+                                    String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
+                                    auditLogger.logCreateOnImport(fhirResource, new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
+                                }
                             } else {
+                                long startTime = System.currentTimeMillis();
                                 operationOutcome =
                                         fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
+                                if (auditLogger.shouldLog()) {
+                                    long endTime = System.currentTimeMillis();
+                                    String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
+                                    auditLogger.logUpdateOnImport(fhirResource, null, new Date(startTime), new Date(endTime), Response.Status.OK, location, "BulkDataOperator");
+                                }
                             }
 
                             succeededNum++;
