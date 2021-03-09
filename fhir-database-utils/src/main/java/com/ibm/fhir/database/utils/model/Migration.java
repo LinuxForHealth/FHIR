@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,5 +24,5 @@ public interface Migration {
      * @implSpec this method should only be executed when the current version > priorVersion and so the steps need not be
      *         idempotent
      */
-    public List<IDatabaseStatement> migrateFrom(Integer priorVersion);
+    public List<IDatabaseStatement> migrateFrom(int priorVersion);
 }

@@ -113,16 +113,6 @@ public class FhirResourceTableGroup {
 
     private static final String ROW_ID = "ROW_ID";
 
-    // suffix for the token view
-    private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
-
-    private static final String _STR = "_STR";
-    private static final String _NUMBER = "_NUMBER";
-    private static final String _DATE = "_DATE";
-    private static final String _TOKEN = "_TOKEN";
-    private static final String _QUANTITY = "_QUANTITY";
-    private static final String _LATLNG = "_LATLNG";
-
     /**
      * Public constructor
      */
@@ -451,7 +441,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0008.vid())
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)

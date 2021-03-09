@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,6 +38,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
+    public static final Narrative EMPTY = builder().status(NarrativeStatus.EMPTY).div(Xhtml.from("Narrative text intentionally left empty")).build();
+
     @Binding(
         bindingName = "NarrativeStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
@@ -59,9 +61,9 @@ public class Narrative extends Element {
     }
 
     /**
-     * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
+     * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or
      * whether a human authored it and it may contain additional data.
-     * 
+     *
      * @return
      *     An immutable object of type {@link NarrativeStatus} that is non-null.
      */
@@ -71,7 +73,7 @@ public class Narrative extends Element {
 
     /**
      * The actual narrative content, a stripped down version of XHTML.
-     * 
+     *
      * @return
      *     An immutable object of type {@link Xhtml} that is non-null.
      */
@@ -81,8 +83,8 @@ public class Narrative extends Element {
 
     @Override
     public boolean hasChildren() {
-        return super.hasChildren() || 
-            (status != null) || 
+        return super.hasChildren() ||
+            (status != null) ||
             (div != null);
     }
 
@@ -114,9 +116,9 @@ public class Narrative extends Element {
             return false;
         }
         Narrative other = (Narrative) obj;
-        return Objects.equals(id, other.id) && 
-            Objects.equals(extension, other.extension) && 
-            Objects.equals(status, other.status) && 
+        return Objects.equals(id, other.id) &&
+            Objects.equals(extension, other.extension) &&
+            Objects.equals(status, other.status) &&
             Objects.equals(div, other.div);
     }
 
@@ -124,9 +126,9 @@ public class Narrative extends Element {
     public int hashCode() {
         int result = hashCode;
         if (result == 0) {
-            result = Objects.hash(id, 
-                extension, 
-                status, 
+            result = Objects.hash(id,
+                extension,
+                status,
                 div);
             hashCode = result;
         }
@@ -151,12 +153,12 @@ public class Narrative extends Element {
         }
 
         /**
-         * Unique id for the element within a resource (for internal references). This may be any string value that does not 
+         * Unique id for the element within a resource (for internal references). This may be any string value that does not
          * contain spaces.
-         * 
+         *
          * @param id
          *     Unique id for inter-element referencing
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -166,16 +168,16 @@ public class Narrative extends Element {
         }
 
         /**
-         * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+         * May be used to represent additional information that is not part of the basic definition of the element. To make the
+         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of
+         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part
          * of the definition of the extension.
-         * 
+         *
          * <p>Adds new element(s) to the existing list
-         * 
+         *
          * @param extension
          *     Additional content defined by implementations
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -185,16 +187,16 @@ public class Narrative extends Element {
         }
 
         /**
-         * May be used to represent additional information that is not part of the basic definition of the element. To make the 
-         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
-         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
+         * May be used to represent additional information that is not part of the basic definition of the element. To make the
+         * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of
+         * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part
          * of the definition of the extension.
-         * 
+         *
          * <p>Replaces the existing list with a new one containing elements from the Collection
-         * 
+         *
          * @param extension
          *     Additional content defined by implementations
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -204,14 +206,14 @@ public class Narrative extends Element {
         }
 
         /**
-         * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
+         * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or
          * whether a human authored it and it may contain additional data.
-         * 
+         *
          * <p>This element is required.
-         * 
+         *
          * @param status
          *     generated | extensions | additional | empty
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -222,12 +224,12 @@ public class Narrative extends Element {
 
         /**
          * The actual narrative content, a stripped down version of XHTML.
-         * 
+         *
          * <p>This element is required.
-         * 
+         *
          * @param div
          *     Limited xhtml content
-         * 
+         *
          * @return
          *     A reference to this Builder instance
          */
@@ -238,13 +240,13 @@ public class Narrative extends Element {
 
         /**
          * Build the {@link Narrative}
-         * 
+         *
          * <p>Required elements:
          * <ul>
          * <li>status</li>
          * <li>div</li>
          * </ul>
-         * 
+         *
          * @return
          *     An immutable object of type {@link Narrative}
          * @throws IllegalStateException
