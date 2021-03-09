@@ -187,6 +187,11 @@ public class ResourcePayloadReader extends AbstractItemReader {
     public ResourcePayloadReader() {
         super();
         this.outputStream = new ByteArrayOutputStream(this.initialBufferSize);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Max resources Per Object: " + resourcesPerObject);
+            logger.fine("Part Upload Trigger Size: " + partUploadTriggerSize);
+            logger.fine("Max Object Size (threshold): " + maxObjectSize);
+        }
     }
 
     /**
