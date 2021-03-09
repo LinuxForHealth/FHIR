@@ -63,7 +63,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public String getStorageProviderBucketName(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/bucketBame", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/bucketName", null);
     }
 
     @Override

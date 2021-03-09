@@ -173,7 +173,7 @@
                 },
                 "minio" : {
                     "type": "aws-s3",
-                    "bucket-name": "fhirbulkdata",
+                    "bucketName": "fhirbulkdata",
                     "location": "us",
                     "endpointInternal": "https://minio:9000",
                     "endpointExternal": "https://localhost:9000",
