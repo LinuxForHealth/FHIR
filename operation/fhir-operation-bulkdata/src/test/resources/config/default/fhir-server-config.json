@@ -29,7 +29,7 @@
             "storageProviders": {
                 "default" : {
                     "type": "ibm-cos",
-                    "validBaseRrls": [],
+                    "validBaseUrls": [],
                     "fileBase": "/Users/asdf/wffh/ol-fhir/wlp/usr/output",
                     "bucketName": "fhir-a",
                     "location": "us",
