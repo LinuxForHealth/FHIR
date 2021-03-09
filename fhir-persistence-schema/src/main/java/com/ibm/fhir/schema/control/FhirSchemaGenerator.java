@@ -539,7 +539,7 @@ public class FhirSchemaGenerator {
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0009.vid()) // Make sure this matches any migration
                 .addBigIntColumn(RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
@@ -551,7 +551,6 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0009.vid())
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
