@@ -62,17 +62,11 @@ public class GroupHandler {
     }
 
     /**
-     * get page of members
+     * resolve the groupId into a set of patients and add them to this handler
      *
-     * @param pageNum
-     * @param pageSize
-     * @return
+     * @param groupId
+     * @throws Exception
      */
-    public List<Member> getPageOfMembers(int pageNum, int pageSize){
-        return patientMembers.subList((pageNum - 1) * pageSize,
-            pageNum * pageSize <= patientMembers.size() ? pageNum * pageSize : patientMembers.size());
-    }
-
     public void process(String groupId) throws Exception {
         if (patientMembers == null) {
             Group group = findGroupByID(groupId);
@@ -83,10 +77,20 @@ public class GroupHandler {
         }
     }
 
-    /*
+    /**
+     * get a page of members from this handler
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * @implNote {@link GroupHandler#process(String)} must be called first
+     */
+    public List<Member> getPageOfMembers(int pageNum, int pageSize){
+        return patientMembers.subList((pageNum - 1) * pageSize, Math.min(pageNum * pageSize, patientMembers.size()));
+    }
+
+    /**
      * recursively expands a group into a set of members
-     * @param fhirTenant
-     * @param fhirDatastoreId
      * @param group
      * @param patients
      * @param groupsInPath empty, or prior Groups scanned
