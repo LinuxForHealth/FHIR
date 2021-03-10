@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="197px" preserveAspectRatio="none" style="width:390px;height:197px;" version="1.1" viewBox="0 0 390 197" width="390px" zoomAndPan="magnify"><defs><filter height="300%" id="f1qvus9rc53nmj" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[f749a43abb81c17f8b3f62b462cae22c]
+class com.ibm.fhir.search.parameters.ParametersMap--><a href="ParametersMap.html" target="_top" title="ParametersMap.html" xlink:actuate="onRequest" xlink:href="ParametersMap.html" xlink:show="new" xlink:title="ParametersMap.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1qvus9rc53nmj)" height="161.1797" id="com.ibm.fhir.search.parameters.ParametersMap" style="stroke: #A80036; stroke-width: 1.5;" width="372" x="7" y="7"/><ellipse cx="110.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M113.7188,31.6094 Q113.1406,31.9063 112.5,32.0469 Q111.8594,32.2031 111.1563,32.2031 Q108.6563,32.2031 107.3281,30.5625 Q106.0156,28.9063 106.0156,25.7813 Q106.0156,22.6563 107.3281,21 Q108.6563,19.3438 111.1563,19.3438 Q111.8594,19.3438 112.5,19.5 Q113.1563,19.6563 113.7188,19.9531 L113.7188,22.6719 Q113.0938,22.0938 112.5,21.8281 Q111.9063,21.5469 111.2813,21.5469 Q109.9375,21.5469 109.25,22.625 Q108.5625,23.6875 108.5625,25.7813 Q108.5625,27.875 109.25,28.9531 Q109.9375,30.0156 111.2813,30.0156 Q111.9063,30.0156 112.5,29.75 Q113.0938,29.4688 113.7188,28.8906 L113.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="108" x="155.25" y="24.9951">ParametersMap</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="156" x="131.25" y="37.5791">com.ibm.fhir.search.parameters</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="378" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="214" x="27" y="59.1479">insert(String, SearchParameter): void</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="175" x="27" y="71.9526">insertAll(ParametersMap): void</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="267" x="27" y="84.7573">lookupByCode(String): Set&lt;SearchParameter&gt;</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="217" x="27" y="97.562">lookupByUrl(String): SearchParameter</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="226" x="27" y="110.3667">values(): Collection&lt;SearchParameter&gt;</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="106" x="27" y="123.1714">isEmpty(): boolean</text><ellipse cx="18" cy="132.7656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="52" x="27" y="135.9761">size(): int</text><ellipse cx="18" cy="145.5703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="346" x="27" y="148.7808">codeEntries(): Set&lt;Entry&lt;String, Set&lt;SearchParameter&gt;&gt;&gt;</text><ellipse cx="18" cy="158.375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="297" x="27" y="161.5854">urlEntries(): Set&lt;Entry&lt;String, SearchParameter&gt;&gt;</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="100" y="184.4619">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[412ff48dea07ca83462e781c15b462c4]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ParametersMap\n<size:10>com.ibm.fhir.search.parameters" as com.ibm.fhir.search.parameters.ParametersMap [[ParametersMap.html]] {
+        +insert(String, SearchParameter): void
+        +insertAll(ParametersMap): void
+        +lookupByCode(String): Set<SearchParameter>
+        +lookupByUrl(String): SearchParameter
+        +values(): Collection<SearchParameter>
+        +isEmpty(): boolean
+        +size(): int
+        +codeEntries(): Set<Entry<String, Set<SearchParameter>>>
+        +urlEntries(): Set<Entry<String, SearchParameter>>
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

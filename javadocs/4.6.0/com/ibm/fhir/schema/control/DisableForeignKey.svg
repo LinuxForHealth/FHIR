@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="210px" preserveAspectRatio="none" style="width:332px;height:210px;" version="1.1" viewBox="0 0 332 210" width="332px" zoomAndPan="magnify"><defs><filter height="300%" id="fnnhuh0kkgu8p" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[24a660e8976c45ffd20dad230b3117e2]
+class com.ibm.fhir.schema.control.DisableForeignKey--><a href="DisableForeignKey.html" target="_top" title="DisableForeignKey.html" xlink:actuate="onRequest" xlink:href="DisableForeignKey.html" xlink:show="new" xlink:title="DisableForeignKey.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fnnhuh0kkgu8p)" height="71.5469" id="com.ibm.fhir.schema.control.DisableForeignKey" style="stroke: #A80036; stroke-width: 1.5;" width="315" x="6" y="106"/><ellipse cx="90.25" cy="124.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M93.2188,130.6094 Q92.6406,130.9063 92,131.0469 Q91.3594,131.2031 90.6563,131.2031 Q88.1563,131.2031 86.8281,129.5625 Q85.5156,127.9063 85.5156,124.7813 Q85.5156,121.6563 86.8281,120 Q88.1563,118.3438 90.6563,118.3438 Q91.3594,118.3438 92,118.5 Q92.6563,118.6563 93.2188,118.9531 L93.2188,121.6719 Q92.5938,121.0938 92,120.8281 Q91.4063,120.5469 90.7813,120.5469 Q89.4375,120.5469 88.75,121.625 Q88.0625,122.6875 88.0625,124.7813 Q88.0625,126.875 88.75,127.9531 Q89.4375,129.0156 90.7813,129.0156 Q91.4063,129.0156 92,128.75 Q92.5938,128.4688 93.2188,127.8906 L93.2188,130.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="128" x="115.75" y="123.9951">DisableForeignKey</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="138" x="110.75" y="136.5791">com.ibm.fhir.schema.control</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="320" y1="143.9375" y2="143.9375"/><ellipse cx="17" cy="154.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="289" x="26" y="158.1479">DisableForeignKey(IDatabaseAdapter, Set&lt;Table&gt;)</text><ellipse cx="17" cy="167.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="236" x="26" y="170.9526">visited(Table, ForeignKeyConstraint): void</text></a><!--MD5=[35f75f349a26f0f91dbee4e2f91001f0]
+class com.ibm.fhir.database.utils.model.DataModelVisitorBase--><a href="../../database/utils/model/DataModelVisitorBase.html" target="_top" title="../../database/utils/model/DataModelVisitorBase.html" xlink:actuate="onRequest" xlink:href="../../database/utils/model/DataModelVisitorBase.html" xlink:show="new" xlink:title="../../database/utils/model/DataModelVisitorBase.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fnnhuh0kkgu8p)" height="37.9375" id="com.ibm.fhir.database.utils.model.DataModelVisitorBase" style="stroke: #A80036; stroke-width: 1.5;" width="196" x="65.5" y="8"/><ellipse cx="80.5" cy="26.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M83.4688,32.6094 Q82.8906,32.9063 82.25,33.0469 Q81.6094,33.2031 80.9063,33.2031 Q78.4063,33.2031 77.0781,31.5625 Q75.7656,29.9063 75.7656,26.7813 Q75.7656,23.6563 77.0781,22 Q78.4063,20.3438 80.9063,20.3438 Q81.6094,20.3438 82.25,20.5 Q82.9063,20.6563 83.4688,20.9531 L83.4688,23.6719 Q82.8438,23.0938 82.25,22.8281 Q81.6563,22.5469 81.0313,22.5469 Q79.6875,22.5469 79,23.625 Q78.3125,24.6875 78.3125,26.7813 Q78.3125,28.875 79,29.9531 Q79.6875,31.0156 81.0313,31.0156 Q81.6563,31.0156 82.25,30.75 Q82.8438,30.4688 83.4688,29.8906 L83.4688,32.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="151" x="101" y="25.9951">DataModelVisitorBase</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="164" x="94.5" y="38.5791">com.ibm.fhir.database.utils.model</text></a><!--MD5=[4f67f7409f488c907d2a91adb9116e74]
+reverse link com.ibm.fhir.database.utils.model.DataModelVisitorBase to com.ibm.fhir.schema.control.DisableForeignKey--><path d="M163.5,66.5888 C163.5,79.3573 163.5,93.4348 163.5,105.935 " fill="none" id="com.ibm.fhir.database.utils.model.DataModelVisitorBase&lt;-com.ibm.fhir.schema.control.DisableForeignKey" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="156.5001,66.2484,163.5,46.2484,170.5001,66.2484,156.5001,66.2484" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="76.5" y="197.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[89c9c6c11c4a969f207f63655cd63130]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>DisableForeignKey\n<size:10>com.ibm.fhir.schema.control" as com.ibm.fhir.schema.control.DisableForeignKey [[DisableForeignKey.html]] {
+        +DisableForeignKey(IDatabaseAdapter, Set<Table>)
+        +visited(Table, ForeignKeyConstraint): void
+    }
+
+    class "<size:14>DataModelVisitorBase\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.DataModelVisitorBase [[../../database/utils/model/DataModelVisitorBase.html]]
+
+    com.ibm.fhir.database.utils.model.DataModelVisitorBase <|- - com.ibm.fhir.schema.control.DisableForeignKey
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="172px" preserveAspectRatio="none" style="width:566px;height:172px;" version="1.1" viewBox="0 0 566 172" width="566px" zoomAndPan="magnify"><defs><filter height="300%" id="f97iz7arbeum1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[2718a48167ff7179d7e8d03041facc7e]
+class com.ibm.fhir.bulkdata.audit.BulkAuditLogger--><a href="BulkAuditLogger.html" target="_top" title="BulkAuditLogger.html" xlink:actuate="onRequest" xlink:href="BulkAuditLogger.html" xlink:show="new" xlink:title="BulkAuditLogger.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f97iz7arbeum1)" height="135.5703" id="com.ibm.fhir.bulkdata.audit.BulkAuditLogger" style="stroke: #A80036; stroke-width: 1.5;" width="548" x="7" y="7"/><ellipse cx="210.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M213.7188,31.6094 Q213.1406,31.9063 212.5,32.0469 Q211.8594,32.2031 211.1563,32.2031 Q208.6563,32.2031 207.3281,30.5625 Q206.0156,28.9063 206.0156,25.7813 Q206.0156,22.6563 207.3281,21 Q208.6563,19.3438 211.1563,19.3438 Q211.8594,19.3438 212.5,19.5 Q213.1563,19.6563 213.7188,19.9531 L213.7188,22.6719 Q213.0938,22.0938 212.5,21.8281 Q211.9063,21.5469 211.2813,21.5469 Q209.9375,21.5469 209.25,22.625 Q208.5625,23.6875 208.5625,25.7813 Q208.5625,27.875 209.25,28.9531 Q209.9375,30.0156 211.2813,30.0156 Q211.9063,30.0156 212.5,29.75 Q213.0938,29.4688 213.7188,28.8906 L213.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="113" x="240.75" y="24.9951">BulkAuditLogger</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="132" x="231.25" y="37.5791">com.ibm.fhir.bulkdata.audit</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="554" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="119" x="27" y="59.1479">shouldLog(): boolean</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="397" x="27" y="71.9526">logCreateOnImport(Resource, Date, Date, Status, String, String): void</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="404" x="27" y="84.7573">logValidateOnImport(Resource, Date, Date, Status, String, String): void</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="460" x="27" y="97.562">logUpdateOnImport(Resource, Resource, Date, Date, Status, String, String): void</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="386" x="27" y="110.3667">logReadOnExport(Resource, Date, Date, Status, String, String): void</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="522" x="27" y="123.1714">logSearchOnExport(Map&lt;String, List&lt;String&gt;&gt;, int, Date, Date, Status, String, String): void</text><ellipse cx="18" cy="132.7656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="385" x="27" y="135.9761">logFastOnExport(String, int, Date, Date, Status, String, String): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="188" y="158.8525">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[263ee697006a47177e08d7e5b92ffa21]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>BulkAuditLogger\n<size:10>com.ibm.fhir.bulkdata.audit" as com.ibm.fhir.bulkdata.audit.BulkAuditLogger [[BulkAuditLogger.html]] {
+        +shouldLog(): boolean
+        +logCreateOnImport(Resource, Date, Date, Status, String, String): void
+        +logValidateOnImport(Resource, Date, Date, Status, String, String): void
+        +logUpdateOnImport(Resource, Resource, Date, Date, Status, String, String): void
+        +logReadOnExport(Resource, Date, Date, Status, String, String): void
+        +logSearchOnExport(Map<String, List<String>>, int, Date, Date, Status, String, String): void
+        +logFastOnExport(String, int, Date, Date, Status, String, String): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

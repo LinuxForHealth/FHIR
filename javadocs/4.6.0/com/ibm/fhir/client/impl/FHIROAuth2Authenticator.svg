@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="269px" preserveAspectRatio="none" style="width:231px;height:269px;" version="1.1" viewBox="0 0 231 269" width="231px" zoomAndPan="magnify"><defs><filter height="300%" id="fjzpwlb956rwd" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[7ccf1ad53b7d62653cba22b54839cd5c]
+class com.ibm.fhir.client.impl.FHIROAuth2Authenticator--><a href="FHIROAuth2Authenticator.html" target="_top" title="FHIROAuth2Authenticator.html" xlink:actuate="onRequest" xlink:href="FHIROAuth2Authenticator.html" xlink:show="new" xlink:title="FHIROAuth2Authenticator.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fjzpwlb956rwd)" height="109.9609" id="com.ibm.fhir.client.impl.FHIROAuth2Authenticator" style="stroke: #A80036; stroke-width: 1.5;" width="212" x="7" y="127"/><ellipse cx="23.8" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M26.7688,151.6094 Q26.1906,151.9063 25.55,152.0469 Q24.9094,152.2031 24.2063,152.2031 Q21.7063,152.2031 20.3781,150.5625 Q19.0656,148.9063 19.0656,145.7813 Q19.0656,142.6563 20.3781,141 Q21.7063,139.3438 24.2063,139.3438 Q24.9094,139.3438 25.55,139.5 Q26.2063,139.6563 26.7688,139.9531 L26.7688,142.6719 Q26.1438,142.0938 25.55,141.8281 Q24.9563,141.5469 24.3313,141.5469 Q22.9875,141.5469 22.3,142.625 Q21.6125,143.6875 21.6125,145.7813 Q21.6125,147.875 22.3,148.9531 Q22.9875,150.0156 24.3313,150.0156 Q24.9563,150.0156 25.55,149.75 Q26.1438,149.4688 26.7688,148.8906 L26.7688,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="176" x="38.2" y="144.9951">FHIROAuth2Authenticator</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="112" x="70.2" y="157.5791">com.ibm.fhir.client.impl</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="218" y1="164.9375" y2="164.9375"/><polygon fill="#FFFF44" points="18,170.9375,22,174.9375,18,178.9375,14,174.9375" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="148" x="27" y="179.1479">FHIROAuth2Authenticator()</text><ellipse cx="18" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="182" x="27" y="191.9526">FHIROAuth2Authenticator(String)</text><ellipse cx="18" cy="201.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="165" x="27" y="204.7573">setAccessToken(String): void</text><ellipse cx="18" cy="214.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="142" x="27" y="217.562">getAccessToken(): String</text><ellipse cx="18" cy="227.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="186" x="27" y="230.3667">filter(ClientRequestContext): void</text></a><!--MD5=[47e5444f1906a6d6e019c4e7be109191]
+class javax.ws.rs.client.ClientRequestFilter--><rect fill="#FEFECE" filter="url(#fjzpwlb956rwd)" height="58.7422" id="javax.ws.rs.client.ClientRequestFilter" style="stroke: #A80036; stroke-width: 1.5;" width="214" x="6" y="8"/><ellipse cx="44.4" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M40.3219,22.7344 L40.3219,20.5781 L47.7125,20.5781 L47.7125,22.7344 L45.2438,22.7344 L45.2438,30.8125 L47.7125,30.8125 L47.7125,32.9688 L40.3219,32.9688 L40.3219,30.8125 L42.7906,30.8125 L42.7906,22.7344 L40.3219,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="130" x="63.6" y="25.9951">ClientRequestFilter</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="86" x="85.6" y="38.5791">javax.ws.rs.client</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="219" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="188" x="26" y="60.1479">filter(ClientRequestContext): void</text><!--MD5=[52aef6360ba7dbb721190aa812f966c1]
+reverse link javax.ws.rs.client.ClientRequestFilter to com.ibm.fhir.client.impl.FHIROAuth2Authenticator--><path d="M113,87.2273 C113,99.9654 113,113.7412 113,126.7393 " fill="none" id="javax.ws.rs.client.ClientRequestFilter&lt;-com.ibm.fhir.client.impl.FHIROAuth2Authenticator" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="106.0001,87.0905,113,67.0904,120.0001,87.0904,106.0001,87.0905" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="26" y="256.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[8f451056bca2750359dbfbbd894c4085]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FHIROAuth2Authenticator\n<size:10>com.ibm.fhir.client.impl" as com.ibm.fhir.client.impl.FHIROAuth2Authenticator [[FHIROAuth2Authenticator.html]] {
+        #FHIROAuth2Authenticator()
+        +FHIROAuth2Authenticator(String)
+        +setAccessToken(String): void
+        +getAccessToken(): String
+        +filter(ClientRequestContext): void
+    }
+
+    interface "<size:14>ClientRequestFilter\n<size:10>javax.ws.rs.client" as javax.ws.rs.client.ClientRequestFilter {
+        {abstract} +filter(ClientRequestContext): void
+    }
+
+    javax.ws.rs.client.ClientRequestFilter <|.. com.ibm.fhir.client.impl.FHIROAuth2Authenticator
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

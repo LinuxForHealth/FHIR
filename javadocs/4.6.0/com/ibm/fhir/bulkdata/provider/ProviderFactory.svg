@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="95px" preserveAspectRatio="none" style="width:288px;height:95px;" version="1.1" viewBox="0 0 288 95" width="288px" zoomAndPan="magnify"><defs><filter height="300%" id="flqtw47inb7ti" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[7172c04eb682e87f33b7cdf413d32178]
+class com.ibm.fhir.bulkdata.provider.ProviderFactory--><a href="ProviderFactory.html" target="_top" title="ProviderFactory.html" xlink:actuate="onRequest" xlink:href="ProviderFactory.html" xlink:show="new" xlink:title="ProviderFactory.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#flqtw47inb7ti)" height="58.7422" id="com.ibm.fhir.bulkdata.provider.ProviderFactory" style="stroke: #A80036; stroke-width: 1.5;" width="270" x="7" y="7"/><ellipse cx="63.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M66.7188,31.6094 Q66.1406,31.9063 65.5,32.0469 Q64.8594,32.2031 64.1563,32.2031 Q61.6563,32.2031 60.3281,30.5625 Q59.0156,28.9063 59.0156,25.7813 Q59.0156,22.6563 60.3281,21 Q61.6563,19.3438 64.1563,19.3438 Q64.8594,19.3438 65.5,19.5 Q66.1563,19.6563 66.7188,19.9531 L66.7188,22.6719 Q66.0938,22.0938 65.5,21.8281 Q64.9063,21.5469 64.2813,21.5469 Q62.9375,21.5469 62.25,22.625 Q61.5625,23.6875 61.5625,25.7813 Q61.5625,27.875 62.25,28.9531 Q62.9375,30.0156 64.2813,30.0156 Q64.9063,30.0156 65.5,29.75 Q66.0938,29.4688 66.7188,28.8906 L66.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="106" x="105.25" y="24.9951">ProviderFactory</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="148" x="84.25" y="37.5791">com.ibm.fhir.bulkdata.provider</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="276" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="244" x="27" y="59.1479">getSourceWrapper(String, String): Provider</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="49" y="82.0244">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[dcc32a7285dc2c27138c0d0ec1d5cb13]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ProviderFactory\n<size:10>com.ibm.fhir.bulkdata.provider" as com.ibm.fhir.bulkdata.provider.ProviderFactory [[ProviderFactory.html]] {
+        {static} +getSourceWrapper(String, String): Provider
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

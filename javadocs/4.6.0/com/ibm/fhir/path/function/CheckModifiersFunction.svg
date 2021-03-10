@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="268px" preserveAspectRatio="none" style="width:229px;height:268px;" version="1.1" viewBox="0 0 229 268" width="229px" zoomAndPan="magnify"><defs><filter height="300%" id="f1mm5qmcag1rkl" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[d6692942d0ab30c33335b485a5d6104c]
+class com.ibm.fhir.path.function.CheckModifiersFunction--><a href="CheckModifiersFunction.html" target="_top" title="CheckModifiersFunction.html" xlink:actuate="onRequest" xlink:href="CheckModifiersFunction.html" xlink:show="new" xlink:title="CheckModifiersFunction.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1mm5qmcag1rkl)" height="84.3516" id="com.ibm.fhir.path.function.CheckModifiersFunction" style="stroke: #A80036; stroke-width: 1.5;" width="198" x="13" y="152"/><ellipse cx="28" cy="170.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M30.9688,176.6094 Q30.3906,176.9063 29.75,177.0469 Q29.1094,177.2031 28.4063,177.2031 Q25.9063,177.2031 24.5781,175.5625 Q23.2656,173.9063 23.2656,170.7813 Q23.2656,167.6563 24.5781,166 Q25.9063,164.3438 28.4063,164.3438 Q29.1094,164.3438 29.75,164.5 Q30.4063,164.6563 30.9688,164.9531 L30.9688,167.6719 Q30.3438,167.0938 29.75,166.8281 Q29.1563,166.5469 28.5313,166.5469 Q27.1875,166.5469 26.5,167.625 Q25.8125,168.6875 25.8125,170.7813 Q25.8125,172.875 26.5,173.9531 Q27.1875,175.0156 28.5313,175.0156 Q29.1563,175.0156 29.75,174.75 Q30.3438,174.4688 30.9688,173.8906 L30.9688,176.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="166" x="42" y="169.9951">CheckModifiersFunction</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="128" x="61" y="182.5791">com.ibm.fhir.path.function</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="14" x2="210" y1="189.9375" y2="189.9375"/><ellipse cx="24" cy="200.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="33" y="204.1479">getName(): String</text><ellipse cx="24" cy="213.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="92" x="33" y="216.9526">getMinArity(): int</text><ellipse cx="24" cy="226.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="95" x="33" y="229.7573">getMaxArity(): int</text></a><!--MD5=[5655413027f34780dbf373b9f45b979c]
+class com.ibm.fhir.path.function.FHIRPathAbstractFunction--><a href="FHIRPathAbstractFunction.html" target="_top" title="FHIRPathAbstractFunction.html" xlink:actuate="onRequest" xlink:href="FHIRPathAbstractFunction.html" xlink:show="new" xlink:title="FHIRPathAbstractFunction.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1mm5qmcag1rkl)" height="84.3516" id="com.ibm.fhir.path.function.FHIRPathAbstractFunction" style="stroke: #A80036; stroke-width: 1.5;" width="212" x="6" y="8"/><ellipse cx="21" cy="26.9688" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M21.1094,22.3125 L19.9531,27.3906 L22.2813,27.3906 L21.1094,22.3125 Z M19.625,20.0781 L22.6094,20.0781 L25.9688,32.4688 L23.5156,32.4688 L22.75,29.4063 L19.4688,29.4063 L18.7188,32.4688 L16.2813,32.4688 L19.625,20.0781 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="180" x="35" y="25.9951">FHIRPathAbstractFunction</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="133" x="58.5" y="38.5791">com.ibm.fhir.path.function</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="217" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="100" x="26" y="60.1479">getName(): String</text><ellipse cx="17" cy="69.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="94" x="26" y="72.9526">getMinArity(): int</text><ellipse cx="17" cy="82.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="98" x="26" y="85.7573">getMaxArity(): int</text></a><!--MD5=[bc602c5e5bfb778c39a745d16c93e71e]
+reverse link com.ibm.fhir.path.function.FHIRPathAbstractFunction to com.ibm.fhir.path.function.CheckModifiersFunction--><path d="M112,112.2896 C112,125.5826 112,139.3254 112,151.6606 " fill="none" id="com.ibm.fhir.path.function.FHIRPathAbstractFunction&lt;-com.ibm.fhir.path.function.CheckModifiersFunction" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="105.0001,112.0379,112,92.0379,119.0001,112.0378,105.0001,112.0379" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="25" y="255.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[e254eaca33ed4676e4c43dd212044cd8]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CheckModifiersFunction\n<size:10>com.ibm.fhir.path.function" as com.ibm.fhir.path.function.CheckModifiersFunction [[CheckModifiersFunction.html]] {
+        +getName(): String
+        +getMinArity(): int
+        +getMaxArity(): int
+    }
+
+    abstract class "<size:14>FHIRPathAbstractFunction\n<size:10>com.ibm.fhir.path.function" as com.ibm.fhir.path.function.FHIRPathAbstractFunction [[FHIRPathAbstractFunction.html]] {
+        {abstract} +getName(): String
+        {abstract} +getMinArity(): int
+        {abstract} +getMaxArity(): int
+    }
+
+    com.ibm.fhir.path.function.FHIRPathAbstractFunction <|- - com.ibm.fhir.path.function.CheckModifiersFunction
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

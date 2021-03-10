@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="172px" preserveAspectRatio="none" style="width:515px;height:172px;" version="1.1" viewBox="0 0 515 172" width="515px" zoomAndPan="magnify"><defs><filter height="300%" id="f1fgi27v38pjlt" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[cb2b82f8fe0a4e0b2b1edd6c34e62053]
+class com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl--><a href="DownloadUrl.html" target="_top" title="DownloadUrl.html" xlink:actuate="onRequest" xlink:href="DownloadUrl.html" xlink:show="new" xlink:title="DownloadUrl.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1fgi27v38pjlt)" height="135.5703" id="com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl" style="stroke: #A80036; stroke-width: 1.5;" width="497" x="7" y="7"/><ellipse cx="150.25" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M153.2188,31.6094 Q152.6406,31.9063 152,32.0469 Q151.3594,32.2031 150.6563,32.2031 Q148.1563,32.2031 146.8281,30.5625 Q145.5156,28.9063 145.5156,25.7813 Q145.5156,22.6563 146.8281,21 Q148.1563,19.3438 150.6563,19.3438 Q151.3594,19.3438 152,19.5 Q152.6563,19.6563 153.2188,19.9531 L153.2188,22.6719 Q152.5938,22.0938 152,21.8281 Q151.4063,21.5469 150.7813,21.5469 Q149.4375,21.5469 148.75,22.625 Q148.0625,23.6875 148.0625,25.7813 Q148.0625,27.875 148.75,28.9531 Q149.4375,30.0156 150.7813,30.0156 Q151.4063,30.0156 152,29.75 Q152.5938,29.4688 153.2188,28.8906 L153.2188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="228.25" y="24.9951">DownloadUrl</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="202" x="170.75" y="37.5791">com.ibm.fhir.operation.bulkdata.model.url</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="503" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="471" x="27" y="59.1479">DownloadUrl(String, String, String, String, String, String, String, boolean, boolean)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="84" x="27" y="71.9526">getUrl(): String</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="137" x="27" y="84.7573">getUnsignedUrl(): String</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="123" x="27" y="97.562">getSignedUrl(): String</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="150" x="27" y="110.3667">hash(byte[], String): byte[]</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="133" x="27" y="123.1714">hashHex(String): String</text><ellipse cx="18" cy="132.7656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="319" x="27" y="135.9761">createSignatureKey(String, String, String, String): byte[]</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="162.5" y="158.8525">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[f4ce15a8624a0f87fcb033751854f470]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>DownloadUrl\n<size:10>com.ibm.fhir.operation.bulkdata.model.url" as com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl [[DownloadUrl.html]] {
+        +DownloadUrl(String, String, String, String, String, String, String, boolean, boolean)
+        +getUrl(): String
+        +getUnsignedUrl(): String
+        +getSignedUrl(): String
+        +hash(byte[], String): byte[]
+        +hashHex(String): String
+        +createSignatureKey(String, String, String, String): byte[]
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

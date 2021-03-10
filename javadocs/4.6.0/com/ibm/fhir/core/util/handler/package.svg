@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="165px" preserveAspectRatio="none" style="width:405px;height:165px;" version="1.1" viewBox="0 0 405 165" width="405px" zoomAndPan="magnify"><defs><filter height="300%" id="f1ix1f4cn8chqj" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b6efd79a1d6aa746cf59c1e201049ab3]
+cluster com.ibm.fhir.core.util.handler--><polygon fill="#FFFFFF" filter="url(#f1ix1f4cn8chqj)" points="14,16,253,16,260,38.2969,383,38.2969,383,125,14,125,14,16" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="260" y1="38.2969" y2="38.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="233" x="18" y="30.9951">com.ibm.fhir.core.util.handler</text><!--MD5=[c1a4c2bf8cbc692a42a13db433c26299]
+class com.ibm.fhir.core.util.handler.IPHandler--><a href="IPHandler.html" target="_top" title="IPHandler.html" xlink:actuate="onRequest" xlink:href="IPHandler.html" xlink:show="new" xlink:title="IPHandler.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1ix1f4cn8chqj)" height="73.6094" id="com.ibm.fhir.core.util.handler.IPHandler" style="stroke: #A80036; stroke-width: 1.5;" width="165" x="209.5" y="43"/><ellipse cx="257.75" cy="59" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M260.7188,64.6406 Q260.1406,64.9375 259.5,65.0781 Q258.8594,65.2344 258.1563,65.2344 Q255.6563,65.2344 254.3281,63.5938 Q253.0156,61.9375 253.0156,58.8125 Q253.0156,55.6875 254.3281,54.0313 Q255.6563,52.375 258.1563,52.375 Q258.8594,52.375 259.5,52.5313 Q260.1563,52.6875 260.7188,52.9844 L260.7188,55.7031 Q260.0938,55.125 259.5,54.8594 Q258.9063,54.5781 258.2813,54.5781 Q256.9375,54.5781 256.25,55.6563 Q255.5625,56.7188 255.5625,58.8125 Q255.5625,60.9063 256.25,61.9844 Q256.9375,63.0469 258.2813,63.0469 Q258.9063,63.0469 259.5,62.7813 Q260.0938,62.5 260.7188,61.9219 L260.7188,64.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="60" x="278.25" y="63.1543">IPHandler</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="210.5" x2="373.5" y1="75" y2="75"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="210.5" x2="373.5" y1="83" y2="83"/><ellipse cx="220.5" cy="94" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="125" x="229.5" y="97.2104">getIpAddress(): String</text><ellipse cx="220.5" cy="106.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="139" x="229.5" y="110.0151">getIpAddresses(): String</text></a><!--MD5=[b72c25b709c0df8ae7ba7efbe07302a3]
+class com.ibm.fhir.core.util.handler.HostnameHandler--><a href="HostnameHandler.html" target="_top" title="HostnameHandler.html" xlink:actuate="onRequest" xlink:href="HostnameHandler.html" xlink:show="new" xlink:title="HostnameHandler.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1ix1f4cn8chqj)" height="60.8047" id="com.ibm.fhir.core.util.handler.HostnameHandler" style="stroke: #A80036; stroke-width: 1.5;" width="152" x="22" y="49.5"/><ellipse cx="40.15" cy="65.5" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M43.1188,71.1406 Q42.5406,71.4375 41.9,71.5781 Q41.2594,71.7344 40.5563,71.7344 Q38.0563,71.7344 36.7281,70.0938 Q35.4156,68.4375 35.4156,65.3125 Q35.4156,62.1875 36.7281,60.5313 Q38.0563,58.875 40.5563,58.875 Q41.2594,58.875 41.9,59.0313 Q42.5563,59.1875 43.1188,59.4844 L43.1188,62.2031 Q42.4938,61.625 41.9,61.3594 Q41.3063,61.0781 40.6813,61.0781 Q39.3375,61.0781 38.65,62.1563 Q37.9625,63.2188 37.9625,65.3125 Q37.9625,67.4063 38.65,68.4844 Q39.3375,69.5469 40.6813,69.5469 Q41.3063,69.5469 41.9,69.2813 Q42.4938,69 43.1188,68.4219 L43.1188,71.1406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="113" x="54.85" y="69.6543">HostnameHandler</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="173" y1="81.5" y2="81.5"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="173" y1="89.5" y2="89.5"/><ellipse cx="33" cy="100.5" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="126" x="42" y="103.7104">getHostname(): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="111.5" y="152.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[6d2c3b330634a2355091790136f6cedd]
+@startuml
+    namespace com.ibm.fhir.core.util.handler {
+
+        class IPHandler [[IPHandler.html]] {
+            +getIpAddress(): String
+            +getIpAddresses(): String
+        }
+
+        class HostnameHandler [[HostnameHandler.html]] {
+            +getHostname(): String
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

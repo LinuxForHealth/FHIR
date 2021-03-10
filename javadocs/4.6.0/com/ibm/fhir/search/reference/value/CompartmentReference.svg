@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="133px" preserveAspectRatio="none" style="width:305px;height:133px;" version="1.1" viewBox="0 0 305 133" width="305px" zoomAndPan="magnify"><defs><filter height="300%" id="fidvs1zfvsd4m" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5112736048952e773224b2b0c26387db]
+class com.ibm.fhir.search.reference.value.CompartmentReference--><a href="CompartmentReference.html" target="_top" title="CompartmentReference.html" xlink:actuate="onRequest" xlink:href="CompartmentReference.html" xlink:show="new" xlink:title="CompartmentReference.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fidvs1zfvsd4m)" height="97.1563" id="com.ibm.fhir.search.reference.value.CompartmentReference" style="stroke: #A80036; stroke-width: 1.5;" width="287" x="7" y="7"/><ellipse cx="58.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M61.7188,31.6094 Q61.1406,31.9063 60.5,32.0469 Q59.8594,32.2031 59.1563,32.2031 Q56.6563,32.2031 55.3281,30.5625 Q54.0156,28.9063 54.0156,25.7813 Q54.0156,22.6563 55.3281,21 Q56.6563,19.3438 59.1563,19.3438 Q59.8594,19.3438 60.5,19.5 Q61.1563,19.6563 61.7188,19.9531 L61.7188,22.6719 Q61.0938,22.0938 60.5,21.8281 Q59.9063,21.5469 59.2813,21.5469 Q57.9375,21.5469 57.25,22.625 Q56.5625,23.6875 56.5625,25.7813 Q56.5625,27.875 57.25,28.9531 Q57.9375,30.0156 59.2813,30.0156 Q59.9063,30.0156 60.5,29.75 Q61.0938,29.4688 61.7188,28.8906 L61.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="167" x="83.25" y="24.9951">CompartmentReference</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="175" x="79.25" y="37.5791">com.ibm.fhir.search.reference.value</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="293" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="261" x="27" y="59.1479">CompartmentReference(String, String, String)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="161" x="27" y="71.9526">getParameterName(): String</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="205" x="27" y="84.7573">getReferenceResourceType(): String</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="209" x="27" y="97.562">getReferenceResourceValue(): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="57.5" y="120.4385">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[137947c88e8fea710029ce328e48d531]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CompartmentReference\n<size:10>com.ibm.fhir.search.reference.value" as com.ibm.fhir.search.reference.value.CompartmentReference [[CompartmentReference.html]] {
+        +CompartmentReference(String, String, String)
+        +getParameterName(): String
+        +getReferenceResourceType(): String
+        +getReferenceResourceValue(): String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

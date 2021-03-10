@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="218px" preserveAspectRatio="none" style="width:236px;height:218px;" version="1.1" viewBox="0 0 236 218" width="236px" zoomAndPan="magnify"><defs><filter height="300%" id="f1udat5gckak2j" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[ac71e91ecd3d83e720d1f18b58115567]
+class com.ibm.fhir.cli.invoker.DeleteInvoker--><a href="DeleteInvoker.html" target="_top" title="DeleteInvoker.html" xlink:actuate="onRequest" xlink:href="DeleteInvoker.html" xlink:show="new" xlink:title="DeleteInvoker.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1udat5gckak2j)" height="58.7422" id="com.ibm.fhir.cli.invoker.DeleteInvoker" style="stroke: #A80036; stroke-width: 1.5;" width="215" x="8" y="127"/><ellipse cx="55.75" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M58.7188,151.6094 Q58.1406,151.9063 57.5,152.0469 Q56.8594,152.2031 56.1563,152.2031 Q53.6563,152.2031 52.3281,150.5625 Q51.0156,148.9063 51.0156,145.7813 Q51.0156,142.6563 52.3281,141 Q53.6563,139.3438 56.1563,139.3438 Q56.8594,139.3438 57.5,139.5 Q58.1563,139.6563 58.7188,139.9531 L58.7188,142.6719 Q58.0938,142.0938 57.5,141.8281 Q56.9063,141.5469 56.2813,141.5469 Q54.9375,141.5469 54.25,142.625 Q53.5625,143.6875 53.5625,145.7813 Q53.5625,147.875 54.25,148.9531 Q54.9375,150.0156 56.2813,150.0156 Q56.9063,150.0156 57.5,149.75 Q58.0938,149.4688 58.7188,148.8906 L58.7188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="96" x="83.75" y="144.9951">DeleteInvoker</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="111" x="76.25" y="157.5791">com.ibm.fhir.cli.invoker</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="9" x2="222" y1="164.9375" y2="164.9375"/><ellipse cx="19" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="189" x="28" y="179.1479">doInvoke(InvocationContext): void</text></a><!--MD5=[bded8d18b0582ed3a4c4b2ddf7847440]
+class com.ibm.fhir.cli.invoker.OperationInvoker--><a href="OperationInvoker.html" target="_top" title="OperationInvoker.html" xlink:actuate="onRequest" xlink:href="OperationInvoker.html" xlink:show="new" xlink:title="OperationInvoker.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1udat5gckak2j)" height="58.7422" id="com.ibm.fhir.cli.invoker.OperationInvoker" style="stroke: #A80036; stroke-width: 1.5;" width="219" x="6" y="8"/><ellipse cx="51.25" cy="26.9688" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M51.3594,22.3125 L50.2031,27.3906 L52.5313,27.3906 L51.3594,22.3125 Z M49.875,20.0781 L52.8594,20.0781 L56.2188,32.4688 L53.7656,32.4688 L53,29.4063 L49.7188,29.4063 L48.9688,32.4688 L46.5313,32.4688 L49.875,20.0781 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="120" x="71.75" y="25.9951">OperationInvoker</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="119" x="72.25" y="38.5791">com.ibm.fhir.cli.invoker</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="224" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="193" x="26" y="60.1479">doInvoke(InvocationContext): void</text></a><!--MD5=[a4ca5bc56e1e5555da7e110e5ca08c16]
+reverse link com.ibm.fhir.cli.invoker.OperationInvoker to com.ibm.fhir.cli.invoker.DeleteInvoker--><path d="M115.5,87.3288 C115.5,100.7348 115.5,114.8139 115.5,126.7447 " fill="none" id="com.ibm.fhir.cli.invoker.OperationInvoker&lt;-com.ibm.fhir.cli.invoker.DeleteInvoker" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="108.5001,87.2218,115.5,67.2218,122.5001,87.2217,108.5001,87.2218" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="28.5" y="205.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[bb465c151790bbc7beb7fc7aa69b9a9b]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>DeleteInvoker\n<size:10>com.ibm.fhir.cli.invoker" as com.ibm.fhir.cli.invoker.DeleteInvoker [[DeleteInvoker.html]] {
+        +doInvoke(InvocationContext): void
+    }
+
+    abstract class "<size:14>OperationInvoker\n<size:10>com.ibm.fhir.cli.invoker" as com.ibm.fhir.cli.invoker.OperationInvoker [[OperationInvoker.html]] {
+        {abstract} +doInvoke(InvocationContext): void
+    }
+
+    com.ibm.fhir.cli.invoker.OperationInvoker <|- - com.ibm.fhir.cli.invoker.DeleteInvoker
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="243px" preserveAspectRatio="none" style="width:288px;height:243px;" version="1.1" viewBox="0 0 288 243" width="288px" zoomAndPan="magnify"><defs><filter height="300%" id="fo42e0x2pcztv" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6a3eac7906721d7ff79b665c9d377fbc]
+class com.ibm.fhir.database.utils.model.VarbinaryColumn--><a href="VarbinaryColumn.html" target="_top" title="VarbinaryColumn.html" xlink:actuate="onRequest" xlink:href="VarbinaryColumn.html" xlink:show="new" xlink:title="VarbinaryColumn.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fo42e0x2pcztv)" height="84.3516" id="com.ibm.fhir.database.utils.model.VarbinaryColumn" style="stroke: #A80036; stroke-width: 1.5;" width="270" x="6.5" y="127"/><ellipse cx="55.25" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M58.2188,151.6094 Q57.6406,151.9063 57,152.0469 Q56.3594,152.2031 55.6563,152.2031 Q53.1563,152.2031 51.8281,150.5625 Q50.5156,148.9063 50.5156,145.7813 Q50.5156,142.6563 51.8281,141 Q53.1563,139.3438 55.6563,139.3438 Q56.3594,139.3438 57,139.5 Q57.6563,139.6563 58.2188,139.9531 L58.2188,142.6719 Q57.5938,142.0938 57,141.8281 Q56.4063,141.5469 55.7813,141.5469 Q54.4375,141.5469 53.75,142.625 Q53.0625,143.6875 53.0625,145.7813 Q53.0625,147.875 53.75,148.9531 Q54.4375,150.0156 55.7813,150.0156 Q56.4063,150.0156 57,149.75 Q57.5938,149.4688 58.2188,148.8906 L58.2188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="116" x="99.75" y="144.9951">VarbinaryColumn</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="164" x="75.75" y="157.5791">com.ibm.fhir.database.utils.model</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7.5" x2="275.5" y1="164.9375" y2="164.9375"/><ellipse cx="17.5" cy="175.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="214" x="26.5" y="179.1479">VarbinaryColumn(String, int, boolean)</text><ellipse cx="17.5" cy="188.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="26.5" y="191.9526">getSize(): int</text><ellipse cx="17.5" cy="201.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="244" x="26.5" y="204.7573">getTypeInfo(IDatabaseTypeAdapter): String</text></a><!--MD5=[507d81df87e71aecdd50b7d35073c91d]
+class com.ibm.fhir.database.utils.model.ColumnBase--><a href="ColumnBase.html" target="_top" title="ColumnBase.html" xlink:actuate="onRequest" xlink:href="ColumnBase.html" xlink:show="new" xlink:title="ColumnBase.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fo42e0x2pcztv)" height="58.7422" id="com.ibm.fhir.database.utils.model.ColumnBase" style="stroke: #A80036; stroke-width: 1.5;" width="271" x="6" y="8"/><ellipse cx="52.25" cy="26.9688" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M52.3594,22.3125 L51.2031,27.3906 L53.5313,27.3906 L52.3594,22.3125 Z M50.875,20.0781 L53.8594,20.0781 L57.2188,32.4688 L54.7656,32.4688 L54,29.4063 L50.7188,29.4063 L49.9688,32.4688 L47.5313,32.4688 L50.875,20.0781 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="87" x="114.25" y="25.9951">ColumnBase</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="170" x="72.75" y="38.5791">com.ibm.fhir.database.utils.model</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="276" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="245" x="26" y="60.1479">getTypeInfo(IDatabaseTypeAdapter): String</text></a><!--MD5=[e4d5fe58dc5125749cd294f10cb2849d]
+reverse link com.ibm.fhir.database.utils.model.ColumnBase to com.ibm.fhir.database.utils.model.VarbinaryColumn--><path d="M141.5,87.138 C141.5,100.225 141.5,114.2196 141.5,126.8691 " fill="none" id="com.ibm.fhir.database.utils.model.ColumnBase&lt;-com.ibm.fhir.database.utils.model.VarbinaryColumn" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="134.5001,87.0112,141.5,67.0112,148.5001,87.0111,134.5001,87.0112" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="54.5" y="230.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[0bdfeb8f921b59faef927aca59cebf35]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>VarbinaryColumn\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.VarbinaryColumn [[VarbinaryColumn.html]] {
+        +VarbinaryColumn(String, int, boolean)
+        +getSize(): int
+        +getTypeInfo(IDatabaseTypeAdapter): String
+    }
+
+    abstract class "<size:14>ColumnBase\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.ColumnBase [[ColumnBase.html]] {
+        {abstract} +getTypeInfo(IDatabaseTypeAdapter): String
+    }
+
+    com.ibm.fhir.database.utils.model.ColumnBase <|- - com.ibm.fhir.database.utils.model.VarbinaryColumn
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
