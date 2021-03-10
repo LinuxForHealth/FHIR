@@ -7,7 +7,6 @@
 package com.ibm.fhir.bulkdata.jbatch.export.system;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.batch.api.BatchProperty;
@@ -96,13 +95,11 @@ public class ChunkWriter extends AbstractItemWriter {
         ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         wrapper.registerTransient(executionId, chunkData, cosBucketPathPrefix, fhirResourceType, isExportPublic);
 
-        List<ReadResultDTO> dtos = new ArrayList<>();
-        // Is there a cleaner way to add these in a type-safe way?
-        for (Object resourceDtos : resourceLists) {
-            if (resourceDtos instanceof ReadResultDTO) {
-                dtos.add((ReadResultDTO) resourceDtos);
-            }
+        if (!resourceLists.stream().allMatch(ReadResultDTO.class::isInstance)) {
+            throw new IllegalStateException("Expected a list of ReadResultDTO");
         }
+        @SuppressWarnings("unchecked")
+        List<ReadResultDTO> dtos = (List<ReadResultDTO>)(List<?>) resourceLists;
 
         wrapper.writeResources(ctx.getFhirExportFormat(), dtos);
         stepCtx.setTransientUserData(chunkData);

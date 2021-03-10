@@ -98,6 +98,19 @@ public class BulkDataUtils {
         }
     }
 
+    /**
+     * Use the passed cosClient to upload part of a multi-part object
+     * @param cosClient
+     * @param bucketName
+     * @param itemName
+     * @param uploadID
+     * @param dataStream
+     * @param partSize
+     * @param partNum
+     * @return
+     * @throws Exception
+     * @implSpec This method does not close the passed dataStream
+     */
     public static PartETag multiPartUpload(AmazonS3 cosClient, String bucketName, String itemName, String uploadID,
             InputStream dataStream, int partSize, int partNum) throws Exception {
         try {

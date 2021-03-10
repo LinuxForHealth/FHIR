@@ -1738,9 +1738,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
         T resource = null;
+        InputStream in = null;
         try {
             if (resourceDTO != null) {
-                InputStream in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
+                in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
                 if (elements != null) {
                     // parse/filter the resource using elements
                     resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
@@ -1751,9 +1752,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 } else {
                     resource = FHIRParser.parser(Format.JSON).parse(in);
                 }
-                in.close();
             }
         } finally {
+            if (in != null) {
+                in.close();
+            }
+
             log.exiting(CLASSNAME, METHODNAME);
         }
         return resource;

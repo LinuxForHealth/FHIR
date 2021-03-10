@@ -51,7 +51,7 @@ public class S3Provider implements Provider {
 
     private static final Logger logger = Logger.getLogger(S3Provider.class.getName());
 
-    private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize();
+    private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
 
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
@@ -254,10 +254,17 @@ public class S3Provider implements Provider {
             // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
             if (transientUserData.getBufferStreamForImport().size() > COS_PART_MINIMALSIZE) {
                 if (transientUserData.getUploadIdForOperationOutcomes() == null) {
-                    transientUserData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(client, bucketName, transientUserData.getUniqueIDForImportOperationOutcomes(), true));
+                    transientUserData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(client,
+                            bucketName, transientUserData.getUniqueIDForImportOperationOutcomes(), true));
                 }
 
-                transientUserData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(client, bucketName, transientUserData.getUniqueIDForImportOperationOutcomes(), transientUserData.getUploadIdForOperationOutcomes(), new ByteArrayInputStream(transientUserData.getBufferStreamForImport().toByteArray()), transientUserData.getBufferStreamForImport().size(), (int) transientUserData.getPartNumForOperationOutcomes()));
+                transientUserData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(client,
+                        bucketName,
+                        transientUserData.getUniqueIDForImportOperationOutcomes(),
+                        transientUserData.getUploadIdForOperationOutcomes(),
+                        new ByteArrayInputStream(transientUserData.getBufferStreamForImport().toByteArray()),
+                        transientUserData.getBufferStreamForImport().size(),
+                        transientUserData.getPartNumForOperationOutcomes()));
 
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("pushImportOperationOutcomesToCOS: " + transientUserData.getBufferStreamForImport().size()
@@ -270,10 +277,17 @@ public class S3Provider implements Provider {
             // Upload OperationOutcomes in failure buffer if it reaches the minimal size for multiple-parts upload.
             if (transientUserData.getBufferStreamForImportError().size() > COS_PART_MINIMALSIZE) {
                 if (transientUserData.getUploadIdForFailureOperationOutcomes() == null) {
-                    transientUserData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(client, bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes(), true));
+                    transientUserData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(client,
+                            bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes(), true));
                 }
 
-                transientUserData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(client, bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes(), transientUserData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(transientUserData.getBufferStreamForImportError().toByteArray()), transientUserData.getBufferStreamForImportError().size(), (int) transientUserData.getPartNumForFailureOperationOutcomes()));
+                transientUserData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(client,
+                        bucketName,
+                        transientUserData.getUniqueIDForImportFailureOperationOutcomes(),
+                        transientUserData.getUploadIdForFailureOperationOutcomes(),
+                        new ByteArrayInputStream(transientUserData.getBufferStreamForImportError().toByteArray()),
+                        transientUserData.getBufferStreamForImportError().size(),
+                        transientUserData.getPartNumForFailureOperationOutcomes()));
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("pushImportOperationOutcomesToOS: " + transientUserData.getBufferStreamForImportError().size()
                             + " bytes were successfully appended to COS object - " + transientUserData.getUniqueIDForImportFailureOperationOutcomes());
@@ -316,28 +330,30 @@ public class S3Provider implements Provider {
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
+        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
         for (ReadResultDTO dto : dtos) {
             switch (mediaType) {
             case FHIRMediaType.APPLICATION_PARQUET:
-                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
+                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.getBufferStream().size() > cosMultiPartMinSize || chunkData.isFinishCurrentUpload()) {
                     pushFhirParquetToCos(dto.getResources());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
                 break;
             case FHIRMediaType.APPLICATION_NDJSON:
             default:
-                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
+                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.getBufferStream().size() > cosMultiPartMinSize || chunkData.isFinishCurrentUpload()) {
                     // TODO try PipedOutputStream -> PipedInputStream instead?
                     pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
             }
+            break;
         }
     }
 
     @Override
     public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
-        boolean isExportPublic) throws Exception {
+            boolean isExportPublic) throws Exception {
         if (transientUserData == null) {
             logger.warning("registerTransient: chunkData is null, this should never happen!");
             throw new Exception("registerTransient: chunkData is null, this should never happen!");

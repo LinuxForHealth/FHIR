@@ -49,15 +49,15 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public long getCoreCosMaxResources() {
+    public int getCoreCosObjectResourceCountThreshold() {
         final String PATH = "fhirServer/bulkdata/cosFileMaxResources";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_RESOURCE_COUNT);
     }
 
     @Override
-    public long getCoreCosThresholdSize() {
+    public long getCoreCosObjectSizeThreshold() {
         final String PATH = "fhirServer/bulkdata/cosFileMaxSize";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COSFILE_MAX_SIZE);
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_SIZE_MB * 1024 * 1024);
     }
 
     @Override
@@ -206,7 +206,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isFastExport() {
-        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/systemExportImpl", null);
+        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/systemExportImpl", "fast");
         return "fast".equals(type);
     }
 

@@ -14,9 +14,9 @@
                     "trustAll": true
                 },
                 "cos" : { 
-                    "maxResources": 200,
-                    "minSize": 10,
-                    "maxSize": 15,
+                    "partUploadTriggerSizeMB": 10,
+                    "objectSizeThresholdMB": 15,
+                    "objectResourceCountThreshold": 200000,
                     "useServerTruststore": true
                 },
                 "pageSize": 100,
