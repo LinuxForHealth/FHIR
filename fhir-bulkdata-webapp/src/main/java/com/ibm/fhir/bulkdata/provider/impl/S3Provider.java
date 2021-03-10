@@ -330,17 +330,18 @@ public class S3Provider implements Provider {
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
+        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
         for (ReadResultDTO dto : dtos) {
             switch (mediaType) {
             case FHIRMediaType.APPLICATION_PARQUET:
-                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
+                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.getBufferStream().size() > cosMultiPartMinSize || chunkData.isFinishCurrentUpload()) {
                     pushFhirParquetToCos(dto.getResources());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
                 break;
             case FHIRMediaType.APPLICATION_NDJSON:
             default:
-                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
+                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.getBufferStream().size() > cosMultiPartMinSize || chunkData.isFinishCurrentUpload()) {
                     // TODO try PipedOutputStream -> PipedInputStream instead?
                     pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
