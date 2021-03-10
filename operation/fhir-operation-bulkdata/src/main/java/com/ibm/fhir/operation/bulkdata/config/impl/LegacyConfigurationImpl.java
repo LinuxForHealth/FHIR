@@ -49,7 +49,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public long getCoreCosObjectResourceCountThreshold() {
+    public int getCoreCosObjectResourceCountThreshold() {
         final String PATH = "fhirServer/bulkdata/cosFileMaxResources";
         return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_RESOURCE_COUNT);
     }
@@ -57,7 +57,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     @Override
     public long getCoreCosObjectSizeThreshold() {
         final String PATH = "fhirServer/bulkdata/cosFileMaxSize";
-        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_SIZE_MB);
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_SIZE_MB * 1024 * 1024);
     }
 
     @Override

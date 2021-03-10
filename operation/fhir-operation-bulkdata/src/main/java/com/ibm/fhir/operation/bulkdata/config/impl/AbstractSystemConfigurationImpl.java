@@ -56,7 +56,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
     // The following are set on startup:
-    private static final long coreCosObjectResourceCountThreshold = defaultCoreCosObjectResourceCountThreshold();
+    private static final int coreCosObjectResourceCountThreshold = defaultCoreCosObjectResourceCountThreshold();
     private static final int coreCosPartUploadTriggerSize = defaultCoreCosPartUploadTriggerSize();
     private static final long coreCosObjectSizeThreshold = defaultCoreCosObjectSizeThreshold();
     private static final boolean coreCosUseServerTruststore = defaultCoreCosUseServerTruststore();
@@ -145,11 +145,11 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public long getCoreCosObjectResourceCountThreshold() {
+    public int getCoreCosObjectResourceCountThreshold() {
         return coreCosObjectResourceCountThreshold;
     }
 
-    private static final long defaultCoreCosObjectResourceCountThreshold() {
+    private static final int defaultCoreCosObjectResourceCountThreshold() {
         final String PATH = "fhirServer/bulkdata/core/cos/objectResourceCountThreshold";
         return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_COS_OBJ_MAX_RESOURCE_COUNT);
     }

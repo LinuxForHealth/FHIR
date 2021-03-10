@@ -131,7 +131,7 @@ public interface ConfigurationAdapter {
      *
      * @return
      */
-    long getCoreCosObjectResourceCountThreshold();
+    int getCoreCosObjectResourceCountThreshold();
 
     /**
      * @implNote System value.

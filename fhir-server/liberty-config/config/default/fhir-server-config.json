@@ -151,7 +151,7 @@
                 "batchIdEncryptionKey": "change-password",
                 "maxPartitions": 3, 
                 "maxInputs": 5,
-                "systemExportImpl": "legacy"
+                "systemExportImpl": "fast"
             },
             "storageProviders": {
                 "default" : {
