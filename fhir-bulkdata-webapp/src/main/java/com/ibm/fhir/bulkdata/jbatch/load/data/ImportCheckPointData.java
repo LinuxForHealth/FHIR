@@ -41,7 +41,7 @@ public class ImportCheckPointData implements Serializable {
     // COS/S3 object name for import OperationOutcomes.
     protected String uniqueIDForImportOperationOutcomes = null;
     // Part number for COS/S3 multiple-parts upload.
-    protected long partNumForOperationOutcomes = 1;
+    protected int partNumForOperationOutcomes = 1;
     // Upload id for COS/S3 multiple-parts upload.
     protected String uploadIdForOperationOutcomes = null;
     // ETags for COS/S3 multiple-parts upload.
@@ -50,7 +50,7 @@ public class ImportCheckPointData implements Serializable {
     // COS/S3 object name for import failure OperationOutcomes;
     protected String uniqueIDForImportFailureOperationOutcomes = null;
     // Part number for COS/S3 multiple-parts upload.
-    protected long partNumForFailureOperationOutcomes = 1;
+    protected int partNumForFailureOperationOutcomes = 1;
     // Upload id for COS/S3 multiple-parts upload.
     protected String uploadIdForFailureOperationOutcomes = null;
     // ETags for COS/S3 multiple-parts upload.
@@ -113,7 +113,26 @@ public class ImportCheckPointData implements Serializable {
     }
 
     public static ImportCheckPointData fromImportTransientUserData(ImportTransientUserData userData) {
-        return ImportCheckPointData.Builder.builder().importPartitionWorkitem(userData.getImportPartitionWorkitem()).numOfProcessedResources(userData.getNumOfProcessedResources()).importPartitionResourceType(userData.getImportPartitionResourceType()).numOfImportedResources(userData.getNumOfImportedResources()).numOfImportFailures(userData.getNumOfImportFailures()).uniqueIDForImportFailureOperationOutcomes(userData.getUniqueIDForImportFailureOperationOutcomes()).uniqueIDForImportOperationOutcomes(userData.getUniqueIDForImportOperationOutcomes()).uploadIdForOperationOutcomes(userData.getUploadIdForOperationOutcomes()).dataPacksForOperationOutcomes(userData.getDataPacksForOperationOutcomes()).partNumForOperationOutcomes(userData.getPartNumForOperationOutcomes()).uploadIdForFailureOperationOutcomes(userData.getUploadIdForFailureOperationOutcomes()).dataPacksForFailureOperationOutcomes(userData.getDataPacksForFailureOperationOutcomes()).partNumForFailureOperationOutcomes(userData.getPartNumForFailureOperationOutcomes()).totalReadMilliSeconds(userData.getTotalReadMilliSeconds()).totalValidationMilliSeconds(userData.getTotalValidationMilliSeconds()).totalWriteMilliSeconds(userData.getTotalWriteMilliSeconds()).importFileSize(userData.getImportFileSize()).inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds()).build();
+        return ImportCheckPointData.Builder.builder()
+                .importPartitionWorkitem(userData.getImportPartitionWorkitem())
+                .numOfProcessedResources(userData.getNumOfProcessedResources())
+                .importPartitionResourceType(userData.getImportPartitionResourceType())
+                .numOfImportedResources(userData.getNumOfImportedResources())
+                .numOfImportFailures(userData.getNumOfImportFailures())
+                .uniqueIDForImportFailureOperationOutcomes(userData.getUniqueIDForImportFailureOperationOutcomes())
+                .uniqueIDForImportOperationOutcomes(userData.getUniqueIDForImportOperationOutcomes())
+                .uploadIdForOperationOutcomes(userData.getUploadIdForOperationOutcomes())
+                .dataPacksForOperationOutcomes(userData.getDataPacksForOperationOutcomes())
+                .partNumForOperationOutcomes(userData.getPartNumForOperationOutcomes())
+                .uploadIdForFailureOperationOutcomes(userData.getUploadIdForFailureOperationOutcomes())
+                .dataPacksForFailureOperationOutcomes(userData.getDataPacksForFailureOperationOutcomes())
+                .partNumForFailureOperationOutcomes(userData.getPartNumForFailureOperationOutcomes())
+                .totalReadMilliSeconds(userData.getTotalReadMilliSeconds())
+                .totalValidationMilliSeconds(userData.getTotalValidationMilliSeconds())
+                .totalWriteMilliSeconds(userData.getTotalWriteMilliSeconds())
+                .importFileSize(userData.getImportFileSize())
+                .inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds())
+                .build();
     }
 
     public String getUniqueIDForImportOperationOutcomes() {
@@ -124,11 +143,11 @@ public class ImportCheckPointData implements Serializable {
         return uniqueIDForImportFailureOperationOutcomes;
     }
 
-    public long getPartNumForOperationOutcomes() {
+    public int getPartNumForOperationOutcomes() {
         return partNumForOperationOutcomes;
     }
 
-    public void setPartNumForOperationOutcomes(long partNumForOperationOutcomes) {
+    public void setPartNumForOperationOutcomes(int partNumForOperationOutcomes) {
         this.partNumForOperationOutcomes = partNumForOperationOutcomes;
     }
 
@@ -144,11 +163,11 @@ public class ImportCheckPointData implements Serializable {
         return dataPacksForOperationOutcomes;
     }
 
-    public long getPartNumForFailureOperationOutcomes() {
+    public int getPartNumForFailureOperationOutcomes() {
         return partNumForFailureOperationOutcomes;
     }
 
-    public void setPartNumForFailureOperationOutcomes(long partNumForFailureOperationOutcomes) {
+    public void setPartNumForFailureOperationOutcomes(int partNumForFailureOperationOutcomes) {
         this.partNumForFailureOperationOutcomes = partNumForFailureOperationOutcomes;
     }
 
@@ -239,10 +258,10 @@ public class ImportCheckPointData implements Serializable {
         protected String uniqueIDForImportOperationOutcomes;
         protected String uploadIdForOperationOutcomes;
         protected List<PartETag> dataPacksForOperationOutcomes;
-        protected long partNumForOperationOutcomes;
+        protected int partNumForOperationOutcomes;
         protected String uploadIdForFailureOperationOutcomes;
         protected List<PartETag> dataPacksForFailureOperationOutcomes;
-        protected long partNumForFailureOperationOutcomes;
+        protected int partNumForFailureOperationOutcomes;
         protected long totalReadMilliSeconds;
         protected long totalValidationMilliSeconds;
         protected long totalWriteMilliSeconds;
@@ -302,7 +321,7 @@ public class ImportCheckPointData implements Serializable {
             return this;
         }
 
-        public Builder partNumForOperationOutcomes(long partNumForOperationOutcomes) {
+        public Builder partNumForOperationOutcomes(int partNumForOperationOutcomes) {
             this.partNumForOperationOutcomes = partNumForOperationOutcomes;
             return this;
         }
@@ -317,7 +336,7 @@ public class ImportCheckPointData implements Serializable {
             return this;
         }
 
-        public Builder partNumForFailureOperationOutcomes(long partNumForFailureOperationOutcomes) {
+        public Builder partNumForFailureOperationOutcomes(int partNumForFailureOperationOutcomes) {
             this.partNumForFailureOperationOutcomes = partNumForFailureOperationOutcomes;
             return this;
         }

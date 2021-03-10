@@ -467,22 +467,21 @@ public class ResourcePayloadReader extends AbstractItemReader {
     }
 
     /**
-     * Upload the contents of the outputStream (data buffer) using the
-     * current multi-part upload
+     * Upload the contents of the outputStream (data buffer) using the current multi-part upload
      * @throws Exception
      */
     private void uploadPart() throws Exception {
         // S3 API: Part number must be an integer between 1 and 10000
         int currentObjectPartNumber = uploadedParts.size() + 1;
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ outputStream.size() + " bytes] for uploadId '" + this.uploadId + "'");
+            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ outputStream.size() + " bytes] for uploadId '" + uploadId + "'");
         }
 
         byte[] buffer = outputStream.toByteArray();
         InputStream is = new ByteArrayInputStream(buffer);
         PartETag uploadResult = BulkDataUtils.multiPartUpload(cosClient, cosBucketName, currentObjectName,
-            this.uploadId, is, buffer.length, currentObjectPartNumber);
-        this.uploadedParts.add(uploadResult);
+                uploadId, is, buffer.length, currentObjectPartNumber);
+        uploadedParts.add(uploadResult);
         outputStream.reset();
     }
 
@@ -504,7 +503,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         try  {
             logger.fine(logPrefix() + " finishing multi-part upload '" + this.uploadId + "'");
             BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, currentObjectName, uploadId,
-                this.uploadedParts);
+                    uploadedParts);
 
             // record how many resources we've exported for COS object. This is
             // used by the collector/analyzer to generate a list of objects. Inherited from

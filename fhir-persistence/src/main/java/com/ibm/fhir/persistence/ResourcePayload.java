@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.Instant;
+import java.util.Objects;
 
 /**
- * Data carrier used by the Consumer to send back streaming payload result data
- * to a caller
+ * Data carrier used by the Consumer to send back streaming payload result data to a caller
  */
 public class ResourcePayload {
     private final String logicalId;
@@ -21,7 +21,17 @@ public class ResourcePayload {
     private final long resourceId;
     private final InputStream decompressedPayload;
 
+    /**
+     * @param logicalId the non-null row identifier from the logical_resources table for this resource
+     * @param lastUpdated the non-null lastUpdated time for this resource
+     * @param resourceId the non-null row identifier from the x_resources table for this resource
+     * @param decompressedPayload a non-null InputStream with the contents of a given resource in JSON format
+     */
     public ResourcePayload(String logicalId, Instant lastUpdated, long resourceId, InputStream decompressedPayload) {
+        Objects.requireNonNull(logicalId, "logicalId");
+        Objects.requireNonNull(lastUpdated, "lastUpdated");
+        Objects.requireNonNull(resourceId, "resourceId");
+        Objects.requireNonNull(decompressedPayload, "decompressedPayload");
         this.logicalId = logicalId;
         this.lastUpdated = lastUpdated;
         this.resourceId = resourceId;

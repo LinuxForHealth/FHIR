@@ -94,9 +94,12 @@ public class ImportPartitionCollector implements PartitionCollector {
                         }
 
                         partitionSummaryData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(wrapper.getClient(),
-                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
-                                partitionSummaryData.getUploadIdForOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImport().toByteArray()),
-                                partitionSummaryData.getBufferStreamForImport().size(), (int) partitionSummaryData.getPartNumForOperationOutcomes()));
+                                cosOperationOutcomesBucketName,
+                                partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
+                                partitionSummaryData.getUploadIdForOperationOutcomes(),
+                                new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImport().toByteArray()),
+                                partitionSummaryData.getBufferStreamForImport().size(),
+                                partitionSummaryData.getPartNumForOperationOutcomes()));
                         if (logger.isLoggable(Level.FINE)) {
                             logger.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImport().size()
                                 + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportOperationOutcomes());
@@ -118,9 +121,12 @@ public class ImportPartitionCollector implements PartitionCollector {
                         }
 
                         partitionSummaryData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(wrapper.getClient(),
-                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(),
-                                partitionSummaryData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImportError().toByteArray()),
-                                partitionSummaryData.getBufferStreamForImportError().size(), (int) partitionSummaryData.getPartNumForFailureOperationOutcomes()));
+                                cosOperationOutcomesBucketName,
+                                partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(),
+                                partitionSummaryData.getUploadIdForFailureOperationOutcomes(),
+                                new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImportError().toByteArray()),
+                                partitionSummaryData.getBufferStreamForImportError().size(),
+                                partitionSummaryData.getPartNumForFailureOperationOutcomes()));
                         if (logger.isLoggable(Level.FINE)) {
                             logger.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImportError().size()
                                 + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes());

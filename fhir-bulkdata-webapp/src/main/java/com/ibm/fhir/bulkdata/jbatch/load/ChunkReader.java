@@ -83,25 +83,25 @@ public class ChunkReader extends AbstractItemReader {
 
         if (checkpoint != null) {
             ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
-            // importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
             numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
             checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
             stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
         } else {
-
-            ImportTransientUserData chunkData =
-                    (ImportTransientUserData) ImportTransientUserData.Builder.builder().importPartitionWorkitem(ctx.getImportPartitionWorkitem()).numOfProcessedResources(numOfLinesToSkip).importPartitionResourceType(ctx.getPartitionResourceType())
-                        // This naming pattern is used in bulkdata operation to generate file links for import
-                        // OperationOutcomes.
-                        // e.g, for input file test1.ndjson, if there is any error during the importing, then the
-                        // errors are in
-                        // test1.ndjson_oo_errors.ndjson
-                        // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
-                        // so only error import
-                        // OperationOutcomes are supported for now.
-                        .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem()
-                                + "_oo_success.ndjson").uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem()
-                                        + "_oo_errors.ndjson").build();
+            ImportTransientUserData chunkData = ImportTransientUserData.Builder.builder()
+                    .importPartitionWorkitem(ctx.getImportPartitionWorkitem())
+                    .numOfProcessedResources(numOfLinesToSkip)
+                    .importPartitionResourceType(ctx.getPartitionResourceType())
+                    // This naming pattern is used in bulkdata operation to generate file links for import
+                    // OperationOutcomes.
+                    // e.g, for input file test1.ndjson, if there is any error during the importing, then the
+                    // errors are in
+                    // test1.ndjson_oo_errors.ndjson
+                    // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
+                    // so only error import
+                    // OperationOutcomes are supported for now.
+                    .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_success.ndjson")
+                    .uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
+                    .build();
 
             Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
             long importFileSize = wrapper.getSize(workItem);

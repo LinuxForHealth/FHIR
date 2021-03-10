@@ -206,7 +206,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isFastExport() {
-        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/systemExportImpl", null);
+        String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/systemExportImpl", "fast");
         return "fast".equals(type);
     }
 
