@@ -105,7 +105,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     String cosBucketPathPrefix;
 
     // The maximum resources per COS Object
-    long resourcesPerObject = ConfigurationFactory.getInstance().getCoreCosMaxResources();
+    long resourcesPerObject = ConfigurationFactory.getInstance().getCoreCosObjectResourceCountThreshold();
 
     // The Java Batch context object
     @Inject
@@ -129,10 +129,10 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     // Cap the part upload size to avoid local memory issues. Also need to avoid transaction timeout
     // Used as an offset for internal byte array output stream, so should be an int
-    private int partUploadTriggerSize = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize() * 10;
+    private int partUploadTriggerSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize() * 10;
 
     // How large should a single COS item (file) be
-    private long maxObjectSize = ConfigurationFactory.getInstance().getCoreCosThresholdSize();
+    private long maxObjectSize = ConfigurationFactory.getInstance().getCoreCosObjectSizeThreshold();
 
     // The initial size of the buffer we use for export; 128 KiB more than partUploadTriggerSize
     private final int initialBufferSize = partUploadTriggerSize + (128 * 1024);

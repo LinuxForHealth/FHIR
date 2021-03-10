@@ -92,48 +92,49 @@ public interface ConfigurationAdapter {
     String getCoreApiBatchTrustStore();
 
     /**
-     *
      * @return the local batch api user password
      */
     String getCoreApiBatchTrustStorePassword();
 
     /**
-     *
-     * @return should we trust the calls to the backend.
+     * @return should we trust the calls to the backend
      */
     boolean shouldCoreApiBatchTrustAll();
 
     /**
-     * The maximum number of resources in a COS part.
+     * The size (in bytes) at which to begin writing a part for a COS multi-part upload.
+     *
+     * @implNote System value.
+     * @implNote The S3 API requires parts to be between 5 MB (5e+6 bytes) and 5 GB (5e+9 bytes).
+     * @implNote The S3 API does not allow more than 10,000 parts total (per Object).
+     *
+     * @return
+     */
+    int getCoreCosPartUploadTriggerSize();
+
+    /**
+     * The size (in bytes) at which to finish writing to a given COS object,
+     * or 0 to indicate that there is no object size threshold.
+     *
+     * @implNote System value.
+     * @implNote S3 objects have a maximum size of 5 TB (5e+12 bytes).
+     *
+     * @return
+     */
+    long getCoreCosObjectSizeThreshold();
+
+    /**
+     * The number of resources at which to finish writing to a given COS object,
+     * or 0 to indicate that there is no resource count threshold.
      *
      * @implNote System value.
      *
      * @return
      */
-    long getCoreCosMaxResources();
+    long getCoreCosObjectResourceCountThreshold();
 
     /**
-     * The minimum size of resources in a COS part.
-     *
      * @implNote System value.
-     *
-     * @return
-     */
-    int getCoreCosMultiPartMinSize();
-
-    /**
-     * The maximum size of resources in a COS part.
-     *
-     * @implNote System value.
-     *
-     * @return
-     */
-    long getCoreCosThresholdSize();
-
-    /**
-     *
-     * @implNote System value.
-     *
      * @return the system wide setting for using the server truststore.
      */
     boolean shouldCoreCosUseServerTruststore();

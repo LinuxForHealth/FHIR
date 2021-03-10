@@ -128,16 +128,15 @@
                     "trustAll": true
                 },
                 "cos" : { 
-                    "maxResourcesThreshold": 200000,
-                    "minPartSize": 10,
-                    "maxFileSizeThreshold": 200,
+                    "partUploadTriggerSizeMB": 10,
+                    "objectSizeThresholdMB": 200,
+                    "objectResourceCountThreshold": 200000,
                     "useServerTruststore": true
                 },
                 "pageSize": 100,
                 "batchIdEncryptionKey": "change-password",
                 "maxPartitions": 3, 
-                "maxInputs": 5,
-                "systemExportImpl": "fast"
+                "maxInputs": 5
             },
             "storageProviders": {
                 "default" : {
@@ -145,25 +144,6 @@
                     "_type": "ibm-cos|aws-s3|file|https",
                     "validBaseUrls": [],
                     "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
-                    "bucketName": "fhir-performance",
-                    "location": "us",
-                    "endpointInternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
-                    "endpointExternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
-                     "auth" : {
-                        "type": "hmac",
-                        "accessKeyId": "key",
-                        "secretAccessKey": "secret"
-                     },
-                     "_iam_auth" : {
-                        "type": "iam",
-                        "iamApiKey": "apiKey",
-                        "iamResourceInstanceId": "resourceId"
-                     },
-                     "_basic_auth" : {
-                        "type": "basic",
-                        "username": "username",
-                        "password": "password"
-                     },
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
                     "exportPublic": true,
@@ -181,7 +161,7 @@
                         "type": "hmac",
                         "accessKeyId": "minio",
                         "secretAccessKey": "change-password"
-                     },
+                    },
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
                     "exportPublic": true,

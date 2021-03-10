@@ -40,8 +40,8 @@ public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
 
-    private static final long MAX_RES = ConfigurationFactory.getInstance().getCoreCosMaxResources();
-    private static final long MAX_BUFFER = ConfigurationFactory.getInstance().getCoreCosThresholdSize();
+    private static final long MAX_RES = ConfigurationFactory.getInstance().getCoreCosObjectResourceCountThreshold();
+    private static final long MAX_BUFFER = ConfigurationFactory.getInstance().getCoreCosObjectSizeThreshold();
 
     private String source = null;
     private long parseFailures = 0l;

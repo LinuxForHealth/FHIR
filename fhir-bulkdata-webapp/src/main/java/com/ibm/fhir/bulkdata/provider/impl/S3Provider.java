@@ -51,7 +51,7 @@ public class S3Provider implements Provider {
 
     private static final Logger logger = Logger.getLogger(S3Provider.class.getName());
 
-    private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize();
+    private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
 
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
@@ -341,11 +341,12 @@ public class S3Provider implements Provider {
             case FHIRMediaType.APPLICATION_NDJSON:
             default:
                 if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
-                    // TODO try PipedOutputStream -> PipedInputStream instead?  Or maybe a ByteBuffer with a flip instead?
+                    // TODO try PipedOutputStream -> PipedInputStream instead?
                     pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
                     chunkData.setLastWritePageNum(chunkData.getPageNum());
                 }
             }
+            break;
         }
     }
 

@@ -54,13 +54,13 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             return false;
         }
 
-        long cosFileMaxResources = ConfigurationFactory.getInstance().getCoreCosMaxResources();
-        long cosFileThresholdSize = ConfigurationFactory.getInstance().getCoreCosThresholdSize();
-        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosMultiPartMinSize();
+        long cosFileMaxResources = ConfigurationFactory.getInstance().getCoreCosObjectResourceCountThreshold();
+        long cosFileThresholdSize = ConfigurationFactory.getInstance().getCoreCosObjectSizeThreshold();
+        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
 
         // Stop writing to the current COS object
-        boolean overFileSizeThreshold = cosFileThresholdSize != -1 && chunkData.getBufferStream().size() >= cosFileThresholdSize;
-        boolean overMaxResourceCountThreshold = cosFileMaxResources != -1 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
+        boolean overFileSizeThreshold = cosFileThresholdSize != 0 && chunkData.getBufferStream().size() >= cosFileThresholdSize;
+        boolean overMaxResourceCountThreshold = cosFileMaxResources != 0 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
         boolean end = chunkData.getPageNum() > chunkData.getLastPageNum();
         chunkData.setFinishCurrentUpload(overFileSizeThreshold || overMaxResourceCountThreshold || end);
 
