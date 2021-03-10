@@ -42,6 +42,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -159,7 +160,10 @@ public class ChunkWriter extends AbstractItemWriter {
             txn.begin();
 
             // Controls the writing of operation outcomes to S3/COS
-            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource());
+            // Similar code @see ImportPartitionCollector
+            StorageType type = adapter.getStorageProviderStorageType(ctx.getOutcome());
+            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
+                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
 
             try {
                 for (Object objResJsonList : arg0) {

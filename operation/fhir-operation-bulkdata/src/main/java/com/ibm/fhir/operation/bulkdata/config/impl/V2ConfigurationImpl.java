@@ -1,5 +1,4 @@
 /*
- * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -152,7 +151,8 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean shouldStorageProviderCollectOperationOutcomes(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableOperationOutcomes", Boolean.FALSE);
+        // Double negation... carefully change this line.
+        return !FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableOperationOutcomes", Boolean.TRUE);
     }
 
     @Override
