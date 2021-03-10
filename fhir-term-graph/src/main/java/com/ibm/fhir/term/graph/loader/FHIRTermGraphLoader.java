@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.apache.commons.cli.Options;
 
+import com.ibm.fhir.term.graph.FHIRTermGraph;
+
 public interface FHIRTermGraphLoader {
     enum Type {
         CODESYSTEM {
@@ -49,4 +51,5 @@ public interface FHIRTermGraphLoader {
     void load();
     void close();
     Map<String, String> options();
+    FHIRTermGraph getGraph();
 }

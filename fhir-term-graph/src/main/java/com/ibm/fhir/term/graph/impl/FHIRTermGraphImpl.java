@@ -194,4 +194,13 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
             graph = null;
         }
     }
+
+    @Override
+    public void dropAllVertices() {
+        log.info("Dropping all vertices...");
+        if (traversal != null) {
+            traversal.V().drop().iterate();
+            traversal.tx().commit();
+        }
+    }
 }

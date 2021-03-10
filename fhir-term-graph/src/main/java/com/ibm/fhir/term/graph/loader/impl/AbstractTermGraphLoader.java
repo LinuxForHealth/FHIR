@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.janusgraph.core.JanusGraph;
 
@@ -35,11 +36,30 @@ public abstract class AbstractTermGraphLoader implements FHIRTermGraphLoader {
         g = graph.traversal();
 
         // create label filter
-        if (options.containsKey("labels")) {
-            labelFilter = new LabelFilter(new HashSet<>(Arrays.asList(options.get("labels").split(","))));
-        } else {
-            labelFilter = LabelFilter.ACCEPT_ALL;
-        }
+        labelFilter = createLabelFilter(options);
+    }
+
+    public AbstractTermGraphLoader(Map<String, String> options, Configuration configuration) {
+        this.options = Objects.requireNonNull(options, "options");
+        Objects.requireNonNull(configuration, "configuration");
+
+        graph = FHIRTermGraphFactory.open(configuration);
+        janusGraph = graph.getJanusGraph();
+        g = graph.traversal();
+
+        // create label filter
+        labelFilter = createLabelFilter(options);
+    }
+
+    public AbstractTermGraphLoader(Map<String, String> options, FHIRTermGraph graph) {
+        this.options = Objects.requireNonNull(options, "options");
+
+        this.graph = Objects.requireNonNull(graph, "graph");
+        janusGraph = graph.getJanusGraph();
+        g = graph.traversal();
+
+        // create label filter
+        labelFilter = createLabelFilter(options);
     }
 
     @Override
@@ -53,5 +73,16 @@ public abstract class AbstractTermGraphLoader implements FHIRTermGraphLoader {
     @Override
     public final Map<String, String> options() {
         return options;
+    }
+
+    @Override
+    public final FHIRTermGraph getGraph() {
+        return graph;
+    }
+
+    protected LabelFilter createLabelFilter(Map<String, String> options) {
+        return options.containsKey("labels") ?
+                new LabelFilter(new HashSet<>(Arrays.asList(options.get("labels").split(",")))) :
+                    LabelFilter.ACCEPT_ALL;
     }
 }

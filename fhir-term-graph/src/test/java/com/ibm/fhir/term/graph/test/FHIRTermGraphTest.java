@@ -29,7 +29,7 @@ public class FHIRTermGraphTest {
         GraphTraversalSource g = graph.traversal();
 
         g.V().drop().iterate();
-        g.E().drop().iterate();
+//      g.E().drop().iterate();
 
         Vertex v1 = g.addV("Concept").property("code", "a").next();
         System.out.println(v1.id());

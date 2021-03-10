@@ -53,10 +53,16 @@ import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
+    private static final int DEFAULT_COUNT = 1000;
     private final FHIRTermGraph graph;
 
     public GraphTermServiceProvider(Configuration configuration) {
+        Objects.requireNonNull(configuration, "configuration");
         graph = FHIRTermGraphFactory.open(configuration);
+    }
+
+    public GraphTermServiceProvider(FHIRTermGraph graph) {
+        this.graph = Objects.requireNonNull(graph, "graph");
     }
 
     @Override
@@ -84,13 +90,13 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-        List<Concept> concepts = new ArrayList<>(getCount(codeSystem));
+        Set<Concept> concepts = new LinkedHashSet<>(getCount(codeSystem));
         hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
             .out("concept")
             .elementMap()
             .toStream()
             .forEach(elementMap -> concepts.add(createConcept(elementMap)));
-        return Collections.emptySet();
+        return concepts;
     }
 
     @SuppressWarnings("unchecked")
@@ -325,7 +331,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         if (optional.isPresent()) {
             return (Integer) optional.get().get("count");
         }
-        return -1;
+        return DEFAULT_COUNT;
     }
 
     private List<Designation> getDesignations(CodeSystem codeSystem, String code) {
@@ -393,18 +399,12 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private GraphTraversal<Vertex, Vertex> hasCode(GraphTraversal<Vertex, Vertex> g, String code, boolean caseSensitive) {
-        if (caseSensitive) {
-            return g.has("code", code);
-        }
-        return g.has("codeLowerCase", normalize(code));
+        return caseSensitive ? g.has("code", code) : g.has("codeLowerCase", normalize(code));
     }
 
     // anonymous graph traversal
     private GraphTraversal<Vertex, Vertex> hasCode(String code, boolean caseSensitive) {
-        if (caseSensitive) {
-            return __.has("code", code);
-        }
-        return __.has("codeLowerCase", normalize(code));
+        return caseSensitive ? __.has("code", code) : __.has("codeLowerCase", normalize(code));
     }
 
     private GraphTraversal<Vertex, Vertex> hasUrl(GraphTraversal<Vertex, Vertex> g, Uri url) {
@@ -412,10 +412,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private GraphTraversal<Vertex, Vertex> hasVersion(GraphTraversal<Vertex, Vertex> g, com.ibm.fhir.model.type.String version) {
-        if (version != null) {
-            return g.has("version", version.getValue());
-        }
-        return g;
+        return (version != null) ? g.has("version", version.getValue()) : g;
     }
 
     private GraphTraversal<Vertex, Vertex> vertices(Object... vertexIds) {

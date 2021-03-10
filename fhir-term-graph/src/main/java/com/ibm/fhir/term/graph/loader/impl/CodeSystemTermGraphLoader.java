@@ -7,14 +7,14 @@
 package com.ibm.fhir.term.graph.loader.impl;
 
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.normalize;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLong;
+import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
-import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -27,6 +27,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
+import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 import com.ibm.fhir.model.format.Format;
@@ -72,6 +73,22 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
         conceptVertexMap = new HashMap<>();
     }
 
+    public CodeSystemTermGraphLoader(Configuration configuration, CodeSystem codeSystem) {
+        super(Collections.emptyMap(), configuration);
+
+        this.codeSystem = Objects.requireNonNull(codeSystem, "codeSystem");
+        concepts = getConcepts(codeSystem);
+        conceptVertexMap = new HashMap<>();
+    }
+
+    public CodeSystemTermGraphLoader(FHIRTermGraph graph, CodeSystem codeSystem) {
+        super(Collections.emptyMap(), graph);
+
+        this.codeSystem = Objects.requireNonNull(codeSystem, "codeSystem");
+        concepts = getConcepts(codeSystem);
+        conceptVertexMap = new HashMap<>();
+    }
+
     @Override
     public void load() {
         createCodeSystemVertex();
@@ -88,7 +105,7 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
 
         codeSystemVertex = g.addV("CodeSystem")
                 .property("url", url)
-                .property("caseSensitive", isCaseSensitive(codeSystem))
+                .property("count", concepts.size())
                 .next();
 
         if (codeSystem.getVersion() != null) {

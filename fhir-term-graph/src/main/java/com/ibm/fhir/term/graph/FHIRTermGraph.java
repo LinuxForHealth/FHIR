@@ -28,4 +28,5 @@ public interface FHIRTermGraph {
     Stream<Result<JanusGraphVertex>> indexQuery(String query, int limit);
     void close();
     void drop();
+    void dropAllVertices();
 }

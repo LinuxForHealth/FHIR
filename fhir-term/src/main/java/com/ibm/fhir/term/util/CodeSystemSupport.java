@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
-import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
@@ -31,6 +31,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
+import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
 
@@ -93,6 +94,10 @@ public final class CodeSystemSupport {
             }
         }
         return result;
+    }
+
+    public static boolean hasCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
+        return getCodeSystemFilter(codeSystem, code, operator) != null;
     }
 
     /**
@@ -162,6 +167,15 @@ public final class CodeSystemSupport {
      */
     public static CodeSystem getCodeSystem(java.lang.String url) {
         return FHIRRegistry.getInstance().getResource(url, CodeSystem.class);
+    }
+
+    public static CodeSystem.Filter getCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
+        for (CodeSystem.Filter filter : codeSystem.getFilter()) {
+            if (filter.getCode().equals(code) && filter.getOperator().contains(operator)) {
+                return filter;
+            }
+        }
+        return null;
     }
 
     /**
@@ -263,7 +277,7 @@ public final class CodeSystemSupport {
      * @return
      *     flattened / filtered list of Concept instances for the given code system
      */
-    public static Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+    public static Set<Concept> getConcepts(CodeSystem codeSystem, List<Include.Filter> filters) {
         Set<Concept> concepts = new LinkedHashSet<>();
         List<ConceptFilter> conceptFilters = buildConceptFilters(codeSystem, filters);
         for (Concept concept : getConcepts(codeSystem)) {
@@ -328,9 +342,9 @@ public final class CodeSystemSupport {
         return true;
     }
 
-    private static List<ConceptFilter> buildConceptFilters(CodeSystem codeSystem, List<Filter> filters) {
+    private static List<ConceptFilter> buildConceptFilters(CodeSystem codeSystem, List<Include.Filter> filters) {
         List<ConceptFilter> conceptFilters = new ArrayList<>(filters.size());
-        for (Filter filter : filters) {
+        for (Include.Filter filter : filters) {
             ConceptFilter conceptFilter = null;
             switch (filter.getOp().getValueAsEnumConstant()) {
             case DESCENDENT_OF:
@@ -374,7 +388,7 @@ public final class CodeSystemSupport {
         return Code.of(value.getValue());
     }
 
-    private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Include.Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
@@ -384,7 +398,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         if ((("parent".equals(property.getValue()) || "child".equals(property.getValue())) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) ||
                 (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(getCodeSystemPropertyType(codeSystem, property)))) {
@@ -393,7 +407,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createExistsFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createExistsFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         String value = filter.getValue();
         if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
@@ -402,7 +416,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Include.Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
@@ -412,7 +426,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createInFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createInFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
              return new InFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
@@ -422,7 +436,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Include.Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
@@ -432,7 +446,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Include.Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
@@ -442,7 +456,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createNotInFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createNotInFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
              return new NotInFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
@@ -452,7 +466,7 @@ public final class CodeSystemSupport {
         return null;
     }
 
-    private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Filter filter) {
+    private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         if (hasCodeSystemProperty(codeSystem, property) && PropertyType.STRING.equals(getCodeSystemPropertyType(codeSystem, property))) {
             return new RegexFilter(property, filter.getValue());
