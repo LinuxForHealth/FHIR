@@ -4,6 +4,7 @@
         If you need an alternative, check the disabled folder for your persistence datastore/provider.
     -->
     <featureManager>
+        <feature>batch-1.0</feature>
         <feature>batchManagement-1.0</feature>
         <feature>jdbc-4.1</feature>
         <feature>servlet-4.0</feature>
@@ -23,7 +24,7 @@
         </security-role>
     </authorization-roles>
 
-    <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
+    <webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
         <classloader privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">

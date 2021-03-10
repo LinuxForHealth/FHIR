@@ -16,10 +16,13 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
+import com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataImportUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -30,6 +33,8 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
  */
 public class ImportOperation extends AbstractOperation {
     private static final String FILE = "import.json";
+
+    private static final CommonUtil common = new CommonUtil();
 
     public ImportOperation() {
         super();
@@ -48,10 +53,13 @@ public class ImportOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
+        common.checkEnabled();
+        common.checkAllowed(operationContext);
+
         // Checks the Import Type
         checkImportType(operationContext.getType());
 
-        BulkDataImportUtil util = new BulkDataImportUtil(parameters);
+        BulkDataImportUtil util = new BulkDataImportUtil(operationContext, parameters);
 
         // Parameter: inputFormat
         String inputFormat = util.retrieveInputFormat();
@@ -65,8 +73,11 @@ public class ImportOperation extends AbstractOperation {
         // Parameter: storageDetail
         StorageDetail storageDetail = util.retrieveStorageDetails();
 
-        return BulkDataFactory.getTenantInstance().importBulkData(inputFormat, inputSource, inputs, storageDetail,
-                operationContext);
+        Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null);
+        preflight.checkStorageAllowed(storageDetail);
+        preflight.preflight();
+        return BulkDataFactory.getInstance(operationContext)
+                .importBulkData(inputFormat, inputSource, inputs, storageDetail, operationContext);
     }
 
     private void checkImportType(FHIROperationContext.Type type) throws FHIROperationException {

@@ -28,7 +28,6 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 
 /**
  * Common Configuration Parameters for the Job Request/Response.
@@ -43,26 +42,12 @@ public class JobParameter {
     private String fhirExportFormat;
     private List<Input> inputs;
     private StorageDetail storageDetail;
+    private String source;
+    private String outcome;
 
     private String incomingUrl;
 
-    private String cosBucketName;
-    private String cosOperationBucketNameOo;
-    private String cosLocation;
-    private String cosEndpointInternal;
-    private String cosEndpointExternal;
-    private String cosCredentialIbm;
-    private String cosApiKey;
-    private String cosSrvInstId;
     private String cosBucketPathPrefix;
-
-    public String getCosOperationBucketNameOo() {
-        return cosOperationBucketNameOo;
-    }
-
-    public void setCosOperationBucketNameOo(String cosOperationBucketNameOo) {
-        this.cosOperationBucketNameOo = cosOperationBucketNameOo;
-    }
 
     public String getFhirPatientGroupId() {
         return fhirPatientGroupId;
@@ -94,62 +79,6 @@ public class JobParameter {
 
     public void setFhirSearchFromDate(String fhirSearchFromDate) {
         this.fhirSearchFromDate = fhirSearchFromDate;
-    }
-
-    public String getCosBucketName() {
-        return cosBucketName;
-    }
-
-    public void setCosBucketName(String cosBucketName) {
-        this.cosBucketName = cosBucketName;
-    }
-
-    public String getCosLocation() {
-        return cosLocation;
-    }
-
-    public void setCosLocation(String cosLocation) {
-        this.cosLocation = cosLocation;
-    }
-
-    public String getCosEndpointInternal() {
-        return cosEndpointInternal;
-    }
-
-    public String getCosEndpointExternal() {
-        return cosEndpointExternal;
-    }
-
-    public void setCosEndpointInternal(String cosEndpointUrl) {
-        this.cosEndpointInternal = cosEndpointUrl;
-    }
-
-    public void setCosEndpointExternal(String cosEndpointUrl) {
-        this.cosEndpointExternal = cosEndpointUrl;
-    }
-
-    public String getCosCredentialIbm() {
-        return cosCredentialIbm;
-    }
-
-    public void setCosCredentialIbm(String cosCredentialIbm) {
-        this.cosCredentialIbm = cosCredentialIbm;
-    }
-
-    public String getCosApiKey() {
-        return cosApiKey;
-    }
-
-    public void setCosApiKey(String cosApiKey) {
-        this.cosApiKey = cosApiKey;
-    }
-
-    public String getCosSrvInstId() {
-        return cosSrvInstId;
-    }
-
-    public void setCosSrvInstId(String cosSrvInstId) {
-        this.cosSrvInstId = cosSrvInstId;
     }
 
     public String getFhirTenant() {
@@ -208,6 +137,22 @@ public class JobParameter {
         return this.incomingUrl;
     }
 
+    public String getSource() {
+        return this.source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getOutcome() {
+        return this.outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
     /**
      * Generates JSON from this object.
      */
@@ -229,89 +174,62 @@ public class JobParameter {
          */
         public static void generate(JsonGenerator generator, JobParameter parameter, boolean withSensitive)
                 throws IOException {
-            if (withSensitive) {
-                if (parameter.getCosApiKey() != null) {
-                    generator.write("cos.api.key", parameter.getCosApiKey());
-                }
-            }
-
-            if (withSensitive) {
-                if (parameter.getCosBucketName() != null) {
-                    generator.write("cos.bucket.name", parameter.getCosBucketName());
-                }
-            }
-
-            if (parameter.getCosCredentialIbm() != null) {
-                generator.write("cos.credential.ibm", parameter.getCosCredentialIbm());
-            }
-
-            if (parameter.getCosOperationBucketNameOo() != null) {
-                generator.write("cos.operationoutcomes.bucket.name", parameter.getCosOperationBucketNameOo());
-            }
-
-            if (parameter.getCosEndpointInternal() != null) {
-                generator.write("cos.endpoint.internal", parameter.getCosEndpointInternal());
-            }
-            if (parameter.getCosEndpointExternal() != null) {
-                generator.write("cos.endpoint.external", parameter.getCosEndpointExternal());
-            }
-            if (parameter.getCosLocation() != null) {
-                generator.write("cos.location", parameter.getCosLocation());
-            }
-
-            if (withSensitive) {
-                if (parameter.getCosSrvInstId() != null) {
-                    generator.write("cos.srvinst.id", parameter.getCosSrvInstId());
-                }
-            }
 
             if (parameter.getFhirResourceType() != null) {
-                generator.write("fhir.resourcetype", parameter.getFhirResourceType());
+                generator.write(OperationFields.FHIR_RESOURCE_TYPE, parameter.getFhirResourceType());
             }
 
             if (parameter.getFhirSearchFromDate() != null) {
-                generator.write("fhir.search.fromdate", parameter.getFhirSearchFromDate());
+                generator.write(OperationFields.FHIR_SEARCH_FROM_DATE, parameter.getFhirSearchFromDate());
             }
 
             if (parameter.getFhirTenant() != null) {
-                generator.write("fhir.tenant", parameter.getFhirTenant());
+                generator.write(OperationFields.FHIR_TENANT_ID, parameter.getFhirTenant());
             }
 
             if (parameter.getFhirPatientGroupId() != null) {
-                generator.write("fhir.search.patientgroupid", parameter.getFhirPatientGroupId());
+                generator.write(OperationFields.FHIR_SEARCH_PATIENT_GROUP_ID, parameter.getFhirPatientGroupId());
             }
 
             if (withSensitive) {
                 if (parameter.getCosBucketPathPrefix() != null) {
-                    generator.write("cos.bucket.pathprefix", parameter.getCosBucketPathPrefix());
+                    generator.write(OperationFields.COS_BUCKET_PATH_PREFIX, parameter.getCosBucketPathPrefix());
                 }
             }
 
             if (parameter.getFhirDataStoreId() != null) {
-                generator.write("fhir.datastoreid", parameter.getFhirDataStoreId());
+                generator.write(OperationFields.FHIR_DATASTORE_ID, parameter.getFhirDataStoreId());
             }
 
             if (parameter.getFhirTypeFilters() != null) {
-                generator.write("fhir.typeFilters", parameter.getFhirTypeFilters());
+                generator.write(OperationFields.FHIR_SEARCH_TYPE_FILTERS, parameter.getFhirTypeFilters());
             }
 
             if (parameter.getFhirExportFormat() != null) {
-                generator.write("fhir.exportFormat", parameter.getFhirExportFormat());
+                generator.write(OperationFields.FHIR_EXPORT_FORMAT, parameter.getFhirExportFormat());
             }
 
             if (parameter.getInputs() != null) {
-                generator.write("fhir.dataSourcesInfo", writeToBase64(parameter.getInputs()));
+                generator.write(OperationFields.FHIR_DATA_SOURCES_INFO, writeToBase64(parameter.getInputs()));
             }
 
-            String type = BulkDataConstants.DataSourceStorageType.HTTPS.value();
+            if (parameter.getSource() != null) {
+                generator.write(OperationFields.FHIR_BULKDATA_SOURCE, parameter.getSource());
+            }
+
+            if (parameter.getOutcome() != null) {
+                generator.write(OperationFields.FHIR_BULKDATA_OUTCOME, parameter.getOutcome());
+            }
+
+            String type = com.ibm.fhir.operation.bulkdata.model.type.StorageType.HTTPS.value();
             if (parameter.getStorageDetails() != null) {
                 type = parameter.getStorageDetails().getType();
             }
 
-            generator.write("import.fhir.storagetype", type);
+            generator.write(OperationFields.FHIR_IMPORT_STORAGE_TYPE, type);
 
             if (parameter.getIncomingUrl() != null) {
-                generator.write("incomingUrl", parameter.getIncomingUrl());
+                generator.write(OperationFields.FHIR_INCOMING_URL, parameter.getIncomingUrl());
             }
 
             generator.writeEnd();
@@ -347,22 +265,6 @@ public class JobParameter {
 
         public Builder fhirSearchFromDate(String fhirSearchFromDate);
 
-        public Builder cosBucketName(String cosBucketName);
-
-        public Builder cosBucketNameOperationOutcome(String cosBucketNameOperationOutcome);
-
-        public Builder cosLocation(String cosLocation);
-
-        public Builder cosEndpointInternal(String cosEndpointUrl);
-
-        public Builder cosEndpointExternal(String cosEndpointUrl);
-
-        public Builder cosCredentialIbm(String cosCredentialIbm);
-
-        public Builder cosApiKey(String cosApiKey);
-
-        public Builder cosSrvInstId(String cosSrvInstId);
-
         public Builder fhirTenant(String fhirTenant);
 
         public Builder fhirDataStoreId(String fhirDataStoreId);
@@ -380,6 +282,10 @@ public class JobParameter {
         public Builder fhirExportFormat(String mediaType);
 
         public Builder incomingUrl(String incomingUrl);
+
+        public Builder source(String source);
+
+        public Builder outcome(String outcome);
     }
 
     public static class Parser {
@@ -390,95 +296,65 @@ public class JobParameter {
         }
 
         public static void parse(Builder builder, JsonObject obj) throws FHIROperationException, IOException {
-            if (obj.containsKey("fhir.resourcetype")) {
-                String fhirResourceType = obj.getString("fhir.resourcetype");
+            if (obj.containsKey(OperationFields.FHIR_RESOURCE_TYPE)) {
+                String fhirResourceType = obj.getString(OperationFields.FHIR_RESOURCE_TYPE);
                 builder.fhirResourceType(fhirResourceType);
             }
 
-            if (obj.containsKey("fhir.search.fromdate")) {
-                String fhirSearchFromdate = obj.getString("fhir.search.fromdate");
+            if (obj.containsKey(OperationFields.FHIR_SEARCH_FROM_DATE)) {
+                String fhirSearchFromdate = obj.getString(OperationFields.FHIR_SEARCH_FROM_DATE);
                 builder.fhirSearchFromDate(fhirSearchFromdate);
             }
 
-            if (obj.containsKey("cos.bucket.name")) {
-                String cosBucketName = obj.getString("cos.bucket.name");
-                builder.cosBucketName(cosBucketName);
-            }
-
-            if (obj.containsKey("cos.operationoutcomes.bucket.name")) {
-                String cosBucketNameOperationOutcome = obj.getString("cos.operationoutcomes.bucket.name");
-                builder.cosBucketNameOperationOutcome(cosBucketNameOperationOutcome);
-            }
-
-            if (obj.containsKey("cos.location")) {
-                String cosLocation = obj.getString("cos.location");
-                builder.cosLocation(cosLocation);
-            }
-
-            if (obj.containsKey("cos.endpoint.internal")) {
-                String cosEndpointUrl = obj.getString("cos.endpoint.internal");
-                builder.cosEndpointInternal(cosEndpointUrl);
-            }
-
-            if (obj.containsKey("cos.endpoint.external")) {
-                String cosEndpointUrl = obj.getString("cos.endpoint.external");
-                builder.cosEndpointExternal(cosEndpointUrl);
-            }
-
-            if (obj.containsKey("cos.credential.ibm")) {
-                String cosCredentialIbm = obj.getString("cos.credential.ibm");
-                builder.cosCredentialIbm(cosCredentialIbm);
-            }
-
-            if (obj.containsKey("cos.api.key")) {
-                String cosApiKey = obj.getString("cos.api.key");
-                builder.cosApiKey(cosApiKey);
-            }
-
-            if (obj.containsKey("cos.srvinst.id")) {
-                String cosSrvinstId = obj.getString("cos.srvinst.id");
-                builder.cosSrvInstId(cosSrvinstId);
-            }
-
-            if (obj.containsKey("fhir.tenant")) {
-                String fhirTenant = obj.getString("fhir.tenant");
+            if (obj.containsKey(OperationFields.FHIR_TENANT_ID)) {
+                String fhirTenant = obj.getString(OperationFields.FHIR_TENANT_ID);
                 builder.fhirTenant(fhirTenant);
             }
 
-            if (obj.containsKey("fhir.datastoreid")) {
-                String fhirDataStoreId = obj.getString("fhir.datastoreid");
+            if (obj.containsKey(OperationFields.FHIR_DATASTORE_ID)) {
+                String fhirDataStoreId = obj.getString(OperationFields.FHIR_DATASTORE_ID);
                 builder.fhirDataStoreId(fhirDataStoreId);
             }
 
-            if (obj.containsKey("cos.bucket.pathprefix")) {
-                String cosBucketPathPrefix = obj.getString("cos.bucket.pathprefix");
+            if (obj.containsKey(OperationFields.COS_BUCKET_PATH_PREFIX)) {
+                String cosBucketPathPrefix = obj.getString(OperationFields.COS_BUCKET_PATH_PREFIX);
                 builder.cosBucketPathPrefix(cosBucketPathPrefix);
             }
 
-            if (obj.containsKey("fhir.typeFilters")) {
-                String fhirTypeFilters = obj.getString("fhir.typeFilters");
+            if (obj.containsKey(OperationFields.FHIR_SEARCH_TYPE_FILTERS)) {
+                String fhirTypeFilters = obj.getString(OperationFields.FHIR_SEARCH_TYPE_FILTERS);
                 builder.fhirTypeFilters(fhirTypeFilters);
             }
 
-            if (obj.containsKey("fhir.search.patientgroupid")) {
-                String fhirPatientGroupId = obj.getString("fhir.search.patientgroupid");
+            if (obj.containsKey(OperationFields.FHIR_SEARCH_PATIENT_GROUP_ID)) {
+                String fhirPatientGroupId = obj.getString(OperationFields.FHIR_SEARCH_PATIENT_GROUP_ID);
                 builder.fhirPatientGroupId(fhirPatientGroupId);
             }
 
-            if (obj.containsKey("fhir.dataSourcesInfo")) {
-                String dataSourcesInfo = obj.getString("fhir.dataSourcesInfo");
+            if (obj.containsKey(OperationFields.FHIR_DATA_SOURCES_INFO)) {
+                String dataSourcesInfo = obj.getString(OperationFields.FHIR_DATA_SOURCES_INFO);
                 // Base64 at this point, and we just dump it into an intermediate value until it's needed.
                 builder.fhirDataSourcesInfo(parseInputsFromString(dataSourcesInfo));
             }
 
-            if (obj.containsKey("import.fhir.storagetype")) {
-                String storageType = obj.getString("import.fhir.storagetype");
+            if (obj.containsKey(OperationFields.FHIR_IMPORT_STORAGE_TYPE)) {
+                String storageType = obj.getString(OperationFields.FHIR_IMPORT_STORAGE_TYPE);
                 builder.fhirStorageType(new StorageDetail(storageType, Collections.emptyList()));
             }
 
-            if (obj.containsKey("incomingUrl")) {
-                String incomingUrl = obj.getString("incomingUrl");
+            if (obj.containsKey(OperationFields.FHIR_INCOMING_URL)) {
+                String incomingUrl = obj.getString(OperationFields.FHIR_INCOMING_URL);
                 builder.incomingUrl(incomingUrl);
+            }
+
+            if (obj.containsKey(OperationFields.FHIR_BULKDATA_OUTCOME)) {
+                String outcome = obj.getString(OperationFields.FHIR_BULKDATA_OUTCOME);
+                builder.outcome(outcome);
+            }
+
+            if (obj.containsKey(OperationFields.FHIR_BULKDATA_SOURCE)) {
+                String source = obj.getString(OperationFields.FHIR_BULKDATA_SOURCE);
+                builder.source(source);
             }
         }
 
@@ -524,14 +400,6 @@ public class JobParameter {
                 ", inputs=" + inputs +
                 ", storageDetail=" + storageDetail +
                 ", incomingUrl=" + incomingUrl +
-                ", cosBucketName=" + cosBucketName +
-                ", cosOperationBucketNameOo=" + cosOperationBucketNameOo +
-                ", cosLocation=" + cosLocation +
-                ", cosEndpointInternal=" + cosEndpointInternal +
-                ", cosEndpointExternal=" + cosEndpointExternal +
-                ", cosCredentialIbm=" + cosCredentialIbm +
-                ", cosApiKey=" + cosApiKey +
-                ", cosSrvInstId=" + cosSrvInstId +
                 ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";
     }
 }

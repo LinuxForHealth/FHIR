@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -29,6 +30,9 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
  */
 public class StatusOperation extends AbstractOperation {
     private static final String FILE = "status.json";
+
+    private static final CommonUtil common = new CommonUtil();
+    private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     public StatusOperation() {
         super();
@@ -47,25 +51,29 @@ public class StatusOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
+        common.checkEnabled();
         if (logicalId == null && versionId == null && resourceType == null) {
             String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
             if ("DELETE".equalsIgnoreCase(method)) {
                 // Assume GET or POST
-                String job = BulkDataExportUtil.checkAndValidateJob(parameters);
-                // For now, we're going to execute the status update, and check. 
+                String job = export.checkAndValidateJob(parameters);
+                // For now, we're going to execute the status update, and check.
                 // If Base, Export Status (Else Invalid)
-                return BulkDataFactory.getTenantInstance().delete(job, operationContext);
+                return BulkDataFactory.getInstance(operationContext).delete(job, operationContext);
             } else {
                 // Assume GET or POST
-                String job = BulkDataExportUtil.checkAndValidateJob(parameters);
-                // For now, we're going to execute the status update, and check. 
+                String job = export.checkAndValidateJob(parameters);
+
+                // @implNote We don't need a preflight... we wouldn't have go here otherwise.
+
+                // For now, we're going to execute the status update, and check.
                 // If Base, Export Status (Else Invalid)
-                return BulkDataFactory.getTenantInstance().status(job, operationContext);
+                return BulkDataFactory.getInstance(operationContext).status(job, operationContext);
             }
         } else {
             // Unsupported on Resource Type
-            // Root operation is only supported, and we signal it back here. 
-            // Don't get fancy, just send it back. 
+            // Root operation is only supported, and we signal it back here.
+            // Don't get fancy, just send it back.
             throw buildExceptionWithIssue("Invalid call $bulkdata-status operation call", IssueType.INVALID);
         }
     }

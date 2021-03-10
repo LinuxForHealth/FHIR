@@ -131,30 +131,58 @@
             }
         },
         "bulkdata": {
-            "bulkDataBatchJobIdEncryptionKey": "change-password",
-            "applicationName": "fhir-bulkimportexport-webapp",
-            "moduleName": "fhir-bulkimportexport.war",
-            "jobParameters": {
-                "cos.bucket.name": "fhir-r4-connectathon",
-                "cos.location": "us",
-                "cos.endpoint.internal": "fake",
-                "cos.endpoint.external": "fake",
-                "cos.credential.ibm": "N",
-                "cos.access.key": "fake",
-                "cos.secret.key": "fake"
+            "enabled": true,
+            "core": {
+                "api": {
+                    "url": "https://localhost:9443/ibm/api/batch",
+                    "user": "fhiradmin",
+                    "password": "change-password",
+                    "truststore": "resources/security/fhirTrustStore.p12",
+                    "truststorePassword": "change-password", 
+                    "trustAll": true
+                },
+                "cos" : { 
+                    "partUploadTriggerSizeMB": 10,
+                    "objectSizeThresholdMB": 200,
+                    "objectResourceCountThreshold": 200000,
+                    "useServerTruststore": true
+                },
+                "pageSize": 100,
+                "batchIdEncryptionKey": "change-password",
+                "maxPartitions": 3, 
+                "maxInputs": 5,
+                "systemExportImpl": "fast"
             },
-            "implementation_type": "cos",
-            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
-            "batch-user": "fhiradmin",
-            "batch-user-password": "change-password",
-            "batch-truststore": "resources/security/fhirTrustStore.p12",
-            "batch-truststore-password": "change-password",
-            "isExportPublic": true,
-            "cosFileMaxResources": 200000,
-            "cosFileMaxSize": 209715200,
-            "validBaseUrls": [],
-            "useFhirServerTrustStore": true,
-            "enableParquet": false
+            "storageProviders": {
+                "default" : {
+                    "type": "file",
+                    "_type": "ibm-cos|aws-s3|file|https",
+                    "validBaseUrls": [],
+                    "fileBase": "/fhir-server/output",
+                    "bucketName": "fhir-performance",
+                    "location": "us",
+                    "endpointInternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "endpointExternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "auth" : {
+                        "type": "hmac",
+                        "accessKeyId": "key",
+                        "secretAccessKey": "secret"
+                    },
+                    "_iam_auth" : {
+                        "type": "iam",
+                        "iamApiKey": "apiKey",
+                        "iamResourceInstanceId": "resourceId"
+                    },
+                    "enableParquet": false,
+                    "disableBaseUrlValidation": true,
+                    "exportPublic": true,
+                    "disableOperationOutcomes": true,
+                    "duplicationCheck": false, 
+                    "validateResources": false, 
+                    "create": false,
+                    "presigned": true
+                }
+            }
         }
     }
 }
