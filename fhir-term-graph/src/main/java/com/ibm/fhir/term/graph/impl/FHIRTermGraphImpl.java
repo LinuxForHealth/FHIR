@@ -163,8 +163,8 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
     }
 
     @Override
-    public Stream<Result<JanusGraphVertex>> indexQuery(String query, int limit) {
-        return graph.indexQuery("vertices", query).limit(limit).vertexStream();
+    public Stream<Result<JanusGraphVertex>> indexQuery(String query, int limit, int offset) {
+        return graph.indexQuery("vertices", query).limit(limit).offset(offset).vertexStream();
     }
 
     @Override

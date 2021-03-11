@@ -48,8 +48,30 @@ public interface FHIRTermGraphLoader {
 
         public abstract Options options();
     }
+
+    /**
+     * Load the {@link FHIRTermGraph}
+     */
     void load();
+
+    /**
+     * Close the loader and its underlying resources
+     */
     void close();
+
+    /**
+     * Get the options used to create this {@link FHIRTermGraphLoader}
+     *
+     * @return
+     *     the options
+     */
     Map<String, String> options();
+
+    /**
+     * Get the underlying {@link FHIRTermGraph} instance
+     *
+     * @return
+     *     the {@link FHIRTermGraph} instance
+     */
     FHIRTermGraph getGraph();
 }

@@ -46,6 +46,14 @@ public final class CodeSystemSupport {
 
     private CodeSystemSupport() { }
 
+    /**
+     * Determine if the given FHIR string value can be converted to a FHIR Boolean value.
+     *
+     * @param value
+     *     the FHIR string value
+     * @return
+     *     true if the given FHIR string value can be converted to a FHIR Boolean value, false otherwise
+     */
     public static boolean convertsToBoolean(String value) {
         return "true".equals(value.getValue()) || "false".equals(value.getValue());
     }
@@ -97,6 +105,19 @@ public final class CodeSystemSupport {
         return result;
     }
 
+    /**
+     * Determine whether a code system filter with the specified property code and filter operator exists
+     * in the provided code system.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
+     * @param operator
+     *     the filter operator
+     * @return
+     *     true if the code system filter exists, false otherwise
+     */
     public static boolean hasCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
         return getCodeSystemFilter(codeSystem, code, operator) != null;
     }
@@ -170,6 +191,18 @@ public final class CodeSystemSupport {
         return FHIRRegistry.getInstance().getResource(url, CodeSystem.class);
     }
 
+    /**
+     * Get the code system filter with the given property code and filter operator.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
+     * @param operator
+     *     the filter operator
+     * @return
+     *     the code system filter with the given property code and filter operator, or null if no such filter exists
+     */
     public static CodeSystem.Filter getCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
         for (CodeSystem.Filter filter : codeSystem.getFilter()) {
             if (filter.getCode().equals(code) && filter.getOperator().contains(operator)) {
@@ -310,10 +343,29 @@ public final class CodeSystemSupport {
         return concepts;
     }
 
+    /**
+     * Convert the given FHIR string value to a FHIR boolean value.
+     *
+     * @param value
+     *     the FHIR string value
+     * @return
+     *     the FHIR boolean value equivalent of the provided FHIR string value
+     */
     public static Boolean toBoolean(String value) {
         return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
     }
 
+    /**
+     * Convert the given FHIR string value to an Element value based on the provided property type.
+     *
+     * @param value
+     *     the FHIR string value
+     * @param type
+     *     the property type
+     * @return
+     *     the Element value equivalent of the given FHIR string based on the provided property type,
+     *     or null if the type isn't supported
+     */
     public static Element toElement(String value, PropertyType type) {
         switch (type.getValueAsEnumConstant()) {
         case BOOLEAN:
@@ -334,6 +386,17 @@ public final class CodeSystemSupport {
         }
     }
 
+    /**
+     * Convert the given Java string value to an Element based on the provided property type.
+     *
+     * @param value
+     *     the Java string value
+     * @param type
+     *     the property type
+     * @return
+     *     the Element value equivalent of the given Java string based on the provided property type,
+     *     or null if the type isn't supported
+     */
     public static Element toElement(java.lang.String value, PropertyType type) {
         switch (type.getValueAsEnumConstant()) {
         case BOOLEAN:
