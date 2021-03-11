@@ -56,6 +56,11 @@ public class ImportOperation extends AbstractOperation {
         common.checkEnabled();
         common.checkAllowed(operationContext);
 
+        if (!"POST".equals(operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE))) {
+            throw buildExceptionWithIssue("Invalid call $import operation only POST allowed",
+                IssueType.INVALID);
+        }
+
         // Checks the Import Type
         checkImportType(operationContext.getType());
 
