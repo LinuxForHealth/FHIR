@@ -1946,6 +1946,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
+|`fhirServer/core/graphTermServiceProvider/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/core/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database used by the graph term service provider see: https://docs.janusgraph.org/basics/configuration-reference/|
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
@@ -2051,6 +2053,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/core/checkReferenceTypes`|true|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|false|
+|`fhirServer/core/graphTermServiceProvider/enabled`|false|
+|`fhirServer/core/graphTermServiceProvider/configuration`|null|
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
@@ -2138,6 +2142,8 @@ must restart the server for that change to take effect.
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N|
+|`fhirServer/core/graphTermServiceProvider/enabled`|N|N|
+|`fhirServer/core/graphTermServiceProvider/configuration`|N|N|
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
