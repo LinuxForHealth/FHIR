@@ -2025,7 +2025,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/api/trustAll`|boolean|Indicates calls to the local API should skip hostname verification|
 |`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|number|The size, in megabytes, at which to write a "part" for multi-part uploads. The S3 API requires parts to be between 5 and 5000 MB and does not allow more than 10,000 parts per object. |
 |`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given object. Use `0` to indicate that all resources of a given type should be written to a single object, but be aware that S3 objects can have a maximum of 10,000 parts and a maximum size of 5,000,000 MB (5 TB). |
-|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The resource threshold count that triggers a write to the storage provider|
+|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The number of resources at which to finish writing a given object. The actual number of resources written to a single object may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single object.|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client| 
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
@@ -2139,7 +2139,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/enabled`|true |
 |`fhirServer/bulkdata/core/api/trustAll`|false|
 |`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|10 |
-|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|200t |
+|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|200 |
 |`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|200000|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|120|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|120| 
