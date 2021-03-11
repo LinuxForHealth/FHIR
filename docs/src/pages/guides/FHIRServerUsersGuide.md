@@ -1268,7 +1268,7 @@ The *fhir-operation-bulkdata* module implements the REST APIs for bulk data expo
 |-----|-----|
 | ExportOperation| system `$export` |
 | PatientExportOperation| Patient `Patient/$export` |
-| GroupExportOperation| Group `Group/UUID/$export` |
+| GroupExportOperation| Group `Group/[id]/$export` |
 | ImportOperation | import resources using the system endpoint, `$import` |
 | StatusOperation | polling status for import and export `$bulkdata-status` |
 
@@ -1279,7 +1279,7 @@ Each operation queues a job with the Open Liberty JavaBatch framework. Each job 
 | FhirBulkExportChunkJob| `$export` |
 | FhirBulkExportFastJob| `$export` |
 | FhirBulkExportPatientChunkJob| `Patient/$export` |
-| FhirBulkExportGroupChunkJob| `Group/UUID/$export` |
+| FhirBulkExportGroupChunkJob| `Group/[id]/$export` |
 | FhirBulkImportChunkJob | `$import` |
 
 The *fhir-bulkdata-webapp* module is a wrapper for the whole BulkData web application, which is the build artifact - fhir-bulkdata-webapp.war. This web archive is copied to the `apps/` directory of the liberty server. The feature is configured using the `configDropins/default/bulkdata.xml`, such as:
@@ -1405,7 +1405,7 @@ The presigned URL is valid for 86400 seconds (1 day).
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
-By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
+By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. Please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
 Note: `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
 
@@ -1488,7 +1488,7 @@ To integration test, there are tests in `ExportOperationTest.java` in `fhir-serv
 Version 4.4 of the IBM FHIR Server introduced experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
 
 To enable export to parquet, an administrator must:
-1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp using the `/config/userlib`; and
+1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp by dropping the necessary jar files under `fhir-server/userlib` directory; and
 2. set the `/fhirServer/bulkdata/storageProviders/(source)/enableParquet` config property to `true`
 
 An alternative way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkdata-webapp pom.xml and rebuild the webapp to include them.
@@ -2023,7 +2023,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/api/truststore`|string|Trust store for JavaBatch job submission |
 |`fhirServer/bulkdata/core/api/truststorePassword`|string|Password for above trust store |
 |`fhirServer/bulkdata/core/api/trustAll`|boolean|Indicates calls to the local API should skip hostname verification|
-|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|number|The part threshold in megabytes of the S3 object |
+|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|number|The size, in megabytes, at which to write a "part" for multi-part uploads. The S3 API requires parts to be between 5 and 5000 MB and does not allow more than 10,000 parts per object. |
 |`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|number|The threshold in megabytes of the S3 object |
 |`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The resource threshold count that triggers a write to the storage provider|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
