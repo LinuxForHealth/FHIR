@@ -28,6 +28,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
@@ -78,6 +79,29 @@ public class GraphTermServiceProviderTest {
         List<String> expected = Arrays.asList("d", "q", "r", "s");
 
         Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testGetConcept() {
+        Concept expected = CodeSystemSupport.findConcept(codeSystem, Code.of("a")).toBuilder()
+                .concept(Collections.emptyList())
+                .build();
+        Assert.assertEquals(provider.getConcept(codeSystem, Code.of("a")), expected);
+        Assert.assertNull(provider.getConcept(codeSystem, Code.of("zzz")));
+    }
+
+    @Test
+    public void testGetConceptCaseSensitive() {
+        CodeSystem caseSensitiveCodeSystem = codeSystem.toBuilder().caseSensitive(Boolean.TRUE).build();
+        Assert.assertNotNull(provider.getConcept(caseSensitiveCodeSystem, Code.of("a")));
+        Assert.assertNull(provider.getConcept(caseSensitiveCodeSystem, Code.of("A")));
+    }
+
+    @Test
+    public void testGetConceptCaseInsensitive() {
+        CodeSystem caseInsensitiveCodeSystem = codeSystem.toBuilder().caseSensitive(Boolean.FALSE).build();
+        Assert.assertNotNull(provider.getConcept(caseInsensitiveCodeSystem, Code.of("a")));
+        Assert.assertNotNull(provider.getConcept(caseInsensitiveCodeSystem, Code.of("A")));
     }
 
     @Test
