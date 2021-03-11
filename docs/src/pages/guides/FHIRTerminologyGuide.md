@@ -99,7 +99,7 @@ Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been imple
 
 ## Graph Terminology Service Provider Implementation (experimental)
 
-The FHIR term graph module ([fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph)) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files, UMLS Rich Release Format (RRF) files, and FHIR CodeSystem resources. The GraphTermServiceProvider can be enabled through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference). Example configuration:
+The FHIR term graph module ([fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph)) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). The GraphTermServiceProvider can be enabled through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference). Example configuration:
 
 ```
             "graphTermServiceProvider": {
