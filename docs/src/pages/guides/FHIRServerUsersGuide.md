@@ -1403,7 +1403,7 @@ https://s3.appdomain.cloud/fhir-example/Patient_1.ndjson?X-Amz-Algorithm=AWS4-HM
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
-By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
+By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. Please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
 Note: `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
 
@@ -2021,7 +2021,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/api/truststore`|string|Trust store for JavaBatch job submission |
 |`fhirServer/bulkdata/core/api/truststorePassword`|string|Password for above trust store |
 |`fhirServer/bulkdata/core/api/trustAll`|boolean|Indicates calls to the local API should skip hostname verification|
-|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|number|The part threshold in megabytes of the S3 object |
+|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|number|The size, in megabytes, at which to write a "part" for multi-part uploads. The S3 API requires parts to be between 5 and 5000 MB and does not allow more than 10,000 parts per object. |
 |`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|number|The threshold in megabytes of the S3 object |
 |`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The resource threshold count that triggers a write to the storage provider|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
