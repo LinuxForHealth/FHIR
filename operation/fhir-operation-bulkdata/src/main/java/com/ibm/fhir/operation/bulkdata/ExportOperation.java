@@ -90,7 +90,7 @@ public class ExportOperation extends AbstractOperation {
                     types = export.addDefaultsForPatientCompartment();
                 }
             } else if ((ExportType.SYSTEM.equals(exportType) || ExportType.GROUP.equals(exportType))
-                            && (types == null || types.isEmpty())){
+                            && (types == null || types.isEmpty())) {
                 types = export.defaultResourceTypes();
             }
 
