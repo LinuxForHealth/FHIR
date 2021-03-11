@@ -1268,7 +1268,7 @@ The *fhir-operation-bulkdata* module implements the REST APIs for bulk data expo
 |-----|-----|
 | ExportOperation| system `$export` |
 | PatientExportOperation| Patient `Patient/$export` |
-| GroupExportOperation| Group `Group/UUID/$export` |
+| GroupExportOperation| Group `Group/[id]/$export` |
 | ImportOperation | import resources using the system endpoint, `$import` |
 | StatusOperation | polling status for import and export `$bulkdata-status` |
 
@@ -1279,7 +1279,7 @@ Each operation queues a job with the Open Liberty JavaBatch framework. Each job 
 | FhirBulkExportChunkJob| `$export` |
 | FhirBulkExportFastJob| `$export` |
 | FhirBulkExportPatientChunkJob| `Patient/$export` |
-| FhirBulkExportGroupChunkJob| `Group/UUID/$export` |
+| FhirBulkExportGroupChunkJob| `Group/[id]/$export` |
 | FhirBulkImportChunkJob | `$import` |
 
 The *fhir-bulkdata-webapp* module is a wrapper for the whole BulkData web application, which is the build artifact - fhir-bulkdata-webapp.war. This web archive is copied to the `apps/` directory of the liberty server. The feature is configured using the `configDropins/default/bulkdata.xml`, such as:
@@ -1486,7 +1486,7 @@ To integration test, there are tests in `ExportOperationTest.java` in `fhir-serv
 Version 4.4 of the IBM FHIR Server introduced experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
 
 To enable export to parquet, an administrator must:
-1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp using the `/config/userlib`; and
+1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp by dropping the necessary jar files under `fhir-server/userlib` directory; and
 2. set the `/fhirServer/bulkdata/storageProviders/(source)/enableParquet` config property to `true`
 
 An alternative way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkdata-webapp pom.xml and rebuild the webapp to include them.
