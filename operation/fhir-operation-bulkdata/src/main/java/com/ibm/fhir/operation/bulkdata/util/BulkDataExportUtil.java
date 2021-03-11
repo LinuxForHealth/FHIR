@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.type.String.string;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
@@ -39,9 +40,17 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 public class BulkDataExportUtil {
 
     private static JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
+    private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes().stream()
+                                                    .map(m -> m.getSimpleName())
+                                                    .filter(f -> !isFiltered(f))
+                                                    .collect(Collectors.toSet());
 
     public BulkDataExportUtil() {
         // No Operation
+    }
+
+    private static boolean isFiltered(String resource) {
+        return "DomainResource".equals(resource) || "Resource".equals(resource);
     }
 
     /**
@@ -197,7 +206,7 @@ public class BulkDataExportUtil {
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         for (String type : types.split(",")) {
                             // Type will never be null here.
-                            if (!type.isEmpty() && ModelSupport.isResourceType(type)) {
+                            if (!type.isEmpty() && RESOURCE_TYPES.contains(type)) {
                                 result.add(type);
                             } else {
                                 throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
@@ -210,6 +219,14 @@ public class BulkDataExportUtil {
             }
         }
         return result;
+    }
+
+    /**
+     * the default resource types
+     * @return
+     */
+    public List<String> defaultResourceTypes(){
+        return new ArrayList<>(RESOURCE_TYPES);
     }
 
     /**

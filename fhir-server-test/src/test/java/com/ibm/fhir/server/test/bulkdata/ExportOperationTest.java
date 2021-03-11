@@ -616,6 +616,17 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testBaseExportWithBadResourceType() throws Exception {
+        Response response =
+            doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("DomainResource"), null, "default", "default");
+        assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+
+        response =
+            doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Resource"), null, "default", "default");
+        assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
     public void testBaseExportToS3() throws Exception {
         if (ON) {

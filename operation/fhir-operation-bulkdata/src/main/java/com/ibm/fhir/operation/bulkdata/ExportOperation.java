@@ -83,17 +83,15 @@ public class ExportOperation extends AbstractOperation {
         OperationConstants.ExportType exportType = export.checkExportType(operationContext.getType(), resourceType);
 
         if (!ExportType.INVALID.equals(exportType)) {
-            // For System $export, resource type(s) is required.
-            if (ExportType.SYSTEM.equals(exportType) && types == null) {
-                throw export.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
-            }
-
             if (ExportType.PATIENT.equals(exportType)) {
                 if (types != null && !types.isEmpty()) {
                     export.checkExportPatientResourceTypes(types);
                 } else {
                     types = export.addDefaultsForPatientCompartment();
                 }
+            } else if ((ExportType.SYSTEM.equals(exportType) || ExportType.GROUP.equals(exportType))
+                            && (types == null || types.isEmpty())){
+                types = export.defaultResourceTypes();
             }
 
             // Early detection of potential issues.
