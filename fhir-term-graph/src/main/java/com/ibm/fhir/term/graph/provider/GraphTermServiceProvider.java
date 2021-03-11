@@ -204,20 +204,22 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 }
                 break;
             case NOT_IN:
-                if ("concept".equals(property.getValue())) {
-                    if (caseSensitive) {
-                        g = whereCodeSystem(g.has("code", P.without(Arrays.stream(value.getValue().split(","))
-                            .collect(Collectors.toSet()))), codeSystem);
+                if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
+                    if ("concept".equals(property.getValue())) {
+                        if (caseSensitive) {
+                            g = whereCodeSystem(g.has("code", P.without(Arrays.stream(value.getValue().split(","))
+                                .collect(Collectors.toSet()))), codeSystem);
+                        } else {
+                            g = whereCodeSystem(g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
+                                .map(FHIRTermGraphUtil::normalize)
+                                .collect(Collectors.toSet()))), codeSystem);
+                        }
                     } else {
-                        g = whereCodeSystem(g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
-                            .map(FHIRTermGraphUtil::normalize)
-                            .collect(Collectors.toSet()))), codeSystem);
+                        g = whereCodeSystem(g.has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
+                            .map(v -> toElement(v, type))
+                            .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                            .collect(Collectors.toSet()))).in("property_"), codeSystem);
                     }
-                } else {
-                    g = whereCodeSystem(g.has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
-                        .map(v -> toElement(v, type))
-                        .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                        .collect(Collectors.toSet()))).in("property_"), codeSystem);
                 }
                 break;
             case REGEX:
