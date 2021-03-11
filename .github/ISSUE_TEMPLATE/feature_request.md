@@ -21,10 +21,11 @@ A clear and concise description of any alternative solutions or features you've 
 At least one acceptance criteria is included.
 
 1.  
-  GIVEN [a precondition]
-    AND [another precondition] WHEN [test step]
+   GIVEN [a precondition]
+    AND [another precondition]
+   WHEN [test step]
     AND [test step]
-    THEN [verification step]
+   THEN [verification step]
     AND [verification step]
 
 
