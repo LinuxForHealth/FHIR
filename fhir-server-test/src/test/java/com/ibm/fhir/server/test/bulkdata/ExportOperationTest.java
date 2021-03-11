@@ -55,6 +55,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -62,6 +63,8 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Group.Member;
@@ -84,7 +87,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     private static final int TIMEOUT = 10000;
 
-    private static final SSLConnectionSocketFactory sf = generateSSF();
     private static final HttpRequestRetryHandler rh=new HttpRequestRetryHandler(){@Override public boolean retryRequest(IOException exception,int executionCount,HttpContext context){return executionCount<2;}};
 
     private static final RequestConfig config =
@@ -288,7 +290,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 assertNotNull(str);
                 assertTrue(str.contains(".ndjson"));
                 if (!s3) {
-                    verifyFileLines(str, obj.getInt("count"));
+                    String resourceType = obj.getString("type");
+                    verifyFileLines(str, obj.getInt("count"), resourceType);
                 } else {
                     verifyS3Lines(str, obj.getInt("count"));
                 }
@@ -329,7 +332,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 TrustStrategy strategy = new org.apache.http.conn.ssl.TrustAllStrategy();
                 sslContextBuilder.loadTrustMaterial(strategy);
 
-
             SSLContext sslContext = sslContextBuilder.build();
 
             return new SSLConnectionSocketFactory(sslContext, verifier);
@@ -349,8 +351,21 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 .build();
     }
 
-    public void verifyFileLines(String workItem, int count) throws IOException {
-        int actual = Files.readAllLines(new File(path + "/" + workItem).toPath()).size();
+    public void verifyFileLines(String workItem, int count, String resourceType) throws IOException {
+        List<String> lines = Files.readAllLines(new File(path + "/" + workItem).toPath());
+        for (String line : lines) {
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(line.getBytes())) {
+                try {
+                    // Checks to see if it's a single type.
+                    com.ibm.fhir.model.resource.Resource r = FHIRParser.parser(Format.JSON).parse(bais);
+                    assertEquals(resourceType, r.getClass().getSimpleName());
+                } catch (FHIRParserException e) {
+                    e.printStackTrace();
+                    Assert.fail();
+                }
+            }
+        }
+        int actual = lines.size();
         System.out.println(" Verfied the Export Test [" + actual + "] [" + count + "]");
         assertEquals(actual, count);
     }
