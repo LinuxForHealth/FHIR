@@ -37,6 +37,7 @@ import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Property;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
@@ -164,6 +165,8 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
 
                 if (value.is(DateTime.class)) {
                     g.V(propertyVertex).property("valueDateTimeLong", toLong(value.as(DateTime.class))).next();
+                } else if (value.is(Decimal.class)) {
+                    g.V(propertyVertex).property("valueDecimalString", value.as(Decimal.class).getValue().toPlainString()).next();
                 }
 
                 g.V(conceptVertex).addE("property_").to(propertyVertex).next();

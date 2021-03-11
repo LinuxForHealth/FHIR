@@ -7,6 +7,7 @@
 package com.ibm.fhir.term.util;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.model.type.String.string;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -333,6 +334,26 @@ public final class CodeSystemSupport {
         }
     }
 
+    public static Element toElement(java.lang.String value, PropertyType type) {
+        switch (type.getValueAsEnumConstant()) {
+        case BOOLEAN:
+            return Boolean.of(value);
+        case CODE:
+            return Code.of(value);
+//      case CODING:
+        case DATE_TIME:
+            return DateTime.of(value);
+        case DECIMAL:
+            return Decimal.of(value);
+        case INTEGER:
+            return Integer.of(value);
+        case STRING:
+            return string(value);
+        default:
+            return null;
+        }
+    }
+
     private static boolean accept(List<ConceptFilter> conceptFilters, Concept concept) {
         for (ConceptFilter conceptFilter : conceptFilters) {
             if (!conceptFilter.accept(concept)) {
@@ -468,7 +489,8 @@ public final class CodeSystemSupport {
 
     private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
-        if (hasCodeSystemProperty(codeSystem, property) && PropertyType.STRING.equals(getCodeSystemPropertyType(codeSystem, property))) {
+        PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+        if (hasCodeSystemProperty(codeSystem, property) && (PropertyType.CODE.equals(type) || PropertyType.STRING.equals(type))) {
             return new RegexFilter(property, filter.getValue());
         }
         return null;

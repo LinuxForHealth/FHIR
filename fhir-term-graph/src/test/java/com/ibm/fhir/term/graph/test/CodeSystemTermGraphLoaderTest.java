@@ -12,7 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.locationtech.jts.util.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
@@ -36,7 +36,7 @@ public class CodeSystemTermGraphLoaderTest {
         FHIRTermGraphUtil.setRootLoggerLevel(Level.INFO);
 
         FHIRTermGraph graph = null;
-        try (InputStream in = CodeSystemTermGraphLoaderTest.class.getClassLoader().getResourceAsStream("JSON/CodeSystem-cs5.json")) {
+        try (InputStream in = CodeSystemTermGraphLoaderTest.class.getClassLoader().getResourceAsStream("JSON/CodeSystem-test.json")) {
             graph = FHIRTermGraphFactory.open(new PropertiesConfiguration("conf/janusgraph-berkeleyje-lucene.properties"));
             graph.dropAllVertices();
 
@@ -46,6 +46,11 @@ public class CodeSystemTermGraphLoaderTest {
 
             FHIRTermServiceProvider provider = new GraphTermServiceProvider(graph);
 
+            Set<Concept> actual = new LinkedHashSet<>();
+            for (Concept concept : provider.getConcepts(codeSystem)) {
+                actual.add(provider.getConcept(codeSystem, concept.getCode()));
+            }
+
             Set<Concept> expected = new LinkedHashSet<>();
             for (Concept concept : CodeSystemSupport.getConcepts(codeSystem)) {
                 expected.add(concept.toBuilder()
@@ -53,12 +58,7 @@ public class CodeSystemTermGraphLoaderTest {
                     .build());
             }
 
-            Set<Concept> actual = new LinkedHashSet<>();
-            for (Concept concept : provider.getConcepts(codeSystem)) {
-                actual.add(provider.getConcept(codeSystem, concept.getCode()));
-            }
-
-            Assert.equals(expected, actual);
+            Assert.assertEquals(actual, expected);
         } finally {
             if (graph != null) {
                 graph.close();
