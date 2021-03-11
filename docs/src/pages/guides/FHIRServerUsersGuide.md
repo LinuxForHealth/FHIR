@@ -1401,6 +1401,8 @@ For S3 exports, the bulk data feature may use presigned urls.  To enable presign
 https://s3.appdomain.cloud/fhir-example/Patient_1.ndjson?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fcEXbf9cc1ac49e99eEX77%2F20210228%2Fus%2Fs3%2Faws4_request&X-Amz-Date=20210EXT160538Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=5ecfc207546b9737fd38d4f0EXEX1c58f4f82976338a44c
 ```
 
+The presigned URL is valid for 86400 seconds (1 day).
+
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
