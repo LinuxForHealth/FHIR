@@ -21,6 +21,7 @@ public class ReadResultDTO implements Serializable {
     private static final long serialVersionUID = 7196860944818539455L;
 
     private List<Resource> resources = new ArrayList<>();
+    private boolean chunk = false;
 
     public ReadResultDTO() {
         // No Operation
@@ -54,6 +55,10 @@ public class ReadResultDTO implements Serializable {
     }
 
     public boolean empty() {
-        return resources.isEmpty();
+        return resources.isEmpty() || chunk;
+    }
+
+    public void makeChunk() {
+        this.chunk = true;
     }
 }

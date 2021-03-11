@@ -69,7 +69,8 @@ public class PatientResourceHandler {
         // No Operation
     }
 
-    public void register(ExportTransientUserData chunkData, BulkDataContext ctx, FHIRPersistence fhirPersistence, int pageSize, Class<? extends Resource> resourceType, Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes, String provider) {
+    public void register(ExportTransientUserData chunkData, BulkDataContext ctx, FHIRPersistence fhirPersistence, int pageSize, Class<? extends Resource> resourceType, Map<Class<? extends Resource>,
+            List<Map<String, List<String>>>> searchParametersForResoureTypes, String provider) {
         this.chunkData = chunkData;
         this.ctx = ctx;
         this.fhirPersistence = fhirPersistence;
@@ -166,6 +167,7 @@ public class PatientResourceHandler {
                             throw e;
                         }
                     }
+                    dto.makeChunk();
                     if (auditLogger.shouldLog() && resources != null) {
                         Date endTime = new Date(System.currentTimeMillis());
                         auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
@@ -215,14 +217,6 @@ public class PatientResourceHandler {
         chunkData.addTotalResourcesNum(resSubTotal);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("fillChunkPatientDataBuffer: Processed resources - '" + resSubTotal + "' Bufferred data size - '" + chunkData.getBufferStream().size() + "'");
-        }
-    }
-
-    public void fillChunkData(List<Resource> resources, List<String> patientIds) throws Exception {
-        if ("Patient".equals(ctx.getPartitionResourceType()) && resources != null) {
-            fillChunkPatientDataBuffer(resources);
-        } else {
-            fillChunkDataBuffer(patientIds, null);
         }
     }
 }

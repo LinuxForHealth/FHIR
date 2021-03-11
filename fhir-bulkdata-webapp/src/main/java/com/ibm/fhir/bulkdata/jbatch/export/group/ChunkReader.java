@@ -126,6 +126,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
                     .filter(patientRef -> patientRef != null)
                     .map(patientRef -> patientRef.getEntity().getReference().getValue())
                     .collect(Collectors.toList());
+
             if (patientIds != null && !patientIds.isEmpty()) {
                 patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
 
